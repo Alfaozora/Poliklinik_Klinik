@@ -1,0 +1,1813 @@
+<!--
+AssemblyName=DevExpress%2EXtraReports3%2C%20Version%3D1%2E12%2E3%2E0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4
+AssemblyLocation=C:\Windows\assembly\GAC_MSIL\DevExpress.XtraReports3\1.12.3.0__79868b8147b5eae4\DevExpress.XtraReports3.dll
+TypeName=DevExpress.XtraReports.UI.XtraReport
+Localization=en-US
+-->
+<SOAP-ENV:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<a1:ReportStorage id="ref-1" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<ShowHtmlWarning>false</ShowHtmlWarning>
+<DrawGrid>true</DrawGrid>
+<GridSize xsi:type="a2:Size" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<width>8</width>
+<height>8</height>
+</GridSize>
+<SnapToGrid>true</SnapToGrid>
+<PreviewRowCount>100</PreviewRowCount>
+<DataSourceSchema id="ref-6"></DataSourceSchema>
+<BandCount>3</BandCount>
+<Band0 href="#ref-7"/>
+<Band1 href="#ref-8"/>
+<Band2 href="#ref-9"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-10">xtraReport11</Name>
+<Style_X_Font id="ref-11">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor id="ref-12">ControlText</Style_X_ForeColor>
+<Style_X_BackColor id="ref-13">Transparent</Style_X_BackColor>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>23</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Height>100</Height>
+<PageBreak xsi:type="a3:PageBreak" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</PageBreak>
+<UseDefaultPrinterSettings>false</UseDefaultPrinterSettings>
+<ReportUnit xsi:type="a3:ReportUnit" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">HundredthsOfAnInch</ReportUnit>
+<Landscape>false</Landscape>
+<PaperKind xsi:type="a5:PaperKind" xmlns:a5="http://schemas.microsoft.com/clr/nsassem/System.Drawing.Printing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">A5</PaperKind>
+<PaperName href="#ref-6"/>
+<Margins xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>0</width>
+<height>0</height>
+</Margins>
+<HtmlCompressed>false</HtmlCompressed>
+<PageSize xsi:type="a2:Size" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<width>583</width>
+<height>827</height>
+</PageSize>
+<StyleSheet_X_StyleCount>0</StyleSheet_X_StyleCount>
+<ShowPreviewMarginLines>true</ShowPreviewMarginLines>
+<ScriptLanguage xsi:type="a6:ScriptLanguage" xmlns:a6="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">CSharp</ScriptLanguage>
+<Watermark_X_Text href="#ref-6"/>
+<Watermark_X_Font id="ref-14">Verdana, 36pt</Watermark_X_Font>
+<Watermark_X_ForeColor id="ref-15">Red</Watermark_X_ForeColor>
+<Watermark_X_Transparency>50</Watermark_X_Transparency>
+<Watermark_X_TextDirection xsi:type="a7:DirectionMode" xmlns:a7="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting.Drawing/DevExpress.XtraPrinting3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">ForwardDiagonal</Watermark_X_TextDirection>
+<Watermark_X_Image xsi:type="xsd:anyType" xsi:null="1"/>
+<Watermark_X_ImageAlign xsi:type="a2:ContentAlignment" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">MiddleCenter</Watermark_X_ImageAlign>
+<Watermark_X_ImageViewMode xsi:type="a7:ImageViewMode" xmlns:a7="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting.Drawing/DevExpress.XtraPrinting3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Clip</Watermark_X_ImageViewMode>
+<Watermark_X_ImageTiling>false</Watermark_X_ImageTiling>
+<Watermark_X_PageRange href="#ref-6"/>
+<Watermark_X_ShowBehind>true</Watermark_X_ShowBehind>
+<DefaultPrinterSettingsUsing_X_UseMargins>false</DefaultPrinterSettingsUsing_X_UseMargins>
+<DefaultPrinterSettingsUsing_X_UsePaperKind>false</DefaultPrinterSettingsUsing_X_UsePaperKind>
+<DefaultPrinterSettingsUsing_X_UseLandscape>false</DefaultPrinterSettingsUsing_X_UseLandscape>
+<ShrinkSubReportIconArea>true</ShrinkSubReportIconArea>
+</a1:ReportStorage>
+<a1:ObjectStorage id="ref-7" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName id="ref-16">DevExpress.XtraReports3, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4</Type_X_AssemblyName>
+<Type_X_TypeName id="ref-17">DevExpress.XtraReports.UI.DetailBand</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-18">Detail</Name>
+<Style_X_Font id="ref-19">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>23</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Height>260</Height>
+<PageBreak xsi:type="a3:PageBreak" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</PageBreak>
+<PrintOnEmptyDataSource>true</PrintOnEmptyDataSource>
+<MultiColumn_X_ColumnCount>1</MultiColumn_X_ColumnCount>
+<MultiColumn_X_Direction xsi:type="a3:ColumnDirection" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">DownThenAcross</MultiColumn_X_Direction>
+<MultiColumn_X_ColumnWidth>0</MultiColumn_X_ColumnWidth>
+<MultiColumn_X_ColumnSpacing>0</MultiColumn_X_ColumnSpacing>
+<MultiColumn_X_Mode xsi:type="a3:MultiColumnMode" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</MultiColumn_X_Mode>
+<RepeatCountOnEmptyDataSource>1</RepeatCountOnEmptyDataSource>
+<ItemCount>8</ItemCount>
+<Item0 href="#ref-20"/>
+<Item1 href="#ref-21"/>
+<Item2 href="#ref-22"/>
+<Item3 href="#ref-23"/>
+<Item4 href="#ref-24"/>
+<Item5 href="#ref-25"/>
+<Item6 href="#ref-26"/>
+<Item7 href="#ref-27"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-8" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-28">DevExpress.XtraReports.UI.PageHeaderBand</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-29">PageHeader</Name>
+<Style_X_Font id="ref-30">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>23</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Height>150</Height>
+<PageBreak xsi:type="a3:PageBreak" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</PageBreak>
+<ItemCount>2</ItemCount>
+<Item0 href="#ref-31"/>
+<Item1 href="#ref-32"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-9" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-33">DevExpress.XtraReports.UI.PageFooterBand</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-34">PageFooter</Name>
+<Style_X_Font id="ref-35">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>23</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Height>200</Height>
+<PageBreak xsi:type="a3:PageBreak" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</PageBreak>
+<ItemCount>3</ItemCount>
+<Item0 href="#ref-36"/>
+<Item1 href="#ref-37"/>
+<Item2 href="#ref-38"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-20" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-39">DevExpress.XtraReports.UI.XRLabel</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-40">xrLabel2</Name>
+<Style_X_Font id="ref-41">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopJustify</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>75</y>
+<width>563</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-42">Yang bertanda tangan di bawah ini, Dokter Klinik Pratama Mitra Medicare menerangkan bahwa :</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-21" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-43">DevExpress.XtraReports.UI.XRTable</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-44">xrTable1</Name>
+<Style_X_Font id="ref-45">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>15</x>
+<y>100</y>
+<width>553</width>
+<height>100</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<ItemCount>4</ItemCount>
+<Item0 href="#ref-46"/>
+<Item1 href="#ref-47"/>
+<Item2 href="#ref-48"/>
+<Item3 href="#ref-49"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-22" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-50">xrLabel6</Name>
+<Style_X_Font id="ref-51">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>240</y>
+<width>563</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-52">Demikian Surat Keterangan ini kami buat supaya digunakan sebagaimana mestinya.</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-23" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-53">xrLabelKeteranganDetail</Name>
+<Style_X_Font id="ref-54">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopJustify</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>205</y>
+<width>563</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-55">Pada tanggal 18 Desember 2023 pukul 11.21 Sudah dilakukan pemeriksaan kesehatan dari orang tersebut diatas dan ternyata hasilnya : perlu istirahat karena sakit selama 3 (Tiga) hari, terhitung tanggal 18 Desember 2023 s/d 20 Desember 2023</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-24" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-56">xrLabelNoSurat</Name>
+<Style_X_Font id="ref-57">Segoe UI, 11.25pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>40</y>
+<width>563</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-58">0002/SKI/MMC-TES/XII/2023</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-25" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-59">DevExpress.XtraReports.UI.XRLine</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-60">xrLine2</Name>
+<Style_X_Font id="ref-61">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>false</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>0</y>
+<width>563</width>
+<height>10</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<LineDirection xsi:type="a3:LineDirection" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Horizontal</LineDirection>
+<LineStyle xsi:type="a9:DashStyle" xmlns:a9="http://schemas.microsoft.com/clr/nsassem/System.Drawing.Drawing2D/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">Custom</LineStyle>
+<LineWidth>1</LineWidth>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-26" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-59"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-62">xrLine1</Name>
+<Style_X_Font id="ref-63">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>false</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>5</y>
+<width>563</width>
+<height>10</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<LineDirection xsi:type="a3:LineDirection" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Horizontal</LineDirection>
+<LineStyle xsi:type="a9:DashStyle" xmlns:a9="http://schemas.microsoft.com/clr/nsassem/System.Drawing.Drawing2D/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">Custom</LineStyle>
+<LineWidth>3</LineWidth>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-27" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-64">xrLabel1</Name>
+<Style_X_Font id="ref-65">Segoe UI, 14.25pt, style=Bold</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>15</y>
+<width>563</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-66">Surat Keterangan Berobat</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-31" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-67">DevExpress.XtraReports.UI.XRPanel</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-68">xrPanelAlamat</Name>
+<Style_X_Font id="ref-69">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>10</x>
+<y>110</y>
+<width>563</width>
+<height>40</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<ItemCount>2</ItemCount>
+<Item0 href="#ref-70"/>
+<Item1 href="#ref-71"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-32" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-72">xrLabelNoDokumen</Name>
+<Style_X_Font id="ref-73">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleRight</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>320</x>
+<y>10</y>
+<width>250</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-74">No. Doc : KLK/MMC-DHU/04/23</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-36" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-75">xrLabel5</Name>
+<Style_X_Font id="ref-76">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>325</x>
+<y>17</y>
+<width>250</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-77">Dokter yang memeriksa</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-37" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-78">DevExpress.XtraReports.UI.XRPictureBox</Type_X_TypeName>
+<Visible>false</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-79">xrPictureBoxTTD</Name>
+<Style_X_Font id="ref-80">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>392</x>
+<y>42</y>
+<width>128</width>
+<height>110</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<Image href="#ref-81"/>
+<Sizing xsi:type="a4:ImageSizeMode" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">AutoSize</Sizing>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-38" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-82">xrLabelTgl</Name>
+<Style_X_Font id="ref-83">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>325</x>
+<y>0</y>
+<width>250</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-84">Surabaya, 18 Desember 2023</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-46" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-85">DevExpress.XtraReports.UI.XRTableRow</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-86">xrTableRow1</Name>
+<Style_X_Font id="ref-87">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>553</width>
+<height>25</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<ItemCount>3</ItemCount>
+<Item0 href="#ref-88"/>
+<Item1 href="#ref-89"/>
+<Item2 href="#ref-90"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-47" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-85"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-91">xrTableRow2</Name>
+<Style_X_Font id="ref-92">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>25</y>
+<width>553</width>
+<height>25</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<ItemCount>3</ItemCount>
+<Item0 href="#ref-93"/>
+<Item1 href="#ref-94"/>
+<Item2 href="#ref-95"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-48" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-85"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-96">xrTableRow3</Name>
+<Style_X_Font id="ref-97">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>50</y>
+<width>553</width>
+<height>25</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<ItemCount>3</ItemCount>
+<Item0 href="#ref-98"/>
+<Item1 href="#ref-99"/>
+<Item2 href="#ref-100"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-49" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-85"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-101">xrTableRow4</Name>
+<Style_X_Font id="ref-102">Times New Roman, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>true</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>75</y>
+<width>553</width>
+<height>25</height>
+</Bounds>
+<Text href="#ref-6"/>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>true</KeepTogether>
+<ItemCount>3</ItemCount>
+<Item0 href="#ref-103"/>
+<Item1 href="#ref-104"/>
+<Item2 href="#ref-105"/>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-70" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-106">xrLabelNoTelepon</Name>
+<Style_X_Font id="ref-107">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>5</x>
+<y>20</y>
+<width>553</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-108">Telp 0276 3280080</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-71" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-39"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-109">xrLabelAlamat</Name>
+<Style_X_Font id="ref-110">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">MiddleCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>5</x>
+<y>0</y>
+<width>553</width>
+<height>20</height>
+</Bounds>
+<Text id="ref-111">Jl. Raya Gatot Subroto KM.5 Kompleks Ruko Sastra Plasa Blok A No.19-20 Jatiuwung , Tangerang</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a2:Bitmap id="ref-81" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<Data href="#ref-112"/>
+</a2:Bitmap>
+<a1:ObjectStorage id="ref-88" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName id="ref-113">DevExpress.XtraReports.UI.XRTableCell</Type_X_TypeName>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-114">xrTableCell1</Name>
+<Style_X_Font id="ref-115">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-116">Nama</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-89" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-117">xrTableCell2</Name>
+<Style_X_Font id="ref-118">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>100</x>
+<y>0</y>
+<width>20</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-119">:</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-90" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-120">xrTableCell3</Name>
+<Style_X_Font id="ref-121">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>1</BindingItemCount>
+<BindingItem0_X_PropertyName id="ref-122">Text</BindingItem0_X_PropertyName>
+<BindingItem0_X_DataMember id="ref-123">Nama</BindingItem0_X_DataMember>
+<BindingItem0_X_FormatString href="#ref-6"/>
+<BindingItem0_X_DataSource href="#ref-6"/>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>120</x>
+<y>0</y>
+<width>433</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-124">R. Anugerah Satriawan</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-93" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-125">xrTableCell4</Name>
+<Style_X_Font id="ref-126">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-127">Umur</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-94" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-128">xrTableCell5</Name>
+<Style_X_Font id="ref-129">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>100</x>
+<y>0</y>
+<width>20</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-130">:</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-95" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-131">xrTableCell6</Name>
+<Style_X_Font id="ref-132">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>1</BindingItemCount>
+<BindingItem0_X_PropertyName href="#ref-122"/>
+<BindingItem0_X_DataMember id="ref-133">Umur</BindingItem0_X_DataMember>
+<BindingItem0_X_FormatString href="#ref-6"/>
+<BindingItem0_X_DataSource href="#ref-6"/>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>120</x>
+<y>0</y>
+<width>433</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-134">3520052008080001</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-98" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-135">xrTableCell7</Name>
+<Style_X_Font id="ref-136">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-137">Pekerjaan</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-99" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-138">xrTableCell8</Name>
+<Style_X_Font id="ref-139">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>100</x>
+<y>0</y>
+<width>20</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-140">:</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-100" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-141">xrTableCell9</Name>
+<Style_X_Font id="ref-142">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>1</BindingItemCount>
+<BindingItem0_X_PropertyName href="#ref-122"/>
+<BindingItem0_X_DataMember id="ref-143">Pekerjaan</BindingItem0_X_DataMember>
+<BindingItem0_X_FormatString href="#ref-6"/>
+<BindingItem0_X_DataSource href="#ref-6"/>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>120</x>
+<y>0</y>
+<width>433</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-144">01 Juli 2000</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-103" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-145">xrTableCell10</Name>
+<Style_X_Font id="ref-146">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>0</x>
+<y>0</y>
+<width>100</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-147">NIK</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-104" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-148">xrTableCell11</Name>
+<Style_X_Font id="ref-149">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopCenter</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>0</BindingItemCount>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>100</x>
+<y>0</y>
+<width>20</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-150">:</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<a1:ObjectStorage id="ref-105" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.Serialization/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">
+<Type_X_AssemblyName href="#ref-16"/>
+<Type_X_TypeName href="#ref-113"/>
+<Visible>true</Visible>
+<Tag href="#ref-6"/>
+<Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
+<Name id="ref-151">xrTableCell12</Name>
+<Style_X_Font id="ref-152">Segoe UI, 9.75pt</Style_X_Font>
+<Style_X_ForeColor href="#ref-12"/>
+<Style_X_BackColor href="#ref-13"/>
+<Style_X_BorderColor href="#ref-12"/>
+<Style_X_Borders xsi:type="a4:BorderSide" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Style_X_Borders>
+<Style_X_TextAlignment xsi:type="a4:TextAlignment" xmlns:a4="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraPrinting/DevExpress.Utils3%2C%20Version%3D3.2.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">TopLeft</Style_X_TextAlignment>
+<Style_X_BorderWidth>1</Style_X_BorderWidth>
+<Style_X_StyleUsing_X_UseFont>true</Style_X_StyleUsing_X_UseFont>
+<Style_X_StyleUsing_X_UseForeColor>true</Style_X_StyleUsing_X_UseForeColor>
+<Style_X_StyleUsing_X_UseBackColor>true</Style_X_StyleUsing_X_UseBackColor>
+<Style_X_StyleUsing_X_UseBorderColor>true</Style_X_StyleUsing_X_UseBorderColor>
+<Style_X_StyleUsing_X_UseBorders>true</Style_X_StyleUsing_X_UseBorders>
+<Style_X_StyleUsing_X_UseBorderWidth>true</Style_X_StyleUsing_X_UseBorderWidth>
+<Style_X_StyleUsing_X_UseTextAlignment>false</Style_X_StyleUsing_X_UseTextAlignment>
+<ParentStyleUsing_X_UseFont>false</ParentStyleUsing_X_UseFont>
+<ParentStyleUsing_X_UseForeColor>true</ParentStyleUsing_X_UseForeColor>
+<ParentStyleUsing_X_UseBackColor>true</ParentStyleUsing_X_UseBackColor>
+<ParentStyleUsing_X_UseBorderColor>true</ParentStyleUsing_X_UseBorderColor>
+<ParentStyleUsing_X_UseBorders>true</ParentStyleUsing_X_UseBorders>
+<ParentStyleUsing_X_UseBorderWidth>true</ParentStyleUsing_X_UseBorderWidth>
+<ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
+<Dpi>100</Dpi>
+<BindingItemCount>1</BindingItemCount>
+<BindingItem0_X_PropertyName href="#ref-122"/>
+<BindingItem0_X_DataMember id="ref-153">NIK</BindingItem0_X_DataMember>
+<BindingItem0_X_FormatString href="#ref-6"/>
+<BindingItem0_X_DataSource href="#ref-6"/>
+<Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
+<x>120</x>
+<y>0</y>
+<width>433</width>
+<height>25</height>
+</Bounds>
+<Text id="ref-154">Jl. Dharmahusada Utara II</Text>
+<NavigateUrl href="#ref-6"/>
+<Target href="#ref-6"/>
+<CanGrow>true</CanGrow>
+<CanShrink>false</CanShrink>
+<WordWrap>true</WordWrap>
+<KeepTogether>false</KeepTogether>
+<Multiline>false</Multiline>
+<Angle>0</Angle>
+<Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
+<Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Summary_X_Running>
+<Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
+<ItemCount>0</ItemCount>
+</a1:ObjectStorage>
+<SOAP-ENC:Array id="ref-112" xsi:type="SOAP-ENC:base64">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</SOAP-ENC:Array>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

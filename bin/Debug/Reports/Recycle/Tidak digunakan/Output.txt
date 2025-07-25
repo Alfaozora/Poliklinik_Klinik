@@ -1,0 +1,16 @@
+<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A
+ZN
+q315
+O
+JF
+ZT
+Q234,25
+KI80
+<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N
+B302,192,2,1,2,4,68,N,"160626L001-2"
+A253,118,2,4,1,1,N,"160626L001-2"
+A293,77,2,4,1,1,N,"Ali T"
+A293,41,2,4,1,1,N,"12 Jan 2014 / L"
+A293,222,2,4,1,1,N,"129"
+P1
+<xpml></page></xpml><xpml><end/></xpml>

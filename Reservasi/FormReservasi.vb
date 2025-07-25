@@ -1,0 +1,1058 @@
+﻿Imports System
+Imports System.Data
+Imports System.Data.OleDb
+Imports System.IO
+Imports System.Drawing
+Imports Newtonsoft.Json
+Imports Newtonsoft
+Imports System.Security.Cryptography
+Imports System.Collections.Generic
+Imports Newtonsoft.Json.Linq
+Imports DevExpress.XtraReports.UI
+Imports System.Data.SqlClient
+Imports System.Drawing.Imaging
+Imports DevExpress.XtraPrinting
+
+Public Class FormReservasi
+    Private formName As String = "RESERVASI"
+    Private userInput As String = PoliKlinik.Lbluser.Text
+    'Private kdProviderLokal As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodePPK'")
+    'Private urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+
+    Private Sub PanelTop_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PanelTop.Paint
+        Try
+            e.Graphics.DrawString(formName, New Font("Century Gothic", 16, FontStyle.Bold), Brushes.White, New Point(10, 3))
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
+        End Try
+    End Sub
+
+    Dim lokasiPoli As DataTable = ReadSQL("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+    Private Function GetNamaKlinik() As String
+        If lokasiPoli.Rows.Count > 0 Then
+            Dim row As DataRow = lokasiPoli.Rows(0)
+            Dim strValue As String = row("StrValue").ToString()
+
+            Select Case strValue
+                Case "W001" : Return "KLINIK MITRA MEDICARE SUCI"
+                Case "W002" : Return "KLINIK MITRA MEDICARE MANYAR"
+                Case "W003" : Return "KLINIK MITRA MEDICARE DRIYOREJO"
+                Case "L001" : Return "KLINIK MITRA MEDICARE DHARMAHUSADA"
+                Case "L002" : Return "KLINIK MITRA MEDICARE DIPONEGORO"
+                Case "L003" : Return "KLINIK LUMIERA LUZELLA"
+                Case "A002" : Return "KLINIK MITRA MEDICARE JATIUWUH"
+                Case "AD01" : Return "KLINIK MITRA MEDICARE BOYOLALI"
+                Case "D002" : Return "KLINIK MITRA MEDICARE RANCAEKEK"
+                Case Else : Return "KLINIK CITRA MEDICARE KARAWANG"
+            End Select
+        End If
+
+        Return "KLINIK TIDAK DIKETAHUI"
+    End Function
+
+    Private Sub AturTombolBerdasarkanPoli()
+        If lokasiPoli.Rows.Count > 0 Then
+            Dim row As DataRow = lokasiPoli.Rows(0)
+            Dim strValue As String = row("StrValue").ToString()
+
+            btnMenu1.Visible = (strValue = "L003")
+            ButtonCari.Visible = (strValue = "L003")
+            btnMenu3.Visible = (strValue = "L003")
+
+
+            ' Set judul form
+            If strValue <> "L003" Then
+                formName = "REMINDER PASIEN"
+                TabControlMenu.SelectedTab = TabPage2
+            Else
+                formName = "RESERVASI"
+                btnMenu2.Visible = False
+            End If
+
+            ' Tampilkan di judul window form
+            Me.Text = formName
+        End If
+    End Sub
+
+    Private Sub LoadComboBoxPoliTujuan()
+        ComboBoxPoliTujuan.Items.Clear()
+        Dim tblsPoliTujuan As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE PoliSakit = 'True'")
+        For Each TrowPoliTujuan As DataRow In tblsPoliTujuan.Rows
+            ComboBoxPoliTujuan.Items.Add(TrowPoliTujuan("NamaPoli"))
+        Next
+        ComboBoxPoliTujuan.SelectedIndex = -1
+    End Sub
+
+    Private Sub LoadReservasi()
+        Dim query As String = "SELECT JR.JadwalID, R.Hari, R.Sesi, R.Tindakan, JR.NamaRuangan, JR.TglMulai, JR.NamaPasien, JR.NoHP, JR.Catatan, JR.Status " & _
+                    "FROM JadwalRuangan JR " & _
+                    "INNER JOIN MasterRuangan R ON JR.RuanganID = R.RuanganID " & _
+                    "WHERE(JR.TglAkhir > GETDATE()) " & _
+                    "ORDER BY JR.TglMulai ASC"
+
+        Dim dt As DataTable = ReadSQL(query)
+
+        ' Tambahkan kolom format Indonesia\
+        dt.Columns.Add("Ruangan", GetType(String))
+        dt.Columns.Add("Nama Pasien", GetType(String))
+        dt.Columns.Add("No HP", GetType(String))
+        dt.Columns.Add("Tgl Reservasi", GetType(String))
+        dt.Columns.Add("Hari_", GetType(String))
+        dt.Columns.Add("Sesi_", GetType(String))
+        dt.Columns.Add("Tindakan_", GetType(String))
+        dt.Columns.Add("Keterangan", GetType(String))
+        dt.Columns.Add("Status Pasien", GetType(String))
+
+        ' Konversi setiap baris ke format Indonesia
+        For Each row As DataRow In dt.Rows
+            Dim ruangan As String = If(IsDBNull(row("NamaRuangan")), "", row("NamaRuangan").ToString())
+            Dim namaPasien As String = If(IsDBNull(row("NamaPasien")), "", row("NamaPasien").ToString())
+            Dim noHp As String = If(IsDBNull(row("NoHP")), "", row("NoHP").ToString())
+            Dim tgl As DateTime = If(IsDBNull(row("TglMulai")), DateTime.MinValue, CDate(row("TglMulai")))
+            Dim hari As String = If(IsDBNull(row("Hari")), "", row("Hari").ToString())
+            Dim sesi As String = If(IsDBNull(row("Sesi")), "", row("Sesi").ToString())
+            Dim tindakan As String = If(IsDBNull(row("Tindakan")), "", row("Tindakan").ToString())
+            Dim catatan As String = If(IsDBNull(row("Catatan")), "", row("Catatan").ToString())
+            Dim status As String = If(IsDBNull(row("Status")), "", row("Status").ToString())
+
+            row("Tgl Reservasi") = If(tgl = DateTime.MinValue, "", tgl.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+            'row("Sampai") = If(tglAkhir = DateTime.MinValue, "", tglAkhir.ToString("dddd, dd MMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+            row("Nama Pasien") = namaPasien
+            row("Ruangan") = ruangan
+            row("No HP") = noHp
+            row("Hari_") = hari
+            row("Sesi_") = sesi
+            row("Tindakan_") = tindakan
+            row("Keterangan") = catatan
+            row("Status Pasien") = status
+        Next
+
+        For Each row As DataGridViewRow In DataGridViewReservasi.Rows
+            If row.Cells("Status Pasien").Value.ToString().ToUpper() = "CANCEL" Then
+                row.Cells("Reminder").Style.ForeColor = Color.Gray
+                row.Cells("UbahStatus").Style.ForeColor = Color.Gray
+                row.Cells("Reminder").Style.SelectionForeColor = Color.Gray
+                row.Cells("UbahStatus").Style.SelectionForeColor = Color.Gray
+            End If
+        Next
+
+        DataGridViewReservasi.DataSource = dt
+
+        If DataGridViewReservasi.Columns.Contains("JadwalID") Then
+            DataGridViewReservasi.Columns("JadwalID").Visible = False
+            DataGridViewReservasi.Columns("NamaPasien").Visible = False
+            DataGridViewReservasi.Columns("TglMulai").Visible = False
+            DataGridViewReservasi.Columns("Hari").Visible = False
+            DataGridViewReservasi.Columns("Sesi").Visible = False
+            DataGridViewReservasi.Columns("Tindakan").Visible = False
+            DataGridViewReservasi.Columns("NamaRuangan").Visible = False
+            DataGridViewReservasi.Columns("NoHP").Visible = False
+            DataGridViewReservasi.Columns("Catatan").Visible = False
+            DataGridViewReservasi.Columns("Status").Visible = False
+        End If
+
+        TambahKolomAksi()
+    End Sub
+
+    Private Sub LoadReminder()
+        Dim query As String = "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedDate, TanggalKirim " & _
+                      "FROM LogReminderPasien WHERE DeletedBy IS NULL ORDER BY Tanggal ASC"
+
+        Dim dt As DataTable = ReadSQL(query)
+
+        ' Tambahkan kolom tampilan format Indonesia
+        dt.Columns.Add("Nama Pasien", GetType(String))
+        dt.Columns.Add("No HP", GetType(String))
+        dt.Columns.Add("Keperluan Kunjungan", GetType(String))
+        dt.Columns.Add("Tanggal Kunjungan", GetType(String))
+        dt.Columns.Add("Status Pesan", GetType(String))
+        dt.Columns.Add("Tanggal Terkirim", GetType(String))
+
+        For Each row As DataRow In dt.Rows
+            Dim namaPasien As String = If(IsDBNull(row("NamaPasien")), "", row("NamaPasien").ToString())
+            Dim noHp As String = If(IsDBNull(row("NoHP")), "", row("NoHP").ToString())
+            Dim keperluan As String = If(IsDBNull(row("Keperluan")), "", row("Keperluan").ToString())
+            Dim status As String = If(IsDBNull(row("Status")), "", row("Status").ToString())
+            Dim tgl As DateTime = If(IsDBNull(row("Tanggal")), DateTime.MinValue, CDate(row("Tanggal")))
+            Dim tglKirim As DateTime = If(IsDBNull(row("TanggalKirim")), DateTime.MinValue, CDate(row("TanggalKirim")))
+
+
+            row("Nama Pasien") = namaPasien
+            row("No HP") = noHp
+            row("Keperluan Kunjungan") = keperluan
+            row("Status Pesan") = status
+            row("Tanggal Kunjungan") = If(tgl = DateTime.MinValue, "", tgl.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+            row("Tanggal Terkirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+        Next
+
+        DataGridViewReminder.DataSource = dt
+
+        If Not DataGridViewReminder.Columns.Contains("Hapus") Then
+            Dim btnHapus As New DataGridViewButtonColumn()
+            btnHapus.Name = "Hapus"
+            btnHapus.HeaderText = ""
+            btnHapus.Text = "Hapus"
+            btnHapus.UseColumnTextForButtonValue = True
+            btnHapus.Width = 50
+            btnHapus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            btnHapus.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DataGridViewReminder.Columns.Add(btnHapus)
+            DataGridViewReminder.RowTemplate.Height = 35
+            btnHapus.DisplayIndex = DataGridViewReminder.Columns.Count - 1
+        End If
+
+        ' Sembunyikan kolom data mentah
+        If DataGridViewReminder.Columns.Contains("ReminderID") Then
+            DataGridViewReminder.Columns("ReminderID").Visible = False
+            DataGridViewReminder.Columns("NamaPasien").Visible = False
+            DataGridViewReminder.Columns("NoHP").Visible = False
+            DataGridViewReminder.Columns("Keperluan").Visible = False
+            DataGridViewReminder.Columns("Tanggal").Visible = False
+            DataGridViewReminder.Columns("Status").Visible = False
+            DataGridViewReminder.Columns("CreatedDate").Visible = False
+            DataGridViewReminder.Columns("TanggalKirim").Visible = False
+        End If
+
+        ' Warnai jika status CANCEL
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+            If row.Cells("Status Pesan").Value.ToString().ToUpper() = "CANCEL" Then
+                row.DefaultCellStyle.ForeColor = Color.Gray
+            End If
+        Next
+    End Sub
+
+    Private Sub LoadSesi()
+        Dim query As String = "SELECT RuanganID, NamaRuangan, Tindakan, Sesi, Hari, JamAwal, JamAkhir, Kuota, Praktisi FROM MasterRuangan " & _
+                       "ORDER BY CASE Hari " & _
+                       "WHEN 'Senin' THEN 1 " & _
+                       "WHEN 'Selasa' THEN 2 " & _
+                       "WHEN 'Rabu' THEN 3 " & _
+                       "WHEN 'Kamis' THEN 4 " & _
+                       "WHEN 'Jumat' THEN 5 " & _
+                       "WHEN 'Sabtu' THEN 6 " & _
+                       "WHEN 'Minggu' THEN 7 " & _
+                       "ELSE 8 END, Sesi ASC"
+        Dim dtRuangan As DataTable = ReadSQL(query)
+
+        If dtRuangan IsNot Nothing Then
+            For Each row As DataRow In dtRuangan.Rows
+                If Not IsDBNull(row("JamAwal")) Then
+                    Dim tsAwal As TimeSpan = CType(row("JamAwal"), TimeSpan)
+                    row("JamAwal") = tsAwal.Hours.ToString("D2") & ":" & tsAwal.Minutes.ToString("D2")
+                End If
+                If Not IsDBNull(row("JamAkhir")) Then
+                    Dim tsAkhir As TimeSpan = CType(row("JamAkhir"), TimeSpan)
+                    row("JamAkhir") = tsAkhir.Hours.ToString("D2") & ":" & tsAkhir.Minutes.ToString("D2")
+                End If
+            Next
+
+            DataGridViewSesi.DataSource = dtRuangan
+
+            With DataGridViewSesi
+                .Columns("RuanganID").HeaderText = "ID"
+                .Columns("NamaRuangan").HeaderText = "Nama Ruangan"
+                .Columns("Tindakan").HeaderText = "Tindakan"
+                .Columns("Sesi").HeaderText = "Sesi"
+                .Columns("Hari").HeaderText = "Hari"
+                .Columns("JamAwal").HeaderText = "Jam Awal"
+                .Columns("JamAkhir").HeaderText = "Jam Akhir"
+                .Columns("Kuota").HeaderText = "Kuota"
+                .Columns("Praktisi").HeaderText = "Praktisi"
+            End With
+
+            If DataGridViewSesi.Columns.Contains("RuanganID") Then
+                DataGridViewSesi.Columns("RuanganID").Visible = False
+            End If
+
+        Else
+            DataGridViewSesi.DataSource = Nothing
+        End If
+    End Sub
+
+    Private Sub DataGridViewReminder_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewReminder.CellClick
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+            Dim dgv As DataGridView = CType(sender, DataGridView)
+            Dim columnName As String = dgv.Columns(e.ColumnIndex).Name
+
+            If columnName = "Hapus" Then
+                Dim namaPasien As String = dgv.Rows(e.RowIndex).Cells("Nama Pasien").Value.ToString()
+                Dim reminderID As Integer = CInt(dgv.Rows(e.RowIndex).Cells("ReminderID").Value)
+
+                Dim konfirmasi = MsgBox("Yakin ingin menghapus reminder untuk " & namaPasien & " ?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo, "Konfirmasi Hapus")
+                If konfirmasi = MsgBoxResult.Yes Then
+                    SoftDeleteReminder(reminderID)
+                    LoadReminder()
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub SoftDeleteReminder(ByVal reminderID As Integer)
+        Dim query As String = "UPDATE LogReminderPasien SET Status = 'CANCEL', DeletedBy = '" & userInput & "', " & _
+                              "DeletedDate = GETDATE()WHERE ReminderID = '" & reminderID & "'"
+        WriteSQL(query, 4)
+    End Sub
+
+    Private Sub DataGridViewReservasi_RowPrePaint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles DataGridViewReservasi.RowPrePaint
+        Dim row As DataGridViewRow = DataGridViewReservasi.Rows(e.RowIndex)
+        Dim statusCell As DataGridViewCell = row.Cells("Status") ' Ganti "Status" dengan nama kolom yang sesuai
+
+        If statusCell.Value IsNot Nothing AndAlso statusCell.Value.ToString() = "CANCEL" Then
+            row.DefaultCellStyle.BackColor = Color.FromArgb(242, 222, 222)
+            row.DefaultCellStyle.ForeColor = Color.Black
+        ElseIf statusCell.Value IsNot Nothing AndAlso statusCell.Value.ToString() = "RESCHEDULE" Then
+            row.DefaultCellStyle.BackColor = Color.FromArgb(184, 232, 252)
+            row.DefaultCellStyle.ForeColor = Color.Black
+        ElseIf statusCell.Value IsNot Nothing AndAlso statusCell.Value.ToString() = "TERJADWAL" Then
+            row.DefaultCellStyle.BackColor = Color.FromArgb(195, 237, 192)
+            row.DefaultCellStyle.ForeColor = Color.Black
+        End If
+    End Sub
+
+    Private Sub DataGridViewReminder_RowPrePaint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles DataGridViewReminder.RowPrePaint
+        Dim row As DataGridViewRow = DataGridViewReminder.Rows(e.RowIndex)
+        Dim statusCell As DataGridViewCell = row.Cells("Status Pesan")
+
+        If statusCell.Value IsNot Nothing AndAlso statusCell.Value.ToString() = "TERJADWAL" Then
+            row.DefaultCellStyle.BackColor = Color.White
+            row.DefaultCellStyle.ForeColor = Color.Black
+        ElseIf statusCell.Value IsNot Nothing AndAlso statusCell.Value.ToString() = "TERKIRIM" Then
+            row.DefaultCellStyle.BackColor = Color.FromArgb(195, 237, 192)
+            row.DefaultCellStyle.ForeColor = Color.Black
+        End If
+    End Sub
+
+    Public Function SetParameterWhatsappText(ByVal nomor As String, ByVal pesan As String) As String
+        ' Bersihkan format pesan: ganti newline jadi \n, escape kutip dua
+        Dim cleanPesan As String = pesan.Replace(vbCrLf, "\n").Replace("""", "\""")
+
+        ' Buat JSON manual
+        Dim json As String = "{" & _
+            """number"": """ & nomor & """," & _
+            """message"": """ & cleanPesan & """" & _
+        "}"
+
+        Return json
+    End Function
+
+    Public Sub KirimReminderReservasiWhatsApp(ByVal namaPasien As String, ByVal noHP As String, ByVal tglReservasi As DateTime, ByVal ruangan As String, ByVal hari As String, ByVal sesi As String, ByVal tindakan As String)
+        Try
+            If Strings.Left(noHP, 2) = "08" Then
+                noHP = "62" & noHP.Substring(1)
+            End If
+
+            Dim waStatus As String = ReadSQLNIK("SELECT StrValue FROM msconfig WHERE ConfigName = 'whatsapp_klinik_status'")
+            Dim waIP As String = ReadSQLNIK("SELECT StrValue FROM msconfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+            Dim lokasiKlinik As String = ReadSQLNIK("SELECT StrValue FROM msconfig WHERE ConfigName = 'InvoiceTempat_Klinik'")
+            Dim namaKlinik As String = GetNamaKlinik()
+
+            If waStatus <> "Yes" Then
+                MsgBox("WhatsApp belum disetting. Hubungi IT.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            Dim tanggalIndo As String = tglReservasi.ToString("dddd, dd MMMM yyyy", New Globalization.CultureInfo("id-ID"))
+
+            Dim pesan As String = "Salam Sehat *" & namaPasien & "*" & vbCrLf & vbCrLf & _
+                                  "Pengingat reservasi Anda di *" & namaKlinik & "*." & vbCrLf & _
+                                  "Untuk tindakan *" & tindakan & "* Pada sesi " & sesi & "" & vbCrLf & _
+                                  "Tanggal: " & tanggalIndo & vbCrLf & _
+                                  "Jam: " & tglReservasi.ToString("HH:mm") & " WIB" & vbCrLf & _
+                                  "Ruangan: " & ruangan & vbCrLf & vbCrLf & _
+                                  "Mohon datang tepat waktu." & vbCrLf & _
+                                  "Terima kasih" & vbCrLf & vbCrLf & _
+                                  "----- Pesan otomatis, mohon tidak dibalas -----"
+
+            Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
+            Dim urlSend As String = "http://" & waIP & ":4444/send"
+            Dim statusKirim As String = SendDataWhatsapp(parameter, urlSend)
+
+            If statusKirim = "Success" Then
+                MsgBox("Reminder berhasil dikirim ke " & noHP, MsgBoxStyle.Information)
+            Else
+                MsgBox("Gagal mengirim WhatsApp. Periksa koneksi atau server WhatsApp.", MsgBoxStyle.Exclamation)
+            End If
+        Catch ex As Exception
+            MsgBox("Terjadi kesalahan saat kirim reminder: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Private selectedJadwalID As Integer = 0
+
+    Private Sub DataGridViewReservasi_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewReservasi.CellClick
+        If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
+
+        Dim statusPasien As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("Status Pasien").Value.ToString().ToUpper()
+        Dim columnName As String = DataGridViewReservasi.Columns(e.ColumnIndex).Name
+
+        If statusPasien = "CANCEL" AndAlso (columnName = "Reminder" Or columnName = "UbahStatus") Then Exit Sub
+
+        If columnName = "Reminder" Then
+            Dim namaPasien As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("NamaPasien").Value.ToString()
+            Dim noHP As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("NoHP").Value.ToString()
+            Dim tglMulai As DateTime = CDate(DataGridViewReservasi.Rows(e.RowIndex).Cells("TglMulai").Value)
+            Dim hari As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("Hari_").Value.ToString()
+            Dim sesi As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("Sesi_").Value.ToString()
+            Dim tindakan As String = DataGridViewReservasi.Rows(e.RowIndex).Cells("Tindakan_").Value.ToString()
+
+            ' Ambil JadwalID dari kolom tersembunyi
+            Dim idJadwal As Integer = CInt(DataGridViewReservasi.Rows(e.RowIndex).Cells("JadwalID").Value)
+
+            ' Ambil Nama Ruangan dari JadwalID
+            Dim namaRuangan As String = ReadSQLNIK("SELECT MR.NamaRuangan FROM JadwalRuangan JR " & _
+                                               "INNER JOIN MasterRuangan MR ON JR.RuanganID = MR.RuanganID " & _
+                                               "WHERE JR.JadwalID = " & idJadwal)
+
+            ' Kirim WA reminder
+            KirimReminderReservasiWhatsApp(namaPasien, noHP, tglMulai, namaRuangan, hari, sesi, tindakan)
+        End If
+
+        If columnName = "UbahStatus" Then
+            ' Ambil nilai JadwalID dari baris yang diklik
+            selectedJadwalID = CInt(DataGridViewReservasi.Rows(e.RowIndex).Cells("JadwalID").Value)
+
+            ' Tampilkan ContextMenu di posisi mouse
+            ContextMenuStatus.Show(Cursor.Position)
+        End If
+    End Sub
+
+    Private Sub CancelToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CancelToolStripMenuItem.Click
+        Try
+            Dim query As String = "UPDATE JadwalRuangan SET " & _
+                              "Status = 'CANCEL', " & _
+                              "DeletedBy = '" & userInput & "', " & _
+                              "DeletedDate = GETDATE() " & _
+                              "WHERE JadwalID = " & selectedJadwalID
+            WriteSQL(query, 4)
+
+            MsgBox("Status diubah menjadi CANCEL", MsgBoxStyle.Information)
+            LoadReservasi()
+        Catch ex As Exception
+            MsgBox("Status gagal diubah", MsgBoxStyle.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub RescheduleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles RescheduleToolStripMenuItem.Click
+        Try
+            Dim dlg As New Dialog1()
+
+            If dlg.ShowDialog() = DialogResult.OK Then
+                Dim mulaiBaru As DateTime = dlg.TglMulaiBaru
+                Dim akhirBaru As DateTime = dlg.TglAkhirBaru
+                Dim hariBaru As String = mulaiBaru.ToString("dddd", New Globalization.CultureInfo("id-ID"))
+
+                ' Ambil data lama dari database
+                Dim dt As DataTable = ReadSQL("SELECT JR.RuanganID, R.Sesi, R.Hari, R.NamaRuangan " & _
+                                              "FROM JadwalRuangan JR " & _
+                                              "INNER JOIN MasterRuangan R ON JR.RuanganID = R.RuanganID " & _
+                                              "WHERE JR.JadwalID = " & selectedJadwalID)
+
+                If dt.Rows.Count = 0 Then
+                    MsgBox("Data jadwal tidak ditemukan.", MsgBoxStyle.Exclamation)
+                    Exit Sub
+                End If
+
+                Dim ruanganID As String = dt.Rows(0)("RuanganID").ToString()
+                Dim sesiLama As String = dt.Rows(0)("Sesi").ToString()
+                Dim namaRuangan As String = dt.Rows(0)("NamaRuangan").ToString()
+
+                ' Validasi kuota baru untuk sesi dan hari baru
+                Dim queryCek As String = "SELECT COUNT(*) FROM JadwalRuangan " & _
+                                         "WHERE RuanganID = '" & ruanganID & "' " & _
+                                         "AND Sesi = '" & sesiLama & "' " & _
+                                         "AND DATENAME(WEEKDAY, TglMulai) = '" & hariBaru & "' " & _
+                                         "AND Status <> 'CANCEL'"
+
+                Dim jumlahBooking As Integer = CInt(ReadSQLValue(queryCek))
+
+                Dim queryKuota As String = "SELECT Kuota FROM MasterRuangan WHERE RuanganID = '" & ruanganID & "'"
+                Dim kuotaRuangan As Integer = CInt(ReadSQLValue(queryKuota))
+
+                If jumlahBooking >= kuotaRuangan Then
+                    MsgBox("Kuota untuk sesi '" & sesiLama & "' di hari " & hariBaru & " sudah penuh.", MsgBoxStyle.Critical)
+                    Exit Sub
+                End If
+
+                ' Update jadwal jika kuota cukup
+                Dim queryUpdate As String = "UPDATE JadwalRuangan SET " & _
+                                            "Status = 'RESCHEDULE', " & _
+                                            "TglMulai = '" & mulaiBaru.ToString("yyyy-MM-dd HH:mm") & "', " & _
+                                            "TglAkhir = '" & akhirBaru.ToString("yyyy-MM-dd HH:mm") & "', " & _
+                                            "ChangedBy = '" & userInput & "', " & _
+                                            "ChangedDate = GETDATE() " & _
+                                            "WHERE JadwalID = " & selectedJadwalID
+
+                WriteSQL(queryUpdate, 4)
+
+                MsgBox("Status diubah menjadi RESCHEDULE dan jadwal diperbarui.", MsgBoxStyle.Information)
+                LoadReservasi()
+            End If
+        Catch ex As Exception
+            MsgBox("Status gagal diubah: " & ex.Message, MsgBoxStyle.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub TambahKolomAksi()
+        ' Bersihkan kolom button yang sudah ada
+        For i As Integer = DataGridViewReservasi.Columns.Count - 1 To 0 Step -1
+            If TypeOf DataGridViewReservasi.Columns(i) Is DataGridViewButtonColumn Then
+                DataGridViewReservasi.Columns.RemoveAt(i)
+            End If
+        Next
+
+        ' Tambah tombol Reminder
+        Dim btnReminder As New DataGridViewButtonColumn()
+        btnReminder.Name = "Reminder"
+        btnReminder.HeaderText = "Reminder"
+        btnReminder.Text = "Kirim"
+        btnReminder.UseColumnTextForButtonValue = True
+        btnReminder.Width = 100
+        btnReminder.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        btnReminder.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewReservasi.Columns.Add(btnReminder)
+
+        ' Tambah tombol Status
+        Dim btnStatus As New DataGridViewButtonColumn()
+        btnStatus.Name = "UbahStatus"
+        btnStatus.HeaderText = "Status"
+        btnStatus.Text = "Ubah"
+        btnStatus.UseColumnTextForButtonValue = True
+        btnStatus.Width = 100
+        btnStatus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        btnStatus.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewReservasi.Columns.Add(btnStatus)
+
+        ' Besarkan tinggi baris agar tombol terlihat lebih besar
+        DataGridViewReservasi.RowTemplate.Height = 35
+    End Sub
+
+    Private Sub UpdateExpiredJadwal()
+        Dim queryUpdate As String = "UPDATE JadwalRuangan " & _
+                                    "SET Status = 'EXPIRED' " & _
+                                    "WHERE Status = 'TERJADWAL' AND TglMulai < GETDATE()"
+
+        WriteSQL(queryUpdate, 4)
+    End Sub
+
+    Private Sub FormReservasi_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load 
+        Try
+            Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
+            Me.MdiParent = PoliKlinik
+            Me.Dock = DockStyle.Fill
+
+            AturTombolBerdasarkanPoli()
+
+            ' Hide tab header button
+            'TabControl1.Appearance = TabAppearance.FlatButtons
+            TabControlMenu.ItemSize = New Size(0, 1)
+            'TabControl1.SizeMode = TabSizeMode.Fixed
+
+            UpdateExpiredJadwal()
+            LoadReservasi()
+            LoadReminder()
+            TambahKolomAksi()
+            LoadComboBoxPoliTujuan()
+            LoadSesi()
+
+            Timer1.Interval = 60000
+            Timer1.Start()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
+        End Try
+    End Sub
+
+    Private Sub btnMenu_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMenu4.Click, btnMenu3.Click, btnMenu2.Click, btnMenu1.Click
+        Try
+            Dim myButton = DirectCast(sender, Button)
+
+            Select Case myButton.Name
+                Case "btnMenu1"
+                    TabControlMenu.SelectedTab = TabPage1
+                    ButtonCari.Visible = True
+                Case "btnMenu2"
+                    TabControlMenu.SelectedTab = TabPage2
+                Case "btnMenu3"
+                    TabControlMenu.SelectedTab = TabPage3
+                    ButtonCari.Visible = False
+                Case "btnMenu4"
+                    TabControlMenu.SelectedTab = TabPage4
+            End Select
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
+        End Try
+    End Sub
+
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        'Me.Close()
+        Me.Hide()
+    End Sub
+
+    Public Function ReadSQLValue(ByVal sql As String) As Object
+        Dim dt As DataTable = ReadSQL(sql)
+        If dt.Rows.Count > 0 Then
+            Return dt.Rows(0)(0)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function IsJadwalTersedia(ByVal ruanganId As Integer, ByVal mulai As DateTime, ByVal selesai As DateTime) As Boolean
+        Dim namaRuangan As Object = ReadSQLNIK("SELECT NamaRuangan FROM MasterRuangan WHERE RuanganID = " & ruanganId)
+
+        ' Cek jika hasil NULL
+        If namaRuangan Is Nothing OrElse IsDBNull(namaRuangan) Then
+            MsgBox("Nama ruangan tidak ditemukan.", MsgBoxStyle.Exclamation)
+            Return False
+        End If
+
+        ' Jika HBOT, boleh overlap
+        If namaRuangan.ToString().ToUpper().Contains("HBOT") Then
+            Return True
+        End If
+
+        ' Cek bentrok waktu
+        Dim query As String = "SELECT COUNT(*) FROM JadwalRuangan WHERE RuanganID = " & ruanganId & " AND " & _
+                              "('" & mulai.ToString("yyyy-MM-dd HH:mm") & "' < TglAkhir AND '" & selesai.ToString("yyyy-MM-dd HH:mm") & "' > TglMulai)"
+
+        ' Gunakan fungsi scalar yang benar
+        Dim count As Integer = Val(ReadSQLValue(query))
+        Return count = 0
+    End Function
+
+    Private Sub ButtonSimpan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSimpan.Click
+        If lokasiPoli.Rows.Count = 0 Then
+            MsgBox("Data lokasi poli tidak ditemukan.", MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+
+        Dim strValue As String = lokasiPoli.Rows(0)("StrValue").ToString()
+
+        If TabControlMenu.SelectedTab Is TabPage1 Then
+            Dim mulai As DateTime = dtReservasi.Value
+            Dim selesai As DateTime = dtSelesai.Value
+            Dim namaPasien As String = TextBoxNamaPasien.Text
+            Dim keterangan As String = TextBoxCatatan.Text
+            Dim NoHp As String = TextBoxNoHP.Text
+            Dim sekarang As DateTime = DateTime.Now
+            Dim namaRuangan As String = TextBoxRuangan.Text
+            Dim Tindakan As String = TextBoxTindakanReservasi.Text
+            Dim Sesi As String = TextBoxSesiReservasi.Text
+            Dim Praktisi As String = TextBoxPraktisiReservasi.Text
+            Dim hari As String = mulai.ToString("dddd", New Globalization.CultureInfo("id-ID"))
+
+            ' Hitung jumlah pasien yang sudah reservasi
+            Dim queryCek As String = "SELECT COUNT(*) FROM JadwalRuangan JR " & _
+                 "WHERE JR.NamaRuangan = '" & namaRuangan.Replace("'", "''") & "' " & _
+                 "AND JR.Sesi = '" & Sesi.Replace("'", "''") & "' " & _
+                 "AND (CASE DATENAME(WEEKDAY, JR.TglMulai) " & _
+                     "WHEN 'Monday' THEN 'Senin' " & _
+                     "WHEN 'Tuesday' THEN 'Selasa' " & _
+                     "WHEN 'Wednesday' THEN 'Rabu' " & _
+                     "WHEN 'Thursday' THEN 'Kamis' " & _
+                     "WHEN 'Friday' THEN 'Jumat' " & _
+                     "WHEN 'Saturday' THEN 'Sabtu' " & _
+                     "WHEN 'Sunday' THEN 'Minggu' " & _
+                 "END) = '" & hari & "'"
+            Dim jumlahBooking As Integer = 0
+            Dim valueBooking As Object = ReadSQLValue(queryCek)
+            If Not IsDBNull(valueBooking) Then jumlahBooking = CInt(valueBooking)
+
+            ' Ambil kuota dari MasterRuangan
+            Dim queryKuota As String = "SELECT Kuota FROM MasterRuangan " & _
+                                       "WHERE NamaRuangan = '" & namaRuangan.Replace("'", "''") & "' " & _
+                                       "AND Sesi = '" & Sesi.Replace("'", "''") & "' " & _
+                                       "AND Hari = '" & hari & "'"
+            Dim kuotaRuangan As Integer = 0
+            Dim valueKuota As Object = ReadSQLValue(queryKuota)
+            If Not IsDBNull(valueKuota) Then kuotaRuangan = CInt(valueKuota)
+
+            'Ambil RuanganID
+            Dim queryRuanganID As String = "SELECT RuanganID FROM MasterRuangan WHERE " & _
+                                "NamaRuangan = '" & namaRuangan.Replace("'", "''") & "' AND " & _
+                                "Sesi = '" & Sesi.Replace("'", "''") & "' AND " & _
+                                "Hari = '" & hari.Replace("'", "''") & "'"
+
+            Dim ruanganID As String = ReadSQLValue(queryRuanganID)
+
+            ' Validasi apakah sesi tersedia di hari tersebut untuk poli/ruangan yang dipilih
+            Dim queryValidasiSesi As String = "SELECT COUNT(*) FROM MasterRuangan WHERE " & _
+                                              "NamaRuangan = '" & namaRuangan.Replace("'", "''") & "' AND " & _
+                                              "Sesi = '" & Sesi.Replace("'", "''") & "' AND " & _
+                                              "Hari = '" & hari & "'"
+
+            Dim cekSesiHari As Integer = CInt(ReadSQLValue(queryValidasiSesi))
+
+            If cekSesiHari = 0 Then
+                MsgBox("Sesi '" & Sesi & "' tidak tersedia untuk Poli " & namaRuangan & " di hari " & hari & ".", MsgBoxStyle.Critical, "Jadwal Tidak Tersedia")
+                Exit Sub
+            End If
+
+
+            ' Bandingkan
+            If jumlahBooking >= kuotaRuangan Then
+                MsgBox("Kuota untuk sesi ini sudah penuh. Silakan pilih sesi atau waktu lain.", MsgBoxStyle.Critical, "Kuota Penuh")
+                Exit Sub
+            End If
+
+            If namaPasien = "" Then
+                MsgBox("Nama pasien tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If NoHp = "" Then
+                MsgBox("Nomor HP tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If mulai.ToString("yyyy-MM-dd HH:mm") = sekarang.ToString("yyyy-MM-dd HH:mm") Then
+                MsgBox("Waktu reservasi tidak boleh sama dengan waktu saat ini.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If selesai.ToString("yyyy-MM-dd HH:mm") = sekarang.ToString("yyyy-MM-dd HH:mm") Then
+                MsgBox("Waktu selesai tidak boleh sama dengan waktu saat ini.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            'If Not IsJadwalTersedia(ruanganId, mulai, selesai) Then
+            '    MsgBox("Waktu sudah terisi. Silakan pilih waktu lain.", MsgBoxStyle.Exclamation)
+            '    Exit Sub
+            'End If
+
+            If mulai < DateTime.Now Then
+                MsgBox("Waktu reservasi tidak boleh di masa lalu.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If selesai <= mulai Then
+                MsgBox("Waktu selesai harus lebih besar dari waktu mulai.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If ruanganID = "" Then
+                MsgBox("Ruangan tidak ditemukan di MasterRuangan. Cek kembali inputannya.", MsgBoxStyle.Critical)
+                Exit Sub
+            End If
+
+            namaPasien = namaPasien.Replace("'", "''")
+            NoHp = NoHp.Replace("'", "''")
+            keterangan = keterangan.Replace("'", "''")
+
+            WriteSQL("INSERT INTO JadwalRuangan (NamaRuangan, Tanggal, TglMulai, TglAkhir, NamaPasien, NoHP, Catatan, Status, CreatedBy, CreatedDate, Tindakan, Sesi, Praktisi, Kuota, RuanganID) " & _
+                  "VALUES (" & _
+                  "'" & namaRuangan.Replace("'", "''") & "', " & _
+                  "GETDATE(), " & _
+                  "'" & mulai.ToString("yyyy-MM-dd HH:mm") & "', " & _
+                  "'" & selesai.ToString("yyyy-MM-dd HH:mm") & "', " & _
+                  "'" & namaPasien.Replace("'", "''") & "', " & _
+                  "'" & NoHp.Replace("'", "''") & "', " & _
+                  "'" & keterangan.Replace("'", "''") & "', " & _
+                  "'TERJADWAL', " & _
+                  "'" & userInput.Replace("'", "''") & "', " & _
+                  "GETDATE(), " & _
+                  "'" & Tindakan.Replace("'", "''") & "', " & _
+                  "'" & Sesi.Replace("'", "''") & "', " & _
+                  "'" & Praktisi.Replace("'", "''") & "', " & _
+                  kuotaRuangan & ", " & _
+                  ruanganID & ")", 4)
+
+            MsgBox("Reservasi berhasil disimpan.", MsgBoxStyle.Information)
+
+            ' Reset form
+            TextBoxNamaPasien.Clear()
+            TextBoxNoHP.Clear()
+            TextBoxCatatan.Clear()
+            dtReservasi.Value = DateTime.Now
+            dtSelesai.Value = DateTime.Now.AddMinutes(30)
+            TextBoxSesiReservasi.Clear()
+            TextBoxHariReservasi.Clear()
+            TextBoxPraktisiReservasi.Clear()
+            TextBoxRuangan.Clear()
+            LoadReservasi()
+
+        ElseIf TabControlMenu.SelectedTab Is TabPage3 Then
+            Dim mulai As DateTime = DateTimePickerMulai.Value
+            Dim selesai As DateTime = DateTimePickerAkhir.Value
+            Dim sesi As String = ComboBoxSesi.SelectedItem
+            Dim hari As String = ComboBoxHari.SelectedItem
+            Dim poli As String = ComboBoxPoliTujuan.SelectedItem
+            Dim tindakan As String = TextBoxTindakan.Text
+            Dim kuota As String = TextBoxKuota.Text
+            Dim praktisi As String = TextBoxPraktisi.Text
+            Dim sekarang As DateTime = DateTime.Now
+
+            If ComboBoxPoliTujuan.SelectedIndex = -1 Then
+                MsgBox("Silakan pilih Poli terlebih dahulu.", MsgBoxStyle.Exclamation, "Validasi")
+                ComboBoxPoliTujuan.Focus()
+                Exit Sub
+            End If
+
+            If ComboBoxSesi.SelectedIndex = -1 Then
+                MsgBox("Silakan pilih Sesi terlebih dahulu.", MsgBoxStyle.Exclamation, "Validasi")
+                ComboBoxSesi.Focus()
+                Exit Sub
+            End If
+
+            If ComboBoxHari.SelectedIndex = -1 Then
+                MsgBox("Silakan pilih Hari terlebih dahulu.", MsgBoxStyle.Exclamation, "Validasi")
+                ComboBoxHari.Focus()
+                Exit Sub
+            End If
+
+            If DateTimePickerAkhir.Value = DateTimePickerMulai.Value Then
+                MsgBox("Waktu selesai tidak boleh sama dengan waktu mulai.", MsgBoxStyle.Exclamation, "Validasi")
+                Exit Sub
+            End If
+
+
+            If kuota = "" Then
+                MsgBox("Kuota tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If tindakan = "" Then
+                MsgBox("Tindakan tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If praktisi = "" Then
+                MsgBox("Praktisi tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            ' Cek apakah Poli pada sesi dan hari yang sama sudah ada
+            Dim queryCek As String = "SELECT COUNT(*) FROM MasterRuangan " & _
+                                     "WHERE NamaRuangan = '" & poli.Replace("'", "''") & "' " & _
+                                     "AND Sesi = '" & sesi.Replace("'", "''") & "' " & _
+                                     "AND Hari = '" & hari.Replace("'", "''") & "'"
+
+            Dim jumlahData As Integer = Val(ReadSQLNIK(queryCek))
+
+            If jumlahData > 0 Then
+                MsgBox("Poli '" & poli & "' sudah terdaftar di sesi '" & sesi & "' pada hari '" & hari & "'.", MsgBoxStyle.Exclamation, "Gagal Simpan")
+                Exit Sub
+            End If
+
+            WriteSQL("INSERT INTO MasterRuangan " & _
+                  "(NamaRuangan, Tindakan, Sesi, Hari, JamAwal, JamAkhir, Kuota, Praktisi, CreatedBy, CreatedDate) VALUES (" & _
+                  "'" & poli.Replace("'", "''") & "', " & _
+                  "'" & tindakan.Replace("'", "''") & "', " & _
+                  "'" & sesi.Replace("'", "''") & "', " & _
+                  "'" & hari.Replace("'", "''") & "', " & _
+                  "'" & mulai.ToString("HH:mm") & "', " & _
+                  "'" & selesai.ToString("HH:mm") & "', " & _
+                  "'" & kuota.Replace("'", "''") & "', " & _
+                  "'" & praktisi.Replace("'", "''") & "', " & _
+                  "'" & userInput.Replace("'", "''") & "', " & _
+                  "GETDATE())", 4)
+
+            MsgBox("Data berhasil disimpan.", MsgBoxStyle.Information)
+
+            TextBoxTindakan.Clear()
+            TextBoxKuota.Clear()
+            TextBoxPraktisi.Clear()
+            DateTimePickerMulai.Value = DateTime.Now
+            DateTimePickerAkhir.Value = DateTime.Now
+            ComboBoxPoliTujuan.SelectedIndex = -1
+            ComboBoxSesi.SelectedIndex = -1
+            ComboBoxHari.SelectedIndex = -1
+            LoadSesi()
+        Else
+            Dim namaPasien As String = TextBoxPasienReminder.Text
+            Dim NoHp As String = TextBoxNoHpReminder.Text
+            Dim keperluan As String = TextBoxKeperluan.Text
+            Dim tanggal As DateTime = DateTimePickerReminder.Value
+            Dim sekarang As DateTime = DateTime.Now
+            Dim jenisKelamin As String = TextBoxJenisKelamin.Text
+
+            If namaPasien = "" OrElse NoHp = "" Then
+                MsgBox("Nama dan nomor HP wajib diisi.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If keperluan = "" Then
+                MsgBox("Keperluan pengirimnan tidak boleh kosong.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If keperluan.Length > 200 Then
+                MsgBox("Keperluan pengiriman tidak boleh lebih dari 200 karakter.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If tanggal.ToString("yyyy-MM-dd HH:mm") = sekarang.ToString("yyyy-MM-dd HH:mm") Then
+                MsgBox("Waktu reminder tidak boleh sama dengan waktu saat ini.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            namaPasien = namaPasien.Replace("'", "''")
+            NoHp = NoHp.Replace("'", "''")
+            keperluan = keperluan.Replace("'", "''")
+
+            WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
+            "VALUES ('" & namaPasien & "', " & _
+                   "'" & NoHp & "', " & _
+                   "'" & keperluan & "', " & _
+                   "'" & tanggal.ToString("yyyy-MM-dd HH:mm") & "', " & _
+                   "'TERJADWAL', " & _
+                   "'" & userInput & "', " & _
+                   "GETDATE(), " & _
+                   "'" & jenisKelamin & "')", 4)
+
+            MsgBox("Pesan Reminder berhasil disimpan.", MsgBoxStyle.Information)
+
+            ' Reset form
+            TextBoxPasienReminder.Clear()
+            TextBoxNoHpReminder.Clear()
+            TextBoxKeperluan.Clear()
+            DateTimePickerReminder.Value = DateTime.Now
+            LoadReminder()
+        End If
+    End Sub
+
+    Public Sub LoadReservasi(ByVal ruanganId As String)
+        Dim dt As DataTable = ReadSQL("SELECT NamaRuangan, Tindakan, Sesi, Praktisi, Hari FROM MasterRuangan WHERE RuanganID = '" & ruanganId & "'")
+
+        If dt.Rows.Count > 0 Then
+            TextBoxRuangan.Text = dt.Rows(0)("NamaRuangan").ToString()
+            TextBoxTindakanReservasi.Text = dt.Rows(0)("Tindakan").ToString()
+            TextBoxSesiReservasi.Text = dt.Rows(0)("Sesi").ToString()
+            TextBoxPraktisiReservasi.Text = dt.Rows(0)("Praktisi").ToString()
+            TextBoxHariReservasi.Text = dt.Rows(0)("Hari").ToString()
+        Else
+            MsgBox("Data ruangan tidak ditemukan.", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+
+    Private Sub ButtonCari_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCari.Click
+        'Dim stringQuery As String = "SELECT RuanganID, NamaRuangan, Tindakan, Sesi, Hari, JamAwal, JamAkhir, Kuota, Praktisi FROM MasterRuangan"
+        'Dim stringQueryOrder As String = " ORDER BY CASE Hari " & _
+        '                                 "WHEN 'Senin' THEN 1 " & _
+        '                                 "WHEN 'Selasa' THEN 2 " & _
+        '                                 "WHEN 'Rabu' THEN 3 " & _
+        '                                 "WHEN 'Kamis' THEN 4 " & _
+        '                                 "WHEN 'Jumat' THEN 5 " & _
+        '                                 "WHEN 'Sabtu' THEN 6 " & _
+        '                                 "WHEN 'Minggu' THEN 7 " & _
+        '                                 "ELSE 8 END, Sesi ASC"
+
+        'Find.Show()
+        'Find.Query(stringQuery, stringQueryOrder, "FindMasterSesi", 2)
+        Dim queryUpdateExpired As String = "UPDATE JadwalRuangan " & _
+            "SET Status = 'EXPIRED' " & _
+            "WHERE Status = 'TERJADWAL' AND TglMulai < GETDATE()"
+
+        WriteSQL(queryUpdateExpired, 4)
+
+        Dim stringQuery As String = ""
+        Dim stringQueryOrder As String = ""
+
+        stringQuery = "SELECT " & _
+            "MR.RuanganID, " & _
+            "MR.NamaRuangan AS [Poli], " & _
+            "MR.Tindakan, " & _
+            "MR.Sesi, " & _
+            "MR.Hari, " & _
+            "MR.JamAwal AS [Awal Sesi], " & _
+            "MR.JamAkhir AS [Akhir Sesi], " & _
+            "MR.Kuota, " & _
+            "MR.Praktisi, " & _
+            "ISNULL(SUM(CASE " & _
+            "WHEN JR.Status <> 'CANCEL' AND JR.TglMulai >= CAST(GETDATE() AS DATE) THEN 1 " & _
+            "ELSE 0 " & _
+            "END), 0) AS [Jumlah Booking], " & _
+            "MR.Kuota - ISNULL(SUM(CASE " & _
+            "WHEN JR.Status <> 'CANCEL' AND JR.TglMulai >= CAST(GETDATE() AS DATE) THEN 1 " & _
+            "ELSE 0 " & _
+            "END), 0) AS [Sisa Kuota] " & _
+            "FROM MasterRuangan MR " & _
+            "LEFT JOIN JadwalRuangan JR ON " & _
+            "JR.NamaRuangan = MR.NamaRuangan " & _
+            "AND JR.Sesi = MR.Sesi " & _
+            "AND (CASE DATENAME(WEEKDAY, JR.TglMulai) " & _
+            "WHEN 'Monday' THEN 'Senin' " & _
+            "WHEN 'Tuesday' THEN 'Selasa' " & _
+            "WHEN 'Wednesday' THEN 'Rabu' " & _
+            "WHEN 'Thursday' THEN 'Kamis' " & _
+            "WHEN 'Friday' THEN 'Jumat' " & _
+            "WHEN 'Saturday' THEN 'Sabtu' " & _
+            "WHEN 'Sunday' THEN 'Minggu' " & _
+            "END) = MR.Hari " & _
+            "GROUP BY MR.RuanganID, MR.NamaRuangan, MR.Tindakan, MR.Sesi, MR.Hari, MR.JamAwal, MR.JamAkhir, MR.Kuota, MR.Praktisi"
+
+        ' Bagian order dipisahkan:
+        stringQueryOrder = " ORDER BY CASE MR.Hari " & _
+            "WHEN 'Senin' THEN 1 " & _
+            "WHEN 'Selasa' THEN 2 " & _
+            "WHEN 'Rabu' THEN 3 " & _
+            "WHEN 'Kamis' THEN 4 " & _
+            "WHEN 'Jumat' THEN 5 " & _
+            "WHEN 'Sabtu' THEN 6 " & _
+            "WHEN 'Minggu' THEN 7 ELSE 8 END, MR.Sesi ASC"
+
+        Find.Show()
+        Find.Query(stringQuery, stringQueryOrder, "FindMasterSesi", 2)
+    End Sub
+
+    Public Sub LoadPasien(ByVal Trow As DataRowView)
+        TextBoxNamaPasien.Text = Trow("Nama").ToString
+        TextBoxNoHP.Text = Trow("No. HP").ToString
+        TextBoxPasienReminder.Text = Trow("Nama").ToString
+        TextBoxNoHpReminder.Text = Trow("No. HP").ToString
+        TextBoxJenisKelamin.Text = Trow("Jenis Kelamin").ToString
+    End Sub
+
+    Private Sub ButtonFindPasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFindPasien.Click
+        FindPasien.SetForm("FormReservasi")
+        FindPasien.ShowDialog()
+    End Sub
+
+    Private Sub CariPasienReminder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CariPasienReminder.Click
+        FindPasien.SetForm("FormReminder")
+        FindPasien.ShowDialog()
+    End Sub
+
+    Private Sub ButtonCariPraktisi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariPraktisi.Click
+        Find.Show()
+        Find.Query("SELECT ID, Nama, Jenis, CASE WHEN StatusAktif = 1 then 'Aktif' else 'Tidak Aktif' end as StatusAktif FROM MasterDokter", " ORDER BY Nama ASC", "FindMasterDokterReservasi", 1)
+    End Sub
+
+    Private Sub ButtonCariTindakan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariTindakan.Click
+        Dim stringQuery As String = ""
+        Dim stringQueryOrder As String = " ORDER BY TindakanID"
+
+        stringQuery = "SELECT TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, JenisDokter AS 'Pelaksana', CASE WHEN Closed = 0 THEN 'Aktif' WHEN Closed = 1 THEN 'Tidak Aktif' END AS StatusTindakan from MasterTindakan"
+
+        Find.Show()
+        Find.Query(stringQuery, stringQueryOrder, "FindMasterTindakanKlinikReservasi", 2)
+    End Sub
+
+    Public Sub LoadTindakanPoli(ByRef TindakanID As String)
+        Dim sql As String = "SELECT NamaTindakan FROM MasterTindakan WHERE TindakanID = '" & TindakanID & "'"
+        Dim tblTindakan As DataTable = ReadSQL(sql)
+
+        If tblTindakan.Rows.Count > 0 Then
+            Dim rowTindakan As DataRow = tblTindakan.Rows(0)
+            TextBoxTindakan.Text = rowTindakan("NamaTindakan").ToString
+        Else
+            TextBoxTindakan.Text = ""
+            MessageBox.Show("Tindakan tidak ditemukan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Public Sub LoadDokter(ByVal DokterID As String)
+        Dim sql As String = "SELECT Nama FROM MasterDokter WHERE ID = '" & DokterID & "'"
+        Dim tblDokter As DataTable = ReadSQL(sql)
+
+        If tblDokter.Rows.Count > 0 Then
+            Dim row As DataRow = tblDokter.Rows(0)
+            TextBoxPraktisi.Text = row("Nama").ToString()
+        Else
+            TextBoxPraktisi.Text = ""
+            MessageBox.Show("Dokter tidak ditemukan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+End Class

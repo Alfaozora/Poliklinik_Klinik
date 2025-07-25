@@ -1,0 +1,2223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AE867D2E-589F-4781-A145-E6C65DE5B326}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>PoliKlinik_Net2.My.MyApplication</StartupObject>
+    <RootNamespace>PoliKlinik_Net2</RootNamespace>
+    <AssemblyName>PoliKlinik2.0</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Text</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationIcon>favicon_mmc_circle.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>CCB4026F3A22C3C71CE3EE8E0BDCC14B519F1209</ManifestCertificateThumbprint>
+    <ManifestKeyFile>PoliKlinik%40Net_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>true</SignManifests>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>PoliKlinik2.0.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>PoliKlinik2.0.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle, Version=9.1.92.0, Culture=neutral, PublicKeyToken=918865e4538669a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\IT-PST02\Downloads\DLL\BouncyCastle.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data3, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DevExpress.Data3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils3, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DevExpress.Utils3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars3, Version=3.7.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars3.Design, Version=3.7.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors3, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DevExpress.XtraEditors3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors3.Design, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DevExpress.XtraEditors3.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid3, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <HintPath>..\..\Personalia@Net\Personalia@Net\bin\Debug\DevExpress.XtraGrid3.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid3.Design, Version=3.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DevExpress.XtraGrid3.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar3, Version=2.7.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar3.Design, Version=2.7.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid3, Version=1.2.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting3, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Personalia@Net\Personalia@Net\bin\Debug\DevExpress.XtraPrinting3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting3.Design, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Personalia@Net\Personalia@Net\bin\Debug\DevExpress.XtraPrinting3.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports3, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Personalia@Net\Personalia@Net\bin\Debug\DevExpress.XtraReports3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports3.Design, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Personalia@Net\Personalia@Net\bin\Debug\DevExpress.XtraReports3.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports3.Import, Version=1.12.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler3, Version=1.1.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeList3, Version=1.11.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid3, Version=1.6.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL" />
+    <Reference Include="KASLibrary, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>bin\Debug\KASLibrary.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="messagingtoolkit.barcode, Version=1.5.0.0, Culture=neutral, PublicKeyToken=4d44dd7196d3c1ac, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Refference\messagingtoolkit.barcode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="MySql.Data, Version=6.1.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Deployment">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Speech">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="DevExpress.XtraEditors" />
+    <Import Include="DevExpress.XtraEditors.Controls" />
+    <Import Include="DevExpress.XtraEditors.Design" />
+    <Import Include="DevExpress.XtraEditors.Mask" />
+    <Import Include="DevExpress.XtraEditors.NavigatorButtons" />
+    <Import Include="DevExpress.XtraEditors.Repository" />
+    <Import Include="DevExpress.XtraPrinting.Control" />
+    <Import Include="DevExpress.XtraPrinting.Design" />
+    <Import Include="DevExpress.XtraPrinting.Drawing" />
+    <Import Include="DevExpress.XtraPrinting.Export" />
+    <Import Include="DevExpress.XtraPrinting.Export.Imaging" />
+    <Import Include="DevExpress.XtraPrinting.Export.Pdf" />
+    <Import Include="DevExpress.XtraPrinting.Export.Pdf.Compression" />
+    <Import Include="DevExpress.XtraPrinting.Export.Rtf" />
+    <Import Include="DevExpress.XtraPrinting.Export.Text" />
+    <Import Include="DevExpress.XtraPrinting.Export.Web" />
+    <Import Include="DevExpress.XtraPrinting.Export.XLS" />
+    <Import Include="DevExpress.XtraPrinting.Localization" />
+    <Import Include="DevExpress.XtraPrinting.Native" />
+    <Import Include="DevExpress.XtraPrinting.Native.WinControls" />
+    <Import Include="DevExpress.XtraPrinting.Preview" />
+    <Import Include="DevExpress.XtraPrintingLinks" />
+    <Import Include="DevExpress.XtraPrintingLinks.Design" />
+    <Import Include="DevExpress.XtraReports" />
+    <Import Include="DevExpress.XtraReports.Design" />
+    <Import Include="DevExpress.XtraReports.Design.Commands" />
+    <Import Include="DevExpress.XtraReports.Design.Ruler" />
+    <Import Include="DevExpress.XtraReports.Import" />
+    <Import Include="DevExpress.XtraReports.Localization" />
+    <Import Include="DevExpress.XtraReports.Native" />
+    <Import Include="DevExpress.XtraReports.Native.Printing" />
+    <Import Include="DevExpress.XtraReports.Serialization" />
+    <Import Include="DevExpress.XtraReports.UI" />
+    <Import Include="DevExpress.XtraReports.UI.BarCode" />
+    <Import Include="DevExpress.XtraReports.UserDesigner" />
+    <Import Include="DevExpress.XtraReports.UserDesigner.Native" />
+    <Import Include="DevExpress.XtraReports.Web" />
+    <Import Include="DevExpress.XtraReports.Web.Design" />
+    <Import Include="DevExpress.XtraReports.Web.Native" />
+    <Import Include="KASLibrary" />
+    <Import Include="Microsoft.Office" />
+    <Import Include="Microsoft.Office.Core" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="MySql" />
+    <Import Include="MySql.Data" />
+    <Import Include="MySql.Data.MySqlClient" />
+    <Import Include="MySql.Data.Types" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Data.Sql" />
+    <Import Include="System.Data.SqlClient" />
+    <Import Include="System.Data.SqlTypes" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Class\BPJS v4\v4_AuthResource.vb" />
+    <Compile Include="Class\BPJS v4\v4_BPJS_Kunjungan.vb" />
+    <Compile Include="Class\BPJS v4\v4_BPJS_Peserta.vb" />
+    <Compile Include="Class\Rekam Medis\InformedConsent.vb" />
+    <Compile Include="Class\v4_BPJS_Antrol.vb" />
+    <Compile Include="Class\v4_BPJS.vb" />
+    <Compile Include="Class\v4_BPJS_Antrol_Get_Peserta.vb" />
+    <Compile Include="Class\v4_BPJS_Get_Dokter.vb" />
+    <Compile Include="Find\FindAlergi.Designer.vb">
+      <DependentUpon>FindAlergi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindAlergi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Find\FindDiagnosa.Designer.vb">
+      <DependentUpon>FindDiagnosa.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindDiagnosa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BPJS\Implementasi.Designer.vb">
+      <DependentUpon>Implementasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BPJS\Implementasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Class\ClassJSON.vb" />
+    <Compile Include="Class\DataGajiHRD.vb" />
+    <Compile Include="Class\Kunjungan.vb" />
+    <Compile Include="Class\Mahasiswa.vb" />
+    <Compile Include="Class\Rujukan.vb" />
+    <Compile Include="Class\MetaData.vb" />
+    <Compile Include="Class\Pendaftaran.vb" />
+    <Compile Include="Class\Poli.vb" />
+    <Compile Include="Class\Provider.vb" />
+    <Compile Include="Class\Testing.vb">
+    </Compile>
+    <Compile Include="Find\FindFaskesRujukan.Designer.vb">
+      <DependentUpon>FindFaskesRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindFaskesRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Find\FindObat.Designer.vb">
+      <DependentUpon>FindObat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindObat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Find\FindPasien.Designer.vb">
+      <DependentUpon>FindPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Find\FindTransaksi.Designer.vb">
+      <DependentUpon>FindTransaksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find\FindTransaksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form1gpt.Designer.vb">
+      <DependentUpon>Form1gpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form1gpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form2.Designer.vb">
+      <DependentUpon>Form2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form3.Designer.vb">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form4.Designer.vb">
+      <DependentUpon>Form4.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\Form5.Designer.vb">
+      <DependentUpon>Form5.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\Form5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\FormTerstingGit.Designer.vb">
+      <DependentUpon>FormTerstingGit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormTerstingGit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\NumericUpDownWithThousands.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\UserControl1.Designer.vb">
+      <DependentUpon>UserControl1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Master\Poli\MasterTindakanKlinik.Designer.vb">
+      <DependentUpon>MasterTindakanKlinik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Poli\MasterTindakanKlinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\SettingIcare.Designer.vb">
+      <DependentUpon>SettingIcare.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SettingIcare.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyModule\ConnectionMySQL.vb" />
+    <Compile Include="MyModule\ModuleRSA.vb" />
+    <Compile Include="PoliKlinik.Designer.vb">
+      <DependentUpon>PoliKlinik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PoliKlinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\FormMasterMarketing.Designer.vb">
+      <DependentUpon>FormMasterMarketing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\FormMasterMarketing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportCapaianKBK.Designer.vb">
+      <DependentUpon>ReportCapaianKBK.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportCapaianKBK.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportDiagnosa.Designer.vb">
+      <DependentUpon>ReportDiagnosa.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportDiagnosa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportDaftarKunjunganPesien.Designer.vb">
+      <DependentUpon>ReportDaftarKunjunganPesien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportDaftarKunjunganPesien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\Report10DiagnosaTerbanyak.Designer.vb">
+      <DependentUpon>Report10DiagnosaTerbanyak.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\Report10DiagnosaTerbanyak.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportLogPaketTindakan.Designer.vb">
+      <DependentUpon>ReportLogPaketTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportLogPaketTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportPendapatanKlinik.Designer.vb">
+      <DependentUpon>ReportPendapatanKlinik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Laporan\ReportPendapatanKlinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Rekap\RekapFeeKaryawan.Designer.vb">
+      <DependentUpon>RekapFeeKaryawan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Rekap\RekapFeeKaryawan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\Dashboard.Designer.vb">
+      <DependentUpon>Dashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\Dashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxKonfirmasiPendaftaran.Designer.vb">
+      <DependentUpon>DialogBoxKonfirmasiPendaftaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxKonfirmasiPendaftaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxPaketTindakan.Designer.vb">
+      <DependentUpon>DialogBoxPaketTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxPaketTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxRiwayatPerawatanICare.Designer.vb">
+      <DependentUpon>DialogBoxRiwayatPerawatanICare.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxRiwayatPerawatanICare.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxTambahAlergi.Designer.vb">
+      <DependentUpon>DialogBoxTambahAlergi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxTambahAlergi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxTambahTindakan.Designer.vb">
+      <DependentUpon>DialogBoxTambahTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxTambahTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\ExportReportLaboratorium.Designer.vb">
+      <DependentUpon>ExportReportLaboratorium.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\ExportReportLaboratorium.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FindRujukanTACC.Designer.vb">
+      <DependentUpon>FindRujukanTACC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FindRujukanTACC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormBandingGambar.Designer.vb">
+      <DependentUpon>FormBandingGambar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormBandingGambar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormInputInformedConsent.Designer.vb">
+      <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormInputInformedConsent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormMasterDokter.Designer.vb">
+      <DependentUpon>FormMasterDokter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormMasterDokter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormMasterPasien.Designer.vb">
+      <DependentUpon>FormMasterPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormMasterPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormPembayaran.Designer.vb">
+      <DependentUpon>FormPembayaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormPembayaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormPendaftaranAwal.Designer.vb">
+      <DependentUpon>FormPendaftaranAwal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormPendaftaranAwal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormInputKondisiAwalGigi.Designer.vb">
+      <DependentUpon>FormInputKondisiAwalGigi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormInputKondisiAwalGigi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormKirimLinkWhatsapp.Designer.vb">
+      <DependentUpon>FormKirimLinkWhatsapp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormKirimLinkWhatsapp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\FormSendingJurnalPendapatan.Designer.vb">
+      <DependentUpon>FormSendingJurnalPendapatan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormSendingJurnalPendapatan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\FormTrial.Designer.vb">
+      <DependentUpon>FormTrial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormTrial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\FormRekapFeeKaryawan.Designer.vb">
+      <DependentUpon>FormRekapFeeKaryawan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\FormRekapFeeKaryawan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\Poli\FormMasterTindakanKlinik.Designer.vb">
+      <DependentUpon>FormMasterTindakanKlinik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Poli\FormMasterTindakanKlinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Trial\FormTesting2.Designer.vb">
+      <DependentUpon>FormTesting2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormTesting2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Upload\FormUploadGaji.Designer.vb">
+      <DependentUpon>FormUploadGaji.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Upload\FormUploadGaji.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTunai.Designer.vb">
+      <DependentUpon>FormVerifikasiOmsetTunai.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTunai.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetKapitasi.Designer.vb">
+      <DependentUpon>FormVerifikasiOmsetKapitasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetKapitasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\SendGL\FormSendGajiHRD.Designer.vb">
+      <DependentUpon>FormSendGajiHRD.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\SendGL\FormSendGajiHRD.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\SendKeu\FormSendPinjamanKaryawan.Designer.vb">
+      <DependentUpon>FormSendPinjamanKaryawan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\SendKeu\FormSendPinjamanKaryawan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\SendKeu\FormSendTagihanApotek.Designer.vb">
+      <DependentUpon>FormSendTagihanApotek.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\SendKeu\FormSendTagihanApotek.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportClosingBankTagihan.Designer.vb">
+      <DependentUpon>ReportClosingBankTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportClosingBankTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportPendapatanTagihan.Designer.vb">
+      <DependentUpon>ReportPendapatanTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportPendapatanTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\SendGL\FormSendPengajuanDanKasKecil.Designer.vb">
+      <DependentUpon>FormSendPengajuanDanKasKecil.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\SendGL\FormSendPengajuanDanKasKecil.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\FormCetakBarcode.Designer.vb">
+      <DependentUpon>FormCetakBarcode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\FormCetakBarcode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MCU\MonitoringMCU.Designer.vb">
+      <DependentUpon>MonitoringMCU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MCU\MonitoringMCU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\LogTransaksiCancel.Designer.vb">
+      <DependentUpon>LogTransaksiCancel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\LogTransaksiCancel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\LogWhatsappEmail.Designer.vb">
+      <DependentUpon>LogWhatsappEmail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\LogWhatsappEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcessOnline.Designer.vb">
+      <DependentUpon>MonitorProcessOnline.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcessOnline.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcessPrint.Designer.vb">
+      <DependentUpon>MonitorProcessPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcessPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Refund\FormAccRefund.Designer.vb">
+      <DependentUpon>FormAccRefund.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Refund\FormAccRefund.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Refund\FormCetakUlangRefund.Designer.vb">
+      <DependentUpon>FormCetakUlangRefund.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Refund\FormCetakUlangRefund.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Refund\FormCreateRefund.Designer.vb">
+      <DependentUpon>FormCreateRefund.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Refund\FormCreateRefund.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Report\ReportJumlahTindakan.Designer.vb">
+      <DependentUpon>ReportJumlahTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Report\ReportJumlahTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormCetakUlangRujukan.Designer.vb">
+      <DependentUpon>FormCetakUlangRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormCetakUlangRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormCreateRujukan.Designer.vb">
+      <DependentUpon>FormCreateRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormCreateRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\FormDownloadHasilAdminLabOnline.Designer.vb">
+      <DependentUpon>FormDownloadHasilAdminLabOnline.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\FormDownloadHasilAdminLabOnline.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Tagihan\FindNoInvoice.Designer.vb">
+      <DependentUpon>FindNoInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Tagihan\FindNoInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Tagihan\FormInvoiceLab.Designer.vb">
+      <DependentUpon>FormInvoiceLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Tagihan\FormInvoiceLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Rujukan\MasterHargaRujukan.Designer.vb">
+      <DependentUpon>MasterHargaRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Rujukan\MasterHargaRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Tagihan\RekapTagihanLab.Designer.vb">
+      <DependentUpon>RekapTagihanLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Tagihan\RekapTagihanLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Tagihan\ReportTagihanLab.Designer.vb">
+      <DependentUpon>ReportTagihanLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Tagihan\ReportTagihanLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Rujukan\MasterLaboratoriumRujukan.designer.vb">
+      <DependentUpon>MasterLaboratoriumRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Rujukan\MasterLaboratoriumRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MCU\UploadTindakanLaboratorium.Designer.vb">
+      <DependentUpon>UploadTindakanLaboratorium.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MCU\UploadTindakanLaboratorium.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MCU\UploadTindakanThorax.Designer.vb">
+      <DependentUpon>UploadTindakanThorax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MCU\UploadTindakanThorax.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MCU\DaftarPeserta.Designer.vb">
+      <DependentUpon>DaftarPeserta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MCU\DaftarPeserta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormAutoSendingWhatsapp.Designer.vb">
+      <DependentUpon>FormAutoSendingWhatsapp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Trial\FormAutoSendingWhatsapp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\PatchUpdate.Designer.vb">
+      <DependentUpon>PatchUpdate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\PatchUpdate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\FormAwalPembayaranTagihan.Designer.vb">
+      <DependentUpon>FormAwalPembayaranTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\FormAwalPembayaranTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\AccPenerimaan.Designer.vb">
+      <DependentUpon>AccPenerimaan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\AccPenerimaan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\FormDetailTagihan.Designer.vb">
+      <DependentUpon>FormDetailTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\FormDetailTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxPanggilPasien.Designer.vb">
+      <DependentUpon>DialogBoxPanggilPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\DialogBoxPanggilPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormRekamMedisDokter.Designer.vb">
+      <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormRekamMedisDokter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormValidasiFaskesPasien.Designer.vb">
+      <DependentUpon>FormValidasiFaskesPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormValidasiFaskesPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormRiwayatKunjungan.Designer.vb">
+      <DependentUpon>FormRiwayatKunjungan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormRiwayatKunjungan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\KYC.Designer.vb">
+      <DependentUpon>KYC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\KYC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\UploadTindakan.Designer.vb">
+      <DependentUpon>UploadTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\UploadTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportFeeDokterPengirim.Designer.vb">
+      <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportFeeDokterPengirim.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reservasi\Dialog1.Designer.vb">
+      <DependentUpon>Dialog1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reservasi\Dialog1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reservasi\FormReservasi.Designer.vb">
+      <DependentUpon>FormReservasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reservasi\FormReservasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.Designer.vb">
+      <DependentUpon>FormSynchronizationSatuSehat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Satu Sehat\Resource\AuthResource.vb" />
+    <Compile Include="Satu Sehat\FormResourceSatuSehat.Designer.vb">
+      <DependentUpon>FormResourceSatuSehat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Satu Sehat\FormResourceSatuSehat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Satu Sehat\Resource\ConditionResource.vb" />
+    <Compile Include="Satu Sehat\Resource\PatientResource.vb" />
+    <Compile Include="Satu Sehat\Resource\ResponseResource.vb" />
+    <Compile Include="Upload\FormUploadJurnal.Designer.vb">
+      <DependentUpon>FormUploadJurnal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Upload\FormUploadJurnal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\CheckPlafon.Designer.vb">
+      <DependentUpon>CheckPlafon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\CheckPlafon.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\CreateTagihan.Designer.vb">
+      <DependentUpon>CreateTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\CreateTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\RekapPasien.Designer.vb">
+      <DependentUpon>RekapPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Recycle\RekapPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\ImportMCU.Designer.vb">
+      <DependentUpon>ImportMCU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\ImportMCU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\LabAdminOnline.Designer.vb">
+      <DependentUpon>LabAdminOnline.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\LabAdminOnline.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\RekapHasilLab.Designer.vb">
+      <DependentUpon>RekapHasilLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\RekapHasilLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\ToolsTransaksiLab.Designer.vb">
+      <DependentUpon>ToolsTransaksiLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\ToolsTransaksiLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\MasterJenisTindakan.Designer.vb">
+      <DependentUpon>MasterJenisTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\MasterJenisTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\MasterUrutan.Designer.vb">
+      <DependentUpon>MasterUrutan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\MasterUrutan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\UserONLINE.Designer.vb">
+      <DependentUpon>UserONLINE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\UserONLINE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\OptionDialog.Designer.vb">
+      <DependentUpon>OptionDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\OptionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTagihan.Designer.vb">
+      <DependentUpon>FormVerifikasiOmsetTagihan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTagihan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\SelectBank.Designer.vb">
+      <DependentUpon>SelectBank.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\SelectBank.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\SelectDateTime.Designer.vb">
+      <DependentUpon>SelectDateTime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\SelectDateTime.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Kapitasi\FormMasterKapitasi.Designer.vb">
+      <DependentUpon>FormMasterKapitasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Kapitasi\FormMasterKapitasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Kapitasi\FormSendKapitasiBPJS.Designer.vb">
+      <DependentUpon>FormSendKapitasiBPJS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Kapitasi\FormSendKapitasiBPJS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\FormInvoicePoli.Designer.vb">
+      <DependentUpon>FormInvoicePoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\FormInvoicePoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\RekapPendapatanPoli.Designer.vb">
+      <DependentUpon>RekapPendapatanPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\RekapPendapatanPoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.Designer.vb">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\RujukLab.Designer.vb">
+      <DependentUpon>RujukLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\RujukLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\UploadPasienMCU.Designer.vb">
+      <DependentUpon>UploadPasienMCU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\UploadPasienMCU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormTransaksiPoli.Designer.vb">
+      <DependentUpon>FormTransaksiPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormTransaksiPoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormReportRujukan.designer.vb">
+      <DependentUpon>FormReportRujukan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\Rujukan\FormReportRujukan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Report Monthly.Designer.vb">
+      <DependentUpon>Report Monthly.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Report Monthly.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportJPKAKtif.Designer.vb">
+      <DependentUpon>ReportJPKAKtif.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportJPKAKtif.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportJPKKlaim.Designer.vb">
+      <DependentUpon>ReportJPKKlaim.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportJPKKlaim.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportKunjunganDokterPoli.Designer.vb">
+      <DependentUpon>ReportKunjunganDokterPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportKunjunganDokterPoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportLabDokterPengirim.Designer.vb">
+      <DependentUpon>ReportLabDokterPengirim.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportLabDokterPengirim.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportLabFisik.Designer.vb">
+      <DependentUpon>ReportLabFisik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportLabFisik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportPendapatanTunai.Designer.vb">
+      <DependentUpon>ReportPendapatanTunai.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Keuangan\Report\ReportPendapatanTunai.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSumaaryDinkes.Designer.vb">
+      <DependentUpon>ReportSumaaryDinkes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSumaaryDinkes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSummaryheaderMCU.Designer.vb">
+      <DependentUpon>ReportSummaryheaderMCU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSummaryheaderMCU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSummaryMCU.Designer.vb">
+      <DependentUpon>ReportSummaryMCU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSummaryMCU.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSummaryMCUOnline.Designer.vb">
+      <DependentUpon>ReportSummaryMCUOnline.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSummaryMCUOnline.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="Setting\FormSettingBPJS.Designer.vb">
+      <DependentUpon>FormSettingBPJS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\FormSettingBPJS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyModule\ShapeDrawingFunctions.vb" />
+    <Compile Include="Survey.Designer.vb">
+      <DependentUpon>Survey.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Survey.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormPembatalanTransaksi.Designer.vb">
+      <DependentUpon>FormPembatalanTransaksi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormPembatalanTransaksi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\ChangePassword.Designer.vb">
+      <DependentUpon>ChangePassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\ChangePassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\DownloadHasil.Designer.vb">
+      <DependentUpon>DownloadHasil.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\DownloadHasil.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MasterGroupTestLab.Designer.vb">
+      <DependentUpon>MasterGroupTestLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MasterGroupTestLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MasterTestLab.Designer.vb">
+      <DependentUpon>MasterTestLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MasterTestLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MasterTestLabDetail.Designer.vb">
+      <DependentUpon>MasterTestLabDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MasterTestLabDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\ResultMachine.Designer.vb">
+      <DependentUpon>ResultMachine.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\ResultMachine.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\TransaksiLab.Designer.vb">
+      <DependentUpon>TransaksiLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\TransaksiLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.vb">
+      <DependentUpon>Login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Login.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\CetakKartu.Designer.vb">
+      <DependentUpon>CetakKartu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\CetakKartu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\DokterPengirimLab.Designer.vb">
+      <DependentUpon>DokterPengirimLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\DokterPengirimLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\DownloadKPA.Designer.vb">
+      <DependentUpon>DownloadKPA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\DownloadKPA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\FormMenu.Designer.vb">
+      <DependentUpon>FormMenu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FormMenu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\MasterCompany.Designer.vb">
+      <DependentUpon>MasterCompany.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\MasterCompany.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\MasterPaket.Designer.vb">
+      <DependentUpon>MasterPaket.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\MasterPaket.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\SetPeriode.Designer.vb">
+      <DependentUpon>SetPeriode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SetPeriode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcess.Designer.vb">
+      <DependentUpon>MonitorProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\MonitorProses\MonitorProcess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Msconfig.Designer.vb">
+      <DependentUpon>Msconfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Msconfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\HistoryPasienvb.Designer.vb">
+      <DependentUpon>HistoryPasienvb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\HistoryPasienvb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\FormUploadDataOmset.Designer.vb">
+      <DependentUpon>FormUploadDataOmset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\FormUploadDataOmset.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\RepairDetailTindakan.Designer.vb">
+      <DependentUpon>RepairDetailTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\RepairDetailTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\FormCetakInvoice.Designer.vb">
+      <DependentUpon>FormCetakInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FormCetakInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Report Pendapatan Klinik.Designer.vb">
+      <DependentUpon>Report Pendapatan Klinik.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Report Pendapatan Klinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportDokter.Designer.vb">
+      <DependentUpon>ReportDokter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportDokter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportKunjungan.Designer.vb">
+      <DependentUpon>ReportKunjungan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportKunjungan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportLabPendapatanHarianDetail.Designer.vb">
+      <DependentUpon>ReportLabPendapatanHarianDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportLabPendapatanHarianDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportLapPenerimaanPerClass.Designer.vb">
+      <DependentUpon>ReportLapPenerimaanPerClass.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportLapPenerimaanPerClass.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportMasterHarga.Designer.vb">
+      <DependentUpon>ReportMasterHarga.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportMasterHarga.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportMasterPasien.Designer.vb">
+      <DependentUpon>ReportMasterPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportMasterPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportPenerimaan.Designer.vb">
+      <DependentUpon>ReportPenerimaan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportPenerimaan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSummaryJenisPenyakit.Designer.vb">
+      <DependentUpon>ReportSummaryJenisPenyakit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSummaryJenisPenyakit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SummaryHarian.Designer.vb">
+      <DependentUpon>SummaryHarian.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SummaryHarian.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tindakan\FormKirimLaporanOmset.Designer.vb">
+      <DependentUpon>FormKirimLaporanOmset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tindakan\FormKirimLaporanOmset.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataConnect.vb" />
+    <Compile Include="Utility\Find.Designer.vb">
+      <DependentUpon>Find.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\Find.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\FindMultiple.Designer.vb">
+      <DependentUpon>FindMultiple.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\FindMultiple.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Tindakan\LabAdmin.Designer.vb">
+      <DependentUpon>LabAdmin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tindakan\LabAdmin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tindakan\PendaftaranAwal.Designer.vb">
+      <DependentUpon>PendaftaranAwal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tindakan\PendaftaranAwal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\SettingGroup.Designer.vb">
+      <DependentUpon>SettingGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SettingGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\SettingUser.Designer.vb">
+      <DependentUpon>SettingUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SettingUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\SendUlangToMesin.Designer.vb">
+      <DependentUpon>SendUlangToMesin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\SendUlangToMesin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\SettingAwal.Designer.vb">
+      <DependentUpon>SettingAwal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\SettingAwal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Find\FindAlergi.resx">
+      <DependentUpon>FindAlergi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find\FindDiagnosa.resx">
+      <DependentUpon>FindDiagnosa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BPJS\Implementasi.resx">
+      <DependentUpon>Implementasi.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find\FindFaskesRujukan.resx">
+      <DependentUpon>FindFaskesRujukan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find\FindObat.resx">
+      <DependentUpon>FindObat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find\FindPasien.resx">
+      <DependentUpon>FindPasien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find\FindTransaksi.resx">
+      <DependentUpon>FindTransaksi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form1gpt.resx">
+      <DependentUpon>Form1gpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form2.resx">
+      <DependentUpon>Form2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form3.resx">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form4.resx">
+      <DependentUpon>Form4.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\Form5.resx">
+      <DependentUpon>Form5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\FormTerstingGit.resx">
+      <DependentUpon>FormTerstingGit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\UserControl1.resx">
+      <DependentUpon>UserControl1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Master\Poli\MasterTindakanKlinik.resx">
+      <DependentUpon>MasterTindakanKlinik.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\SettingIcare.resx">
+      <DependentUpon>SettingIcare.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PoliKlinik.resx">
+      <DependentUpon>PoliKlinik.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\FormMasterMarketing.resx">
+      <DependentUpon>FormMasterMarketing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\ReportCapaianKBK.resx">
+      <DependentUpon>ReportCapaianKBK.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\ReportDiagnosa.resx">
+      <DependentUpon>ReportDiagnosa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\ReportDaftarKunjunganPesien.resx">
+      <DependentUpon>ReportDaftarKunjunganPesien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\Report10DiagnosaTerbanyak.resx">
+      <DependentUpon>Report10DiagnosaTerbanyak.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\ReportLogPaketTindakan.resx">
+      <DependentUpon>ReportLogPaketTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Laporan\ReportPendapatanKlinik.resx">
+      <DependentUpon>ReportPendapatanKlinik.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Rekap\RekapFeeKaryawan.resx">
+      <DependentUpon>RekapFeeKaryawan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\Dashboard.resx">
+      <DependentUpon>Dashboard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxKonfirmasiPendaftaran.resx">
+      <DependentUpon>DialogBoxKonfirmasiPendaftaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxPaketTindakan.resx">
+      <DependentUpon>DialogBoxPaketTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxRiwayatPerawatanICare.resx">
+      <DependentUpon>DialogBoxRiwayatPerawatanICare.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxTambahAlergi.resx">
+      <DependentUpon>DialogBoxTambahAlergi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxTambahTindakan.resx">
+      <DependentUpon>DialogBoxTambahTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\ExportReportLaboratorium.resx">
+      <DependentUpon>ExportReportLaboratorium.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FindRujukanTACC.resx">
+      <DependentUpon>FindRujukanTACC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormBandingGambar.resx">
+      <DependentUpon>FormBandingGambar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
+      <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormMasterDokter.resx">
+      <DependentUpon>FormMasterDokter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormMasterPasien.resx">
+      <DependentUpon>FormMasterPasien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormPembayaran.resx">
+      <DependentUpon>FormPembayaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormPendaftaranAwal.resx">
+      <DependentUpon>FormPendaftaranAwal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormInputKondisiAwalGigi.resx">
+      <DependentUpon>FormInputKondisiAwalGigi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormKirimLinkWhatsapp.resx">
+      <DependentUpon>FormKirimLinkWhatsapp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\FormSendingJurnalPendapatan.resx">
+      <DependentUpon>FormSendingJurnalPendapatan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\FormTrial.resx">
+      <DependentUpon>FormTrial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\FormRekapFeeKaryawan.resx">
+      <DependentUpon>FormRekapFeeKaryawan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\Poli\FormMasterTindakanKlinik.resx">
+      <DependentUpon>FormMasterTindakanKlinik.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\FormTesting2.resx">
+      <DependentUpon>FormTesting2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Upload\FormUploadGaji.resx">
+      <DependentUpon>FormUploadGaji.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTunai.resx">
+      <DependentUpon>FormVerifikasiOmsetTunai.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetKapitasi.resx">
+      <DependentUpon>FormVerifikasiOmsetKapitasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\SendGL\FormSendGajiHRD.resx">
+      <DependentUpon>FormSendGajiHRD.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\SendKeu\FormSendPinjamanKaryawan.resx">
+      <DependentUpon>FormSendPinjamanKaryawan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\SendKeu\FormSendTagihanApotek.resx">
+      <DependentUpon>FormSendTagihanApotek.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Report\ReportClosingBankTagihan.resx">
+      <DependentUpon>ReportClosingBankTagihan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Report\ReportPendapatanTagihan.resx">
+      <DependentUpon>ReportPendapatanTagihan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Report\ReportPendapatanTunai.resx">
+      <DependentUpon>ReportPendapatanTunai.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\SendGL\FormSendPengajuanDanKasKecil.resx">
+      <DependentUpon>FormSendPengajuanDanKasKecil.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\FormCetakBarcode.resx">
+      <DependentUpon>FormCetakBarcode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MCU\MonitoringMCU.resx">
+      <DependentUpon>MonitoringMCU.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MonitorProses\LogTransaksiCancel.resx">
+      <DependentUpon>LogTransaksiCancel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MonitorProses\LogWhatsappEmail.resx">
+      <DependentUpon>LogWhatsappEmail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MonitorProses\MonitorProcessOnline.resx">
+      <DependentUpon>MonitorProcessOnline.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MonitorProses\MonitorProcessPrint.resx">
+      <DependentUpon>MonitorProcessPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Refund\FormAccRefund.resx">
+      <DependentUpon>FormAccRefund.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Refund\FormCetakUlangRefund.resx">
+      <DependentUpon>FormCetakUlangRefund.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Refund\FormCreateRefund.resx">
+      <DependentUpon>FormCreateRefund.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Report\ReportJumlahTindakan.resx">
+      <DependentUpon>ReportJumlahTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Rujukan\FormCetakUlangRujukan.resx">
+      <DependentUpon>FormCetakUlangRujukan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Rujukan\FormCreateRujukan.resx">
+      <DependentUpon>FormCreateRujukan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\FormDownloadHasilAdminLabOnline.resx">
+      <DependentUpon>FormDownloadHasilAdminLabOnline.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Tagihan\FindNoInvoice.resx">
+      <DependentUpon>FindNoInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Tagihan\FormInvoiceLab.resx">
+      <DependentUpon>FormInvoiceLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Rujukan\MasterHargaRujukan.resx">
+      <DependentUpon>MasterHargaRujukan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Tagihan\RekapTagihanLab.resx">
+      <DependentUpon>RekapTagihanLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Tagihan\ReportTagihanLab.resx">
+      <DependentUpon>ReportTagihanLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Rujukan\MasterLaboratoriumRujukan.resx">
+      <DependentUpon>MasterLaboratoriumRujukan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MCU\UploadTindakanLaboratorium.resx">
+      <DependentUpon>UploadTindakanLaboratorium.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MCU\UploadTindakanThorax.resx">
+      <DependentUpon>UploadTindakanThorax.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MCU\DaftarPeserta.resx">
+      <DependentUpon>DaftarPeserta.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Trial\FormAutoSendingWhatsapp.resx">
+      <DependentUpon>FormAutoSendingWhatsapp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\PatchUpdate.resx">
+      <DependentUpon>PatchUpdate.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\FormAwalPembayaranTagihan.resx">
+      <DependentUpon>FormAwalPembayaranTagihan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Recycle\AccPenerimaan.resx">
+      <DependentUpon>AccPenerimaan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Recycle\FormDetailTagihan.resx">
+      <DependentUpon>FormDetailTagihan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\DialogBoxPanggilPasien.resx">
+      <DependentUpon>DialogBoxPanggilPasien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormRekamMedisDokter.resx">
+      <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormValidasiFaskesPasien.resx">
+      <DependentUpon>FormValidasiFaskesPasien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormRiwayatKunjungan.resx">
+      <DependentUpon>FormRiwayatKunjungan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\KYC.resx">
+      <DependentUpon>KYC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\UploadTindakan.resx">
+      <DependentUpon>UploadTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportFeeDokterPengirim.resx">
+      <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reservasi\Dialog1.resx">
+      <DependentUpon>Dialog1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reservasi\FormReservasi.resx">
+      <DependentUpon>FormReservasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Satu Sehat\FormResourceSatuSehat.resx">
+      <DependentUpon>FormResourceSatuSehat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Satu Sehat\FormSynchronizationSatuSehat.resx">
+      <DependentUpon>FormSynchronizationSatuSehat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Upload\FormUploadJurnal.resx">
+      <DependentUpon>FormUploadJurnal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\CheckPlafon.resx">
+      <DependentUpon>CheckPlafon.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Recycle\CreateTagihan.resx">
+      <DependentUpon>CreateTagihan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Recycle\RekapPasien.resx">
+      <DependentUpon>RekapPasien.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\ImportMCU.resx">
+      <DependentUpon>ImportMCU.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\LabAdminOnline.resx">
+      <DependentUpon>LabAdminOnline.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\RekapHasilLab.resx">
+      <DependentUpon>RekapHasilLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\ToolsTransaksiLab.resx">
+      <DependentUpon>ToolsTransaksiLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\MasterJenisTindakan.resx">
+      <DependentUpon>MasterJenisTindakan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\MasterUrutan.resx">
+      <DependentUpon>MasterUrutan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\UserONLINE.resx">
+      <DependentUpon>UserONLINE.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\OptionDialog.resx">
+      <DependentUpon>OptionDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keuangan\Form Verifikasi\FormVerifikasiOmsetTagihan.resx">
+      <DependentUpon>FormVerifikasiOmsetTagihan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\SelectBank.resx">
+      <DependentUpon>SelectBank.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\SelectDateTime.resx">
+      <DependentUpon>SelectDateTime.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Kapitasi\FormMasterKapitasi.resx">
+      <DependentUpon>FormMasterKapitasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Kapitasi\FormSendKapitasiBPJS.resx">
+      <DependentUpon>FormSendKapitasiBPJS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Pendapatan\FormInvoicePoli.resx">
+      <DependentUpon>FormInvoicePoli.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Pendapatan\RekapPendapatanPoli.resx">
+      <DependentUpon>RekapPendapatanPoli.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Pendapatan\ReportTagihanPoli.resx">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\RujukLab.resx">
+      <DependentUpon>RujukLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\UploadPasienMCU.resx">
+      <DependentUpon>UploadPasienMCU.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormTransaksiPoli.resx">
+      <DependentUpon>FormTransaksiPoli.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\Rujukan\FormReportRujukan.resx">
+      <DependentUpon>FormReportRujukan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Report Monthly.resx">
+      <DependentUpon>Report Monthly.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportJPKAKtif.resx">
+      <DependentUpon>ReportJPKAKtif.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportJPKKlaim.resx">
+      <DependentUpon>ReportJPKKlaim.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportKunjunganDokterPoli.resx">
+      <DependentUpon>ReportKunjunganDokterPoli.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportLabDokterPengirim.resx">
+      <DependentUpon>ReportLabDokterPengirim.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportLabFisik.resx">
+      <DependentUpon>ReportLabFisik.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSumaaryDinkes.resx">
+      <DependentUpon>ReportSumaaryDinkes.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSummaryheaderMCU.resx">
+      <DependentUpon>ReportSummaryheaderMCU.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSummaryMCU.resx">
+      <DependentUpon>ReportSummaryMCU.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSummaryMCUOnline.resx">
+      <DependentUpon>ReportSummaryMCUOnline.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\FormSettingBPJS.resx">
+      <DependentUpon>FormSettingBPJS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Survey.resx">
+      <DependentUpon>Survey.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormPembatalanTransaksi.resx">
+      <DependentUpon>FormPembatalanTransaksi.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\ChangePassword.resx">
+      <DependentUpon>ChangePassword.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\DownloadHasil.resx">
+      <DependentUpon>DownloadHasil.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MasterGroupTestLab.resx">
+      <DependentUpon>MasterGroupTestLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MasterTestLab.resx">
+      <DependentUpon>MasterTestLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MasterTestLabDetail.resx">
+      <DependentUpon>MasterTestLabDetail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\ResultMachine.resx">
+      <DependentUpon>ResultMachine.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\TransaksiLab.resx">
+      <DependentUpon>TransaksiLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\CetakKartu.resx">
+      <DependentUpon>CetakKartu.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\DokterPengirimLab.resx">
+      <DependentUpon>DokterPengirimLab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\DownloadKPA.resx">
+      <DependentUpon>DownloadKPA.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\FormMenu.resx">
+      <DependentUpon>FormMenu.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\MasterCompany.resx">
+      <DependentUpon>MasterCompany.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\MasterPaket.resx">
+      <DependentUpon>MasterPaket.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\SetPeriode.resx">
+      <DependentUpon>SetPeriode.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lab\MonitorProses\MonitorProcess.resx">
+      <DependentUpon>MonitorProcess.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Msconfig.resx">
+      <DependentUpon>Msconfig.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\HistoryPasienvb.resx">
+      <DependentUpon>HistoryPasienvb.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\FormUploadDataOmset.resx">
+      <DependentUpon>FormUploadDataOmset.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\RepairDetailTindakan.resx">
+      <DependentUpon>RepairDetailTindakan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FormCetakInvoice.resx">
+      <DependentUpon>FormCetakInvoice.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Report Pendapatan Klinik.resx">
+      <DependentUpon>Report Pendapatan Klinik.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportDokter.resx">
+      <DependentUpon>ReportDokter.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportKunjungan.resx">
+      <DependentUpon>ReportKunjungan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportLabPendapatanHarianDetail.resx">
+      <DependentUpon>ReportLabPendapatanHarianDetail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportMasterHarga.resx">
+      <DependentUpon>ReportMasterHarga.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportMasterPasien.resx">
+      <DependentUpon>ReportMasterPasien.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportPenerimaan.resx">
+      <DependentUpon>ReportPenerimaan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSummaryJenisPenyakit.resx">
+      <DependentUpon>ReportSummaryJenisPenyakit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SummaryHarian.resx">
+      <DependentUpon>SummaryHarian.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tindakan\FormKirimLaporanOmset.resx">
+      <DependentUpon>FormKirimLaporanOmset.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\Find.resx">
+      <DependentUpon>Find.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\FindMultiple.resx">
+      <DependentUpon>FindMultiple.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tindakan\LabAdmin.resx">
+      <DependentUpon>LabAdmin.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tindakan\PendaftaranAwal.resx">
+      <DependentUpon>PendaftaranAwal.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\SettingGroup.resx">
+      <DependentUpon>SettingGroup.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\SettingUser.resx">
+      <DependentUpon>SettingUser.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\SendUlangToMesin.resx">
+      <DependentUpon>SendUlangToMesin.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\SettingAwal.resx">
+      <DependentUpon>SettingAwal.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\flat-ui-login-form.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="bin\Debug\Image\back.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\flat-ui-login-form1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\wallpaper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\back-office-url.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\Add rekap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\Add rekap - Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol cetak.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\rekap pasien.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\default button.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol tampil.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\new.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\create tagihan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol cari.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol add.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol save.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol kalkulasi.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol unggah.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol clear.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol kirim.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\button\tombol login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Image\wallpaperdialog.jpg" />
+    <None Include="bin\Debug\Image\button\tombol3diff.jpg" />
+    <None Include="bin\Debug\Image\button\tombol5diff.jpg" />
+    <None Include="bin\Debug\Image\button\tombol download.jpg" />
+    <None Include="bin\Debug\Image\button\tombol kosong.jpg" />
+    <None Include="bin\Debug\Image\refresh.png" />
+    <None Include="bin\Debug\Image\button\Excell.jpg" />
+    <None Include="bin\Debug\Image\button\PDF.jpg" />
+    <None Include="bin\Debug\Image\button\Refresh.png" />
+    <None Include="bin\Debug\Image\button\butrefresh.png" />
+    <None Include="bin\Debug\Image\button\butsinkronisasi.png" />
+    <None Include="bin\Debug\FileDownload\Gambar\Template Penanda Operasi\gambar_perempuan.png" />
+    <None Include="bin\Debug\Image\template\Odontogram.jpeg" />
+    <None Include="bin\Debug\Image\template\gambar_laki_laki.PNG" />
+    <None Include="bin\Debug\Image\template\gambar_perempuan.png" />
+    <None Include="bin\Debug\Image\template\OdontogramFromWeb.PNG" />
+    <None Include="bin\Debug\Image\template\OdontogramFromWeb_Ori.PNG" />
+    <Content Include="favicon.ico" />
+    <Content Include="favicon_mmc.ico" />
+    <Content Include="favicon_mmc_circle.ico" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="Resources\icons8_treatment_40.png" />
+    <None Include="Resources\icons8_cloud_user_24.png" />
+    <None Include="Resources\icons8_bill_24.png" />
+    <None Include="Resources\icons8_sync_24.png" />
+    <None Include="Resources\icons8_online_30.png" />
+    <None Include="Resources\icons8_treatment_16.png" />
+    <None Include="Resources\icons8_print_16_blue.png" />
+    <None Include="Resources\icons8_print_24_outline_blue.png" />
+    <None Include="Resources\icons8_plus_16_oracle.png" />
+    <None Include="Resources\icons8_plus_16.png" />
+    <None Include="Resources\icons8_tooth_24_outline_blue.png" />
+    <None Include="Resources\icons8_medical_doctor_401.png" />
+    <None Include="Resources\icons8_treatment_80.png" />
+    <None Include="Resources\icons8_save_24_outline_blue.png" />
+    <None Include="Resources\icons8_cancel_16.png" />
+    <None Include="Resources\icons8_check_16.png" />
+    <None Include="My Project\app.manifest" />
+    <None Include="Resources\icons8_dental_24_outline.png" />
+    <None Include="Resources\icons8_doctors_folder_24_outline.png" />
+    <None Include="Resources\icons8_letter_from_hospital_24_outline.png" />
+    <None Include="Resources\icons8_laboratory_24_outline.png" />
+    <None Include="Resources\icons8_doctors_bag_24_outline.png" />
+    <None Include="Resources\icons8_medicine_24_outline.png" />
+    <None Include="Resources\icons8_user_account_30.png" />
+    <None Include="Resources\icons8_print_16.png" />
+    <None Include="Resources\icons8_patient_30.png" />
+    <None Include="Resources\icons8_save_16.png" />
+    <None Include="Resources\icons8_add_user_group_30.png" />
+    <None Include="Resources\icons8_save_all_24.png" />
+    <None Include="Resources\icons8_history_30.png" />
+    <None Include="Resources\icons8_treatment_30.png" />
+    <None Include="Resources\icons8_view_24.png" />
+    <None Include="Resources\icons8_delete_file_24.png" />
+    <None Include="Resources\icons8_search_16.png" />
+    <None Include="Resources\icons8_cancel2_24.png" />
+    <None Include="Resources\icons8_send_24.png" />
+    <None Include="Resources\icons8_general_warning_sign_48.png" />
+    <None Include="Resources\icons8_barcode_24.png" />
+    <None Include="Resources\icons8_cancel_24.png" />
+    <None Include="Resources\icons8_calculator_24.png" />
+    <None Include="Resources\icons8_clear_24.png" />
+    <None Include="Resources\icons8_find_user_male_24.png" />
+    <None Include="Resources\icons8_add_24.png" />
+    <None Include="Resources\gambar_perempuan_3.png" />
+    <None Include="Resources\gambar_perempuan_2.png" />
+    <None Include="Resources\gambar_perempuan_1.png" />
+    <None Include="Resources\icons8_stethoscope_24.png" />
+    <None Include="Resources\icons8_print_24.png" />
+    <None Include="Resources\icons8_save_24.png" />
+    <None Include="Resources\icons_upload_to_the_cloud_26.png" />
+    <None Include="Resources\icons8_search_contacts_24.png" />
+    <None Include="Resources\icons8_plus_24.png" />
+    <None Include="Resources\icons8_search_24.png" />
+    <None Include="Resources\icons8_signing_a_document_40.png" />
+    <None Include="PoliKlinik%40Net_TemporaryKey.pfx" />
+    <None Include="Resources\icons8_report_file_40.png" />
+    <None Include="Resources\icons8_nurse_40.png" />
+    <None Include="Resources\icons8_medical_doctor_40.png" />
+    <None Include="Resources\icons8_printer_40.png" />
+    <None Include="Resources\icons8_save_40.png" />
+    <None Include="Resources\clock-icon30.png" />
+    <None Include="Resources\calendar-icon30.png" />
+    <None Include="Resources\_document.png" />
+    <None Include="Resources\Refresh.png" />
+    <None Include="Resources\Sinkronasi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxCrystalPrintControlLib">
+      <Guid>{62862E3F-F35B-455E-9459-49EAADE80A25}</Guid>
+      <VersionMajor>13</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxMicrosoft.Vbe.Interop.Forms">
+      <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxMSComctlLib">
+      <Guid>{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="CrystalPrintControlLib">
+      <Guid>{62862E3F-F35B-455E-9459-49EAADE80A25}</Guid>
+      <VersionMajor>13</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="Microsoft.Vbe.Interop.Forms">
+      <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="MSComctlLib">
+      <Guid>{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="stdole1">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gigi\" />
+    <Folder Include="Keuangan\Tools\" />
+    <Folder Include="Master\Other\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

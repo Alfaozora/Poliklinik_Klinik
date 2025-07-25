@@ -1,0 +1,302 @@
+
+Version : 2.0.0.53 (soon)
+# [New Feature] Penambahan Menu Reminder Pasien Untuk Mengingatkan Pasien Untuk Berkunjung ke Faskes
+# [New Feature] Penambahan Menu Riwayat Cek Stik pada Riwayat Laboratiorium
+# [New Feature] Penambahan Menu Booking untuk Poli Kecantikan, HBOT, Fisio
+# [New Feature] Penambahan Master Sesi
+# [Usability Improvement] Penambahan Nilai Rujukan Cek Stik pada Riwayat Laboratorium
+# [Usability Improvement] Diskon Max 25%
+# [Usability Improvement] Reminder Terhubung pada Master Tindakan dan Surat Kontrol
+# [Usability Improvement] Menambahkan MsgBox status untuk mengecek UpdateCredentialsAntrol
+
+Version : 2.0.0.52 (30 Juni 2025)
+# [Usability Improvement] Pengubahan Jenis Error Agar Mudah Terbaca pada Pencarian Diagnosa
+# [New Feature] Penambahan Menu Riwayat Penggunaan Paket Tindakan di Form Rekam Medis
+# [Bug Fix] Memperbaiki Error Tanggal lahir Saat Pengambilan data dari antrian online yang kosong
+# [Usability Improvement] Menambahkan Catatan Obat pada ERM
+# [Bug Fix] Memperbaiki Querry dalam Pengambilan Data Fee/Omset Dokter Kirim
+# [Usability Improvement] Tidak ada Tanda Pemisah Saat Nama Tindakan Hanya 1 Pada Riwayat Kunjungan
+# [Usability Improvement] Penambahan Kolom Usia Pada Laporan Kunjungan Pasien
+# [Usability Improvement] Penambahan Kolom Rentang Usia Pada Laporan Daftar Diagnosa
+# [Usability Improvement] Diskon Maximal 50%
+# [Usability Improvement] Harga Tindakan 0
+# [Usability Improvement] Kembali ke set awal Jenis Rawat (Rawat Jalan) setelah DialogBox diclose
+# [Bug Fix] Memperbaiki error FotoPath saat Mengambil data Pasien Non-BPJS dari Antrian Online
+
+Version : 2.0.0.51 (16 Juni 2025)
+# [Usability Improvement] Penambahan Nama Company pada Asuransi Lain
+# [New Feature] Penambahan Surat Keterangan Penolakan/Persetujuan Rujukan
+# [New Feature] Penambahan Menu KYC (Know Your Costumer)
+# [Bug Fix] Memperbaiki Bug pada Daftar Registrasi Pasien Ketika Cari Data
+# [New Feature] Pemotongan Paket Tindakan dari dalam Ketika mengambil Tindakan pada LaLumire
+# [New Feature] Penambahan Menu Dashboard (Masih dalam pengembangan lebih lanjut)
+
+Version : 2.0.0.50 (02 Juni 2025)
+# [Usability Improvement] Efisiensi dalam Pencarian Riwayat Kunjungan pada Laporan Kunjungan.
+# [New Feature] Penambahan Fitur Upload Gambar untuk Sebelum dan Sesudah Pemeriksaan pada Objektif.
+# [New Feature] Penambahan Form Foto Pasien pada Master Pasien dan Pendaftaran Awal.
+# [New Feature] Penambahan Filter Dokter Berdasarkan Jenis Poli pada Master Dokter dan Pendaftaran Awal.
+# [New Feature] Penambahan Menu Ganti Username dan Password Icare Dokter.
+# [New Feature] Penambahan Menu Riwayat Gambar Pemeriksaan.
+# [New Feature] Penambahan Menu Riwayat Surat Keterangan.
+# [New Feature] Penambahan Fitur Invoice Digital dengan WhatsApp.
+# [Usability Improvement] Tarik Master Tindakan Untuk User Admin.
+# [New Feature] Penambahan Fitur Input Cek Stik.
+# [Usability Improvement] Pemeriksaan 3 diff dan Urine Terhubung dengan Hasil Lab.
+
+Version : 2.0.0.49 (08 Mei 2025)
+# [Bug Fix] Laporan Pendapatan Klinik
+# [New Feature] Penambahan Surat Keterangan Kontrol.
+# [New Feature] Penambahan Fitur Laporan Diagnosa (Costom).
+# [Usability Improvement] Catatan Obat - Penambahan SIP Dokter.
+
+Version : 2.0.0.48 (14 April 2025)
+# [Usability Improvement] Form Verifikasi Omset Tagihan - Penyesuaian metode jurnal saat closing pendapatan berdasarkan jenis poli / jenis transaksi.
+
+Version : 2.0.0.47 (09 April 2025)
+# [New Feature] Penambahan surat keterangan cuti hamil & melahirkan.
+
+Version : 2.0.0.46 (20 Maret 2025)
+# [Usability Improvement] Penyesuaian search dan penambahan validasi pada bridging I-Care JKN.
+
+Version : 2.0.0.45 (18 Maret 2025)
+# [Usability Improvement] Form Verifikasi Omset Tunai - Penyesuaian metode jurnal saat closing pendapatan berdasarkan jenis poli / jenis transaksi.
+
+Version : 2.0.0.44 (13 Maret 2025)
+# [New Feature] Penambahan Laporan Riwayat Paket Tindakan.
+# [New Feature] Format baru laporan pendapatan klinik (Versi 1 & 2) & bisa cetak semua pembayaran dalam 1 laporan.
+# [Usability Improvement] Desain baru form Laporan Pendapatan Klinik.
+# [Usability Improvement] Desain baru form Rekap Tagihan Klinik.
+# [Usability Improvement] Desain baru form Rekap Invoice Klinik.
+
+Version : 2.0.0.43 (03 Maret 2025)
+# [Bug Fix] Surat Keterangan Khitan & Surat Keterangan Layak Terbang.
+
+Version : 2.0.0.42 (10 Februari 2025)
+# [Bug Fix] Lab Admin Online - Kirim hasil hematologi lengkap via whatsapp error.
+
+Version : 2.0.0.41 (06 Februari 2025)
+# [New Feature] Penambahan fitur untuk pembuatan paket klinik (per tindakan).
+
+Version : 2.0.0.40 (10 Januari 2025)
+# [Usability Improvement] Form Pendapatan Poli - Penambahan filter laporan per poli.
+# [Usability Improvement] Form Pendapatan Poli - Penambahan proses jurnal pendapatan menjadi per poli tujuan / per jenis transaksi.
+# [Bug Fix] Form Pendapatan Poli - Rekap 2  tagihan pada 1 nomor transaksi tidak dapat diclosing.
+
+Version : 2.0.0.39 (24 Desember 2024)
+# [Usability Improvement] Tambah hak kontrol akses group user yang bisa melakukan pembayaran invoice.
+# [Usability Improvement] Penyesuaian form rekap fee untuk tindakan paket.
+
+Version : 2.0.0.38 (10 Desember 2024)
+# [Usability Improvement] Form Cancel Data - Perubahan proses jurnal cancel data menjadi per poli tujuan.
+# [Usability Improvement] Form Cancel Data - Tambah fungsi hapus paket & tambah kuota paket jika ada transaksi yang dibatalkan.
+# [Usability Improvement] Form Upload Data Omset - Perubahan proses jurnal pendapatan menjadi per poli tujuan.
+# [Usability Improvement] Form Upload Data Omset - Penambahan proses jurnal pendapatan (Tunai/Debet/Kredit).
+# [Usability Improvement] Form Pendaftaran Awal - Penambahan penjamin tindakan pada transaksi paket berdasarkan jenis bayar.
+
+Version : 2.0.0.37 (25 November 2024)
+# [New Feature] Penambahan Nomor SIP Dokter pada laporan resume medis.
+
+Version : 2.0.0.36 (20 November 2024) - stable release
+# [New Feature] Penambahan fitur fee tindakan untuk poli gigi.
+# [Usability Improvement] Master Tindakan Klinik - Fix bug saat simpan BHP tidak masuk ke database ketika status fee tidak aktif.
+
+Version : 2.0.0.35 (08 November 2024) - stable release
+# [New Feature] Penambahan fitur untuk pembuatan paket klinik.
+# [New Feature] Penambahan fitur untuk penambahan paket pada transaksi dan penggunaan QR code untuk mengakses paket.
+# [New Feature] Penambahan fitur untuk update perubahan username & password pcare antrean online.
+# [Usability Improvement] Form Pembatalan Transaksi - penyesuaian kode agar form pembatalan lebih informatif dan mudah dipahami.
+
+Version : 2.0.0.34 (18 Oktober 2024) - stable release
+# [New Feature] Penambahan dialog box untuk pasien BPJS di pendaftaran awal.
+# [New Feature] Penambahan bridging I-Care JKN.
+# [Usability Improvement] Form Verifikasi Omset Tunai - Desain ulang form untuk mempercepat proses & fix bug.
+
+Version : 2.0.0.33 (11 September 2024)
+# [Usability Improvement] Form Rekam Medis Dokter - Perubahan cara input alergi pasien untuk keperluan bridging BPJS & SATUSEHAT.
+
+Version : 2.0.0.32 (01 September 2024)
+# [Usability Improvement] Update versi baru bridging PCare.
+
+Version : 2.0.0.31 (28 Agustus 2024)
+# [Usability Improvement] Form Laboratorium Online - Penambahan validasi nilai vital statistik & antropometri pada form fisik.
+# [Usability Improvement] Form Laboratorium Online - Perubahan tata letak dan penambahan inputan pada form fisik.
+# [Usability Improvement] Form Laboratorium Online - Optimalisasi inputan agar proses simpan lebih cepat pada form fisik.
+# [Usability Improvement] Form Laboratorium Online/Offline - Penambahan kode mapping ke alat 3 diff agar 1 alat bisa digunakan 2 tindakan.
+# [Usability Improvement] Konfigurasi Program - Penambahan konfigurasi antrian online menggunakan versi 1 atau versi 2.
+# [New Feature] Form Data Kunjungan Pasien - Penambahan fitur pencarian data.
+# [New Feature] Form Rekam Medis Dokter - Penambahan inputan data edukasi pasien.
+
+Version : 2.0.0.30 (01 Agustus 2024)
+# [New Feature] All Form - Penambahan pencatatan waktu transaksi (WaktuSelesaiPendaftaran, WaktuPanggilTTV, WaktuSelesaiTTV, WaktuPanggilDokter, WaktuSelesaiDokter).
+# [Usability Improvement] Form Pendaftaran Awal - Mengaktifkan pilihan diskon nilai.
+# [Usability Improvement] Form Kirim Laporan Omset - Validasi jika ada transaksi pending.
+
+Version : 2.0.0.29 (24 Juli 2024)
+# [Bug Fix] Form Daftar Kunjungan - Status transaksi tidak berubah ketika sudah di input oleh dokter.
+# [Bug Fix] Form Pembayaran - Transaksi menjadi duplikat karena error "Access Denied".
+
+Version : 2.0.0.28 (08 Juli 2024)
+# [Usability Improvement] Form Rekam Medis Dokter - Update resource kunjungan bridging BPJS untuk menambahkan suhu & prognosa.
+# [New Feature] Form Rekam Medis Dokter - Penambahan inputan prognosa pada tab asesmen.
+# [New Feature] Form Rekam Medis Dokter - Penambahan inputan penjamin pada tab perencanaan tindakan.
+# [Bug Fix] Form Pembatalan Transaksi - Transaksi PCare tidak terhapus otomatis.
+# [Bug Fix] Form Laboratorium Input Fisik Online - Data visus kacamata / tanpa kacamata hasilnya tidak sesuai.
+
+Version : 2.0.0.27 (07 Juni 2024)
+# [Bug Fix] Resource SATUSEHAT - Tidak dapat get dan post data SATUSEHAT (Variabel terblok oleh server).
+# [Usability Improvement] Form Master Pasien - Validasi jika tidak mengisi IHS number.
+
+Version : 2.0.0.26 (31 Mei 2024)
+# [Bug Fix] Form Antrian Online - Data tidak bisa muncul (terblok firewall server).
+
+Version : 2.0.0.25 (27 Mei 2024)
+# [New Feature] Form Surat Keterangan - Penambahan jenis surat keterangan berobat.
+# [New Feature] Form Surat Keterangan - Penambahan jenis surat keterangan kematian.
+
+Version : 2.0.0.24 (24 Mei 2024)
+# [Bug Fix] Form Kirim Laporan Omset - Jurnal laboratorium tidak masuk.
+# [Usability Improvement] Form Cancel Invoice Tagihan - Mengubah jurnal cancel.
+# [Usability Improvement] Form Cancel Invoice Transaksi - Mengubah jurnal cancel.
+# [Usability Improvement] Form Cancel Invoice Transaksi - Transaksi dengan nominal 0 tidak di jurnal.
+# [Usability Improvement] Form Pendaftaran Awal - Mengubah tindakan yang tampil hanya jenis tindakan konsultasi & administrasi.
+# [Usability Improvement] Form Rekam Medis Dokter - Mengubah tindakan yang tampil kecuali jenis tindakan konsultasi & administrasi.
+
+Version : 2.0.0.23 (18 Mei 2024)
+# [Bug Fix] Form Daftar Tagihan Klinik - Memperbaiki jumlah yang tidak sesuai dengan laporan rekap tagihan.
+
+Version : 2.0.0.22 (04 Mei 2024)
+# [Bug Fix] Form Pendaftaran Awal - Memperbaiki diskon tindakan agar hanya bisa di input 0-100.
+# [Usability Improvement] Form Riwayat Kunjungan - Penambahan baris riwayat penggunaan obat & riwayat penyakit sekarang pada cetakan.
+
+Version : 2.0.0.21 (29 April 2024)
+# [Usability Improvement] Form Kasir Poli - Menghapus opsi tambah tindakan di form kasir, tambah tindakan hanya boleh dilakukan di form rekam medis dokter.
+
+Version : 2.0.0.20 (18 April 2024)
+# [Usability Improvement] Master Kapitasi - Mengubah setting agar bisa menambahkan master kapitasi menggunakan program online.
+
+Version : 2.0.0.19 (28 Maret 2024)
+# [Bug Fix] All Form - Mengubah setting DB tujuan jurnal agar sesuai dengan lokasi.
+# [Usability Improvement] All Form - Mengubah setting DB server online agar mengarah ke MsConfig.
+
+Version : 2.0.0.18 (20 Maret 2024)
+# [Bug Fix] All Form - Mengubah cara get / posting ke BPJS agar semua komputer server dan client support.
+# [Bug Fix] Form Kirim Laporan Omset - Tagihan nominal 0 tetap terjurnal.
+# [Usability Improvement] Riwayat Kunjungan - Penambahan nama poli, tanggal transaksi & RS Rujukan pada laporan resume medis.
+
+Version : 2.0.0.17 (18 Maret 2024)
+# [New Feature] Form Tambah Tindakan - Penambahan fitur informed consent tanda tangan online.
+# [Bug Fix] Form Kirim Laporan Omset - Pembayaran awal poli gigi tidak tersending jurnal.
+# [Performance Improvement] Form Sending Ulang ke Mesin - Optimalisasi query saat kirim data ke mesin.
+# [Bug Fix] All Form - Mengubah setting sambungan ke server agar semua komputer server dan client support.
+
+Version : 2.0.0.16 (26 Februari 2024)
+# [New Feature] Laporan Klinik - Penambahan laporan daftar kunjungan pasien.
+# [Bug Fix] Form Kasir Poli - Jenis tenaga medis pada daftar tindakan tidak muncul.
+# [Bug Fix] Form Kasir Poli - Tindakan poli gigi tidak muncul.
+# [Usability Improvement] Form Tambah Rujukan - Penambahan validasi jika hari kunjungan kurang dari hari sekarang.
+
+Version : 2.0.0.15 (24 Februari 2024)
+# [New Feature] Laporan Klinik - Penambahan laporan 10 diagnosa terbanyak.
+
+Version : 2.0.0.14 (14 Februari 2024)
+# [Bug Fix] Form Riwayat Kunjungan - Riwayat rujukan tidak tampil.
+
+Version : 2.0.0.13 (06 Februari 2024)
+# [Bug Fix] Form Tambah Rujukan - Faskes tertentu tidak bisa tambah rujukan karena ada simbol "-".
+
+Version : 2.0.0.12 (30 Januari 2024)
+# [Bug Fix] Form Upload Pasien MCU - Pasien dengan nama sama tetapi beda tanggal lahir dianggap orang yang sama.
+# [Usability Improvement] Form Rekam Medis - Penambahan informasi poli tujuan dan jenis tagihan.
+# [Usability Improvement] Form Kunjungan - Penambahan informasi jenis tagihan.
+# [New Feature] Form Perencanaan - Penambahan form catatan obat.
+
+Version : 2.0.0.11 (25 Januari 2024)
+# [Usability Improvement] Form Perencanaan - Validasi jika jumlah obat melebihi stok.
+# [Usability Improvement] Form Objektif, Pemeriksaan Awal - Perubahan rumus BMI.
+# [Usability Improvement] Form Master Pasien - Menampilkan nomor NIK saat get data BPJS dari nomor JKN.
+# [Usability Improvement] Form Pembayaran - Menambah validasi ketika pembayaran tindakan agar tidak bisa ditransaksi 2x.
+# [Usability Improvement] Form Synchronization SATUSEHAT - Menambah jeda waktu pengiriman untuk menghindari limit.
+# [Usability Improvement] Form Perencanaan - Validasi tambah tindakan poli jika sudah dilakukan pembayaran di kasir.
+# [Usability Improvement] Form Perencanaan - Validasi tambah tindakan poli jika sudah beda hari.
+# [Usability Improvement] Form Perencanaan - Perubahan tampilan grid resep racikan agar signa hanya muncul di tutupan racikan.
+# [New Feature] Form Perencanaan - Penambahan tombol kirim resep ke apotek.
+# [New Feature] Form Perencanaan - Penambahan tombol hapus data tindakan poli.
+# [New Feature] Form Subjektif - Penambahan inputan riwayat penggunaan obat.
+# [New Feature] Form Objektif, Pemeriksaan Awal - Penambahan inputan skala nyeri.
+
+Version : 2.0.0.10 (20 Januari 2024)
+# [Usability Improvement] Form Surat Keterangan - Penyesuaian kop surat keterangan berdasarkan cabang.
+# [Bug Fix] Form Tambah Rujukan - Diagnosa lebih dari 1 tidak muncul di cetakan rujukan.
+# [Bug Fix] Form Pendapatan Poli - Nama tindakan tidak muncul di rekapan.
+# [Bug Fix] Form Invoice Poli - Nama tindakan tidak muncul di rekapan.
+# [Bug Fix] Form Invoice Poli - Pasien dengan tindakan dianggap 2 orang.
+
+Version : 2.0.0.9 (18 Januari 2024)
+# [Usability Improvement] Form Pemeriksaan Fisik Lab - Penambahan kolom baru (Rectal Toucher).
+# [Performance Improvement] Form Pemeriksaan Fisik Lab - Optimalisasi query saat simpan & update pemeriksaan fisik agar lebih cepat.
+# [Bug Fix] Form Pencarian Faskes Rujukan - Muncul eror ketika buka form pertama kali karena sub spesialis tidak ditemukan.
+
+Version : 2.0.0.8 (13 Januari 2024)
+# [Bug Fix] Form Cetak Invoice - Invoice tidak bisa dicetak ulang.
+# [Usability Improvement] Form Master Pasien - Penambahan tombol cek BPJS berdasarkan nomor kartu.
+# [Usability Improvement] Form Master Pasien - Penambahan checkbox untuk pasien yang tidak mempunyai atau tidak membawa NIK.
+# [Usability Improvement] Form Master Pasien - Penambahan validasi untuk cek apakah nomor BPJS sudah pernah dipakai oleh orang lain atau tidak.
+# [Usability Improvement] Form Pendaftaran Awal - Penambahan notifikasi jika belum input nomor IHS & NIK.
+
+Version : 2.0.0.7 (11 Januari 2024)
+# [Usability Improvement] Form Resep - Mengubah inputan signa menjadi pilihan.
+# [Usability Improvement] Form Resep - Penambahan field 'IMM'.
+
+Version : 2.0.0.6 (10 Januari 2024)
+# [Bug Fix] Report Surat Keterangan - Alamat dan nomor telepon tumpuk saat dicetak.
+# [Bug Fix] Form Kirim Laporan Omset - Tidak bisa kirim laporan omset ketika nama ada tanda petik.
+# [Usability Improvement] Form Pemeriksaan Generalis - Perubahan penamaan field 'Bibir' menjadi 'Mulut dan Faring'
+# [Usability Improvement] Form Pemeriksaan Generalis - Penambahan field 'Status Lokalis'.
+
+Version : 2.0.0.5 (08 Januari 2024)
+# [Bug Fix] Form Pembayaran - Tidak bisa sending saat pemilihan tagihan BPJS di pembayaran kasir ke-2.
+# [Bug Fix] Form Report Summary MCU - Tidak bisa tarik data jika pembayaran menggunakan pasien umum.
+
+Version : 2.0.0.4 (07 Januari 2024)
+# [Bug Fix] Form Pembayaran - Tidak bisa cetak barcode setelah pembayaran invoice.
+# [Bug Fix] Form Pembayaran - Nomor transaksi double.
+# [Bug Fix] Form Rekam Medis - Rujukan bisa dicetak walaupun belum input rujukan di RME.
+
+Version : 2.0.0.3 (04 Januari 2024)
+# [Bug Fix] Form Rekap Pendapatan Poli - Rekap pendapatan gigi awal tidak muncul.
+# [Bug Fix] Form Pembayaran - Alamat tidak muncul di invoice.
+
+Version : 2.0.0.2 (01 Januari 2024)
+# [Bug Fix] Form Master Pasien - Tidak bisa input ketika ada tanda petik di nama pasien.
+# [Bug Fix] Form Resep - Data obat tidak bisa dihapus.
+# [Bug Fix] Form Resep - Aturan pakai di form resep dokter eror ketika tidak diisi.
+# [Bug Fix] Form Resep - Input signa eror ketika di input koma.
+# [Bug Fix] Form Surat Keterangan - Nomor urut surat istirahat tidak bertambah.
+# [New Feature] Form Resep - Penambahan satuan signa.
+# [New Feature] Form Resep - Penambahan signa & harga obat di grid.
+# [New Feature] Form Pem Generalis - Penambahan tombol hapus data.
+
+Version : 2.0.0.1 (04 Agustus 2023)
+# [New Release] Rilis versi baru Polikilinik 2.0
+
+Bug Fix(es)
+Performance Improvement(s)
+New Feature(s)
+Security Update(s)
+Enhancement(s)
+Optimization(s)
+User Interface (UI) Update(s)
+Database Update(s)
+Code Refactoring
+Compatibility Improvement(s)
+Documentation Update(s)
+Error Handling Refinement(s)
+Usability Improvement(s)
+Testing Enhancement(s)
+Deprecation Notice(s)
+Third-party Library Update(s)
+Dependency Management
+Deployment Optimization(s)
+Resource Management Update(s)
+Localization Improvement(s)
