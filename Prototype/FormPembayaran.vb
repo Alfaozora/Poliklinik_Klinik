@@ -21,10 +21,6 @@ Public Class FormPembayaran
     Dim thread As System.Threading.Thread
     Dim tblTindakan As New DataTable
     Dim txtotalbruto, txtotaldisc, txtotalpembulatan, txtotalrow As Double
-    'Dim Takhir As Double
-    'Dim txkembali As Double
-    'Dim Tboolok As Boolean = False
-    'Dim TboolClick As Boolean = False
     Dim statusBPJS As Boolean = False
 
     ' Set QR Code
@@ -2184,7 +2180,13 @@ Public Class FormPembayaran
             Dim NoWhatsappCustomer As String = ReadSQLNIK("SELECT NoHandphone FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
 
             ' Ganti format nomor WhatsApp
-            If Strings.Left(NoWhatsappCustomer, 2) = "08" Then NoWhatsappCustomer = "62" & NoWhatsappCustomer.Substring(1, NoWhatsappCustomer.Length - 1)
+            If NoWhatsappCustomer.StartsWith("08") Then
+                ' Format lokal Indonesia, ubah ke format internasional
+                NoWhatsappCustomer = "62" & NoWhatsappCustomer.Substring(1)
+            ElseIf NoWhatsappCustomer.StartsWith("+") Then
+                ' Sudah format internasional dengan tanda +, hapus + saja
+                NoWhatsappCustomer = NoWhatsappCustomer.Substring(1)
+            End If
 
             ' Set Variabel WhatsApp
             Dim whatsAppStatus As String = ""
@@ -2236,6 +2238,7 @@ Public Class FormPembayaran
             parameter = SetParameterWhatsappKlinik(NoWhatsappCustomer, fileBase64, fileName, pesanWhatsApp)
 
             ' Set URL WhatsApp
+            'urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendPDF = "http://" & whatsAppIP & ":4444/send-pdf"
 

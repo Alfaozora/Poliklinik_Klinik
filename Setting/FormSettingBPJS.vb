@@ -78,6 +78,21 @@ Public Class FormSettingBPJS
 
     Private Sub SaveSetting()
         Try
+            ' If TextBoxKodePPK Is Nothing OrElse _
+            'TextBoxUsername Is Nothing OrElse _
+            'TextBoxPassword Is Nothing OrElse _
+            'TextBoxConsumerID Is Nothing OrElse _
+            'TextBoxSecretKey Is Nothing OrElse _
+            'TextBoxUserKey Is Nothing OrElse _
+            'TextBoxBaseURL Is Nothing OrElse _
+            'CheckBoxStatusPcare Is Nothing OrElse _
+            'RadioButtonEnvironmentProduction Is Nothing OrElse _
+            'RadioButtonEnvironmentDevelopment Is Nothing Then
+
+            '     MsgBox("Salah satu kontrol tidak ditemukan atau belum diinisialisasi.", MsgBoxStyle.Critical, "ERROR")
+            '     Exit Sub
+            ' End If
+
             ' Update Status Bridging
             If CheckBoxStatusPcare.Checked = True Then
                 WriteSQL("UPDATE MsConfig set StrValue = 'Yes' where ConfigName = 'pcare_status_bridging'", 4)

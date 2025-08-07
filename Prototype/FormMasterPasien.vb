@@ -280,11 +280,15 @@ Public Class FormMasterPasien
                 End If
 
                 getResponse = getDataFromPcare(uri)
+                'MessageBox.Show(getResponse, "Raw Response from PCare API")
+
                 Dim jsonArray As JArray = JArray.Parse(getResponse)
 
                 For Each item As JObject In jsonArray
                     If item("response") IsNot Nothing AndAlso item("response").Type <> JTokenType.Null Then
                         Dim varsespoli() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of v4_BPJS_Peserta())(getResponse)
+
+                        'MessageBox.Show(varsespoli, "Respone Varsepoli")
 
                         For Each oneVar As v4_BPJS_Peserta In varsespoli
                             If oneVar.metaData.message <> "NO_CONTENT" Then

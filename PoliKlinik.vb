@@ -1314,7 +1314,6 @@ Public Class PoliKlinik
         FormMasterMarketing.Focus()
     End Sub
 
-
     Private Sub CapaianKBKToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CapaianKBKToolStripMenuItem.Click
         ReportCapaianKBK.Show()
         ReportCapaianKBK.Focus()
@@ -1323,5 +1322,10 @@ Public Class PoliKlinik
     Private Sub ReservasiDanReminderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReservasiDanReminderToolStripMenuItem.Click
         FormReservasi.Show()
         FormReservasi.Focus()
+    End Sub
+
+    Private Sub RepairNoKunjunganBPJSToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepairNoKunjunganBPJSToolStripMenuItem.Click
+        RepairNoKunjunganBPJS.Show()
+        RepairNoKunjunganBPJS.Focus()
     End Sub
 End Class

@@ -815,6 +815,12 @@
     <Compile Include="Prototype\KYC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\RepairNoKunjunganBPJS.Designer.vb">
+      <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\RepairNoKunjunganBPJS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\UploadTindakan.Designer.vb">
       <DependentUpon>UploadTindakan.vb</DependentUpon>
     </Compile>
@@ -1623,6 +1629,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\KYC.resx">
       <DependentUpon>KYC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\RepairNoKunjunganBPJS.resx">
+      <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\UploadTindakan.resx">
       <DependentUpon>UploadTindakan.vb</DependentUpon>

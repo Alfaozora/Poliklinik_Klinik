@@ -2051,17 +2051,17 @@ Public Class FormRekamMedisDokter
                 WriteSQL("INSERT INTO TransaksiPoliDetail(TransPoliID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,Penjamin,GroupBayar,StatusPembayaran,CreatedBy,CreatedDate) " & _
                          "VALUES('" & trowPoli("TransPoliID") & "','" & TextBoxTindakanID.Text & "','" & TextBoxNamaTindakan.Text & "','" & TextBoxJenisTindakan.Text & "'," & CDbl(TextBoxBiayaTindakan.Text) & ", 0," & CDbl(TextBoxBiayaTindakan.Text) & ", '" & penjaminTindakan & "', '', 'PENDING', '" & userInput & "', GETDATE())", 4)
 
-                Dim dtReminder As DataTable = ReadSQL("SELECT Reminder, Bulan FROM MasterTindakan WHERE TindakanID = '" & TextBoxTindakanID.Text & "'")
+                Dim dtReminder As DataTable = ReadSQL("SELECT Reminder, Hari FROM MasterTindakan WHERE TindakanID = '" & TextBoxTindakanID.Text & "'")
 
                 If dtReminder.Rows.Count > 0 AndAlso CBool(dtReminder.Rows(0)("Reminder")) = True Then
-                    Dim bulanStr As String = dtReminder.Rows(0)("Bulan").ToString().Trim()
-                    Dim jumlahBulan As Integer = 1 ' default jika kosong
-                    If IsNumeric(bulanStr) Then
-                        jumlahBulan = CInt(bulanStr)
+                    Dim hariStr As String = dtReminder.Rows(0)("Hari").ToString().Trim()
+                    Dim jumlahHari As Integer = 1 ' default jika kosong
+                    If IsNumeric(hariStr) Then
+                        jumlahHari = CInt(hariStr)
                     End If
 
-                    ' Hitung tanggal reminder = hari ini + jumlah bulan
-                    Dim tglReminder As Date = Date.Today.AddMonths(jumlahBulan)
+                    ' Hitung tanggal reminder = hari ini + jumlah hari
+                    Dim tglReminder As Date = Date.Today.AddDays(jumlahHari)
 
                     ' Simpan ke LogReminderPasien
                     WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
@@ -6245,6 +6245,13 @@ Public Class FormRekamMedisDokter
         Dim queryString As String = ""
         Dim queryOrderString As String = ""
         Dim queryPoliTujuanString As String = ""
+        Dim jenisPoli As String = ""
+        Dim sqlPoli As String = "SELECT JenisPoli FROM TransaksiDetail WHERE NoUrut = '" & idTransaksi & "'"
+        Dim dtPoli As DataTable = ReadSQL(sqlPoli)
+
+        If dtPoli.Rows.Count > 0 Then
+            jenisPoli = dtPoli.Rows(0)("JenisPoli").ToString().Trim()
+        End If
 
         If ComboBoxPoliTujuan.Text = "SEMUA TRANSAKSI" Then
             queryPoliTujuanString = ""
@@ -8013,6 +8020,8 @@ Public Class FormRekamMedisDokter
 
             'Nama Dokter
             Dim namaDokter As String = ReadSQLNIK("SELECT DokterPoli FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+            Dim kodeDokter As String = ReadSQLNIK("SELECT KodeDokter FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+            Dim noSIP As String = ReadSQLNIK("SELECT NoSIP FROM MasterDokter WHERE ID = '" & kodeDokter & "'")
 
             ' Set Data Surat Keterangan
             Dim tblSuratKeterangan As DataTable = ReadSQL("SELECT * FROM SuratKeteranganIstirahat WHERE NoTransaksi = '" & idTransaksi & "'")
@@ -8103,6 +8112,7 @@ Public Class FormRekamMedisDokter
 
                     If Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelDokter") IsNot Nothing Then
                         Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelDokter").Text = namaDokter
+                        Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelSIP").Text = "SIP: " & noSIP
                     End If
 
                     ' Nonaktifkan jika sudah ada master TTD Dokter
@@ -8589,8 +8599,43 @@ Public Class FormRekamMedisDokter
             ' Hapus berdasarkan ID Detail
             Dim idTindakanDetail As String = idTindakanDetailObj.ToString()
             If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
-                WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
-                     "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
+                'WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                '     "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
+                Dim queryTindakanID As String = "SELECT TindakanID FROM TransaksiPoliDetail " & _
+                                      "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL"
+                Dim tindakanID As String = ReadSQLNIK(queryTindakanID)
+
+                If Not String.IsNullOrEmpty(tindakanID) Then
+                    Dim tindakanNama As String = "SELECT NamaTindakan FROM MasterTindakan WHERE TindakanID = '" & tindakanID & "'"
+                    Dim tindakan As String = ReadSQLNIK(tindakanNama)
+
+                    If Not String.IsNullOrEmpty(tindakanNama) Then
+                        Dim queryReminderID As String = "SELECT TOP 1 ReminderID FROM LogReminderPasien " & _
+                                                "WHERE Keperluan LIKE '%" & tindakan.Replace("'", "''") & "%' " & _
+                                                "AND DeletedDate IS NULL AND CONVERT(DATE, Tanggal) >= CONVERT(DATE, GETDATE()) " & _
+                                                "ORDER BY CreatedDate DESC"
+                        Dim dtReminder As DataTable = ReadSQL(queryReminderID)
+
+                        If dtReminder.Rows.Count > 0 Then
+                            Dim reminderID As String = dtReminder.Rows(0)("ReminderID").ToString()
+                            'MsgBox("Reminder Ditemukan!" & vbCrLf & _
+                            '       "ReminderID: " & dtReminder.Rows(0)("ReminderID").ToString() & vbCrLf & _
+                            '       "Total Baris: " & dtReminder.Rows.Count.ToString())
+                            Dim queryDeleteReminder As String = "UPDATE LogReminderPasien SET Status = 'CANCLE', DeletedBy = '" & userInput.Replace("'", "''") & "', DeletedDate = GETDATE() " & _
+                                       "WHERE ReminderID = '" & reminderID & "' AND DeletedDate IS NULL"
+                            WriteSQL(queryDeleteReminder, 4)
+                        Else
+                            'MsgBox("Tidak ada reminder yang ditemukan." & vbCrLf & _
+                            '       "Query dijalankan: " & vbCrLf & queryReminderID)
+                        End If
+                    Else
+                        MsgBox("NamaTindakan tidak ditemukan untuk TindakanID: " & tindakanID)
+                    End If
+                Else
+                    MsgBox("TindakanID tidak ditemukan untuk TransPoliIDDetail: " & idTindakanDetail)
+                End If
+                WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput.Replace("'", "''") & "', DeletedDate = GETDATE() " & _
+                         "WHERE TransPoliIDDetail = '" & idTindakanDetail.Replace("'", "''") & "' AND DeletedDate IS NULL", 4)
             ElseIf jenisTransaksi = "GIGI" Then
                 WriteSQL("UPDATE TransaksiGigiDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
                      "WHERE TransGigiIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
@@ -8612,7 +8657,6 @@ Public Class FormRekamMedisDokter
              ") THEN 1 ELSE 0 END"
 
             Dim isPaketReguler As Boolean = CBool(ReadSQLNIK(queryCek))
-
 
             If isPaketReguler Then
                 HapusPaketReguler(kodeVoucher)
@@ -10245,12 +10289,14 @@ Public Class FormRekamMedisDokter
             ' Ambil data dokter dari transaksi
             Dim idDokter As String = "", namaDokter As String = "", namaPerawat As String = ""
             Dim dt As DataTable = ReadSQL("SELECT KodeDokter, DokterPoli, PerawatPoli FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+
             If dt.Rows.Count > 0 Then
                 Dim row As DataRow = dt.Rows(0)
                 idDokter = row("KodeDokter").ToString()
                 namaDokter = row("DokterPoli").ToString()
                 namaPerawat = row("PerawatPoli").ToString()
             End If
+
 
             ' Cek apakah data sudah ada
             Dim cek As DataTable = ReadSQL("SELECT * FROM SuratKeteranganPersetujuanRujukan WHERE NoTransaksi = '" & idTransaksi & "'")

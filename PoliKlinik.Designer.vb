@@ -268,6 +268,7 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
+        Me.RepairNoKunjunganBPJSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1000,14 +1001,14 @@ Partial Class PoliKlinik
         'HargaToolStripMenuItem
         '
         Me.HargaToolStripMenuItem.Name = "HargaToolStripMenuItem"
-        Me.HargaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HargaToolStripMenuItem.Size = New System.Drawing.Size(116, 22)
         Me.HargaToolStripMenuItem.Tag = "050601"
         Me.HargaToolStripMenuItem.Text = "Harga"
         '
         'PasienToolStripMenuItem2
         '
         Me.PasienToolStripMenuItem2.Name = "PasienToolStripMenuItem2"
-        Me.PasienToolStripMenuItem2.Size = New System.Drawing.Size(152, 22)
+        Me.PasienToolStripMenuItem2.Size = New System.Drawing.Size(116, 22)
         Me.PasienToolStripMenuItem2.Tag = "050602"
         Me.PasienToolStripMenuItem2.Text = "Pasien"
         '
@@ -1089,7 +1090,7 @@ Partial Class PoliKlinik
         '
         'ToolToolStripMenuItem
         '
-        Me.ToolToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangePasswordToolStripMenuItem1, Me.CetakKartuToolStripMenuItem1, Me.PembatalanTransaksiToolStripMenuItem, Me.RepairTransaksiTindakanDetailToolStripMenuItem, Me.AutoSendingWhatsappEmailToolStripMenuItem})
+        Me.ToolToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangePasswordToolStripMenuItem1, Me.CetakKartuToolStripMenuItem1, Me.PembatalanTransaksiToolStripMenuItem, Me.RepairTransaksiTindakanDetailToolStripMenuItem, Me.AutoSendingWhatsappEmailToolStripMenuItem, Me.RepairNoKunjunganBPJSToolStripMenuItem})
         Me.ToolToolStripMenuItem.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolToolStripMenuItem.Name = "ToolToolStripMenuItem"
         Me.ToolToolStripMenuItem.Size = New System.Drawing.Size(43, 20)
@@ -1963,6 +1964,13 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
+        'RepairNoKunjunganBPJSToolStripMenuItem
+        '
+        Me.RepairNoKunjunganBPJSToolStripMenuItem.Name = "RepairNoKunjunganBPJSToolStripMenuItem"
+        Me.RepairNoKunjunganBPJSToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
+        Me.RepairNoKunjunganBPJSToolStripMenuItem.Tag = "0706"
+        Me.RepairNoKunjunganBPJSToolStripMenuItem.Text = "Repair No Kunjungan BPJS"
+        '
         'PoliKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2232,4 +2240,5 @@ Partial Class PoliKlinik
     Friend WithEvents CapaianKBKToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TimerKirimReminderWA As System.Windows.Forms.Timer
     Friend WithEvents ReservasiDanReminderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RepairNoKunjunganBPJSToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

@@ -193,12 +193,12 @@ Public Class MasterTindakanKlinik
 
         ' Hide tab header button TabControl
         TabControlMenu.ItemSize = New Size(0, 1)
-        TextBoxBulanReminder.ReadOnly = True
+        TextBoxHariReminder.ReadOnly = True
 
         ClearDataMenuPaket()
         ClearDataMenuTindakan()
         LoadPoliData()
-        LoadPoliDataPaket()
+        'LoadPoliDataPaket()
 
         SetConn()
         SetDataGrid()
@@ -259,13 +259,13 @@ Public Class MasterTindakanKlinik
         End If
 
         ' Validasi Nama Poli
-        If RadioButtonPaketReguler.Checked = True AndAlso CheckedListBoxPoli2.CheckedItems.Count = 0 Then
-            MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
-            Exit Function
-        ElseIf RadioButtonPaketPerTindakan.Checked = True AndAlso CheckedListBoxPoli2.CheckedItems.Count = 0 Then
-            MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
-            Exit Function
-        End If
+        'If RadioButtonPaketReguler.Checked = True AndAlso CheckedListBoxPoli2.CheckedItems.Count = 0 Then
+        '    MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
+        '    Exit Function
+        'ElseIf RadioButtonPaketPerTindakan.Checked = True AndAlso CheckedListBoxPoli2.CheckedItems.Count = 0 Then
+        '    MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
+        '    Exit Function
+        'End If
 
         ' Validasi Keterangan Paket
         If keteranganPaket = "" Then TextBoxKeteranganPaket.Text = "-"
@@ -334,12 +334,12 @@ Public Class MasterTindakanKlinik
         ' Get JSON Data Grid
         Dim jsonDataGrid As String = GenerateJsonFromGridControl(GridControlTindakan)
 
-        Dim poliList As New List(Of String)
-        For Each item As String In CheckedListBoxPoli2.CheckedItems
-            poliList.Add(item)
-        Next
+        'Dim poliList As New List(Of String)
+        'For Each item As String In CheckedListBoxPoli2.CheckedItems
+        '    poliList.Add(item)
+        'Next
 
-        Dim poliGabung As String = String.Join(",", poliList.ToArray())
+        'Dim poliGabung As String = String.Join(",", poliList.ToArray())
 
         ' Get Jenis Paket
         Dim jenisPaket As String = ""
@@ -351,8 +351,8 @@ Public Class MasterTindakanKlinik
 
         If TextBoxReffID.Text = "" Then ' Insert Paket
             ' Save ke tabel MasterPaketTindakan
-            WriteSQL("INSERT INTO MasterPaketTindakan (NamaPaket, KeteranganPaket, JenisPaket, HargaAwal, DiskonNominal, HargaNett, Kuota, MaksimalBHP, DetailTindakan, TanggalMulai, TanggalBerakhir, DurasiAktif, CreatedBy, CreatedDate, PoliTujuan) " & _
-                     "VALUES('" & TextBoxNamaPaket.Text & "', '" & TextBoxKeteranganPaket.Text & "', '" & jenisPaket & "', " & CDbl(TextBoxHargaAwal.Text) & ", " & CDbl(TextBoxTotalDiskon.Text) & ", " & CDbl(TextBoxHargaNett.Text) & ", " & CDbl(TextBoxKuotaPaket.Text) & ", " & CDbl(TextBoxMaksimalBHP_Paket.Text) & ", '" & jsonDataGrid & "', '" & Format(TglAwalPaket.Value, "MM/dd/yyyy") & "', '" & Format(TglAkhirPaket.Value, "MM/dd/yyyy") & "', " & CDbl(TextBoxDurasiAktifPaket.Text) & ", '" & userInput & "', GETDATE(), '" & poliGabung & "')", 4)
+            WriteSQL("INSERT INTO MasterPaketTindakan (NamaPaket, KeteranganPaket, JenisPaket, HargaAwal, DiskonNominal, HargaNett, Kuota, MaksimalBHP, DetailTindakan, TanggalMulai, TanggalBerakhir, DurasiAktif, CreatedBy, CreatedDate) " & _
+                     "VALUES('" & TextBoxNamaPaket.Text & "', '" & TextBoxKeteranganPaket.Text & "', '" & jenisPaket & "', " & CDbl(TextBoxHargaAwal.Text) & ", " & CDbl(TextBoxTotalDiskon.Text) & ", " & CDbl(TextBoxHargaNett.Text) & ", " & CDbl(TextBoxKuotaPaket.Text) & ", " & CDbl(TextBoxMaksimalBHP_Paket.Text) & ", '" & jsonDataGrid & "', '" & Format(TglAwalPaket.Value, "MM/dd/yyyy") & "', '" & Format(TglAkhirPaket.Value, "MM/dd/yyyy") & "', " & CDbl(TextBoxDurasiAktifPaket.Text) & ", '" & userInput & "', GETDATE())", 4)
 
             ' Get Reff ID
             reffID = ReadSQLNIK("SELECT TOP(1) PaketID FROM MasterPaketTindakan WHERE NamaPaket = '" & TextBoxNamaPaket.Text & "' ORDER BY CreatedDate DESC")
@@ -377,7 +377,6 @@ Public Class MasterTindakanKlinik
                               "TanggalBerakhir = '" & Format(TglAkhirPaket.Value, "MM/dd/yyyy") & "'," & _
                               "DurasiAktif = " & CDbl(TextBoxDurasiAktifPaket.Text) & "," & _
                               "UpdatedBy = '" & userInput & "'," & _
-                              "PoliTujuan = '" & poliGabung & "'," & _
                               "UpdatedDate = GETDATE()"
 
             WriteSQL("UPDATE MasterPaketTindakan SET " & parameterUpdate & " WHERE PaketID = '" & reffID & "'", 4)
@@ -428,10 +427,10 @@ Public Class MasterTindakanKlinik
         TglAkhirPaket.Value = Date.Now
         TextBoxDurasiAktifPaket.Value = 0
 
-        For i As Integer = 0 To CheckedListBoxPoli2.Items.Count - 1
-            CheckedListBoxPoli2.SetItemChecked(i, False)
-        Next
-        CheckedListBoxPoli2.Enabled = True
+        'For i As Integer = 0 To CheckedListBoxPoli2.Items.Count - 1
+        '    CheckedListBoxPoli2.SetItemChecked(i, False)
+        'Next
+        'CheckedListBoxPoli2.Enabled = True
 
         RadioButtonPaketReguler.Checked = True
         RadioButtonPaketReguler.Enabled = True
@@ -505,19 +504,19 @@ Public Class MasterTindakanKlinik
         TglAkhirPaket.Value = rowPaket("TanggalBerakhir")
         TextBoxDurasiAktifPaket.Text = rowPaket("DurasiAktif")
 
-        If Not IsDBNull(rowPaket("PoliTujuan")) Then
-            Dim namaPoliGabungan As String = rowPaket("PoliTujuan").ToString()
-            Dim daftarPoli() As String = namaPoliGabungan.Split(","c)
+        'If Not IsDBNull(rowPaket("PoliTujuan")) Then
+        '    Dim namaPoliGabungan As String = rowPaket("PoliTujuan").ToString()
+        '    Dim daftarPoli() As String = namaPoliGabungan.Split(","c)
 
-            For i As Integer = 0 To CheckedListBoxPoli2.Items.Count - 1
-                Dim itemPoli As String = CheckedListBoxPoli2.Items(i).ToString()
+        '    For i As Integer = 0 To CheckedListBoxPoli2.Items.Count - 1
+        '        Dim itemPoli As String = CheckedListBoxPoli2.Items(i).ToString()
 
-                ' Tandai dicentang jika termasuk dalam data poli
-                If daftarPoli.Contains(itemPoli) Then
-                    CheckedListBoxPoli2.SetItemChecked(i, True)
-                End If
-            Next
-        End If
+        '        ' Tandai dicentang jika termasuk dalam data poli
+        '        If daftarPoli.Contains(itemPoli) Then
+        '            CheckedListBoxPoli2.SetItemChecked(i, True)
+        '        End If
+        '    Next
+        'End If
 
         ' Set Jenis Paket
         If rowPaket("JenisPaket").ToString() = "Paket Reguler" Then
@@ -695,24 +694,24 @@ Public Class MasterTindakanKlinik
         TextBoxBiayaTindakan.Text = Splitmoney(rowTindakan("BiayaTindakan"))
 
         'Set Poli
-        If Not IsDBNull(rowTindakan("PoliTujuan")) Then
-            Dim namaPoliGabungan As String = rowTindakan("PoliTujuan").ToString()
-            Dim daftarPoli() As String = namaPoliGabungan.Split(","c)
+        'If Not IsDBNull(rowTindakan("PoliTujuan")) Then
+        '    Dim namaPoliGabungan As String = rowTindakan("PoliTujuan").ToString()
+        '    Dim daftarPoli() As String = namaPoliGabungan.Split(","c)
 
-            For i As Integer = 0 To CheckedListBoxPoli.Items.Count - 1
-                Dim itemPoli As String = CheckedListBoxPoli.Items(i).ToString()
+        '    For i As Integer = 0 To CheckedListBoxPoli.Items.Count - 1
+        '        Dim itemPoli As String = CheckedListBoxPoli.Items(i).ToString()
 
-                ' Tandai dicentang jika termasuk dalam data poli
-                If daftarPoli.Contains(itemPoli) Then
-                    CheckedListBoxPoli.SetItemChecked(i, True)
-                End If
-            Next
-        End If
+        '        ' Tandai dicentang jika termasuk dalam data poli
+        '        If daftarPoli.Contains(itemPoli) Then
+        '            CheckedListBoxPoli.SetItemChecked(i, True)
+        '        End If
+        '    Next
+        'End If
 
         'Set Reminder
         If Convert.ToInt32(rowTindakan("Reminder")) = 1 Then CheckBoxReminder.Checked = True
         If Convert.ToInt32(rowTindakan("Reminder")) = 0 Then CheckBoxReminder.Checked = False
-        If IsDBNull(rowTindakan("Bulan")) = False Then TextBoxBulanReminder.Text = rowTindakan("Bulan")
+        If IsDBNull(rowTindakan("Hari")) = False Then TextBoxHariReminder.Text = rowTindakan("Hari")
 
         ' Set Informed Consent
         If Convert.ToInt32(rowTindakan("StatusInformedConsent")) = 1 Then CheckBoxInformedConsent.Checked = True
@@ -762,14 +761,14 @@ Public Class MasterTindakanKlinik
         TextBoxPersentaseFeeKaryawan.Text = "0"
         TextBoxNominalFee.Text = "0"
 
-        For i As Integer = 0 To CheckedListBoxPoli.Items.Count - 1
-            CheckedListBoxPoli.SetItemChecked(i, False)
-        Next
-        CheckedListBoxPoli.Enabled = True
+        'For i As Integer = 0 To CheckedListBoxPoli.Items.Count - 1
+        '    CheckedListBoxPoli.SetItemChecked(i, False)
+        'Next
+        'CheckedListBoxPoli.Enabled = True
 
         CheckBoxReminder.Checked = False
-        TextBoxBulanReminder.ResetText()
-        TextBoxBulanReminder.ReadOnly = True
+        TextBoxHariReminder.ResetText()
+        TextBoxHariReminder.ReadOnly = True
 
         If RadioButtonPoliUmum.Checked = True Then
             InsertNewItemComboSQL("SELECT DISTINCT JenisTindakan FROM MasterTindakan", ComboBoxGroupJenisTindakan)
@@ -794,15 +793,15 @@ Public Class MasterTindakanKlinik
         End If
     End Sub
 
-    Private Sub LoadPoliDataPaket()
-        CheckedListBoxPoli2.Items.Clear()
-        Dim poli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE PoliSakit = 'True'")
-        If poli IsNot Nothing Then
-            For Each TrowPoliTujuan As DataRow In poli.Rows
-                CheckedListBoxPoli2.Items.Add(TrowPoliTujuan("NamaPoli").ToString())
-            Next
-        End If
-    End Sub
+    'Private Sub LoadPoliDataPaket()
+    '    CheckedListBoxPoli2.Items.Clear()
+    '    Dim poli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE PoliSakit = 'True'")
+    '    If poli IsNot Nothing Then
+    '        For Each TrowPoliTujuan As DataRow In poli.Rows
+    '            CheckedListBoxPoli2.Items.Add(TrowPoliTujuan("NamaPoli").ToString())
+    '        Next
+    '    End If
+    'End Sub
 
     Private Sub SimpanDataTindakan()
         Dim statusFee As Boolean = False
@@ -822,12 +821,11 @@ Public Class MasterTindakanKlinik
 
         'Reminder
         Dim statusReminder As Integer = If(CheckBoxReminder.Checked, 1, 0)
-        Dim bulan As String
-
-        If TextBoxBulanReminder.Text.Trim() = "" Then
-            bulan = "NULL"
+        Dim hari As String
+        If TextBoxHariReminder.Text.Trim() = "" Then
+            hari = "NULL" ' tanpa tanda kutip
         Else
-            bulan = "'" & TextBoxBulanReminder.Text.Trim().Replace("'", "''") & "'"
+            hari = "'" & TextBoxHariReminder.Text.Trim().Replace("'", "''") & "'" ' tetap dalam kutip
         End If
 
         'Filter Poli
@@ -839,12 +837,13 @@ Public Class MasterTindakanKlinik
         '    MessageBox.Show("Silakan pilih jenis pelaksana (Dokter atau Perawat).", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         '    Exit Sub
         'End If
-        Dim poliList As New List(Of String)
-        For Each item As String In CheckedListBoxPoli.CheckedItems
-            poliList.Add(item)
-        Next
 
-        Dim poliGabung As String = String.Join(",", poliList.ToArray())
+        'Dim poliList As New List(Of String)
+        'For Each item As String In CheckedListBoxPoli.CheckedItems
+        '    poliList.Add(item)
+        'Next
+
+        'Dim poliGabung As String = String.Join(",", poliList.ToArray())
 
         ' Set Status BHP
         If RadioButtonBHP.Checked = True Then statusBHP = True
@@ -868,13 +867,20 @@ Public Class MasterTindakanKlinik
         If TextBoxTindakanID.Text = "" Then
             ' Insert Data Baru 
             If RadioButtonPoliUmum.Checked = True Then
-                WriteSQL("INSERT INTO MasterTindakan ([NamaTindakan], [JenisTindakan], [BiayaTindakan], [JenisDokter], [CreatedDate], [CreatedBy], [StatusFeeTindakan], [StatusBHP], [StatusPersentaseFee], [StatusNominalFee], [PersentaseFeePerusahaan], [PersentaseFeeKaryawan], [FeePerTindakan], [FeeDokter], [FeePerawat], [StatusFeeKonsultasi], [MaksimalBHP], [StatusInformedConsent], [TindakanInformedConsent], [Bulan], [Reminder], [PoliTujuan]) " & _
-                     "VALUES('" & TextBoxNamaTindakan.Text & "','" & ComboBoxGroupJenisTindakan.Text & "'," & CInt(TextBoxBiayaTindakan.Text) & ", '" & jenisPelaksana & "', GETDATE(), '" & userInput & "', '" & statusFee & "', '" & statusBHP & "', '" & statusPersentase & "', " & _
-                     "'" & statusNominal & "', '" & CDbl(TextBoxPersentaseFeePerusahaan.Text) & "', '" & CDbl(TextBoxPersentaseFeeKaryawan.Text) & "', '" & CDbl(TextBoxNominalFee.Text) & "', '" & CDbl(TextBoxFeeDokterTambahan.Text) & "', '" & CDbl(TextBoxFeePerawatTambahan.Text) & "', '" & statusFeeKonsultasi & "', '" & CDbl(TextBoxMaksimalBHP_Tindakan.Text) & "', '" & statusInformedConsent & "', '" & ComboBoxInformedConsent.Text & "', '" & bulan & "', " & statusReminder & ", " & poliGabung & ")", 4)
+                WriteSQL("INSERT INTO MasterTindakan ([NamaTindakan], [JenisTindakan], [BiayaTindakan], [JenisDokter], [CreatedDate], [CreatedBy], [StatusFeeTindakan], [StatusBHP], [StatusPersentaseFee], [StatusNominalFee], [PersentaseFeePerusahaan], [PersentaseFeeKaryawan], [FeePerTindakan], [FeeDokter], [FeePerawat], [StatusFeeKonsultasi], [MaksimalBHP], [StatusInformedConsent], [TindakanInformedConsent], [Hari], [Reminder]) " & _
+                         "VALUES('" & TextBoxNamaTindakan.Text.Replace("'", "''") & "','" & ComboBoxGroupJenisTindakan.Text.Replace("'", "''") & "'," & CInt(TextBoxBiayaTindakan.Text) & ", '" & jenisPelaksana & "', GETDATE(), '" & userInput & "', " & _
+                         CInt(statusFee) & ", " & CInt(statusBHP) & ", " & CInt(statusPersentase) & ", " & CInt(statusNominal) & ", " & _
+                         CDbl(TextBoxPersentaseFeePerusahaan.Text) & ", " & CDbl(TextBoxPersentaseFeeKaryawan.Text) & ", " & CDbl(TextBoxNominalFee.Text) & ", " & _
+                         CDbl(TextBoxFeeDokterTambahan.Text) & ", " & CDbl(TextBoxFeePerawatTambahan.Text) & ", " & CInt(statusFeeKonsultasi) & ", " & _
+                         CDbl(TextBoxMaksimalBHP_Tindakan.Text) & ", " & CInt(statusInformedConsent) & ", '" & ComboBoxInformedConsent.Text.Replace("'", "''") & "', " & hari & ", " & statusReminder & ")", 4)
+
             ElseIf RadioButtonPoliGigi.Checked = True Then
-                WriteSQL("INSERT INTO MasterTindakanGigi ([NamaTindakan], [JenisTindakan], [BiayaTindakan], [JenisDokter], [CreatedDate], [CreatedBy], [StatusFeeTindakan], [StatusBHP], [StatusPersentaseFee], [StatusNominalFee], [PersentaseFeePerusahaan], [PersentaseFeeKaryawan], [FeePerTindakan], [FeeDokter], [FeePerawat], [StatusFeeKonsultasi], [MaksimalBHP], [StatusInformedConsent], [TindakanInformedConsent], [Bulan], [Reminder], [PoliTujuan]) " & _
-                     "VALUES('" & TextBoxNamaTindakan.Text & "', '" & ComboBoxGroupJenisTindakan.Text & "', " & CInt(TextBoxBiayaTindakan.Text) & ", '" & jenisPelaksana & "', GETDATE(), '" & userInput & "', '" & statusFee & "', '" & statusBHP & "', '" & statusPersentase & "', " & _
-                     "'" & statusNominal & "', '" & CDbl(TextBoxPersentaseFeePerusahaan.Text) & "', '" & CDbl(TextBoxPersentaseFeeKaryawan.Text) & "', '" & CDbl(TextBoxNominalFee.Text) & "', '" & CDbl(TextBoxFeeDokterTambahan.Text) & "', '" & CDbl(TextBoxFeePerawatTambahan.Text) & "', '" & statusFeeKonsultasi & "', '" & CDbl(TextBoxMaksimalBHP_Tindakan.Text) & "', '" & statusInformedConsent & "', '" & ComboBoxInformedConsent.Text & "', '" & bulan & "', " & statusReminder & ", " & poliGabung & ")", 4)
+                WriteSQL("INSERT INTO MasterTindakanGigi ([NamaTindakan], [JenisTindakan], [BiayaTindakan], [JenisDokter], [CreatedDate], [CreatedBy], [StatusFeeTindakan], [StatusBHP], [StatusPersentaseFee], [StatusNominalFee], [PersentaseFeePerusahaan], [PersentaseFeeKaryawan], [FeePerTindakan], [FeeDokter], [FeePerawat], [StatusFeeKonsultasi], [MaksimalBHP], [StatusInformedConsent], [TindakanInformedConsent], [Hari], [Reminder], [PoliTujuan]) " & _
+                         "VALUES('" & TextBoxNamaTindakan.Text.Replace("'", "''") & "', '" & ComboBoxGroupJenisTindakan.Text.Replace("'", "''") & "', " & CInt(TextBoxBiayaTindakan.Text) & ", '" & jenisPelaksana & "', GETDATE(), '" & userInput & "', " & _
+                         CInt(statusFee) & ", " & CInt(statusBHP) & ", " & CInt(statusPersentase) & ", " & CInt(statusNominal) & ", " & _
+                         CDbl(TextBoxPersentaseFeePerusahaan.Text) & ", " & CDbl(TextBoxPersentaseFeeKaryawan.Text) & ", " & CDbl(TextBoxNominalFee.Text) & ", " & _
+                         CDbl(TextBoxFeeDokterTambahan.Text) & ", " & CDbl(TextBoxFeePerawatTambahan.Text) & ", " & CInt(statusFeeKonsultasi) & ", " & _
+                         CDbl(TextBoxMaksimalBHP_Tindakan.Text) & ", " & CInt(statusInformedConsent) & ", '" & ComboBoxInformedConsent.Text.Replace("'", "''") & "', " & hari & ", " & statusReminder & ", 'PoliGigi')", 4)
             End If
 
             ClearDataMenuTindakan()
@@ -898,9 +904,8 @@ Public Class MasterTindakanKlinik
                               "FeePerawat = '" & CDbl(TextBoxFeePerawatTambahan.Text) & "'," & _
                               "StatusFeeKonsultasi = '" & statusFeeKonsultasi & "'," & _
                               "MaksimalBHP = '" & CDbl(TextBoxMaksimalBHP_Tindakan.Text) & "'," & _
-                              "Bulan = " & bulan & "," & _
+                              "Hari = " & hari & "," & _
                               "Reminder = '" & statusReminder & "'," & _
-                              "PoliTujuan = '" & poliGabung & "'," & _
                               "UpdatedBy = '" & userInput & "'," & _
                               "UpdatedDate = GETDATE()"
 
@@ -928,10 +933,10 @@ Public Class MasterTindakanKlinik
         End If
 
         ' Validasi Nama Poli
-        If RadioButtonPoliUmum.Checked = True AndAlso CheckedListBoxPoli.CheckedItems.Count = 0 Then
-            MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
-            Exit Function
-        End If
+        'If RadioButtonPoliUmum.Checked = True AndAlso CheckedListBoxPoli.CheckedItems.Count = 0 Then
+        '    MsgBox("Silakan pilih minimal satu poli.", MsgBoxStyle.Exclamation, "Warning")
+        '    Exit Function
+        'End If
 
         ' Validasi biaya tindakan kurang dari 0
         'If CDbl(TextBoxBiayaTindakan.Text) <= 0 Then MsgBox("Biaya harus lebih besar dari 0.", MsgBoxStyle.Exclamation, "Warning!") : Return False
@@ -1216,7 +1221,7 @@ Public Class MasterTindakanKlinik
         End If
     End Sub
 
-    Private Sub TextBoxBulanReminder_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBoxBulanReminder.KeyPress
+    Private Sub TextBoxHariReminder_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBoxHariReminder.KeyPress
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
@@ -1225,10 +1230,10 @@ Public Class MasterTindakanKlinik
     Private Sub CheckBoxReminder_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxReminder.CheckedChanged
         ' Jika dicentang, TextBoxBulan bisa diisi
         If CheckBoxReminder.Checked Then
-            TextBoxBulanReminder.ReadOnly = False
+            TextBoxHariReminder.ReadOnly = False
         Else
-            TextBoxBulanReminder.ReadOnly = True
-            TextBoxBulanReminder.Text = ""
+            TextBoxHariReminder.ReadOnly = True
+            TextBoxHariReminder.Text = ""
         End If
     End Sub
 

@@ -467,18 +467,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="16670720">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="16678912">
       <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-<<<<<<< Updated upstream
-        <dsig:DigestValue>dOAR7xgPdONVvUSnmstmSfnH13U=</dsig:DigestValue>
-=======
-        <dsig:DigestValue>Vs+V4M/vQub9e/H+BnoCT60fqdw=</dsig:DigestValue>
->>>>>>> Stashed changes
+        <dsig:DigestValue>3TThdSWAR2BhC+3CAucEfb/GKtY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
