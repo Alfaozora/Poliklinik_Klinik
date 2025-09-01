@@ -365,8 +365,11 @@ Public Class FormReservasi
                                   "----- Pesan otomatis, mohon tidak dibalas -----"
 
             Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
+            'Dim urlSend As String = "http://" & waIP & ":4444/send"
             Dim urlSend As String = "http://" & waIP & ":4444/send"
             Dim statusKirim As String = SendDataWhatsapp(parameter, urlSend)
+
+            MsgBox("Respon server: " & statusKirim, MsgBoxStyle.Information)
 
             If statusKirim = "Success" Then
                 MsgBox("Reminder berhasil dikirim ke " & noHP, MsgBoxStyle.Information)

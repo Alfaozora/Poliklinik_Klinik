@@ -1235,44 +1235,79 @@ Module Test
         Return True
     End Function
 
+    'Function validateNoWhatsapp(ByVal NoWhatsapp As String) As Boolean
+    '    Dim Twhatsapp() As String = NoWhatsapp.Split(",")
+
+    '    If NoWhatsapp.Contains(",") = True Then
+    '        For i As Integer = 0 To Twhatsapp.Count - 1
+    '            If Twhatsapp(i).ToString.Trim.Length < 9 Then
+    '                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
+    '                Return False
+    '            ElseIf Twhatsapp(i).ToString.Trim.Length > 13 Then
+    '                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
+    '                Return False
+    '            End If
+
+    '            'Cek Awalan Format No Whatsapp
+    '            If Strings.Left(Twhatsapp(i).ToString.Trim, 2) = "08" Or Strings.Left(Twhatsapp(i).ToString.Trim, 3) = "628" Then
+    '                Return True
+    '            Else
+    '                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan no whatsapp bukan telepon rumah atau kantor.", MsgBoxStyle.Critical, "Warning")
+    '                Return False
+    '            End If
+    '        Next
+    '    Else
+    '        If NoWhatsapp.Length < 9 Then
+    '            MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
+    '            Return False
+    '        ElseIf NoWhatsapp.Length > 13 Then
+    '            MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
+    '            Return False
+    '        End If
+
+    '        'Cek Awalan Format No Whatsapp
+    '        If Strings.Left(NoWhatsapp, 2) = "08" Or Strings.Left(NoWhatsapp, 3) = "628" Then
+    '            Return True
+    '        Else
+    '            MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan no whatsapp bukan telepon rumah atau kantor.", MsgBoxStyle.Critical, "Warning")
+    '            Return False
+    '        End If
+    '    End If
+
+    '    Return True
+    'End Function
+
     Function validateNoWhatsapp(ByVal NoWhatsapp As String) As Boolean
         Dim Twhatsapp() As String = NoWhatsapp.Split(",")
 
-        If NoWhatsapp.Contains(",") = True Then
-            For i As Integer = 0 To Twhatsapp.Count - 1
-                If Twhatsapp(i).ToString.Trim.Length < 9 Then
-                    MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
-                    Return False
-                ElseIf Twhatsapp(i).ToString.Trim.Length > 13 Then
-                    MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
-                    Return False
-                End If
+        For i As Integer = 0 To Twhatsapp.Length - 1
+            Dim nomor = Twhatsapp(i).Trim()
 
-                'Cek Awalan Format No Whatsapp
-                If Strings.Left(Twhatsapp(i).ToString.Trim, 2) = "08" Or Strings.Left(Twhatsapp(i).ToString.Trim, 3) = "628" Then
-                    Return True
-                Else
-                    MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan no whatsapp bukan telepon rumah atau kantor.", MsgBoxStyle.Critical, "Warning")
-                    Return False
-                End If
-            Next
-        Else
-            If NoWhatsapp.Length < 9 Then
-                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
-                Return False
-            ElseIf NoWhatsapp.Length > 13 Then
-                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan jumlah digit no whatsapp yang dimasukkan.", MsgBoxStyle.Critical, "Warning")
+            ' Buang semua karakter selain angka dan +
+            nomor = System.Text.RegularExpressions.Regex.Replace(nomor, "[^0-9+]", "")
+
+            ' Jika diawali +, hilangkan + untuk validasi digit
+            If nomor.StartsWith("+") Then
+                nomor = nomor.Substring(1)
+            End If
+
+            ' Jika diawali dengan 0 → ubah ke 62 untuk validasi panjang dan format
+            If nomor.StartsWith("0") Then
+                nomor = "62" & nomor.Substring(1)
+            End If
+
+            ' Validasi panjang antara 9 dan 15 digit
+            If nomor.Length < 9 OrElse nomor.Length > 15 Then
+                MsgBox("No WhatsApp tidak valid. Jumlah digit harus antara 9 sampai 15.", MsgBoxStyle.Critical, "Warning")
                 Return False
             End If
 
-            'Cek Awalan Format No Whatsapp
-            If Strings.Left(NoWhatsapp, 2) = "08" Or Strings.Left(NoWhatsapp, 3) = "628" Then
-                Return True
-            Else
-                MsgBox("No Whatsapp yang dimasukkan tidak valid, pastikan no whatsapp bukan telepon rumah atau kantor.", MsgBoxStyle.Critical, "Warning")
+            ' Validasi angka semua
+            If Not IsNumeric(nomor) Then
+                MsgBox("No WhatsApp tidak valid. Harus berisi angka saja.", MsgBoxStyle.Critical, "Warning")
                 Return False
             End If
-        End If
+        Next
 
         Return True
     End Function
@@ -2120,15 +2155,25 @@ Module Test
     Public Function InsertDataAPI(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Dim str As String = ""
-
+        'MsgBox(parameter)
         Try
+            'MsgBox("DEBUG - URL: " & uri & vbCrLf & vbCrLf & "Parameter JSON:" & vbCrLf & parameter, MsgBoxStyle.Information, "DEBUG REQUEST")
+
+            ' FIX: pakai TLS 1.2
+            'ServicePointManager.Expect100Continue = True
+            'System.Net.ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) ' TLS 1.2
+            'ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) ' TLS 1.2
+            'System.Net.ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) _
+            '                         Or CType(768, SecurityProtocolType) _
+            '                         Or CType(192, SecurityProtocolType)
+
+
             'REQUEST GET METHOD
             Dim webreq As HttpWebRequest = WebRequest.Create(uri)
-
             webreq.Accept = "application/json"
             webreq.Method = "POST"
-
             webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
             webreq.ContentLength = bytearr.Length
 
             Dim dataStream As Stream = webreq.GetRequestStream()
@@ -2145,21 +2190,41 @@ Module Test
 
             Dim responseSuccess As String = "[" + str + "]"
 
+            ' --- Debug: tampilkan response sukses ---
+            'MsgBox("DEBUG - Response Success:" & vbCrLf & responseSuccess, MsgBoxStyle.Information, "DEBUG RESPONSE")
+
             Return responseSuccess
             'Catch ex As Exception
             '    Return "Nothing"
+            'Catch ex As WebException
+            '    Dim responseStream As Stream = ex.Response.GetResponseStream()
+
+            '    Dim reader As New StreamReader(responseStream)
+            '    Dim responseError As String = reader.ReadToEnd()
+
+            '    reader.Close()
+            '    responseStream.Close()
+
+            '    responseError = "[" + responseError + "]"
+
+            '    Return responseError
+            'End Try
         Catch ex As WebException
-            Dim responseStream As Stream = ex.Response.GetResponseStream()
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Dim responseError As String = reader.ReadToEnd()
+                        ' --- Debug: tampilkan response error ---
+                        'MsgBox("DEBUG - Response Error:" & vbCrLf & responseError, MsgBoxStyle.Critical, "DEBUG ERROR")
+                        Return "[" & responseError & "]"
+                    End Using
+                End Using
+            Else
+                ' --- Debug: tampilkan pesan exception ---
+                'MsgBox("DEBUG - Exception:" & vbCrLf & ex.Message, MsgBoxStyle.Critical, "DEBUG EXCEPTION")
 
-            Dim reader As New StreamReader(responseStream)
-            Dim responseError As String = reader.ReadToEnd()
-
-            reader.Close()
-            responseStream.Close()
-
-            responseError = "[" + responseError + "]"
-
-            Return responseError
+                Return "[{""error"":""" & ex.Message & """}]"
+            End If
         End Try
     End Function
 
@@ -2465,6 +2530,45 @@ Module Test
             Return "Nothing"
         End Try
     End Function
+
+    'Public Function GetDataAntrianOnline2(ByVal apiEndpoint As String) As String
+    '    Try
+    '        ' Set URL Web Service
+    '        'Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+    '        'Dim urlWebService As String = baseURL & "api/data-antrian-online"
+
+    '        ' Set Variabel
+    '        Dim username As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'username_token_antrol'")
+    '        Dim token As String = GetTokenAntrol()
+    '        Dim response As String = ""
+
+    '        'REQUEST GET METHOD
+    '        Dim webreq As HttpWebRequest = WebRequest.Create(apiEndpoint)
+
+    '        webreq.Accept = "application/json"
+    '        webreq.Headers("x-username") = username
+    '        'webreq.Headers("x-token") = token
+    '        webreq.Headers("x-token") = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJwanMtdXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzU2NDUwMTYxLCJleHAiOjE3NTY0NTE5NjF9.Pz_EXweINOMCQNoiuttEApMY1MUYz4CFwcifTzI7WHI"
+
+    '        'webreq.Headers("API-Endpoint") = apiEndpoint
+
+    '        webreq.Method = "GET"
+
+    '        Dim res As WebResponse = webreq.GetResponse()
+    '        Dim stream As Stream = res.GetResponseStream()
+    '        Dim streamReader As New StreamReader(stream)
+
+    '        ' READ RESPONSE
+    '        response = streamReader.ReadToEnd()
+    '        streamReader.Close()
+
+    '        response = "[" + response + "]"
+
+    '        Return response
+    '    Catch ex As Exception
+    '        Return "Nothing"
+    '    End Try
+    'End Function
 
     Public Function PutCheckinAntrol(ByVal urlWebService As String, ByVal parameterString As String) As String
         Try

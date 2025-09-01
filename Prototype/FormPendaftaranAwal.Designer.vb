@@ -458,40 +458,44 @@ Partial Class FormPendaftaranAwal
         Me.ComboBoxPenjamin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxPenjamin.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxPenjamin.FormattingEnabled = True
-        Me.ComboBoxPenjamin.Location = New System.Drawing.Point(889, 129)
+        Me.ComboBoxPenjamin.Location = New System.Drawing.Point(301, 522)
         Me.ComboBoxPenjamin.Name = "ComboBoxPenjamin"
         Me.ComboBoxPenjamin.Size = New System.Drawing.Size(270, 25)
         Me.ComboBoxPenjamin.TabIndex = 539
+        Me.ComboBoxPenjamin.Visible = False
         '
         'Label19
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label19.Location = New System.Drawing.Point(887, 109)
+        Me.Label19.Location = New System.Drawing.Point(299, 502)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(66, 17)
         Me.Label19.TabIndex = 538
         Me.Label19.Text = "Penjamin"
+        Me.Label19.Visible = False
         '
         'ComboBoxMarketing
         '
         Me.ComboBoxMarketing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxMarketing.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxMarketing.FormattingEnabled = True
-        Me.ComboBoxMarketing.Location = New System.Drawing.Point(609, 129)
+        Me.ComboBoxMarketing.Location = New System.Drawing.Point(21, 522)
         Me.ComboBoxMarketing.Name = "ComboBoxMarketing"
         Me.ComboBoxMarketing.Size = New System.Drawing.Size(270, 25)
         Me.ComboBoxMarketing.TabIndex = 537
+        Me.ComboBoxMarketing.Visible = False
         '
         'Label17
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label17.Location = New System.Drawing.Point(607, 109)
+        Me.Label17.Location = New System.Drawing.Point(19, 502)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(71, 17)
         Me.Label17.TabIndex = 536
         Me.Label17.Text = "Marketing"
+        Me.Label17.Visible = False
         '
         'GroupBoxFotoPasien
         '
@@ -517,7 +521,7 @@ Partial Class FormPendaftaranAwal
         '
         Me.CheckBoxPaket.AutoSize = True
         Me.CheckBoxPaket.Font = New System.Drawing.Font("Segoe UI Semibold", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxPaket.Location = New System.Drawing.Point(890, 31)
+        Me.CheckBoxPaket.Location = New System.Drawing.Point(890, 88)
         Me.CheckBoxPaket.Name = "CheckBoxPaket"
         Me.CheckBoxPaket.Size = New System.Drawing.Size(114, 19)
         Me.CheckBoxPaket.TabIndex = 516
@@ -1214,7 +1218,7 @@ Partial Class FormPendaftaranAwal
         Me.ComboBoxPoliTujuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxPoliTujuan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxPoliTujuan.FormattingEnabled = True
-        Me.ComboBoxPoliTujuan.Location = New System.Drawing.Point(609, 27)
+        Me.ComboBoxPoliTujuan.Location = New System.Drawing.Point(609, 84)
         Me.ComboBoxPoliTujuan.Name = "ComboBoxPoliTujuan"
         Me.ComboBoxPoliTujuan.Size = New System.Drawing.Size(271, 25)
         Me.ComboBoxPoliTujuan.TabIndex = 456
@@ -1254,7 +1258,7 @@ Partial Class FormPendaftaranAwal
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(606, 7)
+        Me.Label2.Location = New System.Drawing.Point(606, 64)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(78, 17)
         Me.Label2.TabIndex = 164
@@ -1274,7 +1278,7 @@ Partial Class FormPendaftaranAwal
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label10.Location = New System.Drawing.Point(606, 57)
+        Me.Label10.Location = New System.Drawing.Point(606, 114)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(89, 17)
         Me.Label10.TabIndex = 166
@@ -1387,7 +1391,7 @@ Partial Class FormPendaftaranAwal
         Me.ComboBoxPilihanDokter.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxPilihanDokter.FormattingEnabled = True
         Me.ComboBoxPilihanDokter.Items.AddRange(New Object() {"Poli Umum", "Poli Gigi", "Laboratorium"})
-        Me.ComboBoxPilihanDokter.Location = New System.Drawing.Point(609, 77)
+        Me.ComboBoxPilihanDokter.Location = New System.Drawing.Point(609, 134)
         Me.ComboBoxPilihanDokter.Name = "ComboBoxPilihanDokter"
         Me.ComboBoxPilihanDokter.Size = New System.Drawing.Size(270, 25)
         Me.ComboBoxPilihanDokter.TabIndex = 167
@@ -1508,7 +1512,7 @@ Partial Class FormPendaftaranAwal
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(887, 57)
+        Me.Label1.Location = New System.Drawing.Point(887, 114)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(96, 17)
         Me.Label1.TabIndex = 168
@@ -1531,7 +1535,7 @@ Partial Class FormPendaftaranAwal
         Me.ComboBoxPilihanPerawat.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxPilihanPerawat.FormattingEnabled = True
         Me.ComboBoxPilihanPerawat.Items.AddRange(New Object() {"Dokter Umum", "Dokter Gigi", "Laboratorium"})
-        Me.ComboBoxPilihanPerawat.Location = New System.Drawing.Point(890, 77)
+        Me.ComboBoxPilihanPerawat.Location = New System.Drawing.Point(890, 134)
         Me.ComboBoxPilihanPerawat.Name = "ComboBoxPilihanPerawat"
         Me.ComboBoxPilihanPerawat.Size = New System.Drawing.Size(271, 25)
         Me.ComboBoxPilihanPerawat.TabIndex = 169

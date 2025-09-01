@@ -78,6 +78,21 @@ Public Class FormSettingBPJS
 
     Private Sub SaveSetting()
         Try
+            ' If TextBoxKodePPK Is Nothing OrElse _
+            'TextBoxUsername Is Nothing OrElse _
+            'TextBoxPassword Is Nothing OrElse _
+            'TextBoxConsumerID Is Nothing OrElse _
+            'TextBoxSecretKey Is Nothing OrElse _
+            'TextBoxUserKey Is Nothing OrElse _
+            'TextBoxBaseURL Is Nothing OrElse _
+            'CheckBoxStatusPcare Is Nothing OrElse _
+            'RadioButtonEnvironmentProduction Is Nothing OrElse _
+            'RadioButtonEnvironmentDevelopment Is Nothing Then
+
+            '     MsgBox("Salah satu kontrol tidak ditemukan atau belum diinisialisasi.", MsgBoxStyle.Critical, "ERROR")
+            '     Exit Sub
+            ' End If
+
             ' Update Status Bridging
             If CheckBoxStatusPcare.Checked = True Then
                 WriteSQL("UPDATE MsConfig set StrValue = 'Yes' where ConfigName = 'pcare_status_bridging'", 4)
@@ -116,35 +131,38 @@ Public Class FormSettingBPJS
         End Try
     End Sub
 
+    'NEW
     Private Sub UpdateCredentialsAntrol()
-        '# Variabel SINA
-        Dim uriUpdate As String = "http://sina.mitramedicare.com/v3/controller/update_pcare_credentials.php"
-        Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-        Dim _usernamePcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_username'")
-        Dim _passwordPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_password'")
-        Dim _jenisBridging As String = "" ' DEV / PROD
-
-        If RadioButtonEnvironmentProduction.Checked = True Then
-            _jenisBridging = "PROD"
-        ElseIf RadioButtonEnvironmentDevelopment.Checked = True Then
-            _jenisBridging = "DEV"
-        End If
-
-        ' Set parameter
-        Dim parameterPendaftaran As String = "{" & _
-               """location"" : """ & _loc & """," & _
-               """pcare_username"" : """ & _usernamePcare & """," & _
-               """pcare_password"" : """ & _passwordPcare & """," & _
-               """account_type"": """ & _jenisBridging & """" & _
-              "}"
-
-        ' Post Data
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriUpdate)
-
-        ' Parsing respon dan tampilkan status
         Try
+            '# Variabel SINA
+            Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim _usernamePcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_username'")
+            Dim _passwordPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_password'")
+            Dim _jenisBridging As String = "" ' DEV / PROD
+
+            If RadioButtonEnvironmentProduction.Checked = True Then
+                _jenisBridging = "PROD"
+            ElseIf RadioButtonEnvironmentDevelopment.Checked = True Then
+                _jenisBridging = "DEV"
+            End If
+
+            ' Set parameter JSON
+            Dim parameterPendaftaran As String = "{" & _
+                """location"" : """ & _loc & """," & _
+                """pcare_username"" : """ & _usernamePcare & """," & _
+                """pcare_password"" : """ & _passwordPcare & """," & _
+                """account_type"": """ & _jenisBridging & """" & _
+            "}"
+
+            ' 🔹 URL Helper (bukan langsung ke SINA)
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim webServiceUrl As String = baseUrl & "api/bridge/update-credentials"
+            Dim jsonString As String = InsertDataAPI(parameterPendaftaran, webServiceUrl)
+
+            ' Parsing respon
             If Not String.IsNullOrEmpty(jsonString) Then
-                Dim jArray As JArray = jArray.Parse(jsonString)
+                Dim jArray As JArray = JArray.Parse(jsonString)
+
                 If jArray.Count > 0 Then
                     Dim firstItem As JObject = jArray(0)
 
@@ -158,10 +176,62 @@ Public Class FormSettingBPJS
             Else
                 MessageBox.Show("Tidak ada respon dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+
         Catch ex As Exception
             MessageBox.Show("Gagal parsing respon: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    'OLD
+    'Private Sub UpdateCredentialsAntrol()
+    '    '# Variabel SINA
+    '    Dim uriUpdate As String = "https://sina.mitramedicare.com/v3/controller/update_pcare_credentials.php"
+    '    Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '    Dim _usernamePcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_username'")
+    '    Dim _passwordPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_password'")
+    '    Dim _jenisBridging As String = "" ' DEV / PROD
+
+    '    If RadioButtonEnvironmentProduction.Checked = True Then
+    '        _jenisBridging = "PROD"
+    '    ElseIf RadioButtonEnvironmentDevelopment.Checked = True Then
+    '        _jenisBridging = "DEV"
+    '    End If
+
+    '    ' Set parameter
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """location"" : """ & _loc & """," & _
+    '           """pcare_username"" : """ & _usernamePcare & """," & _
+    '           """pcare_password"" : """ & _passwordPcare & """," & _
+    '           """account_type"": """ & _jenisBridging & """" & _
+    '          "}"
+    '    'MsgBox(parameterPendaftaran)
+
+    '    ' Post Data
+    '    Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriUpdate)
+    '    'MsgBox(jsonString)
+
+    '    ' Parsing respon dan tampilkan status
+    '    Try
+    '        If Not String.IsNullOrEmpty(jsonString) Then
+    '            Dim jArray As JArray = jArray.Parse(jsonString)
+
+    '            If jArray.Count > 0 Then
+    '                Dim firstItem As JObject = jArray(0)
+
+    '                Dim status As String = firstItem("status").ToString()
+    '                Dim message As String = firstItem("message").ToString()
+
+    '                MessageBox.Show("Status Kirim: " & status & vbCrLf & "Pesan: " & message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '            Else
+    '                MessageBox.Show("Respon kosong dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '            End If
+    '        Else
+    '            MessageBox.Show("Tidak ada respon dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        End If
+    '    Catch ex As Exception
+    '        MessageBox.Show("Gagal parsing respon: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+    'End Sub
 
     Private Sub butGetData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butGetData.Click
         Dim parameter As String = "{" & _

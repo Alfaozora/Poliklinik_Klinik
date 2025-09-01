@@ -94,52 +94,31 @@ Public Class DialogBoxRiwayatPerawatanICare
         Try
             If ValidasiData() = True Then
                 Dim endpointBridging As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'icare_base_url'")
-                Dim payloadBridging As String = ""
 
-                payloadBridging = "{" & _
-                                        """param"" : """ & TextBoxNoIdentitas.Text & """" & _
-                                  "}"
+                ' Buat payload JSON
+                Dim payloadObj As New JObject()
+                payloadObj("param") = TextBoxNoIdentitas.Text
+                Dim payloadBridging As String = payloadObj.ToString()
 
-                Dim jsonString As String = ""
-                jsonString = GenerateICareUrl(payloadBridging, endpointBridging, "POST")
-                MsgBox(jsonString)
+                ' Kirim request
+                Dim jsonString As String = GenerateICareUrl(payloadBridging, endpointBridging, "POST")
 
-                ' Parsing JSON response
+                ' Parsing JSON
                 Dim jsonObj As JObject = JObject.Parse(jsonString)
 
-                ' Mengambil nilai metaData.code
-                Dim codeStr As Integer = CInt(jsonObj("metaData")("code"))
-
-                If IsNumeric(codeStr) Then
-                    Dim code As Integer = CInt(codeStr)
-
+                ' Validasi code response
+                Dim code As Integer = 0
+                If Integer.TryParse(jsonObj("metaData")("code").ToString(), code) Then
                     If code = 200 Then
-                        ' Lanjut: valid dan buka link
+                        MsgBox("User Valid. Klik OK untuk menampilkan riwayat.")
+                        Dim url As String = jsonObj("response")("url").ToString()
+                        OpenInNewChromeWindow(url)
                     Else
-                        Dim message As String = jsonObj("metaData")("message").ToString()
-                        MsgBox("Error: " & message, MsgBoxStyle.Critical, "API Error")
+                        MsgBox("Error: " & jsonObj("metaData")("message").ToString(), MsgBoxStyle.Critical, "API Error")
                     End If
                 Else
-                    MsgBox("Error: Kode response tidak valid: " & codeStr, MsgBoxStyle.Critical, "API Error")
+                    MsgBox("Error: Response code tidak valid!", MsgBoxStyle.Critical, "API Error")
                 End If
-
-                ' Jika kode 200, sukses
-                'If code = 200 Then
-                '    ' Menampilkan alert sukses
-                '    MsgBox("User Valid. Klik OK untuk menampilkan informasi pencarian riwayat pelayanan kesehatan." & vbCrLf & "Tutup aplikasi `Google Chrome` terlebih dahulu jika redirect gagal.", MsgBoxStyle.OkOnly Or MsgBoxStyle.Information, "Validasi User")
-
-                '    ' Mengambil nilai dari response.url
-                '    Dim url As String = jsonObj("response")("url").ToString()
-
-                '    ' Membuka di chrome
-                '    OpenInNewChromeWindow(url)
-                'Else
-                '    ' Mengambil pesan error
-                '    Dim message As String = jsonObj("metaData")("message").ToString()
-
-                '    ' Menampilkan alert jika terjadi error
-                '    MsgBox("Error: " & message, MsgBoxStyle.Critical, "API Error")
-                'End If
 
                 Me.Close()
             End If

@@ -1314,7 +1314,6 @@ Public Class PoliKlinik
         FormMasterMarketing.Focus()
     End Sub
 
-
     Private Sub CapaianKBKToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CapaianKBKToolStripMenuItem.Click
         ReportCapaianKBK.Show()
         ReportCapaianKBK.Focus()
@@ -1323,5 +1322,34 @@ Public Class PoliKlinik
     Private Sub ReservasiDanReminderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReservasiDanReminderToolStripMenuItem.Click
         FormReservasi.Show()
         FormReservasi.Focus()
+    End Sub
+
+    Private Sub RepairNoKunjunganBPJSToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepairNoKunjunganBPJSToolStripMenuItem.Click
+        RepairNoKunjunganBPJS.Show()
+        RepairNoKunjunganBPJS.Focus()
+    End Sub
+
+    Private Sub MasterHargaToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MasterHargaToolStripMenuItem.Click
+        ReportMasterHarga.Show()
+        ReportMasterHarga.Focus()
+    End Sub
+
+    Private Sub TesFingerprintToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TesFingerprintToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub GantiDokterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GantiDokterToolStripMenuItem.Click
+        ToolGantiDokter.Show()
+        ToolGantiDokter.Focus()
+    End Sub
+
+    Private Sub Base64EncDecToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Base64EncDecToolStripMenuItem.Click
+        FormBase64.Show()
+        FormBase64.Focus()
+    End Sub
+
+    Private Sub PcareSynchronixationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PcareSynchronizationToolStripMenuItem.Click
+        FormSinkronPcare.Show()
+        FormSinkronPcare.Focus()
     End Sub
 End Class

@@ -1754,9 +1754,24 @@ Public Class FormPendaftaranAwal
             Dim kodePoli As String = DataGridViewAntrean.Rows(e.RowIndex).Cells("ColumnKodePoli").Value.ToString()
             Dim kodeDokter As String = DataGridViewAntrean.Rows(e.RowIndex).Cells("ColumnKodeDokter").Value.ToString()
             Dim nomorAntrean As String = DataGridViewAntrean.Rows(e.RowIndex).Cells("ColumnNomorAntrean").Value.ToString()
+            Dim jenisPeserta As String = DataGridViewAntrean.Rows(e.RowIndex).Cells("ColumnJenisPeserta").Value.ToString()
+
+            ' Debug awal
+            'MsgBox("DEBUG DATA CLICKED" & vbCrLf & _
+            '       "Nomor Antrean: " & nomorAntrean & vbCrLf & _
+            '       "NIK: " & nomorNIK & vbCrLf & _
+            '       "Kode Poli: " & kodePoli & vbCrLf & _
+            '       "Kode Dokter: " & kodeDokter & vbCrLf & _
+            '       "Jenis Peserta: " & jenisPeserta)
 
             ' Validasi jika status sudah terlayani
-            If ValidasiAntrean(nomorAntrean, nomorNIK, kodePoli, kodeDokter) = False Then Exit Sub
+            'If ValidasiAntrean(nomorAntrean, nomorNIK, kodePoli, kodeDokter) = False Then Exit Sub
+
+            If ValidasiAntrean(nomorAntrean, nomorNIK, kodePoli, kodeDokter) = False Then
+                'MsgBox("DEBUG: Antrean tidak valid / sudah terlayani")
+                Exit Sub
+            End If
+
 
             Dim kolom() As String = {"ColumnNomorAntrean", "ColumnNomorNIK", "ColumnNomorKartu", "ColumnNamaPasien", "ColumnJenisKelamin", "ColumnTanggalLahir", "ColumnAlamat", "ColumnNomorHP", "ColumnKodeDokter", "ColumnNamaDokter", "ColumnKodePoli", "ColumnNamaPoli", "ColumnKeluhan", "ColumnKodeFaskes", "ColumnNamaFaskes"}
             Dim kunci() As String = {"Nomor Antrean", "Nomor NIK", "Nomor Kartu BPJS", "Nama Pasien", "Jenis Kelamin", "Tgl Lahir", "Alamat", "Nomor HP", "Kode Dokter", "Nama Dokter", "Kode Poli", "Nama Poli", "Keluhan", "Kode Faskes", "Nama Faskes"}
@@ -1766,8 +1781,6 @@ Public Class FormPendaftaranAwal
             For i As Integer = 0 To kolom.Length - 1
                 dataDictionary.Add(kunci(i), DataGridViewAntrean.Rows(e.RowIndex).Cells(kolom(i)).Value.ToString())
             Next
-
-            Dim jenisPeserta As String = DataGridViewAntrean.Rows(e.RowIndex).Cells("ColumnJenisPeserta").Value.ToString()
 
             If jenisPeserta = "BPJS" Then
                 ' Jika Pasien BPJS
@@ -2071,44 +2084,89 @@ Public Class FormPendaftaranAwal
         ClearFormFields()
     End Sub
 
+    'OLD
+    'Function ValidasiAntrean(ByRef nomorAntrean As String, ByRef nomorNIK As String, ByRef kodePoli As String, ByRef kodeDokter As String)
+    '    ' Variabel BPJS
+    '    Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
+    '    Dim waktuDaftar As String = Format(DateAndTime.Now, "HH:mm")
+    '    Dim uriSINA As String = "https://sina.mitramedicare.com/v3/controller/get_status_jadwal_dokter_dan_status_antrean.php"
+
+    '    ' Variabel SINA
+    '    Dim kodeLokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+    '    ' Set parameter untuk POST data ke pcare BPJS
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """nik"" : """ & nomorNIK & """," & _
+    '           """tanggalpraktek"" : """ & tglDaftar & """," & _
+    '           """jampraktek"" : """ & waktuDaftar & """," & _
+    '           """nomor_antrean"" : """ & nomorAntrean & """," & _
+    '           """kode_poli"" : """ & kodePoli & """," & _
+    '           """kode_lokasi"" : """ & kodeLokasi & """," & _
+    '           """kode_nakes"": """ & kodeDokter & """" & _
+    '          "}"
+
+    '    Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriSINA)
+
+    '    Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of responseAntrol())(jsonString)
+    '    For Each rowData As responseAntrol In jsonObject
+    '        Dim codeMetaData As Integer = Convert.ToInt32(rowData.code)
+    '        Dim messageResponse As String = rowData.message
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                Return True
+    '            Case Else
+    '                GetDataAntreanOnline()
+    '                MsgBox("Eror : " & messageResponse, MsgBoxStyle.Exclamation, "Error!")
+    '                Return False
+    '        End Select
+    '    Next
+
+    '    Return True
+    'End Function
+
+    'NEW
     Function ValidasiAntrean(ByRef nomorAntrean As String, ByRef nomorNIK As String, ByRef kodePoli As String, ByRef kodeDokter As String)
-        ' Variabel BPJS
-        Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
-        Dim waktuDaftar As String = Format(DateAndTime.Now, "HH:mm")
-        Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/get_status_jadwal_dokter_dan_status_antrean.php"
+        Try
+            Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
+            Dim waktuDaftar As String = Format(DateAndTime.Now, "HH:mm")
+            Dim kodeLokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
 
-        ' Variabel SINA
-        Dim kodeLokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            ' Buat JSON parameter
+            Dim parameterPendaftaran As String = "{" & _
+                   """nik"" : """ & nomorNIK & """," & _
+                   """tanggalpraktek"" : """ & tglDaftar & """," & _
+                   """jampraktek"" : """ & waktuDaftar & """," & _
+                   """nomor_antrean"" : """ & nomorAntrean & """," & _
+                   """kode_poli"" : """ & kodePoli & """," & _
+                   """kode_lokasi"" : """ & kodeLokasi & """," & _
+                   """kode_nakes"": """ & kodeDokter & """" & _
+                  "}"
 
-        ' Set parameter untuk POST data ke pcare BPJS
-        Dim parameterPendaftaran As String = "{" & _
-               """nik"" : """ & nomorNIK & """," & _
-               """tanggalpraktek"" : """ & tglDaftar & """," & _
-               """jampraktek"" : """ & waktuDaftar & """," & _
-               """nomor_antrean"" : """ & nomorAntrean & """," & _
-               """kode_poli"" : """ & kodePoli & """," & _
-               """kode_lokasi"" : """ & kodeLokasi & """," & _
-               """kode_nakes"": """ & kodeDokter & """" & _
-              "}"
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim urlWebService As String = baseUrl & "api/bridge/get-doctor-status"
+            Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
+            Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of responseAntrol())(jsonString)
 
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriSINA)
+            For Each rowData As responseAntrol In jsonObject
+                Dim codeMetaData As Integer = Convert.ToInt32(rowData.code)
+                Dim messageResponse As String = rowData.message
 
-        Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of responseAntrol())(jsonString)
-        For Each rowData As responseAntrol In jsonObject
-            Dim codeMetaData As Integer = Convert.ToInt32(rowData.code)
-            Dim messageResponse As String = rowData.message
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        Return True
+                    Case Else
+                        GetDataAntreanOnline()
+                        MsgBox("Eror : " & messageResponse, MsgBoxStyle.Exclamation, "Error!")
+                        Return False
+                End Select
+            Next
 
-            Select Case codeMetaData
-                Case 200, 201, 204
-                    Return True
-                Case Else
-                    GetDataAntreanOnline()
-                    MsgBox("Eror : " & messageResponse, MsgBoxStyle.Exclamation, "Error!")
-                    Return False
-            End Select
-        Next
-
-        Return True
+            Return True
+        Catch ex As Exception
+            MsgBox("Exception: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+            Return False
+        End Try
     End Function
 
     Private Sub ButtonTambahPaket_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTambahPaket.Click

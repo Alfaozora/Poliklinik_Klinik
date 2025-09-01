@@ -32,6 +32,57 @@ Public Class FormRekamMedisDokter
         Private _Jumlah As Integer
         Private _GrandTotal As Decimal
 
+        Public Class varJson
+            Public metaData As metaData
+            Public response As Object   ' ganti jadi Object dulu biar bisa array atau single
+        End Class
+
+        Public Class metaData
+            Private _code As String
+            Private _message As String
+
+            Public Property code() As String
+                Get
+                    Return _code
+                End Get
+                Set(ByVal value As String)
+                    _code = value
+                End Set
+            End Property
+
+            Public Property message() As String
+                Get
+                    Return _message
+                End Get
+                Set(ByVal value As String)
+                    _message = value
+                End Set
+            End Property
+        End Class
+
+        Public Class responseItem
+            Private _field As String
+            Private _message As String
+
+            Public Property field() As String
+                Get
+                    Return _field
+                End Get
+                Set(ByVal value As String)
+                    _field = value
+                End Set
+            End Property
+
+            Public Property message() As String
+                Get
+                    Return _message
+                End Get
+                Set(ByVal value As String)
+                    _message = value
+                End Set
+            End Property
+        End Class
+
         Public Property TindakanID() As String
             Get
                 Return _TindakanID
@@ -1416,6 +1467,8 @@ Public Class FormRekamMedisDokter
         TextBoxCatatanObatNonRacikan.ResetText()
         TextBoxHargaObatNonRacikan.ResetText()
         LabelStokObatNonRacikan.ResetText()
+        TextBoxObatDPHO.ResetText()
+        TextBoxKodeObatDPHO.ResetText()
 
         RadioButtonImmTidak.Checked = True
         CheckBoxSignaAktif.Checked = True
@@ -2051,17 +2104,17 @@ Public Class FormRekamMedisDokter
                 WriteSQL("INSERT INTO TransaksiPoliDetail(TransPoliID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,Penjamin,GroupBayar,StatusPembayaran,CreatedBy,CreatedDate) " & _
                          "VALUES('" & trowPoli("TransPoliID") & "','" & TextBoxTindakanID.Text & "','" & TextBoxNamaTindakan.Text & "','" & TextBoxJenisTindakan.Text & "'," & CDbl(TextBoxBiayaTindakan.Text) & ", 0," & CDbl(TextBoxBiayaTindakan.Text) & ", '" & penjaminTindakan & "', '', 'PENDING', '" & userInput & "', GETDATE())", 4)
 
-                Dim dtReminder As DataTable = ReadSQL("SELECT Reminder, Bulan FROM MasterTindakan WHERE TindakanID = '" & TextBoxTindakanID.Text & "'")
+                Dim dtReminder As DataTable = ReadSQL("SELECT Reminder, Hari FROM MasterTindakan WHERE TindakanID = '" & TextBoxTindakanID.Text & "'")
 
                 If dtReminder.Rows.Count > 0 AndAlso CBool(dtReminder.Rows(0)("Reminder")) = True Then
-                    Dim bulanStr As String = dtReminder.Rows(0)("Bulan").ToString().Trim()
-                    Dim jumlahBulan As Integer = 1 ' default jika kosong
-                    If IsNumeric(bulanStr) Then
-                        jumlahBulan = CInt(bulanStr)
+                    Dim hariStr As String = dtReminder.Rows(0)("Hari").ToString().Trim()
+                    Dim jumlahHari As Integer = 1 ' default jika kosong
+                    If IsNumeric(hariStr) Then
+                        jumlahHari = CInt(hariStr)
                     End If
 
-                    ' Hitung tanggal reminder = hari ini + jumlah bulan
-                    Dim tglReminder As Date = Date.Today.AddMonths(jumlahBulan)
+                    ' Hitung tanggal reminder = hari ini + jumlah hari
+                    Dim tglReminder As Date = Date.Today.AddDays(jumlahHari)
 
                     ' Simpan ke LogReminderPasien
                     WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
@@ -3320,7 +3373,7 @@ Public Class FormRekamMedisDokter
         End If
     End Sub
 
-    Public Sub LoadDataObat(ByVal Trow As DataRowView, ByRef JenisObat As String)
+    Public Sub LoadDataObat(ByVal Trow As DataRowView, ByRef JenisObat As String, Optional ByVal kodeDPHO As String = "", Optional ByVal namaDPHO As String = "")
         Dim formatHarga As Decimal
         'Dim HargaObat As String = Trow("Harga").ToString
         Dim HargaObat As String = ReadThemysqlNIK("SELECT F_HargaObatKlinik('" & Trow("Kode Obat").ToString & "')", dbApotek)
@@ -3337,6 +3390,11 @@ Public Class FormRekamMedisDokter
             LabelStokObatRacikan.Text = "Stok Obat : " & Trow("Stok").ToString
 
             If Decimal.TryParse(HargaObat, formatHarga) Then TextBoxHargaObatRacikan.Text = formatHarga.ToString("N2")
+        End If
+
+        If kodeDPHO <> "" AndAlso namaDPHO <> "" Then
+            TextBoxKodeObatDPHO.Text = kodeDPHO
+            TextBoxObatDPHO.Text = namaDPHO
         End If
     End Sub
 
@@ -3527,6 +3585,10 @@ Public Class FormRekamMedisDokter
                 If TextBoxSigna1NonRacikan.Text <> "" Then signa1 = TextBoxSigna1NonRacikan.Text
                 If TextBoxSigna2NonRacikan.Text <> "" Then signa2 = TextBoxSigna2NonRacikan.Text
 
+                'Set Jumlah Permintaan
+                Dim totalPerHari As Integer = signa1 * signa2
+                Dim habisHari As Integer = jumlahObat / totalPerHari
+
                 ' Set Status IMM
                 Dim statusIMM As Boolean = True
                 If RadioButtonImmYa.Checked = True Then
@@ -3546,6 +3608,13 @@ Public Class FormRekamMedisDokter
                 ' Save ke tabel TransaksiObatNonRacikan
                 WriteSQL("INSERT INTO TransaksiObatNonRacikan (NoTransaksi, ObatID, AturanPakai, Signa1, Signa2, SignaSatuan, Catatan, StatusIMM) " & _
                                  "VALUES('" & idTransaksi & "', '" & TextBoxKodeObatNonRacikan.Text & "', '" & ComboBoxAturanPakaiObatNonRacikan.Text & "', " & signa1 & ", " & signa2 & ", '" & ComboBoxSatuanSignaNonRacikan.Text & "', '" & TextBoxCatatanObatNonRacikan.Text & "', " & Convert.ToInt32(statusIMM) & ")", 4)
+
+                ' Save ke tabel TransaksiObatBPJS
+                If Not String.IsNullOrEmpty(TextBoxKodeObatDPHO.Text) AndAlso Not String.IsNullOrEmpty(TextBoxObatDPHO.Text) Then
+                    WriteSQL("INSERT INTO TransaksiObatBPJS (NoTransaksi, kdObatSK, noKunjungan, racikan, kdRacikan, obatDPHO, kdObat, signa1, signa2, signaSatuan, jmlObat, jmlPermintaan, nmObatNonDPHO, CreatedBy, CreatedDate) " & _
+                             "VALUES('" & idTransaksi & "', 0, '" & noKunjunganBPJS & "', 0, NULL, 1, '" & TextBoxKodeObatDPHO.Text & "', " & signa1 & ", " & signa2 & ", '" & ComboBoxSatuanSignaNonRacikan.Text & "', " & TextBoxJumlahObatNonRacikan.Text & ", " & habisHari & ", NULL, '" & userInput & "', GETDATE())", 4)
+                End If
+
 
                 LoadGridResepObat()
                 SaveDetailResep()
@@ -3908,7 +3977,8 @@ Public Class FormRekamMedisDokter
                     statusIMM = "Tidak"
                 End If
 
-                DataGridViewObat.Rows.Add(New String() {"" & Trow("ObatID") & "", "" & Trow("ObatNama") & "", "" & signaString & "", "" & hargaObatString & "", "" & Trow("Jumlah") & "", "" & hargaObatTotalString & "", "" & statusIMM & "", "" & Trow("KodeRacikan") & ""})
+
+                DataGridViewObat.Rows.Add(New String() {"" & Trow("ObatID") & "", "" & Trow("ObatNama") & "", "" & signaString & "", "" & hargaObatString & "", "" & Trow("Jumlah") & "", "" & hargaObatTotalString & "", "" & statusIMM & "", "" & Trow("KodeRacikan") & "", "" & Trow("DPHO") & ""})
             Next
 
             DataGridViewObat.CurrentCell = Nothing
@@ -6245,6 +6315,13 @@ Public Class FormRekamMedisDokter
         Dim queryString As String = ""
         Dim queryOrderString As String = ""
         Dim queryPoliTujuanString As String = ""
+        Dim jenisPoli As String = ""
+        Dim sqlPoli As String = "SELECT JenisPoli FROM TransaksiDetail WHERE NoUrut = '" & idTransaksi & "'"
+        Dim dtPoli As DataTable = ReadSQL(sqlPoli)
+
+        If dtPoli.Rows.Count > 0 Then
+            jenisPoli = dtPoli.Rows(0)("JenisPoli").ToString().Trim()
+        End If
 
         If ComboBoxPoliTujuan.Text = "SEMUA TRANSAKSI" Then
             queryPoliTujuanString = ""
@@ -6441,6 +6518,7 @@ Public Class FormRekamMedisDokter
         DataGridViewObat.Columns.Add("ColumnTotal", "Total")
         DataGridViewObat.Columns.Add("ColumnStatusIMM", "IMM")
         DataGridViewObat.Columns.Add("ColumnRacikan", "Racikan")
+        DataGridViewObat.Columns.Add("ColumnDpho", "DPHO")
 
         Dim buttonColumn As New DataGridViewButtonColumn()
         buttonColumn.HeaderText = "Aksi"
@@ -7324,7 +7402,56 @@ Public Class FormRekamMedisDokter
                                 ' Delete Detail
                                 WriteSQL("DELETE FROM TransaksiObatNonRacikan WHERE NoTransaksi = '" & idTransaksi & "' AND ObatID = '" & idObat & "'", 4)
 
-                                MsgBox("Obat : " & namaObat & " berhasil dihapus.", MsgBoxStyle.Information, "Success!")
+                                Dim kdObatSK As String = ""
+                                Dim noKunjunganBPJS As String = ""
+
+                                Dim dtBpjs As DataTable = ReadSQL( _
+                                      "SELECT TOP 1 " & _
+                                      "ISNULL(CAST(kdObatSK AS VARCHAR(50)),'') AS kdObatSK, " & _
+                                      "ISNULL(noKunjungan,'') AS noKunjungan " & _
+                                      "FROM TransaksiObatBPJS " & _
+                                      "WHERE NoTransaksi = '" & idTransaksi & "' " & _
+                                      "AND kdObat = '" & idObat & "' " & _
+                                      "AND DeletedDate IS NULL")
+
+                                If dtBpjs IsNot Nothing AndAlso dtBpjs.Rows.Count > 0 Then
+                                    kdObatSK = dtBpjs.Rows(0)("kdObatSK").ToString().Trim()
+                                    noKunjunganBPJS = dtBpjs.Rows(0)("noKunjungan").ToString().Trim()
+                                End If
+
+                                If kdObatSK <> "" AndAlso kdObatSK <> "0" AndAlso noKunjunganBPJS <> "" Then
+                                    Try
+                                        ' --- Kirim DELETE ke PCare ---
+                                        Dim uriBPJS As String = urlPcare & "obat/" & kdObatSK & "/kunjungan/" & noKunjunganBPJS
+                                        Dim jsonResponse As String = PostDataFromPcare("", uriBPJS, "DELETE")
+
+                                        ' TRACE (opsional)
+                                        'MsgBox("Kirim DELETE ke: " & uriBPJS)
+                                        'MsgBox("Response Hapus: " & jsonResponse)
+
+                                        ' Cek metaData BPJS
+                                        Dim jObj As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(jsonResponse)
+                                        Dim code As String = jObj("metaData")("code").ToString()
+                                        Dim msg As String = jObj("metaData")("message").ToString()
+
+                                        If code = "200" OrElse code = "204" Then
+                                            ' Hapus di DB kalau sukses
+                                            WriteSQL("UPDATE TransaksiObatBPJS SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                                                     "WHERE NoTransaksi = '" & idTransaksi & "' AND kdObat = '" & idObat & "' AND DeletedDate IS NULL", 4)
+                                            MsgBox("Obat " & namaObat & " berhasil dihapus di BPJS PCare dan database lokal.", MsgBoxStyle.Information, "Success!")
+                                        Else
+                                            MsgBox("Gagal hapus obat di BPJS PCare: " & msg, MsgBoxStyle.Exclamation, "BPJS Error")
+                                        End If
+
+                                    Catch ex As Exception
+                                        MsgBox("Terjadi error hapus obat di PCare: " & ex.Message, MsgBoxStyle.Critical, "Error")
+                                    End Try
+                                Else
+                                    ' Kalau belum pernah terkirim ke PCare (kdObatSK = 0), cukup hapus lokal
+                                    WriteSQL("UPDATE TransaksiObatBPJS SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                                             "WHERE NoTransaksi = '" & idTransaksi & "' AND kdObat = '" & idObat & "' AND DeletedDate IS NULL", 4)
+                                    MsgBox("Obat " & namaObat & " berhasil dihapus hanya di database lokal.", MsgBoxStyle.Information, "Success!")
+                                End If
                             End If
                         Else
                             Dim resultRacikan As DialogResult = MessageBox.Show("Apakah Anda yakin ingin menghapus racikan " & noRacikan & "?", "Validasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -8013,6 +8140,8 @@ Public Class FormRekamMedisDokter
 
             'Nama Dokter
             Dim namaDokter As String = ReadSQLNIK("SELECT DokterPoli FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+            Dim kodeDokter As String = ReadSQLNIK("SELECT KodeDokter FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+            Dim noSIP As String = ReadSQLNIK("SELECT NoSIP FROM MasterDokter WHERE ID = '" & kodeDokter & "'")
 
             ' Set Data Surat Keterangan
             Dim tblSuratKeterangan As DataTable = ReadSQL("SELECT * FROM SuratKeteranganIstirahat WHERE NoTransaksi = '" & idTransaksi & "'")
@@ -8103,6 +8232,7 @@ Public Class FormRekamMedisDokter
 
                     If Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelDokter") IsNot Nothing Then
                         Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelDokter").Text = namaDokter
+                        Report.Bands.Item(BandKind.GroupFooter).Controls("xrLabelSIP").Text = "SIP: " & noSIP
                     End If
 
                     ' Nonaktifkan jika sudah ada master TTD Dokter
@@ -8216,13 +8346,165 @@ Public Class FormRekamMedisDokter
 
     Private Sub ButtonKirimResep_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonKirimResep.Click
         If ValidasiKirimResep() = True Then
-            WriteSQL("UPDATE TransaksiObat SET KirimApotekStatus = " & 1 & ", KirimApotekDate = GETDATE() WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL AND KirimApotekStatus = 0", 4)
+            ' Update status kirim apotek lokal
+            WriteSQL("UPDATE TransaksiObat SET KirimApotekStatus = 1, KirimApotekDate = GETDATE() " & _
+                     "WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL AND KirimApotekStatus = 0", 4)
 
             SetLabelKirimResep()
             'WhatsappToApotek()
 
+            ' Cek jika penagihan BPJS, maka kirim juga ke PCare
+            Dim dtJenis As DataTable = ReadSQL("SELECT JenisPenagihan FROM TransaksiDetail WHERE NoUrut = '" & idTransaksi & "'")
+            If dtJenis.Rows.Count > 0 Then
+                Dim JenisPenagihan As String = dtJenis.Rows(0)("JenisPenagihan").ToString()
+                If JenisPenagihan = "BPJS" Then
+                    KirimResepKePCare(idTransaksi)
+                End If
+            End If
+
             MsgBox("Resep berhasil terkirim ke Apotek.", MsgBoxStyle.Information, "Success!")
         End If
+    End Sub
+
+    Private Sub KirimResepKePCare(ByVal idTransaksi As String)
+        Try
+            ' Ambil data resep
+            Dim dtObat As DataTable = ReadSQL("SELECT * FROM TransaksiObatBPJS WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
+            If dtObat.Rows.Count = 0 Then
+                MsgBox("Tidak ada resep BPJS yang akan dikirim.", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+
+            Dim noKunjungan As String = ""
+            If Not IsDBNull(dtObat.Rows(0)("noKunjungan")) Then
+                noKunjungan = dtObat.Rows(0)("noKunjungan").ToString().Trim()
+            End If
+
+            If noKunjungan = "" Then
+                MsgBox("Nomor Kunjungan BPJS belum ada.", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+
+            ' Endpoint PCare resep
+            Dim uriBPJS As String = urlPcare & "obat/kunjungan"
+
+            For Each row As DataRow In dtObat.Rows
+                ' siapkan variabel aman
+                Dim racikan As String = "false"
+                If Not IsDBNull(row("racikan")) AndAlso (row("racikan").ToString() = "1" OrElse row("racikan").ToString().ToLower() = "true") Then
+                    racikan = "true"
+                End If
+
+                Dim obatDPHO As String = "false"
+                If Not IsDBNull(row("obatDPHO")) AndAlso (row("obatDPHO").ToString() = "1" OrElse row("obatDPHO").ToString().ToLower() = "true") Then
+                    obatDPHO = "true"
+                End If
+
+                Dim kdRacikan As String = "null"
+                If Not IsDBNull(row("kdRacikan")) AndAlso row("kdRacikan").ToString().Trim() <> "" Then
+                    kdRacikan = """" & row("kdRacikan").ToString() & """"
+                End If
+
+                Dim nmObatNonDPHO As String = """" & """" ' default string kosong
+                If obatDPHO = "false" Then
+                    If Not IsDBNull(row("nmObatNonDPHO")) AndAlso row("nmObatNonDPHO").ToString().Trim() <> "" Then
+                        nmObatNonDPHO = """" & row("nmObatNonDPHO").ToString() & """"
+                    End If
+                End If
+
+                ' siapkan JSON
+                Dim parameterResep As String = "{" & _
+                    """kdObatSK"": " & row("kdObatSK").ToString() & "," & _
+                    """noKunjungan"": """ & row("noKunjungan").ToString() & """," & _
+                    """racikan"": " & racikan & "," & _
+                    """kdRacikan"": " & kdRacikan & "," & _
+                    """obatDPHO"": " & obatDPHO & "," & _
+                    """kdObat"": """ & row("kdObat").ToString() & """," & _
+                    """signa1"": " & row("signa1").ToString() & "," & _
+                    """signa2"": " & row("signa2").ToString() & "," & _
+                    """jmlObat"": " & row("jmlObat").ToString() & "," & _
+                    """jmlPermintaan"": " & row("jmlPermintaan").ToString() & "," & _
+                    """nmObatNonDPHO"": " & nmObatNonDPHO & _
+                "}"
+                'MsgBox("JSON yang akan dikirim ke PCare:" & vbCrLf & parameterResep, MsgBoxStyle.Information, "TRACE")
+
+                ' kirim request
+                Dim jsonString As String = PostDataFromPcare(parameterResep, uriBPJS, "POST")
+                'MsgBox("Response BPJS: " & vbCrLf & jsonString)
+
+                ' parse response ke object tunggal
+                Dim jObj As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(jsonString)
+
+                Dim codeMetaData As Integer = Convert.ToInt32(jObj("metaData")("code").ToString())
+                Dim messageMetaData As String = jObj("metaData")("message").ToString()
+                Dim messageResponse As String = ""
+
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        Dim kdObatSKValue As String = ""
+
+                        Try
+                            If jObj("response") IsNot Nothing Then
+                                If jObj("response").Type = Newtonsoft.Json.Linq.JTokenType.Array Then
+                                    For Each item As Newtonsoft.Json.Linq.JObject In jObj("response")
+                                        Dim field As String = item("field").ToString()
+                                        Dim msg As String = item("message").ToString()
+
+                                        If field = "kdObatSK" Then
+                                            kdObatSKValue = msg
+                                        End If
+                                    Next
+                                ElseIf jObj("response").Type = Newtonsoft.Json.Linq.JTokenType.Object Then
+                                    Dim field As String = jObj("response")("field").ToString()
+                                    Dim msg As String = jObj("response")("message").ToString()
+
+                                    If field = "kdObatSK" Then
+                                        kdObatSKValue = msg
+                                    End If
+                                End If
+                            End If
+                        Catch ex As Exception
+                            ' bisa pakai debug trace aja
+                            Debug.Print("Trace parsing response: " & ex.Message)
+                        End Try
+
+                        ' simpan kdObatSK
+                        If kdObatSKValue <> "" Then
+                            Dim sqlUpdate As String = "UPDATE TransaksiObatBPJS " & _
+                                                      "SET kdObatSK = '" & kdObatSKValue & "' " & _
+                                                      "WHERE NoTransaksi = '" & idTransaksi & "' " & _
+                                                      "AND kdObat = '" & row("kdObat").ToString() & "' " & _
+                                                      "AND DeletedDate IS NULL"
+                            WriteSQL(sqlUpdate, 4)
+                        End If
+
+                        ' notifikasi sukses
+                        Dim pesanSukses As String = "Obat berhasil dikirim ke BPJS PCare."
+                        If messageResponse <> "" Then
+                            pesanSukses &= vbCrLf & "Response: " & messageResponse
+                        End If
+                        If kdObatSKValue <> "" Then
+                            pesanSukses &= vbCrLf & "kdObatSK: " & kdObatSKValue
+                        End If
+                        MsgBox(pesanSukses, MsgBoxStyle.Information, "Success!")
+
+                    Case Else
+                        Dim messageError As String = ""
+                        If messageResponse <> "" AndAlso messageMetaData <> "" Then
+                            messageError = messageResponse & " (" & messageMetaData & ")"
+                        ElseIf messageResponse <> "" Then
+                            messageError = messageResponse
+                        ElseIf messageMetaData <> "" Then
+                            messageError = messageMetaData
+                        End If
+
+                        MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+                        Exit Sub
+                End Select
+            Next
+        Catch ex As Exception
+            MsgBox("Terjadi error KirimResepKePCare: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+        End Try
     End Sub
 
     Function ValidasiKirimResep() As Boolean
@@ -8589,8 +8871,43 @@ Public Class FormRekamMedisDokter
             ' Hapus berdasarkan ID Detail
             Dim idTindakanDetail As String = idTindakanDetailObj.ToString()
             If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
-                WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
-                     "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
+                'WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                '     "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
+                Dim queryTindakanID As String = "SELECT TindakanID FROM TransaksiPoliDetail " & _
+                                      "WHERE TransPoliIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL"
+                Dim tindakanID As String = ReadSQLNIK(queryTindakanID)
+
+                If Not String.IsNullOrEmpty(tindakanID) Then
+                    Dim tindakanNama As String = "SELECT NamaTindakan FROM MasterTindakan WHERE TindakanID = '" & tindakanID & "'"
+                    Dim tindakan As String = ReadSQLNIK(tindakanNama)
+
+                    If Not String.IsNullOrEmpty(tindakanNama) Then
+                        Dim queryReminderID As String = "SELECT TOP 1 ReminderID FROM LogReminderPasien " & _
+                                                "WHERE Keperluan LIKE '%" & tindakan.Replace("'", "''") & "%' " & _
+                                                "AND DeletedDate IS NULL AND CONVERT(DATE, Tanggal) >= CONVERT(DATE, GETDATE()) " & _
+                                                "ORDER BY CreatedDate DESC"
+                        Dim dtReminder As DataTable = ReadSQL(queryReminderID)
+
+                        If dtReminder.Rows.Count > 0 Then
+                            Dim reminderID As String = dtReminder.Rows(0)("ReminderID").ToString()
+                            'MsgBox("Reminder Ditemukan!" & vbCrLf & _
+                            '       "ReminderID: " & dtReminder.Rows(0)("ReminderID").ToString() & vbCrLf & _
+                            '       "Total Baris: " & dtReminder.Rows.Count.ToString())
+                            Dim queryDeleteReminder As String = "UPDATE LogReminderPasien SET Status = 'CANCLE', DeletedBy = '" & userInput.Replace("'", "''") & "', DeletedDate = GETDATE() " & _
+                                       "WHERE ReminderID = '" & reminderID & "' AND DeletedDate IS NULL"
+                            WriteSQL(queryDeleteReminder, 4)
+                        Else
+                            'MsgBox("Tidak ada reminder yang ditemukan." & vbCrLf & _
+                            '       "Query dijalankan: " & vbCrLf & queryReminderID)
+                        End If
+                    Else
+                        MsgBox("NamaTindakan tidak ditemukan untuk TindakanID: " & tindakanID)
+                    End If
+                Else
+                    MsgBox("TindakanID tidak ditemukan untuk TransPoliIDDetail: " & idTindakanDetail)
+                End If
+                WriteSQL("UPDATE TransaksiPoliDetail SET DeletedBy = '" & userInput.Replace("'", "''") & "', DeletedDate = GETDATE() " & _
+                         "WHERE TransPoliIDDetail = '" & idTindakanDetail.Replace("'", "''") & "' AND DeletedDate IS NULL", 4)
             ElseIf jenisTransaksi = "GIGI" Then
                 WriteSQL("UPDATE TransaksiGigiDetail SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
                      "WHERE TransGigiIDDetail = '" & idTindakanDetail & "' AND DeletedDate IS NULL", 4)
@@ -8612,7 +8929,6 @@ Public Class FormRekamMedisDokter
              ") THEN 1 ELSE 0 END"
 
             Dim isPaketReguler As Boolean = CBool(ReadSQLNIK(queryCek))
-
 
             If isPaketReguler Then
                 HapusPaketReguler(kodeVoucher)
@@ -10245,12 +10561,14 @@ Public Class FormRekamMedisDokter
             ' Ambil data dokter dari transaksi
             Dim idDokter As String = "", namaDokter As String = "", namaPerawat As String = ""
             Dim dt As DataTable = ReadSQL("SELECT KodeDokter, DokterPoli, PerawatPoli FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+
             If dt.Rows.Count > 0 Then
                 Dim row As DataRow = dt.Rows(0)
                 idDokter = row("KodeDokter").ToString()
                 namaDokter = row("DokterPoli").ToString()
                 namaPerawat = row("PerawatPoli").ToString()
             End If
+
 
             ' Cek apakah data sudah ada
             Dim cek As DataTable = ReadSQL("SELECT * FROM SuratKeteranganPersetujuanRujukan WHERE NoTransaksi = '" & idTransaksi & "'")
@@ -11243,14 +11561,27 @@ Public Class FormRekamMedisDokter
     End Sub
 
     Private Sub ComboBoxJenisCekStik_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxJenisCekStik.SelectedIndexChanged
+        Dim jenisTes As String = ComboBoxJenisCekStik.SelectedItem.ToString()
         If ComboBoxJenisCekStik.Text = "GULA DARAH" Then
             TabControlCekStik.SelectedTab = TabPageGula
         ElseIf ComboBoxJenisCekStik.Text = "KOLESTEROL" Then
             TabControlCekStik.SelectedTab = TabPageKolesterol
         ElseIf ComboBoxJenisCekStik.Text = "ASAM URAT" Then
             TabControlCekStik.SelectedTab = TabPageAsamUrat
+            Dim query As DataTable = ReadSQL("SELECT Hasil, Keterangan FROM HasilCekStik WHERE Kondisi LIKE '%" & jenisTes & "%' AND NoTransaksi = '" & idTransaksi & "'")
+            If query.Rows.Count > 0 Then
+                TextBoxHasilAsamUrat.Text = query.Rows(0)("Hasil").ToString()
+            Else
+                TextBoxHasilAsamUrat.Text = ""
+            End If
         ElseIf ComboBoxJenisCekStik.Text = "HB" Then
             TabControlCekStik.SelectedTab = TabPageHB
+            Dim query As DataTable = ReadSQL("SELECT Hasil, Keterangan FROM HasilCekStik WHERE Kondisi LIKE '%" & jenisTes & "%' AND NoTransaksi = '" & idTransaksi & "'")
+            If query.Rows.Count > 0 Then
+                TextBoxHasilHb.Text = query.Rows(0)("Hasil").ToString()
+            Else
+                TextBoxHasilHb.Text = ""
+            End If
         End If
     End Sub
 
@@ -11315,16 +11646,24 @@ Public Class FormRekamMedisDokter
             Dim dtDuplikat As DataTable = ReadSQL(queryCekDuplikat)
 
             If dtDuplikat.Rows.Count > 0 AndAlso Convert.ToInt32(dtDuplikat.Rows(0)(0)) > 0 Then
-                MessageBox.Show("Data cek stik untuk kondisi '" & kondisi & "' pada transaksi ini sudah pernah disimpan.", "Duplikat Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
+                ' Jika sudah ada, update data
+                Dim queryUpdate As String = "UPDATE HasilCekStik " & _
+                                "SET Hasil = '" & hasil.Replace("'", "''") & "', " & _
+                                "    Keterangan = '" & keterangan.Replace("'", "''") & "', " & _
+                                "    Satuan = '" & satuan.Replace("'", "''") & "', " & _
+                                "    UpdatedDate = GETDATE(), " & _
+                                "    UpdatedBy = '" & userInput & "' " & _
+                                "WHERE NoTransaksi = '" & idTransaksi.Replace("'", "''") & "' " & _
+                                "  AND Kondisi = '" & kondisi.Replace("'", "''") & "'"
+                WriteSQL(queryUpdate, 4)
+                MessageBox.Show("Data cek stik berhasil diperbarui.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                ' Jika belum ada, insert data baru
+                Dim queryInsert As String = "INSERT INTO HasilCekStik (NoTransaksi, NoRM, Kategori, Kondisi, Hasil, Keterangan, CreatedDate, CreatedBy, Satuan) " & _
+                                "VALUES ('" & idTransaksi.Replace("'", "''") & "', '" & idPasien.Replace("'", "''") & "', '" & kategori & "', '" & kondisi & "', '" & hasil & "', '" & keterangan & "', GETDATE(), '" & userInput & "', '" & satuan & "')"
+                WriteSQL(queryInsert, 4)
+                MessageBox.Show("Data cek stik berhasil disimpan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-
-            ' Simpan data
-            WriteSQL("INSERT INTO HasilCekStik (NoTransaksi, NoRM, Kategori, Kondisi, Hasil, Keterangan, CreatedDate, CreatedBy, Satuan) " & _
-                 "VALUES ('" & idTransaksi.Replace("'", "''") & "', '" & idPasien.Replace("'", "''") & "', '" & kategori & "', '" & kondisi & "', '" & hasil & "', '" & keterangan & "', GETDATE(), '" & userInput & "', '" & satuan & "')", 4)
-
-            MessageBox.Show("Data cek stik berhasil disimpan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
         Catch ex As Exception
             MessageBox.Show("Terjadi kesalahan saat menyimpan data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -11389,6 +11728,16 @@ Public Class FormRekamMedisDokter
     End Sub
 
     Private Sub ComboBoxKondisiTes_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxKondisiTes.SelectedIndexChanged
+        If ComboBoxKondisiTes.SelectedIndex = -1 Then Exit Sub
+        Dim jenisTes As String = ComboBoxKondisiTes.SelectedItem.ToString()
+        Dim query As DataTable = ReadSQL("SELECT Hasil, Keterangan FROM HasilCekStik WHERE Kondisi LIKE '%" & jenisTes & "%' AND NoTransaksi = '" & idTransaksi & "'")
+
+        If query.Rows.Count > 0 Then
+            TextBoxHasilGula.Text = query.Rows(0)("Hasil").ToString()
+        Else
+            TextBoxHasilGula.Text = ""
+        End If
+
         HitungKeteranganGula()
     End Sub
 
@@ -11479,6 +11828,16 @@ Public Class FormRekamMedisDokter
     End Sub
 
     Private Sub ComboBoxJenisKolesterol_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxJenisKolesterol.SelectedIndexChanged
+        If ComboBoxJenisKolesterol.SelectedIndex = -1 Then Exit Sub
+        Dim jenisTes As String = ComboBoxJenisKolesterol.SelectedItem.ToString()
+        Dim query As DataTable = ReadSQL("SELECT Hasil, Keterangan FROM HasilCekStik WHERE Kondisi LIKE '%" & jenisTes & "%' AND NoTransaksi = '" & idTransaksi & "'")
+
+        If query.Rows.Count > 0 Then
+            TextBoxHasilKolesterol.Text = query.Rows(0)("Hasil").ToString()
+        Else
+            TextBoxHasilKolesterol.Text = ""
+        End If
+
         If ComboBoxJenisKolesterol.Text = "LDL" Then
             GroupBoxCad.Visible = True
         Else
