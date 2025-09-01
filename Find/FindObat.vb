@@ -41,14 +41,15 @@ Public Class FindObat
         Me.Close()
     End Sub
 
-    Private Sub GridControl1_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridPencarian.DoubleClick
+    Private Sub GridView1_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles GridView1.DoubleClick
         If GridView1.FocusedRowHandle >= 0 Then
-            Dim Index() As Integer = GridView1.GetSelectedRows
+            Dim Index() As Integer = GridView1.GetSelectedRows()
             If Index.Length > 0 Then
                 LoadData(Index(0))
             End If
         End If
     End Sub
+
 
     Private Sub Connection()
         Dim Tbls As DataTable = ReadSQL("SELECT ConfigName, StrValue FROM MsConfig WHERE ConfigName IN ('NameDatabaseObat', 'AddressDatabaseObat', 'PasswordDatabaseObat')")
@@ -83,6 +84,7 @@ Public Class FindObat
         Connection()
         SetAwal()
         GridPencarian.DataSource = CreateTable()
+        GridObatDPHO.DataSource = Nothing
     End Sub
 
     Private Sub SetAwal()
@@ -104,8 +106,8 @@ Public Class FindObat
             Dim namaObat As String = TextBoxNamaObat.Text
             Dim komponenObat As String = TextBoxKomponenObat.Text
             Dim lokasiApotek As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='LokasiApotek'")
-            Dim query As String = "CALL Sp_GetStockListKlinik('" & lokasiApotek & "','" & namaObat & "','" & komponenObat & "')"
 
+            Dim query As String = "CALL Sp_GetStockListKlinik('" & lokasiApotek & "','" & namaObat & "','" & komponenObat & "')"
             Dim TblsObat As DataTable = ReadThemysql(query, Ttcon)
 
             If TblsObat.Rows.Count > 0 Then
@@ -121,11 +123,76 @@ Public Class FindObat
                     Tdata.Rows.Add(Tlastnew)
                 Next
             Else
-                MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
+                MsgBox("Data tidak ditemukan di data Apotek.", MsgBoxStyle.Exclamation, "Warning!")
             End If
 
             GridPencarian.DataSource = Tdata
             'GridView1.Columns("PRB").Visible = False
+
+
+            '========================================
+            ' Ambil data obat dari MasterObatBPJS
+            '========================================
+
+            Dim keywordSet As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+            ' Tambahkan namaObat dari TextBox
+            If namaObat <> "" Then
+                keywordSet.Add(namaObat)
+            End If
+
+            ' Tambahkan komponen dari hasil apotek
+            If TblsObat.Rows.Count > 0 Then
+                For Each Trow As DataRow In TblsObat.Rows
+                    Dim komponen As String = Trow("komponen").ToString().Trim()
+                    If komponen <> "" Then
+                        keywordSet.Add(komponen)
+                    End If
+                Next
+            End If
+
+            ' Susun WHERE clause
+            Dim whereClause As String = ""
+            For Each keyword As String In keywordSet
+                If whereClause <> "" Then whereClause &= " OR "
+                whereClause &= "NamaObat LIKE '%" & keyword.Replace("'", "''") & "%'"
+            Next
+
+            ' Buat tabel kosong default untuk reset
+            ' Buat tabel kosong default untuk reset
+            Dim emptyTable As New DataTable()
+            emptyTable.Columns.Add("KodeObat")
+            emptyTable.Columns.Add("NamaObat")
+            emptyTable.Columns.Add("PilihObat", GetType(Boolean))
+
+            Dim TblsObatBPJS As DataTable = emptyTable
+
+            If whereClause <> "" Then
+                Dim queryBPJS As String = "SELECT KodeObat, NamaObat FROM MasterObatBPJS WHERE " & whereClause
+                TblsObatBPJS = ReadSQL(queryBPJS)
+
+                ' Tambahkan kolom PilihObat kalau belum ada
+                If Not TblsObatBPJS.Columns.Contains("PilihObat") Then
+                    TblsObatBPJS.Columns.Add("PilihObat", GetType(Boolean))
+                End If
+
+                If TblsObatBPJS.Rows.Count > 0 Then
+                    GridObatDPHO.DataSource = TblsObatBPJS
+                Else
+                    GridObatDPHO.DataSource = emptyTable
+                    MsgBox("Obat BPJS tidak ditemukan.", MsgBoxStyle.Information, "Info")
+                End If
+            Else
+                ' kalau keyword kosong, langsung reset
+                GridObatDPHO.DataSource = emptyTable
+            End If
+
+            '========================================
+            ' Jika dua-duanya kosong, kasih info
+            '========================================
+            If TblsObat.Rows.Count = 0 AndAlso TblsObatBPJS.Rows.Count = 0 Then
+                MsgBox("Data tidak ditemukan di Apotek maupun BPJS.", MsgBoxStyle.Exclamation, "Warning!")
+            End If
         End If
     End Sub
 
@@ -133,6 +200,7 @@ Public Class FindObat
         If GridView1.RowCount > 0 Then
             Dim Grdrow As DataRowView = GridView1.GetRow(Baris)
 
+            '===== Panggil load data obat apotek seperti biasa =====
             Select Case TForm
                 Case "RekamMedisDokterObatNonRacikan"
                     FormRekamMedisDokter.LoadDataObat(Grdrow, TForm)
@@ -140,6 +208,33 @@ Public Class FindObat
                     FormRekamMedisDokter.LoadDataObat(Grdrow, TForm)
             End Select
 
+            '===== Tambahan: Ambil obat BPJS yang dicentang di GridObatDPHO =====
+            Dim kodeObatBPJS As String = ""
+            Dim namaObatBPJS As String = ""
+
+            For Each r As DataGridViewRow In GridObatDPHO.Rows
+                If Not r.IsNewRow Then
+                    Dim isChecked As Boolean = False
+                    Dim cellVal = r.Cells("PilihObat").Value
+                    If cellVal IsNot Nothing AndAlso cellVal IsNot DBNull.Value Then
+                        isChecked = Convert.ToBoolean(cellVal)
+                    End If
+
+                    If isChecked Then
+                        kodeObatBPJS = Convert.ToString(r.Cells("KodeObat").Value)
+                        namaObatBPJS = Convert.ToString(r.Cells("NamaObat").Value)
+                        Exit For ' ambil satu yang dicentang
+                    End If
+                End If
+            Next
+
+            ' Isi textbox BPJS kalau ada yang dicentang
+            If kodeObatBPJS <> "" Then
+                FormRekamMedisDokter.TextBoxKodeObatDPHO.Text = kodeObatBPJS
+                FormRekamMedisDokter.TextBoxObatDPHO.Text = namaObatBPJS
+            End If
+
+            '===== Tutup form =====
             Me.Close()
         End If
     End Sub

@@ -41,7 +41,7 @@ Public Class ReportMasterHarga
                 Tquery = "select TindakanID as ID,NamaTindakan as Nama,JenisTindakan  as Jenis,PARSENAME(CONVERT(varchar,convert(money,BiayaTindakan),1),2) as Harga from MasterLab where closed=0 order by JenisTindakan,NamaTindakan"
                 Tjudul = "MASTER TINDAKAN LAB"
             Case "Master Gigi"
-                Tquery = "select TindakanID as ID,NamaTindakan as Nama,JenisTindakan  as Jenis,PARSENAME(CONVERT(varchar,convert(money,TindakanHarga),1),2) as Harga from MasterTindakanGigi where Aktif=1 order by JenisTindakan,NamaTindakan"
+                Tquery = "select TindakanID as ID,NamaTindakan as Nama,JenisTindakan  as Jenis,PARSENAME(CONVERT(varchar,convert(money,BiayaTindakan),1),2) as Harga from MasterTindakanGigi where Aktif=1 order by JenisTindakan,NamaTindakan"
                 Tjudul = "MASTER TINDAKAN GIGI"
         End Select
 

@@ -1,3 +1,13 @@
+Version : 2.0.0.54 ()
+# [New Feature] Penambahan Menu Ganti Dokter (Hanya Bisa Diakses Admin)
+# [New Feature] Bridging Obat ke Pcare (Tahap Pengembangan)
+# [Usability Improvement] Penambahan No SIP pada Surat Istirahat
+# [Usability Improvement] Hasil Cek Stik Bisa Diupdate
+# [Usability Improvement] Tampilan Cek Stik berubah sesuai jenis yang dipilih
+# [Usability Improvement] Master Harga Diaktifkan Kembali
+# [Usability Improvement] Penyesuaian TLS (Transport Layer Security) 1.2 yang mendukung Https (Comment)
+# [Usability Improvement] Penyesuaian Bridging API Sina melalui Web Service Klinik agar bisa diakses dengan TLS 1.0
+
 Version : 2.0.0.53 (30 Juli 2025)
 # [New Feature] Penambahan Menu Reminder Pasien Untuk Mengingatkan Pasien Untuk Berkunjung ke Faskes
 # [New Feature] Penambahan Menu Riwayat Cek Stik pada Riwayat Laboratiorium

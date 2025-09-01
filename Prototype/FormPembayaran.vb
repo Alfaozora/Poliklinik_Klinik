@@ -860,6 +860,51 @@ Public Class FormPembayaran
         ComboBoxJenisEDC.SelectedIndex = -1
     End Sub
 
+    Private Function UpdateDilayaniERM() As Boolean
+        Try
+            Dim nikPasien As String = _noNIK
+            Dim tglPeriksa As String = Format(DateAndTime.Now, "yyyy-MM-dd")
+
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+            Dim kdPoli As String = rowPoli("KodeBPJS").ToString()
+            Dim kdLokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim parameterNonBPJS As String = "{" & _
+                """nik"":""" & nikPasien & """," & _
+                """tanggalperiksa"":""" & tglPeriksa & """," & _
+                """kodepoli"":""" & kdPoli & """," & _
+                """kodelokasi"":""" & kdLokasi & """" & _
+            "}"
+
+            ' --- URL API dari MsConfig ---
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim urlWebService As String = baseUrl & "api/bridge/update-served"
+
+            Dim jsonString As String = InsertDataAPI(parameterNonBPJS, urlWebService)
+
+            Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            For Each rowData As varJson In jsonObject
+                Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+                Dim messageMetaData As String = rowData.metaData.message
+
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        Return True
+                    Case Else
+                        MsgBox("Error Update Status Dilayani ERM: " & vbCrLf & messageMetaData, MsgBoxStyle.Exclamation, "Error!")
+                        Return False
+                End Select
+            Next
+
+            Return True
+        Catch ex As Exception
+            MsgBox("Exception Update Status Dilayani ERM: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+            Return False
+        End Try
+    End Function
+
     Private Sub SaveDataPembayaran()
         '# Variabel Umum
         Dim NewHeader As DataTable = CreateTable()
@@ -1121,6 +1166,7 @@ Public Class FormPembayaran
                 If NoUrutBPJS = "" Then
                     ' Non BPJS
                     MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+                    UpdateDilayaniERM()
                 Else
                     ' BPJS
                     MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
@@ -1394,6 +1440,7 @@ Public Class FormPembayaran
                 If NoUrutBPJS = "" Then
                     ' Non BPJS
                     MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+                    UpdateDilayaniERM()
                 Else
                     ' BPJS
                     MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
@@ -1709,7 +1756,8 @@ Public Class FormPembayaran
     Function SendPCareDataV2() As Boolean
         '# Variabel BPJS
         Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim uriBPJS As String = "http://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
         Dim kdPoli As String = ""
         Dim kdTkp As String = ""
         Dim kunjSakit As String = ""
@@ -1775,7 +1823,7 @@ Public Class FormPembayaran
                """sumber"": """ & _sumber & """" & _
               "}"
 
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriBPJS)
+        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
         jsonString = jsonString
         Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
@@ -1815,7 +1863,8 @@ Public Class FormPembayaran
     Function SetStatusHadir() As Boolean
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
 
         '# Variabel SINA
         Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
@@ -1838,7 +1887,7 @@ Public Class FormPembayaran
                """sumber"": """ & _sumber & """" & _
               "}"
 
-        InsertDataAPI(parameterPendaftaran, uriSINA)
+        InsertDataAPI(parameterPendaftaran, urlWebService)
 
         Return True
     End Function

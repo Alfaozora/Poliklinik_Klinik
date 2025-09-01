@@ -23,8 +23,6 @@ Partial Class FindObat
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FindObat))
-        Me.GridPencarian = New DevExpress.XtraGrid.GridControl
-        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.PanelTop = New System.Windows.Forms.Panel
         Me.btnClose = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
@@ -34,35 +32,25 @@ Partial Class FindObat
         Me.TextBoxNamaObat = New System.Windows.Forms.TextBox
         Me.ButtonFindObat = New System.Windows.Forms.Button
         Me.Panel2 = New System.Windows.Forms.Panel
-        CType(Me.GridPencarian, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.GridPencarian = New DevExpress.XtraGrid.GridControl
+        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.GridObatDPHO = New System.Windows.Forms.DataGridView
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.GridPencarian, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.GridObatDPHO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'GridPencarian
-        '
-        Me.GridPencarian.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.GridPencarian.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GridPencarian.EmbeddedNavigator.Name = ""
-        Me.GridPencarian.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GridPencarian.Location = New System.Drawing.Point(0, 0)
-        Me.GridPencarian.MainView = Me.GridView1
-        Me.GridPencarian.Name = "GridPencarian"
-        Me.GridPencarian.Size = New System.Drawing.Size(798, 331)
-        Me.GridPencarian.TabIndex = 1
-        Me.GridPencarian.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
-        '
-        'GridView1
-        '
-        Me.GridView1.GridControl = Me.GridPencarian
-        Me.GridView1.Name = "GridView1"
-        Me.GridView1.OptionsBehavior.Editable = False
-        Me.GridView1.OptionsCustomization.AllowGroup = False
-        Me.GridView1.OptionsView.ShowAutoFilterRow = True
-        Me.GridView1.OptionsView.ShowGroupPanel = False
-        Me.GridView1.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowForFocusedRow
         '
         'PanelTop
         '
@@ -107,7 +95,7 @@ Partial Class FindObat
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(30, 24)
+        Me.Label1.Location = New System.Drawing.Point(30, 22)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(78, 17)
         Me.Label1.TabIndex = 441
@@ -116,7 +104,7 @@ Partial Class FindObat
         'TextBoxKomponenObat
         '
         Me.TextBoxKomponenObat.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.TextBoxKomponenObat.Location = New System.Drawing.Point(185, 56)
+        Me.TextBoxKomponenObat.Location = New System.Drawing.Point(185, 54)
         Me.TextBoxKomponenObat.Name = "TextBoxKomponenObat"
         Me.TextBoxKomponenObat.Size = New System.Drawing.Size(282, 25)
         Me.TextBoxKomponenObat.TabIndex = 2
@@ -126,7 +114,7 @@ Partial Class FindObat
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(30, 59)
+        Me.Label2.Location = New System.Drawing.Point(30, 57)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(109, 17)
         Me.Label2.TabIndex = 432
@@ -135,7 +123,7 @@ Partial Class FindObat
         'TextBoxNamaObat
         '
         Me.TextBoxNamaObat.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.TextBoxNamaObat.Location = New System.Drawing.Point(185, 21)
+        Me.TextBoxNamaObat.Location = New System.Drawing.Point(185, 19)
         Me.TextBoxNamaObat.Name = "TextBoxNamaObat"
         Me.TextBoxNamaObat.Size = New System.Drawing.Size(282, 25)
         Me.TextBoxNamaObat.TabIndex = 1
@@ -151,7 +139,7 @@ Partial Class FindObat
         Me.ButtonFindObat.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonFindObat.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonFindObat.ForeColor = System.Drawing.Color.White
-        Me.ButtonFindObat.Location = New System.Drawing.Point(185, 87)
+        Me.ButtonFindObat.Location = New System.Drawing.Point(185, 85)
         Me.ButtonFindObat.Name = "ButtonFindObat"
         Me.ButtonFindObat.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ButtonFindObat.Size = New System.Drawing.Size(282, 30)
@@ -163,12 +151,94 @@ Partial Class FindObat
         'Panel2
         '
         Me.Panel2.AutoScroll = True
-        Me.Panel2.Controls.Add(Me.GridPencarian)
+        Me.Panel2.Controls.Add(Me.SplitContainer1)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 167)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(798, 331)
         Me.Panel2.TabIndex = 7
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GridPencarian)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer1.Size = New System.Drawing.Size(798, 331)
+        Me.SplitContainer1.SplitterDistance = 170
+        Me.SplitContainer1.TabIndex = 0
+        '
+        'GridPencarian
+        '
+        Me.GridPencarian.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.GridPencarian.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GridPencarian.EmbeddedNavigator.Name = ""
+        Me.GridPencarian.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridPencarian.Location = New System.Drawing.Point(0, 0)
+        Me.GridPencarian.MainView = Me.GridView1
+        Me.GridPencarian.Name = "GridPencarian"
+        Me.GridPencarian.Size = New System.Drawing.Size(798, 170)
+        Me.GridPencarian.TabIndex = 3
+        Me.GridPencarian.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
+        '
+        'GridView1
+        '
+        Me.GridView1.GridControl = Me.GridPencarian
+        Me.GridView1.Name = "GridView1"
+        Me.GridView1.OptionsBehavior.Editable = False
+        Me.GridView1.OptionsCustomization.AllowGroup = False
+        Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        Me.GridView1.OptionsView.ShowGroupPanel = False
+        Me.GridView1.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowForFocusedRow
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.Label3)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.GridObatDPHO)
+        Me.SplitContainer2.Size = New System.Drawing.Size(798, 157)
+        Me.SplitContainer2.SplitterDistance = 25
+        Me.SplitContainer2.TabIndex = 0
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(176, 4)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(413, 17)
+        Me.Label3.TabIndex = 433
+        Me.Label3.Text = "Obat Untuk Keperluan Bridging pasien BPJS, Silahkan Centang Saja"
+        '
+        'GridObatDPHO
+        '
+        Me.GridObatDPHO.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.GridObatDPHO.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
+        Me.GridObatDPHO.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GridObatDPHO.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GridObatDPHO.Location = New System.Drawing.Point(0, 0)
+        Me.GridObatDPHO.Name = "GridObatDPHO"
+        Me.GridObatDPHO.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.GridObatDPHO.Size = New System.Drawing.Size(798, 128)
+        Me.GridObatDPHO.TabIndex = 0
         '
         'FindObat
         '
@@ -186,24 +256,36 @@ Partial Class FindObat
         Me.MinimizeBox = False
         Me.Name = "FindObat"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        CType(Me.GridPencarian, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelTop.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.GridPencarian, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.PerformLayout()
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.GridObatDPHO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Private WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents PanelTop As System.Windows.Forms.Panel
     Friend WithEvents btnClose As System.Windows.Forms.Button
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents ButtonFindObat As System.Windows.Forms.Button
-    Friend WithEvents GridPencarian As DevExpress.XtraGrid.GridControl
     Friend WithEvents TextBoxNamaObat As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxKomponenObat As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents GridPencarian As DevExpress.XtraGrid.GridControl
+    Private WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents GridObatDPHO As System.Windows.Forms.DataGridView
 End Class

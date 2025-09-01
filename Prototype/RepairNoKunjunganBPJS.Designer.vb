@@ -22,15 +22,30 @@ Partial Class RepairNoKunjunganBPJS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.CLearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextBoxNoUrut = New System.Windows.Forms.TextBox
         Me.TextBoxNoKunjunganBPJS = New System.Windows.Forms.TextBox
         Me.ButtonCekKIS = New System.Windows.Forms.Button
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
-        Me.CLearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'CLearToolStripMenuItem
+        '
+        Me.CLearToolStripMenuItem.Name = "CLearToolStripMenuItem"
+        Me.CLearToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.CLearToolStripMenuItem.Text = "Clear"
+        '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CLearToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(549, 24)
+        Me.MenuStrip1.TabIndex = 424
+        Me.MenuStrip1.Text = "MenuStrip1"
         '
         'Label2
         '
@@ -92,21 +107,6 @@ Partial Class RepairNoKunjunganBPJS
         Me.ButtonCekKIS.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonCekKIS.UseVisualStyleBackColor = False
         '
-        'MenuStrip1
-        '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CLearToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(549, 24)
-        Me.MenuStrip1.TabIndex = 424
-        Me.MenuStrip1.Text = "MenuStrip1"
-        '
-        'CLearToolStripMenuItem
-        '
-        Me.CLearToolStripMenuItem.Name = "CLearToolStripMenuItem"
-        Me.CLearToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.CLearToolStripMenuItem.Text = "Clear"
-        '
         'RepairNoKunjunganBPJS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -129,11 +129,11 @@ Partial Class RepairNoKunjunganBPJS
         Me.PerformLayout()
 
     End Sub
+    Friend WithEvents CLearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBoxNoUrut As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxNoKunjunganBPJS As System.Windows.Forms.TextBox
     Friend WithEvents ButtonCekKIS As System.Windows.Forms.Button
-    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
-    Friend WithEvents CLearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

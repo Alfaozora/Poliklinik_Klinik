@@ -582,6 +582,19 @@ Public Class FormMasterPasien
         End If
     End Sub
 
+    Private Function GetNIKMasking(ByVal noNIK As String) As String
+        If noNIK.Length < 8 Then
+            Return New String("*"c, noNIK.Length)
+        End If
+
+        ' Ambil 6 digit awal + 4 digit akhir
+        Dim awal As String = noNIK.Substring(0, 6)
+        Dim akhir As String = noNIK.Substring(noNIK.Length - 4)
+        Dim bintang As String = New String("*"c, noNIK.Length - awal.Length - akhir.Length)
+
+        Return awal & bintang & akhir
+    End Function
+
     Private Sub SaveData(ByRef jenisProses As String)
         If CheckInput() = True Then
             ' Inisialisasi semua variabel
@@ -595,6 +608,10 @@ Public Class FormMasterPasien
             Else
                 noNIK = generateNomorNIK()
             End If
+
+            'Encrypt NIK
+            Dim nikEnkripsi As String = EncryptString(noNIK)
+            Dim nikMasking As String = GetNIKMasking(noNIK)
 
             ' Status NIK Sementara
             Dim statusNIK As Boolean = False
@@ -698,6 +715,7 @@ Public Class FormMasterPasien
                                       "VALUES (@noRekamMedis, @noDokumenRekamMedis, @noIHS, @noNIK, @noNIP, @noKartuBPJS, @noInhealth, @noJPK, @noCahaya, @namaPasien, @tempatLahirPasien, @tglLahirPasien, @jenisKelaminPasien, @golDarahPasien, @domisiliAlamat, @domisiliRT, @domisiliRW, @domisiliKelurahan, @domisiliKecamatan, @domisiliKabupaten, @domisiliProvinsi, @domisiliKodePos, @ktpAlamat, @ktpRT, @ktpRW, @ktpKelurahan, @ktpKecamatan, @ktpKabupaten, @ktpProvinsi, @ktpKodePos, @noTelepon, @noHandphone, @email, @pendidikanTerakhir, @statusPerkawinan, @agama, @kewarganegaraan, @kewarganegaraanKeterangan, @statusKeluarga, @pekerjaan, @kontakDaruratNama, @kontakDaruratAlamat, @kontakDaruratNoTelepon, @riwayatPenyakitDahulu, @riwayatPenyakitKeluarga, @riwayatKebiasaan, " & Convert.ToInt32(CheckBoxStatusNIK.Checked) & ", @userInput, GETDATE(), @fotoPath)"
 
                 ' Memanggil fungsi WriteParameterizedSQL untuk eksekusi query
+                'New SqlParameter("@noNIK", nikEnkripsi), _
                 WriteParameterizedLokalSQL(query, 4, _
                      New SqlParameter("@noRekamMedis", noRekamMedis), _
                      New SqlParameter("@noDokumenRekamMedis", noDokumenRekamMedis), _
@@ -1140,6 +1158,7 @@ Public Class FormMasterPasien
         ' Insert data ke textbox
         If IsDBNull(Trow("NoRekamMedis")) = False Then TextBoxNoRM.Text = Trow("NoRekamMedis")
         If IsDBNull(Trow("NoNIK")) = False Then TextBoxNomorNIK.Text = Trow("NoNIK")
+        'If IsDBNull(Trow("NoNIK")) = False Then TextBoxNomorNIK.Text = DecryptString(Trow("NoNIK").ToString())
         If IsDBNull(Trow("NoNIP")) = False Then TextBoxNomorNIP.Text = Trow("NoNIP")
         If IsDBNull(Trow("NoDokumenRekamMedis")) = False Then TextBoxNoDokumenRM.Text = Trow("NoDokumenRekamMedis")
         If IsDBNull(Trow("NoIHS")) = False Then TextBoxNomorIHS.Text = Trow("NoIHS")
@@ -1794,6 +1813,9 @@ Public Class FormMasterPasien
         ClearData()
 
         TextBoxNomorNIK.Text = dataRow("Nomor NIK")
+        'If IsDBNull(dataRow("Nomor NIK")) = False Then
+        '    TextBoxNomorNIK.Text = DecryptString(dataRow("Nomor NIK").ToString())
+        'End If
 
         If IsDBNull(dataRow("Nama")) = False Then TextBoxNamaLengkapIdentitas.Text = dataRow("Nama")
         If IsDBNull(dataRow("Nomor BPJS")) = False Then TextBoxNomorKIS.Text = dataRow("Nomor BPJS")

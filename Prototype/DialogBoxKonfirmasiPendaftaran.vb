@@ -340,6 +340,83 @@ Public Class DialogBoxKonfirmasiPendaftaran
         End Try
     End Sub
 
+    'Private Sub SubmitDataPendaftaran()
+    '    Try
+    '        If ValidasiTransaksi() = True Then
+    '            ' Debug awal
+    '            MsgBox("Mulai SubmitDataPendaftaran", MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Create Data Pasien Jika Belum Punya Nomor RM
+    '            If TextBoxNoRekamMedis.Text = "" Then
+    '                MsgBox("SaveMasterPasien: CREATE", MsgBoxStyle.Information, "DEBUG")
+    '                SaveMasterPasien("CREATE")
+    '            Else
+    '                MsgBox("SaveMasterPasien: UPDATE", MsgBoxStyle.Information, "DEBUG")
+    '                SaveMasterPasien("UPDATE")
+    '            End If
+
+    '            ' Sending Data PCare
+    '            Dim versiProgramAntrol As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'versi_program_antrian_online'")
+    '            MsgBox("versiProgramAntrol = " & versiProgramAntrol, MsgBoxStyle.Information, "DEBUG")
+
+    '            If CheckBridgingPcareActive() = True Then
+    '                If versiProgramAntrol = "v1" AndAlso SendPCareDataV1() = False Then
+    '                    MsgBox("SendPCareDataV1 Gagal", MsgBoxStyle.Critical, "DEBUG")
+    '                    Exit Sub
+    '                End If
+
+    '                If versiProgramAntrol = "v2" AndAlso SendPCareDataV2() = False Then
+    '                    MsgBox("SendPCareDataV2 Gagal", MsgBoxStyle.Critical, "DEBUG")
+    '                    Exit Sub
+    '                End If
+    '            Else
+    '                If versiProgramAntrol = "v2" Then
+    '                    MsgBox("SetStatusHadir() Dipanggil", MsgBoxStyle.Information, "DEBUG")
+    '                    SetStatusHadir()
+    '                End If
+    '            End If
+
+    '            ' Get Nomor Rekam Medis
+    '            Dim nomorRekamMedis As String = TextBoxNoRekamMedis.Text
+    '            MsgBox("No Rekam Medis = " & nomorRekamMedis, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Get Data Master Poli Tujuan
+    '            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '            Dim rowPoli As DataRow = tblPoli.Rows(0)
+    '            MsgBox("Poli Tujuan = " & _namaPoli & vbCrLf & "Kode Transaksi = " & rowPoli("KodeTransaksi"), MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Get Jenis Transaksi
+    '            Dim jenisTransaksi As String = ""
+    '            If rowPoli("JenisPoli") = "UMUM" Then
+    '                jenisTransaksi = "POLI"
+    '            ElseIf rowPoli("JenisPoli") = "GIGI" Then
+    '                jenisTransaksi = "GIGI"
+    '            End If
+    '            MsgBox("Jenis Transaksi = " & jenisTransaksi, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Get Kode Dokter
+    '            Dim kodeDokter As String = ReadSQLNIK("SELECT ID FROM MasterDokter WHERE KodeBridgingPCare = '" & DirectCast(ComboBoxPilihanDokter.SelectedItem, KeyValuePair(Of String, String)).Key & "'")
+    '            MsgBox("Kode Dokter = " & kodeDokter, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Generate No Urut Transaksi
+    '            Dim nomorUrutTransaksi As String = generateNoTransaksi(rowPoli("KodeTransaksi"), rowPoli("JenisPoli"), DateTime.Now.ToString("yyyyMMdd"), False)
+    '            MsgBox("No Urut Transaksi = " & nomorUrutTransaksi, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' ... (lanjut proses Insert seperti sebelumnya, bisa juga tambahkan MsgBox untuk setiap query jika mau debug penuh)
+
+    '            ' Alert Success
+    '            If NoUrutBPJS = "" Then
+    '                MsgBox("Sukses Simpan Non-BPJS" & vbCrLf & "No Transaksi : " & nomorUrutTransaksi, MsgBoxStyle.Information, "DEBUG")
+    '            Else
+    '                MsgBox("Sukses Simpan BPJS" & vbCrLf & "No Transaksi : " & nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "DEBUG")
+    '            End If
+
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical, "DEBUG")
+    '    End Try
+    'End Sub
+
     Private Sub SaveMasterPasien(ByRef jenisProses As String)
         Dim noRekamMedis As String = ""
 
@@ -790,146 +867,409 @@ Public Class DialogBoxKonfirmasiPendaftaran
         Return True
     End Function
 
+    'NEW
     Function SetStatusHadir() As Boolean
-        '# Variabel BPJS
-        Dim tglDaftar As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+        Try
+            '# Variabel BPJS
+            Dim tglDaftar As String = Format(DateAndTime.Now, "dd-MM-yyyy")
 
-        '# Variabel SINA
-        Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-        Dim _sumber As String = "SINA"
+            '# Variabel SINA
+            Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim _sumber As String = "SINA"
 
-        ' Get Data Master Poli Tujuan
-        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
-        Dim rowPoli As DataRow = tblPoli.Rows(0)
+            ' Get Data Master Poli Tujuan
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
 
-        ' Get kdPoli
-        Dim kdPoli As String = rowPoli("KodeBPJS")
+            ' Get kdPoli
+            Dim kdPoli As String = rowPoli("KodeBPJS")
 
-        ' Set parameter untuk POST data ke pcare BPJS
-        Dim parameterPendaftaran As String = "{" & _
-               """tglDaftar"" : """ & tglDaftar & """," & _
-               """nik"" : """ & _nomorNIK & """," & _
-               """kdPoli"" : """ & kdPoli & """," & _
-               """loc"": """ & _loc & """," & _
-               """bridgingPcare"": false," & _
-               """sumber"": """ & _sumber & """" & _
-              "}"
+            ' Set parameter JSON
+            Dim parameterPendaftaran As String = "{" & _
+                """tglDaftar"" : """ & tglDaftar & """," & _
+                """nik"" : """ & _nomorNIK & """," & _
+                """kdPoli"" : """ & kdPoli & """," & _
+                """loc"": """ & _loc & """," & _
+                """bridgingPcare"": false," & _
+                """sumber"": """ & _sumber & """" & _
+            "}"
 
-        InsertDataAPI(parameterPendaftaran, uriSINA)
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
+            Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
-        Return True
+            ' Bisa ditambahkan parsing response bila perlu:
+            'Dim jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of SomeResponse)(jsonString)
+
+            Return True
+        Catch ex As Exception
+            MsgBox("Exception SetStatusHadir: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+            Return False
+        End Try
     End Function
 
     ' API PCare - Bridging Antrean (v2)
+    'NEW
     Function SendPCareDataV2() As Boolean
-        '# Variabel BPJS
-        Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim uriBPJS As String = "http://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
-        Dim kdPoli As String = ""
-        Dim kdTkp As String = ""
-        Dim kunjSakit As String = ""
+        Try
+            Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+            Dim kdPoli As String = ""
+            Dim kdTkp As String = ""
+            Dim kunjSakit As String = ""
 
-        '# Variabel SINA
-        Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-        Dim _sumber As String = "SINA"
+            Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim _sumber As String = "SINA"
 
-        ' Get kdprovider
-        Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _nomorKartuBPJS & "'")
+            Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _nomorKartuBPJS & "'")
 
-        ' Get Data Master Poli Tujuan
-        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
-        Dim rowPoli As DataRow = tblPoli.Rows(0)
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
 
-        '# Post Data BPJS
+            kdPoli = rowPoli("KodeBPJS")
 
-        ' Get kdPoli
-        kdPoli = rowPoli("KodeBPJS")
+            If ValidateBridgingPcare() = False Then Exit Function
+            If CheckAntreanBPJS(kdprovider, _nomorKartuBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
 
-        ' Validasi apakah bridging PCare terpenuhi
-        If ValidateBridgingPcare() = False Then Exit Function
+            kunjSakit = If(CBool(rowPoli("PoliSakit")), "true", "false")
 
-        ' Validasi apakah transaksi sudah pelayanan di PCare
-        If CheckAntreanBPJS(kdprovider, _nomorKartuBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+            If RadioButtonStatusRawatJalan.Checked = True Then
+                kdTkp = RadioButtonStatusRawatJalan.Tag
+            ElseIf RadioButtonStatusRawatInap.Checked = True Then
+                kdTkp = RadioButtonStatusRawatInap.Tag
+            ElseIf RadioButtonPromotifPreventif.Checked = True Then
+                kdTkp = RadioButtonPromotifPreventif.Tag
+            End If
 
-        ' Get kunjSakit
-        If rowPoli("PoliSakit") = True Then
-            kunjSakit = "true"
-        ElseIf rowPoli("PoliSakit") = False Then
-            kunjSakit = "false"
-        End If
+            Dim parameterPendaftaran As String = "{" & _
+                """kdProviderPeserta"" : """ & kdprovider & """," & _
+                """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+                """noKartu"" : """ & _nomorKartuBPJS & """," & _
+                """nik"" : """ & _nomorNIK & """," & _
+                """kdPoli"" : """ & kdPoli & """," & _
+                """keluhan"": """ & TextBoxPoliKeluhanUtama.Text & """," & _
+                """kunjSakit"": " & kunjSakit & "," & _
+                """sistole"": 0," & _
+                """diastole"": 0," & _
+                """beratBadan"": 0," & _
+                """tinggiBadan"": 0," & _
+                """respRate"": 0," & _
+                """lingkarPerut"": 0," & _
+                """heartRate"": 0," & _
+                """rujukBalik"": 0," & _
+                """kdTkp"": """ & kdTkp & """," & _
+                """loc"": """ & _loc & """," & _
+                """bridgingPcare"": true," & _
+                """sumber"": """ & _sumber & """" & _
+            "}"
 
-        ' Get kdTkp
-        If RadioButtonStatusRawatJalan.Checked = True Then
-            kdTkp = RadioButtonStatusRawatJalan.Tag
-        ElseIf RadioButtonStatusRawatInap.Checked = True Then
-            kdTkp = RadioButtonStatusRawatInap.Tag
-        ElseIf RadioButtonPromotifPreventif.Checked = True Then
-            kdTkp = RadioButtonPromotifPreventif.Tag
-        End If
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
+            Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
-        ' Set parameter untuk POST data ke pcare BPJS
-        Dim parameterPendaftaran As String = "{" & _
-               """kdProviderPeserta"" : """ & kdprovider & """," & _
-               """tglDaftar"" : """ & tglDaftarBPJS & """," & _
-               """noKartu"" : """ & _nomorKartuBPJS & """," & _
-               """nik"" : """ & _nomorNIK & """," & _
-               """kdPoli"" : """ & kdPoli & """," & _
-               """keluhan"": """ & TextBoxPoliKeluhanUtama.Text & """," & _
-               """kunjSakit"": " & kunjSakit & "," & _
-               """sistole"": 0," & _
-               """diastole"": 0," & _
-               """beratBadan"": 0," & _
-               """tinggiBadan"": 0," & _
-               """respRate"": 0," & _
-               """lingkarPerut"": 0," & _
-               """heartRate"": 0," & _
-               """rujukBalik"": 0," & _
-               """kdTkp"": """ & kdTkp & """," & _
-               """loc"": """ & _loc & """," & _
-               """bridgingPcare"": true," & _
-               """sumber"": """ & _sumber & """" & _
-              "}"
+            Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
 
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriBPJS)
-        Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            For Each rowData As varJson In jsonObject
+                Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+                Dim messageMetaData As String = rowData.metaData.message
+                Dim messageResponse As String = rowData.response.message
 
-        ' Get data no urut pendaftaran pcare BPJS
-        For Each rowData As varJson In jsonObject
-            Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
-            Dim messageMetaData As String = rowData.metaData.message
-            Dim messageResponse As String = rowData.response.message
-
-            Select Case codeMetaData
-                Case 200, 201, 204
-                    NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
-
-                    Return True
-                Case Else
-                    If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
-                        Dim messageError As String = ""
-                        If messageResponse <> "" And messageMetaData <> "" Then
-                            messageError = messageResponse & " (" & messageMetaData & ")"
-                        ElseIf messageResponse <> "" Then
-                            messageError = messageResponse
-                        ElseIf messageMetaData <> "" Then
-                            messageError = messageMetaData
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        NoUrutBPJS = messageResponse
+                        Return True
+                    Case Else
+                        If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+                            Dim messageError As String = ""
+                            If messageResponse <> "" And messageMetaData <> "" Then
+                                messageError = messageResponse & " (" & messageMetaData & ")"
+                            ElseIf messageResponse <> "" Then
+                                messageError = messageResponse
+                            ElseIf messageMetaData <> "" Then
+                                messageError = messageMetaData
+                            End If
+                            MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+                            Return False
                         End If
+                End Select
+            Next
 
-                        MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
-
-                        Return False
-                    End If
-            End Select
-        Next
-
-        Return True
+            Return True
+        Catch ex As Exception
+            MsgBox("Exception: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+            Return False
+        End Try
     End Function
+
+    'OLD
+    'Function SetStatusHadir() As Boolean
+    '    '# Variabel BPJS
+    '    Dim tglDaftar As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '    Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+
+    '    '# Variabel SINA
+    '    Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '    Dim _sumber As String = "SINA"
+
+    '    ' Get Data Master Poli Tujuan
+    '    Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '    Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '    ' Get kdPoli
+    '    Dim kdPoli As String = rowPoli("KodeBPJS")
+
+    '    ' Set parameter untuk POST data ke pcare BPJS
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """tglDaftar"" : """ & tglDaftar & """," & _
+    '           """nik"" : """ & _nomorNIK & """," & _
+    '           """kdPoli"" : """ & kdPoli & """," & _
+    '           """loc"": """ & _loc & """," & _
+    '           """bridgingPcare"": false," & _
+    '           """sumber"": """ & _sumber & """" & _
+    '          "}"
+
+    '    InsertDataAPI(parameterPendaftaran, uriSINA)
+
+    '    Return True
+    'End Function
+
+    'OLD
+    'Function SendPCareDataV2() As Boolean
+    '    '# Variabel BPJS
+    '    Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '    Dim uriBPJS As String = "https://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+    '    Dim kdPoli As String = ""
+    '    Dim kdTkp As String = ""
+    '    Dim kunjSakit As String = ""
+
+    '    '# Variabel SINA
+    '    Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '    Dim _sumber As String = "SINA"
+
+    '    ' Get kdprovider
+    '    Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _nomorKartuBPJS & "'")
+
+    '    ' Get Data Master Poli Tujuan
+    '    Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '    Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '    '# Post Data BPJS
+
+    '    ' Get kdPoli
+    '    kdPoli = rowPoli("KodeBPJS")
+
+    '    ' Validasi apakah bridging PCare terpenuhi
+    '    If ValidateBridgingPcare() = False Then Exit Function
+
+    '    ' Validasi apakah transaksi sudah pelayanan di PCare
+    '    If CheckAntreanBPJS(kdprovider, _nomorKartuBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+
+    '    ' Get kunjSakit
+    '    If rowPoli("PoliSakit") = True Then
+    '        kunjSakit = "true"
+    '    ElseIf rowPoli("PoliSakit") = False Then
+    '        kunjSakit = "false"
+    '    End If
+
+    '    ' Get kdTkp
+    '    If RadioButtonStatusRawatJalan.Checked = True Then
+    '        kdTkp = RadioButtonStatusRawatJalan.Tag
+    '    ElseIf RadioButtonStatusRawatInap.Checked = True Then
+    '        kdTkp = RadioButtonStatusRawatInap.Tag
+    '    ElseIf RadioButtonPromotifPreventif.Checked = True Then
+    '        kdTkp = RadioButtonPromotifPreventif.Tag
+    '    End If
+
+    '    ' Set parameter untuk POST data ke pcare BPJS
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """kdProviderPeserta"" : """ & kdprovider & """," & _
+    '           """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+    '           """noKartu"" : """ & _nomorKartuBPJS & """," & _
+    '           """nik"" : """ & _nomorNIK & """," & _
+    '           """kdPoli"" : """ & kdPoli & """," & _
+    '           """keluhan"": """ & TextBoxPoliKeluhanUtama.Text & """," & _
+    '           """kunjSakit"": " & kunjSakit & "," & _
+    '           """sistole"": 0," & _
+    '           """diastole"": 0," & _
+    '           """beratBadan"": 0," & _
+    '           """tinggiBadan"": 0," & _
+    '           """respRate"": 0," & _
+    '           """lingkarPerut"": 0," & _
+    '           """heartRate"": 0," & _
+    '           """rujukBalik"": 0," & _
+    '           """kdTkp"": """ & kdTkp & """," & _
+    '           """loc"": """ & _loc & """," & _
+    '           """bridgingPcare"": true," & _
+    '           """sumber"": """ & _sumber & """" & _
+    '          "}"
+
+    '    Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriBPJS)
+    '    Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+
+    '    ' Get data no urut pendaftaran pcare BPJS
+    '    For Each rowData As varJson In jsonObject
+    '        Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+    '        Dim messageMetaData As String = rowData.metaData.message
+    '        Dim messageResponse As String = rowData.response.message
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
+
+    '                Return True
+    '            Case Else
+    '                If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+    '                    Dim messageError As String = ""
+    '                    If messageResponse <> "" And messageMetaData <> "" Then
+    '                        messageError = messageResponse & " (" & messageMetaData & ")"
+    '                    ElseIf messageResponse <> "" Then
+    '                        messageError = messageResponse
+    '                    ElseIf messageMetaData <> "" Then
+    '                        messageError = messageMetaData
+    '                    End If
+
+    '                    MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+
+    '                    Return False
+    '                End If
+    '        End Select
+    '    Next
+
+    '    Return True
+    'End Function
+
+    'DEBUG
+    'Public Function SendPCareDataV2() As Boolean
+    '    '# Variabel BPJS
+    '    Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '    Dim uriBPJS As String = "https://sina.mitramedicare.com/v3/controller/ws_pcare_add_pendaftaran.php"
+    '    Dim kdPoli As String = ""
+    '    Dim kdTkp As String = ""
+    '    Dim kunjSakit As String = ""
+
+    '    MsgBox("uriBPJS" & vbCrLf & uriBPJS, MsgBoxStyle.Information, "DEBUG")
+
+    '    '# Variabel SINA
+    '    Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '    Dim _sumber As String = "SINA"
+
+    '    MsgBox("loc" & vbCrLf & _loc, MsgBoxStyle.Information, "DEBUG")
+    '    MsgBox("_sumber" & vbCrLf & _sumber, MsgBoxStyle.Information, "DEBUG")
+
+
+    '    ' Get kdprovider
+    '    Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _nomorKartuBPJS & "'")
+    '    MsgBox("kdprovider" & vbCrLf & kdprovider, MsgBoxStyle.Information, "DEBUG")
+
+
+    '    ' Get Data Master Poli Tujuan
+    '    Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '    Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '    ' --- DEBUG jumlah baris yang ketarik ---
+    '    MsgBox("DEBUG tblPoli Rows.Count = " & tblPoli.Rows.Count, MsgBoxStyle.Information, "DEBUG")
+
+
+    '    '# Post Data BPJS
+    '    kdPoli = rowPoli("KodeBPJS")
+
+    '    MsgBox("kdPoli " & kdPoli, MsgBoxStyle.Information, "DEBUG")
+
+
+    '    ' Validasi
+    '    If ValidateBridgingPcare() = False Then Exit Function
+    '    If CheckAntreanBPJS(kdprovider, _nomorKartuBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+
+    '    ' Get kunjSakit
+    '    If rowPoli("PoliSakit") = True Then
+    '        kunjSakit = "true"
+    '    Else
+    '        kunjSakit = "false"
+    '    End If
+
+    '    ' Get kdTkp
+    '    If RadioButtonStatusRawatJalan.Checked = True Then
+    '        kdTkp = RadioButtonStatusRawatJalan.Tag
+    '    ElseIf RadioButtonStatusRawatInap.Checked = True Then
+    '        kdTkp = RadioButtonStatusRawatInap.Tag
+    '    ElseIf RadioButtonPromotifPreventif.Checked = True Then
+    '        kdTkp = RadioButtonPromotifPreventif.Tag
+    '    End If
+
+    '    ' Set parameter JSON
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """kdProviderPeserta"" : """ & kdprovider & """," & _
+    '           """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+    '           """noKartu"" : """ & _nomorKartuBPJS & """," & _
+    '           """nik"" : """ & _nomorNIK & """," & _
+    '           """kdPoli"" : """ & kdPoli & """," & _
+    '           """keluhan"": """ & TextBoxPoliKeluhanUtama.Text & """," & _
+    '           """kunjSakit"": " & kunjSakit & "," & _
+    '           """sistole"": 0," & _
+    '           """diastole"": 0," & _
+    '           """beratBadan"": 0," & _
+    '           """tinggiBadan"": 0," & _
+    '           """respRate"": 0," & _
+    '           """lingkarPerut"": 0," & _
+    '           """heartRate"": 0," & _
+    '           """rujukBalik"": 0," & _
+    '           """kdTkp"": """ & kdTkp & """," & _
+    '           """loc"": """ & _loc & """," & _
+    '           """bridgingPcare"": true," & _
+    '           """sumber"": """ & _sumber & """" & _
+    '          "}"
+
+    '    ' --- DEBUG: tampilkan JSON dan URL ---
+    '    MsgBox("DEBUG REQUEST" & vbCrLf & "URL: " & uriBPJS & vbCrLf & vbCrLf & "JSON Body:" & vbCrLf & parameterPendaftaran, MsgBoxStyle.Information, "DEBUG")
+
+    '    ' Kirim request ke API
+    '    Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriBPJS)
+
+    '    ' --- DEBUG: tampilkan response mentah ---
+    '    MsgBox("DEBUG RESPONSE" & vbCrLf & jsonString, MsgBoxStyle.Information, "DEBUG")
+
+    '    Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+
+    '    ' Baca response
+    '    For Each rowData As varJson In jsonObject
+    '        Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+    '        Dim messageMetaData As String = rowData.metaData.message
+    '        Dim messageResponse As String = rowData.response.message
+
+    '        ' --- DEBUG: tampilkan parsed response ---
+    '        MsgBox("DEBUG PARSED" & vbCrLf & _
+    '               "Code: " & codeMetaData & vbCrLf & _
+    '               "MetaData Msg: " & messageMetaData & vbCrLf & _
+    '               "Response Msg: " & messageResponse, MsgBoxStyle.Information, "DEBUG")
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
+    '                Return True
+    '            Case Else
+    '                If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+    '                    Dim messageError As String = ""
+    '                    If messageResponse <> "" And messageMetaData <> "" Then
+    '                        messageError = messageResponse & " (" & messageMetaData & ")"
+    '                    ElseIf messageResponse <> "" Then
+    '                        messageError = messageResponse
+    '                    ElseIf messageMetaData <> "" Then
+    '                        messageError = messageMetaData
+    '                    End If
+
+    '                    MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+    '                    Return False
+    '                End If
+    '        End Select
+    '    Next
+
+    '    Return True
+    'End Function
 
     Private Sub SetStatusTidakHadir()
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
-        Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/update_tidak_hadir_erm.php"
+        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim urlWebService As String = baseUrl & "api/bridge/update-absence"
 
         '# Variabel SINA
         Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
@@ -950,7 +1290,7 @@ Public Class DialogBoxKonfirmasiPendaftaran
                """kodelokasi"": """ & _loc & """" & _
               "}"
 
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriSINA)
+        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
         Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
 
         MsgBox("Berhasil Membatalkan Transaksi.", MsgBoxStyle.Information, "Success!")
@@ -960,7 +1300,8 @@ Public Class DialogBoxKonfirmasiPendaftaran
     Private Sub SetStatusBatal()
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
-        Dim uriSINA As String = "http://sina.mitramedicare.com/v3/controller/update_dibatalkan_erm.php"
+        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim urlWebService As String = baseUrl & "api/bridge/update-cancelled"
 
         '# Variabel SINA
         Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
@@ -985,8 +1326,8 @@ Public Class DialogBoxKonfirmasiPendaftaran
                """alasan"": """ & alasanBatal & """" & _
               "}"
 
-        InsertDataAPI(parameterPendaftaran, uriSINA)
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, uriSINA)
+        InsertDataAPI(parameterPendaftaran, urlWebService)
+        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
         MsgBox("Berhasil Membatalkan Transaksi.", MsgBoxStyle.Information, "Success!")
         Me.Close()

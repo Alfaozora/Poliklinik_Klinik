@@ -2155,15 +2155,25 @@ Module Test
     Public Function InsertDataAPI(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Dim str As String = ""
-
+        'MsgBox(parameter)
         Try
+            'MsgBox("DEBUG - URL: " & uri & vbCrLf & vbCrLf & "Parameter JSON:" & vbCrLf & parameter, MsgBoxStyle.Information, "DEBUG REQUEST")
+
+            ' FIX: pakai TLS 1.2
+            'ServicePointManager.Expect100Continue = True
+            'System.Net.ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) ' TLS 1.2
+            'ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) ' TLS 1.2
+            'System.Net.ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType) _
+            '                         Or CType(768, SecurityProtocolType) _
+            '                         Or CType(192, SecurityProtocolType)
+
+
             'REQUEST GET METHOD
             Dim webreq As HttpWebRequest = WebRequest.Create(uri)
-
             webreq.Accept = "application/json"
             webreq.Method = "POST"
-
             webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
             webreq.ContentLength = bytearr.Length
 
             Dim dataStream As Stream = webreq.GetRequestStream()
@@ -2180,21 +2190,41 @@ Module Test
 
             Dim responseSuccess As String = "[" + str + "]"
 
+            ' --- Debug: tampilkan response sukses ---
+            'MsgBox("DEBUG - Response Success:" & vbCrLf & responseSuccess, MsgBoxStyle.Information, "DEBUG RESPONSE")
+
             Return responseSuccess
             'Catch ex As Exception
             '    Return "Nothing"
+            'Catch ex As WebException
+            '    Dim responseStream As Stream = ex.Response.GetResponseStream()
+
+            '    Dim reader As New StreamReader(responseStream)
+            '    Dim responseError As String = reader.ReadToEnd()
+
+            '    reader.Close()
+            '    responseStream.Close()
+
+            '    responseError = "[" + responseError + "]"
+
+            '    Return responseError
+            'End Try
         Catch ex As WebException
-            Dim responseStream As Stream = ex.Response.GetResponseStream()
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Dim responseError As String = reader.ReadToEnd()
+                        ' --- Debug: tampilkan response error ---
+                        'MsgBox("DEBUG - Response Error:" & vbCrLf & responseError, MsgBoxStyle.Critical, "DEBUG ERROR")
+                        Return "[" & responseError & "]"
+                    End Using
+                End Using
+            Else
+                ' --- Debug: tampilkan pesan exception ---
+                'MsgBox("DEBUG - Exception:" & vbCrLf & ex.Message, MsgBoxStyle.Critical, "DEBUG EXCEPTION")
 
-            Dim reader As New StreamReader(responseStream)
-            Dim responseError As String = reader.ReadToEnd()
-
-            reader.Close()
-            responseStream.Close()
-
-            responseError = "[" + responseError + "]"
-
-            Return responseError
+                Return "[{""error"":""" & ex.Message & """}]"
+            End If
         End Try
     End Function
 
@@ -2500,6 +2530,45 @@ Module Test
             Return "Nothing"
         End Try
     End Function
+
+    'Public Function GetDataAntrianOnline2(ByVal apiEndpoint As String) As String
+    '    Try
+    '        ' Set URL Web Service
+    '        'Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+    '        'Dim urlWebService As String = baseURL & "api/data-antrian-online"
+
+    '        ' Set Variabel
+    '        Dim username As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'username_token_antrol'")
+    '        Dim token As String = GetTokenAntrol()
+    '        Dim response As String = ""
+
+    '        'REQUEST GET METHOD
+    '        Dim webreq As HttpWebRequest = WebRequest.Create(apiEndpoint)
+
+    '        webreq.Accept = "application/json"
+    '        webreq.Headers("x-username") = username
+    '        'webreq.Headers("x-token") = token
+    '        webreq.Headers("x-token") = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJwanMtdXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzU2NDUwMTYxLCJleHAiOjE3NTY0NTE5NjF9.Pz_EXweINOMCQNoiuttEApMY1MUYz4CFwcifTzI7WHI"
+
+    '        'webreq.Headers("API-Endpoint") = apiEndpoint
+
+    '        webreq.Method = "GET"
+
+    '        Dim res As WebResponse = webreq.GetResponse()
+    '        Dim stream As Stream = res.GetResponseStream()
+    '        Dim streamReader As New StreamReader(stream)
+
+    '        ' READ RESPONSE
+    '        response = streamReader.ReadToEnd()
+    '        streamReader.Close()
+
+    '        response = "[" + response + "]"
+
+    '        Return response
+    '    Catch ex As Exception
+    '        Return "Nothing"
+    '    End Try
+    'End Function
 
     Public Function PutCheckinAntrol(ByVal urlWebService As String, ByVal parameterString As String) As String
         Try

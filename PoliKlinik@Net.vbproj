@@ -153,6 +153,7 @@
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
@@ -492,6 +493,12 @@
     <Compile Include="Prototype\FormBandingGambar.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormBase64.Designer.vb">
+      <DependentUpon>FormBase64.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormBase64.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormInputInformedConsent.Designer.vb">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </Compile>
@@ -797,6 +804,12 @@
     <Compile Include="Prototype\FormRekamMedisDokter.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormSinkronPcare.Designer.vb">
+      <DependentUpon>FormSinkronPcare.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormSinkronPcare.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormValidasiFaskesPasien.Designer.vb">
       <DependentUpon>FormValidasiFaskesPasien.vb</DependentUpon>
     </Compile>
@@ -819,6 +832,19 @@
       <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\RepairNoKunjunganBPJS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\SecurityHelper.vb" />
+    <Compile Include="Prototype\SendingUlangPendaftaran.Designer.vb">
+      <DependentUpon>SendingUlangPendaftaran.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\SendingUlangPendaftaran.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\ToolGantiDokter.Designer.vb">
+      <DependentUpon>ToolGantiDokter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\ToolGantiDokter.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\UploadTindakan.Designer.vb">
@@ -1453,6 +1479,9 @@
     <EmbeddedResource Include="Prototype\FormBandingGambar.resx">
       <DependentUpon>FormBandingGambar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormBase64.resx">
+      <DependentUpon>FormBase64.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </EmbeddedResource>
@@ -1621,6 +1650,9 @@
     <EmbeddedResource Include="Prototype\FormRekamMedisDokter.resx">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormSinkronPcare.resx">
+      <DependentUpon>FormSinkronPcare.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormValidasiFaskesPasien.resx">
       <DependentUpon>FormValidasiFaskesPasien.vb</DependentUpon>
     </EmbeddedResource>
@@ -1632,6 +1664,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\RepairNoKunjunganBPJS.resx">
       <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\SendingUlangPendaftaran.resx">
+      <DependentUpon>SendingUlangPendaftaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\ToolGantiDokter.resx">
+      <DependentUpon>ToolGantiDokter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\UploadTindakan.resx">
       <DependentUpon>UploadTindakan.vb</DependentUpon>
@@ -2090,6 +2128,7 @@
     <Content Include="favicon.ico" />
     <Content Include="favicon_mmc.ico" />
     <Content Include="favicon_mmc_circle.ico" />
+    <None Include="bin\Debug\Secure.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="Resources\icons8_treatment_40.png" />

@@ -674,6 +674,9 @@ Me.ButtonKirimResep = New System.Windows.Forms.Button
 Me.LabelKeteranganKirimResep = New System.Windows.Forms.Label
 Me.TabControlResep = New System.Windows.Forms.TabControl
 Me.TabNonRacikan = New System.Windows.Forms.TabPage
+Me.Label353 = New System.Windows.Forms.Label
+Me.TextBoxObatDPHO = New System.Windows.Forms.TextBox
+Me.TextBoxKodeObatDPHO = New System.Windows.Forms.TextBox
 Me.LabelStokObatNonRacikan = New System.Windows.Forms.Label
 Me.Panel24 = New System.Windows.Forms.Panel
 Me.RadioButtonImmTidak = New System.Windows.Forms.RadioButton
@@ -9594,6 +9597,9 @@ Me.TabControlResep.TabIndex = 464
 'TabNonRacikan
 '
 Me.TabNonRacikan.AutoScroll = true
+Me.TabNonRacikan.Controls.Add(Me.Label353)
+Me.TabNonRacikan.Controls.Add(Me.TextBoxObatDPHO)
+Me.TabNonRacikan.Controls.Add(Me.TextBoxKodeObatDPHO)
 Me.TabNonRacikan.Controls.Add(Me.LabelStokObatNonRacikan)
 Me.TabNonRacikan.Controls.Add(Me.Panel24)
 Me.TabNonRacikan.Controls.Add(Me.Label184)
@@ -9624,6 +9630,38 @@ Me.TabNonRacikan.Size = New System.Drawing.Size(825, 212)
 Me.TabNonRacikan.TabIndex = 0
 Me.TabNonRacikan.Text = "Non Racikan"
 Me.TabNonRacikan.UseVisualStyleBackColor = true
+'
+'Label353
+'
+Me.Label353.AutoSize = true
+Me.Label353.Font = New System.Drawing.Font("Segoe UI Semibold", 9!, System.Drawing.FontStyle.Bold)
+Me.Label353.Location = New System.Drawing.Point(543, 14)
+Me.Label353.Name = "Label353"
+Me.Label353.Size = New System.Drawing.Size(133, 15)
+Me.Label353.TabIndex = 536
+Me.Label353.Text = "Nama Obat DPHO BPJS"
+'
+'TextBoxObatDPHO
+'
+Me.TextBoxObatDPHO.BackColor = System.Drawing.Color.White
+Me.TextBoxObatDPHO.Font = New System.Drawing.Font("Segoe UI", 9!)
+Me.TextBoxObatDPHO.Location = New System.Drawing.Point(546, 32)
+Me.TextBoxObatDPHO.Name = "TextBoxObatDPHO"
+Me.TextBoxObatDPHO.ReadOnly = true
+Me.TextBoxObatDPHO.Size = New System.Drawing.Size(229, 23)
+Me.TextBoxObatDPHO.TabIndex = 538
+'
+'TextBoxKodeObatDPHO
+'
+Me.TextBoxKodeObatDPHO.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBoxKodeObatDPHO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBoxKodeObatDPHO.Font = New System.Drawing.Font("Segoe UI Semibold", 9!, System.Drawing.FontStyle.Bold)
+Me.TextBoxKodeObatDPHO.Location = New System.Drawing.Point(781, 31)
+Me.TextBoxKodeObatDPHO.Name = "TextBoxKodeObatDPHO"
+Me.TextBoxKodeObatDPHO.ReadOnly = true
+Me.TextBoxKodeObatDPHO.Size = New System.Drawing.Size(85, 23)
+Me.TextBoxKodeObatDPHO.TabIndex = 537
+Me.TextBoxKodeObatDPHO.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
 'LabelStokObatNonRacikan
 '
@@ -10633,6 +10671,7 @@ Me.RadioButtonPenjaminMandiriInhealth.Size = New System.Drawing.Size(113, 19)
 Me.RadioButtonPenjaminMandiriInhealth.TabIndex = 530
 Me.RadioButtonPenjaminMandiriInhealth.Text = "Mandiri Inhealth"
 Me.RadioButtonPenjaminMandiriInhealth.UseVisualStyleBackColor = true
+Me.RadioButtonPenjaminMandiriInhealth.Visible = false
 '
 'TextBoxJenisTindakan
 '
@@ -10712,6 +10751,7 @@ Me.RadioButtonPenjaminBPJS.Size = New System.Drawing.Size(50, 19)
 Me.RadioButtonPenjaminBPJS.TabIndex = 246
 Me.RadioButtonPenjaminBPJS.Text = "BPJS"
 Me.RadioButtonPenjaminBPJS.UseVisualStyleBackColor = true
+Me.RadioButtonPenjaminBPJS.Visible = false
 '
 'Label55
 '
@@ -18702,4 +18742,7 @@ End Sub
     Friend WithEvents RadioButtonPerTindakan As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonReguler As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonCekStik As System.Windows.Forms.RadioButton
+    Friend WithEvents Label353 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxObatDPHO As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxKodeObatDPHO As System.Windows.Forms.TextBox
 End Class

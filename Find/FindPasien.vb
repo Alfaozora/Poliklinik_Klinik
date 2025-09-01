@@ -190,6 +190,7 @@ Public Class FindPasien
                     Tlastnew("Nama") = Trow("Nama")
                     Tlastnew("RM") = Trow("NoRekamMedis")
                     Tlastnew("No NIK") = Trow("NoNIK")
+                    'Tlastnew("No NIK") = DecryptString(Trow("NoNIK").ToString())
                     Tlastnew("No IHS") = Trow("NoIHS")
                     Tlastnew("Status NIK") = Trow("PasienTanpaNIK")
                     Tlastnew("Jenis Kelamin") = Trow("JenisKelamin")

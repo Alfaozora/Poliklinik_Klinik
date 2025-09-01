@@ -1823,10 +1823,10 @@ Partial Class FormPendaftaranAwal
         '
         Me.TabPage2.BackColor = System.Drawing.Color.White
         Me.TabPage2.Controls.Add(Me.SplitContainerRiwayatLaboratorium)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 27)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1117, 614)
+        Me.TabPage2.Size = New System.Drawing.Size(1117, 612)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Tab Menu 2"
         '
@@ -1853,7 +1853,7 @@ Partial Class FormPendaftaranAwal
         '
         Me.SplitContainerRiwayatLaboratorium.Panel2.AutoScroll = True
         Me.SplitContainerRiwayatLaboratorium.Panel2.Controls.Add(Me.SplitContainer5)
-        Me.SplitContainerRiwayatLaboratorium.Size = New System.Drawing.Size(1111, 608)
+        Me.SplitContainerRiwayatLaboratorium.Size = New System.Drawing.Size(1111, 606)
         Me.SplitContainerRiwayatLaboratorium.SplitterDistance = 85
         Me.SplitContainerRiwayatLaboratorium.SplitterWidth = 5
         Me.SplitContainerRiwayatLaboratorium.TabIndex = 463
@@ -1951,7 +1951,7 @@ Partial Class FormPendaftaranAwal
         'SplitContainer5.Panel2
         '
         Me.SplitContainer5.Panel2.Controls.Add(Me.DataGridViewAntrean)
-        Me.SplitContainer5.Size = New System.Drawing.Size(1111, 518)
+        Me.SplitContainer5.Size = New System.Drawing.Size(1111, 516)
         Me.SplitContainer5.SplitterDistance = 30
         Me.SplitContainer5.TabIndex = 0
         '
@@ -2040,7 +2040,7 @@ Partial Class FormPendaftaranAwal
         Me.DataGridViewAntrean.RowHeadersVisible = False
         Me.DataGridViewAntrean.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
         Me.DataGridViewAntrean.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridViewAntrean.Size = New System.Drawing.Size(1111, 484)
+        Me.DataGridViewAntrean.Size = New System.Drawing.Size(1111, 482)
         Me.DataGridViewAntrean.TabIndex = 516
         '
         'TabPage3
