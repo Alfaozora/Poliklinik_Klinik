@@ -2152,6 +2152,42 @@ Module Test
         Return False
     End Function
 
+    Public Function InsertDataAPIRM(ByVal parameter As String, ByVal uri As String) As String
+        Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
+        Try
+            Dim webreq As HttpWebRequest = WebRequest.Create(uri)
+            webreq.Accept = "application/json"
+            webreq.Method = "POST"
+            webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            webreq.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+            webreq.ContentLength = bytearr.Length
+
+            Using dataStream As Stream = webreq.GetRequestStream()
+                dataStream.Write(bytearr, 0, bytearr.Length)
+            End Using
+
+            Dim res As WebResponse = webreq.GetResponse()
+            Using stream As Stream = res.GetResponseStream()
+                Using streamReader As New StreamReader(stream)
+                    Return streamReader.ReadToEnd()
+                End Using
+            End Using
+
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Return reader.ReadToEnd() ' <-- jangan bungkus pakai [ ]
+                    End Using
+                End Using
+            Else
+                ' Buat JSON error agar tetap bisa di-parse
+                Return "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+        End Try
+    End Function
+
     Public Function InsertDataAPI(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Dim str As String = ""

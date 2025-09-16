@@ -31,6 +31,7 @@ Partial Class FormBase64
         Me.ButtonGo = New System.Windows.Forms.Button
         Me.ButtonClr = New System.Windows.Forms.Button
         Me.Button1 = New System.Windows.Forms.Button
+        Me.port = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'TextBoxInput
@@ -122,12 +123,22 @@ Partial Class FormBase64
         Me.Button1.Text = "Tes TLS"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'port
+        '
+        Me.port.Location = New System.Drawing.Point(93, 250)
+        Me.port.Name = "port"
+        Me.port.Size = New System.Drawing.Size(75, 23)
+        Me.port.TabIndex = 9
+        Me.port.Text = "Tes Port"
+        Me.port.UseVisualStyleBackColor = True
+        '
         'FormBase64
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(540, 298)
+        Me.Controls.Add(Me.port)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.ButtonClr)
         Me.Controls.Add(Me.ButtonGo)
@@ -152,4 +163,5 @@ Partial Class FormBase64
     Friend WithEvents ButtonGo As System.Windows.Forms.Button
     Friend WithEvents ButtonClr As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents port As System.Windows.Forms.Button
 End Class

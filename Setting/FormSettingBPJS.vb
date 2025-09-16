@@ -154,8 +154,15 @@ Public Class FormSettingBPJS
                 """account_type"": """ & _jenisBridging & """" & _
             "}"
 
-            ' 🔹 URL Helper (bukan langsung ke SINA)
-            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+            Dim baseUrl As String = ""
+
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
             Dim webServiceUrl As String = baseUrl & "api/bridge/update-credentials"
             Dim jsonString As String = InsertDataAPI(parameterPendaftaran, webServiceUrl)
 

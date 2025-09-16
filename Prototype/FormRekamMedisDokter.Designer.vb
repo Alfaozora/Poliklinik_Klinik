@@ -1261,6 +1261,7 @@ Me.TextBox73 = New System.Windows.Forms.TextBox
 Me.Label330 = New System.Windows.Forms.Label
 Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
+Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -17116,6 +17117,10 @@ Me.Label334.Size = New System.Drawing.Size(62, 17)
 Me.Label334.TabIndex = 556
 Me.Label334.Text = "No Surat"
 '
+'TimerAPI
+'
+Me.TimerAPI.Interval = 60000
+'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -18745,4 +18750,5 @@ End Sub
     Friend WithEvents Label353 As System.Windows.Forms.Label
     Friend WithEvents TextBoxObatDPHO As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxKodeObatDPHO As System.Windows.Forms.TextBox
+    Friend WithEvents TimerAPI As System.Windows.Forms.Timer
 End Class

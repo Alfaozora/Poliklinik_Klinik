@@ -273,6 +273,77 @@ Public Class FindTransaksi
         End If
     End Sub
 
+    'DEBUG
+    'Private Sub DataGridViewKunjunganPasien_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridViewKunjunganPasien.CellDoubleClick
+    '    If e.RowIndex >= 0 Then
+    '        MsgBox("▶ Event CellDoubleClick dipanggil. RowIndex=" & e.RowIndex & ", ColumnIndex=" & e.ColumnIndex)
+
+    '        ' Set Data Transaksi
+    '        Dim jenisUser As String = ReadSQLNIK("SELECT GroupID FROM Users WHERE UserID = '" & userInput & "'")
+    '        Dim noTransaksi As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnNoTransaksi").Value.ToString()
+    '        Dim jenisPoli As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnJenisPoli").Value.ToString()
+    '        Dim noRM As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnNoRM").Value.ToString()
+    '        Dim namaPoli As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnNamaPoli").Value.ToString()
+    '        Dim noBPJS As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnNoBPJS").Value.ToString()
+    '        Dim keluhan As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnKeluhan").Value.ToString()
+    '        Dim noNIK As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnNoNIK").Value.ToString()
+    '        Dim jenisRawat As String = DataGridViewKunjunganPasien.Rows(e.RowIndex).Cells("ColumnJenisRawat").Value.ToString()
+
+    '        MsgBox("Debug Data:" & vbCrLf & _
+    '               "JenisUser=" & jenisUser & vbCrLf & _
+    '               "NoTransaksi=" & noTransaksi & vbCrLf & _
+    '               "JenisPoli=" & jenisPoli & vbCrLf & _
+    '               "NoRM=" & noRM & vbCrLf & _
+    '               "NamaPoli=" & namaPoli & vbCrLf & _
+    '               "NoBPJS=" & noBPJS & vbCrLf & _
+    '               "Keluhan=" & keluhan & vbCrLf & _
+    '               "NoNIK=" & noNIK & vbCrLf & _
+    '               "JenisRawat=" & jenisRawat)
+
+    '        ' Set Status Transaksi
+    '        Dim statusTransaksi As String = GetStatusTransaksi(noTransaksi, jenisPoli)
+    '        MsgBox("StatusTransaksi=" & statusTransaksi)
+
+    '        If (statusTransaksi = "Belum Diperiksa" Or statusTransaksi = "Sedang dilakukan TTV") And jenisUser.Contains("Dokter") = True Then
+    '            MsgBox("Transaksi belum dilakukan TTV oleh perawat.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Else
+    '            '# Set data dictionary yang akan dikirim ke form popup
+    '            Dim dataDictionary As New Dictionary(Of String, Object)()
+
+    '            If (statusTransaksi = "Belum Diperiksa" And jenisUser.Contains("Dokter") = False) Or (statusTransaksi = "Sudah dilakukan TTV" And jenisUser.Contains("Dokter") = True) Then
+    '                MsgBox("▶ Akan buka DialogBoxPanggilPasien")
+
+    '                dataDictionary.Add("No Transaksi", noTransaksi)
+    '                dataDictionary.Add("No RM", noRM)
+    '                dataDictionary.Add("Jenis Poli", jenisPoli)
+    '                dataDictionary.Add("Status Transaksi", statusTransaksi)
+    '                dataDictionary.Add("Jenis User", jenisUser)
+    '                dataDictionary.Add("Nama Poli", namaPoli)
+    '                dataDictionary.Add("Nomor BPJS", noBPJS)
+    '                dataDictionary.Add("Keluhan", keluhan)
+    '                dataDictionary.Add("Nomor NIK", noNIK)
+    '                dataDictionary.Add("Jenis Rawat", jenisRawat)
+
+    '                dataDictionary.Add("Text Button Start Proses", "Mulai Pemeriksaan")
+    '                dataDictionary.Add("Jenis Proses", "Pendaftaran - Pemeriksaan")
+
+    '                DialogBoxPanggilPasien.DataDictionary = dataDictionary
+    '                DialogBoxPanggilPasien.ShowDialog()
+    '            Else
+    '                MsgBox("▶ Akan buka FormRekamMedisDokter")
+
+    '                FormRekamMedisDokter.SetDataFromPendaftaran(noRM, noTransaksi, jenisPoli)
+    '                FormRekamMedisDokter.Show()
+    '                FormRekamMedisDokter.BringToFront()
+    '            End If
+
+    '            ' Harusnya refresh grid terbaru
+    '            MsgBox("▶ Akan panggil FindQuery untuk refresh grid")
+    '            FindQuery("Nothing")
+    '        End If
+    '    End If
+    'End Sub
+
     Private Sub DataGridViewKunjunganPasien_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridViewKunjunganPasien.CellDoubleClick
         If e.RowIndex >= 0 Then
             ' Set Data Transaksi
@@ -289,7 +360,7 @@ Public Class FindTransaksi
             ' Set Status Transaksi
             Dim statusTransaksi As String = GetStatusTransaksi(noTransaksi, jenisPoli)
 
-            If (statusTransaksi = "Belum Diperiksa" or statusTransaksi = "Sedang dilakukan TTV") And jenisUser.Contains("Dokter") = True Then
+            If (statusTransaksi = "Belum Diperiksa" Or statusTransaksi = "Sedang dilakukan TTV") And jenisUser.Contains("Dokter") = True Then
                 MsgBox("Transaksi belum dilakukan TTV oleh perawat.", MsgBoxStyle.Exclamation, "Warning!")
             Else
                 '# Set data dictionary yang akan dikirim ke form popup

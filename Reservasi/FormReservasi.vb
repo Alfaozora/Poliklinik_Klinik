@@ -365,7 +365,6 @@ Public Class FormReservasi
                                   "----- Pesan otomatis, mohon tidak dibalas -----"
 
             Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
-            'Dim urlSend As String = "http://" & waIP & ":4444/send"
             Dim urlSend As String = "http://" & waIP & ":4444/send"
             Dim statusKirim As String = SendDataWhatsapp(parameter, urlSend)
 
