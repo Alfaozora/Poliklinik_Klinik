@@ -2143,7 +2143,16 @@ Public Class FormPendaftaranAwal
                    """kode_nakes"": """ & kodeDokter & """" & _
                   "}"
 
-            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+            Dim baseUrl As String = ""
+
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
+
             Dim urlWebService As String = baseUrl & "api/bridge/get-doctor-status"
             Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
             Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of responseAntrol())(jsonString)

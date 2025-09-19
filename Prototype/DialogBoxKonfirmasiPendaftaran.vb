@@ -193,6 +193,102 @@ Public Class DialogBoxKonfirmasiPendaftaran
         TextBoxPoliKeluhanUtama.Text = _keluhan
     End Sub
 
+    'DEBUG
+    'Private Sub SubmitDataPendaftaran()
+    '    Try
+    '        MsgBox("DEBUG: Mulai SubmitDataPendaftaran", MsgBoxStyle.Information, "DEBUG")
+
+    '        If ValidasiTransaksi() = True Then
+    '            MsgBox("DEBUG: ValidasiTransaksi OK", MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Create Data Pasien Jika Belum Punya Nomor RM
+    '            If TextBoxNoRekamMedis.Text = "" Then
+    '                MsgBox("DEBUG: RM Kosong, CREATE pasien baru", MsgBoxStyle.Information, "DEBUG")
+    '                SaveMasterPasien("CREATE")
+    '            Else
+    '                MsgBox("DEBUG: RM = " & TextBoxNoRekamMedis.Text & " → UPDATE pasien", MsgBoxStyle.Information, "DEBUG")
+    '                SaveMasterPasien("UPDATE")
+    '            End If
+
+    '            ' Versi Antrol
+    '            Dim versiProgramAntrol As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'versi_program_antrian_online'")
+    '            MsgBox("DEBUG: versiProgramAntrol = " & versiProgramAntrol, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Cek Bridging PCare
+    '            If CheckBridgingPcareActive() = True Then
+    '                MsgBox("DEBUG: Bridging PCare Aktif", MsgBoxStyle.Information, "DEBUG")
+    '                If versiProgramAntrol = "v1" AndAlso SendPCareDataV1() = False Then Exit Sub
+    '                If versiProgramAntrol = "v2" AndAlso SendPCareDataV2() = False Then Exit Sub
+    '            Else
+    '                MsgBox("DEBUG: Bridging PCare TIDAK aktif", MsgBoxStyle.Information, "DEBUG")
+    '                If versiProgramAntrol = "v2" Then SetStatusHadir()
+    '            End If
+
+    '            ' Nomor RM
+    '            Dim nomorRekamMedis As String = TextBoxNoRekamMedis.Text
+    '            MsgBox("DEBUG: Nomor RM = " & nomorRekamMedis, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Data Poli
+    '            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '            Dim rowPoli As DataRow = tblPoli.Rows(0)
+    '            MsgBox("DEBUG: rowPoli(JenisPoli)=" & rowPoli("JenisPoli").ToString(), MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Jenis Transaksi
+    '            Dim jenisTransaksi As String = ""
+    '            If rowPoli("JenisPoli") = "UMUM" Then
+    '                jenisTransaksi = "POLI"
+    '            ElseIf rowPoli("JenisPoli") = "GIGI" Then
+    '                jenisTransaksi = "GIGI"
+    '            End If
+    '            MsgBox("DEBUG: jenisTransaksi = " & jenisTransaksi, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Kode Dokter
+    '            Dim kodeDokter As String = ReadSQLNIK("SELECT ID FROM MasterDokter WHERE KodeBridgingPCare = '" & DirectCast(ComboBoxPilihanDokter.SelectedItem, KeyValuePair(Of String, String)).Key & "'")
+    '            MsgBox("DEBUG: kodeDokter = " & kodeDokter, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Nomor Urut Transaksi
+    '            Dim nomorUrutTransaksi As String = generateNoTransaksi(rowPoli("KodeTransaksi"), rowPoli("JenisPoli"), DateTime.Now.ToString("yyyyMMdd"), False)
+    '            MsgBox("DEBUG: nomorUrutTransaksi = " & nomorUrutTransaksi, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Insert Data sesuai JenisPoli
+    '            If rowPoli("JenisPoli") = "UMUM" Then
+    '                MsgBox("DEBUG: Insert ke TransaksiPoli", MsgBoxStyle.Information, "DEBUG")
+    '                ' … isi insert TransaksiPoli
+    '            ElseIf rowPoli("JenisPoli") = "GIGI" Then
+    '                MsgBox("DEBUG: Insert ke TransaksiGigi", MsgBoxStyle.Information, "DEBUG")
+    '                ' … isi insert TransaksiGigi
+    '            End If
+
+    '            ' Jenis Rawat
+    '            Dim jenisRawat As String = ""
+    '            If RadioButtonStatusRawatJalan.Checked Then
+    '                jenisRawat = "Rawat Jalan"
+    '            ElseIf RadioButtonStatusRawatInap.Checked Then
+    '                jenisRawat = "Rawat Inap"
+    '            ElseIf RadioButtonPromotifPreventif.Checked Then
+    '                jenisRawat = "Promotif Preventif"
+    '            End If
+    '            MsgBox("DEBUG: jenisRawat = " & jenisRawat, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Jenis Bayar
+    '            Dim jenisBayar As String = GetJenisPembayaran(jenisTransaksi, nomorUrutTransaksi)
+    '            MsgBox("DEBUG: jenisBayar = " & jenisBayar, MsgBoxStyle.Information, "DEBUG")
+
+    '            ' Insert ke TransaksiDetail
+    '            'MsgBox("DEBUG: Siap insert ke TransaksiDetail (Transaksi=" & idTransaksi & ")", MsgBoxStyle.Information, "DEBUG")
+
+    '            ' … lanjutkan proses Insert
+
+    '            ' Cetak Barcode
+    '            MsgBox("DEBUG: Selesai insert, masuk step cetak barcode", MsgBoxStyle.Information, "DEBUG")
+
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("ERROR: " & ex.Message, MsgBoxStyle.Critical, "Warning!")
+    '    End Try
+    'End Sub
+
+    'NEW
     Private Sub SubmitDataPendaftaran()
         Try
             If ValidasiTransaksi() = True Then
@@ -509,6 +605,7 @@ Public Class DialogBoxKonfirmasiPendaftaran
         End If
     End Sub
 
+    'NEW
     Function ValidasiTransaksi() As Boolean
         ' Validasi Inputan Keluhan
         Dim inputKeluhanUtama As String = TextBoxPoliKeluhanUtama.Text.Trim()
@@ -571,6 +668,85 @@ Public Class DialogBoxKonfirmasiPendaftaran
                 Return False
         End Select
     End Function
+
+    'DEBUG
+    'Function ValidasiTransaksi() As Boolean
+    '    ' Debug awal
+    '    MsgBox("DEBUG START ValidasiTransaksi", MsgBoxStyle.Information, "DEBUG")
+
+    '    ' Validasi Inputan Keluhan
+    '    Dim inputKeluhanUtama As String = TextBoxPoliKeluhanUtama.Text.Trim()
+    '    Dim inputKeluhanTambahan As String = TextBoxPoliKeluhanTambahan.Text.Trim()
+
+    '    MsgBox("DEBUG: KeluhanUtama = '" & inputKeluhanUtama & "', KeluhanTambahan = '" & inputKeluhanTambahan & "'", MsgBoxStyle.Information, "DEBUG")
+
+    '    If inputKeluhanUtama = "" Or inputKeluhanTambahan = "" Then
+    '        MsgBox("Gagal. Silahkan isi keluhan utama / keluhan tambahan terlebih dahulu.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    ElseIf inputKeluhanUtama.Length <= 4 Then
+    '        MsgBox("Gagal. Keluhan utama harus lebih dari 4 karakter.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    ElseIf inputKeluhanTambahan.Length <= 10 Then
+    '        MsgBox("Gagal. Keluhan tambahan harus lebih dari 10 karakter.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    End If
+
+    '    ' Validasi Inputan Dokter
+    '    MsgBox("DEBUG: DokterDipilih = '" & ComboBoxPilihanDokter.Text & "'", MsgBoxStyle.Information, "DEBUG")
+    '    If ComboBoxPilihanDokter.FindStringExact(ComboBoxPilihanDokter.Text) < 0 Then
+    '        MsgBox("Masukkan nama dokter yang sesuai.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    End If
+
+    '    ' Validasi Inputan Perawat
+    '    MsgBox("DEBUG: PerawatDipilih = '" & ComboBoxPilihanPerawat.Text & "'", MsgBoxStyle.Information, "DEBUG")
+    '    If ComboBoxPilihanPerawat.FindStringExact(ComboBoxPilihanPerawat.Text) < 0 Then
+    '        MsgBox("Masukkan nama perawat yang sesuai.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    End If
+
+    '    ' Validasi Pendaftaran Pasien Dengan Poli Yang Sama Dalam 1 Hari
+    '    Dim sqlCheck As String = "SELECT * FROM TransaksiDetail WHERE StatusBPJS = 'True' AND IDInternet = '" & TextBoxNoRekamMedis.Text & "' AND JenisPoli = '" & TextBoxPoliTujuan.Text & "' AND CONVERT(DATE, TanggalTransaksi) = '" & Format(DateAndTime.Now, "yyyy-MM-dd") & "' AND DeletedDate IS NULL"
+    '    MsgBox("DEBUG: SQLCheck = " & sqlCheck, MsgBoxStyle.Information, "DEBUG")
+
+    '    If CheckSQL(sqlCheck) = True Then
+    '        MsgBox("Pasien tersebut sudah terdaftar dengan poli yang sama dalam satu hari.", MsgBoxStyle.Exclamation, "Warning!")
+    '        Return False
+    '    End If
+
+    '    ' Validasi Alamat Domisili Kosong
+    '    MsgBox("DEBUG: AlamatDomisili = '" & TextBoxAlamatDomisili.Text & "'", MsgBoxStyle.Information, "DEBUG")
+    '    If TextBoxAlamatDomisili.Text = "" Then
+    '        MessageBox.Show("Alamat Domisili tidak boleh kosong.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Return False
+    '    End If
+
+    '    ' Validasi No. HP Kosong
+    '    MsgBox("DEBUG: NoHP = '" & TextBoxNoHPIdentitas.Text & "'", MsgBoxStyle.Information, "DEBUG")
+    '    If TextBoxNoHPIdentitas.Text.Length = 0 Then
+    '        MessageBox.Show("Nomor HP tidak boleh kosong.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '        Return False
+    '    End If
+
+    '    ' Cek No WhatsApp
+    '    If TextBoxNoHPIdentitas.Text.Length <> 0 Then
+    '        MsgBox("DEBUG: Validasi WA untuk nomor " & TextBoxNoHPIdentitas.Text, MsgBoxStyle.Information, "DEBUG")
+    '        If validateNoWhatsapp(TextBoxNoHPIdentitas.Text) = False Then
+    '            Return False
+    '        End If
+    '    End If
+
+    '    ' Validasi Akhir
+    '    Select Case MsgBox("Pastikan data yang anda simpan sudah benar. Yakin untuk menyimpan data pendaftaran?", MsgBoxStyle.YesNo, "Question.")
+    '        Case MsgBoxResult.Yes
+    '            MsgBox("DEBUG: User pilih YES", MsgBoxStyle.Information, "DEBUG")
+    '            Return True
+    '        Case MsgBoxResult.No
+    '            MsgBox("DEBUG: User pilih NO", MsgBoxStyle.Information, "DEBUG")
+    '            MessageBox.Show("Cek kembali data inputan.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+    '            Return False
+    '    End Select
+    'End Function
 
     Private Sub ButtonSubmitPendaftaran_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSubmitPendaftaran.Click
         SubmitDataPendaftaran()
@@ -894,7 +1070,16 @@ Public Class DialogBoxKonfirmasiPendaftaran
                 """sumber"": """ & _sumber & """" & _
             "}"
 
-            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+            Dim baseUrl As String = ""
+
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
+
             Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
             Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
@@ -909,6 +1094,7 @@ Public Class DialogBoxKonfirmasiPendaftaran
     End Function
 
     ' API PCare - Bridging Antrean (v2)
+
     'NEW
     Function SendPCareDataV2() As Boolean
         Try
@@ -962,7 +1148,16 @@ Public Class DialogBoxKonfirmasiPendaftaran
                 """sumber"": """ & _sumber & """" & _
             "}"
 
-            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+            Dim baseUrl As String = ""
+
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
+
             Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
             Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
@@ -1138,6 +1333,135 @@ Public Class DialogBoxKonfirmasiPendaftaran
     'End Function
 
     'DEBUG
+    'Function SendPCareDataV2() As Boolean
+    '    Try
+    '        MsgBox("=== DEBUG MULAI ===", MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '        Dim kdPoli As String = ""
+    '        Dim kdTkp As String = ""
+    '        Dim kunjSakit As String = ""
+
+    '        MsgBox("tglDaftarBPJS: " & tglDaftarBPJS, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '        Dim _sumber As String = "SINA"
+
+    '        MsgBox("loc:" & vbCrLf & _loc, MsgBoxStyle.Information, "DEBUG")
+    '        MsgBox("sumber:" & vbCrLf & _sumber, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _nomorKartuBPJS & "'")
+    '        MsgBox("kdprovider:" & vbCrLf & kdprovider, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '        MsgBox("Jumlah Data Poli: " & tblPoli.Rows.Count, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim rowPoli As DataRow = tblPoli.Rows(0)
+    '        kdPoli = rowPoli("KodeBPJS").ToString
+    '        MsgBox("kdPoli: " & kdPoli, MsgBoxStyle.Information, "DEBUG")
+
+    '        If ValidateBridgingPcare() = False Then
+    '            MsgBox("ValidateBridgingPcare GAGAL", MsgBoxStyle.Critical, "DEBUG")
+    '            Exit Function
+    '        End If
+    '        If CheckAntreanBPJS(kdprovider, _nomorKartuBPJS, kdPoli, tglDaftarBPJS) = False Then
+    '            MsgBox("CheckAntreanBPJS GAGAL", MsgBoxStyle.Critical, "DEBUG")
+    '            Exit Function
+    '        End If
+
+    '        kunjSakit = If(CBool(rowPoli("PoliSakit")), "true", "false")
+    '        MsgBox("kunjSakit: " & kunjSakit, MsgBoxStyle.Information, "DEBUG")
+
+    '        If RadioButtonStatusRawatJalan.Checked = True Then
+    '            kdTkp = RadioButtonStatusRawatJalan.Tag
+    '        ElseIf RadioButtonStatusRawatInap.Checked = True Then
+    '            kdTkp = RadioButtonStatusRawatInap.Tag
+    '        ElseIf RadioButtonPromotifPreventif.Checked = True Then
+    '            kdTkp = RadioButtonPromotifPreventif.Tag
+    '        End If
+    '        MsgBox("kdTkp: " & kdTkp, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim parameterPendaftaran As String = "{" & _
+    '            """kdProviderPeserta"" : """ & kdprovider & """," & _
+    '            """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+    '            """noKartu"" : """ & _nomorKartuBPJS & """," & _
+    '            """nik"" : """ & _nomorNIK & """," & _
+    '            """kdPoli"" : """ & kdPoli & """," & _
+    '            """keluhan"": """ & TextBoxPoliKeluhanUtama.Text & """," & _
+    '            """kunjSakit"": " & kunjSakit & "," & _
+    '            """sistole"": 0," & _
+    '            """diastole"": 0," & _
+    '            """beratBadan"": 0," & _
+    '            """tinggiBadan"": 0," & _
+    '            """respRate"": 0," & _
+    '            """lingkarPerut"": 0," & _
+    '            """heartRate"": 0," & _
+    '            """rujukBalik"": 0," & _
+    '            """kdTkp"": """ & kdTkp & """," & _
+    '            """loc"": """ & _loc & """," & _
+    '            """bridgingPcare"": true," & _
+    '            """sumber"": """ & _sumber & """" & _
+    '        "}"
+    '        MsgBox("JSON Body:" & vbCrLf & parameterPendaftaran, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+    '        Dim baseUrl As String = ""
+
+    '        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+    '            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+    '        Else
+    '            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+    '        End If
+
+    '        MsgBox("baseUrl: " & baseUrl, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
+    '        MsgBox("urlWebService: " & urlWebService, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
+    '        MsgBox("Response API:" & vbCrLf & jsonString, MsgBoxStyle.Information, "DEBUG")
+
+    '        Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+
+    '        For Each rowData As varJson In jsonObject
+    '            Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+    '            Dim messageMetaData As String = rowData.metaData.message
+    '            Dim messageResponse As String = rowData.response.message
+
+    '            MsgBox("codeMetaData: " & codeMetaData & vbCrLf & _
+    '                   "messageMetaData: " & messageMetaData & vbCrLf & _
+    '                   "messageResponse: " & messageResponse, MsgBoxStyle.Information, "DEBUG")
+
+    '            Select Case codeMetaData
+    '                Case 200, 201, 204
+    '                    NoUrutBPJS = messageResponse
+    '                    MsgBox("Registrasi Sukses! NoUrutBPJS: " & NoUrutBPJS, MsgBoxStyle.Information, "DEBUG")
+    '                    Return True
+    '                Case Else
+    '                    If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+    '                        Dim messageError As String = ""
+    '                        If messageResponse <> "" And messageMetaData <> "" Then
+    '                            messageError = messageResponse & " (" & messageMetaData & ")"
+    '                        ElseIf messageResponse <> "" Then
+    '                            messageError = messageResponse
+    '                        ElseIf messageMetaData <> "" Then
+    '                            messageError = messageMetaData
+    '                        End If
+    '                        MsgBox("Error BPJS:" & vbCrLf & messageError, MsgBoxStyle.Exclamation, "DEBUG ERROR")
+    '                        Return False
+    '                    End If
+    '            End Select
+    '        Next
+
+    '        MsgBox("=== DEBUG SELESAI ===", MsgBoxStyle.Information, "DEBUG")
+    '        Return True
+
+    '    Catch ex As Exception
+    '        MsgBox("Exception: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+    '        Return False
+    '    End Try
+    'End Function
+
     'Public Function SendPCareDataV2() As Boolean
     '    '# Variabel BPJS
     '    Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
@@ -1268,7 +1592,16 @@ Public Class DialogBoxKonfirmasiPendaftaran
     Private Sub SetStatusTidakHadir()
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
-        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+        Dim baseUrl As String = ""
+
+        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+        Else
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        End If
+
         Dim urlWebService As String = baseUrl & "api/bridge/update-absence"
 
         '# Variabel SINA
@@ -1300,7 +1633,15 @@ Public Class DialogBoxKonfirmasiPendaftaran
     Private Sub SetStatusBatal()
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "yyyy-MM-dd")
-        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+        Dim baseUrl As String = ""
+
+        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+        Else
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        End If
         Dim urlWebService As String = baseUrl & "api/bridge/update-cancelled"
 
         '# Variabel SINA

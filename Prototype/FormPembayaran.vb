@@ -879,7 +879,16 @@ Public Class FormPembayaran
             "}"
 
             ' --- URL API dari MsConfig ---
-            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+            Dim baseUrl As String = ""
+
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
+
             Dim urlWebService As String = baseUrl & "api/bridge/update-served"
 
             Dim jsonString As String = InsertDataAPI(parameterNonBPJS, urlWebService)
@@ -893,14 +902,14 @@ Public Class FormPembayaran
                     Case 200, 201, 204
                         Return True
                     Case Else
-                        MsgBox("Error Update Status Dilayani ERM: " & vbCrLf & messageMetaData, MsgBoxStyle.Exclamation, "Error!")
+                        'MsgBox("Error Update Status Dilayani ERM: " & vbCrLf & messageMetaData, MsgBoxStyle.Exclamation, "Error!")
                         Return False
                 End Select
             Next
 
             Return True
         Catch ex As Exception
-            MsgBox("Exception Update Status Dilayani ERM: " & ex.Message, MsgBoxStyle.Critical, "Error!")
+            'MsgBox("Exception Update Status Dilayani ERM: " & ex.Message, MsgBoxStyle.Critical, "Error!")
             Return False
         End Try
     End Function
@@ -1756,7 +1765,16 @@ Public Class FormPembayaran
     Function SendPCareDataV2() As Boolean
         '# Variabel BPJS
         Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+        Dim baseUrl As String = ""
+
+        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+        Else
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        End If
+
         Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
         Dim kdPoli As String = ""
         Dim kdTkp As String = ""
@@ -1863,7 +1881,16 @@ Public Class FormPembayaran
     Function SetStatusHadir() As Boolean
         '# Variabel BPJS
         Dim tglDaftar As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+        Dim baseUrl As String = ""
+
+        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+        Else
+            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+        End If
+
         Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
 
         '# Variabel SINA

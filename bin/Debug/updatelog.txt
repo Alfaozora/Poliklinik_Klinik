@@ -1,12 +1,21 @@
-Version : 2.0.0.54 ()
+Version : 2.0.0.55 ()
+# [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
+# [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
+# [New Feature] Penambahan Nama Dokter GIGI pada Surat Keterangan Istirahat
+# [Usability Improvement] Penyesuaian Signa2 pada obat yang dapat menampung angka desimal
+
+Version : 2.0.0.54 (02 September 2025)
 # [New Feature] Penambahan Menu Ganti Dokter (Hanya Bisa Diakses Admin)
 # [New Feature] Bridging Obat ke Pcare (Tahap Pengembangan)
+# [New Feature] Menu Pcare Syncronazition untuk mencocokan data local dengan Pcare (Hanya Bisa Diakses Admin)
+# [New Feature] Enkripsi Data Menggunakan metode AES (Comment) 
 # [Usability Improvement] Penambahan No SIP pada Surat Istirahat
 # [Usability Improvement] Hasil Cek Stik Bisa Diupdate
 # [Usability Improvement] Tampilan Cek Stik berubah sesuai jenis yang dipilih
 # [Usability Improvement] Master Harga Diaktifkan Kembali
 # [Usability Improvement] Penyesuaian TLS (Transport Layer Security) 1.2 yang mendukung Https (Comment)
 # [Usability Improvement] Penyesuaian Bridging API Sina melalui Web Service Klinik agar bisa diakses dengan TLS 1.0
+# [Usability Improvement] Penyesuaian untuk menggunakan Web Service Cadangan dikala Web Service Utama Error/Problem
 
 Version : 2.0.0.53 (30 Juli 2025)
 # [New Feature] Penambahan Menu Reminder Pasien Untuk Mengingatkan Pasien Untuk Berkunjung ke Faskes

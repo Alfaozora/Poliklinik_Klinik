@@ -279,12 +279,6 @@
     <Compile Include="Find\FindDiagnosa.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BPJS\Implementasi.Designer.vb">
-      <DependentUpon>Implementasi.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BPJS\Implementasi.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Class\ClassJSON.vb" />
     <Compile Include="Class\DataGajiHRD.vb" />
     <Compile Include="Class\Kunjungan.vb" />
@@ -318,12 +312,6 @@
       <DependentUpon>FindTransaksi.vb</DependentUpon>
     </Compile>
     <Compile Include="Find\FindTransaksi.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form_Trial\Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form_Trial\Form1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form_Trial\Form1gpt.Designer.vb">
@@ -1376,10 +1364,6 @@
     <EmbeddedResource Include="Find\FindDiagnosa.resx">
       <DependentUpon>FindDiagnosa.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BPJS\Implementasi.resx">
-      <DependentUpon>Implementasi.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Find\FindFaskesRujukan.resx">
       <DependentUpon>FindFaskesRujukan.vb</DependentUpon>
     </EmbeddedResource>
@@ -1391,10 +1375,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Find\FindTransaksi.resx">
       <DependentUpon>FindTransaksi.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form_Trial\Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Trial\Form1gpt.resx">
       <DependentUpon>Form1gpt.vb</DependentUpon>
@@ -2198,52 +2178,12 @@
     <None Include="Resources\Sinkronasi.png" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AxCrystalPrintControlLib">
-      <Guid>{62862E3F-F35B-455E-9459-49EAADE80A25}</Guid>
-      <VersionMajor>13</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="AxMicrosoft.Vbe.Interop.Forms">
-      <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="AxMSComctlLib">
-      <Guid>{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="CrystalPrintControlLib">
-      <Guid>{62862E3F-F35B-455E-9459-49EAADE80A25}</Guid>
-      <VersionMajor>13</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="Microsoft.Vbe.Interop.Forms">
       <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="MSComctlLib">
-      <Guid>{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
+      <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
     <COMReference Include="stdole1">
@@ -2256,6 +2196,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BPJS\" />
     <Folder Include="Gigi\" />
     <Folder Include="Keuangan\Tools\" />
     <Folder Include="Master\Other\" />
