@@ -3455,3 +3455,4 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Tool
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormSinkronPcare.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.SendingUlangPendaftaran.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormBase64.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormObservation.resources

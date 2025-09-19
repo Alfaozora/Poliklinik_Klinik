@@ -859,11 +859,20 @@
     <Compile Include="Reservasi\FormReservasi.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Satu Sehat\FormObservations.Designer.vb">
+      <DependentUpon>FormObservations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Satu Sehat\FormObservations.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.Designer.vb">
       <DependentUpon>FormSynchronizationSatuSehat.vb</DependentUpon>
     </Compile>
     <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Satu Sehat\GradientPanel.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Satu Sehat\Resource\AuthResource.vb" />
     <Compile Include="Satu Sehat\FormResourceSatuSehat.Designer.vb">
@@ -1662,6 +1671,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reservasi\FormReservasi.resx">
       <DependentUpon>FormReservasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Satu Sehat\FormObservations.resx">
+      <DependentUpon>FormObservations.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Satu Sehat\FormResourceSatuSehat.resx">
       <DependentUpon>FormResourceSatuSehat.vb</DependentUpon>

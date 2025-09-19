@@ -214,6 +214,7 @@ Partial Class PoliKlinik
         Me.DashboardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TesFingerprintToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Base64EncDecToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PcareSynchronizationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KYCToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DokterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -273,7 +274,8 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
-        Me.PcareSynchronizationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EcounterConditionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ObservationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1550,6 +1552,7 @@ Partial Class PoliKlinik
         '
         'SatuSehatSynchronizationToolStripMenuItem
         '
+        Me.SatuSehatSynchronizationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EcounterConditionToolStripMenuItem, Me.ObservationToolStripMenuItem})
         Me.SatuSehatSynchronizationToolStripMenuItem.Name = "SatuSehatSynchronizationToolStripMenuItem"
         Me.SatuSehatSynchronizationToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
         Me.SatuSehatSynchronizationToolStripMenuItem.Text = "Satu Sehat Synchronization"
@@ -1602,6 +1605,12 @@ Partial Class PoliKlinik
         Me.Base64EncDecToolStripMenuItem.Name = "Base64EncDecToolStripMenuItem"
         Me.Base64EncDecToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
         Me.Base64EncDecToolStripMenuItem.Text = "Base64 Enc/Dec"
+        '
+        'PcareSynchronizationToolStripMenuItem
+        '
+        Me.PcareSynchronizationToolStripMenuItem.Name = "PcareSynchronizationToolStripMenuItem"
+        Me.PcareSynchronizationToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
+        Me.PcareSynchronizationToolStripMenuItem.Text = "Pcare Synchronization"
         '
         'KYCToolStripMenuItem
         '
@@ -2001,11 +2010,17 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
-        'PcareSynchronizationToolStripMenuItem
+        'EcounterConditionToolStripMenuItem
         '
-        Me.PcareSynchronizationToolStripMenuItem.Name = "PcareSynchronizationToolStripMenuItem"
-        Me.PcareSynchronizationToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
-        Me.PcareSynchronizationToolStripMenuItem.Text = "Pcare Synchronization"
+        Me.EcounterConditionToolStripMenuItem.Name = "EcounterConditionToolStripMenuItem"
+        Me.EcounterConditionToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+        Me.EcounterConditionToolStripMenuItem.Text = "Ecounter_Condition"
+        '
+        'ObservationToolStripMenuItem
+        '
+        Me.ObservationToolStripMenuItem.Name = "ObservationToolStripMenuItem"
+        Me.ObservationToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+        Me.ObservationToolStripMenuItem.Text = "Observation"
         '
         'PoliKlinik
         '
@@ -2282,4 +2297,6 @@ Partial Class PoliKlinik
     Friend WithEvents GantiDokterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Base64EncDecToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PcareSynchronizationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EcounterConditionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ObservationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

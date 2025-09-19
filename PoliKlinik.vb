@@ -1210,8 +1210,7 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub SatuSehatSynchronizationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SatuSehatSynchronizationToolStripMenuItem.Click
-        FormSynchronizationSatuSehat.Show()
-        FormSynchronizationSatuSehat.Focus()
+       
     End Sub
 
     Private Sub FormMasterDokterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FormMasterDokterToolStripMenuItem.Click
@@ -1351,5 +1350,15 @@ Public Class PoliKlinik
     Private Sub PcareSynchronixationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PcareSynchronizationToolStripMenuItem.Click
         FormSinkronPcare.Show()
         FormSinkronPcare.Focus()
+    End Sub
+
+    Private Sub EcounterConditionToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EcounterConditionToolStripMenuItem.Click
+        FormSynchronizationSatuSehat.Show()
+        FormSynchronizationSatuSehat.Focus()
+    End Sub
+
+    Private Sub ObservationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ObservationToolStripMenuItem.Click
+        FormObservation.Show()
+        FormObservation.Focus()
     End Sub
 End Class
