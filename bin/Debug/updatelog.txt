@@ -1,5 +1,7 @@
 Version : 2.0.0.55 ()
-# [New Feature] Penambahan Fitur Riwayat Cek Stik yang akan dikirimkan kepada Pasien
+# [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
+# [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
+# [New Feature] Penambahan Nama Dokter GIGI pada Surat Keterangan Istirahat
 # [Usability Improvement] Penyesuaian Signa2 pada obat yang dapat menampung angka desimal
 
 Version : 2.0.0.54 (02 September 2025)

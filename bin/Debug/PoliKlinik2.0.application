@@ -4,14 +4,14 @@
   <description asmv2:publisher="PoliKlinik2.0" asmv2:product="PoliKlinik2.0" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="PoliKlinik2.0.exe.manifest" size="28648">
+    <dependentAssembly dependencyType="install" codebase="PoliKlinik2.0.exe.manifest" size="27607">
       <assemblyIdentity name="PoliKlinik2.0.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>jQ1B0Q7WNOAi5hQlEKeF2HRjymk=</dsig:DigestValue>
+        <dsig:DigestValue>yvokP2XcgOeb2OE4boq/kmMqRa0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

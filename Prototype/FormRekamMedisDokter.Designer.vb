@@ -777,6 +777,8 @@ Me.ComboBoxJenisSuratKeterangan = New System.Windows.Forms.ComboBox
 Me.Label115 = New System.Windows.Forms.Label
 Me.TabControlSuratKeterangan = New System.Windows.Forms.TabControl
 Me.TabPageSuratKeteranganDokter = New System.Windows.Forms.TabPage
+Me.Label354 = New System.Windows.Forms.Label
+Me.TextBoxKeteranganCostom = New System.Windows.Forms.TextBox
 Me.ComboBoxButaWarnaSuratSehat = New System.Windows.Forms.ComboBox
 Me.Label140 = New System.Windows.Forms.Label
 Me.TextBoxKeteranganButaWarnaSuratSehat = New System.Windows.Forms.TextBox
@@ -1262,6 +1264,8 @@ Me.Label330 = New System.Windows.Forms.Label
 Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
+Me.Label355 = New System.Windows.Forms.Label
+Me.Label356 = New System.Windows.Forms.Label
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -1915,7 +1919,7 @@ Me.ButtonCetakSuratKeteranganDokter.FlatAppearance.MouseOverBackColor = System.D
 Me.ButtonCetakSuratKeteranganDokter.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 Me.ButtonCetakSuratKeteranganDokter.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Bold)
 Me.ButtonCetakSuratKeteranganDokter.ForeColor = System.Drawing.Color.White
-Me.ButtonCetakSuratKeteranganDokter.Location = New System.Drawing.Point(379, 199)
+Me.ButtonCetakSuratKeteranganDokter.Location = New System.Drawing.Point(379, 253)
 Me.ButtonCetakSuratKeteranganDokter.Name = "ButtonCetakSuratKeteranganDokter"
 Me.ButtonCetakSuratKeteranganDokter.RightToLeft = System.Windows.Forms.RightToLeft.Yes
 Me.ButtonCetakSuratKeteranganDokter.Size = New System.Drawing.Size(108, 30)
@@ -7930,11 +7934,10 @@ Me.Label56.Text = "Preview Simbol"
 Me.ButtonFindSimbolGigi.EditValue = ""
 Me.ButtonFindSimbolGigi.Location = New System.Drawing.Point(153, 56)
 Me.ButtonFindSimbolGigi.Name = "ButtonFindSimbolGigi"
-Me.ButtonFindSimbolGigi.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI", 9!)
 Me.ButtonFindSimbolGigi.Properties.Appearance.Options.UseFont = true
 Me.ButtonFindSimbolGigi.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton})
 Me.ButtonFindSimbolGigi.Properties.ReadOnly = true
-Me.ButtonFindSimbolGigi.Size = New System.Drawing.Size(65, 22)
+Me.ButtonFindSimbolGigi.Size = New System.Drawing.Size(65, 20)
 Me.ButtonFindSimbolGigi.TabIndex = 505
 '
 'Label44
@@ -11128,6 +11131,10 @@ Me.TabControlSuratKeterangan.TabIndex = 0
 '
 Me.TabPageSuratKeteranganDokter.AutoScroll = true
 Me.TabPageSuratKeteranganDokter.BackColor = System.Drawing.Color.White
+Me.TabPageSuratKeteranganDokter.Controls.Add(Me.Label356)
+Me.TabPageSuratKeteranganDokter.Controls.Add(Me.Label355)
+Me.TabPageSuratKeteranganDokter.Controls.Add(Me.Label354)
+Me.TabPageSuratKeteranganDokter.Controls.Add(Me.TextBoxKeteranganCostom)
 Me.TabPageSuratKeteranganDokter.Controls.Add(Me.ButtonCetakSuratKeteranganDokter)
 Me.TabPageSuratKeteranganDokter.Controls.Add(Me.ComboBoxButaWarnaSuratSehat)
 Me.TabPageSuratKeteranganDokter.Controls.Add(Me.Label140)
@@ -11147,6 +11154,27 @@ Me.TabPageSuratKeteranganDokter.Size = New System.Drawing.Size(848, 310)
 Me.TabPageSuratKeteranganDokter.TabIndex = 0
 Me.TabPageSuratKeteranganDokter.Text = "SK Dokter"
 Me.TabPageSuratKeteranganDokter.UseVisualStyleBackColor = true
+'
+'Label354
+'
+Me.Label354.AutoSize = true
+Me.Label354.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.Label354.Location = New System.Drawing.Point(30, 212)
+Me.Label354.Name = "Label354"
+Me.Label354.Size = New System.Drawing.Size(78, 17)
+Me.Label354.TabIndex = 514
+Me.Label354.Text = "Keterangan"
+'
+'TextBoxKeteranganCostom
+'
+Me.TextBoxKeteranganCostom.BackColor = System.Drawing.Color.White
+Me.TextBoxKeteranganCostom.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKeteranganCostom.Location = New System.Drawing.Point(187, 199)
+Me.TextBoxKeteranganCostom.Multiline = true
+Me.TextBoxKeteranganCostom.Name = "TextBoxKeteranganCostom"
+Me.TextBoxKeteranganCostom.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxKeteranganCostom.Size = New System.Drawing.Size(300, 48)
+Me.TextBoxKeteranganCostom.TabIndex = 513
 '
 'ComboBoxButaWarnaSuratSehat
 '
@@ -11242,7 +11270,7 @@ Me.ButtonGenerateSuratKeteranganDokter.FlatAppearance.MouseOverBackColor = Syste
 Me.ButtonGenerateSuratKeteranganDokter.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 Me.ButtonGenerateSuratKeteranganDokter.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Bold)
 Me.ButtonGenerateSuratKeteranganDokter.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
-Me.ButtonGenerateSuratKeteranganDokter.Location = New System.Drawing.Point(187, 199)
+Me.ButtonGenerateSuratKeteranganDokter.Location = New System.Drawing.Point(187, 253)
 Me.ButtonGenerateSuratKeteranganDokter.Name = "ButtonGenerateSuratKeteranganDokter"
 Me.ButtonGenerateSuratKeteranganDokter.RightToLeft = System.Windows.Forms.RightToLeft.Yes
 Me.ButtonGenerateSuratKeteranganDokter.Size = New System.Drawing.Size(186, 30)
@@ -14234,11 +14262,10 @@ Me.Label80.Text = "Preview Simbol"
 Me.ButtonEdit1.EditValue = ""
 Me.ButtonEdit1.Location = New System.Drawing.Point(43, 211)
 Me.ButtonEdit1.Name = "ButtonEdit1"
-Me.ButtonEdit1.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI", 9.75!)
 Me.ButtonEdit1.Properties.Appearance.Options.UseFont = true
 Me.ButtonEdit1.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton})
 Me.ButtonEdit1.Properties.ReadOnly = true
-Me.ButtonEdit1.Size = New System.Drawing.Size(65, 24)
+Me.ButtonEdit1.Size = New System.Drawing.Size(65, 20)
 Me.ButtonEdit1.TabIndex = 505
 '
 'Label81
@@ -14340,11 +14367,10 @@ Me.Label83.Text = "Harga Tindakan"
 Me.ButtonEdit2.EditValue = ""
 Me.ButtonEdit2.Location = New System.Drawing.Point(43, 104)
 Me.ButtonEdit2.Name = "ButtonEdit2"
-Me.ButtonEdit2.Properties.Appearance.Font = New System.Drawing.Font("Segoe UI", 9.75!)
 Me.ButtonEdit2.Properties.Appearance.Options.UseFont = true
 Me.ButtonEdit2.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton})
 Me.ButtonEdit2.Properties.ReadOnly = true
-Me.ButtonEdit2.Size = New System.Drawing.Size(50, 24)
+Me.ButtonEdit2.Size = New System.Drawing.Size(50, 20)
 Me.ButtonEdit2.TabIndex = 457
 '
 'TextBox10
@@ -17121,6 +17147,30 @@ Me.Label334.Text = "No Surat"
 '
 Me.TimerAPI.Interval = 60000
 '
+'Label355
+'
+Me.Label355.AutoSize = true
+Me.Label355.BackColor = System.Drawing.Color.Transparent
+Me.Label355.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label355.ForeColor = System.Drawing.Color.Red
+Me.Label355.Location = New System.Drawing.Point(493, 207)
+Me.Label355.Name = "Label355"
+Me.Label355.Size = New System.Drawing.Size(35, 13)
+Me.Label355.TabIndex = 515
+Me.Label355.Text = "Note:"
+'
+'Label356
+'
+Me.Label356.AutoSize = true
+Me.Label356.BackColor = System.Drawing.Color.Transparent
+Me.Label356.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label356.ForeColor = System.Drawing.Color.Red
+Me.Label356.Location = New System.Drawing.Point(493, 224)
+Me.Label356.Name = "Label356"
+Me.Label356.Size = New System.Drawing.Size(279, 13)
+Me.Label356.TabIndex = 516
+Me.Label356.Text = "Tanda koma (,) digunakan untuk membuat baris baru"
+'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -18751,4 +18801,8 @@ End Sub
     Friend WithEvents TextBoxObatDPHO As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxKodeObatDPHO As System.Windows.Forms.TextBox
     Friend WithEvents TimerAPI As System.Windows.Forms.Timer
+    Friend WithEvents TextBoxKeteranganCostom As System.Windows.Forms.TextBox
+    Friend WithEvents Label354 As System.Windows.Forms.Label
+    Friend WithEvents Label356 As System.Windows.Forms.Label
+    Friend WithEvents Label355 As System.Windows.Forms.Label
 End Class

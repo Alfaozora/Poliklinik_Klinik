@@ -865,20 +865,17 @@ Public Class FormRekamMedisDokter
         If tblSuratKeterangan.Rows.Count > 0 Then
             Dim rowSurat As DataRow = tblSuratKeterangan.Rows(0)
 
-            ' Set No Surat
+            ' ======= SET DATA BIASA =======
             TextBoxNoSuratDokter.Text = rowSurat("NoSurat")
 
-            ' Set Status Sehat
             If rowSurat("Hasil") = RadioButtonStatusSehatSuratDokter.Text Then
                 RadioButtonStatusSehatSuratDokter.Checked = True
             ElseIf rowSurat("Hasil") = RadioButtonStatusTidakSehatSuratDokter.Text Then
                 RadioButtonStatusTidakSehatSuratDokter.Checked = True
             End If
 
-            ' Set Tujuan
             TextBoxTujuanSuratDokter.Text = rowSurat("Tujuan")
 
-            ' Set Buta Warna
             Select Case rowSurat("ButaWarna")
                 Case "Negatif", "Total"
                     ComboBoxButaWarnaSuratSehat.Text = rowSurat("ButaWarna")
@@ -886,11 +883,37 @@ Public Class FormRekamMedisDokter
                     ComboBoxButaWarnaSuratSehat.Text = rowSurat("ButaWarna")
                     TextBoxKeteranganButaWarnaSuratSehat.Text = rowSurat("KeteranganButaWarna")
             End Select
+
+            ' ======= PARSE JSON KETERANGAN =======
+            If Not IsDBNull(rowSurat("Keterangan")) Then
+                Dim json As String = rowSurat("Keterangan").ToString().Trim()
+
+                If json <> "" Then
+                    ' Buang tanda [ dan ] di awal/akhir
+                    If json.StartsWith("[") Then json = json.Substring(1)
+                    If json.EndsWith("]") Then json = json.Substring(0, json.Length - 1)
+
+                    ' Pisahkan berdasarkan koma antar elemen array
+                    Dim rawItems() As String = Split(json, ",")
+
+                    ' Bersihkan tanda kutip dan spasi di tiap item
+                    Dim items As New List(Of String)
+                    For Each r As String In rawItems
+                        Dim clean As String = r.Trim()
+                        If clean.StartsWith("""") Then clean = clean.Substring(1)
+                        If clean.EndsWith("""") Then clean = clean.Substring(0, clean.Length - 1)
+                        items.Add(clean)
+                    Next
+
+                    ' Gabungkan ke TextBox, tiap item baris baru
+                    TextBoxKeteranganCostom.Text = String.Join(Environment.NewLine, items.ToArray())
+                End If
+            End If
         End If
     End Sub
 
     Private Sub LoadSuratKeteranganIstirahat()
-        ' SURAT KETERANGAN DOKTER
+        ' SURAT KETERANGAN ISTIRAHAT
         Dim tblSuratKeterangan As DataTable = ReadSQL("SELECT * FROM SuratKeteranganIstirahat WHERE NoTransaksi = '" & idTransaksi & "'")
 
         If tblSuratKeterangan.Rows.Count > 0 Then
@@ -5287,9 +5310,26 @@ Public Class FormRekamMedisDokter
                         ' Get Nomor Surat
                         Dim nomorSurat As String = GenerateNomorSurat("SURAT KETERANGAN DOKTER")
 
+                        ' --- Ubah TextBox jadi JSON array ---
+                        Dim listKeterangan As New List(Of String)
+                        For Each item As String In TextBoxKeteranganCostom.Text.Split(","c)
+                            Dim trimmed = item.Trim()
+                            If trimmed <> "" Then
+                                listKeterangan.Add(trimmed)
+                            End If
+                        Next
+
+                        ' Buat JSON array string
+                        Dim jsonKeterangan As String = "["
+                        For i As Integer = 0 To listKeterangan.Count - 1
+                            jsonKeterangan &= """" & listKeterangan(i).Replace("""", "\""") & """"
+                            If i < listKeterangan.Count - 1 Then jsonKeterangan &= ","
+                        Next
+                        jsonKeterangan &= "]"
+
                         ' Insert data ke SuratKeteranganDokter
-                        WriteSQL("INSERT INTO SuratKeteranganDokter (NoTransaksi, NoRekamMedis, NoSurat, TanggalSurat, DokterID, DokterNama, Hasil, Tujuan, ButaWarna, KeteranganButaWarna, CreatedBy, CreatedDate) " & _
-                                "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & nomorSurat & "', GETDATE(), '" & rowData("KodeDokter") & "', '" & rowData("NamaDokter") & "', '" & statusSuratDokter.ToUpper() & "', '" & TextBoxTujuanSuratDokter.Text & "', '" & ComboBoxButaWarnaSuratSehat.Text & "', '" & TextBoxKeteranganButaWarnaSuratSehat.Text & "', '" & userInput & "', GETDATE())", 4)
+                        WriteSQL("INSERT INTO SuratKeteranganDokter (NoTransaksi, NoRekamMedis, NoSurat, TanggalSurat, DokterID, DokterNama, Hasil, Tujuan, ButaWarna, KeteranganButaWarna, CreatedBy, CreatedDate, Keterangan) " & _
+                                "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & nomorSurat & "', GETDATE(), '" & rowData("KodeDokter") & "', '" & rowData("NamaDokter") & "', '" & statusSuratDokter.ToUpper() & "', '" & TextBoxTujuanSuratDokter.Text & "', '" & ComboBoxButaWarnaSuratSehat.Text & "', '" & TextBoxKeteranganButaWarnaSuratSehat.Text & "', '" & userInput & "', GETDATE(), '" & jsonKeterangan & "')", 4)
 
                         ' Set Nomor Surat
                         TextBoxNoSuratDokter.Text = nomorSurat
@@ -5297,14 +5337,24 @@ Public Class FormRekamMedisDokter
                 ElseIf TextBoxNoSuratDokter.Text <> "" Then
                     Dim parameterUpdate As String = ""
 
-                    ' Update Data SuratKeteranganDokter
+                    ' Ubah teks menjadi array JSON
+                    Dim rawKeterangan As String = TextBoxKeteranganCostom.Text
+                    Dim arrParts() As String = rawKeterangan.Split(","c)
+                    For i As Integer = 0 To arrParts.Length - 1
+                        arrParts(i) = """" & arrParts(i).Trim() & """"
+                    Next
+                    Dim jsonKeterangan As String = "[" & String.Join(",", arrParts) & "]"
+
+                    ' Buat parameter update
                     parameterUpdate = "Hasil = '" & statusSuratDokter.ToUpper() & "'," & _
                                       "Tujuan = '" & TextBoxTujuanSuratDokter.Text & "'," & _
                                       "ButaWarna = '" & ComboBoxButaWarnaSuratSehat.Text & "'," & _
                                       "KeteranganButaWarna = '" & TextBoxKeteranganButaWarnaSuratSehat.Text & "'," & _
+                                      "Keterangan = '" & jsonKeterangan & "'," & _
                                       "UpdatedBy = '" & userInput & "'," & _
                                       "UpdatedDate = GETDATE()"
 
+                    ' Jalankan update
                     WriteSQL("UPDATE SuratKeteranganDokter SET " & parameterUpdate & " WHERE NoTransaksi = '" & idTransaksi & "'", 4)
                 End If
 
@@ -7960,11 +8010,67 @@ Public Class FormRekamMedisDokter
             ' Set Data Surat Keterangan
             Dim tblSuratKeterangan As DataTable = ReadSQL("SELECT * FROM SuratKeteranganDokter WHERE NoTransaksi = '" & idTransaksi & "'")
 
+            'Nama Dokter
+            Dim namaDokter As String = ""
+            Dim noSIP As String = ""
+            Dim kodeDokter As String = ""
+
+            If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
+                namaDokter = ReadSQLNIK("SELECT DokterPoli FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+                kodeDokter = ReadSQLNIK("SELECT KodeDokter FROM TransaksiPoli WHERE NoUrut = '" & idTransaksi & "'")
+                noSIP = ReadSQLNIK("SELECT NoSIP FROM MasterDokter WHERE ID = '" & kodeDokter & "'")
+            Else
+                namaDokter = ReadSQLNIK("SELECT DokterGigi FROM TransaksiGigi WHERE NoUrut = '" & idTransaksi & "'")
+                kodeDokter = ReadSQLNIK("SELECT KodeDokter FROM TransaksiGigi WHERE NoUrut = '" & idTransaksi & "'")
+                noSIP = ReadSQLNIK("SELECT NoSIP FROM MasterDokter WHERE ID = '" & kodeDokter & "'")
+            End If
+
             If tblSuratKeterangan.Rows.Count > 0 Then
                 Dim rowSurat As DataRow = tblSuratKeterangan.Rows(0)
 
                 Report = New XtraReport
                 Report = XtraReport.FromFile(Application.StartupPath + "\Reports\Klinik\SuratKeterangan\SuratKeteranganDokter.repx", True)
+
+                ' Ambil kolom Keterangan (format JSON array)
+                Dim isiKeterangan As String = ""
+                If Not IsDBNull(rowSurat("Keterangan")) AndAlso rowSurat("Keterangan").ToString() <> "" Then
+                    Dim json As String = rowSurat("Keterangan").ToString()
+                    json = json.Trim("["c, "]"c)
+                    Dim parts() As String = json.Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+                    For i As Integer = 0 To parts.Length - 1
+                        parts(i) = parts(i).Trim().Trim(""""c)
+                    Next
+                    isiKeterangan = String.Join(vbCrLf, parts)
+                End If
+
+                ' === Cari table → row → cell secara aman ===
+                Dim table4 As XRTable = TryCast(Report.Bands(BandKind.Detail).Controls("xrTable4"), XRTable)
+                If table4 IsNot Nothing Then
+                    Dim row12 As XRTableRow = Nothing
+                    For Each r As XRTableRow In table4.Rows
+                        If r.Name = "xrTableRow12" Then
+                            row12 = r
+                            Exit For
+                        End If
+                    Next
+
+                    If row12 IsNot Nothing Then
+                        Dim cellKeterangan As XRTableCell = Nothing
+                        For Each c As XRTableCell In row12.Cells
+                            If c.Name = "Keterangan" Then
+                                cellKeterangan = c
+                                Exit For
+                            End If
+                        Next
+
+                        If cellKeterangan IsNot Nothing Then
+                            cellKeterangan.Multiline = True
+                            cellKeterangan.CanGrow = True
+                            cellKeterangan.Visible = True
+                            cellKeterangan.Text = isiKeterangan
+                        End If
+                    End If
+                End If
 
                 ' Add Kop Image
                 Dim imagePathKopSurat As String = System.IO.Path.Combine(Application.StartupPath, pathKopSurat)
@@ -8058,11 +8164,17 @@ Public Class FormRekamMedisDokter
 
                     Report.Bands.Item(BandKind.PageFooter).Controls("xrLabelTgl").Text = namaKota & ", " & tglSurat
 
+                    If Report.Bands.Item(BandKind.PageFooter).Controls("xrLabelDokter") IsNot Nothing Then
+                        Report.Bands.Item(BandKind.PageFooter).Controls("xrLabelDokter").Text = namaDokter
+                        Report.Bands.Item(BandKind.PageFooter).Controls("xrLabelSIP").Text = "SIP: " & noSIP
+                    End If
+
+
                     ' Nonaktifkan jika sudah ada master TTD Dokter
-                    Report.Bands.Item(BandKind.PageFooter).Controls("xrPictureBoxTTD").Visible = False
+                    'Report.Bands.Item(BandKind.PageFooter).Controls("xrPictureBoxTTD").Visible = False
 
                     ' Add Kop Surat
-                    Report.Bands.Item(BandKind.PageHeader).Controls.Add(pictureBoxKopSurat)
+                    'Report.Bands.Item(BandKind.PageHeader).Controls.Add(pictureBoxKopSurat)
 
                     'Report.RunDesigner()
                     Report.ShowPreview()
@@ -12745,6 +12857,10 @@ Public Class FormRekamMedisDokter
 
 
                         Dim waIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+                        If String.IsNullOrEmpty(waIP) Then
+                            MsgBox("IP WhatsApp tidak ditemukan di MsConfig.")
+                            Exit Sub
+                        End If
                         Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
                         Dim urlSend As String = "http://" & waIP & ":4444/send"
                         Dim statusKirim As String = SendDataWhatsapp(parameter, urlSend)
@@ -12925,7 +13041,12 @@ Public Class FormRekamMedisDokter
 
         'Report.RunDesigner()
         Report.ShowPreview()
-        SendToApiGetUrl(idPasien)
+
+        Dim statusAPI As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'status_ws_RM' ")
+
+        If statusAPI IsNot Nothing AndAlso statusAPI = "Yes" Then
+            SendToApiGetUrl(idPasien)
+        End If
     End Sub
 
     Public Function SubmitPotongPaket(ByRef rowPaket() As DataRow) As DataTable

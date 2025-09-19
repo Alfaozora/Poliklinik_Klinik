@@ -3254,8 +3254,6 @@ C:\Users\admin\Documents\GitHub\Poliklinik_16Juni\obj\Debug\PoliKlinik_Net2.Dial
 C:\Users\admin\Documents\GitHub\Poliklinik_16Juni\obj\Debug\PoliKlinik_Net2.ReportCapaianKBK.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_16Juni\obj\Debug\PoliKlinik_Net2.FormRekamMedisDokter.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\PoliKlinik2.0.exe.config
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\Interop.Microsoft.Vbe.Interop.Forms.dll
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\AxInterop.Microsoft.Vbe.Interop.Forms.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik@Net.vbproj.ResolveComReference.cache
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik2.0.exe
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik2.0.xml
@@ -3277,17 +3275,13 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\System.Xml.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\System.Xml.Linq.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\Microsoft.Vbe.Interop.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\dao.dll
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\Interop.Microsoft.Vbe.Interop.Forms.dll
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\AxInterop.Microsoft.Vbe.Interop.Forms.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindAlergi.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindDiagnosa.resources
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Implementasi.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindFaskesRujukan.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindObat.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindPasien.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FindTransaksi.resources
-C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Form1.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Form1gpt.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Form2.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Form3.resources

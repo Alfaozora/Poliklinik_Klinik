@@ -779,8 +779,8 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub ImplementasiBPJSToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImplementasiBPJSToolStripMenuItem1.Click
-        Implementasi.Show()
-        Implementasi.Focus()
+        'Implementasi.Show()
+        'Implementasi.Focus()
     End Sub
 
     Private Sub TunaiToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TunaiToolStripMenuItem.Click
@@ -834,8 +834,8 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub EmailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EmailToolStripMenuItem.Click
-        Form1.Show()
-        Form1.Focus()
+        'Form1.Show()
+        'Form1.Focus()
     End Sub
 
     Private Sub ReportPembayaranTagihanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
