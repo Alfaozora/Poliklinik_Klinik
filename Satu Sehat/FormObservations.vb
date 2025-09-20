@@ -10,9 +10,14 @@ Imports System.IO
 Imports System.Drawing.Drawing2D
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports System.ComponentModel
+Imports System.ComponentModel.BackgroundWorker
+Imports System.Data.SqlClient
 
 Public Class FormObservation
     Private userInput As String = PoliKlinik.Lbluser.Text
+    Private isStopRequested As Boolean = False
+    Private lastPercent As Integer = 0
 
     Private Sub RoundButton(ByVal btn As Button)
         Dim r As New GraphicsPath()
@@ -24,29 +29,63 @@ Public Class FormObservation
         btn.Region = New Region(r)
     End Sub
 
+    Public Sub RoundPanel(ByVal panel As Panel)
+        Dim gp As New GraphicsPath()
+        gp.AddArc(0, 0, 20, 20, 180, 90)
+        gp.AddArc(panel.Width - 20, 0, 20, 20, 270, 90)
+        gp.AddArc(panel.Width - 20, panel.Height - 20, 20, 20, 0, 90)
+        gp.AddArc(0, panel.Height - 20, 20, 20, 90, 90)
+        gp.CloseFigure()
+        panel.Region = New Region(gp)
+    End Sub
+
     Private Sub FormObservation_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.MdiParent = PoliKlinik
         Me.Dock = DockStyle.Fill
         Me.WindowState = FormWindowState.Maximized
         RoundButton(ButtonGetToken)
         RoundButton(PostObservasi)
-        'ProgressBar.BackColor = Color.Gainsboro
+        RoundButton(ButtonStopProses)
+        RoundPanel(Panel1)
+        RoundPanel(Panel2)
+        PanelProgressBG.Controls.Add(PanelProgressFill)
+        PanelProgressFill.Left = 0
+        PanelProgressFill.Top = 0
+        PanelProgressFill.Height = PanelProgressBG.Height
+
+        Dim jumlahData As Integer = GetJumlahData()
+        LabelData.Text = jumlahData.ToString() & " Data"
+
+        Dim jumlah As Integer = GetJumlahTransaksi()
+        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+
+        Dim lastDateSinkron As String = ReadSQLNIK("SELECT TOP(1) CreatedDate FROM SatuSehat_LogObservations ORDER BY CreatedDate DESC")
+        LabelSinkronisasi.Text = "Kirim Data Terakhir pada " & lastDateSinkron
     End Sub
 
     Private Sub ButtonGetToken_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonGetToken.MouseEnter
-        ButtonGetToken.BackColor = Color.LightSkyBlue
+        ButtonGetToken.BackColor = Color.FromArgb(60, 188, 195)
     End Sub
 
     Private Sub ButtonGetToken_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonGetToken.MouseLeave
-        ButtonGetToken.BackColor = Color.FromArgb(52, 150, 219)
+        ButtonGetToken.BackColor = Color.FromArgb(115, 225, 231)
     End Sub
 
     Private Sub PostObservasi_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseEnter
-        PostObservasi.BackColor = Color.LightSkyBlue
+        PostObservasi.BackColor = Color.FromArgb(60, 188, 195)
     End Sub
 
     Private Sub PostObservasi_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseLeave
-        PostObservasi.BackColor = Color.FromArgb(52, 150, 219)
+        PostObservasi.BackColor = Color.FromArgb(115, 225, 231)
+    End Sub
+
+    Private Sub ButtonStopProses_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonStopProses.MouseEnter
+        ButtonStopProses.BackColor = Color.FromArgb(228, 12, 43)
+        ButtonStopProses.ForeColor = Color.White
+    End Sub
+
+    Private Sub ButtonStopProses_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonStopProses.MouseLeave
+        ButtonStopProses.BackColor = Color.FromArgb(244, 73, 97)
     End Sub
 
     Private Sub ButtonGetToken_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonGetToken.Click
@@ -86,23 +125,8 @@ Public Class FormObservation
         WriteSQL(sql, 4)
     End Sub
 
-    Private Sub UpdateProgress(ByVal current As Integer, ByVal total As Integer)
-        Dim percent As Integer = CInt((current / total) * 100)
-
-        ' Hitung lebar Panel Progress
-        Dim maxWidth As Integer = PanelProgressBG.Width
-        Dim newWidth As Integer = CInt((percent / 100.0) * maxWidth)
-
-        PanelProgressFill.Width = newWidth
-        LabelProgress.Text = percent.ToString() & "%"
-
-        Application.DoEvents() ' biar UI tetap responsif
-    End Sub
-
-
-    Private Sub PostObservasi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostObservasi.Click
-        TextBoxResponse.Clear()
-
+    ' --- Buat fungsi baru untuk ambil data Observasi ---
+    Private Function GetDataObservasi() As DataTable
         Dim tbls As DataTable = New DataTable()
         Dim queryDataUpload As New StringBuilder()
 
@@ -133,16 +157,62 @@ Public Class FormObservation
         queryDataUpload.AppendLine("ORDER BY SLR.NoTransaksi ASC")
 
         tbls = ReadSQL(queryDataUpload.ToString())
+        Return tbls
+    End Function
 
-        ' --- Atur ProgressBar ---
-        'ProgressBar.Minimum = 0
-        'ProgressBar.Maximum = tbls.Rows.Count
-        'ProgressBar.Value = 0
+    Private Sub PostObservasi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostObservasi.Click
+        If Not bgWorkerObservasi.IsBusy Then
+            PostObservasi.Enabled = False
+            ButtonGetToken.Enabled = False
+            ButtonStopProses.Enabled = True
+            TextBoxResponse.Clear()
+
+            bgWorkerObservasi.RunWorkerAsync()
+        End If
+    End Sub
+
+    Private Function GetJumlahTransaksi() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogObservations")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function GetJumlahData() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(*) AS JumlahData FROM SatuSehat_LogTransaksiResource SLR " & _
+            "INNER JOIN TransaksiPoli TP ON SLR.NoTransaksi = TP.NoUrut " & _
+            "INNER JOIN TransaksiDetailFisik TDF ON TP.NoUrut = TDF.NoTransaksi " & _
+            "INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis " & _
+            "INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID " & _
+            "WHERE SLR.ResourceType = 'Encounter' " & _
+            "AND SLR.Status = '201 Created' " & _
+            "AND TDF.UploadSatuSehat = '0' " & _
+            "AND MP.NoIHS IS NOT NULL")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Sub bgWorkerObservasi_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerObservasi.DoWork
+        Dim tbls As DataTable = GetDataObservasi() ' query ambil data dari DB
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim total As Integer = tbls.Rows.Count
+        Dim stepSize As Integer = CInt(Math.Ceiling(total / 100.0))
 
         For i As Integer = 0 To tbls.Rows.Count - 1
+            If isStopRequested Then
+                Exit For
+            End If
+
             Dim row As DataRow = tbls.Rows(i)
 
-            ' Siapkan payload JSON untuk dikirim ke Laravel
+            ' ---- Buat payload JSON ----
             Dim data As New Dictionary(Of String, Object)
             data("patient_id") = row("IHSPasien").ToString()
             data("practitioner_id") = row("IHSDokter").ToString()
@@ -158,14 +228,12 @@ Public Class FormObservation
 
             Dim json As String = JsonConvert.SerializeObject(data)
 
-            ' Kirim ke endpoint Laravel pakai fungsi yang sudah kamu punya
+            ' ---- Kirim ke API ----
             Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
             Dim apiUrl As String = baseURL & "api/observations"
             Dim response As String = InsertDataAPIRM(json, apiUrl)
 
-            'MsgBox("Raw Response: " & response)
-
-            ' --- Parsing response ---
+            ' ---- Parsing Response ----
             Try
                 Dim rowJson As JObject = JObject.Parse(response)
                 Dim status As String = rowJson("status").ToString().Trim().ToLower()
@@ -173,34 +241,91 @@ Public Class FormObservation
                 Dim encounterId As String = row("idEncounter").ToString()
 
                 If status = "success" Then
-                    Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource where NoTransaksi = '" & noTransaksi & "' and ResourceType = 'Encounter'")
-                    TextBoxResponse.AppendText("Data Terkirim No Transaksi: " & noTransaksi & " {" & encounter & "}" & Environment.NewLine)
+                    Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource WHERE NoTransaksi = '" & noTransaksi & "' AND ResourceType = 'Encounter'")
 
-                    ' Simpan ke DB untuk setiap observation
+                    ' kirim ke UI pakai ReportProgress
+                    worker.ReportProgress(0, "Data Terkirim No Transaksi: " & noTransaksi & " {" & encounter & "}")
+
                     For Each obs In rowJson("responses")
                         Dim obsStatus As String = obs("status").ToString()
                         Dim resourceId As String = obs("body")("id").ToString()
                         Dim resourceType As String = obs("body")("code")("text").ToString()
-                        'Dim encounterRef As String = obs("body")("encounter")("reference").ToString()
-
                         InsertLogObservation(noTransaksi, resourceType, resourceId, encounter, obsStatus)
                     Next
 
-                    ' Update status UploadSatuSehat
                     UpdateUploadStatus(noTransaksi)
                 Else
-                    TextBoxResponse.AppendText("Gagal kirim No Transaksi: " & noTransaksi & _
-                                               " | Status: " & status & Environment.NewLine)
+                    worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & " | Status: " & status)
                 End If
 
             Catch ex As Exception
-                MsgBox("Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & _
-                       "Raw Response: " & response, MsgBoxStyle.Critical, "Error Parsing Response")
+                worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & "Raw Response: " & response)
             End Try
 
-            ' --- Update ProgressBar ---
-            UpdateProgress(i + 1, tbls.Rows.Count)
+            ' Delay setiap 100 data
+            'If (i + 1) Mod 100 = 0 Then
+            '    System.Threading.Thread.Sleep(3000)
+            'End If
+
+            'Dim jumlah As Integer = GetJumlahTransaksi()
+            'worker.ReportProgress(0, jumlah) ' progress = jumlah transaksi
+
+            'Dim jumlahData As Integer = GetJumlahData()
+            'worker.ReportProgress(0, jumlahData)
+
+            ' Update ProgressBar
+            If (i + 1) Mod 100 = 0 Then
+                Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
+                worker.ReportProgress(percent)
+            End If
+
+            'Tambahkan delay kecil untuk menghindari spam API 
+            Threading.Thread.Sleep(150)
         Next
+    End Sub
+
+    ' === ProgressChanged → update UI thread ===
+    Private Sub bgWorkerObservasi_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerObservasi.ProgressChanged
+        If e.ProgressPercentage > 0 Then
+            UpdateProgress(e.ProgressPercentage)' kirim persen langsung
+        End If
+
+        Dim jumlah As Integer = GetJumlahTransaksi()
+        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+
+        Dim jumlahData As Integer = GetJumlahData()
+        LabelData.Text = jumlahData.ToString() & " Data"
+
+        If e.UserState IsNot Nothing Then
+            TextBoxResponse.AppendText(e.UserState.ToString() & Environment.NewLine)
+        End If
+    End Sub
+
+    ' === Selesai Proses ===
+    Private Sub bgWorkerObservasi_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerObservasi.RunWorkerCompleted
         MsgBox("Selesai mengirim semua data.")
+
+        isStopRequested = False
+        PostObservasi.Enabled = True
+        ButtonGetToken.Enabled = True
+        ButtonStopProses.Enabled = False
+    End Sub
+
+    ' === Update ProgressBar ===
+    Private Sub UpdateProgress(ByVal percent As Integer)
+        'Dim percent As Integer = CInt((current / total) * 100)
+
+        ' Hitung lebar Panel Progress
+        Dim maxWidth As Integer = PanelProgressBG.Width
+        Dim newWidth As Integer = CInt((percent / 100.0) * maxWidth)
+
+        PanelProgressFill.Width = newWidth
+        LabelProgress.Text = percent.ToString() & "%"
+
+        'Application.DoEvents() ' biar UI tetap responsif
+    End Sub
+
+    Private Sub ButtonStopProses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStopProses.Click
+        isStopRequested = True
     End Sub
 End Class

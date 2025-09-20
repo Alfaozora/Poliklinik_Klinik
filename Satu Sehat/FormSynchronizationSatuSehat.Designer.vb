@@ -26,13 +26,14 @@ Partial Class FormSynchronizationSatuSehat
         Me.PanelTop = New System.Windows.Forms.Panel
         Me.btnClose = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.LabelProgress = New System.Windows.Forms.Label
         Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.Panel7 = New System.Windows.Forms.Panel
         Me.LabelJumlahPasienTanpaNomorIHS = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
         Me.ButtonSinkronisasiIHS = New System.Windows.Forms.Button
-        Me.LabelProgress = New System.Windows.Forms.Label
-        Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
         Me.Panel2 = New System.Windows.Forms.Panel
         Me.LabelJumlahTransaksi = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
@@ -53,7 +54,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.ButtonSinkronisasi = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.TextBoxResponse = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel7.SuspendLayout()
@@ -112,6 +112,36 @@ Partial Class FormSynchronizationSatuSehat
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1000, 300)
         Me.Panel1.TabIndex = 6
+        '
+        'ProgressBarSinkronisasi
+        '
+        Me.ProgressBarSinkronisasi.ForeColor = System.Drawing.Color.White
+        Me.ProgressBarSinkronisasi.Location = New System.Drawing.Point(12, 250)
+        Me.ProgressBarSinkronisasi.Name = "ProgressBarSinkronisasi"
+        Me.ProgressBarSinkronisasi.Size = New System.Drawing.Size(718, 10)
+        Me.ProgressBarSinkronisasi.TabIndex = 520
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(9, 263)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(57, 17)
+        Me.Label1.TabIndex = 528
+        Me.Label1.Text = "Status : "
+        '
+        'LabelProgress
+        '
+        Me.LabelProgress.AutoSize = True
+        Me.LabelProgress.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelProgress.ForeColor = System.Drawing.Color.Black
+        Me.LabelProgress.Location = New System.Drawing.Point(72, 263)
+        Me.LabelProgress.Name = "LabelProgress"
+        Me.LabelProgress.Size = New System.Drawing.Size(30, 17)
+        Me.LabelProgress.TabIndex = 522
+        Me.LabelProgress.Text = "0 %"
         '
         'ButtonStopProses
         '
@@ -186,25 +216,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.ButtonSinkronisasiIHS.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonSinkronisasiIHS.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonSinkronisasiIHS.UseVisualStyleBackColor = False
-        '
-        'LabelProgress
-        '
-        Me.LabelProgress.AutoSize = True
-        Me.LabelProgress.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelProgress.ForeColor = System.Drawing.Color.Black
-        Me.LabelProgress.Location = New System.Drawing.Point(72, 263)
-        Me.LabelProgress.Name = "LabelProgress"
-        Me.LabelProgress.Size = New System.Drawing.Size(30, 17)
-        Me.LabelProgress.TabIndex = 522
-        Me.LabelProgress.Text = "0 %"
-        '
-        'ProgressBarSinkronisasi
-        '
-        Me.ProgressBarSinkronisasi.ForeColor = System.Drawing.Color.White
-        Me.ProgressBarSinkronisasi.Location = New System.Drawing.Point(12, 250)
-        Me.ProgressBarSinkronisasi.Name = "ProgressBarSinkronisasi"
-        Me.ProgressBarSinkronisasi.Size = New System.Drawing.Size(718, 10)
-        Me.ProgressBarSinkronisasi.TabIndex = 520
         '
         'Panel2
         '
@@ -460,17 +471,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.TextBoxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.TextBoxResponse.Size = New System.Drawing.Size(1000, 235)
         Me.TextBoxResponse.TabIndex = 461
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(9, 263)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(57, 17)
-        Me.Label1.TabIndex = 528
-        Me.Label1.Text = "Status : "
         '
         'FormSynchronizationSatuSehat
         '

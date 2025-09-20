@@ -852,6 +852,8 @@ Public Class FormValidasiFaskesPasien
             Dim Tbls As DataTable = gridlab.DataSource
             Dim procent As Integer = 0
             Dim persen As Integer = 0
+            Dim counter As Integer = 0
+
 
             ' Set Status Proses
             statusProses = "Running"
@@ -868,67 +870,143 @@ Public Class FormValidasiFaskesPasien
                 GetDataPesertaBPJS(rowData("NIK"), "NoKartuNIK")
 
                 persen = persen + 1
+                counter += 1
                 procent = persen * 100 / Tbls.Rows.Count
                 ProgressBar1.Value = procent
                 TextBoxCount.Text = Tbls.Rows.Count & " / " & persen
+
+                ' Jeda antar request agar tidak terlalu cepat (misal 300 ms)
+                'System.Threading.Thread.Sleep(300)
+
+                ' Jika sudah 50 request, istirahat 5 detik
+                If counter Mod 50 = 0 Then
+                    'MsgBox("Menunggu 5 detik sebelum lanjut batch berikutnya...", MsgBoxStyle.Information, "Batch Pause")
+                    System.Threading.Thread.Sleep(5000)
+                End If
             Next
         Catch ex As Exception
             MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
 
-    Private Sub GetDataPesertaBPJS(ByRef noKartu As String, ByRef jenisKartu As String)
+    Private Sub ValidasiFaskesGabungan(ByVal nik As String, ByVal noBPJS As String)
         Try
-            If noKartu <> "" Then
-                Dim kdProvider As String = ""
-                Dim nmProvider As String = ""
-                Dim noKartuBPJS As String = ""
-                Dim getResponse As String = ""
-                Dim uri As String = ""
-                Dim statusFKTP As Boolean = True
-                Dim messageError As String = ""
-                Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+            Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+            Dim kdProvider As String = ""
+            Dim nmProvider As String = ""
+            Dim messageError As String = ""
 
-                If jenisKartu = "NoKartuNIK" Then
-                    uri = urlPcare & "peserta/nik/" & noKartu
-                ElseIf jenisKartu = "NoKartuBPJS" Then
-                    uri = urlPcare & "peserta/noka/" & noKartu
+            ' Coba validasi dengan NIK terlebih dahulu
+            If nik <> "" Then
+                If AmbilDataPeserta(urlPcare & "peserta/nik/" & nik, kdProvider, nmProvider, messageError) Then
+                    TulisStatusFaskes(nik, kdProvider, nmProvider)
+                    Exit Sub
                 End If
-
-                getResponse = getDataFromPcare(uri)
-                Dim jsonArray As JArray = JArray.Parse(getResponse)
-
-                For Each item As JObject In jsonArray
-                    If item("response") IsNot Nothing AndAlso item("response").Type <> JTokenType.Null Then
-                        Dim varsespoli() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of v4_BPJS_Peserta())(getResponse)
-
-                        For Each oneVar As v4_BPJS_Peserta In varsespoli
-                            If oneVar.metaData.message <> "NO_CONTENT" Then
-                                kdProvider = oneVar.response.kdProviderPst.kdProvider
-                                nmProvider = oneVar.response.kdProviderPst.nmProvider
-                            Else
-                                messageError = oneVar.metaData.message
-                                Exit For
-                            End If
-                        Next
-
-                        If messageError <> "" Then
-                            TextBoxResponseGagal.Text = "Data tidak ditemukan. (" & noKartu & ")" & vbCrLf & TextBoxResponseGagal.Text
-                        Else
-                            If Not kdProviderLokal.Contains(kdProvider) Then
-                                TextBoxResponseGagal.Text = "Peserta (" & noKartu & ") tidak terdaftar sebagai Peserta Faskes. (" & kdProvider & " - " & nmProvider & ")" & vbCrLf & TextBoxResponseGagal.Text
-                            Else
-                                TextBoxResponseSukses.Text = "Peserta (" & noKartu & ") terdaftar sebagai Peserta Faskes. (" & noKartu & ")" & vbCrLf & TextBoxResponseSukses.Text
-                            End If
-                        End If
-                    Else
-                        TextBoxResponseGagal.Text = "Data tidak ditemukan. (" & noKartu & ")" & vbCrLf & TextBoxResponseGagal.Text
-                    End If
-                Next
             End If
+
+            ' Kalau NIK gagal, coba validasi dengan NoBPJS
+            If noBPJS <> "" Then
+                If AmbilDataPeserta(urlPcare & "peserta/noka/" & noBPJS, kdProvider, nmProvider, messageError) Then
+                    TulisStatusFaskes(noBPJS, kdProvider, nmProvider)
+                    Exit Sub
+                End If
+            End If
+
+            ' Kalau keduanya gagal
+            TextBoxResponseGagal.Text = "Data tidak ditemukan. (NIK:" & nik & " / NoBPJS:" & noBPJS & ")" & vbCrLf & TextBoxResponseGagal.Text
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
         End Try
+    End Sub
+
+    Private Function AmbilDataPeserta(ByVal uri As String, ByRef kdProvider As String, ByRef nmProvider As String, ByRef messageError As String) As Boolean
+        Try
+            Dim getResponse As String = getDataFromPcare(uri)
+            Dim varsespoli() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of v4_BPJS_Peserta())(getResponse)
+
+            For Each oneVar As v4_BPJS_Peserta In varsespoli
+                If oneVar.metaData.message <> "NO_CONTENT" Then
+                    kdProvider = oneVar.response.kdProviderPst.kdProvider
+                    nmProvider = oneVar.response.kdProviderPst.nmProvider
+                    Return True
+                Else
+                    messageError = oneVar.metaData.message
+                End If
+            Next
+        Catch
+            ' Abaikan error di sini, karena hanya pengecekan
+        End Try
+        Return False
+    End Function
+
+    Private Sub TulisStatusFaskes(ByVal noKartu As String, ByVal kdProvider As String, ByVal nmProvider As String)
+        If Not kdProviderLokal.Contains(kdProvider) Then
+            TextBoxResponseGagal.Text = "Peserta (" & noKartu & ") tidak terdaftar sebagai Peserta Faskes. (" & kdProvider & " - " & nmProvider & ")" & vbCrLf & TextBoxResponseGagal.Text
+        Else
+            TextBoxResponseSukses.Text = "Peserta (" & noKartu & ") terdaftar sebagai Peserta Faskes. (" & kdProvider & " - " & nmProvider & ")" & vbCrLf & TextBoxResponseSukses.Text
+        End If
+    End Sub
+
+    Private Sub GetDataPesertaBPJS(ByRef noKartu As String, ByRef jenisKartu As String)
+        Dim maxRetry As Integer = 3
+        Dim attempt As Integer = 0
+        Dim success As Boolean = False
+
+        While attempt < maxRetry AndAlso Not success
+            Try
+                attempt += 1
+
+                If Trim(noKartu) <> "" Then
+                    Dim kdProvider As String = ""
+                    Dim nmProvider As String = ""
+                    Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+                    Dim uri As String = If(jenisKartu = "NoKartuNIK", urlPcare & "peserta/nik/" & noKartu, urlPcare & "peserta/noka/" & noKartu)
+
+                    Dim getResponse As String = getDataFromPcare(uri)
+
+                    If getResponse Is Nothing OrElse Trim(getResponse) = "" Then
+                        Throw New Exception("Response kosong.")
+                    End If
+
+                    Dim jsonToken As JToken
+                    If getResponse.TrimStart().StartsWith("[") Then
+                        jsonToken = JArray.Parse(getResponse)
+                    Else
+                        jsonToken = New JArray(JObject.Parse(getResponse))
+                    End If
+
+                    For Each item As JObject In jsonToken
+                        Dim meta = item("metaData")
+                        Dim resp = item("response")
+
+                        If meta IsNot Nothing AndAlso meta("message").ToString() = "OK" AndAlso resp IsNot Nothing Then
+                            kdProvider = resp("kdProviderPst")("kdProvider").ToString()
+                            nmProvider = resp("kdProviderPst")("nmProvider").ToString()
+
+                            If Not kdProviderLokal.Contains(kdProvider) Then
+                                TextBoxResponseGagal.Text = "Peserta (" & noKartu & ") tidak terdaftar sebagai Peserta Faskes. (" & _
+                                                        kdProvider & " - " & nmProvider & ")" & vbCrLf & TextBoxResponseGagal.Text
+                            Else
+                                TextBoxResponseSukses.Text = "Peserta (" & noKartu & ") terdaftar sebagai Peserta Faskes." & vbCrLf & _
+                                TextBoxResponseSukses.Text()
+                            End If
+                            success = True
+                        End If
+                    Next
+                End If
+
+            Catch ex As Exception
+                ' Kalau gagal, tunggu sebentar sebelum coba lagi
+                If attempt < maxRetry Then
+                    System.Threading.Thread.Sleep(1000) ' tunggu 1 detik sebelum retry
+                Else
+                    ' Gagal setelah 3 kali, tandai sebagai gagal
+                    TextBoxResponseGagal.Text = "Gagal mengambil data (" & noKartu & ") setelah 3x percobaan. " & _
+                                            "Error: " & ex.Message & vbCrLf & TextBoxResponseGagal.Text
+                End If
+            End Try
+        End While
     End Sub
 
     Private Sub ButtonUploadData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUploadData.Click

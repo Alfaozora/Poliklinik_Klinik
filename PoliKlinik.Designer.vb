@@ -206,6 +206,8 @@ Partial Class PoliKlinik
         Me.Form3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SatuSehatResourceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SatuSehatSynchronizationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.EcounterConditionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ObservationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ValidasiFaskesPasienToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RecycleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.InvoiceTagihanKlinikToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -274,8 +276,6 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
-        Me.EcounterConditionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ObservationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1557,6 +1557,18 @@ Partial Class PoliKlinik
         Me.SatuSehatSynchronizationToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
         Me.SatuSehatSynchronizationToolStripMenuItem.Text = "Satu Sehat Synchronization"
         '
+        'EcounterConditionToolStripMenuItem
+        '
+        Me.EcounterConditionToolStripMenuItem.Name = "EcounterConditionToolStripMenuItem"
+        Me.EcounterConditionToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.EcounterConditionToolStripMenuItem.Text = "Kunjungan dan Kondisi"
+        '
+        'ObservationToolStripMenuItem
+        '
+        Me.ObservationToolStripMenuItem.Name = "ObservationToolStripMenuItem"
+        Me.ObservationToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.ObservationToolStripMenuItem.Text = "Observasi"
+        '
         'ValidasiFaskesPasienToolStripMenuItem
         '
         Me.ValidasiFaskesPasienToolStripMenuItem.Name = "ValidasiFaskesPasienToolStripMenuItem"
@@ -2009,18 +2021,6 @@ Partial Class PoliKlinik
         '
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
-        '
-        'EcounterConditionToolStripMenuItem
-        '
-        Me.EcounterConditionToolStripMenuItem.Name = "EcounterConditionToolStripMenuItem"
-        Me.EcounterConditionToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
-        Me.EcounterConditionToolStripMenuItem.Text = "Ecounter_Condition"
-        '
-        'ObservationToolStripMenuItem
-        '
-        Me.ObservationToolStripMenuItem.Name = "ObservationToolStripMenuItem"
-        Me.ObservationToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
-        Me.ObservationToolStripMenuItem.Text = "Observation"
         '
         'PoliKlinik
         '
