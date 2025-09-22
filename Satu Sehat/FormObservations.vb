@@ -46,6 +46,7 @@ Public Class FormObservation
         RoundButton(ButtonGetToken)
         RoundButton(PostObservasi)
         RoundButton(ButtonStopProses)
+        RoundButton(ButtonRefresh)
         RoundPanel(Panel1)
         RoundPanel(Panel2)
         PanelProgressBG.Controls.Add(PanelProgressFill)
@@ -64,19 +65,27 @@ Public Class FormObservation
     End Sub
 
     Private Sub ButtonGetToken_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonGetToken.MouseEnter
-        ButtonGetToken.BackColor = Color.FromArgb(60, 188, 195)
+        ButtonGetToken.BackColor = Color.FromArgb(30, 144, 255)
     End Sub
 
     Private Sub ButtonGetToken_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonGetToken.MouseLeave
-        ButtonGetToken.BackColor = Color.FromArgb(115, 225, 231)
+        ButtonGetToken.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
     Private Sub PostObservasi_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseEnter
-        PostObservasi.BackColor = Color.FromArgb(60, 188, 195)
+        PostObservasi.BackColor = Color.FromArgb(30, 144, 255)
+    End Sub
+
+    Private Sub ButtonRefresh_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonRefresh.MouseEnter
+        ButtonRefresh.BackColor = Color.FromArgb(30, 144, 255)
+    End Sub
+
+    Private Sub ButtonRefresh_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonRefresh.MouseLeave
+        ButtonRefresh.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
     Private Sub PostObservasi_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseLeave
-        PostObservasi.BackColor = Color.FromArgb(115, 225, 231)
+        PostObservasi.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
     Private Sub ButtonStopProses_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonStopProses.MouseEnter
@@ -91,6 +100,7 @@ Public Class FormObservation
     Private Sub ButtonGetToken_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonGetToken.Click
         ' === AMBIL TOKEN BARU ===
         Dim tokenValue As String = GetTokenSatuSehat()
+        Dim organizationID As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
 
         ' Validasi token
         If String.IsNullOrEmpty(tokenValue) OrElse tokenValue.StartsWith("Error") Then
@@ -99,7 +109,11 @@ Public Class FormObservation
         End If
 
         ' Buat JSON untuk dikirim ke webservice Laravel
-        Dim json As String = "{""access_token"":""" & tokenValue & """,""expires_in"":14399}"
+        Dim json As String = "{" & _
+        """organization_id"":""" & organizationID & """," & _
+        """access_token"":""" & tokenValue & """," & _
+        """expires_in"":14399" & _
+        "}"
 
         ' Ambil base URL webservice Laravel dari config
         Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
@@ -165,6 +179,7 @@ Public Class FormObservation
             PostObservasi.Enabled = False
             ButtonGetToken.Enabled = False
             ButtonStopProses.Enabled = True
+            ButtonRefresh.Enabled = False
             TextBoxResponse.Clear()
 
             bgWorkerObservasi.RunWorkerAsync()
@@ -214,6 +229,7 @@ Public Class FormObservation
 
             ' ---- Buat payload JSON ----
             Dim data As New Dictionary(Of String, Object)
+            data("organization_id") = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
             data("patient_id") = row("IHSPasien").ToString()
             data("practitioner_id") = row("IHSDokter").ToString()
             data("encounter_id") = row("idEncounter").ToString()
@@ -244,7 +260,7 @@ Public Class FormObservation
                     Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource WHERE NoTransaksi = '" & noTransaksi & "' AND ResourceType = 'Encounter'")
 
                     ' kirim ke UI pakai ReportProgress
-                    worker.ReportProgress(0, "Data Terkirim No Transaksi: " & noTransaksi & " {" & encounter & "}")
+                    worker.ReportProgress(0, "Data Observasi " & noTransaksi & " Berhasil Terkirim dengan ecounter." & " {" & encounter & "}")
 
                     For Each obs In rowJson("responses")
                         Dim obsStatus As String = obs("status").ToString()
@@ -309,6 +325,7 @@ Public Class FormObservation
         PostObservasi.Enabled = True
         ButtonGetToken.Enabled = True
         ButtonStopProses.Enabled = False
+        ButtonRefresh.Enabled = True
     End Sub
 
     ' === Update ProgressBar ===
@@ -327,5 +344,9 @@ Public Class FormObservation
 
     Private Sub ButtonStopProses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStopProses.Click
         isStopRequested = True
+    End Sub
+
+    Private Sub ButtonRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRefresh.Click
+        TextBoxResponse.Clear()
     End Sub
 End Class
