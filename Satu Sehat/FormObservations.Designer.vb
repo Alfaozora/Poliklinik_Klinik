@@ -23,6 +23,8 @@ Partial Class FormObservation
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.ComboBoxJenisData = New System.Windows.Forms.ComboBox
         Me.ButtonRefresh = New System.Windows.Forms.Button
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.Label1 = New System.Windows.Forms.Label
@@ -34,13 +36,14 @@ Partial Class FormObservation
         Me.LabelJudul1 = New System.Windows.Forms.Label
         Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.LabelSinkronisasi = New System.Windows.Forms.Label
+        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.LabelProgress = New System.Windows.Forms.Label
         Me.PanelProgressBG = New System.Windows.Forms.Panel
         Me.PostObservasi = New System.Windows.Forms.Button
         Me.ButtonGetToken = New System.Windows.Forms.Button
         Me.TextBoxResponse = New System.Windows.Forms.TextBox
         Me.bgWorkerObservasi = New System.ComponentModel.BackgroundWorker
-        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
+        Me.bgWorkerProcedure = New System.ComponentModel.BackgroundWorker
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,6 +64,8 @@ Partial Class FormObservation
         '
         Me.SplitContainer1.Panel1.AutoScroll = True
         Me.SplitContainer1.Panel1.BackColor = System.Drawing.Color.White
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ComboBoxJenisData)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonRefresh)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Panel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Panel2)
@@ -79,6 +84,30 @@ Partial Class FormObservation
         Me.SplitContainer1.Size = New System.Drawing.Size(922, 453)
         Me.SplitContainer1.SplitterDistance = 250
         Me.SplitContainer1.TabIndex = 0
+        '
+        'Label3
+        '
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.Label3.Location = New System.Drawing.Point(585, 147)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(122, 17)
+        Me.Label3.TabIndex = 530
+        Me.Label3.Text = "Pilihan Kirim Data :"
+        '
+        'ComboBoxJenisData
+        '
+        Me.ComboBoxJenisData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ComboBoxJenisData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxJenisData.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBoxJenisData.FormattingEnabled = True
+        Me.ComboBoxJenisData.Location = New System.Drawing.Point(588, 173)
+        Me.ComboBoxJenisData.Name = "ComboBoxJenisData"
+        Me.ComboBoxJenisData.Size = New System.Drawing.Size(250, 25)
+        Me.ComboBoxJenisData.TabIndex = 529
         '
         'ButtonRefresh
         '
@@ -156,11 +185,11 @@ Partial Class FormObservation
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.Label2.Location = New System.Drawing.Point(59, 5)
+        Me.Label2.Location = New System.Drawing.Point(49, 5)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(133, 20)
+        Me.Label2.Size = New System.Drawing.Size(153, 20)
         Me.Label2.TabIndex = 0
-        Me.Label2.Text = "Data Keseluruhan"
+        Me.Label2.Text = "Data Belum Terkirim"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel1
@@ -234,6 +263,16 @@ Partial Class FormObservation
         Me.LabelSinkronisasi.Size = New System.Drawing.Size(275, 17)
         Me.LabelSinkronisasi.TabIndex = 523
         Me.LabelSinkronisasi.Text = "Kirim Data Terakhir pada 18 September 2025"
+        '
+        'PanelProgressFill
+        '
+        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
+        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
+        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
+        Me.PanelProgressFill.Name = "PanelProgressFill"
+        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
+        Me.PanelProgressFill.TabIndex = 522
         '
         'LabelProgress
         '
@@ -311,15 +350,10 @@ Partial Class FormObservation
         Me.bgWorkerObservasi.WorkerReportsProgress = True
         Me.bgWorkerObservasi.WorkerSupportsCancellation = True
         '
-        'PanelProgressFill
+        'bgWorkerProcedure
         '
-        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
-        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
-        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
-        Me.PanelProgressFill.Name = "PanelProgressFill"
-        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
-        Me.PanelProgressFill.TabIndex = 522
+        Me.bgWorkerProcedure.WorkerReportsProgress = True
+        Me.bgWorkerProcedure.WorkerSupportsCancellation = True
         '
         'FormObservation
         '
@@ -362,4 +396,7 @@ Partial Class FormObservation
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ButtonRefresh As System.Windows.Forms.Button
+    Friend WithEvents ComboBoxJenisData As System.Windows.Forms.ComboBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents bgWorkerProcedure As System.ComponentModel.BackgroundWorker
 End Class

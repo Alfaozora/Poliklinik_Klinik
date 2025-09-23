@@ -49,19 +49,40 @@ Public Class FormObservation
         RoundButton(ButtonRefresh)
         RoundPanel(Panel1)
         RoundPanel(Panel2)
+
         PanelProgressBG.Controls.Add(PanelProgressFill)
         PanelProgressFill.Left = 0
         PanelProgressFill.Top = 0
         PanelProgressFill.Height = PanelProgressBG.Height
 
-        Dim jumlahData As Integer = GetJumlahData()
-        LabelData.Text = jumlahData.ToString() & " Data"
+        ComboBoxJenisData.Items.Add("Observation")
+        ComboBoxJenisData.Items.Add("Procedure")
+        ComboBoxJenisData.SelectedIndex = -1
+        PostObservasi.Enabled = False
 
-        Dim jumlah As Integer = GetJumlahTransaksi()
-        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+        If ComboBoxJenisData.SelectedItem IsNot Nothing Then
+            Dim Pilihan As String = ComboBoxJenisData.SelectedItem.ToString()
+            If Pilihan = "Observation" Then
+                Dim jumlahData As Integer = GetJumlahData()
+                LabelData.Text = jumlahData.ToString() & " Data"
+
+                Dim jumlah As Integer = GetJumlahTransaksi()
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+            ElseIf Pilihan = "Procedure" Then
+                Dim jumlahData As Integer = GetJumlahData()
+                LabelData.Text = jumlahData.ToString() & " Data"
+
+                Dim jumlah As Integer = GetJumlahTransaksiProcedure()
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+            End If
+        End If
 
         Dim lastDateSinkron As String = ReadSQLNIK("SELECT TOP(1) CreatedDate FROM SatuSehat_LogObservations ORDER BY CreatedDate DESC")
-        LabelSinkronisasi.Text = "Kirim Data Terakhir pada " & lastDateSinkron
+        If String.IsNullOrEmpty(lastDateSinkron) Then
+            LabelSinkronisasi.Text = "Belum ada data terkirim"
+        Else
+            LabelSinkronisasi.Text = "Kirim Data Terakhir pada " & lastDateSinkron
+        End If
     End Sub
 
     Private Sub ButtonGetToken_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonGetToken.MouseEnter
@@ -134,8 +155,21 @@ Public Class FormObservation
         WriteSQL(sql, 4)
     End Sub
 
+    Private Sub InsertLogProcedure(ByVal noTransaksi As String, ByVal resourceType As String, ByVal resourceId As String, ByVal encounterRef As String, ByVal procStatus As String)
+        Dim sql As String = "INSERT INTO SatuSehat_LogProcedure " & _
+                            "(NoTransaksi, ResourceType, ResourceID, Encounter, procStatus, CreatedBy, CreatedDate) " & _
+                            "VALUES('" & noTransaksi & "', '" & resourceType & "', '" & resourceId & "', '" & encounterRef & "', '" & procStatus & "', '" & userInput & "', GETDATE())"
+
+        WriteSQL(sql, 4)
+    End Sub
+
     Private Sub UpdateUploadStatus(ByVal noTransaksi As String)
         Dim sql As String = "UPDATE TransaksiDetailFisik SET UploadSatuSehat = 1 WHERE NoTransaksi = '" & noTransaksi & "'"
+        WriteSQL(sql, 4)
+    End Sub
+
+    Private Sub UpdateUploadStatusProcedure(ByVal noTransaksi As String)
+        Dim sql As String = "UPDATE TransaksiPoli SET UploadSatuSehatProcedure = 1 WHERE NoUrut = '" & noTransaksi & "'"
         WriteSQL(sql, 4)
     End Sub
 
@@ -174,20 +208,86 @@ Public Class FormObservation
         Return tbls
     End Function
 
-    Private Sub PostObservasi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostObservasi.Click
-        If Not bgWorkerObservasi.IsBusy Then
-            PostObservasi.Enabled = False
-            ButtonGetToken.Enabled = False
-            ButtonStopProses.Enabled = True
-            ButtonRefresh.Enabled = False
-            TextBoxResponse.Clear()
+    Private Function GetDataProcedure() As DataTable
+        Dim tbls As DataTable = New DataTable()
+        Dim queryDataUpload As New StringBuilder()
 
-            bgWorkerObservasi.RunWorkerAsync()
+        queryDataUpload.AppendLine("SELECT ")
+        queryDataUpload.AppendLine("    SLTR.NoTransaksi,")
+        queryDataUpload.AppendLine("    MT.ICD9 AS code,")
+        queryDataUpload.AppendLine("    MT.Display AS display,")
+        queryDataUpload.AppendLine("    MP.NoIHS AS patientId,")
+        queryDataUpload.AppendLine("    MP.Nama AS patientName,")
+        queryDataUpload.AppendLine("    SLTR.ResourceID AS encounterId,")
+        queryDataUpload.AppendLine("    MD.NoIHS AS practitionerId,")
+        queryDataUpload.AppendLine("    MD.Nama AS practitionerName,")
+        queryDataUpload.AppendLine("    TPD.transaksitime AS start,")
+        queryDataUpload.AppendLine("    TP.FinishedDate AS [end]")
+        queryDataUpload.AppendLine("FROM TransaksiPoli TP")
+        queryDataUpload.AppendLine("INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis")
+        queryDataUpload.AppendLine("INNER JOIN TransaksiPoliDetail TPD ON TP.TransPoliID = TPD.TransPoliID")
+        queryDataUpload.AppendLine("INNER JOIN MasterTindakan MT ON TPD.TindakanID = MT.TindakanID")
+        queryDataUpload.AppendLine("INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TP.NoUrut = SLTR.NoTransaksi")
+        queryDataUpload.AppendLine("INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID")
+        queryDataUpload.AppendLine("WHERE SLTR.ResourceType = 'Encounter'")
+        queryDataUpload.AppendLine("  AND SLTR.Status = '201 Created'")
+        queryDataUpload.AppendLine("  AND TP.UploadSatuSehatProcedure = '0'")
+        queryDataUpload.AppendLine("  AND MP.NoIHS IS NOT NULL")
+        queryDataUpload.AppendLine("  AND MT.ICD9 IS NOT NULL")
+        queryDataUpload.AppendLine("  AND MT.JenisTindakan = 'Tindakan'")
+        queryDataUpload.AppendLine("ORDER BY SLTR.NoTransaksi ASC")
+
+        tbls = ReadSQL(queryDataUpload.ToString())
+        Return tbls
+    End Function
+
+    Private Sub ComboBoxJenisData_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ComboBoxJenisData.SelectedIndexChanged
+        If ComboBoxJenisData.SelectedIndex <> -1 Then
+            PostObservasi.Enabled = True
+        Else
+            PostObservasi.Enabled = False
+        End If
+    End Sub
+
+    Private Sub PostObservasi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostObservasi.Click
+        Dim pilihan As String = ComboBoxJenisData.SelectedItem.ToString()
+
+        If pilihan = "Observation" Then
+            If Not bgWorkerObservasi.IsBusy Then
+                PostObservasi.Enabled = False
+                ButtonGetToken.Enabled = False
+                ButtonStopProses.Enabled = True
+                ButtonRefresh.Enabled = False
+                TextBoxResponse.Clear()
+
+                bgWorkerObservasi.RunWorkerAsync()
+            End If
+
+        ElseIf pilihan = "Procedure" Then
+            If Not bgWorkerProcedure.IsBusy Then
+                PostObservasi.Enabled = False
+                ButtonGetToken.Enabled = False
+                ButtonStopProses.Enabled = True
+                ButtonRefresh.Enabled = False
+                TextBoxResponse.Clear()
+
+                bgWorkerProcedure.RunWorkerAsync()
+            End If
         End If
     End Sub
 
     Private Function GetJumlahTransaksi() As Integer
         Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogObservations")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function GetJumlahTransaksiProcedure() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogProcedure")
 
         If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
             Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
@@ -213,6 +313,106 @@ Public Class FormObservation
 
         Return 0
     End Function
+
+    'Private Function GetJumlahDataProcedure() As Integer
+    '    Dim dtCek As DataTable = ReadSQL("SELECT COUNT(*) AS JumlahData FROM SatuSehat_LogProcedure SLP " & _
+    '        "INNER JOIN TransaksiPoli TP ON SLP.NoTransaksi = TP.NoUrut " & _
+    '        "INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis " & _
+    '        "INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID " & _
+    '        "WHERE SLP.ResourceType = 'Encounter' " & _
+    '        "AND SLP.procStatus = '201 Created' " & _
+    '        "AND TP.UploadSatuSehatProcedure = '0' " & _
+    '        "AND MP.NoIHS IS NOT NULL")
+
+    '    If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
+    '        Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
+    '    End If
+
+    '    Return 0
+    'End Function
+
+    Private Sub bgWorkerProcedure_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerProcedure.DoWork
+        Dim tbls As DataTable = GetDataProcedure() ' query ambil data procedure dari DB
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim total As Integer = tbls.Rows.Count
+
+        For i As Integer = 0 To tbls.Rows.Count - 1
+            If isStopRequested Then
+                Exit For
+            End If
+
+            Dim row As DataRow = tbls.Rows(i)
+
+            ' ---- Buat payload JSON ----
+            Dim data As New Dictionary(Of String, Object)
+            data("organization_id") = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
+            data("patient_id") = row("patientId").ToString()
+            data("patient_name") = row("patientName").ToString()
+            data("practitioner_id") = row("practitionerId").ToString()
+            data("practitioner_name") = row("practitionerName").ToString()
+            data("encounter_id") = row("encounterId").ToString()
+
+            ' List procedure yang akan dikirim (bisa lebih dari 1)
+            Dim procs As New List(Of Dictionary(Of String, Object))
+
+            Dim proc As New Dictionary(Of String, Object)
+            proc("code") = row("code").ToString()
+            proc("display") = row("display").ToString()
+            proc("start") = If(IsDBNull(row("start")), Nothing, CType(row("start"), DateTime).ToString("yyyy-MM-ddTHH:mm:sszzz"))
+            proc("end") = If(IsDBNull(row("end")), Nothing, CType(row("end"), DateTime).ToString("yyyy-MM-ddTHH:mm:sszzz"))
+            proc("category_system") = "http://snomed.info/sct"
+            proc("category_code") = "103693007"
+            proc("category_display") = "Diagnostic procedure"
+            procs.Add(proc)
+
+            data("procedures") = procs
+
+            Dim json As String = JsonConvert.SerializeObject(data)
+
+            ' ---- Kirim ke API Laravel ----
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim apiUrl As String = baseURL & "api/procedures"
+            Dim response As String = InsertDataAPIRM(json, apiUrl)
+
+            ' ---- Parsing Response ----
+            Try
+                Dim rowJson As JObject = JObject.Parse(response)
+                Dim status As String = rowJson("status").ToString().Trim().ToLower()
+                Dim noTransaksi As String = row("NoTransaksi").ToString()
+                Dim encounterId As String = row("encounterId").ToString()
+
+                If status = "success" Then
+                    worker.ReportProgress(0, "Data Procedure " & noTransaksi & " Berhasil Terkirim dengan Encounter {" & encounterId & "}")
+
+                    For Each resp In rowJson("responses")
+                        Dim procStatus As String = resp("status").ToString()
+                        Dim resourceId As String = resp("body")("id").ToString()
+                        Dim resourceType As String = resp("body")("resourceType").ToString()
+                        InsertLogProcedure(noTransaksi, resourceType, resourceId, encounterId, procStatus)
+                    Next
+
+                    UpdateUploadStatusProcedure(noTransaksi)
+                Else
+                    worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & " | Status: " & status)
+                    'worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & _
+                    '     " | Status: " & status & _
+                    '     " | Response: " & response)
+                End If
+
+            Catch ex As Exception
+                worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & "Raw Response: " & response)
+            End Try
+
+            ' Progress bar update
+            If (i + 1) Mod 100 = 0 Then
+                Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
+                worker.ReportProgress(percent)
+            End If
+
+            ' Delay kecil untuk jaga API
+            Threading.Thread.Sleep(150)
+        Next
+    End Sub
 
     Private Sub bgWorkerObservasi_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerObservasi.DoWork
         Dim tbls As DataTable = GetDataObservasi() ' query ambil data dari DB
@@ -260,7 +460,7 @@ Public Class FormObservation
                     Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource WHERE NoTransaksi = '" & noTransaksi & "' AND ResourceType = 'Encounter'")
 
                     ' kirim ke UI pakai ReportProgress
-                    worker.ReportProgress(0, "Data Observasi " & noTransaksi & " Berhasil Terkirim dengan ecounter." & " {" & encounter & "}")
+                    worker.ReportProgress(0, "Data Observasi " & noTransaksi & " Berhasil Terkirim dengan Encounter." & " {" & encounter & "}")
 
                     For Each obs In rowJson("responses")
                         Dim obsStatus As String = obs("status").ToString()
@@ -317,9 +517,37 @@ Public Class FormObservation
         End If
     End Sub
 
-    ' === Selesai Proses ===
+    ' === Selesai Proses Observasi ===
     Private Sub bgWorkerObservasi_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerObservasi.RunWorkerCompleted
         MsgBox("Selesai mengirim semua data.")
+
+        isStopRequested = False
+        PostObservasi.Enabled = True
+        ButtonGetToken.Enabled = True
+        ButtonStopProses.Enabled = False
+        ButtonRefresh.Enabled = True
+    End Sub
+
+    ' === ProgressChanged → update UI thread untuk Procedure ===
+    Private Sub bgWorkerProcedure_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerProcedure.ProgressChanged
+        If e.ProgressPercentage > 0 Then
+            UpdateProgress(e.ProgressPercentage) ' update progress bar
+        End If
+
+        Dim jumlah As Integer = GetJumlahTransaksiProcedure() ' fungsi hitung transaksi Procedure
+        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Procedure"
+
+        Dim jumlahData As Integer = GetJumlahData() ' fungsi hitung data Procedure
+        LabelData.Text = jumlahData.ToString() & " Data Procedure"
+
+        If e.UserState IsNot Nothing Then
+            TextBoxResponse.AppendText("[Procedure] " & e.UserState.ToString() & Environment.NewLine)
+        End If
+    End Sub
+
+    ' === Selesai Proses Procedure ===
+    Private Sub bgWorkerProcedure_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerProcedure.RunWorkerCompleted
+        MsgBox("Selesai mengirim semua data Procedure.")
 
         isStopRequested = False
         PostObservasi.Enabled = True
