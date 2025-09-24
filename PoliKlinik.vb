@@ -1361,4 +1361,9 @@ Public Class PoliKlinik
         FormObservation.Show()
         FormObservation.Focus()
     End Sub
+
+    Private Sub MappingTindakanICD9CMToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MappingTindakanICD9CMToolStripMenuItem.Click
+        MappingTindakan.Show()
+        MappingTindakan.Focus()
+    End Sub
 End Class

@@ -276,6 +276,7 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
+        Me.MappingTindakanICD9CMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1104,7 +1105,7 @@ Partial Class PoliKlinik
         '
         'ToolToolStripMenuItem
         '
-        Me.ToolToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangePasswordToolStripMenuItem1, Me.CetakKartuToolStripMenuItem1, Me.PembatalanTransaksiToolStripMenuItem, Me.RepairTransaksiTindakanDetailToolStripMenuItem, Me.AutoSendingWhatsappEmailToolStripMenuItem, Me.RepairNoKunjunganBPJSToolStripMenuItem, Me.GantiDokterToolStripMenuItem})
+        Me.ToolToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangePasswordToolStripMenuItem1, Me.CetakKartuToolStripMenuItem1, Me.PembatalanTransaksiToolStripMenuItem, Me.RepairTransaksiTindakanDetailToolStripMenuItem, Me.AutoSendingWhatsappEmailToolStripMenuItem, Me.RepairNoKunjunganBPJSToolStripMenuItem, Me.GantiDokterToolStripMenuItem, Me.MappingTindakanICD9CMToolStripMenuItem})
         Me.ToolToolStripMenuItem.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolToolStripMenuItem.Name = "ToolToolStripMenuItem"
         Me.ToolToolStripMenuItem.Size = New System.Drawing.Size(43, 20)
@@ -2022,6 +2023,12 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
+        'MappingTindakanICD9CMToolStripMenuItem
+        '
+        Me.MappingTindakanICD9CMToolStripMenuItem.Name = "MappingTindakanICD9CMToolStripMenuItem"
+        Me.MappingTindakanICD9CMToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
+        Me.MappingTindakanICD9CMToolStripMenuItem.Text = "Mapping Tindakan ICD9CM"
+        '
         'PoliKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2299,4 +2306,5 @@ Partial Class PoliKlinik
     Friend WithEvents PcareSynchronizationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EcounterConditionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ObservationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MappingTindakanICD9CMToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

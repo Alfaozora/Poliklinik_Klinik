@@ -404,10 +404,8 @@ Public Class FormObservation
             End Try
 
             ' Progress bar update
-            If (i + 1) Mod 100 = 0 Then
-                Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
-                worker.ReportProgress(percent)
-            End If
+            Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
+            worker.ReportProgress(percent)
 
             ' Delay kecil untuk jaga API
             Threading.Thread.Sleep(150)
@@ -490,10 +488,8 @@ Public Class FormObservation
             'worker.ReportProgress(0, jumlahData)
 
             ' Update ProgressBar
-            If (i + 1) Mod 100 = 0 Then
-                Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
-                worker.ReportProgress(percent)
-            End If
+            Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
+            worker.ReportProgress(percent)
 
             'Tambahkan delay kecil untuk menghindari spam API 
             Threading.Thread.Sleep(150)
