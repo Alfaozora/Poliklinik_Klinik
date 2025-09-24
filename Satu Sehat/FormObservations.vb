@@ -169,8 +169,18 @@ Public Class FormObservation
     End Sub
 
     Private Sub UpdateUploadStatusProcedure(ByVal noTransaksi As String)
-        Dim sql As String = "UPDATE TransaksiPoli SET UploadSatuSehatProcedure = 1 WHERE NoUrut = '" & noTransaksi & "'"
-        WriteSQL(sql, 4)
+        Dim sql As String = ""
+
+        ' cek apakah mengandung huruf U atau G
+        If noTransaksi.Contains("U") Then
+            sql = "UPDATE TransaksiPoli SET UploadSatuSehatProcedure = 1 WHERE NoUrut = '" & noTransaksi & "'"
+        ElseIf noTransaksi.Contains("G") Then
+            sql = "UPDATE TransaksiGigi SET UploadSatuSehatProcedure = 1 WHERE NoUrut = '" & noTransaksi & "'"
+        End If
+
+        If sql <> "" Then
+            WriteSQL(sql, 4)
+        End If
     End Sub
 
     ' --- Buat fungsi baru untuk ambil data Observasi ---
@@ -221,13 +231,14 @@ Public Class FormObservation
         queryDataUpload.AppendLine("    SLTR.ResourceID AS encounterId,")
         queryDataUpload.AppendLine("    MD.NoIHS AS practitionerId,")
         queryDataUpload.AppendLine("    MD.Nama AS practitionerName,")
-        queryDataUpload.AppendLine("    TPD.transaksitime AS start,")
+        queryDataUpload.AppendLine("    TP.ArrivedDate AS start,")
         queryDataUpload.AppendLine("    TP.FinishedDate AS [end]")
-        queryDataUpload.AppendLine("FROM TransaksiPoli TP")
-        queryDataUpload.AppendLine("INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis")
+        queryDataUpload.AppendLine("FROM TransaksiDetail TD")
+        queryDataUpload.AppendLine("INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis")
+        queryDataUpload.AppendLine("INNER JOIN TransaksiPoli TP ON TD.NoUrut = TP.NoUrut")
         queryDataUpload.AppendLine("INNER JOIN TransaksiPoliDetail TPD ON TP.TransPoliID = TPD.TransPoliID")
         queryDataUpload.AppendLine("INNER JOIN MasterTindakan MT ON TPD.TindakanID = MT.TindakanID")
-        queryDataUpload.AppendLine("INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TP.NoUrut = SLTR.NoTransaksi")
+        queryDataUpload.AppendLine("INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi")
         queryDataUpload.AppendLine("INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID")
         queryDataUpload.AppendLine("WHERE SLTR.ResourceType = 'Encounter'")
         queryDataUpload.AppendLine("  AND SLTR.Status = '201 Created'")
@@ -235,7 +246,32 @@ Public Class FormObservation
         queryDataUpload.AppendLine("  AND MP.NoIHS IS NOT NULL")
         queryDataUpload.AppendLine("  AND MT.ICD9 IS NOT NULL")
         queryDataUpload.AppendLine("  AND MT.JenisTindakan = 'Tindakan'")
-        queryDataUpload.AppendLine("ORDER BY SLTR.NoTransaksi ASC")
+        queryDataUpload.AppendLine("UNION ALL")
+        queryDataUpload.AppendLine("SELECT ")
+        queryDataUpload.AppendLine("    SLTR.NoTransaksi,")
+        queryDataUpload.AppendLine("    MT.ICD9 AS code,")
+        queryDataUpload.AppendLine("    MT.Display AS display,")
+        queryDataUpload.AppendLine("    MP.NoIHS AS patientId,")
+        queryDataUpload.AppendLine("    MP.Nama AS patientName,")
+        queryDataUpload.AppendLine("    SLTR.ResourceID AS encounterId,")
+        queryDataUpload.AppendLine("    MD.NoIHS AS practitionerId,")
+        queryDataUpload.AppendLine("    MD.Nama AS practitionerName,")
+        queryDataUpload.AppendLine("    TG.ArrivedDate AS start,")
+        queryDataUpload.AppendLine("    TG.FinishedDate AS [end]")
+        queryDataUpload.AppendLine("FROM TransaksiDetail TD")
+        queryDataUpload.AppendLine("INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis")
+        queryDataUpload.AppendLine("INNER JOIN TransaksiGigi TG ON TD.NoUrut = TG.NoUrut")
+        queryDataUpload.AppendLine("INNER JOIN TransaksiGigiDetail TGD ON TG.TransGigiID = TGD.TransGigiID")
+        queryDataUpload.AppendLine("INNER JOIN MasterTindakan MT ON TGD.TindakanID = MT.TindakanID")
+        queryDataUpload.AppendLine("INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi")
+        queryDataUpload.AppendLine("INNER JOIN MasterDokter MD ON TG.KodeDokter = MD.ID")
+        queryDataUpload.AppendLine("WHERE SLTR.ResourceType = 'Encounter'")
+        queryDataUpload.AppendLine("  AND SLTR.Status = '201 Created'")
+        queryDataUpload.AppendLine("  AND TG.UploadSatuSehatProcedure = '0'")
+        queryDataUpload.AppendLine("  AND MP.NoIHS IS NOT NULL")
+        queryDataUpload.AppendLine("  AND MT.ICD9 IS NOT NULL")
+        queryDataUpload.AppendLine("  AND MT.JenisTindakan = 'Tindakan'")
+        queryDataUpload.AppendLine("ORDER BY NoTransaksi ASC")
 
         tbls = ReadSQL(queryDataUpload.ToString())
         Return tbls
@@ -314,22 +350,50 @@ Public Class FormObservation
         Return 0
     End Function
 
-    'Private Function GetJumlahDataProcedure() As Integer
-    '    Dim dtCek As DataTable = ReadSQL("SELECT COUNT(*) AS JumlahData FROM SatuSehat_LogProcedure SLP " & _
-    '        "INNER JOIN TransaksiPoli TP ON SLP.NoTransaksi = TP.NoUrut " & _
-    '        "INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis " & _
-    '        "INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID " & _
-    '        "WHERE SLP.ResourceType = 'Encounter' " & _
-    '        "AND SLP.procStatus = '201 Created' " & _
-    '        "AND TP.UploadSatuSehatProcedure = '0' " & _
-    '        "AND MP.NoIHS IS NOT NULL")
+    Private Function GetJumlahDataProcedure() As Integer
+        Dim sql As New StringBuilder()
 
-    '    If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
-    '        Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
-    '    End If
+        sql.AppendLine("SELECT COUNT(*) AS JumlahData")
+        sql.AppendLine("FROM (")
+        sql.AppendLine("    SELECT SLTR.NoTransaksi")
+        sql.AppendLine("    FROM TransaksiDetail TD")
+        sql.AppendLine("    INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis")
+        sql.AppendLine("    INNER JOIN TransaksiPoli TP ON TD.NoUrut = TP.NoUrut")
+        sql.AppendLine("    INNER JOIN TransaksiPoliDetail TPD ON TP.TransPoliID = TPD.TransPoliID")
+        sql.AppendLine("    INNER JOIN MasterTindakan MT ON TPD.TindakanID = MT.TindakanID")
+        sql.AppendLine("    INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi")
+        sql.AppendLine("    INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID")
+        sql.AppendLine("    WHERE SLTR.ResourceType = 'Encounter'")
+        sql.AppendLine("      AND SLTR.Status = '201 Created'")
+        sql.AppendLine("      AND TP.UploadSatuSehatProcedure = '0'")
+        sql.AppendLine("      AND MP.NoIHS IS NOT NULL")
+        sql.AppendLine("      AND MT.ICD9 IS NOT NULL")
+        sql.AppendLine("      AND MT.JenisTindakan = 'Tindakan'")
+        sql.AppendLine("    UNION ALL")
+        sql.AppendLine("    SELECT SLTR.NoTransaksi")
+        sql.AppendLine("    FROM TransaksiDetail TD")
+        sql.AppendLine("    INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis")
+        sql.AppendLine("    INNER JOIN TransaksiGigi TG ON TD.NoUrut = TG.NoUrut")
+        sql.AppendLine("    INNER JOIN TransaksiGigiDetail TGD ON TG.TransGigiID = TGD.TransGigiID")
+        sql.AppendLine("    INNER JOIN MasterTindakan MT ON TGD.TindakanID = MT.TindakanID")
+        sql.AppendLine("    INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi")
+        sql.AppendLine("    INNER JOIN MasterDokter MD ON TG.KodeDokter = MD.ID")
+        sql.AppendLine("    WHERE SLTR.ResourceType = 'Encounter'")
+        sql.AppendLine("      AND SLTR.Status = '201 Created'")
+        sql.AppendLine("      AND TG.UploadSatuSehatProcedure = '0'")
+        sql.AppendLine("      AND MP.NoIHS IS NOT NULL")
+        sql.AppendLine("      AND MT.ICD9 IS NOT NULL")
+        sql.AppendLine("      AND MT.JenisTindakan = 'Tindakan'")
+        sql.AppendLine(") AS DataGabungan")
 
-    '    Return 0
-    'End Function
+        Dim dtCek As DataTable = ReadSQL(sql.ToString())
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
+        End If
+
+        Return 0
+    End Function
 
     Private Sub bgWorkerProcedure_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerProcedure.DoWork
         Dim tbls As DataTable = GetDataProcedure() ' query ambil data procedure dari DB
@@ -408,7 +472,7 @@ Public Class FormObservation
             worker.ReportProgress(percent)
 
             ' Delay kecil untuk jaga API
-            Threading.Thread.Sleep(150)
+            Threading.Thread.Sleep(300)
         Next
     End Sub
 
@@ -533,7 +597,7 @@ Public Class FormObservation
         Dim jumlah As Integer = GetJumlahTransaksiProcedure() ' fungsi hitung transaksi Procedure
         LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Procedure"
 
-        Dim jumlahData As Integer = GetJumlahData() ' fungsi hitung data Procedure
+        Dim jumlahData As Integer = GetJumlahDataProcedure() ' fungsi hitung data Procedure
         LabelData.Text = jumlahData.ToString() & " Data Procedure"
 
         If e.UserState IsNot Nothing Then
