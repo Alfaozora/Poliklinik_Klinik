@@ -544,6 +544,7 @@ Public Class FormObservation
         Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
         Dim total As Integer = tbls.Rows.Count
         Dim stepSize As Integer = CInt(Math.Ceiling(total / 100.0))
+        Dim maxRetry As Integer = 3
 
         For i As Integer = 0 To tbls.Rows.Count - 1
             If isStopRequested Then
@@ -572,47 +573,53 @@ Public Class FormObservation
             ' ---- Kirim ke API ----
             Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
             Dim apiUrl As String = baseURL & "api/observations"
-            Dim response As String = InsertDataAPIRM(json, apiUrl)
 
-            ' ---- Parsing Response ----
-            Try
-                Dim rowJson As JObject = JObject.Parse(response)
-                Dim status As String = rowJson("status").ToString().Trim().ToLower()
-                Dim noTransaksi As String = row("NoTransaksi").ToString()
-                Dim encounterId As String = row("idEncounter").ToString()
+            Dim response As String = ""
+            Dim attempt As Integer = 1
+            Dim successRetry As Boolean = False
+            Dim noTransaksi As String = row("NoTransaksi").ToString()
 
-                If status = "success" Then
-                    Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource WHERE NoTransaksi = '" & noTransaksi & "' AND ResourceType = 'Encounter'")
+            While attempt <= maxRetry AndAlso Not successRetry
+                Try
+                    If attempt > 1 Then
+                        Threading.Thread.Sleep(1000) ' tunggu 1 detik sebelum retry
+                    End If
 
-                    ' kirim ke UI pakai ReportProgress
-                    worker.ReportProgress(0, "Data Observasi " & noTransaksi & " Berhasil Terkirim dengan Encounter." & " {" & encounter & "}")
+                    response = InsertDataAPIRM(json, apiUrl)
 
-                    For Each obs In rowJson("responses")
-                        Dim obsStatus As String = obs("status").ToString()
-                        Dim resourceId As String = obs("body")("id").ToString()
-                        Dim resourceType As String = obs("body")("code")("text").ToString()
-                        InsertLogObservation(noTransaksi, resourceType, resourceId, encounter, obsStatus)
-                    Next
+                    Dim rowJson As JObject = JObject.Parse(response)
+                    Dim status As String = rowJson("status").ToString().Trim().ToLower()
+                    Dim encounterId As String = row("idEncounter").ToString()
 
-                    UpdateUploadStatus(noTransaksi)
-                Else
-                    worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & " | Status: " & status)
-                End If
+                    If status = "success" Then
+                        Dim encounter As String = ReadSQLNIK("SELECT ResourceID FROM SatuSehat_LogTransaksiResource WHERE NoTransaksi = '" & noTransaksi & "' AND ResourceType = 'Encounter'")
 
-            Catch ex As Exception
-                worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & "Raw Response: " & response)
-            End Try
+                        worker.ReportProgress(0, "Data Observasi " & noTransaksi & " Berhasil Terkirim dengan Encounter {" & encounter & "}")
 
-            ' Delay setiap 100 data
-            'If (i + 1) Mod 100 = 0 Then
-            '    System.Threading.Thread.Sleep(3000)
-            'End If
+                        For Each obs In rowJson("responses")
+                            Dim obsStatus As String = obs("status").ToString()
+                            Dim resourceId As String = obs("body")("id").ToString()
+                            Dim resourceType As String = obs("body")("code")("text").ToString()
+                            InsertLogObservation(noTransaksi, resourceType, resourceId, encounter, obsStatus)
+                        Next
 
-            'Dim jumlah As Integer = GetJumlahTransaksi()
-            'worker.ReportProgress(0, jumlah) ' progress = jumlah transaksi
+                        UpdateUploadStatus(noTransaksi)
+                        successRetry = True
+                    Else
+                        worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & " | Status: " & status)
+                        Exit While ' kalau status bukan success, tidak perlu retry JSON error
+                    End If
 
-            'Dim jumlahData As Integer = GetJumlahData()
-            'worker.ReportProgress(0, jumlahData)
+                Catch ex As Exception
+                    ' Kalau parsing gagal, coba ulang sampai maxRetry
+                    worker.ReportProgress(0, "Response tidak valid (percobaan " & attempt & ") untuk No Transaksi: " & noTransaksi & vbCrLf & "Raw Response: " & response)
+                    attempt += 1
+                End Try
+            End While
+
+            If Not successRetry Then
+                worker.ReportProgress(0, "Gagal kirim setelah " & maxRetry & " kali percobaan untuk No Transaksi: " & noTransaksi)
+            End If
 
             ' Update ProgressBar
             Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
