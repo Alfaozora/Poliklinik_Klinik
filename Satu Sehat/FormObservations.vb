@@ -399,6 +399,7 @@ Public Class FormObservation
         Dim tbls As DataTable = GetDataProcedure() ' query ambil data procedure dari DB
         Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
         Dim total As Integer = tbls.Rows.Count
+        Dim maxRetry As Integer = 3
 
         For i As Integer = 0 To tbls.Rows.Count - 1
             If isStopRequested Then
@@ -437,25 +438,47 @@ Public Class FormObservation
             Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
             Dim apiUrl As String = baseURL & "api/procedures"
             Dim response As String = InsertDataAPIRM(json, apiUrl)
+            Dim noTransaksi As String = row("NoTransaksi").ToString()
+            Dim encounterId As String = row("encounterId").ToString()
 
             ' ---- Parsing Response ----
             Try
                 Dim rowJson As JObject = JObject.Parse(response)
                 Dim status As String = rowJson("status").ToString().Trim().ToLower()
-                Dim noTransaksi As String = row("NoTransaksi").ToString()
-                Dim encounterId As String = row("encounterId").ToString()
 
                 If status = "success" Then
+                    Dim successOrDuplicate As Boolean = True
+
                     worker.ReportProgress(0, "Data Procedure " & noTransaksi & " Berhasil Terkirim dengan Encounter {" & encounterId & "}")
 
                     For Each resp In rowJson("responses")
                         Dim procStatus As String = resp("status").ToString()
-                        Dim resourceId As String = resp("body")("id").ToString()
-                        Dim resourceType As String = resp("body")("resourceType").ToString()
+                        Dim resourceType As String = ""
+                        Dim resourceId As String = ""
+
+                        If procStatus = "200" Or procStatus = "201" Then
+                            ' sukses normal
+                            resourceId = resp("body")("id").ToString()
+                            resourceType = resp("body")("resourceType").ToString()
+
+                        ElseIf procStatus = "400" AndAlso resp("body")("issue")(0)("code").ToString().ToLower() = "duplicate" Then
+                            ' kalau duplicate → tetap dianggap sukses
+                            resourceType = "Procedure"
+                            resourceId = "DUPLICATE"
+                            worker.ReportProgress(0, "Duplicate ditemukan untuk No Transaksi: " & noTransaksi)
+
+                        Else
+                            ' error lain → jangan update status
+                            successOrDuplicate = False
+                            worker.ReportProgress(0, "Error lain pada No Transaksi: " & noTransaksi & " | Response: " & resp.ToString())
+                        End If
+
                         InsertLogProcedure(noTransaksi, resourceType, resourceId, encounterId, procStatus)
                     Next
 
-                    UpdateUploadStatusProcedure(noTransaksi)
+                    If successOrDuplicate Then
+                        UpdateUploadStatusProcedure(noTransaksi)
+                    End If
                 Else
                     worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & " | Status: " & status)
                     'worker.ReportProgress(0, "Gagal kirim No Transaksi: " & noTransaksi & _
@@ -464,7 +487,42 @@ Public Class FormObservation
                 End If
 
             Catch ex As Exception
-                worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & "Raw Response: " & response)
+                'worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & row("NoTransaksi").ToString() & vbCrLf & "Raw Response: " & response)
+                Dim attempt As Integer = 1
+                Dim successRetry As Boolean = False
+
+                While attempt <= maxRetry AndAlso Not successRetry
+                    Try
+                        Threading.Thread.Sleep(1000) ' tunggu 1 detik sebelum retry
+                        response = InsertDataAPIRM(json, apiUrl) ' kirim ulang
+
+                        Dim rowJsonRetry As JObject = JObject.Parse(response)
+                        Dim statusRetry As String = rowJsonRetry("status").ToString().Trim().ToLower()
+
+                        If statusRetry = "success" Then
+                            worker.ReportProgress(0, "Retry ke-" & attempt & " berhasil untuk No Transaksi: " & row("NoTransaksi").ToString())
+
+                            For Each resp In rowJsonRetry("responses")
+                                Dim procStatus As String = resp("status").ToString()
+                                Dim resourceId As String = resp("body")("id").ToString()
+                                Dim resourceType As String = resp("body")("resourceType").ToString()
+                                InsertLogProcedure(noTransaksi, resourceType, resourceId, encounterId, procStatus)
+                            Next
+
+                            UpdateUploadStatusProcedure(noTransaksi)
+                            successRetry = True
+                        End If
+                    Catch
+
+                    End Try
+                    attempt += 1
+                End While
+
+                If Not successRetry Then
+                    worker.ReportProgress(0, "Response tidak valid untuk No Transaksi: " & _
+                                           noTransaksi & vbCrLf & _
+                                           "Raw Response: " & response)
+                End If
             End Try
 
             ' Progress bar update
@@ -473,6 +531,11 @@ Public Class FormObservation
 
             ' Delay kecil untuk jaga API
             Threading.Thread.Sleep(300)
+
+            If (i + 1) Mod 50 = 0 Then
+                worker.ReportProgress(0, "Delay 5 detik setelah kirim " & (i + 1).ToString() & " data...")
+                Threading.Thread.Sleep(5000) '5 detik
+            End If
         Next
     End Sub
 
