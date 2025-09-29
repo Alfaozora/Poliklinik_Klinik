@@ -29,7 +29,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
         Me.Label1 = New System.Windows.Forms.Label
         Me.LabelProgress = New System.Windows.Forms.Label
-        Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.Panel7 = New System.Windows.Forms.Panel
         Me.LabelJumlahPasienTanpaNomorIHS = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
@@ -54,6 +53,7 @@ Partial Class FormSynchronizationSatuSehat
         Me.ButtonSinkronisasi = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.TextBoxResponse = New System.Windows.Forms.TextBox
+        Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel7.SuspendLayout()
@@ -142,27 +142,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.LabelProgress.Size = New System.Drawing.Size(30, 17)
         Me.LabelProgress.TabIndex = 522
         Me.LabelProgress.Text = "0 %"
-        '
-        'ButtonStopProses
-        '
-        Me.ButtonStopProses.BackColor = System.Drawing.Color.White
-        Me.ButtonStopProses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ButtonStopProses.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonStopProses.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ButtonStopProses.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonStopProses.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.ButtonStopProses.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.Image = CType(resources.GetObject("ButtonStopProses.Image"), System.Drawing.Image)
-        Me.ButtonStopProses.Location = New System.Drawing.Point(580, 209)
-        Me.ButtonStopProses.Name = "ButtonStopProses"
-        Me.ButtonStopProses.Size = New System.Drawing.Size(150, 35)
-        Me.ButtonStopProses.TabIndex = 527
-        Me.ButtonStopProses.Text = " Stop Proses"
-        Me.ButtonStopProses.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ButtonStopProses.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.ButtonStopProses.UseVisualStyleBackColor = False
         '
         'Panel7
         '
@@ -472,6 +451,27 @@ Partial Class FormSynchronizationSatuSehat
         Me.TextBoxResponse.Size = New System.Drawing.Size(1000, 235)
         Me.TextBoxResponse.TabIndex = 461
         '
+        'ButtonStopProses
+        '
+        Me.ButtonStopProses.BackColor = System.Drawing.Color.White
+        Me.ButtonStopProses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.ButtonStopProses.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonStopProses.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ButtonStopProses.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonStopProses.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ButtonStopProses.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.Image = CType(resources.GetObject("ButtonStopProses.Image"), System.Drawing.Image)
+        Me.ButtonStopProses.Location = New System.Drawing.Point(580, 209)
+        Me.ButtonStopProses.Name = "ButtonStopProses"
+        Me.ButtonStopProses.Size = New System.Drawing.Size(150, 35)
+        Me.ButtonStopProses.TabIndex = 527
+        Me.ButtonStopProses.Text = " Stop Proses"
+        Me.ButtonStopProses.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ButtonStopProses.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonStopProses.UseVisualStyleBackColor = False
+        '
         'FormSynchronizationSatuSehat
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -537,6 +537,6 @@ Partial Class FormSynchronizationSatuSehat
     Friend WithEvents Panel7 As System.Windows.Forms.Panel
     Friend WithEvents LabelJumlahPasienTanpaNomorIHS As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents ButtonStopProses As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ButtonStopProses As System.Windows.Forms.Button
 End Class

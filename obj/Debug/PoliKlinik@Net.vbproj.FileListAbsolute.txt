@@ -3458,3 +3458,5 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Form
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormObservation.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.MappingTindakan.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.PopupICD9.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.MappingObatKFA.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.PopupObatLokal.resources

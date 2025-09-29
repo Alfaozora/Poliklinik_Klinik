@@ -810,16 +810,29 @@
     <Compile Include="Prototype\FormRiwayatKunjungan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FuzzyUtils.vb" />
     <Compile Include="Prototype\KYC.Designer.vb">
       <DependentUpon>KYC.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\KYC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\MappingObatKFA.Designer.vb">
+      <DependentUpon>MappingObatKFA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\MappingObatKFA.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\PopupICD9.Designer.vb">
       <DependentUpon>PopupICD9.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\PopupICD9.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\PopupObatLokal.Designer.vb">
+      <DependentUpon>PopupObatLokal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\PopupObatLokal.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\RepairNoKunjunganBPJS.Designer.vb">
@@ -1663,8 +1676,14 @@
     <EmbeddedResource Include="Prototype\KYC.resx">
       <DependentUpon>KYC.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\MappingObatKFA.resx">
+      <DependentUpon>MappingObatKFA.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\PopupICD9.resx">
       <DependentUpon>PopupICD9.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\PopupObatLokal.resx">
+      <DependentUpon>PopupObatLokal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\RepairNoKunjunganBPJS.resx">
       <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>

@@ -1366,4 +1366,9 @@ Public Class PoliKlinik
         MappingTindakan.Show()
         MappingTindakan.Focus()
     End Sub
+
+    Private Sub MappingObatKFAToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MappingObatKFAToolStripMenuItem.Click
+        MappingObatKFA.Show()
+        MappingObatKFA.Focus()
+    End Sub
 End Class
