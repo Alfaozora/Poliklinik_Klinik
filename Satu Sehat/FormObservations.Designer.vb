@@ -36,14 +36,15 @@ Partial Class FormObservation
         Me.LabelJudul1 = New System.Windows.Forms.Label
         Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.LabelSinkronisasi = New System.Windows.Forms.Label
+        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.LabelProgress = New System.Windows.Forms.Label
         Me.PanelProgressBG = New System.Windows.Forms.Panel
-        Me.PostObservasi = New System.Windows.Forms.Button
+        Me.PostSatuSehat = New System.Windows.Forms.Button
         Me.ButtonGetToken = New System.Windows.Forms.Button
         Me.TextBoxResponse = New System.Windows.Forms.TextBox
         Me.bgWorkerObservasi = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerProcedure = New System.ComponentModel.BackgroundWorker
-        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
+        Me.bgWorkerMedication = New System.ComponentModel.BackgroundWorker
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,7 +76,7 @@ Partial Class FormObservation
         Me.SplitContainer1.Panel1.Controls.Add(Me.PanelProgressFill)
         Me.SplitContainer1.Panel1.Controls.Add(Me.LabelProgress)
         Me.SplitContainer1.Panel1.Controls.Add(Me.PanelProgressBG)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.PostObservasi)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.PostSatuSehat)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonGetToken)
         '
         'SplitContainer1.Panel2
@@ -149,9 +150,9 @@ Partial Class FormObservation
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(3, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(313, 20)
+        Me.Label1.Size = New System.Drawing.Size(361, 20)
         Me.Label1.TabIndex = 2
-        Me.Label1.Text = "FORM SATUSEHAT OBSERVASI, TINDAKAN"
+        Me.Label1.Text = "FORM SATUSEHAT OBSERVASI, TINDAKAN, OBAT"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Panel2
@@ -264,6 +265,16 @@ Partial Class FormObservation
         Me.LabelSinkronisasi.TabIndex = 523
         Me.LabelSinkronisasi.Text = "Kirim Data Terakhir pada 18 September 2025"
         '
+        'PanelProgressFill
+        '
+        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
+        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
+        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
+        Me.PanelProgressFill.Name = "PanelProgressFill"
+        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
+        Me.PanelProgressFill.TabIndex = 522
+        '
         'LabelProgress
         '
         Me.LabelProgress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -285,25 +296,25 @@ Partial Class FormObservation
         Me.PanelProgressBG.Size = New System.Drawing.Size(570, 20)
         Me.PanelProgressBG.TabIndex = 519
         '
-        'PostObservasi
+        'PostSatuSehat
         '
-        Me.PostObservasi.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PostObservasi.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.PostObservasi.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.PostObservasi.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PostObservasi.FlatAppearance.BorderSize = 0
-        Me.PostObservasi.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.PostObservasi.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.PostObservasi.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.PostObservasi.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PostObservasi.ForeColor = System.Drawing.Color.White
-        Me.PostObservasi.Location = New System.Drawing.Point(156, 167)
-        Me.PostObservasi.Name = "PostObservasi"
-        Me.PostObservasi.Size = New System.Drawing.Size(138, 35)
-        Me.PostObservasi.TabIndex = 518
-        Me.PostObservasi.Text = "Kirim Data"
-        Me.PostObservasi.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.PostObservasi.UseVisualStyleBackColor = False
+        Me.PostSatuSehat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PostSatuSehat.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.PostSatuSehat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.PostSatuSehat.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.PostSatuSehat.FlatAppearance.BorderSize = 0
+        Me.PostSatuSehat.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.PostSatuSehat.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.PostSatuSehat.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.PostSatuSehat.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PostSatuSehat.ForeColor = System.Drawing.Color.White
+        Me.PostSatuSehat.Location = New System.Drawing.Point(156, 167)
+        Me.PostSatuSehat.Name = "PostSatuSehat"
+        Me.PostSatuSehat.Size = New System.Drawing.Size(138, 35)
+        Me.PostSatuSehat.TabIndex = 518
+        Me.PostSatuSehat.Text = "Kirim Data"
+        Me.PostSatuSehat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.PostSatuSehat.UseVisualStyleBackColor = False
         '
         'ButtonGetToken
         '
@@ -345,15 +356,10 @@ Partial Class FormObservation
         Me.bgWorkerProcedure.WorkerReportsProgress = True
         Me.bgWorkerProcedure.WorkerSupportsCancellation = True
         '
-        'PanelProgressFill
+        'bgWorkerMedication
         '
-        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
-        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
-        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
-        Me.PanelProgressFill.Name = "PanelProgressFill"
-        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
-        Me.PanelProgressFill.TabIndex = 522
+        Me.bgWorkerMedication.WorkerReportsProgress = True
+        Me.bgWorkerMedication.WorkerSupportsCancellation = True
         '
         'FormObservation
         '
@@ -380,7 +386,7 @@ Partial Class FormObservation
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents TextBoxResponse As System.Windows.Forms.TextBox
     Friend WithEvents ButtonGetToken As System.Windows.Forms.Button
-    Friend WithEvents PostObservasi As System.Windows.Forms.Button
+    Friend WithEvents PostSatuSehat As System.Windows.Forms.Button
     Friend WithEvents LabelProgress As System.Windows.Forms.Label
     Friend WithEvents PanelProgressBG As System.Windows.Forms.Panel
     Friend WithEvents PanelProgressFill As PoliKlinik_Net2.GradientPanel
@@ -399,4 +405,5 @@ Partial Class FormObservation
     Friend WithEvents ComboBoxJenisData As System.Windows.Forms.ComboBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents bgWorkerProcedure As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgWorkerMedication As System.ComponentModel.BackgroundWorker
 End Class

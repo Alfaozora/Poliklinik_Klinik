@@ -23,13 +23,15 @@ Partial Class PopupObatLokal
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
+        Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.DataGridViewObatLokal = New System.Windows.Forms.DataGridView
-        Me.OK_Button = New System.Windows.Forms.Button
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.ComboBoxData = New System.Windows.Forms.ComboBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextBoxSearch = New System.Windows.Forms.TextBox
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.DataGridViewObatLokal = New System.Windows.Forms.DataGridView
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -54,6 +56,22 @@ Partial Class PopupObatLokal
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(146, 29)
         Me.TableLayoutPanel1.TabIndex = 0
+        '
+        'OK_Button
+        '
+        Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.OK_Button.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.OK_Button.FlatAppearance.BorderSize = 0
+        Me.OK_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.OK_Button.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OK_Button.ForeColor = System.Drawing.Color.White
+        Me.OK_Button.Location = New System.Drawing.Point(3, 3)
+        Me.OK_Button.Name = "OK_Button"
+        Me.OK_Button.Size = New System.Drawing.Size(67, 23)
+        Me.OK_Button.TabIndex = 2
+        Me.OK_Button.Text = "OK"
+        Me.OK_Button.UseVisualStyleBackColor = False
         '
         'Cancel_Button
         '
@@ -80,6 +98,8 @@ Partial Class PopupObatLokal
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ComboBoxData)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TextBoxSearch)
         '
@@ -89,6 +109,49 @@ Partial Class PopupObatLokal
         Me.SplitContainer1.Size = New System.Drawing.Size(789, 420)
         Me.SplitContainer1.SplitterDistance = 120
         Me.SplitContainer1.TabIndex = 1
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(15, 23)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(62, 17)
+        Me.Label2.TabIndex = 525
+        Me.Label2.Text = "Pilih Data"
+        '
+        'ComboBoxData
+        '
+        Me.ComboBoxData.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
+        Me.ComboBoxData.BackColor = System.Drawing.SystemColors.Window
+        Me.ComboBoxData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxData.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.ComboBoxData.FormattingEnabled = True
+        Me.ComboBoxData.Items.AddRange(New Object() {"Data Obat", "Mapping Obat"})
+        Me.ComboBoxData.Location = New System.Drawing.Point(83, 20)
+        Me.ComboBoxData.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.ComboBoxData.Name = "ComboBoxData"
+        Me.ComboBoxData.Size = New System.Drawing.Size(198, 25)
+        Me.ComboBoxData.TabIndex = 524
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(13, 93)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(64, 17)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = "SEARCH :"
+        '
+        'TextBoxSearch
+        '
+        Me.TextBoxSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.TextBoxSearch.Location = New System.Drawing.Point(83, 87)
+        Me.TextBoxSearch.Multiline = True
+        Me.TextBoxSearch.Name = "TextBoxSearch"
+        Me.TextBoxSearch.Size = New System.Drawing.Size(700, 30)
+        Me.TextBoxSearch.TabIndex = 2
         '
         'SplitContainer2
         '
@@ -117,41 +180,6 @@ Partial Class PopupObatLokal
         Me.DataGridViewObatLokal.Name = "DataGridViewObatLokal"
         Me.DataGridViewObatLokal.Size = New System.Drawing.Size(789, 256)
         Me.DataGridViewObatLokal.TabIndex = 0
-        '
-        'OK_Button
-        '
-        Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.OK_Button.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.OK_Button.FlatAppearance.BorderSize = 0
-        Me.OK_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.OK_Button.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OK_Button.ForeColor = System.Drawing.Color.White
-        Me.OK_Button.Location = New System.Drawing.Point(3, 3)
-        Me.OK_Button.Name = "OK_Button"
-        Me.OK_Button.Size = New System.Drawing.Size(67, 23)
-        Me.OK_Button.TabIndex = 2
-        Me.OK_Button.Text = "OK"
-        Me.OK_Button.UseVisualStyleBackColor = False
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(13, 93)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(64, 17)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "SEARCH :"
-        '
-        'TextBoxSearch
-        '
-        Me.TextBoxSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.TextBoxSearch.Location = New System.Drawing.Point(83, 87)
-        Me.TextBoxSearch.Multiline = True
-        Me.TextBoxSearch.Name = "TextBoxSearch"
-        Me.TextBoxSearch.Size = New System.Drawing.Size(700, 30)
-        Me.TextBoxSearch.TabIndex = 2
         '
         'PopupObatLokal
         '
@@ -188,5 +216,7 @@ Partial Class PopupObatLokal
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBoxSearch As System.Windows.Forms.TextBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxData As System.Windows.Forms.ComboBox
 
 End Class

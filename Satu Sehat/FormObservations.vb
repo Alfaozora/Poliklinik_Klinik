@@ -44,7 +44,7 @@ Public Class FormObservation
         Me.Dock = DockStyle.Fill
         Me.WindowState = FormWindowState.Maximized
         RoundButton(ButtonGetToken)
-        RoundButton(PostObservasi)
+        RoundButton(PostSatuSehat)
         RoundButton(ButtonStopProses)
         RoundButton(ButtonRefresh)
         RoundPanel(Panel1)
@@ -57,8 +57,9 @@ Public Class FormObservation
 
         ComboBoxJenisData.Items.Add("Observation")
         ComboBoxJenisData.Items.Add("Procedure")
+        ComboBoxJenisData.Items.Add("Medication")
         ComboBoxJenisData.SelectedIndex = -1
-        PostObservasi.Enabled = False
+        PostSatuSehat.Enabled = False
 
         If ComboBoxJenisData.SelectedItem IsNot Nothing Then
             Dim Pilihan As String = ComboBoxJenisData.SelectedItem.ToString()
@@ -73,6 +74,12 @@ Public Class FormObservation
                 LabelData.Text = jumlahData.ToString() & " Data"
 
                 Dim jumlah As Integer = GetJumlahTransaksiProcedure()
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+            ElseIf Pilihan = "Medication" Then
+                Dim jumlahData As Integer = GetJumlahData()
+                LabelData.Text = jumlahData.ToString() & " Data"
+
+                Dim jumlah As Integer = GetJumlahTransaksiMedication()
                 LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
             End If
         End If
@@ -93,8 +100,8 @@ Public Class FormObservation
         ButtonGetToken.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
-    Private Sub PostObservasi_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseEnter
-        PostObservasi.BackColor = Color.FromArgb(30, 144, 255)
+    Private Sub PostSatuSehat_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles PostSatuSehat.MouseEnter
+        PostSatuSehat.BackColor = Color.FromArgb(30, 144, 255)
     End Sub
 
     Private Sub ButtonRefresh_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonRefresh.MouseEnter
@@ -105,8 +112,8 @@ Public Class FormObservation
         ButtonRefresh.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
-    Private Sub PostObservasi_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles PostObservasi.MouseLeave
-        PostObservasi.BackColor = Color.FromArgb(0, 100, 200)
+    Private Sub PostSatuSehat_MouseLeave(ByVal sender As Object, ByVal e As EventArgs) Handles PostSatuSehat.MouseLeave
+        PostSatuSehat.BackColor = Color.FromArgb(0, 100, 200)
     End Sub
 
     Private Sub ButtonStopProses_MouseEnter(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonStopProses.MouseEnter
@@ -163,6 +170,14 @@ Public Class FormObservation
         WriteSQL(sql, 4)
     End Sub
 
+    Private Sub InsertLogMedication(ByVal ObatID As String, ByVal resourceType As String, ByVal resourceId As String, ByVal encounterRef As String, ByVal procStatus As String)
+        Dim sql As String = "INSERT INTO SatuSehat_LogMedication " & _
+                            "(ObatID, ResourceType, ResourceID, Encounter, procStatus, CreatedBy, CreatedDate) " & _
+                            "VALUES('" & ObatID & "', '" & resourceType & "', '" & resourceId & "', '" & encounterRef & "', '" & procStatus & "', '" & userInput & "', GETDATE())"
+
+        WriteSQL(sql, 4)
+    End Sub
+
     Private Sub UpdateUploadStatus(ByVal noTransaksi As String)
         Dim sql As String = "UPDATE TransaksiDetailFisik SET UploadSatuSehat = 1 WHERE NoTransaksi = '" & noTransaksi & "'"
         WriteSQL(sql, 4)
@@ -181,6 +196,11 @@ Public Class FormObservation
         If sql <> "" Then
             WriteSQL(sql, 4)
         End If
+    End Sub
+
+    Private Sub UpdateUploadStatusMedication(ByVal ObatID As String)
+        Dim sql As String = "UPDATE MasterObatKFA SET UploadSatuSehat = 1 WHERE KodeLokal = '" & ObatID & "'"
+        WriteSQL(sql, 4)
     End Sub
 
     ' --- Buat fungsi baru untuk ambil data Observasi ---
@@ -277,20 +297,45 @@ Public Class FormObservation
         Return tbls
     End Function
 
+    Private Function GetDataObatKFA() As DataTable
+        Dim tbls As DataTable = New DataTable()
+        Dim queryDataUpload As New StringBuilder()
+
+        queryDataUpload.AppendLine("SELECT ")
+        queryDataUpload.AppendLine("    KodeLokal,")
+        queryDataUpload.AppendLine("    KodeKFA,")
+        queryDataUpload.AppendLine("    POA,")
+        queryDataUpload.AppendLine("    NamaObatLokal,")
+        queryDataUpload.AppendLine("    BentukSediaanCode,")
+        queryDataUpload.AppendLine("    BentukSediaanNama,")
+        queryDataUpload.AppendLine("    BZACode,")
+        queryDataUpload.AppendLine("    BZA,")
+        queryDataUpload.AppendLine("    BZANumerator,")
+        queryDataUpload.AppendLine("    BZASatuan,")
+        queryDataUpload.AppendLine("    BahanBakuSatuan")
+        queryDataUpload.AppendLine("FROM MasterObatKFA")
+        queryDataUpload.AppendLine("WHERE KodeLokal IS NOT NULL")
+        queryDataUpload.AppendLine("  AND UploadSatuSehat = 0")
+        queryDataUpload.AppendLine("  ORDER BY POA ASC;")
+
+        tbls = ReadSQL(queryDataUpload.ToString())
+        Return tbls
+    End Function
+
     Private Sub ComboBoxJenisData_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ComboBoxJenisData.SelectedIndexChanged
         If ComboBoxJenisData.SelectedIndex <> -1 Then
-            PostObservasi.Enabled = True
+            PostSatuSehat.Enabled = True
         Else
-            PostObservasi.Enabled = False
+            PostSatuSehat.Enabled = False
         End If
     End Sub
 
-    Private Sub PostObservasi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostObservasi.Click
+    Private Sub PostSatuSehat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostSatuSehat.Click
         Dim pilihan As String = ComboBoxJenisData.SelectedItem.ToString()
 
         If pilihan = "Observation" Then
             If Not bgWorkerObservasi.IsBusy Then
-                PostObservasi.Enabled = False
+                PostSatuSehat.Enabled = False
                 ButtonGetToken.Enabled = False
                 ButtonStopProses.Enabled = True
                 ButtonRefresh.Enabled = False
@@ -301,13 +346,23 @@ Public Class FormObservation
 
         ElseIf pilihan = "Procedure" Then
             If Not bgWorkerProcedure.IsBusy Then
-                PostObservasi.Enabled = False
+                PostSatuSehat.Enabled = False
                 ButtonGetToken.Enabled = False
                 ButtonStopProses.Enabled = True
                 ButtonRefresh.Enabled = False
                 TextBoxResponse.Clear()
 
                 bgWorkerProcedure.RunWorkerAsync()
+            End If
+        ElseIf pilihan = "Medication" Then
+            If Not bgWorkerMedication.IsBusy Then
+                PostSatuSehat.Enabled = False
+                ButtonGetToken.Enabled = False
+                ButtonStopProses.Enabled = True
+                ButtonRefresh.Enabled = False
+                TextBoxResponse.Clear()
+
+                bgWorkerMedication.RunWorkerAsync()
             End If
         End If
     End Sub
@@ -324,6 +379,16 @@ Public Class FormObservation
 
     Private Function GetJumlahTransaksiProcedure() As Integer
         Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogProcedure")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function GetJumlahTransaksiMedication() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT ObatID) AS Jumlah FROM SatuSehat_LogMedication")
 
         If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
             Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
@@ -394,6 +459,208 @@ Public Class FormObservation
 
         Return 0
     End Function
+
+    Private Function GetJumlahDataMedication() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(*) AS JumlahData FROM MasterObatKFA " & _
+            "WHERE KodeLokal IS NOT NULL " & _
+            "AND UploadSatuSehat = '0'")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function SafeGet(ByVal obj As JObject, ByVal ParamArray path() As String) As String
+        Try
+            Dim token As JToken = obj
+            For Each p In path
+                If token Is Nothing OrElse token(p) Is Nothing Then
+                    Return ""
+                End If
+                token = token(p)
+            Next
+            Return token.ToString()
+        Catch
+            Return ""
+        End Try
+    End Function
+
+    Private Sub bgWorkerMedication_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerMedication.DoWork
+        Dim tbls As DataTable = GetDataObatKFA() ' ambil data obat dari DB
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim total As Integer = tbls.Rows.Count
+        Dim maxRetry As Integer = 3
+
+        For i As Integer = 0 To tbls.Rows.Count - 1
+            If isStopRequested Then Exit For
+
+            Dim row As DataRow = tbls.Rows(i)
+
+            ' ---- Buat payload JSON ----
+            Dim data As New Dictionary(Of String, Object)
+            data("organization_id") = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
+
+            Dim listObat As New List(Of Dictionary(Of String, Object))
+            Dim obat As New Dictionary(Of String, Object)
+
+            obat("local_id") = row("KodeLokal").ToString()
+            obat("kfa_code") = row("KodeKFA").ToString()
+            obat("display") = row("POA").ToString()
+            obat("displayLokal") = row("NamaObatLokal").ToString()
+            obat("form_code") = row("BentukSediaanCode").ToString()
+            obat("form_display") = row("BentukSediaanNama").ToString()
+            obat("ingredient_code") = row("BZACode").ToString()
+            obat("ingredient_display") = row("BZA").ToString()
+            obat("strength_value") = row("BZANumerator").ToString()
+            obat("satuan") = row("BZASatuan").ToString()
+            obat("satuanDenominator") = row("BahanBakuSatuan").ToString()
+            obat("organization_id") = data("organization_id")
+
+            listObat.Add(obat)
+            data("obat") = listObat
+
+            Dim json As String = JsonConvert.SerializeObject(data)
+
+            ' ---- Kirim ke API Laravel ----
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim apiUrl As String = baseURL & "api/medications"
+            Dim response As String = InsertDataAPIRM(json, apiUrl)
+
+            ' ---- Parsing Response ----
+            Try
+                Dim rowJson As JObject = JObject.Parse(response)
+                Dim status As String = rowJson("status").ToString().Trim().ToLower()
+
+                If status = "success" Then
+                    worker.ReportProgress(0, String.Format("[Medication] {0} status success dari SATUSEHAT.", row("KodeLokal").ToString()))
+
+                    For Each resp As JObject In rowJson("responses")
+                        Dim respStatus As String = resp("status").ToString()
+                        Dim resourceId As String = ""
+                        Dim resourceType As String = "Medication"
+
+                        Select Case respStatus
+                            Case "200", "201"
+                                ' Cek body dulu
+                                If resp("body") IsNot Nothing AndAlso resp("body")("id") IsNot Nothing Then
+                                    resourceId = resp("body")("id").ToString()
+                                    worker.ReportProgress(0, String.Format("[Medication] {0} berhasil ({1}) dengan ID (body): {2}", row("KodeLokal").ToString(), respStatus, resourceId))
+                                ElseIf resp("response") IsNot Nothing AndAlso resp("response")("id") IsNot Nothing Then
+                                    resourceId = resp("response")("id").ToString()
+                                    worker.ReportProgress(0, String.Format("[Medication] {0} berhasil ({1}) dengan ID (response): {2}", row("KodeLokal").ToString(), respStatus, resourceId))
+                                Else
+                                    worker.ReportProgress(0, String.Format("[Medication] {0} berhasil ({1}) tapi ID tidak ditemukan. Raw: {2}", row("KodeLokal").ToString(), respStatus, resp.ToString()))
+                                End If
+
+                            Case "400"
+                                ' cek kalau ada body & issue
+                                If resp("body") IsNot Nothing AndAlso resp("body")("issue") IsNot Nothing Then
+                                    Dim issueCode As String = resp("body")("issue")(0)("code").ToString().ToLower()
+                                    If issueCode = "duplicate" Then
+                                        resourceId = "DUPLICATE"
+                                        worker.ReportProgress(0, String.Format("[Medication] Duplicate untuk KodeLokal: {0}", row("KodeLokal").ToString()))
+                                    Else
+                                        worker.ReportProgress(0, String.Format("[Medication] Error {0} | {1}", row("KodeLokal").ToString(), resp("body").ToString()))
+                                    End If
+                                Else
+                                    worker.ReportProgress(0, String.Format("[Medication] Error {0} tanpa issue detail. Raw: {1}", row("KodeLokal").ToString(), resp.ToString()))
+                                End If
+
+                            Case Else
+                                worker.ReportProgress(0, "[Medication] Response tetap tidak valid setelah " & maxRetry & _
+                                      " retry untuk " & row("KodeLokal").ToString() & _
+                                      " | Raw Response: " & response)
+
+                        End Select
+
+                        InsertLogMedication(row("KodeLokal").ToString(), resourceType, resourceId, respStatus)
+                    Next
+
+                    UpdateUploadStatusMedication(row("KodeLokal").ToString())
+                Else
+                    worker.ReportProgress(0, String.Format("[Medication] Gagal kirim untuk {0} | Status: {1}", row("KodeLokal").ToString(), status))
+                End If
+
+            Catch ex As Exception
+                worker.ReportProgress(0, String.Format("[Medication] Exception awal: {0} | Raw: {1}", ex.Message, response))
+
+                Dim attempt As Integer = 1
+                Dim successRetry As Boolean = False
+
+                While attempt <= maxRetry AndAlso Not successRetry
+                    Try
+                        Threading.Thread.Sleep(1000)
+                        response = InsertDataAPIRM(json, apiUrl)
+
+                        Dim rowJsonRetry As JObject = JObject.Parse(response)
+                        Dim statusRetry As String = rowJsonRetry("status").ToString().Trim().ToLower()
+
+                        If statusRetry = "success" Then
+                            worker.ReportProgress(0, String.Format("[Medication] Retry ke-{0} berhasil untuk {1}", attempt, row("KodeLokal").ToString()))
+
+                            For Each resp As JObject In rowJsonRetry("responses")
+                                Dim respStatus As String = resp("status").ToString()
+                                Dim resourceId As String = ""
+                                Dim resourceType As String = "Medication"
+
+                                Select Case respStatus
+                                    Case "200", "201"
+                                        If resp("body") IsNot Nothing AndAlso resp("body")("id") IsNot Nothing Then
+                                            resourceId = resp("body")("id").ToString()
+                                            worker.ReportProgress(0, String.Format("[Medication] Retry ID (body): {0}", resourceId))
+                                        ElseIf resp("response") IsNot Nothing AndAlso resp("response")("id") IsNot Nothing Then
+                                            resourceId = resp("response")("id").ToString()
+                                            worker.ReportProgress(0, String.Format("[Medication] Retry ID (response): {0}", resourceId))
+                                        End If
+
+                                    Case "400"
+                                        If resp("body") IsNot Nothing AndAlso resp("body")("issue") IsNot Nothing Then
+                                            Dim issueCode As String = resp("body")("issue")(0)("code").ToString().ToLower()
+                                            If issueCode = "duplicate" Then
+                                                resourceId = "DUPLICATE"
+                                                worker.ReportProgress(0, String.Format("[Medication] Duplicate (retry) untuk {0}", row("KodeLokal").ToString()))
+                                            Else
+                                                worker.ReportProgress(0, String.Format("[Medication] Error retry {0}", resp("body").ToString()))
+                                            End If
+                                        Else
+                                            worker.ReportProgress(0, String.Format("[Medication] Error retry {0} tanpa issue. Raw: {1}", row("KodeLokal").ToString(), resp.ToString()))
+                                        End If
+                                End Select
+
+                                'InsertLogMedication(row("KodeLokal").ToString(), resourceType, resourceId, respStatus)
+                            Next
+
+                            UpdateUploadStatusMedication(row("KodeLokal").ToString())
+                            successRetry = True
+                        Else
+                            worker.ReportProgress(0, String.Format("[Medication] Retry ke-{0} gagal, status: {1}", attempt, statusRetry))
+                        End If
+
+                    Catch exRetry As Exception
+                        worker.ReportProgress(0, String.Format("[Medication] Exception retry ke-{0}: {1}", attempt, exRetry.Message))
+                    End Try
+
+                    attempt += 1
+                End While
+
+                If Not successRetry Then
+                    worker.ReportProgress(0, String.Format("[Medication] Response tetap tidak valid setelah {0} retry untuk {1}{2}Raw Response: {3}", maxRetry, row("KodeLokal").ToString(), vbCrLf, response))
+                End If
+            End Try
+
+            ' Progress bar update
+            Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
+            worker.ReportProgress(percent)
+
+            Threading.Thread.Sleep(300)
+            If (i + 1) Mod 50 = 0 Then
+                worker.ReportProgress(0, String.Format("Delay 5 detik setelah kirim {0} Medication...", (i + 1).ToString()))
+                Threading.Thread.Sleep(5000)
+            End If
+        Next
+    End Sub
 
     Private Sub bgWorkerProcedure_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerProcedure.DoWork
         Dim tbls As DataTable = GetDataProcedure() ' query ambil data procedure dari DB
@@ -633,7 +900,7 @@ Public Class FormObservation
     ' === ProgressChanged → update UI thread ===
     Private Sub bgWorkerObservasi_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerObservasi.ProgressChanged
         If e.ProgressPercentage > 0 Then
-            UpdateProgress(e.ProgressPercentage)' kirim persen langsung
+            UpdateProgress(e.ProgressPercentage) ' kirim persen langsung
         End If
 
         Dim jumlah As Integer = GetJumlahTransaksi()
@@ -652,7 +919,7 @@ Public Class FormObservation
         MsgBox("Selesai mengirim semua data.")
 
         isStopRequested = False
-        PostObservasi.Enabled = True
+        PostSatuSehat.Enabled = True
         ButtonGetToken.Enabled = True
         ButtonStopProses.Enabled = False
         ButtonRefresh.Enabled = True
@@ -680,7 +947,35 @@ Public Class FormObservation
         MsgBox("Selesai mengirim semua data Procedure.")
 
         isStopRequested = False
-        PostObservasi.Enabled = True
+        PostSatuSehat.Enabled = True
+        ButtonGetToken.Enabled = True
+        ButtonStopProses.Enabled = False
+        ButtonRefresh.Enabled = True
+    End Sub
+
+    ' === ProgressChanged → update UI thread untuk Medication ===
+    Private Sub bgWorkerMedication_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerMedication.ProgressChanged
+        If e.ProgressPercentage > 0 Then
+            UpdateProgress(e.ProgressPercentage) ' update progress bar
+        End If
+
+        Dim jumlah As Integer = GetJumlahTransaksiMedication() ' fungsi hitung transaksi Procedure
+        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Medication"
+
+        Dim jumlahData As Integer = GetJumlahDataMedication() ' fungsi hitung data Procedure
+        LabelData.Text = jumlahData.ToString() & " Data Medication"
+
+        If e.UserState IsNot Nothing Then
+            TextBoxResponse.AppendText("[Medication] " & e.UserState.ToString() & Environment.NewLine)
+        End If
+    End Sub
+
+    ' === Selesai Proses Procedure ===
+    Private Sub bgWorkerMedication_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerMedication.RunWorkerCompleted
+        MsgBox("Selesai mengirim semua data Medication.")
+
+        isStopRequested = False
+        PostSatuSehat.Enabled = True
         ButtonGetToken.Enabled = True
         ButtonStopProses.Enabled = False
         ButtonRefresh.Enabled = True

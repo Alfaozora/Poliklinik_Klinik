@@ -2212,6 +2212,11 @@ Module Test
             webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
             webreq.ContentLength = bytearr.Length
 
+            webreq.Headers.Add("Accept-Language", "en-US,en;q=0.9")
+            webreq.Headers.Add("Cache-Control", "no-cache")
+            webreq.KeepAlive = True
+
+
             Dim dataStream As Stream = webreq.GetRequestStream()
             dataStream.Write(bytearr, 0, bytearr.Length)
             dataStream.Close()
@@ -2262,6 +2267,22 @@ Module Test
                 Return "[{""error"":""" & ex.Message & """}]"
             End If
         End Try
+        'Catch ex As WebException
+        '    Dim errorMsg As String = "Message: " & ex.Message & vbCrLf
+
+        '    If ex.Response IsNot Nothing Then
+        '        errorMsg &= "Status Code: " & CType(ex.Response, HttpWebResponse).StatusCode & vbCrLf
+
+        '        Using reader As New StreamReader(ex.Response.GetResponseStream())
+        '            Dim responseError As String = reader.ReadToEnd()
+        '            errorMsg &= "Response Error: " & responseError
+        '        End Using
+        '    End If
+
+        '    ' tampilkan log supaya tahu errornya apa
+        '    MsgBox(errorMsg, MsgBoxStyle.Critical, "DEBUG ERROR")
+        '    Return "[{""error"":""" & errorMsg & """}]"
+        'End Try
     End Function
 
     Public Function GetDataAPI(ByVal uri As String) As String
@@ -2294,6 +2315,22 @@ Module Test
 
             Return responseError
         End Try
+        'Catch ex As WebException
+        '    Dim errorMsg As String = "Message: " & ex.Message & vbCrLf
+
+        '    If ex.Response IsNot Nothing Then
+        '        errorMsg &= "Status Code: " & CType(ex.Response, HttpWebResponse).StatusCode & vbCrLf
+
+        '        Using reader As New StreamReader(ex.Response.GetResponseStream())
+        '            Dim responseError As String = reader.ReadToEnd()
+        '            errorMsg &= "Response Error: " & responseError
+        '        End Using
+        '    End If
+
+        '    ' tampilkan log supaya tahu errornya apa
+        '    MsgBox(errorMsg, MsgBoxStyle.Critical, "DEBUG ERROR")
+        '    Return "[{""error"":""" & errorMsg & """}]"
+        'End Try
     End Function
 
     Public Function generateNoTransaksi(ByRef kodeTransaksi As String, ByRef jenisPoli As String, ByRef tglTransaksi As String, ByRef jenisMCU As Boolean) As String

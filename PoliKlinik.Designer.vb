@@ -145,6 +145,7 @@ Partial Class PoliKlinik
         Me.RepairNoKunjunganBPJSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GantiDokterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MappingTindakanICD9CMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MappingObatKFAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MasterPaketToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DesignReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -277,7 +278,6 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
-        Me.MappingObatKFAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1165,6 +1165,12 @@ Partial Class PoliKlinik
         Me.MappingTindakanICD9CMToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
         Me.MappingTindakanICD9CMToolStripMenuItem.Text = "Mapping Tindakan ICD9CM"
         '
+        'MappingObatKFAToolStripMenuItem
+        '
+        Me.MappingObatKFAToolStripMenuItem.Name = "MappingObatKFAToolStripMenuItem"
+        Me.MappingObatKFAToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
+        Me.MappingObatKFAToolStripMenuItem.Text = "Mapping Obat KFA"
+        '
         'MiscToolStripMenuItem
         '
         Me.MiscToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MasterPaketToolStripMenuItem, Me.DesignReportToolStripMenuItem, Me.QueryToolStripMenuItem})
@@ -1568,14 +1574,14 @@ Partial Class PoliKlinik
         'EcounterConditionToolStripMenuItem
         '
         Me.EcounterConditionToolStripMenuItem.Name = "EcounterConditionToolStripMenuItem"
-        Me.EcounterConditionToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.EcounterConditionToolStripMenuItem.Size = New System.Drawing.Size(229, 22)
         Me.EcounterConditionToolStripMenuItem.Text = "Kunjungan dan Kondisi"
         '
         'ObservationToolStripMenuItem
         '
         Me.ObservationToolStripMenuItem.Name = "ObservationToolStripMenuItem"
-        Me.ObservationToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
-        Me.ObservationToolStripMenuItem.Text = "Observasi"
+        Me.ObservationToolStripMenuItem.Size = New System.Drawing.Size(229, 22)
+        Me.ObservationToolStripMenuItem.Text = "Observasi, Tindakan, Obat"
         '
         'ValidasiFaskesPasienToolStripMenuItem
         '
@@ -2029,12 +2035,6 @@ Partial Class PoliKlinik
         '
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
-        '
-        'MappingObatKFAToolStripMenuItem
-        '
-        Me.MappingObatKFAToolStripMenuItem.Name = "MappingObatKFAToolStripMenuItem"
-        Me.MappingObatKFAToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
-        Me.MappingObatKFAToolStripMenuItem.Text = "Mapping Obat KFA"
         '
         'PoliKlinik
         '
