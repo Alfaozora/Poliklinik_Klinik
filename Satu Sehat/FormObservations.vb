@@ -170,11 +170,10 @@ Public Class FormObservation
         WriteSQL(sql, 4)
     End Sub
 
-    Private Sub InsertLogMedication(ByVal ObatID As String, ByVal resourceType As String, ByVal resourceId As String, ByVal encounterRef As String, ByVal procStatus As String)
+    Private Sub InsertLogMedication(ByVal ObatID As String, ByVal NamaObat As String, ByVal ResourceID As String)
         Dim sql As String = "INSERT INTO SatuSehat_LogMedication " & _
-                            "(ObatID, ResourceType, ResourceID, Encounter, procStatus, CreatedBy, CreatedDate) " & _
-                            "VALUES('" & ObatID & "', '" & resourceType & "', '" & resourceId & "', '" & encounterRef & "', '" & procStatus & "', '" & userInput & "', GETDATE())"
-
+                            "(ObatID, NamaObat, ResourceID, CreatedBy, CreatedDate) " & _
+                            "VALUES('" & ObatID & "', '" & NamaObat & "', '" & ResourceID & "', '" & userInput & "', GETDATE())"
         WriteSQL(sql, 4)
     End Sub
 
@@ -558,24 +557,32 @@ Public Class FormObservation
                                 ' cek kalau ada body & issue
                                 If resp("body") IsNot Nothing AndAlso resp("body")("issue") IsNot Nothing Then
                                     Dim issueCode As String = resp("body")("issue")(0)("code").ToString().ToLower()
+                                    Dim issueText As String = ""
+
+                                    Try
+                                        issueText = resp("body")("issue")(0)("details")("text").ToString()
+                                    Catch
+                                        issueText = "Tanpa issue detail"
+                                    End Try
+
                                     If issueCode = "duplicate" Then
                                         resourceId = "DUPLICATE"
                                         worker.ReportProgress(0, String.Format("[Medication] Duplicate untuk KodeLokal: {0}", row("KodeLokal").ToString()))
                                     Else
-                                        worker.ReportProgress(0, String.Format("[Medication] Error {0} | {1}", row("KodeLokal").ToString(), resp("body").ToString()))
+                                        worker.ReportProgress(0, String.Format("[Medication] Error {0} | {1}", row("KodeLokal").ToString(), issueText))
                                     End If
                                 Else
-                                    worker.ReportProgress(0, String.Format("[Medication] Error {0} tanpa issue detail. Raw: {1}", row("KodeLokal").ToString(), resp.ToString()))
+                                    ' fallback → kalau tidak ada issue, tampilkan JSON ringkas
+                                    Dim rawCompact As String = JObject.Parse(resp.ToString()).ToString(Newtonsoft.Json.Formatting.None)
+                                    worker.ReportProgress(0, String.Format("[Medication] Error {0} tanpa issue detail. Raw: {1}", row("KodeLokal").ToString(), rawCompact))
                                 End If
 
                             Case Else
-                                worker.ReportProgress(0, "[Medication] Response tetap tidak valid setelah " & maxRetry & _
-                                      " retry untuk " & row("KodeLokal").ToString() & _
-                                      " | Raw Response: " & response)
+                                worker.ReportProgress(0, "[Medication] Response tetap tidak valid setelah " & maxRetry & " retry untuk " & row("KodeLokal").ToString() & " | Raw Response: " & response)
 
                         End Select
 
-                        InsertLogMedication(row("KodeLokal").ToString(), resourceType, resourceId, respStatus)
+                        InsertLogMedication(row("KodeLokal").ToString(), row("NamaObatLokal").ToString(), resourceId)
                     Next
 
                     UpdateUploadStatusMedication(row("KodeLokal").ToString())
@@ -584,7 +591,8 @@ Public Class FormObservation
                 End If
 
             Catch ex As Exception
-                worker.ReportProgress(0, String.Format("[Medication] Exception awal: {0} | Raw: {1}", ex.Message, response))
+                ' JSON invalid atau error lain saat parsing
+                worker.ReportProgress(0, "[Medication] Exception awal: " & ex.Message & " | Raw: " & response)
 
                 Dim attempt As Integer = 1
                 Dim successRetry As Boolean = False
@@ -598,57 +606,71 @@ Public Class FormObservation
                         Dim statusRetry As String = rowJsonRetry("status").ToString().Trim().ToLower()
 
                         If statusRetry = "success" Then
-                            worker.ReportProgress(0, String.Format("[Medication] Retry ke-{0} berhasil untuk {1}", attempt, row("KodeLokal").ToString()))
+                            worker.ReportProgress(0, "[Medication] Retry ke-" & attempt & " berhasil untuk KodeLokal: " & row("KodeLokal").ToString())
 
-                            For Each resp As JObject In rowJsonRetry("responses")
+                            For Each resp In rowJsonRetry("responses")
                                 Dim respStatus As String = resp("status").ToString()
                                 Dim resourceId As String = ""
                                 Dim resourceType As String = "Medication"
 
                                 Select Case respStatus
                                     Case "200", "201"
-                                        If resp("body") IsNot Nothing AndAlso resp("body")("id") IsNot Nothing Then
-                                            resourceId = resp("body")("id").ToString()
-                                            worker.ReportProgress(0, String.Format("[Medication] Retry ID (body): {0}", resourceId))
-                                        ElseIf resp("response") IsNot Nothing AndAlso resp("response")("id") IsNot Nothing Then
-                                            resourceId = resp("response")("id").ToString()
-                                            worker.ReportProgress(0, String.Format("[Medication] Retry ID (response): {0}", resourceId))
-                                        End If
+                                        resourceId = resp("body")("id").ToString()
+                                        worker.ReportProgress(0, "[Medication] Retry ID: " & resourceId)
 
                                     Case "400"
-                                        If resp("body") IsNot Nothing AndAlso resp("body")("issue") IsNot Nothing Then
-                                            Dim issueCode As String = resp("body")("issue")(0)("code").ToString().ToLower()
-                                            If issueCode = "duplicate" Then
-                                                resourceId = "DUPLICATE"
-                                                worker.ReportProgress(0, String.Format("[Medication] Duplicate (retry) untuk {0}", row("KodeLokal").ToString()))
-                                            Else
-                                                worker.ReportProgress(0, String.Format("[Medication] Error retry {0}", resp("body").ToString()))
-                                            End If
+                                        Dim issueText As String = "Tanpa issue detail"
+                                        Try
+                                            issueText = resp("body")("issue")(0)("details")("text").ToString()
+                                        Catch
+                                        End Try
+
+                                        Dim issueCode As String = ""
+                                        Try
+                                            issueCode = resp("body")("issue")(0)("code").ToString().ToLower()
+                                        Catch
+                                        End Try
+
+                                        If issueCode = "duplicate" Then
+                                            resourceId = "DUPLICATE"
+                                            worker.ReportProgress(0, "[Medication] Duplicate (retry) untuk KodeLokal: " & row("KodeLokal").ToString())
                                         Else
-                                            worker.ReportProgress(0, String.Format("[Medication] Error retry {0} tanpa issue. Raw: {1}", row("KodeLokal").ToString(), resp.ToString()))
+                                            worker.ReportProgress(0, "[Medication] Error retry: " & issueText)
                                         End If
+
+                                    Case Else
+                                        Dim compact As String = JObject.Parse(resp.ToString()).ToString(Newtonsoft.Json.Formatting.None)
+                                        worker.ReportProgress(0, "[Medication] Retry status tidak diketahui: " & compact)
                                 End Select
 
-                                'InsertLogMedication(row("KodeLokal").ToString(), resourceType, resourceId, respStatus)
+                                InsertLogMedication(row("KodeLokal").ToString(), row("NamaObatLokal").ToString(), resourceId)
                             Next
 
+                            'Update walau duplicate
                             UpdateUploadStatusMedication(row("KodeLokal").ToString())
                             successRetry = True
                         Else
-                            worker.ReportProgress(0, String.Format("[Medication] Retry ke-{0} gagal, status: {1}", attempt, statusRetry))
+                            worker.ReportProgress(0, "[Medication] Retry ke-" & attempt & " gagal, status: " & statusRetry)
                         End If
 
-                    Catch exRetry As Exception
-                        worker.ReportProgress(0, String.Format("[Medication] Exception retry ke-{0}: {1}", attempt, exRetry.Message))
+                    Catch rex As Exception
+                        worker.ReportProgress(0, "[Medication] Exception di retry ke-" & attempt & ": " & rex.Message)
                     End Try
 
                     attempt += 1
                 End While
 
                 If Not successRetry Then
-                    worker.ReportProgress(0, String.Format("[Medication] Response tetap tidak valid setelah {0} retry untuk {1}{2}Raw Response: {3}", maxRetry, row("KodeLokal").ToString(), vbCrLf, response))
+                    Dim rawCompact As String = response
+                    Try
+                        rawCompact = JObject.Parse(response).ToString(Newtonsoft.Json.Formatting.None)
+                    Catch
+                    End Try
+
+                    worker.ReportProgress(0, "[Medication] Response tetap tidak valid setelah " & maxRetry & " retry untuk KodeLokal: " & row("KodeLokal").ToString() & " | Raw Response: " & rawCompact)
                 End If
             End Try
+
 
             ' Progress bar update
             Dim percent As Integer = CInt(Math.Floor(((i + 1) * 100.0) / total))
