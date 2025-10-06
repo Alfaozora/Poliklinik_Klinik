@@ -36,7 +36,6 @@ Partial Class FormObservation
         Me.LabelJudul1 = New System.Windows.Forms.Label
         Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.LabelSinkronisasi = New System.Windows.Forms.Label
-        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.LabelProgress = New System.Windows.Forms.Label
         Me.PanelProgressBG = New System.Windows.Forms.Panel
         Me.PostSatuSehat = New System.Windows.Forms.Button
@@ -45,6 +44,8 @@ Partial Class FormObservation
         Me.bgWorkerObservasi = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerProcedure = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerMedication = New System.ComponentModel.BackgroundWorker
+        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
+        Me.bgWorkerMedicationRequest = New System.ComponentModel.BackgroundWorker
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -265,16 +266,6 @@ Partial Class FormObservation
         Me.LabelSinkronisasi.TabIndex = 523
         Me.LabelSinkronisasi.Text = "Kirim Data Terakhir pada 18 September 2025"
         '
-        'PanelProgressFill
-        '
-        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
-        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
-        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
-        Me.PanelProgressFill.Name = "PanelProgressFill"
-        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
-        Me.PanelProgressFill.TabIndex = 522
-        '
         'LabelProgress
         '
         Me.LabelProgress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -361,6 +352,21 @@ Partial Class FormObservation
         Me.bgWorkerMedication.WorkerReportsProgress = True
         Me.bgWorkerMedication.WorkerSupportsCancellation = True
         '
+        'PanelProgressFill
+        '
+        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
+        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
+        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
+        Me.PanelProgressFill.Name = "PanelProgressFill"
+        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
+        Me.PanelProgressFill.TabIndex = 522
+        '
+        'bgWorkerMedicationRequest
+        '
+        Me.bgWorkerMedicationRequest.WorkerReportsProgress = True
+        Me.bgWorkerMedicationRequest.WorkerSupportsCancellation = True
+        '
         'FormObservation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -406,4 +412,5 @@ Partial Class FormObservation
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents bgWorkerProcedure As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgWorkerMedication As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgWorkerMedicationRequest As System.ComponentModel.BackgroundWorker
 End Class
