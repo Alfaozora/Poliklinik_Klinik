@@ -347,6 +347,7 @@ Public Class FormObservation
         query.AppendLine("    SLM.ResourceID AS [MedicationID],")
         query.AppendLine("    MOK.BahanBakuSatuan AS [Unit],")
         query.AppendLine("    MOK.BahanBakuCode AS [LinkSystem],")
+        query.AppendLine("    TBO.CreatedDate AS [AuthoredOn],")
         query.AppendLine("    ISNULL(TBO.Jumlah, 0) AS Jumlah,")
         query.AppendLine("    CAST(ISNULL(TBR.Signa1, 0) AS VARCHAR(10)) + ' x ' + CAST(ISNULL(TBR.Signa2, 0) AS VARCHAR(10)) AS Signa,")
         query.AppendLine("    ISNULL(TBR.AturanPakai, '-') AS CaraPakai,")
@@ -387,7 +388,8 @@ Public Class FormObservation
         query.AppendLine("    SLM.ResourceID,")
         query.AppendLine("    MOK.POA,")
         query.AppendLine("    MOK.BahanBakuSatuan,")
-        query.AppendLine("    MOK.BahanBakuCode")
+        query.AppendLine("    MOK.BahanBakuCode,")
+        query.AppendLine("    TBO.CreatedDate")
         query.AppendLine("ORDER BY TD.NoUrut ASC, TBO.ObatNama ASC;")
 
         tbls = ReadSQL(query.ToString())
@@ -700,20 +702,71 @@ Public Class FormObservation
             Dim resepNomor As String = group.First()("ResepNomor").ToString()
             Dim encounterId As String = group.First()("Encounter").ToString()
             Dim noIHSPasien As String = group.First()("NoIHSPasien").ToString()
+            Dim namaPasien As String = group.First()("NamaPasien").ToString()
             Dim noIHSDokter As String = group.First()("NoIHSDokter").ToString()
+            Dim namaDokter As String = group.First()("NamaDokter").ToString()
+            Dim authoredOn As String = ""
+            Dim startDate As DateTime
+            Dim endDate As DateTime
+            Try
+                Dim rawDate = group.First()("AuthoredOn").ToString()
+
+                If Not String.IsNullOrEmpty(rawDate) Then
+                    Dim dt As DateTime = DateTime.Parse(rawDate)
+                    dt = DateTime.SpecifyKind(dt, DateTimeKind.Local)
+
+                    ' Simpan AuthoredOn sesuai format FHIR ISO8601
+                    authoredOn = dt.ToString("yyyy-MM-ddTHH:mm:ssK")
+
+                    ' Hitung start & end validityPeriod
+                    startDate = dt
+                    endDate = dt.AddDays(30)
+                Else
+                    ' Jika kosong, fallback ke tanggal hari ini
+                    Dim nowDt As DateTime = DateTime.Now
+                    authoredOn = nowDt.ToString("yyyy-MM-ddTHH:mm:ssK")
+                    startDate = nowDt
+                    endDate = nowDt.AddDays(30)
+                End If
+
+            Catch ex As Exception
+                ' Jika error parsing, fallback ke tanggal hari ini
+                Dim nowDt As DateTime = DateTime.Now
+                authoredOn = nowDt.ToString("yyyy-MM-ddTHH:mm:ssK")
+                startDate = nowDt
+                endDate = nowDt.AddDays(30)
+            End Try
+
             MsgBox("DEBUG: Proses ResepNomor = " & resepNomor & vbCrLf & _
                    "EncounterID = " & encounterId & vbCrLf & _
                    "NoIHS Pasien = " & noIHSPasien & vbCrLf & _
-                   "NoIHS Dokter = " & noIHSDokter)
+                   "Nama Pasien = " & namaPasien & vbCrLf & _
+                   "NoIHS Dokter = " & noIHSDokter & vbCrLf & _
+                   "Nama Dokter = " & namaDokter & vbCrLf & _
+                   "AuthoredOn = " & authoredOn & vbCrLf & _
+                   "Start = " & startDate.ToString("yyyy-MM-ddTHH:mm:ssK") & vbCrLf & _
+                   "End = " & endDate.ToString("yyyy-MM-ddTHH:mm:ssK"))
 
             ' --- Payload utama ---
             Dim data As New Dictionary(Of String, Object)
             data("organization_id") = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
             data("encounter_id") = encounterId
             data("patient_id") = noIHSPasien
+            data("displayPatient") = namaPasien
             data("practitioner_id") = noIHSDokter
+            data("displayPractitioner") = namaDokter
             data("resep_nomor") = resepNomor
-            data("diagnosa") = group.First()("KeteranganDiagnosa").ToString()
+            data("kodeDiagnosa") = group.First()("KodeDiagnosa").ToString()
+            data("keteranganDiagnosa") = group.First()("KeteranganDiagnosa").ToString()
+            data("authored_on") = authoredOn
+
+            Dim validityPeriod As New Dictionary(Of String, Object)
+            validityPeriod("start") = startDate.ToString("yyyy-MM-ddTHH:mm:ssK")
+            validityPeriod("end") = endDate.ToString("yyyy-MM-ddTHH:mm:ssK")
+
+            Dim dispenseRequest As New Dictionary(Of String, Object)
+            dispenseRequest("validityPeriod") = validityPeriod
+            dispenseRequest("numberOfRepeatsAllowed") = 0
 
             ' --- Daftar obat (1 resep bisa banyak obat) ---
             Dim listObat As New List(Of Dictionary(Of String, Object))
