@@ -590,10 +590,32 @@ Public Class FormObservation
     End Function
 
     Private Function GetJumlahDataMedicationRequest() As Integer
-        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(*) AS JumlahData FROM TransaksiObat TBO " & _
-            "INNER JOIN SatuSehat_LogMedication SLM ON TBO.ObatID = SLM.ObatID " & _
-            "WHERE SLM.ResourceID IS NOT NULL " & _
-            "AND UploadSatuSehat = '0'")
+        Dim sql As String = ""
+        sql &= "SELECT COUNT(*) AS JumlahData FROM (" & vbCrLf
+        sql &= "    SELECT TD.NoUrut" & vbCrLf
+        sql &= "    FROM TransaksiDetail TD" & vbCrLf
+        sql &= "    INNER JOIN TransaksiPoli TP ON TD.NoUrut = TP.NoUrut" & vbCrLf
+        sql &= "    INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi" & vbCrLf
+        sql &= "    INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis" & vbCrLf
+        sql &= "    INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID" & vbCrLf
+        sql &= "    INNER JOIN TransaksiDetailDiagnosa TDD ON TD.NoUrut = TDD.NoTransaksi" & vbCrLf
+        sql &= "    INNER JOIN TransaksiObat TBO ON TD.NoUrut = TBO.NoTransaksi" & vbCrLf
+        sql &= "    LEFT JOIN TransaksiObatNonRacikan TBR ON TBO.NoTransaksi = TBR.NoTransaksi AND TBO.ObatID = TBR.ObatID" & vbCrLf
+        sql &= "    LEFT JOIN SatuSehat_LogMedication SLM ON TBR.ObatID = SLM.ObatID" & vbCrLf
+        sql &= "    LEFT JOIN MasterObatKFA MOK ON SLM.ObatID = MOK.KodeLokal" & vbCrLf
+        sql &= "    WHERE TP.ResepNomor IS NOT NULL" & vbCrLf
+        sql &= "      AND TP.UploadSatuSehat = '1'" & vbCrLf
+        sql &= "      AND SLTR.ResourceType = 'Encounter'" & vbCrLf
+        sql &= "      AND SLM.ResourceID IS NOT NULL" & vbCrLf
+        sql &= "      AND SLM.ResourceID <> ''" & vbCrLf
+        sql &= "      AND TBO.UploadSatuSehat = '0'" & vbCrLf
+        sql &= "    GROUP BY TD.NoUrut, TP.ResepNomor, SLTR.ResourceID, MP.Nama, MP.NoIHS, TP.DokterPoli, MD.NoIHS," & vbCrLf
+        sql &= "             TBO.ObatNama, TBO.Jumlah, TBR.Signa1, TBR.Signa2, TBR.AturanPakai, TBR.Catatan," & vbCrLf
+        sql &= "             SLM.ResourceID, MOK.POA, MOK.BahanBakuSatuan, MOK.BahanBakuCode, TBO.CreatedDate," & vbCrLf
+        sql &= "             MOK.KodePemberian, MOK.KeteranganPemberian" & vbCrLf
+        sql &= ") AS X"
+
+        Dim dtCek As DataTable = ReadSQL(sql)
 
         If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
             Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
@@ -624,13 +646,11 @@ Public Class FormObservation
         Dim maxRetry As Integer = 3
 
         Dim grouped = tbls.AsEnumerable().GroupBy(Function(r) r("NoUrut").ToString())
-
-        'Tambahkan counter untuk menghitung berapa data sudah dikirim
         Dim counter As Integer = 0
 
         For Each group In grouped
             If isStopRequested Then Exit For
-            counter += 1 ' tambah counter setiap resep
+            counter += 1
 
             Dim resepNomor As String = group.First()("ResepNomor").ToString()
             Dim encounterId As String = group.First()("Encounter").ToString()
@@ -697,12 +717,12 @@ Public Class FormObservation
                 obat("keterangan") = row("KeteranganTambahan").ToString()
                 obat("instruksiKode") = row("KodePemberian").ToString()
                 obat("instruksiDisplay") = row("KeteranganPemberian").ToString()
+                obat("linkSystem") = row("LinkSystem").ToString()
                 listObat.Add(obat)
             Next
             data("obat") = listObat
 
             Dim json As String = JsonConvert.SerializeObject(data, Formatting.None)
-
             Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
             Dim apiUrl As String = baseURL & "api/medicationRequest"
 
@@ -713,14 +733,19 @@ Public Class FormObservation
             Do
                 retryCount += 1
                 response = InsertDataAPIRM(json, apiUrl)
+
                 Try
                     Dim rowJson As JObject = JObject.Parse(response)
                     Dim status As String = rowJson("status").ToString().Trim().ToLower()
+
+                    'jika "success"
                     If status = "success" Then
                         success = True
-                        worker.ReportProgress(0, "[MedicationRequest] " & resepNomor & " berhasil dikirim ke SATUSEHAT.")
+                        worker.ReportProgress(0, "[MedicationRequest] " & resepNomor & " sukses dikirim ke SATUSEHAT.")
                         For Each resp As JObject In rowJson("responses")
                             Dim respStatus As String = resp("status").ToString()
+
+                            ' ✅ Jika sukses 200 / 201
                             If respStatus = "200" OrElse respStatus = "201" Then
                                 Dim resourceId As String = resp("body")("id").ToString()
                                 InsertLogMedicationRequest(resepNomor, resourceId, encounterId, respStatus)
@@ -728,12 +753,50 @@ Public Class FormObservation
                                     Dim obatId As String = row("ObatID").ToString()
                                     UpdateUploadStatusMedicationRequest(noTransaksi, obatId)
                                 Next
+
+                                'Jika error lain
+                            Else
+                                Dim errBody As String = If(resp("body") IsNot Nothing, resp("body").ToString(), "")
+                                Dim isDuplicate As Boolean = False
+
+                                'Deteksi error duplicate dari response JSON
+                                Try
+                                    Dim errJson As JObject = JObject.Parse(errBody)
+                                    Dim issues = errJson("issue")
+                                    If issues IsNot Nothing Then
+                                        For Each issue As JObject In issues
+                                            If issue("code") IsNot Nothing AndAlso issue("code").ToString().ToLower() = "duplicate" Then
+                                                isDuplicate = True
+                                                Exit For
+                                            End If
+                                        Next
+                                    End If
+                                Catch
+                                    ' abaikan jika tidak bisa parse
+                                End Try
+
+                                'Jika duplicate → tetap anggap berhasil
+                                If isDuplicate Then
+                                    worker.ReportProgress(0, "[MedicationRequest] DUPLICATE terdeteksi untuk resep " & resepNomor & ", ditandai sukses (UploadSatuSehat=1).")
+                                    InsertLogMedicationRequest(resepNomor, "-", encounterId, "Duplicate")
+                                    For Each row As DataRow In group
+                                        Dim obatId As String = row("ObatID").ToString()
+                                        UpdateUploadStatusMedicationRequest(noTransaksi, obatId)
+                                    Next
+                                Else
+                                    worker.ReportProgress(0, "[MedicationRequest] ERROR " & respStatus & " untuk resep " & resepNomor & ": " & errBody)
+                                    InsertLogMedicationRequest(resepNomor, "-", encounterId, "Error " & respStatus)
+                                End If
                             End If
                         Next
+                    Else
+                        worker.ReportProgress(0, "[MedicationRequest] Status tidak success untuk resep " & resepNomor & ": " & response)
                     End If
+
                 Catch ex As Exception
                     worker.ReportProgress(0, "[MedicationRequest] Exception: " & ex.Message & " | Raw: " & response)
                 End Try
+
                 If Not success Then Threading.Thread.Sleep(2000)
             Loop While Not success AndAlso retryCount < maxRetry
 
@@ -746,7 +809,7 @@ Public Class FormObservation
             worker.ReportProgress(percent)
             Threading.Thread.Sleep(300)
 
-            'Delay tambahan setiap 50 data
+            'Delay tambahan tiap 50 data
             If counter Mod 50 = 0 Then
                 worker.ReportProgress(0, "[MedicationRequest] Delay 5 detik setelah kirim 50 data...")
                 Threading.Thread.Sleep(5000)

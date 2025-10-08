@@ -3,10 +3,11 @@ Version : 2.0.0.55 ()
 # [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
 # [New Feature] Penambahan Nama Dokter GIGI pada Surat Keterangan Istirahat
 # [New Feature] Penambahan Fitur Kirim Observasi/Observations ke SATUSEHAT
-# [New Feature] Penambahan Fitur Kirim Tindakan/Procdures ke SATUSEHAT
+# [New Feature] Penambahan Fitur Kirim Tindakan/Procedures ke SATUSEHAT
 # [New Feature] Penambahan Fitur Mapping ICD-9-CM untuk Master Tindakan
 # [New Feature] Penambahan Fitur Mapping Obat KFA
-# [New Feature] Penambahan Fitur Kirim Obat Lokal yang terstandarisasi KFA ke SATUSEHAT
+# [New Feature] Penambahan Fitur Kirim Medication/Obat Lokal yang terstandarisasi KFA ke SATUSEHAT
+# [New Feature] Penambahan Fitur Kirim Medication Request/Permintaan Obat ke SATUSEHAT
 # [Usability Improvement] Penyesuaian Signa2 pada obat yang dapat menampung angka decimal
 # [Bug Fix] Memperbaiki Error saat menampilkan Priview IC pada Tindakan
 
