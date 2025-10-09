@@ -806,8 +806,13 @@ Public Class FormObservation
 
             ' --- Progress ---
             Dim percent As Integer = CInt(Math.Floor(((tbls.Rows.IndexOf(group.First()) + 1) * 100.0) / total))
-            worker.ReportProgress(percent)
-            Threading.Thread.Sleep(300)
+            If counter Mod 10 = 0 Or counter = total Then
+                worker.ReportProgress(percent, "[MedicationRequest] Proses ke-" & counter & " dari " & total)
+            Else
+                worker.ReportProgress(percent)
+            End If
+
+            Threading.Thread.Sleep(100)
 
             'Delay tambahan tiap 50 data
             If counter Mod 50 = 0 Then
@@ -1336,19 +1341,57 @@ Public Class FormObservation
     End Sub
 
     ' === ProgressChanged → update UI thread untuk Medication Request ===
+    'Private Sub bgWorkerMedicationRequest_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerMedicationRequest.ProgressChanged
+    '    If e.ProgressPercentage > 0 Then
+    '        UpdateProgress(e.ProgressPercentage) ' update progress bar
+    '    End If
+
+    '    Dim jumlah As Integer = GetJumlahTransaksiMedicationRequest() ' fungsi hitung transaksi Procedure
+    '    LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Medication Request"
+
+    '    Dim jumlahData As Integer = GetJumlahDataMedicationRequest() ' fungsi hitung data Procedure
+    '    LabelData.Text = jumlahData.ToString() & " Data Medication Request"
+
+    '    If e.UserState IsNot Nothing Then
+    '        TextBoxResponse.AppendText(e.UserState.ToString() & Environment.NewLine)
+    '    End If
+    'End Sub
+
+    ' Fungsi bantuan
+    Private Sub AppendTextSafe(ByVal msg As String)
+        TextBoxResponse.AppendText(msg & Environment.NewLine)
+    End Sub
+
     Private Sub bgWorkerMedicationRequest_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerMedicationRequest.ProgressChanged
+        ' Update progress bar
         If e.ProgressPercentage > 0 Then
-            UpdateProgress(e.ProgressPercentage) ' update progress bar
+            UpdateProgress(e.ProgressPercentage)
         End If
 
-        Dim jumlah As Integer = GetJumlahTransaksiMedicationRequest() ' fungsi hitung transaksi Procedure
-        LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Medication Request"
-
-        Dim jumlahData As Integer = GetJumlahDataMedicationRequest() ' fungsi hitung data Procedure
-        LabelData.Text = jumlahData.ToString() & " Data Medication Request"
-
+        ' Update TextBox response secara aman (cross-thread safe)
         If e.UserState IsNot Nothing Then
-            TextBoxResponse.AppendText(e.UserState.ToString() & Environment.NewLine)
+            Dim msg As String = e.UserState.ToString()
+            If TextBoxResponse.InvokeRequired Then
+                ' Invoke dengan Action(Of String) — aman & melewatkan parameter
+                TextBoxResponse.Invoke(New Action(Of String)(AddressOf AppendTextSafe), msg)
+            Else
+                AppendTextSafe(msg)
+            End If
+        End If
+
+        ' Hindari query berat setiap progress → update hanya tiap 10%
+        Static lastUpdate As Integer = 0
+        If e.ProgressPercentage - lastUpdate >= 10 Or e.ProgressPercentage = 100 Then
+            lastUpdate = e.ProgressPercentage
+            Try
+                Dim jumlah As Integer = GetJumlahTransaksiMedicationRequest()
+                Dim jumlahData As Integer = GetJumlahDataMedicationRequest()
+
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Medication Request"
+                LabelData.Text = jumlahData.ToString() & " Data Medication Request"
+            Catch ex As Exception
+                ' Abaikan error ringan (misal koneksi DB lambat)
+            End Try
         End If
     End Sub
 
