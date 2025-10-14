@@ -1,4 +1,4 @@
-Version : 2.0.0.55 ()
+Version : 2.0.0.55 (14 Oktober 2025)
 # [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
 # [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
 # [New Feature] Penambahan Nama Dokter GIGI pada Surat Keterangan Istirahat
