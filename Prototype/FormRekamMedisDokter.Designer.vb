@@ -623,6 +623,13 @@ Me.TabObjektifPemeriksaanLab = New System.Windows.Forms.TabPage
 Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
 Me.Label118 = New System.Windows.Forms.Label
 Me.Panel5 = New System.Windows.Forms.Panel
+Me.ButtonHapusPDF = New System.Windows.Forms.Button
+Me.Label358 = New System.Windows.Forms.Label
+Me.ComboBoxTampilPDF = New System.Windows.Forms.ComboBox
+Me.AxAcroPDF1 = New AxAcroPDFLib.AxAcroPDF
+Me.ButtonUploadPDF = New System.Windows.Forms.Button
+Me.TextBoxNamaPDF = New System.Windows.Forms.TextBox
+Me.Label357 = New System.Windows.Forms.Label
 Me.Label139 = New System.Windows.Forms.Label
 Me.Panel13 = New System.Windows.Forms.Panel
 Me.RadioButton1 = New System.Windows.Forms.RadioButton
@@ -632,6 +639,9 @@ Me.ButtonPreviewHasilLab = New System.Windows.Forms.Button
 Me.TabObjektifGambar = New System.Windows.Forms.TabPage
 Me.SplitContainer11 = New System.Windows.Forms.SplitContainer
 Me.ButtonSimpanGambar = New System.Windows.Forms.Button
+Me.GroupBox7 = New System.Windows.Forms.GroupBox
+Me.RbJenisLab = New System.Windows.Forms.RadioButton
+Me.RbJenisUmum = New System.Windows.Forms.RadioButton
 Me.TextBoxKeterangan = New System.Windows.Forms.TextBox
 Me.GroupBox5 = New System.Windows.Forms.GroupBox
 Me.RadioButtonAfter = New System.Windows.Forms.RadioButton
@@ -777,6 +787,8 @@ Me.ComboBoxJenisSuratKeterangan = New System.Windows.Forms.ComboBox
 Me.Label115 = New System.Windows.Forms.Label
 Me.TabControlSuratKeterangan = New System.Windows.Forms.TabControl
 Me.TabPageSuratKeteranganDokter = New System.Windows.Forms.TabPage
+Me.Label356 = New System.Windows.Forms.Label
+Me.Label355 = New System.Windows.Forms.Label
 Me.Label354 = New System.Windows.Forms.Label
 Me.TextBoxKeteranganCostom = New System.Windows.Forms.TextBox
 Me.ComboBoxButaWarnaSuratSehat = New System.Windows.Forms.ComboBox
@@ -1264,8 +1276,8 @@ Me.Label330 = New System.Windows.Forms.Label
 Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
-Me.Label355 = New System.Windows.Forms.Label
-Me.Label356 = New System.Windows.Forms.Label
+Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+Me.RadioButtonPDF = New System.Windows.Forms.RadioButton
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -1389,11 +1401,13 @@ Me.SplitContainer1.Panel1.SuspendLayout
 Me.SplitContainer1.Panel2.SuspendLayout
 Me.SplitContainer1.SuspendLayout
 Me.Panel5.SuspendLayout
+CType(Me.AxAcroPDF1,System.ComponentModel.ISupportInitialize).BeginInit
 Me.Panel13.SuspendLayout
 Me.TabObjektifGambar.SuspendLayout
 Me.SplitContainer11.Panel1.SuspendLayout
 Me.SplitContainer11.Panel2.SuspendLayout
 Me.SplitContainer11.SuspendLayout
+Me.GroupBox7.SuspendLayout
 Me.GroupBox5.SuspendLayout
 CType(Me.PictureBoxPreview,System.ComponentModel.ISupportInitialize).BeginInit
 CType(Me.PBGambar,System.ComponentModel.ISupportInitialize).BeginInit
@@ -2350,7 +2364,7 @@ Me.ButtonDelete.BackColor = System.Drawing.Color.Transparent
 Me.ButtonDelete.BackgroundImage = Global.PoliKlinik_Net2.My.Resources.Resources.icons8_close_window_30
 Me.ButtonDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
 Me.ButtonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-Me.ButtonDelete.Location = New System.Drawing.Point(709, 58)
+Me.ButtonDelete.Location = New System.Drawing.Point(789, 58)
 Me.ButtonDelete.Name = "ButtonDelete"
 Me.ButtonDelete.Size = New System.Drawing.Size(31, 32)
 Me.ButtonDelete.TabIndex = 532
@@ -8851,6 +8865,13 @@ Me.Label118.Text = "Data Pemeriksaan Laboratorium"
 'Panel5
 '
 Me.Panel5.AutoScroll = true
+Me.Panel5.Controls.Add(Me.ButtonHapusPDF)
+Me.Panel5.Controls.Add(Me.Label358)
+Me.Panel5.Controls.Add(Me.ComboBoxTampilPDF)
+Me.Panel5.Controls.Add(Me.AxAcroPDF1)
+Me.Panel5.Controls.Add(Me.ButtonUploadPDF)
+Me.Panel5.Controls.Add(Me.TextBoxNamaPDF)
+Me.Panel5.Controls.Add(Me.Label357)
 Me.Panel5.Controls.Add(Me.Label139)
 Me.Panel5.Controls.Add(Me.Panel13)
 Me.Panel5.Controls.Add(Me.ButtonPreviewHasilLab)
@@ -8860,11 +8881,95 @@ Me.Panel5.Name = "Panel5"
 Me.Panel5.Size = New System.Drawing.Size(850, 325)
 Me.Panel5.TabIndex = 0
 '
+'ButtonHapusPDF
+'
+Me.ButtonHapusPDF.BackColor = System.Drawing.Color.White
+Me.ButtonHapusPDF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonHapusPDF.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonHapusPDF.FlatAppearance.BorderColor = System.Drawing.Color.Red
+Me.ButtonHapusPDF.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red
+Me.ButtonHapusPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(128,Byte),Integer), CType(CType(128,Byte),Integer))
+Me.ButtonHapusPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonHapusPDF.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonHapusPDF.ForeColor = System.Drawing.Color.Red
+Me.ButtonHapusPDF.Location = New System.Drawing.Point(138, 244)
+Me.ButtonHapusPDF.Name = "ButtonHapusPDF"
+Me.ButtonHapusPDF.Size = New System.Drawing.Size(125, 30)
+Me.ButtonHapusPDF.TabIndex = 528
+Me.ButtonHapusPDF.Text = "Hapus PDF"
+Me.ButtonHapusPDF.UseVisualStyleBackColor = false
+'
+'Label358
+'
+Me.Label358.AutoSize = true
+Me.Label358.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.Label358.Location = New System.Drawing.Point(16, 216)
+Me.Label358.Name = "Label358"
+Me.Label358.Size = New System.Drawing.Size(83, 17)
+Me.Label358.TabIndex = 527
+Me.Label358.Text = "Preview PDF"
+'
+'ComboBoxTampilPDF
+'
+Me.ComboBoxTampilPDF.FormattingEnabled = true
+Me.ComboBoxTampilPDF.Location = New System.Drawing.Point(138, 213)
+Me.ComboBoxTampilPDF.Name = "ComboBoxTampilPDF"
+Me.ComboBoxTampilPDF.Size = New System.Drawing.Size(335, 25)
+Me.ComboBoxTampilPDF.TabIndex = 526
+'
+'AxAcroPDF1
+'
+Me.AxAcroPDF1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+Me.AxAcroPDF1.Enabled = true
+Me.AxAcroPDF1.Location = New System.Drawing.Point(508, 0)
+Me.AxAcroPDF1.Name = "AxAcroPDF1"
+Me.AxAcroPDF1.OcxState = CType(resources.GetObject("AxAcroPDF1.OcxState"),System.Windows.Forms.AxHost.State)
+Me.AxAcroPDF1.Size = New System.Drawing.Size(342, 325)
+Me.AxAcroPDF1.TabIndex = 525
+Me.AxAcroPDF1.UseWaitCursor = true
+'
+'ButtonUploadPDF
+'
+Me.ButtonUploadPDF.BackColor = System.Drawing.Color.White
+Me.ButtonUploadPDF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonUploadPDF.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonUploadPDF.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUploadPDF.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUploadPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81,Byte),Integer), CType(CType(168,Byte),Integer), CType(CType(255,Byte),Integer))
+Me.ButtonUploadPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonUploadPDF.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonUploadPDF.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUploadPDF.Location = New System.Drawing.Point(138, 155)
+Me.ButtonUploadPDF.Name = "ButtonUploadPDF"
+Me.ButtonUploadPDF.Size = New System.Drawing.Size(125, 30)
+Me.ButtonUploadPDF.TabIndex = 524
+Me.ButtonUploadPDF.Text = "Upload PDF"
+Me.ButtonUploadPDF.UseVisualStyleBackColor = false
+'
+'TextBoxNamaPDF
+'
+Me.TextBoxNamaPDF.Location = New System.Drawing.Point(138, 124)
+Me.TextBoxNamaPDF.Name = "TextBoxNamaPDF"
+Me.TextBoxNamaPDF.Size = New System.Drawing.Size(335, 25)
+Me.TextBoxNamaPDF.TabIndex = 523
+'
+'Label357
+'
+Me.Label357.AutoSize = true
+Me.Label357.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.Label357.Location = New System.Drawing.Point(16, 127)
+Me.Label357.Name = "Label357"
+Me.Label357.Size = New System.Drawing.Size(108, 17)
+Me.Label357.TabIndex = 522
+Me.Label357.Text = "Attachment PDF"
+'
 'Label139
 '
 Me.Label139.AutoSize = true
 Me.Label139.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-Me.Label139.Location = New System.Drawing.Point(15, 35)
+Me.Label139.Location = New System.Drawing.Point(16, 35)
 Me.Label139.Name = "Label139"
 Me.Label139.Size = New System.Drawing.Size(118, 17)
 Me.Label139.TabIndex = 520
@@ -8877,7 +8982,7 @@ Me.Panel13.Controls.Add(Me.RadioButton1)
 Me.Panel13.Controls.Add(Me.RadioButtonLaboratorium)
 Me.Panel13.Controls.Add(Me.RadioButton4)
 Me.Panel13.Font = New System.Drawing.Font("Segoe UI", 9.75!)
-Me.Panel13.Location = New System.Drawing.Point(139, 30)
+Me.Panel13.Location = New System.Drawing.Point(138, 30)
 Me.Panel13.Name = "Panel13"
 Me.Panel13.Size = New System.Drawing.Size(326, 25)
 Me.Panel13.TabIndex = 521
@@ -8928,7 +9033,7 @@ Me.ButtonPreviewHasilLab.FlatAppearance.MouseOverBackColor = System.Drawing.Colo
 Me.ButtonPreviewHasilLab.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 Me.ButtonPreviewHasilLab.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ButtonPreviewHasilLab.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
-Me.ButtonPreviewHasilLab.Location = New System.Drawing.Point(144, 61)
+Me.ButtonPreviewHasilLab.Location = New System.Drawing.Point(138, 61)
 Me.ButtonPreviewHasilLab.Name = "ButtonPreviewHasilLab"
 Me.ButtonPreviewHasilLab.Size = New System.Drawing.Size(125, 30)
 Me.ButtonPreviewHasilLab.TabIndex = 446
@@ -8962,6 +9067,7 @@ Me.SplitContainer11.Panel1.Controls.Add(Me.ButtonSimpanGambar)
 '
 Me.SplitContainer11.Panel2.AutoScroll = true
 Me.SplitContainer11.Panel2.BackColor = System.Drawing.Color.White
+Me.SplitContainer11.Panel2.Controls.Add(Me.GroupBox7)
 Me.SplitContainer11.Panel2.Controls.Add(Me.ButtonDelete)
 Me.SplitContainer11.Panel2.Controls.Add(Me.TextBoxKeterangan)
 Me.SplitContainer11.Panel2.Controls.Add(Me.GroupBox5)
@@ -8992,6 +9098,39 @@ Me.ButtonSimpanGambar.TabIndex = 447
 Me.ButtonSimpanGambar.Text = " Simpan Gambar"
 Me.ButtonSimpanGambar.UseVisualStyleBackColor = false
 '
+'GroupBox7
+'
+Me.GroupBox7.Controls.Add(Me.RbJenisLab)
+Me.GroupBox7.Controls.Add(Me.RbJenisUmum)
+Me.GroupBox7.Location = New System.Drawing.Point(262, 52)
+Me.GroupBox7.Name = "GroupBox7"
+Me.GroupBox7.Size = New System.Drawing.Size(99, 141)
+Me.GroupBox7.TabIndex = 533
+Me.GroupBox7.TabStop = false
+Me.GroupBox7.Text = "Jenis"
+'
+'RbJenisLab
+'
+Me.RbJenisLab.AutoSize = true
+Me.RbJenisLab.Location = New System.Drawing.Point(6, 83)
+Me.RbJenisLab.Name = "RbJenisLab"
+Me.RbJenisLab.Size = New System.Drawing.Size(49, 21)
+Me.RbJenisLab.TabIndex = 1
+Me.RbJenisLab.TabStop = true
+Me.RbJenisLab.Text = "LAB"
+Me.RbJenisLab.UseVisualStyleBackColor = true
+'
+'RbJenisUmum
+'
+Me.RbJenisUmum.AutoSize = true
+Me.RbJenisUmum.Location = New System.Drawing.Point(6, 37)
+Me.RbJenisUmum.Name = "RbJenisUmum"
+Me.RbJenisUmum.Size = New System.Drawing.Size(68, 21)
+Me.RbJenisUmum.TabIndex = 0
+Me.RbJenisUmum.TabStop = true
+Me.RbJenisUmum.Text = "UMUM"
+Me.RbJenisUmum.UseVisualStyleBackColor = true
+'
 'TextBoxKeterangan
 '
 Me.TextBoxKeterangan.BackColor = System.Drawing.Color.White
@@ -9010,7 +9149,7 @@ Me.GroupBox5.Controls.Add(Me.RadioButtonAfter)
 Me.GroupBox5.Controls.Add(Me.RadioButtonBefore)
 Me.GroupBox5.Location = New System.Drawing.Point(45, 9)
 Me.GroupBox5.Name = "GroupBox5"
-Me.GroupBox5.Size = New System.Drawing.Size(155, 47)
+Me.GroupBox5.Size = New System.Drawing.Size(210, 47)
 Me.GroupBox5.TabIndex = 530
 Me.GroupBox5.TabStop = false
 Me.GroupBox5.Text = "Pemeriksaan"
@@ -9018,7 +9157,7 @@ Me.GroupBox5.Text = "Pemeriksaan"
 'RadioButtonAfter
 '
 Me.RadioButtonAfter.AutoSize = true
-Me.RadioButtonAfter.Location = New System.Drawing.Point(90, 20)
+Me.RadioButtonAfter.Location = New System.Drawing.Point(112, 20)
 Me.RadioButtonAfter.Name = "RadioButtonAfter"
 Me.RadioButtonAfter.Size = New System.Drawing.Size(56, 21)
 Me.RadioButtonAfter.TabIndex = 1
@@ -9040,7 +9179,7 @@ Me.RadioButtonBefore.UseVisualStyleBackColor = true
 'Label317
 '
 Me.Label317.AutoSize = true
-Me.Label317.Location = New System.Drawing.Point(286, 31)
+Me.Label317.Location = New System.Drawing.Point(364, 39)
 Me.Label317.Name = "Label317"
 Me.Label317.Size = New System.Drawing.Size(215, 17)
 Me.Label317.TabIndex = 529
@@ -9051,7 +9190,7 @@ Me.Label317.Text = "Gambar Pemeriksaan Sebelumnya"
 Me.ComboBoxKeterangan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxKeterangan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxKeterangan.FormattingEnabled = true
-Me.ComboBoxKeterangan.Location = New System.Drawing.Point(503, 62)
+Me.ComboBoxKeterangan.Location = New System.Drawing.Point(583, 62)
 Me.ComboBoxKeterangan.Name = "ComboBoxKeterangan"
 Me.ComboBoxKeterangan.Size = New System.Drawing.Size(200, 25)
 Me.ComboBoxKeterangan.TabIndex = 528
@@ -9060,7 +9199,7 @@ Me.ComboBoxKeterangan.TabIndex = 528
 '
 Me.PictureBoxPreview.BackColor = System.Drawing.SystemColors.Window
 Me.PictureBoxPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-Me.PictureBoxPreview.Location = New System.Drawing.Point(287, 62)
+Me.PictureBoxPreview.Location = New System.Drawing.Point(367, 62)
 Me.PictureBoxPreview.Name = "PictureBoxPreview"
 Me.PictureBoxPreview.Size = New System.Drawing.Size(210, 252)
 Me.PictureBoxPreview.TabIndex = 527
@@ -11154,6 +11293,30 @@ Me.TabPageSuratKeteranganDokter.Size = New System.Drawing.Size(848, 310)
 Me.TabPageSuratKeteranganDokter.TabIndex = 0
 Me.TabPageSuratKeteranganDokter.Text = "SK Dokter"
 Me.TabPageSuratKeteranganDokter.UseVisualStyleBackColor = true
+'
+'Label356
+'
+Me.Label356.AutoSize = true
+Me.Label356.BackColor = System.Drawing.Color.Transparent
+Me.Label356.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label356.ForeColor = System.Drawing.Color.Red
+Me.Label356.Location = New System.Drawing.Point(493, 224)
+Me.Label356.Name = "Label356"
+Me.Label356.Size = New System.Drawing.Size(279, 13)
+Me.Label356.TabIndex = 516
+Me.Label356.Text = "Tanda koma (,) digunakan untuk membuat baris baru"
+'
+'Label355
+'
+Me.Label355.AutoSize = true
+Me.Label355.BackColor = System.Drawing.Color.Transparent
+Me.Label355.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label355.ForeColor = System.Drawing.Color.Red
+Me.Label355.Location = New System.Drawing.Point(493, 207)
+Me.Label355.Name = "Label355"
+Me.Label355.Size = New System.Drawing.Size(35, 13)
+Me.Label355.TabIndex = 515
+Me.Label355.Text = "Note:"
 '
 'Label354
 '
@@ -16187,6 +16350,7 @@ Me.SplitContainerRiwayatLaboratorium.Orientation = System.Windows.Forms.Orientat
 'SplitContainerRiwayatLaboratorium.Panel1
 '
 Me.SplitContainerRiwayatLaboratorium.Panel1.AutoScroll = true
+Me.SplitContainerRiwayatLaboratorium.Panel1.Controls.Add(Me.RadioButtonPDF)
 Me.SplitContainerRiwayatLaboratorium.Panel1.Controls.Add(Me.RadioButtonCekStik)
 Me.SplitContainerRiwayatLaboratorium.Panel1.Controls.Add(Me.TextBoxKodeTindakanRiwayatLaboratorium)
 Me.SplitContainerRiwayatLaboratorium.Panel1.Controls.Add(Me.TextBoxNamaTindakanRiwayatLaboratorium)
@@ -17147,29 +17311,21 @@ Me.Label334.Text = "No Surat"
 '
 Me.TimerAPI.Interval = 60000
 '
-'Label355
+'OpenFileDialog1
 '
-Me.Label355.AutoSize = true
-Me.Label355.BackColor = System.Drawing.Color.Transparent
-Me.Label355.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label355.ForeColor = System.Drawing.Color.Red
-Me.Label355.Location = New System.Drawing.Point(493, 207)
-Me.Label355.Name = "Label355"
-Me.Label355.Size = New System.Drawing.Size(35, 13)
-Me.Label355.TabIndex = 515
-Me.Label355.Text = "Note:"
+Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
-'Label356
+'RadioButtonPDF
 '
-Me.Label356.AutoSize = true
-Me.Label356.BackColor = System.Drawing.Color.Transparent
-Me.Label356.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label356.ForeColor = System.Drawing.Color.Red
-Me.Label356.Location = New System.Drawing.Point(493, 224)
-Me.Label356.Name = "Label356"
-Me.Label356.Size = New System.Drawing.Size(279, 13)
-Me.Label356.TabIndex = 516
-Me.Label356.Text = "Tanda koma (,) digunakan untuk membuat baris baru"
+Me.RadioButtonPDF.AutoSize = true
+Me.RadioButtonPDF.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+Me.RadioButtonPDF.Location = New System.Drawing.Point(519, 76)
+Me.RadioButtonPDF.Name = "RadioButtonPDF"
+Me.RadioButtonPDF.Size = New System.Drawing.Size(80, 21)
+Me.RadioButtonPDF.TabIndex = 536
+Me.RadioButtonPDF.Tag = "10"
+Me.RadioButtonPDF.Text = "Hasil PDF"
+Me.RadioButtonPDF.UseVisualStyleBackColor = true
 '
 'FormRekamMedisDokter
 '
@@ -17361,6 +17517,7 @@ Me.SplitContainer1.Panel2.ResumeLayout(false)
 Me.SplitContainer1.ResumeLayout(false)
 Me.Panel5.ResumeLayout(false)
 Me.Panel5.PerformLayout
+CType(Me.AxAcroPDF1,System.ComponentModel.ISupportInitialize).EndInit
 Me.Panel13.ResumeLayout(false)
 Me.Panel13.PerformLayout
 Me.TabObjektifGambar.ResumeLayout(false)
@@ -17368,6 +17525,8 @@ Me.SplitContainer11.Panel1.ResumeLayout(false)
 Me.SplitContainer11.Panel2.ResumeLayout(false)
 Me.SplitContainer11.Panel2.PerformLayout
 Me.SplitContainer11.ResumeLayout(false)
+Me.GroupBox7.ResumeLayout(false)
+Me.GroupBox7.PerformLayout
 Me.GroupBox5.ResumeLayout(false)
 Me.GroupBox5.PerformLayout
 CType(Me.PictureBoxPreview,System.ComponentModel.ISupportInitialize).EndInit
@@ -18805,4 +18964,16 @@ End Sub
     Friend WithEvents Label354 As System.Windows.Forms.Label
     Friend WithEvents Label356 As System.Windows.Forms.Label
     Friend WithEvents Label355 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
+    Friend WithEvents RbJenisLab As System.Windows.Forms.RadioButton
+    Friend WithEvents RbJenisUmum As System.Windows.Forms.RadioButton
+    Friend WithEvents ButtonUploadPDF As System.Windows.Forms.Button
+    Friend WithEvents TextBoxNamaPDF As System.Windows.Forms.TextBox
+    Friend WithEvents Label357 As System.Windows.Forms.Label
+    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents AxAcroPDF1 As AxAcroPDFLib.AxAcroPDF
+    Friend WithEvents Label358 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxTampilPDF As System.Windows.Forms.ComboBox
+    Friend WithEvents ButtonHapusPDF As System.Windows.Forms.Button
+    Friend WithEvents RadioButtonPDF As System.Windows.Forms.RadioButton
 End Class

@@ -3460,3 +3460,7 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.Mapp
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.PopupICD9.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.MappingObatKFA.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.PopupObatLokal.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\Interop.AcroPDFLib.dll
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\AxInterop.AcroPDFLib.dll
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\Interop.AcroPDFLib.dll
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\AxInterop.AcroPDFLib.dll

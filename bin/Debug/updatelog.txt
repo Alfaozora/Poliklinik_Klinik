@@ -1,3 +1,8 @@
+Version : 2.0.0.56 ()
+# [Usability Improvement] Penambahan Jenis Gambar pada Upload Gambar
+# [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
+# [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
+
 Version : 2.0.0.55 (14 Oktober 2025)
 # [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
 # [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
