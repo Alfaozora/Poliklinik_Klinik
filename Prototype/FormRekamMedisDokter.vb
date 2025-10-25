@@ -13121,8 +13121,12 @@ Public Class FormRekamMedisDokter
 
         Dim statusAPI As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'status_ws_RM' ")
 
-        If statusAPI IsNot Nothing AndAlso statusAPI = "Yes" Then
-            SendToApiGetUrl(idPasien)
+        Dim result As DialogResult = MessageBox.Show("Apakah Anda ingin mengirim data ke Whatsapp pasien?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            If statusAPI IsNot Nothing AndAlso statusAPI = "Yes" Then
+                SendToApiGetUrl(idPasien)
+            End If
         End If
     End Sub
 
