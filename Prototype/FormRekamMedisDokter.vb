@@ -13323,20 +13323,21 @@ Public Class FormRekamMedisDokter
 
             ' Simpan path ke database
             Dim sql As String = "INSERT INTO UploadPDF (NoUrut, NoRM, FilePath, NamaFile, CreatedBy, CreatedDate) " & _
-                            "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & targetPath.Replace("'", "''") & "', '" & fileName.Replace("'", "''") & "', '" & userInput & "', GETDATE())"
-            WriteSQL(Sql, 4)
+                                "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & targetPath.Replace("'", "''") & "', '" & _
+                                fileName.Replace("'", "''") & "', '" & userInput & "', GETDATE())"
+            WriteSQL(sql, 4)
 
             MessageBox.Show("File PDF berhasil diunggah.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            AxAcroPDF1.LoadFile(targetPath)
-            AxAcroPDF1.setView("FitH")
-            AxAcroPDF1.setShowToolbar(False)
-            AxAcroPDF1.Visible = True
-            AxAcroPDF1.setShowScrollbars(True)
-            AxAcroPDF1.setLayoutMode("SinglePage")
-            ' ===============================================================
+            ' === Buka file PDF di browser default ===
+            Try
+                System.Diagnostics.Process.Start(targetPath)
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
 
-            MessageBox.Show("File PDF berhasil diunggah dan ditampilkan.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ' ===============================================================
+            MessageBox.Show("File PDF berhasil diunggah dan dibuka di browser.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
         End If
@@ -13356,9 +13357,12 @@ Public Class FormRekamMedisDokter
         If ComboBoxTampilPDF.SelectedValue IsNot Nothing Then
             Dim pathPDF As String = ComboBoxTampilPDF.SelectedValue.ToString()
             If IO.File.Exists(pathPDF) Then
-                AxAcroPDF1.LoadFile(pathPDF)
-                AxAcroPDF1.setView("FitH")
-                AxAcroPDF1.setShowToolbar(False)
+                Try
+                    ' Buka file PDF di browser default
+                    System.Diagnostics.Process.Start(pathPDF)
+                Catch ex As Exception
+                    MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
             Else
                 MessageBox.Show("File PDF tidak ditemukan di folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
@@ -13388,7 +13392,18 @@ Public Class FormRekamMedisDokter
 
             ' Refresh daftar PDF
             Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
-            AxAcroPDF1.src = Nothing
+
+            ' Hapus tampilan PDF di AxAcroPDF (tidak digunakan lagi)
+            ' AxAcroPDF1.src = Nothing
+
+            ' Jika ingin tampilkan di browser (opsional untuk cek)
+            Try
+                If IO.File.Exists(filePath) Then
+                    Process.Start(New ProcessStartInfo(filePath) With {.UseShellExecute = True})
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 End Class
