@@ -6406,6 +6406,35 @@ Public Class FormRekamMedisDokter
                 SplitContainerRujukanHeader.Panel2Collapsed = False
                 PanelRujukanHeader.Visible = True
                 PanelRujukanNonBPJS.Visible = False
+
+                ' --- Ambil data rujukan terakhir ---
+                Dim sqlRujuk As String = "" & _
+                    "SELECT TOP 1 " & _
+                        "TDR.KeteranganPPK, " & _
+                        "TDR.KeteranganSubSpesialis, " & _
+                        "TDR.TanggalRujukan " & _
+                    "FROM TransaksiDetail TD " & _
+                    "INNER JOIN TransaksiDetailRujukan TDR " & _
+                        "ON TD.NoUrut = TDR.NoTransaksi " & _
+                    "WHERE TD.IDInternet = '" & idPasien & "' " & _
+                    "ORDER BY TDR.TanggalRujukan DESC"
+
+                Dim dtCheck As DataTable = ReadSQL(sqlRujuk)
+
+                If dtCheck.Rows.Count > 0 Then
+                    Dim keteranganPPK As String = dtCheck.Rows(0)("KeteranganPPK").ToString()
+                    Dim subSpesialis As String = dtCheck.Rows(0)("KeteranganSubSpesialis").ToString()
+                    Dim tanggalRujukan As String = Format(CDate(dtCheck.Rows(0)("TanggalRujukan")), "dd MMM yyyy")
+
+                    MessageBox.Show("Pasien pernah dirujuk sebelumnya:" & vbCrLf & _
+                        "PPK: " & keteranganPPK & vbCrLf & _
+                        "Sub Spesialis: " & subSpesialis & vbCrLf & _
+                        "Tanggal Rujukan: " & tanggalRujukan, _
+                        "Informasi Rujukan Terakhir", _
+                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("Tidak ditemukan riwayat rujukan sebelumnya.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             ElseIf ComboBoxStatusPulang.Text.Contains("Rjk") = True Then
                 ClearTabRujukan()
                 SplitContainerRujukanHeader.Panel2Collapsed = False

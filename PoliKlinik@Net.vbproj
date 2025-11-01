@@ -786,6 +786,12 @@
     <Compile Include="Prototype\DialogBoxPanggilPasien.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormPrediksiPasien.Designer.vb">
+      <DependentUpon>FormPrediksiPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormPrediksiPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormRekamMedisDokter.Designer.vb">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
     </Compile>
@@ -1660,6 +1666,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\DialogBoxPanggilPasien.resx">
       <DependentUpon>DialogBoxPanggilPasien.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormPrediksiPasien.resx">
+      <DependentUpon>FormPrediksiPasien.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormRekamMedisDokter.resx">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>

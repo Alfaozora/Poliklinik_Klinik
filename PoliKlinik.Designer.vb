@@ -126,6 +126,8 @@ Partial Class PoliKlinik
         Me.HargaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PasienToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.CapaianKBKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AnalisisDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ForecastingPasienToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GroupUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -198,6 +200,7 @@ Partial Class PoliKlinik
         Me.FormRekamMedisDokterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CariTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PencarianObatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PrediksiPasienToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Prototype2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KasirPoliToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PopupTindakanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -821,7 +824,7 @@ Partial Class PoliKlinik
         '
         'ReportToolStripMenuItem1
         '
-        Me.ReportToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KeuanganToolStripMenuItem, Me.DokterToolStripMenuItem2, Me.KwitansiToolStripMenuItem1, Me.SummaryToolStripMenuItem, Me.ReportMCUToolStripMenuItem, Me.MasterToolStripMenuItem2, Me.CapaianKBKToolStripMenuItem})
+        Me.ReportToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KeuanganToolStripMenuItem, Me.DokterToolStripMenuItem2, Me.KwitansiToolStripMenuItem1, Me.SummaryToolStripMenuItem, Me.ReportMCUToolStripMenuItem, Me.MasterToolStripMenuItem2, Me.CapaianKBKToolStripMenuItem, Me.AnalisisDataToolStripMenuItem})
         Me.ReportToolStripMenuItem1.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReportToolStripMenuItem1.Name = "ReportToolStripMenuItem1"
         Me.ReportToolStripMenuItem1.Size = New System.Drawing.Size(66, 20)
@@ -1033,6 +1036,19 @@ Partial Class PoliKlinik
         Me.CapaianKBKToolStripMenuItem.Name = "CapaianKBKToolStripMenuItem"
         Me.CapaianKBKToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
         Me.CapaianKBKToolStripMenuItem.Text = "Capaian KBK"
+        '
+        'AnalisisDataToolStripMenuItem
+        '
+        Me.AnalisisDataToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForecastingPasienToolStripMenuItem})
+        Me.AnalisisDataToolStripMenuItem.Name = "AnalisisDataToolStripMenuItem"
+        Me.AnalisisDataToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.AnalisisDataToolStripMenuItem.Text = "Analisis Data"
+        '
+        'ForecastingPasienToolStripMenuItem
+        '
+        Me.ForecastingPasienToolStripMenuItem.Name = "ForecastingPasienToolStripMenuItem"
+        Me.ForecastingPasienToolStripMenuItem.Size = New System.Drawing.Size(253, 22)
+        Me.ForecastingPasienToolStripMenuItem.Text = "Forecasting Kunjungan Pasien"
         '
         'SettingToolStripMenuItem
         '
@@ -1468,7 +1484,7 @@ Partial Class PoliKlinik
         '
         'PrototypeToolStripMenuItem
         '
-        Me.PrototypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormMasterPasienToolStripMenuItem, Me.FormPendaftaranToolStripMenuItem, Me.FormPembayaranToolStripMenuItem, Me.FormRekamMedisDokterToolStripMenuItem, Me.CariTransaksiToolStripMenuItem, Me.PencarianObatToolStripMenuItem})
+        Me.PrototypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormMasterPasienToolStripMenuItem, Me.FormPendaftaranToolStripMenuItem, Me.FormPembayaranToolStripMenuItem, Me.FormRekamMedisDokterToolStripMenuItem, Me.CariTransaksiToolStripMenuItem, Me.PencarianObatToolStripMenuItem, Me.PrediksiPasienToolStripMenuItem})
         Me.PrototypeToolStripMenuItem.Name = "PrototypeToolStripMenuItem"
         Me.PrototypeToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
         Me.PrototypeToolStripMenuItem.Text = "Prototype"
@@ -1508,6 +1524,12 @@ Partial Class PoliKlinik
         Me.PencarianObatToolStripMenuItem.Name = "PencarianObatToolStripMenuItem"
         Me.PencarianObatToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
         Me.PencarianObatToolStripMenuItem.Text = "Pencarian Obat"
+        '
+        'PrediksiPasienToolStripMenuItem
+        '
+        Me.PrediksiPasienToolStripMenuItem.Name = "PrediksiPasienToolStripMenuItem"
+        Me.PrediksiPasienToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.PrediksiPasienToolStripMenuItem.Text = "Prediksi Pasien"
         '
         'Prototype2ToolStripMenuItem
         '
@@ -2315,4 +2337,7 @@ Partial Class PoliKlinik
     Friend WithEvents ObservationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MappingTindakanICD9CMToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MappingObatKFAToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PrediksiPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AnalisisDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ForecastingPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

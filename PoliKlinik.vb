@@ -1371,4 +1371,9 @@ Public Class PoliKlinik
         MappingObatKFA.Show()
         MappingObatKFA.Focus()
     End Sub
+
+    Private Sub ForecastingPasienToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ForecastingPasienToolStripMenuItem.Click
+        FormPrediksiPasien.Show()
+        FormPrediksiPasien.Focus()
+    End Sub
 End Class
