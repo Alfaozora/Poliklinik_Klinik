@@ -1047,8 +1047,8 @@ Partial Class PoliKlinik
         'ForecastingPasienToolStripMenuItem
         '
         Me.ForecastingPasienToolStripMenuItem.Name = "ForecastingPasienToolStripMenuItem"
-        Me.ForecastingPasienToolStripMenuItem.Size = New System.Drawing.Size(253, 22)
-        Me.ForecastingPasienToolStripMenuItem.Text = "Forecasting Kunjungan Pasien"
+        Me.ForecastingPasienToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.ForecastingPasienToolStripMenuItem.Text = "Analisis Kunjungan Pasien"
         '
         'SettingToolStripMenuItem
         '

@@ -1373,7 +1373,7 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub ForecastingPasienToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ForecastingPasienToolStripMenuItem.Click
-        FormPrediksiPasien.Show()
-        FormPrediksiPasien.Focus()
+        FormAnalisisKunjunganPasien.Show()
+        FormAnalisisKunjunganPasien.Focus()
     End Sub
 End Class

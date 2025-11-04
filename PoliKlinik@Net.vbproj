@@ -475,6 +475,12 @@
     <Compile Include="Prototype\FindRujukanTACC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormAnalisisKunjunganPasien.Designer.vb">
+      <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormAnalisisKunjunganPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormBandingGambar.Designer.vb">
       <DependentUpon>FormBandingGambar.vb</DependentUpon>
     </Compile>
@@ -1495,6 +1501,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FindRujukanTACC.resx">
       <DependentUpon>FindRujukanTACC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormAnalisisKunjunganPasien.resx">
+      <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormBandingGambar.resx">
       <DependentUpon>FormBandingGambar.vb</DependentUpon>
