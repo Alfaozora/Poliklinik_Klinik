@@ -10,6 +10,7 @@ Public Class PoliKlinik
     Dim Ttcon As TLcon
     Public dbsql As KASLibrary.SQL
     Dim TObat As DataTable
+    Dim isProcessing As Boolean = False
 
     Private Sub DisabledAllMenu()
         MasterToolStripMenuItem1.Visible = False
@@ -155,47 +156,90 @@ Public Class PoliKlinik
     Private isTestingMode As Boolean = False
 
     Private Sub KirimReminderOtomatis()
-        Dim query As String = "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, TanggalKirim, JenisKelamin " & _
-                              "FROM LogReminderPasien " & _
-                              "WHERE Status = 'TERJADWAL' AND DATEDIFF(DAY, GETDATE(), Tanggal) = 1"
+        If isProcessing Then Exit Sub
+        isProcessing = True
 
-        Dim dt As DataTable = ReadSQL(query)
-        Dim now As DateTime = DateTime.Now
-        Dim batasKirim As TimeSpan = New TimeSpan(9, 0, 0) ' 09:00 WIB
+        Try
+            Dim now As DateTime = DateTime.Now
+            Dim batasKirim As New TimeSpan(9, 0, 0) ' jam 09:00 WIB
+            Dim uniqueStamp As String = Guid.NewGuid().ToString() ' penanda unik instance
 
-        For Each row As DataRow In dt.Rows
-            Dim waktuReminder As DateTime = CDate(row("Tanggal"))
-            Dim sudahDikirim As Boolean = Not IsDBNull(row("TanggalKirim"))
+            Dim query As String = "" & _
+                "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, TanggalKirim, JenisKelamin " & _
+                "FROM LogReminderPasien " & _
+                "WHERE Status = 'TERJADWAL' " & _
+                "AND DATEDIFF(DAY, GETDATE(), Tanggal) = 1 " & _
+                "AND (TanggalKirim IS NULL OR DATEDIFF(SECOND, TanggalKirim, GETDATE()) > 60)"
 
-            ' Kirim H-1 setelah jam 9 pagi dan belum dikirim sebelumnya
-            If DateDiff(DateInterval.Day, now.Date, waktuReminder.Date) = 1 AndAlso now.TimeOfDay >= batasKirim AndAlso Not sudahDikirim Then
+            Dim dt As DataTable = ReadSQL(query)
 
-                Dim namaPasien As String = row("NamaPasien").ToString()
-                Dim noHP As String = row("NoHP").ToString()
-                Dim keperluan As String = row("Keperluan").ToString()
-
-                Dim jenisKelamin As String = ""
-                If row("JenisKelamin").ToString.Trim.ToUpper() = "L" Then
-                    jenisKelamin = "Bapak"
-                ElseIf row("JenisKelamin").ToString.Trim.ToUpper() = "P" Then
-                    jenisKelamin = "Ibu"
-                End If
-
+            For Each row As DataRow In dt.Rows
+                Dim waktuReminder As DateTime = CDate(row("Tanggal"))
+                Dim sudahDikirim As Boolean = Not IsDBNull(row("TanggalKirim"))
                 Dim id As Integer = CInt(row("ReminderID"))
 
-                If isTestingMode Then
-                    KirimReminderWhatsAppOtomatis("[TEST]" & namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
-                    My.Computer.FileSystem.WriteAllText("log_reminder_test.txt", now & " >> TESTING MODE >> " & noHP & vbCrLf, True)
-                Else
-                    KirimReminderWhatsAppOtomatis(namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
-                    WriteSQL("UPDATE LogReminderPasien SET Status = 'TERKIRIM', TanggalKirim = GETDATE() WHERE ReminderID = " & id, 4)
+                If DateDiff(DateInterval.Day, now.Date, waktuReminder.Date) = 1 AndAlso _
+                   now.TimeOfDay >= batasKirim AndAlso Not sudahDikirim Then
+
+                    ' --- Lock data (hanya 1 instance bisa ubah Status dan cap timestamp unik) ---
+                    Dim sqlLock As String = "" & _
+                        "UPDATE LogReminderPasien " & _
+                        "SET Status = 'PROSES', " & _
+                        "    TanggalKirim = GETDATE(), " & _
+                        "    Catatan = '" & uniqueStamp & "' " & _
+                        "WHERE ReminderID = " & id & " AND Status = 'TERJADWAL'"
+
+                    Dim rowsAffected As Integer = WriteSQLResult(sqlLock, 4)
+
+                    ' Lanjut kirim hanya jika berhasil dikunci
+                    If rowsAffected > 0 Then
+                        Dim namaPasien As String = row("NamaPasien").ToString()
+                        Dim noHP As String = row("NoHP").ToString()
+                        Dim keperluan As String = row("Keperluan").ToString()
+                        Dim jenisKelamin As String = ""
+
+                        If row("JenisKelamin").ToString().Trim().ToUpper() = "L" Then
+                            jenisKelamin = "Bapak"
+                        ElseIf row("JenisKelamin").ToString().Trim().ToUpper() = "P" Then
+                            jenisKelamin = "Ibu"
+                        End If
+
+                        Try
+                            If isTestingMode Then
+                                KirimReminderWhatsAppOtomatis("[TEST]" & namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
+                                My.Computer.FileSystem.WriteAllText("log_reminder_test.txt", now.ToString() & " >> TEST MODE >> " & noHP & vbCrLf, True)
+                            Else
+                                KirimReminderWhatsAppOtomatis(namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
+                                Dim sqlUpdate As String = "UPDATE LogReminderPasien SET Status = 'TERKIRIM', TanggalKirim = GETDATE() WHERE ReminderID = " & id
+                                WriteSQL(sqlUpdate, 4)
+                            End If
+                        Catch ex As Exception
+                            ' Jika gagal kirim, rollback
+                            Dim sqlRollback As String = "UPDATE LogReminderPasien SET Status = 'TERJADWAL', TanggalKirim = NULL WHERE ReminderID = " & id
+                            WriteSQL(sqlRollback, 4)
+                        End Try
+                    End If
                 End If
-            End If
-        Next
+            Next
+
+        Catch ex As Exception
+            MsgBox("Error Reminder: " & ex.Message)
+        End Try
+
+        isProcessing = False
     End Sub
 
     Private Sub TimerKirimReminderWA_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles Timer1.Tick
-        KirimReminderOtomatis()
+        If isProcessing Then Exit Sub ' cegah pemanggilan ganda
+        isProcessing = True
+
+        Try
+            KirimReminderOtomatis()
+        Catch ex As Exception
+            MsgBox("Error Timer: " & ex.Message)
+        End Try
+
+        isProcessing = False
     End Sub
 
     Public Function SetParameterWhatsappText(ByVal nomor As String, ByVal pesan As String) As String
