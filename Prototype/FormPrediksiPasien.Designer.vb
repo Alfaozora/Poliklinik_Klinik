@@ -22,12 +22,15 @@ Partial Class FormPrediksiPasien
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.ButtonKirim = New System.Windows.Forms.Button
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.ButtonReport = New System.Windows.Forms.Button
         Me.ComboBoxHari = New System.Windows.Forms.ComboBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.DataGridView1 = New System.Windows.Forms.DataGridView
+        Me.ButtonKirimData = New System.Windows.Forms.Button
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -56,6 +59,7 @@ Partial Class FormPrediksiPasien
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonKirimData)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonReport)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ComboBoxHari)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
@@ -80,10 +84,10 @@ Partial Class FormPrediksiPasien
         Me.ButtonReport.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonReport.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(254, Byte), Integer))
         Me.ButtonReport.Image = Global.PoliKlinik_Net2.My.Resources.Resources.icons8_save_16
-        Me.ButtonReport.Location = New System.Drawing.Point(122, 140)
+        Me.ButtonReport.Location = New System.Drawing.Point(12, 180)
         Me.ButtonReport.Name = "ButtonReport"
         Me.ButtonReport.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ButtonReport.Size = New System.Drawing.Size(104, 34)
+        Me.ButtonReport.Size = New System.Drawing.Size(242, 34)
         Me.ButtonReport.TabIndex = 507
         Me.ButtonReport.Text = " Report"
         Me.ButtonReport.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -119,13 +123,42 @@ Partial Class FormPrediksiPasien
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView1.DefaultCellStyle = DataGridViewCellStyle6
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.Size = New System.Drawing.Size(540, 475)
         Me.DataGridView1.TabIndex = 0
+        '
+        'ButtonKirimData
+        '
+        Me.ButtonKirimData.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonKirimData.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonKirimData.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonKirimData.ForeColor = System.Drawing.Color.White
+        Me.ButtonKirimData.Location = New System.Drawing.Point(122, 140)
+        Me.ButtonKirimData.Name = "ButtonKirimData"
+        Me.ButtonKirimData.Size = New System.Drawing.Size(132, 34)
+        Me.ButtonKirimData.TabIndex = 508
+        Me.ButtonKirimData.Text = "DATA AKTUAL"
+        Me.ButtonKirimData.UseVisualStyleBackColor = False
         '
         'FormPrediksiPasien
         '
@@ -149,4 +182,5 @@ Partial Class FormPrediksiPasien
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents ComboBoxHari As System.Windows.Forms.ComboBox
     Friend WithEvents ButtonReport As System.Windows.Forms.Button
+    Friend WithEvents ButtonKirimData As System.Windows.Forms.Button
 End Class

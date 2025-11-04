@@ -209,7 +209,7 @@ Public Class FormPrediksiPasien
                 Exit Sub
             End If
 
-            Dim modeForecast As String = ComboBoxHari.SelectedItem.ToString().ToLower()
+            Dim modeForecast As String = ComboBoxHari.SelectedItem.ToString()
 
             ' --- Tentukan rentang hari data historis berdasarkan mode prediksi ---
             Dim rentangHari As Integer = 90 ' default
@@ -235,6 +235,16 @@ Public Class FormPrediksiPasien
                     sb.AppendLine("WHERE Tanggal >= DATEADD(DAY, -" & rentangHari & ", CAST(GETDATE() AS DATE)) AND Tanggal < CAST(GETDATE() AS DATE)")
                     sb.AppendLine("GROUP BY CONVERT(VARCHAR(10), Tanggal, 120)")
                     sb.AppendLine("ORDER BY Periode ASC;")
+                    'sb.AppendLine("SELECT CONVERT(VARCHAR(10), Tanggal, 120) AS Periode, COUNT(*) AS JumlahPasien FROM (")
+                    'sb.AppendLine("    SELECT TglPoli AS Tanggal, NoUrut FROM TransaksiPoli")
+                    'sb.AppendLine("    UNION ALL")
+                    'sb.AppendLine("    SELECT TglGigi AS Tanggal, NoUrut FROM TransaksiGigi")
+                    'sb.AppendLine(") AS Gabungan")
+                    'sb.AppendLine("WHERE Tanggal >= DATEADD(DAY, -" & rentangHari & ", CAST(GETDATE() AS DATE)) ")
+                    'sb.AppendLine("  AND Tanggal < DATEADD(DAY, -2, CAST(GETDATE() AS DATE))")
+                    'sb.AppendLine("GROUP BY CONVERT(VARCHAR(10), Tanggal, 120)")
+                    'sb.AppendLine("ORDER BY Periode ASC;")
+
 
                 Case "Mingguan"
                     sb.AppendLine("SELECT CAST(YEAR(Tanggal) AS VARCHAR(4)) + '-W' + RIGHT('00' + CAST(DATEPART(WEEK, Tanggal) AS VARCHAR(2)), 2) AS Periode, COUNT(*) AS JumlahPasien FROM (")
@@ -401,6 +411,119 @@ Public Class FormPrediksiPasien
 
         Catch ex As Exception
             MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ButtonKirimData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonKirimData.Click
+        Try
+            ' --- Ambil cabang dari konfigurasi ---
+            Dim cabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            ' --- Ambil mode forecasting (Harian/Mingguan/Bulanan) ---
+            Dim modeForecast As String = ComboBoxHari.SelectedItem.ToString()
+            Dim rentangHari As Integer = 0
+
+            Select Case modeForecast
+                Case "Harian"
+                    rentangHari = 30
+                Case "Mingguan"
+                    rentangHari = 180
+                Case "Bulanan"
+                    rentangHari = 365
+            End Select
+
+            ' --- Bangun query data aktual ---
+            Dim sb As New StringBuilder()
+
+            Select Case modeForecast
+                Case "Harian"
+                    sb.AppendLine("SELECT CONVERT(VARCHAR(10), Tanggal, 120) AS Tanggal, COUNT(*) AS JumlahPasien")
+                    sb.AppendLine("FROM (")
+                    sb.AppendLine("    SELECT TglPoli AS Tanggal FROM TransaksiPoli")
+                    sb.AppendLine("    UNION ALL")
+                    sb.AppendLine("    SELECT TglGigi AS Tanggal FROM TransaksiGigi")
+                    sb.AppendLine(") AS Gabungan")
+                    sb.AppendLine("WHERE Tanggal >= DATEADD(DAY, -" & rentangHari & ", CAST(GETDATE() AS DATE))")
+                    sb.AppendLine("  AND Tanggal < CAST(GETDATE() AS DATE)")
+                    sb.AppendLine("GROUP BY CONVERT(VARCHAR(10), Tanggal, 120)")
+                    sb.AppendLine("ORDER BY Tanggal ASC;")
+
+                Case "Mingguan"
+                    sb.AppendLine("SELECT CONVERT(VARCHAR(10), DATEADD(DAY, 1 - DATEPART(WEEKDAY, CONVERT(DATE, Tanggal)), CONVERT(DATE, Tanggal)), 120) AS Tanggal, COUNT(*) AS JumlahPasien")
+                    sb.AppendLine("FROM (")
+                    sb.AppendLine("    SELECT TglPoli AS Tanggal FROM TransaksiPoli")
+                    sb.AppendLine("    UNION ALL")
+                    sb.AppendLine("    SELECT TglGigi AS Tanggal FROM TransaksiGigi")
+                    sb.AppendLine(") AS Gabungan")
+                    sb.AppendLine("WHERE Tanggal >= DATEADD(DAY, -" & rentangHari & ", CAST(GETDATE() AS DATE))")
+                    sb.AppendLine("  AND Tanggal < CAST(GETDATE() AS DATE)")
+                    sb.AppendLine("GROUP BY DATEADD(DAY, 1 - DATEPART(WEEKDAY, CONVERT(DATE, Tanggal)), CONVERT(DATE, Tanggal))")
+                    sb.AppendLine("ORDER BY Tanggal ASC;")
+
+                Case "Bulanan"
+                    sb.AppendLine("SELECT CONVERT(VARCHAR(10), DATEADD(DAY, 1 - DAY(CONVERT(DATE, Tanggal)), CONVERT(DATE, Tanggal)), 120) AS Tanggal, COUNT(*) AS JumlahPasien")
+                    sb.AppendLine("FROM (")
+                    sb.AppendLine("    SELECT TglPoli AS Tanggal FROM TransaksiPoli")
+                    sb.AppendLine("    UNION ALL")
+                    sb.AppendLine("    SELECT TglGigi AS Tanggal FROM TransaksiGigi")
+                    sb.AppendLine(") AS Gabungan")
+                    sb.AppendLine("WHERE Tanggal IS NOT NULL")
+                    sb.AppendLine("  AND CONVERT(DATE, Tanggal) >= DATEADD(DAY, -365, CAST(GETDATE() AS DATE))")
+                    sb.AppendLine("  AND CONVERT(DATE, Tanggal) < CAST(GETDATE() AS DATE)")
+                    sb.AppendLine("GROUP BY DATEADD(DAY, 1 - DAY(CONVERT(DATE, Tanggal)), CONVERT(DATE, Tanggal))")
+                    sb.AppendLine("ORDER BY DATEADD(DAY, 1 - DAY(CONVERT(DATE, Tanggal)), CONVERT(DATE, Tanggal));")
+            End Select
+
+            ' --- Ambil data dari database ---
+            Dim dt As DataTable = ReadSQL(sb.ToString())
+            If dt.Rows.Count = 0 Then
+                MsgBox("Tidak ada data aktual untuk " & rentangHari & " hari terakhir.", MsgBoxStyle.Exclamation, "Gagal Mengirim Data")
+                Exit Sub
+            End If
+
+            ' --- Siapkan data kirim ke API ---
+            Dim listData As New ArrayList()
+
+            For Each row As DataRow In dt.Rows
+                Dim item As New Dictionary(Of String, Object)
+                Dim t As String = row("Tanggal").ToString().Trim()
+
+                ' Format ke yyyy-MM-dd agar valid sebagai DATE di Laravel
+                Dim dtTanggal As DateTime
+                If DateTime.TryParse(t, dtTanggal) Then
+                    t = dtTanggal.ToString("yyyy-MM-dd")
+                Else
+                    Continue For
+                End If
+
+                item.Add("Tanggal", t)
+                item.Add("JumlahAktual", Convert.ToInt32(row("JumlahPasien")))
+                listData.Add(item)
+            Next
+
+            Dim dataKirim As New Dictionary(Of String, Object)
+            dataKirim.Add("data", listData)
+            dataKirim.Add("mode", modeForecast)
+            dataKirim.Add("cabang", cabang)
+
+            Dim jsonData As String = JsonConvert.SerializeObject(dataKirim)
+
+            ' --- Ambil URL API dari konfigurasi ---
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            baseURL = baseURL.TrimEnd("/"c)
+            Dim apiUrl As String = baseURL & "/api/actual-data"
+
+            ' --- Kirim data ke API ---
+            Dim response As String = InsertDataAPIRM(jsonData, apiUrl)
+
+            If String.IsNullOrEmpty(response) Then
+                MsgBox("Tidak ada respon dari server API.", MsgBoxStyle.Exclamation, "Gagal")
+            Else
+                MsgBox("Data aktual berhasil dikirim ke API untuk cabang " & cabang & vbCrLf & "Respon: " & response, MsgBoxStyle.Information, "Sukses")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Terjadi kesalahan saat mengirim data aktual: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
 End Class
