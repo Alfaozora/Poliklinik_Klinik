@@ -49,6 +49,7 @@ Public Class FormAnalisisKunjunganPasien
                     sb.AppendLine("WHERE Tanggal >= DATEADD(DAY, -" & rentangHari & ", CAST(GETDATE() AS DATE)) AND Tanggal < CAST(GETDATE() AS DATE)")
                     sb.AppendLine("GROUP BY CONVERT(VARCHAR(10), Tanggal, 120)")
                     sb.AppendLine("ORDER BY Periode ASC;")
+
                     'sb.AppendLine("SELECT CONVERT(VARCHAR(10), Tanggal, 120) AS Periode, COUNT(*) AS JumlahPasien FROM (")
                     'sb.AppendLine("    SELECT TglPoli AS Tanggal, NoUrut FROM TransaksiPoli")
                     'sb.AppendLine("    UNION ALL")
@@ -357,6 +358,7 @@ Public Class FormAnalisisKunjunganPasien
 
             Dim periode As String = ComboBoxPeriode.SelectedItem.ToString()
             Dim poliDipilih As String = ComboBoxPoli.Text
+            Dim jaminanDipilih As String = ComboBoxJaminan.Text.Trim().ToUpper()
             Dim tglAwal As String = dtAwal.Value.ToString("yyyy-MM-dd")
             Dim tglAkhir As String = dtAkhir.Value.ToString("yyyy-MM-dd")
 
@@ -365,32 +367,52 @@ Public Class FormAnalisisKunjunganPasien
             ' --- Bangun query sesuai periode ---
             Select Case periode
                 Case "Harian"
-                    sb.AppendLine("SELECT CAST(Tanggal AS DATE) AS Periode, COUNT(*) AS JumlahPasien FROM (")
+                    sb.AppendLine("SELECT CAST(Tanggal AS DATE) AS Periode,")
+                    sb.AppendLine("COUNT(*) AS JumlahPasien,")
+                    sb.AppendLine("AVG(DATEDIFF(MINUTE, ArrivedDate, FinishedDate)) AS RataRataMenit")
+                    sb.AppendLine("FROM (")
                 Case "Mingguan"
-                    sb.AppendLine("SELECT CAST(YEAR(Tanggal) AS VARCHAR(4)) + '-W' + RIGHT('00' + CAST(DATEPART(WEEK, Tanggal) AS VARCHAR(2)), 2) AS Periode, COUNT(*) AS JumlahPasien FROM (")
+                    sb.AppendLine("SELECT CAST(YEAR(Tanggal) AS VARCHAR(4)) + '-W' + RIGHT('00' + CAST(DATEPART(WEEK, Tanggal) AS VARCHAR(2)), 2) AS Periode,")
+                    sb.AppendLine("COUNT(*) AS JumlahPasien,")
+                    sb.AppendLine("AVG(DATEDIFF(MINUTE, ArrivedDate, FinishedDate)) AS RataRataMenit")
+                    sb.AppendLine("FROM (")
                 Case "Bulanan"
-                    sb.AppendLine("SELECT CONVERT(VARCHAR(7), Tanggal, 120) AS Periode, COUNT(*) AS JumlahPasien FROM (")
+                    sb.AppendLine("SELECT CONVERT(VARCHAR(7), Tanggal, 120) AS Periode,")
+                    sb.AppendLine("COUNT(*) AS JumlahPasien,")
+                    sb.AppendLine("AVG(DATEDIFF(MINUTE, ArrivedDate, FinishedDate)) AS RataRataMenit")
+                    sb.AppendLine("FROM (")
             End Select
+
+            Dim filterJaminan As String = ""
+            If jaminanDipilih <> "" AndAlso jaminanDipilih <> "GABUNGAN" Then
+                filterJaminan = " AND td.JenisPenagihan LIKE '%" & jaminanDipilih.Replace("'", "''") & "%'"
+            End If
 
             ' --- Gabungkan data berdasarkan poli ---
             If poliDipilih = "SEMUA POLI" Then
-                sb.AppendLine("    SELECT TglPoli AS Tanggal, NoUrut FROM TransaksiPoli WHERE TglPoli BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
-                sb.AppendLine("    UNION ALL")
-                sb.AppendLine("    SELECT TglGigi AS Tanggal, NoUrut FROM TransaksiGigi WHERE TglGigi BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
-            ElseIf poliDipilih = "POLI GIGI & MULUT" Then
-                sb.AppendLine("    SELECT tg.TglGigi AS Tanggal, tg.NoUrut")
-                sb.AppendLine("    FROM TransaksiGigi tg")
-                sb.AppendLine("    INNER JOIN TransaksiDetail td ON CAST(td.NoUrut AS VARCHAR(50)) = tg.NoUrut")
-                sb.AppendLine("    WHERE td.JenisPoli = '" & poliDipilih.Replace("'", "''") & "' AND tg.TglGigi BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
-            Else
-                sb.AppendLine("    SELECT tp.TglPoli AS Tanggal, tp.NoUrut")
+                sb.AppendLine("    SELECT tp.TglPoli AS Tanggal, tp.NoUrut, tp.ArrivedDate, tp.FinishedDate")
                 sb.AppendLine("    FROM TransaksiPoli tp")
                 sb.AppendLine("    INNER JOIN TransaksiDetail td ON CAST(td.NoUrut AS VARCHAR(50)) = tp.NoUrut")
-                sb.AppendLine("    WHERE td.JenisPoli = '" & poliDipilih.Replace("'", "''") & "' AND tp.TglPoli BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
+                sb.AppendLine("    WHERE tp.TglPoli BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'" & filterJaminan)
+                sb.AppendLine("    UNION ALL")
+                sb.AppendLine("    SELECT tg.TglGigi AS Tanggal, tg.NoUrut, tg.ArrivedDate, tg.FinishedDate")
+                sb.AppendLine("    FROM TransaksiGigi tg")
+                sb.AppendLine("    INNER JOIN TransaksiDetail td ON CAST(td.NoUrut AS VARCHAR(50)) = tg.NoUrut")
+                sb.AppendLine("    WHERE tg.TglGigi BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'" & filterJaminan)
+            ElseIf poliDipilih = "POLI GIGI & MULUT" Then
+                sb.AppendLine("    SELECT tg.TglGigi AS Tanggal, tg.NoUrut, tg.ArrivedDate, tg.FinishedDate")
+                sb.AppendLine("    FROM TransaksiGigi tg")
+                sb.AppendLine("    INNER JOIN TransaksiDetail td ON CAST(td.NoUrut AS VARCHAR(50)) = tg.NoUrut")
+                sb.AppendLine("    WHERE td.JenisPoli = '" & poliDipilih.Replace("'", "''") & "' AND tg.TglGigi BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'" & filterJaminan)
+            Else
+                sb.AppendLine("    SELECT tp.TglPoli AS Tanggal, tp.NoUrut, tp.ArrivedDate, tp.FinishedDate")
+                sb.AppendLine("    FROM TransaksiPoli tp")
+                sb.AppendLine("    INNER JOIN TransaksiDetail td ON CAST(td.NoUrut AS VARCHAR(50)) = tp.NoUrut")
+                sb.AppendLine("    WHERE td.JenisPoli = '" & poliDipilih.Replace("'", "''") & "' AND tp.TglPoli BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'" & filterJaminan)
             End If
 
             sb.AppendLine(") AS Gabungan")
-            sb.AppendLine("WHERE Tanggal BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")  ' ← tambahan filter luar (opsional)
+            sb.AppendLine("WHERE Tanggal BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
 
             ' --- Grouping sesuai periode ---
             Select Case periode
@@ -418,6 +440,7 @@ Public Class FormAnalisisKunjunganPasien
             DataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DataGridView2.Columns(0).HeaderText = "Periode"
             DataGridView2.Columns(1).HeaderText = "Jumlah Pasien"
+            DataGridView2.Columns(2).HeaderText = "Rata-Rata Waktu (Menit)"
 
         Catch ex As Exception
             MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -438,6 +461,9 @@ Public Class FormAnalisisKunjunganPasien
             baseURL = baseURL.TrimEnd("/"c)
             Dim apiUrl As String = baseURL & "/api/forecasting/trend"
 
+            Dim poliDipilih As String = If(ComboBoxPoli.SelectedItem IsNot Nothing, ComboBoxPoli.Text, "")
+            Dim jaminanDipilih As String = If(ComboBoxJaminan.SelectedItem IsNot Nothing, ComboBoxJaminan.Text, "")
+
             ' --- Konversi DataGridView ke ArrayList ---
             Dim listData As New ArrayList()
 
@@ -455,6 +481,15 @@ Public Class FormAnalisisKunjunganPasien
 
                 item.Add("periode", t)
                 item.Add("jumlah_pasien", Convert.ToInt32(row.Cells("JumlahPasien").Value))
+
+                ' --- Pastikan kolom rata-rata waktu pelayanan ada dan memiliki nilai ---
+                If DataGridView2.Columns.Contains("RataRataMenit") Then
+                    Dim val As Object = row.Cells("RataRataMenit").Value
+                    If val IsNot Nothing AndAlso Not IsDBNull(val) AndAlso val.ToString().Trim() <> "" Then
+                        item.Add("rata_waktu_pelayanan_menit", Convert.ToDouble(val))
+                    End If
+                End If
+
                 listData.Add(item)
             Next
 
@@ -462,11 +497,14 @@ Public Class FormAnalisisKunjunganPasien
             Dim dataKirim As New Dictionary(Of String, Object)
             dataKirim.Add("data", listData)
             dataKirim.Add("cabang", cabang)
+            dataKirim.Add("poli", poliDipilih)
+            dataKirim.Add("jaminan", jaminanDipilih)
 
-            Dim jsonData As String = Newtonsoft.Json.JsonConvert.SerializeObject(dataKirim)
+
+            Dim jsonData As String = Newtonsoft.Json.JsonConvert.SerializeObject(dataKirim, Newtonsoft.Json.Formatting.Indented)
 
             ' --- Kirim data ke API ---
-            Dim response As String = InsertDataAPIRM (jsonData, apiUrl)
+            Dim response As String = InsertDataAPIRM(jsonData, apiUrl)
 
             ' --- Tangani respon ---
             Dim json = JObject.Parse(response)
@@ -477,6 +515,339 @@ Public Class FormAnalisisKunjunganPasien
             Else
                 MessageBox.Show("Gagal membuat laporan: " & json("message").ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ButtonKunjungan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonKunjungan.Click
+        Try
+            If ComboBoxTahun.SelectedItem Is Nothing OrElse ComboBoxTahun.Text = "" Then
+                MessageBox.Show("Silakan pilih periode tampilan tahun.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim periode As String = ComboBoxTahun.SelectedItem.ToString()
+
+            Dim sb As New StringBuilder()
+
+            sb.AppendLine("WITH PasienBaru AS (")
+            sb.AppendLine("    SELECT ")
+            sb.AppendLine("        DATENAME(MONTH, CreatedDate) AS NamaBulan,")
+            sb.AppendLine("        MONTH(CreatedDate) AS NoBulan,")
+            sb.AppendLine("        COUNT(*) AS JumlahPasienBaru")
+            sb.AppendLine("    FROM MasterPasien")
+            sb.AppendLine("    WHERE YEAR(CreatedDate) = '" & periode & "'")
+            sb.AppendLine("    GROUP BY DATENAME(MONTH, CreatedDate), MONTH(CreatedDate)")
+            sb.AppendLine("),")
+            sb.AppendLine("PasienLamaPoli AS (")
+            sb.AppendLine("    SELECT ")
+            sb.AppendLine("        DATENAME(MONTH, T.TglPoli) AS NamaBulan,")
+            sb.AppendLine("        MONTH(T.TglPoli) AS NoBulan,")
+            sb.AppendLine("        COUNT(DISTINCT T.IDInternet) AS JumlahPasienLamaPoli")
+            sb.AppendLine("    FROM TransaksiPoli T")
+            sb.AppendLine("    INNER JOIN MasterPasien P ON T.IDInternet = P.NoRekamMedis")
+            sb.AppendLine("    WHERE ")
+            sb.AppendLine("        YEAR(T.TglPoli) = '" & periode & "'")
+            sb.AppendLine("        AND YEAR(P.CreatedDate) < '" & periode & "'")
+            sb.AppendLine("    GROUP BY DATENAME(MONTH, T.TglPoli), MONTH(T.TglPoli)")
+            sb.AppendLine("),")
+            sb.AppendLine("PasienLamaGigi AS (")
+            sb.AppendLine("    SELECT ")
+            sb.AppendLine("        DATENAME(MONTH, G.TglGigi) AS NamaBulan,")
+            sb.AppendLine("        MONTH(G.TglGigi) AS NoBulan,")
+            sb.AppendLine("        COUNT(DISTINCT G.IDInternet) AS JumlahPasienLamaGigi")
+            sb.AppendLine("    FROM TransaksiGigi G")
+            sb.AppendLine("    INNER JOIN MasterPasien P ON G.IDInternet = P.NoRekamMedis")
+            sb.AppendLine("    WHERE ")
+            sb.AppendLine("        YEAR(G.TglGigi) = '" & periode & "'")
+            sb.AppendLine("        AND YEAR(P.CreatedDate) < '" & periode & "'")
+            sb.AppendLine("    GROUP BY DATENAME(MONTH, G.TglGigi), MONTH(G.TglGigi)")
+            sb.AppendLine("),")
+            sb.AppendLine("GabungLama AS (")
+            sb.AppendLine("    SELECT ")
+            sb.AppendLine("        COALESCE(P.NamaBulan, G.NamaBulan) AS NamaBulan,")
+            sb.AppendLine("        COALESCE(P.NoBulan, G.NoBulan) AS NoBulan,")
+            sb.AppendLine("        ISNULL(P.JumlahPasienLamaPoli, 0) + ISNULL(G.JumlahPasienLamaGigi, 0) AS JumlahPasienLama")
+            sb.AppendLine("    FROM PasienLamaPoli P")
+            sb.AppendLine("    FULL OUTER JOIN PasienLamaGigi G ON P.NoBulan = G.NoBulan")
+            sb.AppendLine(")")
+            sb.AppendLine("SELECT ")
+            sb.AppendLine("    COALESCE(B.NamaBulan, L.NamaBulan) AS NamaBulan,")
+            sb.AppendLine("    COALESCE(B.NoBulan, L.NoBulan) AS NoBulan,")
+            sb.AppendLine("    ISNULL(B.JumlahPasienBaru, 0) AS JumlahPasienBaru,")
+            sb.AppendLine("    ISNULL(L.JumlahPasienLama, 0) AS JumlahPasienLama,")
+            sb.AppendLine("    (ISNULL(B.JumlahPasienBaru, 0) + ISNULL(L.JumlahPasienLama, 0)) AS TotalPasien")
+            sb.AppendLine("FROM PasienBaru B")
+            sb.AppendLine("FULL OUTER JOIN GabungLama L ON B.NoBulan = L.NoBulan")
+            sb.AppendLine("ORDER BY NoBulan;")
+
+            ' --- Eksekusi query ---
+            Dim dt As DataTable = ReadSQL(sb.ToString())
+
+            If dt.Rows.Count = 0 Then
+                MessageBox.Show("Tidak ada data kunjungan pada rentang periode yang dipilih.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            ' --- Tampilkan ke DataGridView2 ---
+            DataGridView3.DataSource = dt
+            DataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DataGridView3.Columns(0).HeaderText = "NamaBulan"
+            DataGridView3.Columns(1).HeaderText = "NoBulan"
+            DataGridView3.Columns(2).HeaderText = "JumlahPasienBaru"
+            DataGridView3.Columns(3).HeaderText = "JumlahPasienLama"
+            DataGridView3.Columns(4).HeaderText = "TotalPasien"
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ButtonDownloadKunjungan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDownloadKunjungan.Click
+        Try
+            If DataGridView3.Rows.Count = 0 Then
+                MessageBox.Show("Tidak ada data tren untuk dikirim.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' --- Ambil konfigurasi ---
+            Dim cabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            baseURL = baseURL.TrimEnd("/"c)
+            Dim apiUrl As String = baseURL & "/api/forecasting/kunjungan"
+
+            Dim periode As String = ""
+            If ComboBoxTahun.SelectedItem IsNot Nothing Then
+                periode = ComboBoxTahun.Text
+            End If
+
+            ' --- Bangun JSON manual ---
+            Dim sb As New System.Text.StringBuilder()
+            sb.Append("{")
+            sb.Append("""cabang"":""" & cabang & """,")
+            sb.Append("""periode"":""" & periode & """,")
+            sb.Append("""data"":[") ' mulai array data
+
+            Dim rowCount As Integer = 0
+            For Each row As DataGridViewRow In DataGridView3.Rows
+                If Not row.IsNewRow Then
+                    If rowCount > 0 Then sb.Append(",") ' pisahkan antar data
+
+                    sb.Append("{")
+                    sb.Append("""NamaBulan"":""" & row.Cells("NamaBulan").Value.ToString().Replace("""", "'") & """,")
+                    sb.Append("""JumlahPasienBaru"":" & Val(row.Cells("JumlahPasienBaru").Value) & ",")
+                    sb.Append("""JumlahPasienLama"":" & Val(row.Cells("JumlahPasienLama").Value) & ",")
+                    sb.Append("""TotalPasien"":" & Val(row.Cells("TotalPasien").Value))
+                    sb.Append("}")
+
+                    rowCount += 1
+                End If
+            Next
+
+            sb.Append("]}") ' tutup array dan object utama
+
+            Dim jsonData As String = sb.ToString()
+
+            ' --- Kirim ke API ---
+            Dim response As String = InsertDataAPIRM(jsonData, apiUrl)
+
+            Try
+                ' --- Parsing respons JSON ---
+                Dim json As JObject = JObject.Parse(response)
+
+                If json("status").ToString().ToLower() = "success" Then
+                    Dim pdfUrl As String = json("url").ToString()
+                    Process.Start(pdfUrl) ' Buka file PDF di browser
+                Else
+                    Dim msg As String = ""
+                    If json("message") IsNot Nothing Then
+                        msg = json("message").ToString()
+                    End If
+                    MessageBox.Show("Gagal membuat laporan: " & msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+
+            Catch ex As Exception
+                MessageBox.Show("Respons API tidak valid: " & ex.Message & vbCrLf & "Isi respons: " & response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ButtonViewJam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonViewJam.Click
+        Try
+            ' --- Validasi input dasar ---
+            If ComboBoxPoliWaktu.SelectedItem Is Nothing Then
+                MessageBox.Show("Silakan pilih Poli terlebih dahulu.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            If ComboBoxPeriodeWaktu.SelectedItem Is Nothing Then
+                MessageBox.Show("Silakan pilih periode (Jam/Hari).", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            If dtWaktuAwal.Value > dtWaktuAkhir.Value Then
+                MessageBox.Show("Tanggal awal tidak boleh lebih besar dari tanggal akhir.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' --- Ambil nilai filter ---
+            Dim poli As String = ComboBoxPoliWaktu.Text.Trim()
+            Dim periode As String = ComboBoxPeriodeWaktu.Text.Trim()
+            Dim jaminan As String = ComboBoxJaminanWaktu.Text.Trim()
+            Dim tglAwal As String = Format(dtWaktuAwal.Value, "yyyy-MM-dd")
+            Dim tglAkhir As String = Format(dtWaktuAkhir.Value, "yyyy-MM-dd")
+
+            ' --- Siapkan query ---
+            Dim sb As New StringBuilder()
+
+            ' === SELECT sesuai mode (Jam atau Hari) ===
+            If periode.ToLower() = "jam" Then
+                sb.AppendLine("SELECT DATENAME(HOUR, ArrivedDate) AS Jam, COUNT(*) AS JumlahPasien")
+            Else
+                sb.AppendLine("SELECT DATENAME(WEEKDAY, ArrivedDate) AS Hari, COUNT(*) AS JumlahPasien")
+            End If
+
+            sb.AppendLine("FROM (")
+
+            ' === Pilih sumber tabel berdasarkan Poli ===
+            Select Case poli.ToLower()
+                Case "poli gigi & mulut"
+                    sb.AppendLine("    SELECT G.ArrivedDate, D.JenisPenagihan")
+                    sb.AppendLine("    FROM TransaksiGigi G")
+                    sb.AppendLine("    INNER JOIN TransaksiDetail D ON G.NoUrut = D.NoUrut")
+                    sb.AppendLine("    WHERE G.ArrivedDate IS NOT NULL")
+
+                Case "gabungan"
+                    sb.AppendLine("    SELECT P.ArrivedDate, D.JenisPenagihan")
+                    sb.AppendLine("    FROM TransaksiPoli P")
+                    sb.AppendLine("    INNER JOIN TransaksiDetail D ON P.NoUrut = D.NoUrut")
+                    sb.AppendLine("    WHERE P.ArrivedDate IS NOT NULL")
+                    sb.AppendLine("    UNION ALL")
+                    sb.AppendLine("    SELECT G.ArrivedDate, D.JenisPenagihan")
+                    sb.AppendLine("    FROM TransaksiGigi G")
+                    sb.AppendLine("    INNER JOIN TransaksiDetail D ON G.NoUrut = D.NoUrut")
+                    sb.AppendLine("    WHERE G.ArrivedDate IS NOT NULL")
+
+                Case Else
+                    sb.AppendLine("    SELECT P.ArrivedDate, D.JenisPenagihan")
+                    sb.AppendLine("    FROM TransaksiPoli P")
+                    sb.AppendLine("    INNER JOIN TransaksiDetail D ON P.NoUrut = D.NoUrut")
+                    sb.AppendLine("    WHERE P.ArrivedDate IS NOT NULL")
+            End Select
+
+            sb.AppendLine(") AS Gabungan")
+            sb.AppendLine("WHERE CAST(ArrivedDate AS DATE) BETWEEN '" & tglAwal & "' AND '" & tglAkhir & "'")
+
+            ' === Filter jaminan (jika bukan semua) ===
+            If jaminan.ToLower() <> "gabungan" Then
+                sb.AppendLine("AND JenisPenagihan = '" & jaminan & "'")
+            End If
+
+            ' === GROUP BY sesuai periode ===
+            If periode.ToLower() = "jam" Then
+                sb.AppendLine("GROUP BY DATENAME(HOUR, ArrivedDate), DATEPART(HOUR, ArrivedDate)")
+                sb.AppendLine("ORDER BY DATEPART(HOUR, ArrivedDate)")
+            Else
+                sb.AppendLine("GROUP BY DATENAME(WEEKDAY, ArrivedDate), DATEPART(WEEKDAY, ArrivedDate)")
+                sb.AppendLine("ORDER BY DATEPART(WEEKDAY, ArrivedDate)")
+            End If
+
+            ' --- Jalankan query ---
+            Dim dt As DataTable = ReadSQL(sb.ToString())
+
+            ' --- Tampilkan ke DataGridView4 ---
+            DataGridView4.DataSource = dt
+            DataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            If periode.ToLower() = "jam" Then
+                DataGridView4.Columns(0).HeaderText = "Jam"
+            Else
+                DataGridView4.Columns(0).HeaderText = "Hari"
+            End If
+            DataGridView4.Columns(1).HeaderText = "Jumlah Pasien"
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ButtonDonwloadJam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDonwloadJam.Click
+        Try
+            If DataGridView4.Rows.Count = 0 Then
+                MessageBox.Show("Tidak ada data waktu pelayanan untuk dikirim.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            ' --- Ambil konfigurasi ---
+            Dim cabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            baseURL = baseURL.TrimEnd("/"c)
+            Dim apiUrl As String = baseURL & "/api/forecasting/waktu"
+
+            ' --- Ambil pilihan user ---
+            Dim poli As String = If(ComboBoxPoliWaktu.SelectedItem IsNot Nothing, ComboBoxPoliWaktu.Text, "")
+            Dim periode As String = If(ComboBoxPeriodeWaktu.SelectedItem IsNot Nothing, ComboBoxPeriodeWaktu.Text, "")
+            Dim jaminan As String = If(ComboBoxJaminanWaktu.SelectedItem IsNot Nothing, ComboBoxJaminanWaktu.Text, "")
+            Dim tglAwal As String = Format(dtWaktuAwal.Value, "yyyy-MM-dd")
+            Dim tglAkhir As String = Format(dtWaktuAkhir.Value, "yyyy-MM-dd")
+
+            ' --- Ambil nama kolom pertama (bisa Jam atau Hari) ---
+            Dim kolomUtama As String = DataGridView4.Columns(0).HeaderText
+
+            ' --- Bangun JSON manual ---
+            Dim sb As New System.Text.StringBuilder()
+            sb.Append("{")
+            sb.Append("""cabang"":""" & cabang & """,")
+            sb.Append("""poli"":""" & poli & """,")
+            sb.Append("""periode"":""" & periode & """,")
+            sb.Append("""jaminan"":""" & jaminan & """,")
+            sb.Append("""tglAwal"":""" & tglAwal & """,")
+            sb.Append("""tglAkhir"":""" & tglAkhir & """,")
+            sb.Append("""data"":[")
+
+            Dim first As Boolean = True
+            For Each row As DataGridViewRow In DataGridView4.Rows
+                If Not row.IsNewRow Then
+                    If Not first Then sb.Append(",")
+                    first = False
+
+                    sb.Append("{")
+                    sb.Append("""" & kolomUtama & """:""" & row.Cells(0).Value.ToString().Replace("""", "'") & """,")
+                    sb.Append("""JumlahPasien"":" & Val(row.Cells(1).Value))
+                    sb.Append("}")
+                End If
+            Next
+
+            sb.Append("]}")
+
+            Dim jsonData As String = sb.ToString()
+
+            ' --- (Opsional) Cek hasil JSON ---
+            ' MsgBox(jsonData)
+
+            ' --- Kirim ke API ---
+            Dim response As String = InsertDataAPIRM(jsonData, apiUrl)
+
+            ' --- Tangani respon ---
+            Try
+                Dim json As JObject = JObject.Parse(response)
+
+                If json("status").ToString().ToLower() = "success" Then
+                    Dim pdfUrl As String = json("url").ToString()
+                    Process.Start(pdfUrl)
+                Else
+                    Dim msg As String = ""
+                    If json("message") IsNot Nothing Then msg = json("message").ToString()
+                    MessageBox.Show("Gagal membuat laporan: " & msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Respons API tidak valid: " & ex.Message & vbCrLf & "Isi respons: " & response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
 
         Catch ex As Exception
             MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

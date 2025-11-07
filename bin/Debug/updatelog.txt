@@ -3,8 +3,10 @@ Version : 2.0.0.56 ()
 # [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
 # [New Feature] Penambahan Fitur Analisis Data - Forecasting Kunjungan Pasien Menggunakan Metode SES + MAPE
 # [New Feature] Penambahan Fitur Analisis Data - Tren Kunjungan Pasien
+# [New Feature] Penambahan Fitur Analisis Data - Kunjungan Pasien Baru dan Lama
 # [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
-# [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya 
+# [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya
+# [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 
 
 Version : 2.0.0.55 (14 Oktober 2025)
 # [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
