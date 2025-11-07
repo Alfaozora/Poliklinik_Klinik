@@ -469,7 +469,7 @@ Partial Class LabAdminOnline
         'ResendToMesinToolStripMenuItem
         '
         Me.ResendToMesinToolStripMenuItem.Name = "ResendToMesinToolStripMenuItem"
-        Me.ResendToMesinToolStripMenuItem.Size = New System.Drawing.Size(107, 20)
+        Me.ResendToMesinToolStripMenuItem.Size = New System.Drawing.Size(108, 20)
         Me.ResendToMesinToolStripMenuItem.Text = "Resend To Mesin"
         '
         'CetakBarcodeToolStripMenuItem

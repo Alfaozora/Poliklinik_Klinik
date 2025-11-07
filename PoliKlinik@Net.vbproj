@@ -475,6 +475,12 @@
     <Compile Include="Prototype\FindRujukanTACC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormAnalisisKunjunganPasien.Designer.vb">
+      <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormAnalisisKunjunganPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormBandingGambar.Designer.vb">
       <DependentUpon>FormBandingGambar.vb</DependentUpon>
     </Compile>
@@ -786,6 +792,12 @@
     <Compile Include="Prototype\DialogBoxPanggilPasien.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormPrediksiPasien.Designer.vb">
+      <DependentUpon>FormPrediksiPasien.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormPrediksiPasien.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormRekamMedisDokter.Designer.vb">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
     </Compile>
@@ -810,10 +822,29 @@
     <Compile Include="Prototype\FormRiwayatKunjungan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FuzzyUtils.vb" />
     <Compile Include="Prototype\KYC.Designer.vb">
       <DependentUpon>KYC.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\KYC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\MappingObatKFA.Designer.vb">
+      <DependentUpon>MappingObatKFA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\MappingObatKFA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\PopupICD9.Designer.vb">
+      <DependentUpon>PopupICD9.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\PopupICD9.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\PopupObatLokal.Designer.vb">
+      <DependentUpon>PopupObatLokal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\PopupObatLokal.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\RepairNoKunjunganBPJS.Designer.vb">
@@ -841,6 +872,12 @@
     <Compile Include="Prototype\UploadTindakan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\MappingTindakan.Designer.vb">
+      <DependentUpon>MappingTindakan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\MappingTindakan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\ReportFeeDokterPengirim.Designer.vb">
       <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>
     </Compile>
@@ -859,11 +896,20 @@
     <Compile Include="Reservasi\FormReservasi.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Satu Sehat\FormObservations.Designer.vb">
+      <DependentUpon>FormObservations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Satu Sehat\FormObservations.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.Designer.vb">
       <DependentUpon>FormSynchronizationSatuSehat.vb</DependentUpon>
     </Compile>
     <Compile Include="Satu Sehat\FormSynchronizationSatuSehat.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Satu Sehat\GradientPanel.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Satu Sehat\Resource\AuthResource.vb" />
     <Compile Include="Satu Sehat\FormResourceSatuSehat.Designer.vb">
@@ -1456,6 +1502,9 @@
     <EmbeddedResource Include="Prototype\FindRujukanTACC.resx">
       <DependentUpon>FindRujukanTACC.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormAnalisisKunjunganPasien.resx">
+      <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormBandingGambar.resx">
       <DependentUpon>FormBandingGambar.vb</DependentUpon>
     </EmbeddedResource>
@@ -1627,6 +1676,9 @@
     <EmbeddedResource Include="Prototype\DialogBoxPanggilPasien.resx">
       <DependentUpon>DialogBoxPanggilPasien.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormPrediksiPasien.resx">
+      <DependentUpon>FormPrediksiPasien.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormRekamMedisDokter.resx">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
     </EmbeddedResource>
@@ -1642,6 +1694,15 @@
     <EmbeddedResource Include="Prototype\KYC.resx">
       <DependentUpon>KYC.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\MappingObatKFA.resx">
+      <DependentUpon>MappingObatKFA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\PopupICD9.resx">
+      <DependentUpon>PopupICD9.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\PopupObatLokal.resx">
+      <DependentUpon>PopupObatLokal.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\RepairNoKunjunganBPJS.resx">
       <DependentUpon>RepairNoKunjunganBPJS.vb</DependentUpon>
     </EmbeddedResource>
@@ -1654,6 +1715,9 @@
     <EmbeddedResource Include="Prototype\UploadTindakan.resx">
       <DependentUpon>UploadTindakan.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\MappingTindakan.resx">
+      <DependentUpon>MappingTindakan.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportFeeDokterPengirim.resx">
       <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>
     </EmbeddedResource>
@@ -1662,6 +1726,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reservasi\FormReservasi.resx">
       <DependentUpon>FormReservasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Satu Sehat\FormObservations.resx">
+      <DependentUpon>FormObservations.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Satu Sehat\FormResourceSatuSehat.resx">
       <DependentUpon>FormResourceSatuSehat.vb</DependentUpon>
@@ -2178,6 +2245,22 @@
     <None Include="Resources\Sinkronasi.png" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="AcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxAcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="Microsoft.Vbe.Interop.Forms">
       <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
       <VersionMajor>2</VersionMajor>

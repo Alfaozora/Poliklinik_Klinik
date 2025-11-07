@@ -40,7 +40,7 @@ Public Class Find
 
     Private DBFind As New DBSQLConn
     Private DBFind2 As New DBSQLConn
-    Private TForm As String
+    Public TForm As String
     Private QData As String
     Private QDataorder As String
     Private Kriteria(10) As String
@@ -176,6 +176,27 @@ Public Class Find
         cmbcols.Text = cmbcols.Items(Urutan).ToString
         txket.Focus()
         'griddata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+    End Sub
+
+    Public Sub QueryTheAPI(ByRef dt As DataTable, ByRef Form As String, ByRef Urutan As Integer)
+        Me.BringToFront()
+        Dbasal = dt
+        TForm = Form
+
+        GridControlListData.DataSource = Dbasal
+
+        If GridViewListData.RowCount > 0 Then GridViewListData.SelectRow(0)
+
+        cmbcols.Items.Clear()
+        For Each column As DataColumn In Dbasal.Columns
+            cmbcols.Items.Add(column.ColumnName)
+        Next
+
+        If cmbcols.Items.Count > 0 Then
+            cmbcols.Text = cmbcols.Items(Urutan).ToString
+        End If
+
+        txket.Focus()
     End Sub
 
     Public Sub QueryTheMysql(ByRef Qtext As String, ByRef Qorder As String, ByRef Form As String, ByRef Urutan As Integer)

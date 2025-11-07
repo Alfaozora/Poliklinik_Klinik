@@ -26,13 +26,13 @@ Partial Class FormSynchronizationSatuSehat
         Me.PanelTop = New System.Windows.Forms.Panel
         Me.btnClose = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.ButtonStopProses = New System.Windows.Forms.Button
+        Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.LabelProgress = New System.Windows.Forms.Label
         Me.Panel7 = New System.Windows.Forms.Panel
         Me.LabelJumlahPasienTanpaNomorIHS = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
         Me.ButtonSinkronisasiIHS = New System.Windows.Forms.Button
-        Me.LabelProgress = New System.Windows.Forms.Label
-        Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
         Me.Panel2 = New System.Windows.Forms.Panel
         Me.LabelJumlahTransaksi = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
@@ -53,7 +53,7 @@ Partial Class FormSynchronizationSatuSehat
         Me.ButtonSinkronisasi = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.TextBoxResponse = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel7.SuspendLayout()
@@ -113,26 +113,35 @@ Partial Class FormSynchronizationSatuSehat
         Me.Panel1.Size = New System.Drawing.Size(1000, 300)
         Me.Panel1.TabIndex = 6
         '
-        'ButtonStopProses
+        'ProgressBarSinkronisasi
         '
-        Me.ButtonStopProses.BackColor = System.Drawing.Color.White
-        Me.ButtonStopProses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ButtonStopProses.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonStopProses.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ButtonStopProses.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonStopProses.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.ButtonStopProses.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonStopProses.Image = CType(resources.GetObject("ButtonStopProses.Image"), System.Drawing.Image)
-        Me.ButtonStopProses.Location = New System.Drawing.Point(580, 209)
-        Me.ButtonStopProses.Name = "ButtonStopProses"
-        Me.ButtonStopProses.Size = New System.Drawing.Size(150, 35)
-        Me.ButtonStopProses.TabIndex = 527
-        Me.ButtonStopProses.Text = " Stop Proses"
-        Me.ButtonStopProses.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ButtonStopProses.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.ButtonStopProses.UseVisualStyleBackColor = False
+        Me.ProgressBarSinkronisasi.ForeColor = System.Drawing.Color.White
+        Me.ProgressBarSinkronisasi.Location = New System.Drawing.Point(12, 250)
+        Me.ProgressBarSinkronisasi.Name = "ProgressBarSinkronisasi"
+        Me.ProgressBarSinkronisasi.Size = New System.Drawing.Size(718, 10)
+        Me.ProgressBarSinkronisasi.TabIndex = 520
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(9, 263)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(57, 17)
+        Me.Label1.TabIndex = 528
+        Me.Label1.Text = "Status : "
+        '
+        'LabelProgress
+        '
+        Me.LabelProgress.AutoSize = True
+        Me.LabelProgress.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelProgress.ForeColor = System.Drawing.Color.Black
+        Me.LabelProgress.Location = New System.Drawing.Point(72, 263)
+        Me.LabelProgress.Name = "LabelProgress"
+        Me.LabelProgress.Size = New System.Drawing.Size(30, 17)
+        Me.LabelProgress.TabIndex = 522
+        Me.LabelProgress.Text = "0 %"
         '
         'Panel7
         '
@@ -186,25 +195,6 @@ Partial Class FormSynchronizationSatuSehat
         Me.ButtonSinkronisasiIHS.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonSinkronisasiIHS.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonSinkronisasiIHS.UseVisualStyleBackColor = False
-        '
-        'LabelProgress
-        '
-        Me.LabelProgress.AutoSize = True
-        Me.LabelProgress.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelProgress.ForeColor = System.Drawing.Color.Black
-        Me.LabelProgress.Location = New System.Drawing.Point(72, 263)
-        Me.LabelProgress.Name = "LabelProgress"
-        Me.LabelProgress.Size = New System.Drawing.Size(30, 17)
-        Me.LabelProgress.TabIndex = 522
-        Me.LabelProgress.Text = "0 %"
-        '
-        'ProgressBarSinkronisasi
-        '
-        Me.ProgressBarSinkronisasi.ForeColor = System.Drawing.Color.White
-        Me.ProgressBarSinkronisasi.Location = New System.Drawing.Point(12, 250)
-        Me.ProgressBarSinkronisasi.Name = "ProgressBarSinkronisasi"
-        Me.ProgressBarSinkronisasi.Size = New System.Drawing.Size(718, 10)
-        Me.ProgressBarSinkronisasi.TabIndex = 520
         '
         'Panel2
         '
@@ -461,16 +451,26 @@ Partial Class FormSynchronizationSatuSehat
         Me.TextBoxResponse.Size = New System.Drawing.Size(1000, 235)
         Me.TextBoxResponse.TabIndex = 461
         '
-        'Label1
+        'ButtonStopProses
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(9, 263)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(57, 17)
-        Me.Label1.TabIndex = 528
-        Me.Label1.Text = "Status : "
+        Me.ButtonStopProses.BackColor = System.Drawing.Color.White
+        Me.ButtonStopProses.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.ButtonStopProses.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonStopProses.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ButtonStopProses.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonStopProses.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ButtonStopProses.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonStopProses.Image = CType(resources.GetObject("ButtonStopProses.Image"), System.Drawing.Image)
+        Me.ButtonStopProses.Location = New System.Drawing.Point(580, 209)
+        Me.ButtonStopProses.Name = "ButtonStopProses"
+        Me.ButtonStopProses.Size = New System.Drawing.Size(150, 35)
+        Me.ButtonStopProses.TabIndex = 527
+        Me.ButtonStopProses.Text = " Stop Proses"
+        Me.ButtonStopProses.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ButtonStopProses.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonStopProses.UseVisualStyleBackColor = False
         '
         'FormSynchronizationSatuSehat
         '
@@ -537,6 +537,6 @@ Partial Class FormSynchronizationSatuSehat
     Friend WithEvents Panel7 As System.Windows.Forms.Panel
     Friend WithEvents LabelJumlahPasienTanpaNomorIHS As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents ButtonStopProses As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ButtonStopProses As System.Windows.Forms.Button
 End Class

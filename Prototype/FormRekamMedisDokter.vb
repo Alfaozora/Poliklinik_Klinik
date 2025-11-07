@@ -267,6 +267,8 @@ Public Class FormRekamMedisDokter
 
             '# Load Surat Persetujuan
 
+            '# Load PDF
+            Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
 
             '# Set Timer Notification
             TimerNotifikasi.Interval = 1000 ' berkedip setiap 1000ms (1 detik)
@@ -6404,6 +6406,35 @@ Public Class FormRekamMedisDokter
                 SplitContainerRujukanHeader.Panel2Collapsed = False
                 PanelRujukanHeader.Visible = True
                 PanelRujukanNonBPJS.Visible = False
+
+                ' --- Ambil data rujukan terakhir ---
+                Dim sqlRujuk As String = "" & _
+                    "SELECT TOP 1 " & _
+                        "TDR.KeteranganPPK, " & _
+                        "TDR.KeteranganSubSpesialis, " & _
+                        "TDR.TanggalRujukan " & _
+                    "FROM TransaksiDetail TD " & _
+                    "INNER JOIN TransaksiDetailRujukan TDR " & _
+                        "ON TD.NoUrut = TDR.NoTransaksi " & _
+                    "WHERE TD.IDInternet = '" & idPasien & "' " & _
+                    "ORDER BY TDR.TanggalRujukan DESC"
+
+                Dim dtCheck As DataTable = ReadSQL(sqlRujuk)
+
+                If dtCheck.Rows.Count > 0 Then
+                    Dim keteranganPPK As String = dtCheck.Rows(0)("KeteranganPPK").ToString()
+                    Dim subSpesialis As String = dtCheck.Rows(0)("KeteranganSubSpesialis").ToString()
+                    Dim tanggalRujukan As String = Format(CDate(dtCheck.Rows(0)("TanggalRujukan")), "dd MMM yyyy")
+
+                    MessageBox.Show("Pasien pernah dirujuk sebelumnya:" & vbCrLf & _
+                        "PPK: " & keteranganPPK & vbCrLf & _
+                        "Sub Spesialis: " & subSpesialis & vbCrLf & _
+                        "Tanggal Rujukan: " & tanggalRujukan, _
+                        "Informasi Rujukan Terakhir", _
+                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show("Tidak ditemukan riwayat rujukan sebelumnya.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             ElseIf ComboBoxStatusPulang.Text.Contains("Rjk") = True Then
                 ClearTabRujukan()
                 SplitContainerRujukanHeader.Panel2Collapsed = False
@@ -8554,6 +8585,55 @@ Public Class FormRekamMedisDokter
             End If
 
             Exit Sub
+        ElseIf RadioButtonPDF.Checked = True Then
+            ' Ambil data file PDF yang diupload
+            Dim queryPDF As String = "SELECT ID, NoRM, NoUrut, NamaFile, CreatedDate, FilePath " & _
+                                     "FROM UploadPDF " & _
+                                     "WHERE NoRM = '" & idPasien & "' " & _
+                                     "AND DeletedDate IS NULL " & _
+                                     "AND CONVERT(date, CreatedDate) BETWEEN '" & Format(Tawal, "yyyy-MM-dd") & "' AND '" & Format(Takhir, "yyyy-MM-dd") & "' " & _
+                                     "ORDER BY CreatedDate DESC"
+
+            Dim TblPDF As DataTable = ReadSQL(queryPDF)
+
+            If TblPDF.Rows.Count > 0 Then
+                For Each rowPDF As DataRow In TblPDF.Rows
+                    Dim newRow As DataRow = tblTemp.NewRow()
+                    newRow("Tgl Pemeriksaan") = Format(rowPDF("CreatedDate"), "yyyy-MM-dd HH:mm:ss")
+                    newRow("Nama Pemeriksaan") = rowPDF("NamaFile").ToString()
+                    newRow("Jenis Pemeriksaan") = "Hasil PDF"
+                    newRow("Detail Keterangan") = "-"
+                    newRow("Hasil") = "-"
+                    newRow("Satuan") = "-"
+                    newRow("Nilai Rujukan") = "-"
+                    newRow("Keterangan") = "-"
+                    newRow("FilePath") = rowPDF("FilePath").ToString()
+                    tblTemp.Rows.Add(newRow)
+                Next
+
+                DataGridViewRiwayatLaboratorium.DataSource = tblTemp
+                DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
+                DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                If DataGridViewRiwayatLaboratorium.Columns.Contains("FilePath") Then
+                    DataGridViewRiwayatLaboratorium.Columns("FilePath").Visible = False
+                End If
+
+                ' Tambahkan tombol di kolom terakhir (jika belum ada)
+                If DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF") Is Nothing Then
+                    Dim btnCol As New DataGridViewButtonColumn()
+                    btnCol.Name = "BtnLihatPDF"
+                    btnCol.HeaderText = "Aksi"
+                    btnCol.Text = "Lihat"
+                    btnCol.UseColumnTextForButtonValue = True
+                    DataGridViewRiwayatLaboratorium.Columns.Add(btnCol)
+                End If
+
+            Else
+                MsgBox("Tidak ada PDF hasil lab ditemukan.", MsgBoxStyle.Information, "Informasi")
+            End If
+
+            Exit Sub
         End If
 
         ' Jika bukan Cek Stik, ambil dari TransaksiLabDetail
@@ -8596,6 +8676,22 @@ Public Class FormRekamMedisDokter
         End If
     End Sub
 
+    Private Sub DataGridViewRiwayatLaboratorium_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewRiwayatLaboratorium.CellContentClick
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex = DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Index Then
+            Dim filePath As String = DataGridViewRiwayatLaboratorium.Rows(e.RowIndex).Cells("FilePath").Value.ToString()
+
+            If IO.File.Exists(filePath) Then
+                Try
+                    Process.Start(filePath)
+                Catch ex As Exception
+                    MessageBox.Show("Gagal membuka PDF. Pastikan aplikasi pembuka PDF tersedia." & vbCrLf & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                MessageBox.Show("File PDF tidak ditemukan di lokasi: " & filePath, "File Tidak Ada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        End If
+    End Sub
+
 
     Function CreateTableRiwayatLaboratorium() As DataTable
         Dim Thasil As New DataTable
@@ -8608,6 +8704,7 @@ Public Class FormRekamMedisDokter
         insertRowToTbls(Thasil, "Typstring", "Satuan")
         insertRowToTbls(Thasil, "Typstring", "Nilai Rujukan")
         insertRowToTbls(Thasil, "Typstring", "Keterangan")
+        insertRowToTbls(Thasil, "Typstring", "FilePath")
 
         Return Thasil
     End Function
@@ -11666,9 +11763,17 @@ Public Class FormRekamMedisDokter
             ambilPoli = dt.Rows(0)("JenisPoli").ToString()
         End If
 
+        ' Tentukan Jenis (Umum/Lab)
+        Dim jenisGambar As String = "Umum" ' default
+        If RbJenisLab.Checked Then
+            jenisGambar = "LAB"
+        ElseIf RbJenisUmum.Checked Then
+            jenisGambar = "Umum"
+        End If
+
         ' Simpan ke database
-        WriteSQL("INSERT INTO UploadGambar (NoUrut, NoRM, FotoPath, Kategori, Keterangan, Pemeriksaan, CreatedBy, CreatedDate, Deleted) " & _
-         "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & fotoPath & "', '" & ambilPoli & "', '" & keterangan & "', '" & nilaiPemeriksaan & "', '" & userInput & "', GETDATE(), 0)", 4)
+        WriteSQL("INSERT INTO UploadGambar (NoUrut, NoRM, FotoPath, Kategori, Keterangan, Pemeriksaan, CreatedBy, CreatedDate, Deleted, Jenis) " & _
+         "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & fotoPath & "', '" & ambilPoli & "', '" & keterangan & "', '" & nilaiPemeriksaan & "', '" & userInput & "', GETDATE(), 0, '" & jenisGambar & "')", 4)
 
         ' Refresh ComboBox setelah simpan
         MuatKeteranganKeComboBox()
@@ -11685,6 +11790,7 @@ Public Class FormRekamMedisDokter
         MuatKeteranganKeComboBox()
         TextBoxKeterangan.Text = placeholderText
         TextBoxKeterangan.ForeColor = Color.Gray
+        RbJenisUmum.Checked = True
     End Sub
 
     Private Sub TextBoxKeterangan_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -13044,8 +13150,12 @@ Public Class FormRekamMedisDokter
 
         Dim statusAPI As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'status_ws_RM' ")
 
-        If statusAPI IsNot Nothing AndAlso statusAPI = "Yes" Then
-            SendToApiGetUrl(idPasien)
+        Dim result As DialogResult = MessageBox.Show("Apakah Anda ingin mengirim data ke Whatsapp pasien?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            If statusAPI IsNot Nothing AndAlso statusAPI = "Yes" Then
+                SendToApiGetUrl(idPasien)
+            End If
         End If
     End Sub
 
@@ -13216,5 +13326,113 @@ Public Class FormRekamMedisDokter
     Private Sub ButtonScanQR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonScanQR.Click
         DialogBoxPaketTindakan.SetForm("Perencanaan Tindakan")
         DialogBoxPaketTindakan.ShowDialog()
+    End Sub
+
+    Private Sub ButtonUploadPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUploadPDF.Click
+        Dim ofd As New OpenFileDialog()
+        ofd.Filter = "PDF Files|*.pdf"
+        ofd.Title = "Pilih File PDF"
+
+        If ofd.ShowDialog() = DialogResult.OK Then
+            Dim folderPath As String = Application.StartupPath & "\Uploads\PDF"
+            If Not IO.Directory.Exists(folderPath) Then
+                IO.Directory.CreateDirectory(folderPath)
+            End If
+
+            ' Buat nama file unik agar tidak bentrok
+            Dim fileName As String = IO.Path.GetFileName(ofd.FileName)
+            Dim uniqueName As String = Guid.NewGuid().ToString() & "_" & fileName
+            Dim targetPath As String = IO.Path.Combine(folderPath, uniqueName)
+
+            ' Salin ke folder aplikasi
+            IO.File.Copy(ofd.FileName, targetPath, True)
+
+            ' (Opsional) tampilkan nama file di TextBox
+            TextBoxNamaPDF.Text = fileName
+
+            ' Simpan path ke database
+            Dim sql As String = "INSERT INTO UploadPDF (NoUrut, NoRM, FilePath, NamaFile, CreatedBy, CreatedDate) " & _
+                                "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & targetPath.Replace("'", "''") & "', '" & _
+                                fileName.Replace("'", "''") & "', '" & userInput & "', GETDATE())"
+            WriteSQL(sql, 4)
+
+            MessageBox.Show("File PDF berhasil diunggah.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            ' === Buka file PDF di browser default ===
+            Try
+                System.Diagnostics.Process.Start(targetPath)
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+
+            ' ===============================================================
+            MessageBox.Show("File PDF berhasil diunggah dan dibuka di browser.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
+        End If
+    End Sub
+
+    Private Sub MuatPDFByTransaksiNoRM(ByVal noUrut As String, ByVal noRM As String)
+        Dim query As String = "SELECT ID, NamaFile, FilePath FROM UploadPDF " & _
+                          "WHERE NoUrut = '" & noUrut & "' AND NoRM = '" & noRM & "' AND DeletedDate IS NULL"
+        Dim dt As DataTable = ReadSQL(query)
+
+        ComboBoxTampilPDF.DataSource = dt
+        ComboBoxTampilPDF.DisplayMember = "NamaFile"
+        ComboBoxTampilPDF.ValueMember = "FilePath"
+    End Sub
+
+    Private Sub ComboBoxTampilPDF_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ComboBoxTampilPDF.SelectedIndexChanged
+        If ComboBoxTampilPDF.SelectedValue IsNot Nothing Then
+            Dim pathPDF As String = ComboBoxTampilPDF.SelectedValue.ToString()
+            If IO.File.Exists(pathPDF) Then
+                Try
+                    ' Buka file PDF di browser default
+                    System.Diagnostics.Process.Start(pathPDF)
+                Catch ex As Exception
+                    MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            Else
+                MessageBox.Show("File PDF tidak ditemukan di folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        End If
+    End Sub
+
+    Private Sub ButtonHapusPDF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHapusPDF.Click
+        If ComboBoxTampilPDF.SelectedValue Is Nothing Then
+            MessageBox.Show("Silakan pilih file PDF yang akan dihapus.", "Validasi", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Dim filePath As String = ComboBoxTampilPDF.SelectedValue.ToString()
+        Dim namaFile As String = ComboBoxTampilPDF.Text
+
+        If MessageBox.Show("Yakin ingin menghapus file: " & namaFile & " ?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            ' Update database
+            Dim sql As String = "UPDATE UploadPDF SET DeletedDate = GETDATE(), DeletedBy = '" & userInput & "' WHERE FilePath = '" & filePath.Replace("'", "''") & "'"
+            WriteSQL(sql, 4)
+
+            ' Hapus file fisik
+            If IO.File.Exists(filePath) Then
+                IO.File.Delete(filePath)
+            End If
+
+            MessageBox.Show("File PDF berhasil dihapus.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            ' Refresh daftar PDF
+            Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
+
+            ' Hapus tampilan PDF di AxAcroPDF (tidak digunakan lagi)
+            ' AxAcroPDF1.src = Nothing
+
+            ' Jika ingin tampilkan di browser (opsional untuk cek)
+            Try
+                If IO.File.Exists(filePath) Then
+                    Process.Start(New ProcessStartInfo(filePath) With {.UseShellExecute = True})
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF di browser: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 End Class

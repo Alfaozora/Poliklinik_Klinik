@@ -1,8 +1,25 @@
-Version : 2.0.0.55 ()
+Version : 2.0.0.56 ()
+# [Usability Improvement] Penambahan Jenis Gambar pada Upload Gambar
+# [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
+# [New Feature] Penambahan Fitur Analisis Data - Forecasting Kunjungan Pasien Menggunakan Metode SES + MAPE
+# [New Feature] Penambahan Fitur Analisis Data - Tren Kunjungan Pasien
+# [New Feature] Penambahan Fitur Analisis Data - Kunjungan Pasien Baru dan Lama
+# [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
+# [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya
+# [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 
+
+Version : 2.0.0.55 (14 Oktober 2025)
 # [New Feature] Penambahan Fitur Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital yang akan dikirimkan kepada Pasien
 # [New Feature] Penambahan Web Service untuk Pengiriman Data Riwayat Cek Stik, Riwayat Penggunaan obat, Riwayat Diagnosa, Statistik Vital
 # [New Feature] Penambahan Nama Dokter GIGI pada Surat Keterangan Istirahat
-# [Usability Improvement] Penyesuaian Signa2 pada obat yang dapat menampung angka desimal
+# [New Feature] Penambahan Fitur Kirim Observasi/Observations ke SATUSEHAT
+# [New Feature] Penambahan Fitur Kirim Tindakan/Procedures ke SATUSEHAT
+# [New Feature] Penambahan Fitur Mapping ICD-9-CM untuk Master Tindakan
+# [New Feature] Penambahan Fitur Mapping Obat KFA
+# [New Feature] Penambahan Fitur Kirim Medication/Obat Lokal yang terstandarisasi KFA ke SATUSEHAT
+# [New Feature] Penambahan Fitur Kirim Medication Request/Permintaan Obat ke SATUSEHAT
+# [Usability Improvement] Penyesuaian Signa2 pada obat yang dapat menampung angka decimal
+# [Bug Fix] Memperbaiki Error saat menampilkan Priview IC pada Tindakan
 
 Version : 2.0.0.54 (02 September 2025)
 # [New Feature] Penambahan Menu Ganti Dokter (Hanya Bisa Diakses Admin)
