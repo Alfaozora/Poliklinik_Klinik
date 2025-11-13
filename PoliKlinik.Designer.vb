@@ -128,6 +128,7 @@ Partial Class PoliKlinik
         Me.CapaianKBKToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AnalisisDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ForecastingPasienToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GroupUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -1039,16 +1040,25 @@ Partial Class PoliKlinik
         '
         'AnalisisDataToolStripMenuItem
         '
-        Me.AnalisisDataToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForecastingPasienToolStripMenuItem})
+        Me.AnalisisDataToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForecastingPasienToolStripMenuItem, Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem})
         Me.AnalisisDataToolStripMenuItem.Name = "AnalisisDataToolStripMenuItem"
         Me.AnalisisDataToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.AnalisisDataToolStripMenuItem.Tag = "0509"
         Me.AnalisisDataToolStripMenuItem.Text = "Analisis Data"
         '
         'ForecastingPasienToolStripMenuItem
         '
         Me.ForecastingPasienToolStripMenuItem.Name = "ForecastingPasienToolStripMenuItem"
         Me.ForecastingPasienToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.ForecastingPasienToolStripMenuItem.Tag = "050901"
         Me.ForecastingPasienToolStripMenuItem.Text = "Analisis Kunjungan Pasien"
+        '
+        'AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem
+        '
+        Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem.Name = "AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem"
+        Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem.Tag = "050902"
+        Me.AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem.Text = "Analisis Obat"
         '
         'SettingToolStripMenuItem
         '
@@ -2340,4 +2350,5 @@ Partial Class PoliKlinik
     Friend WithEvents PrediksiPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AnalisisDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ForecastingPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

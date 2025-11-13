@@ -475,6 +475,12 @@
     <Compile Include="Prototype\FindRujukanTACC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormAnalisisKinerjaDokter.Designer.vb">
+      <DependentUpon>FormAnalisisKinerjaDokter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormAnalisisKinerjaDokter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormAnalisisKunjunganPasien.Designer.vb">
       <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>
     </Compile>
@@ -835,6 +841,7 @@
     <Compile Include="Prototype\MappingObatKFA.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\ModuleGlobal.vb" />
     <Compile Include="Prototype\PopupICD9.Designer.vb">
       <DependentUpon>PopupICD9.vb</DependentUpon>
     </Compile>
@@ -1501,6 +1508,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FindRujukanTACC.resx">
       <DependentUpon>FindRujukanTACC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormAnalisisKinerjaDokter.resx">
+      <DependentUpon>FormAnalisisKinerjaDokter.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormAnalisisKunjunganPasien.resx">
       <DependentUpon>FormAnalisisKunjunganPasien.vb</DependentUpon>

@@ -1420,4 +1420,9 @@ Public Class PoliKlinik
         FormAnalisisKunjunganPasien.Show()
         FormAnalisisKunjunganPasien.Focus()
     End Sub
+
+    Private Sub AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem.Click
+        FormAnalisisKinerjaDokter.Show()
+        FormAnalisisKinerjaDokter.Focus()
+    End Sub
 End Class

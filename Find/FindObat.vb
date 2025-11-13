@@ -13,6 +13,8 @@ Imports System.Web.UI.WebControls
 Public Class FindObat
     Private formName As String = "PENCARIAN OBAT"
     Private TForm As String
+    Private fadeIn As Boolean = True
+    Private fadeLevel As Integer = 100 ' nilai 0–255, 100 = abu-abu muda
     Dim Ttcon As New TLcon
     Private userInput As String = PoliKlinik.Lbluser.Text
 
@@ -85,6 +87,103 @@ Public Class FindObat
         SetAwal()
         GridPencarian.DataSource = CreateTable()
         GridObatDPHO.DataSource = Nothing
+
+        If CachedAutoList IsNot Nothing AndAlso CachedAutoList.Count > 0 Then
+            TextBoxNamaObat.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+            TextBoxNamaObat.AutoCompleteSource = AutoCompleteSource.CustomSource
+            TextBoxNamaObat.AutoCompleteCustomSource = CachedAutoList
+            LabelLoading.Visible = False
+            TimerBlink.Enabled = False
+        Else
+            LabelLoading.Visible = True
+            fadeLevel = 100
+            fadeIn = True
+            LabelLoading.ForeColor = Color.FromArgb(fadeLevel, Color.Black)
+            TimerBlink.Enabled = True
+            If Not BGWorkerAutoFill.IsBusy Then
+                BGWorkerAutoFill.RunWorkerAsync()
+            End If
+        End If
+        'LoadAutoCompleteNamaObat()
+    End Sub
+
+    'Private Sub LoadAutoCompleteNamaObat()
+    '    Try
+    '        If String.IsNullOrEmpty(Ttcon.Tdb) Then
+    '            Connection()
+    '        End If
+
+    '        Dim lokasiApotek As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='LokasiApotek'")
+    '        Dim namaObat As String = ""
+    '        Dim komponenObat As String = ""
+
+    '        Dim query As String = "CALL Sp_GetStockListKlinik('" & lokasiApotek & "','" & namaObat & "','" & komponenObat & "')"
+    '        Dim TblsObat As DataTable = ReadThemysql(query, Ttcon)
+
+    '        Dim autoList As New AutoCompleteStringCollection()
+    '        For Each row As DataRow In TblsObat.Rows
+    '            Dim nama As String = row("namaobat").ToString().Trim()
+    '            If nama <> "" AndAlso Not autoList.Contains(nama) Then
+    '                autoList.Add(nama)
+    '            End If
+    '        Next
+
+    '        TextBoxNamaObat.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+    '        TextBoxNamaObat.AutoCompleteSource = AutoCompleteSource.CustomSource
+    '        TextBoxNamaObat.AutoCompleteCustomSource = autoList
+
+    '    Catch ex As Exception
+    '        MsgBox("Gagal memuat autofill obat: " & ex.Message, MsgBoxStyle.Exclamation, "Error")
+    '    End Try
+    'End Sub
+
+    Private Sub BGWorkerAutoFill_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BGWorkerAutoFill.DoWork
+        Try
+            If String.IsNullOrEmpty(Ttcon.Tdb) Then
+                Connection()
+            End If
+
+            Dim lokasiApotek As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='LokasiApotek'")
+            Dim query As String = "CALL Sp_GetStockListKlinik('" & lokasiApotek & "','','')"
+            Dim TblsObat As DataTable = ReadThemysql(query, Ttcon)
+
+            Dim autoList As New AutoCompleteStringCollection()
+            Dim setNama As New Hashtable()
+
+            For Each row As DataRow In TblsObat.Rows
+                Dim nama As String = row("namaobat").ToString().Trim()
+                If nama <> "" AndAlso Not setNama.ContainsKey(nama) Then
+                    setNama.Add(nama, True)
+                    autoList.Add(nama)
+                End If
+            Next
+
+            e.Result = autoList
+
+        Catch ex As Exception
+            MessageBox.Show("Gagal memuat autofill obat: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
+    End Sub
+
+    Private Sub BGWorkerAutoFill_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BGWorkerAutoFill.RunWorkerCompleted
+        Try
+            LabelLoading.Visible = False
+            TimerBlink.Enabled = False
+            LabelLoading.ForeColor = Color.Gray
+
+            If e.Result IsNot Nothing Then
+                Dim autoList As AutoCompleteStringCollection = CType(e.Result, AutoCompleteStringCollection)
+
+                ' Simpan ke cache global
+                CachedAutoList = autoList
+
+                TextBoxNamaObat.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+                TextBoxNamaObat.AutoCompleteSource = AutoCompleteSource.CustomSource
+                TextBoxNamaObat.AutoCompleteCustomSource = CachedAutoList
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Gagal mengatur AutoComplete: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End Try
     End Sub
 
     Private Sub SetAwal()
@@ -285,5 +384,13 @@ Public Class FindObat
     Public Sub SetForm(ByRef Form As String)
         Me.BringToFront()
         TForm = Form
+    End Sub
+
+    Private Sub TimerBlink_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerBlink.Tick
+        If LabelLoading.ForeColor = Color.Gray Then
+            LabelLoading.ForeColor = Color.Black
+        Else
+            LabelLoading.ForeColor = Color.Gray
+        End If
     End Sub
 End Class

@@ -22,10 +22,12 @@ Partial Class FindObat
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FindObat))
         Me.PanelTop = New System.Windows.Forms.Panel
         Me.btnClose = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.LabelLoading = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.TextBoxKomponenObat = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
@@ -38,6 +40,8 @@ Partial Class FindObat
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.Label3 = New System.Windows.Forms.Label
         Me.GridObatDPHO = New System.Windows.Forms.DataGridView
+        Me.BGWorkerAutoFill = New System.ComponentModel.BackgroundWorker
+        Me.TimerBlink = New System.Windows.Forms.Timer(Me.components)
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -79,6 +83,7 @@ Partial Class FindObat
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
+        Me.Panel1.Controls.Add(Me.LabelLoading)
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.TextBoxKomponenObat)
         Me.Panel1.Controls.Add(Me.Label2)
@@ -89,6 +94,19 @@ Partial Class FindObat
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(798, 132)
         Me.Panel1.TabIndex = 6
+        '
+        'LabelLoading
+        '
+        Me.LabelLoading.AutoSize = True
+        Me.LabelLoading.BackColor = System.Drawing.Color.Transparent
+        Me.LabelLoading.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelLoading.ForeColor = System.Drawing.SystemColors.GrayText
+        Me.LabelLoading.Location = New System.Drawing.Point(520, 54)
+        Me.LabelLoading.Name = "LabelLoading"
+        Me.LabelLoading.Size = New System.Drawing.Size(148, 17)
+        Me.LabelLoading.TabIndex = 442
+        Me.LabelLoading.Text = "Memuat daftar obat ......"
+        Me.LabelLoading.Visible = False
         '
         'Label1
         '
@@ -240,6 +258,13 @@ Partial Class FindObat
         Me.GridObatDPHO.Size = New System.Drawing.Size(798, 128)
         Me.GridObatDPHO.TabIndex = 0
         '
+        'BGWorkerAutoFill
+        '
+        '
+        'TimerBlink
+        '
+        Me.TimerBlink.Interval = 800
+        '
         'FindObat
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -288,4 +313,7 @@ Partial Class FindObat
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents GridObatDPHO As System.Windows.Forms.DataGridView
+    Friend WithEvents BGWorkerAutoFill As System.ComponentModel.BackgroundWorker
+    Friend WithEvents LabelLoading As System.Windows.Forms.Label
+    Friend WithEvents TimerBlink As System.Windows.Forms.Timer
 End Class

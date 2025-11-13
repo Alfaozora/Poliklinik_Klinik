@@ -3466,3 +3466,4 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\Interop.AcroPDFLib.d
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\AxInterop.AcroPDFLib.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormPrediksiPasien.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormAnalisisKunjunganPasien.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormAnalisisKinerjaDokter.resources
