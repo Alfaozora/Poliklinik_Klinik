@@ -2280,17 +2280,16 @@ Public Class FormPembayaran
             End If
 
             ' Validasi Setting WhatsApp
-            If whatsAppStatus <> "Yes" Then
-                MessageBox.Show("Gagal!. WhatsApp belum di setting, hubungi tim IT.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
+            'If whatsAppStatus <> "Yes" Then
+            '    MessageBox.Show("Gagal!. WhatsApp belum di setting, hubungi tim IT.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
 
             ' Set Variabel API
             Dim fileBase64 As String = ""
             Dim parameter As String = ""
             Dim urlSendPDF As String = ""
             Dim urlSendMessage As String = ""
-            Dim statusKirim As String = ""
 
             ' Set PDF
             Dim fileName As String = NomorTransaksi & "_" & JenisTransaksi
@@ -2310,13 +2309,72 @@ Public Class FormPembayaran
                                           "" & keteranganLokasi & ".\n\n" & _
                                           "----- Pesan ini adalah pesan otomatis, mohon agar tidak membalas -----"
 
+            ' ======================================================
+            '    JIKA STATUS = "No" → KIRIM VIA API LARAVEL (ULTRAMSG)
+            ' ======================================================
+            If whatsAppStatus = "No" Then
+
+                If MessageBox.Show("WhatsApp lokal tidak aktif. Kirim via WhatsApp cadangan (UltraMsg) ke " & NoWhatsappCustomer & "?", _
+                                   "Validasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
+
+                Try
+                    ' ================================
+                    ' ULTRAMSG DIRECT API (VB.NET 2008)
+                    ' ================================
+                    Dim instance As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_instance'")
+                    Dim token As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_token'")
+
+                    ' URL WAJIB ADA TOKEN-NYA DI GET
+                    Dim apiUrl As String = "http://api.ultramsg.com/" & instance & "/messages/document"
+
+                    ' File lokal harus berupa URL publik
+                    ' Misalkan file PDF sudah Anda upload:
+                    Dim fileUrl As String = "https://file-example.s3-accelerate.amazonaws.com/documents/cv.pdf"
+
+                    ' Data POST sesuai format UltraMsg
+                    Dim postdata As String = "token=" & token & _
+                                             "&to=" & NoWhatsappCustomer & _
+                                             "&filename=" & fileName & _
+                                             "&document=" & fileUrl & _
+                                             "&caption=" & pesanWhatsApp & _
+                                             "&priority=5"
+                    MsgBox(postdata)
+
+                    Dim enc As New UTF8Encoding()
+                    Dim postBytes As Byte() = enc.GetBytes(postdata)
+
+                    Dim req As HttpWebRequest = CType(WebRequest.Create(apiUrl), HttpWebRequest)
+                    req.Method = "POST"
+                    req.ContentType = "application/x-www-form-urlencoded"
+                    req.ContentLength = postBytes.Length
+
+                    ' Kompatibel VB 2008
+                    Dim stream = req.GetRequestStream()
+                    stream.Write(postBytes, 0, postBytes.Length)
+                    stream.Close()
+
+                    Dim resp As HttpWebResponse = CType(req.GetResponse(), HttpWebResponse)
+                    Dim reader As New IO.StreamReader(resp.GetResponseStream())
+                    Dim responseText As String = reader.ReadToEnd()
+
+                    MsgBox("Response API UltraMsg:" & vbCrLf & responseText, MsgBoxStyle.Information)
+
+                Catch ex As Exception
+                    MsgBox("Error UltraMsg: " & ex.Message, MsgBoxStyle.Critical)
+                End Try
+
+                Exit Sub
+            End If
+
+
             ' Set Parameter WhatsApp
             parameter = SetParameterWhatsappKlinik(NoWhatsappCustomer, fileBase64, fileName, pesanWhatsApp)
 
             ' Set URL WhatsApp
-            'urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendPDF = "http://" & whatsAppIP & ":4444/send-pdf"
+
+            Dim statusKirim As String = ""
 
             ' Validasi Kirim WhatsApp
             If CheckSQL("SELECT * FROM LogSendingWhatsappEmail WHERE NoUrut = '" & NomorTransaksi & "' AND SendingNamaFile = '" & fileName & "' AND SendingStatus = 1 AND CONVERT(DATE, SendingDate) = '" & Format(DateTime.Now, "yyyy-MM-dd") & "'") = True Then
@@ -2341,6 +2399,8 @@ Public Class FormPembayaran
             ElseIf statusKirim = "Nothing" Then
                 MsgBox("Gagal Mengirim Whatsapp ke " & NoWhatsappCustomer.Trim & ". Cek koneksi jaringan atau hubungi IT untuk restart server Whatsapp.", MsgBoxStyle.Exclamation, "Warning!")
             End If
+
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try

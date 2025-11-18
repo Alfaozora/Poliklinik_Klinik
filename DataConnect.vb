@@ -2204,6 +2204,29 @@ Module Test
         End Try
     End Function
 
+    Public Function SendPOST(ByVal apiUrl As String, ByVal postData As String) As String
+        Try
+            Dim req As Net.HttpWebRequest = CType(Net.WebRequest.Create(apiUrl), Net.HttpWebRequest)
+            req.Method = "POST"
+            req.ContentType = "application/x-www-form-urlencoded"
+
+            Dim dataBytes As Byte() = System.Text.Encoding.UTF8.GetBytes(postData)
+            req.ContentLength = dataBytes.Length
+
+            Using stream = req.GetRequestStream()
+                stream.Write(dataBytes, 0, dataBytes.Length)
+            End Using
+
+            Dim resp As Net.HttpWebResponse = CType(req.GetResponse(), Net.HttpWebResponse)
+            Dim reader As New IO.StreamReader(resp.GetResponseStream())
+            Return reader.ReadToEnd()
+
+        Catch ex As Exception
+            Return "Error: " & ex.Message
+        End Try
+    End Function
+
+
     Public Function InsertDataAPI(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Dim str As String = ""

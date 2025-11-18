@@ -3467,3 +3467,4 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\AxInterop.AcroPDFLib
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormPrediksiPasien.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormAnalisisKunjunganPasien.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormAnalisisKinerjaDokter.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.WhatsAppSetting.resources

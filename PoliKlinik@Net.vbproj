@@ -885,6 +885,12 @@
     <Compile Include="Prototype\MappingTindakan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\WhatsAppSetting.Designer.vb">
+      <DependentUpon>WhatsAppSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\WhatsAppSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\ReportFeeDokterPengirim.Designer.vb">
       <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>
     </Compile>
@@ -1727,6 +1733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\MappingTindakan.resx">
       <DependentUpon>MappingTindakan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\WhatsAppSetting.resx">
+      <DependentUpon>WhatsAppSetting.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportFeeDokterPengirim.resx">
       <DependentUpon>ReportFeeDokterPengirim.vb</DependentUpon>

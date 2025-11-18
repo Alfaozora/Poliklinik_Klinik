@@ -6,7 +6,8 @@ Version : 2.0.0.56 ()
 # [New Feature] Penambahan Fitur Analisis Data - Kunjungan Pasien Baru dan Lama
 # [New Feature] Penambahan Fitur Analisis Data - Waktu Pelayanan Klinik
 # [New Feature] Penambahan Fitur Analisis Data - Pemakaian Obat
-# [New Feature] Penambahan Fitur Auto Complete pada Pencarian Obat 
+# [New Feature] Penambahan Fitur Auto Complete pada Pencarian Obat
+# [New Feature] Penambahan Fitur WhatsApp API (Development) 
 # [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
 # [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 

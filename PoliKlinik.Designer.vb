@@ -282,6 +282,7 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
+        Me.SettingWhatsAppToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1062,7 +1063,7 @@ Partial Class PoliKlinik
         '
         'SettingToolStripMenuItem
         '
-        Me.SettingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GroupUserToolStripMenuItem, Me.UserToolStripMenuItem, Me.MsConfigToolStripMenuItem, Me.FormMenuToolStripMenuItem, Me.UserONLINEToolStripMenuItem, Me.SettingProgramToolStripMenuItem, Me.SettingPCareToolStripMenuItem, Me.ResourcePCareToolStripMenuItem, Me.SettingICareToolStripMenuItem})
+        Me.SettingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GroupUserToolStripMenuItem, Me.UserToolStripMenuItem, Me.MsConfigToolStripMenuItem, Me.FormMenuToolStripMenuItem, Me.UserONLINEToolStripMenuItem, Me.SettingProgramToolStripMenuItem, Me.SettingPCareToolStripMenuItem, Me.ResourcePCareToolStripMenuItem, Me.SettingICareToolStripMenuItem, Me.SettingWhatsAppToolStripMenuItem})
         Me.SettingToolStripMenuItem.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
         Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
@@ -1072,61 +1073,61 @@ Partial Class PoliKlinik
         'GroupUserToolStripMenuItem
         '
         Me.GroupUserToolStripMenuItem.Name = "GroupUserToolStripMenuItem"
-        Me.GroupUserToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.GroupUserToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.GroupUserToolStripMenuItem.Tag = "0601"
         Me.GroupUserToolStripMenuItem.Text = "Group User"
         '
         'UserToolStripMenuItem
         '
         Me.UserToolStripMenuItem.Name = "UserToolStripMenuItem"
-        Me.UserToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.UserToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.UserToolStripMenuItem.Tag = "0602"
         Me.UserToolStripMenuItem.Text = "User"
         '
         'MsConfigToolStripMenuItem
         '
         Me.MsConfigToolStripMenuItem.Name = "MsConfigToolStripMenuItem"
-        Me.MsConfigToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.MsConfigToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.MsConfigToolStripMenuItem.Tag = "0603"
         Me.MsConfigToolStripMenuItem.Text = "MsConfig"
         '
         'FormMenuToolStripMenuItem
         '
         Me.FormMenuToolStripMenuItem.Name = "FormMenuToolStripMenuItem"
-        Me.FormMenuToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.FormMenuToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.FormMenuToolStripMenuItem.Tag = "0604"
         Me.FormMenuToolStripMenuItem.Text = "Form Menu"
         '
         'UserONLINEToolStripMenuItem
         '
         Me.UserONLINEToolStripMenuItem.Name = "UserONLINEToolStripMenuItem"
-        Me.UserONLINEToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.UserONLINEToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.UserONLINEToolStripMenuItem.Tag = "0605"
         Me.UserONLINEToolStripMenuItem.Text = "User Online"
         '
         'SettingProgramToolStripMenuItem
         '
         Me.SettingProgramToolStripMenuItem.Name = "SettingProgramToolStripMenuItem"
-        Me.SettingProgramToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SettingProgramToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SettingProgramToolStripMenuItem.Text = "Setting Program"
         '
         'SettingPCareToolStripMenuItem
         '
         Me.SettingPCareToolStripMenuItem.Name = "SettingPCareToolStripMenuItem"
-        Me.SettingPCareToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SettingPCareToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SettingPCareToolStripMenuItem.Tag = "0606"
         Me.SettingPCareToolStripMenuItem.Text = "Setting P-Care"
         '
         'ResourcePCareToolStripMenuItem
         '
         Me.ResourcePCareToolStripMenuItem.Name = "ResourcePCareToolStripMenuItem"
-        Me.ResourcePCareToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.ResourcePCareToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.ResourcePCareToolStripMenuItem.Text = "Resource P-Care"
         '
         'SettingICareToolStripMenuItem
         '
         Me.SettingICareToolStripMenuItem.Name = "SettingICareToolStripMenuItem"
-        Me.SettingICareToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SettingICareToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SettingICareToolStripMenuItem.Tag = "0607"
         Me.SettingICareToolStripMenuItem.Text = "Setting I-Care"
         '
@@ -2068,6 +2069,12 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
+        'SettingWhatsAppToolStripMenuItem
+        '
+        Me.SettingWhatsAppToolStripMenuItem.Name = "SettingWhatsAppToolStripMenuItem"
+        Me.SettingWhatsAppToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.SettingWhatsAppToolStripMenuItem.Text = "Setting WhatsApp API"
+        '
         'PoliKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2351,4 +2358,5 @@ Partial Class PoliKlinik
     Friend WithEvents AnalisisDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ForecastingPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SettingWhatsAppToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
