@@ -139,6 +139,7 @@ Partial Class PoliKlinik
         Me.SettingPCareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ResourcePCareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SettingICareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SettingWhatsAppToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ChangePasswordToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.CetakKartuToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -282,7 +283,6 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
-        Me.SettingWhatsAppToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1130,6 +1130,12 @@ Partial Class PoliKlinik
         Me.SettingICareToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
         Me.SettingICareToolStripMenuItem.Tag = "0607"
         Me.SettingICareToolStripMenuItem.Text = "Setting I-Care"
+        '
+        'SettingWhatsAppToolStripMenuItem
+        '
+        Me.SettingWhatsAppToolStripMenuItem.Name = "SettingWhatsAppToolStripMenuItem"
+        Me.SettingWhatsAppToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.SettingWhatsAppToolStripMenuItem.Text = "Setting WhatsApp API"
         '
         'ToolToolStripMenuItem
         '
@@ -2068,12 +2074,6 @@ Partial Class PoliKlinik
         '
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
-        '
-        'SettingWhatsAppToolStripMenuItem
-        '
-        Me.SettingWhatsAppToolStripMenuItem.Name = "SettingWhatsAppToolStripMenuItem"
-        Me.SettingWhatsAppToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
-        Me.SettingWhatsAppToolStripMenuItem.Text = "Setting WhatsApp API"
         '
         'PoliKlinik
         '

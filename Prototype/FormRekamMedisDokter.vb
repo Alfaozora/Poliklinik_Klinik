@@ -2752,268 +2752,612 @@ Public Class FormRekamMedisDokter
         Return Strings.Left(anamnesaPasien, anamnesaPasien.Length - 2)
     End Function
 
+    'NEW VER 1
+    'Private Sub SaveKunjunganBPJS()
+    '    If CheckVariabelPCare() = True Then
+    '        Dim endpointPostKunjungan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'api_endpoint_post_kunjungan_pcare'")
+    '        Dim uri As String = urlPcare + endpointPostKunjungan
+
+    '        Dim parameterKunjunganBPJS As String = ""
+    '        Dim kodeDiagnosa As String = ""
+    '        Dim paramRujukLanjut As String = ""
+    '        Dim paramNoKunjungan As String = ""
+    '        Dim statusTransaksi As String = ""
+
+    '        Dim queryDetailTransaksi As New StringBuilder()
+
+    '        queryDetailTransaksi.AppendLine("SELECT *")
+    '        queryDetailTransaksi.AppendLine("FROM TransaksiDetail a")
+    '        queryDetailTransaksi.AppendLine("     LEFT JOIN TransaksiDetailfisik b ON a.NoUrut = b.NoTransaksi")
+    '        queryDetailTransaksi.AppendLine("WHERE a.NoUrut = '" & idTransaksi & "'")
+
+    '        ' Set Transaksi Detail
+    '        Dim tblDetailTransaksi As DataTable = ReadSQL(queryDetailTransaksi.ToString())
+    '        Dim rowDetailTransaksi As DataRow = tblDetailTransaksi.Rows(0)
+
+    '        ' Get Nomor Poli
+    '        Dim kondisiPoliSakit As String = ""
+    '        If rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sakit" Then
+    '            kondisiPoliSakit = " AND PoliSakit = 1"
+    '        ElseIf rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sehat" Then
+    '            kondisiPoliSakit = " AND PoliSakit = 0"
+    '        End If
+    '        Dim kdPoli As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterPoliTujuan WHERE NamaPoli = '" & rowDetailTransaksi("JenisPoli") & "'" & kondisiPoliSakit)
+
+    '        ' Get Kesadaran
+    '        Dim kodeKesadaran As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterKesadaran WHERE NamaKesadaran = '" & rowDetailTransaksi("Kesadaran") & "'")
+
+    '        ' Get Status Pulang
+    '        Dim statusPulang As String = ReadSQLNIK("SELECT KodeStatusPulang FROM MasterStatusPulang WHERE NamaStatusPulang = '" & rowDetailTransaksi("StatusPulang") & "'")
+
+    '        ' Inisialisasi Variabel BPJS
+    '        Dim prognosa As String = ReadSQLNIK("SELECT KodePrognosa FROM TransaksiDetailPrognosa WHERE NoTransaksi = '" & idTransaksi & "'")
+    '        Dim anamnesa As String = GetAnamnesaPasien(rowDetailTransaksi) ' Belum di set (Berisi anamnesa pasien)
+    '        Dim terapiObat As String = "Tidak Ada" ' Belum di set (Berisi resep pasien)
+    '        Dim terapiNonObat As String = "Tidak Ada" ' Belum di set (Berisi edukasi pasien)
+    '        Dim bmhp As String = "-" ' Belum di set (Berisi bahan habis pakai)
+
+    '        If IsDBNull(rowDetailTransaksi("Resep")) = False And rowDetailTransaksi("Resep").ToString.Trim <> "" Then terapiObat = rowDetailTransaksi("Resep")
+    '        If IsDBNull(rowDetailTransaksi("Edukasi")) = False And rowDetailTransaksi("Edukasi").ToString.Trim <> "" Then terapiNonObat = rowDetailTransaksi("Edukasi")
+
+    '        ' Get Alergi
+    '        Dim alergiMakan As String = GetKodeAlergiBridgingPCare("Makanan", idPasien)
+    '        Dim alergiUdara As String = GetKodeAlergiBridgingPCare("Udara", idPasien)
+    '        Dim alergiObat As String = GetKodeAlergiBridgingPCare("Obat", idPasien)
+
+    '        ' Get Kode Dokter
+    '        Dim kodeDokter As String = ""
+    '        If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
+    '            kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiPoli " & _
+    '                                    "LEFT JOIN MasterDokter ON TransaksiPoli.KodeDokter = MasterDokter.NoNIP " & _
+    '                                    "WHERE TransaksiPoli.NoUrut = '" & idTransaksi & "'")
+    '        ElseIf jenisTransaksi = "GIGI" Then
+    '            kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiGigi " & _
+    '                                    "LEFT JOIN MasterDokter ON TransaksiGigi.KodeDokter = MasterDokter.NoNIP " & _
+    '                                    "WHERE TransaksiGigi.NoUrut = '" & idTransaksi & "'")
+    '        End If
+
+    '        ' Tgl Kunjungan
+    '        Dim tglKunjungan As Date = rowDetailTransaksi("TanggalTransaksi")
+
+    '        ' Get Diagnosa
+    '        Dim tblsDiagnosa As DataTable = ReadSQL("SELECT * FROM TransaksiDetailDiagnosa WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
+
+    '        If tblsDiagnosa.Rows.Count > 0 Then
+    '            For Each trowDiagnosa As DataRow In tblsDiagnosa.Rows
+    '                If trowDiagnosa("JenisDiagnosa") = "Diagnosa Utama" Then
+    '                    kodeDiagnosa = kodeDiagnosa & """kdDiag1"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+    '                ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Sekunder" Then
+    '                    kodeDiagnosa = kodeDiagnosa & """kdDiag2"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+    '                ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Komplikasi" Then
+    '                    kodeDiagnosa = kodeDiagnosa & """kdDiag3"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+    '                End If
+    '            Next
+    '        End If
+
+    '        ' Get Status Insert / Update 
+    '        If noKunjunganBPJS.Length = 0 Then
+    '            paramNoKunjungan = """noKunjungan"" : null,"
+    '            statusTransaksi = "INSERT"
+    '        Else
+    '            paramNoKunjungan = """noKunjungan"" : """ & noKunjunganBPJS & ""","
+    '            statusTransaksi = "UPDATE"
+    '        End If
+
+    '        ' Get Rujukan Pasien
+    '        Dim tblsRujukan As DataTable = ReadSQL("SELECT * FROM TransaksiDetailRujukan WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
+    '        Dim jenisRujukan As String = ""
+    '        Dim kdKhusus As String = ""
+    '        Dim kdSubSpesialis As String = ""
+    '        Dim catatan As String = ""
+    '        Dim kdSubSpesialis1 As String = ""
+    '        Dim kdSarana As String = ""
+    '        Dim kdTacc As String = ""
+    '        Dim alasanTacc As String = ""
+    '        Dim kodePPK As String = ""
+    '        Dim tglRujukan As String = ""
+
+    '        If tblsRujukan.Rows.Count > 0 Then
+    '            For Each trowRujukan As DataRow In tblsRujukan.Rows
+    '                jenisRujukan = trowRujukan("JenisRujukan")
+    '                Dim convertTglRujukan As Date = CType(trowRujukan("TanggalRujukan"), Date)
+    '                tglRujukan = convertTglRujukan.ToString("dd-MM-yyyy")
+    '                kodePPK = trowRujukan("KodePPK")
+
+    '                If jenisRujukan = "Kondisi Khusus" Then
+    '                    ' Rujukan Kondisi Khusus
+    '                    kdKhusus = """kdKhusus"": """ & trowRujukan("KodeKhusus") & ""","
+
+    '                    If trowRujukan("KodeSubSpesialis") <> "" Then
+    '                        kdSubSpesialis = """kdSubSpesialis"": """ & trowRujukan("KodeSubSpesialis") & ""","
+    '                    Else
+    '                        kdSubSpesialis = """kdSubSpesialis"": null,"
+    '                    End If
+
+    '                    catatan = """catatan"": """ & Replace(trowRujukan("Catatan"), vbCrLf, " ") & """ } },"
+    '                ElseIf jenisRujukan = "Spesialis" Then
+    '                    ' Rujukan Spesialis
+    '                    kdSubSpesialis1 = """kdSubSpesialis1"": """ & trowRujukan("KodeSubSpesialis") & ""","
+
+    '                    If trowRujukan("KodeSarana") <> "" Then
+    '                        kdSarana = """kdSarana"": """ & trowRujukan("KodeSarana") & """ },"
+    '                    Else
+    '                        kdSarana = """kdSarana"": null },"
+    '                    End If
+    '                End If
+
+    '                ' Set Status TACC Rujukan
+    '                If trowRujukan("KodeTACC").ToString <> "" Then
+    '                    kdTacc = """kdTacc"": " & trowRujukan("KodeTACC") & ","
+    '                    alasanTacc = """alasanTacc"": """ & trowRujukan("AlasanTACC") & """"
+    '                Else
+    '                    kdTacc = """kdTacc"": -1,"
+    '                    alasanTacc = """alasanTacc"": null"
+    '                End If
+    '            Next
+    '        End If
+
+    '        ' Get Status Rujukan / Non Rujukan
+    '        If statusPulang = "3" Then
+    '            paramRujukLanjut = """rujukLanjut"": { " & _
+    '                                """tglEstRujuk"": """"," & _
+    '                                """kdppk"": """"," & _
+    '                                """subSpesialis"": null," & _
+    '                                """khusus"": null }," & _
+    '                               """kdTacc"": -1," & _
+    '                               """alasanTacc"": null" & _
+    '                               "}"
+    '        ElseIf statusPulang = "4" Then
+    '            If jenisRujukan = "Kondisi Khusus" Then
+    '                paramRujukLanjut = """rujukLanjut"": { " & _
+    '                                    """tglEstRujuk"": """ & tglRujukan & """," & _
+    '                                    """kdppk"": """ & kodePPK & """," & _
+    '                                    """subSpesialis"": null," & _
+    '                                    """khusus"": { " & _
+    '                                        kdKhusus & _
+    '                                        kdSubSpesialis & _
+    '                                        catatan & _
+    '                                    kdTacc & _
+    '                                    alasanTacc & _
+    '                                  "}"
+    '            ElseIf jenisRujukan = "Spesialis" Then
+    '                paramRujukLanjut = """rujukLanjut"": { " & _
+    '                                    """kdppk"": """ & kodePPK & """," & _
+    '                                    """tglEstRujuk"": """ & tglRujukan & """," & _
+    '                                    """subSpesialis"": { " & _
+    '                                        kdSubSpesialis1 & _
+    '                                        kdSarana & _
+    '                                    """khusus"": null }," & _
+    '                                    kdTacc & _
+    '                                    alasanTacc & _
+    '                                  "}"
+    '            End If
+    '        End If
+
+    '        parameterKunjunganBPJS = "{" & _
+    '                                  paramNoKunjungan & _
+    '                                  """noKartu"" : """ & noBPJS & """," & _
+    '                                  """tglDaftar"" : """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
+    '                                  """kdPoli"" : """ & kdPoli & """," & _
+    '                                  """keluhan"": """ & rowDetailTransaksi("KeluhanUtama") & """," & _
+    '                                  """kdSadar"": """ & kodeKesadaran & """," & _
+    '                                  """sistole"": " & rowDetailTransaksi("Sistole") & "," & _
+    '                                  """diastole"": " & rowDetailTransaksi("Diastole") & "," & _
+    '                                  """beratBadan"": " & rowDetailTransaksi("Berat") & "," & _
+    '                                  """tinggiBadan"": " & rowDetailTransaksi("Tinggi") & "," & _
+    '                                  """suhu"": " & rowDetailTransaksi("Suhu") & "," & _
+    '                                  """respRate"": " & rowDetailTransaksi("RespiratoryRate") & "," & _
+    '                                  """heartRate"": " & rowDetailTransaksi("HeartRate") & "," & _
+    '                                  """lingkarPerut"": " & rowDetailTransaksi("LingkarPerut") & "," & _
+    '                                  """terapiObat"": """ & terapiObat & """," & _
+    '                                  """terapiNonObat"": """ & terapiNonObat & """," & _
+    '                                  """anamnesa"": """ & anamnesa & """," & _
+    '                                  """alergiMakan"": """ & alergiMakan & """," & _
+    '                                  """alergiUdara"": """ & alergiUdara & """," & _
+    '                                  """alergiObat"": """ & alergiObat & """," & _
+    '                                  """kdPrognosa"": """ & prognosa & """," & _
+    '                                  """bmhp"": """ & bmhp & """," & _
+    '                                  """kdStatusPulang"": """ & statusPulang & """," & _
+    '                                  """tglPulang"": """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
+    '                                  """kdDokter"": """ & kodeDokter & """," & _
+    '                                  kodeDiagnosa & _
+    '                                  """kdPoliRujukInternal"": null," & _
+    '                                  paramRujukLanjut
+
+    '        ' Insert / update data ke pcare BPJS
+    '        Dim jsonString As String = ""
+    '        If statusTransaksi = "INSERT" Then
+    '            jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "POST")
+    '        ElseIf statusTransaksi = "UPDATE" Then
+    '            jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "PUT")
+    '        End If
+
+    '        Dim jsonObject As JObject = JObject.Parse(jsonString)
+    '        Dim responseArray As New JArray()
+
+    '        ' Mengakses nilai "metaData"
+    '        Dim metaDataObj As JObject = jsonObject("metaData")
+    '        Dim codeMetaData As Integer = Convert.ToInt32(metaDataObj("code").ToString)
+
+    '        ' Mengakses nilai "response"
+    '        Dim messageResponse As String = ""
+    '        If jsonObject("response").Type = JTokenType.Array Then
+    '            responseArray = DirectCast(jsonObject("response"), JArray)
+    '        ElseIf jsonObject("response").Type = JTokenType.String Then
+    '            messageResponse = jsonObject("response").ToString()
+    '        End If
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                If statusTransaksi = "INSERT" Then
+    '                    For Each responseArrayObj As JObject In responseArray
+    '                        noKunjunganBPJS = responseArrayObj("message").ToString()
+    '                    Next
+
+    '                    ' Insert No Kunjungan BPJS
+    '                    WriteSQL("UPDATE TransaksiDetail SET NoKunjunganBPJS = '" & noKunjunganBPJS & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
+    '                ElseIf statusTransaksi = "UPDATE" Then
+    '                    ' Skip
+    '                End If
+    '            Case Else
+    '                Dim errorMessage As String = ""
+
+    '                If jsonObject("response").Type = JTokenType.Array Then
+    '                    For Each responseArrayObj As JObject In responseArray
+    '                        errorMessage = errorMessage & "- " & responseArrayObj("field").ToString() & " : " & responseArrayObj("message").ToString() & vbCrLf
+    '                    Next
+    '                End If
+
+    '                MsgBox("Eror BPJS : " & vbCrLf & errorMessage, MsgBoxStyle.Exclamation, "Error!")
+
+    '                Exit Sub
+    '        End Select
+    '    Else
+
+    '    End If
+    'End Sub
+
+    'NEW VER 2
     Private Sub SaveKunjunganBPJS()
-        If CheckVariabelPCare() = True Then
-            Dim endpointPostKunjungan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'api_endpoint_post_kunjungan_pcare'")
-            Dim uri As String = urlPcare + endpointPostKunjungan
+        Try
+            If CheckVariabelPCare() = True Then
+                Dim endpointPostKunjungan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'api_endpoint_post_kunjungan_pcare'")
+                Dim uri As String = urlPcare + endpointPostKunjungan
 
-            Dim parameterKunjunganBPJS As String = ""
-            Dim kodeDiagnosa As String = ""
-            Dim paramRujukLanjut As String = ""
-            Dim paramNoKunjungan As String = ""
-            Dim statusTransaksi As String = ""
+                Dim parameterKunjunganBPJS As String = ""
+                Dim kodeDiagnosa As String = ""
+                Dim paramRujukLanjut As String = ""
+                Dim paramNoKunjungan As String = ""
+                Dim statusTransaksi As String = ""
 
-            Dim queryDetailTransaksi As New StringBuilder()
+                Dim queryDetailTransaksi As New StringBuilder()
 
-            queryDetailTransaksi.AppendLine("SELECT *")
-            queryDetailTransaksi.AppendLine("FROM TransaksiDetail a")
-            queryDetailTransaksi.AppendLine("     LEFT JOIN TransaksiDetailfisik b ON a.NoUrut = b.NoTransaksi")
-            queryDetailTransaksi.AppendLine("WHERE a.NoUrut = '" & idTransaksi & "'")
+                queryDetailTransaksi.AppendLine("SELECT *")
+                queryDetailTransaksi.AppendLine("FROM TransaksiDetail a")
+                queryDetailTransaksi.AppendLine("     LEFT JOIN TransaksiDetailfisik b ON a.NoUrut = b.NoTransaksi")
+                queryDetailTransaksi.AppendLine("WHERE a.NoUrut = '" & idTransaksi & "'")
 
-            ' Set Transaksi Detail
-            Dim tblDetailTransaksi As DataTable = ReadSQL(queryDetailTransaksi.ToString())
-            Dim rowDetailTransaksi As DataRow = tblDetailTransaksi.Rows(0)
+                ' Set Transaksi Detail
+                Dim tblDetailTransaksi As DataTable = ReadSQL(queryDetailTransaksi.ToString())
+                Dim rowDetailTransaksi As DataRow = tblDetailTransaksi.Rows(0)
 
-            ' Get Nomor Poli
-            Dim kondisiPoliSakit As String = ""
-            If rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sakit" Then
-                kondisiPoliSakit = " AND PoliSakit = 1"
-            ElseIf rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sehat" Then
-                kondisiPoliSakit = " AND PoliSakit = 0"
-            End If
-            Dim kdPoli As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterPoliTujuan WHERE NamaPoli = '" & rowDetailTransaksi("JenisPoli") & "'" & kondisiPoliSakit)
-
-            ' Get Kesadaran
-            Dim kodeKesadaran As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterKesadaran WHERE NamaKesadaran = '" & rowDetailTransaksi("Kesadaran") & "'")
-
-            ' Get Status Pulang
-            Dim statusPulang As String = ReadSQLNIK("SELECT KodeStatusPulang FROM MasterStatusPulang WHERE NamaStatusPulang = '" & rowDetailTransaksi("StatusPulang") & "'")
-
-            ' Inisialisasi Variabel BPJS
-            Dim prognosa As String = ReadSQLNIK("SELECT KodePrognosa FROM TransaksiDetailPrognosa WHERE NoTransaksi = '" & idTransaksi & "'")
-            Dim anamnesa As String = GetAnamnesaPasien(rowDetailTransaksi) ' Belum di set (Berisi anamnesa pasien)
-            Dim terapiObat As String = "Tidak Ada" ' Belum di set (Berisi resep pasien)
-            Dim terapiNonObat As String = "Tidak Ada" ' Belum di set (Berisi edukasi pasien)
-            Dim bmhp As String = "-" ' Belum di set (Berisi bahan habis pakai)
-
-            If IsDBNull(rowDetailTransaksi("Resep")) = False And rowDetailTransaksi("Resep").ToString.Trim <> "" Then terapiObat = rowDetailTransaksi("Resep")
-            If IsDBNull(rowDetailTransaksi("Edukasi")) = False And rowDetailTransaksi("Edukasi").ToString.Trim <> "" Then terapiNonObat = rowDetailTransaksi("Edukasi")
-
-            ' Get Alergi
-            Dim alergiMakan As String = GetKodeAlergiBridgingPCare("Makanan", idPasien)
-            Dim alergiUdara As String = GetKodeAlergiBridgingPCare("Udara", idPasien)
-            Dim alergiObat As String = GetKodeAlergiBridgingPCare("Obat", idPasien)
-
-            ' Get Kode Dokter
-            Dim kodeDokter As String = ""
-            If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
-                kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiPoli " & _
-                                        "LEFT JOIN MasterDokter ON TransaksiPoli.KodeDokter = MasterDokter.NoNIP " & _
-                                        "WHERE TransaksiPoli.NoUrut = '" & idTransaksi & "'")
-            ElseIf jenisTransaksi = "GIGI" Then
-                kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiGigi " & _
-                                        "LEFT JOIN MasterDokter ON TransaksiGigi.KodeDokter = MasterDokter.NoNIP " & _
-                                        "WHERE TransaksiGigi.NoUrut = '" & idTransaksi & "'")
-            End If
-
-            ' Tgl Kunjungan
-            Dim tglKunjungan As Date = rowDetailTransaksi("TanggalTransaksi")
-
-            ' Get Diagnosa
-            Dim tblsDiagnosa As DataTable = ReadSQL("SELECT * FROM TransaksiDetailDiagnosa WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
-
-            If tblsDiagnosa.Rows.Count > 0 Then
-                For Each trowDiagnosa As DataRow In tblsDiagnosa.Rows
-                    If trowDiagnosa("JenisDiagnosa") = "Diagnosa Utama" Then
-                        kodeDiagnosa = kodeDiagnosa & """kdDiag1"": """ & trowDiagnosa("KodeDiagnosa") & ""","
-                    ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Sekunder" Then
-                        kodeDiagnosa = kodeDiagnosa & """kdDiag2"": """ & trowDiagnosa("KodeDiagnosa") & ""","
-                    ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Komplikasi" Then
-                        kodeDiagnosa = kodeDiagnosa & """kdDiag3"": """ & trowDiagnosa("KodeDiagnosa") & ""","
-                    End If
-                Next
-            End If
-
-            ' Get Status Insert / Update 
-            If noKunjunganBPJS.Length = 0 Then
-                paramNoKunjungan = """noKunjungan"" : null,"
-                statusTransaksi = "INSERT"
-            Else
-                paramNoKunjungan = """noKunjungan"" : """ & noKunjunganBPJS & ""","
-                statusTransaksi = "UPDATE"
-            End If
-
-            ' Get Rujukan Pasien
-            Dim tblsRujukan As DataTable = ReadSQL("SELECT * FROM TransaksiDetailRujukan WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
-            Dim jenisRujukan As String = ""
-            Dim kdKhusus As String = ""
-            Dim kdSubSpesialis As String = ""
-            Dim catatan As String = ""
-            Dim kdSubSpesialis1 As String = ""
-            Dim kdSarana As String = ""
-            Dim kdTacc As String = ""
-            Dim alasanTacc As String = ""
-            Dim kodePPK As String = ""
-            Dim tglRujukan As String = ""
-
-            If tblsRujukan.Rows.Count > 0 Then
-                For Each trowRujukan As DataRow In tblsRujukan.Rows
-                    jenisRujukan = trowRujukan("JenisRujukan")
-                    Dim convertTglRujukan As Date = CType(trowRujukan("TanggalRujukan"), Date)
-                    tglRujukan = convertTglRujukan.ToString("dd-MM-yyyy")
-                    kodePPK = trowRujukan("KodePPK")
-
-                    If jenisRujukan = "Kondisi Khusus" Then
-                        ' Rujukan Kondisi Khusus
-                        kdKhusus = """kdKhusus"": """ & trowRujukan("KodeKhusus") & ""","
-
-                        If trowRujukan("KodeSubSpesialis") <> "" Then
-                            kdSubSpesialis = """kdSubSpesialis"": """ & trowRujukan("KodeSubSpesialis") & ""","
-                        Else
-                            kdSubSpesialis = """kdSubSpesialis"": null,"
-                        End If
-
-                        catatan = """catatan"": """ & Replace(trowRujukan("Catatan"), vbCrLf, " ") & """ } },"
-                    ElseIf jenisRujukan = "Spesialis" Then
-                        ' Rujukan Spesialis
-                        kdSubSpesialis1 = """kdSubSpesialis1"": """ & trowRujukan("KodeSubSpesialis") & ""","
-
-                        If trowRujukan("KodeSarana") <> "" Then
-                            kdSarana = """kdSarana"": """ & trowRujukan("KodeSarana") & """ },"
-                        Else
-                            kdSarana = """kdSarana"": null },"
-                        End If
-                    End If
-
-                    ' Set Status TACC Rujukan
-                    If trowRujukan("KodeTACC").ToString <> "" Then
-                        kdTacc = """kdTacc"": " & trowRujukan("KodeTACC") & ","
-                        alasanTacc = """alasanTacc"": """ & trowRujukan("AlasanTACC") & """"
-                    Else
-                        kdTacc = """kdTacc"": -1,"
-                        alasanTacc = """alasanTacc"": null"
-                    End If
-                Next
-            End If
-
-            ' Get Status Rujukan / Non Rujukan
-            If statusPulang = "3" Then
-                paramRujukLanjut = """rujukLanjut"": { " & _
-                                    """tglEstRujuk"": """"," & _
-                                    """kdppk"": """"," & _
-                                    """subSpesialis"": null," & _
-                                    """khusus"": null }," & _
-                                   """kdTacc"": -1," & _
-                                   """alasanTacc"": null" & _
-                                   "}"
-            ElseIf statusPulang = "4" Then
-                If jenisRujukan = "Kondisi Khusus" Then
-                    paramRujukLanjut = """rujukLanjut"": { " & _
-                                        """tglEstRujuk"": """ & tglRujukan & """," & _
-                                        """kdppk"": """ & kodePPK & """," & _
-                                        """subSpesialis"": null," & _
-                                        """khusus"": { " & _
-                                            kdKhusus & _
-                                            kdSubSpesialis & _
-                                            catatan & _
-                                        kdTacc & _
-                                        alasanTacc & _
-                                      "}"
-                ElseIf jenisRujukan = "Spesialis" Then
-                    paramRujukLanjut = """rujukLanjut"": { " & _
-                                        """kdppk"": """ & kodePPK & """," & _
-                                        """tglEstRujuk"": """ & tglRujukan & """," & _
-                                        """subSpesialis"": { " & _
-                                            kdSubSpesialis1 & _
-                                            kdSarana & _
-                                        """khusus"": null }," & _
-                                        kdTacc & _
-                                        alasanTacc & _
-                                      "}"
+                ' Get Nomor Poli
+                Dim kondisiPoliSakit As String = ""
+                If rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sakit" Then
+                    kondisiPoliSakit = " AND PoliSakit = 1"
+                ElseIf rowDetailTransaksi("JenisKunjungan").ToString() = "Kunjungan Sehat" Then
+                    kondisiPoliSakit = " AND PoliSakit = 0"
                 End If
-            End If
+                Dim kdPoli As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterPoliTujuan WHERE NamaPoli = '" & rowDetailTransaksi("JenisPoli") & "'" & kondisiPoliSakit)
 
-            parameterKunjunganBPJS = "{" & _
-                                      paramNoKunjungan & _
-                                      """noKartu"" : """ & noBPJS & """," & _
-                                      """tglDaftar"" : """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
-                                      """kdPoli"" : """ & kdPoli & """," & _
-                                      """keluhan"": """ & rowDetailTransaksi("KeluhanUtama") & """," & _
-                                      """kdSadar"": """ & kodeKesadaran & """," & _
-                                      """sistole"": " & rowDetailTransaksi("Sistole") & "," & _
-                                      """diastole"": " & rowDetailTransaksi("Diastole") & "," & _
-                                      """beratBadan"": " & rowDetailTransaksi("Berat") & "," & _
-                                      """tinggiBadan"": " & rowDetailTransaksi("Tinggi") & "," & _
-                                      """suhu"": " & rowDetailTransaksi("Suhu") & "," & _
-                                      """respRate"": " & rowDetailTransaksi("RespiratoryRate") & "," & _
-                                      """heartRate"": " & rowDetailTransaksi("HeartRate") & "," & _
-                                      """lingkarPerut"": " & rowDetailTransaksi("LingkarPerut") & "," & _
-                                      """terapiObat"": """ & terapiObat & """," & _
-                                      """terapiNonObat"": """ & terapiNonObat & """," & _
-                                      """anamnesa"": """ & anamnesa & """," & _
-                                      """alergiMakan"": """ & alergiMakan & """," & _
-                                      """alergiUdara"": """ & alergiUdara & """," & _
-                                      """alergiObat"": """ & alergiObat & """," & _
-                                      """kdPrognosa"": """ & prognosa & """," & _
-                                      """bmhp"": """ & bmhp & """," & _
-                                      """kdStatusPulang"": """ & statusPulang & """," & _
-                                      """tglPulang"": """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
-                                      """kdDokter"": """ & kodeDokter & """," & _
-                                      kodeDiagnosa & _
-                                      """kdPoliRujukInternal"": null," & _
-                                      paramRujukLanjut
+                ' Get Kesadaran
+                Dim kodeKesadaran As String = ReadSQLNIK("SELECT KodeBPJS FROM MasterKesadaran WHERE NamaKesadaran = '" & rowDetailTransaksi("Kesadaran") & "'")
 
-            ' Insert / update data ke pcare BPJS
-            Dim jsonString As String = ""
-            If statusTransaksi = "INSERT" Then
-                jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "POST")
-            ElseIf statusTransaksi = "UPDATE" Then
-                jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "PUT")
-            End If
+                ' Get Status Pulang
+                Dim statusPulang As String = ReadSQLNIK("SELECT KodeStatusPulang FROM MasterStatusPulang WHERE NamaStatusPulang = '" & rowDetailTransaksi("StatusPulang") & "'")
 
-            Dim jsonObject As JObject = JObject.Parse(jsonString)
-            Dim responseArray As New JArray()
+                ' Inisialisasi Variabel BPJS
+                Dim prognosa As String = ReadSQLNIK("SELECT KodePrognosa FROM TransaksiDetailPrognosa WHERE NoTransaksi = '" & idTransaksi & "'")
+                Dim anamnesa As String = GetAnamnesaPasien(rowDetailTransaksi) ' Belum di set (Berisi anamnesa pasien)
+                Dim terapiObat As String = "Tidak Ada" ' Belum di set (Berisi resep pasien)
+                Dim terapiNonObat As String = "Tidak Ada" ' Belum di set (Berisi edukasi pasien)
+                Dim bmhp As String = "-" ' Belum di set (Berisi bahan habis pakai)
 
-            ' Mengakses nilai "metaData"
-            Dim metaDataObj As JObject = jsonObject("metaData")
-            Dim codeMetaData As Integer = Convert.ToInt32(metaDataObj("code").ToString)
+                If IsDBNull(rowDetailTransaksi("Resep")) = False And rowDetailTransaksi("Resep").ToString.Trim <> "" Then terapiObat = rowDetailTransaksi("Resep")
+                If IsDBNull(rowDetailTransaksi("Edukasi")) = False And rowDetailTransaksi("Edukasi").ToString.Trim <> "" Then terapiNonObat = rowDetailTransaksi("Edukasi")
 
-            ' Mengakses nilai "response"
-            Dim messageResponse As String = ""
-            If jsonObject("response").Type = JTokenType.Array Then
-                responseArray = DirectCast(jsonObject("response"), JArray)
-            ElseIf jsonObject("response").Type = JTokenType.String Then
-                messageResponse = jsonObject("response").ToString()
-            End If
+                ' Get Alergi
+                Dim alergiMakan As String = GetKodeAlergiBridgingPCare("Makanan", idPasien)
+                Dim alergiUdara As String = GetKodeAlergiBridgingPCare("Udara", idPasien)
+                Dim alergiObat As String = GetKodeAlergiBridgingPCare("Obat", idPasien)
 
-            Select Case codeMetaData
-                Case 200, 201, 204
+                ' Get Kode Dokter
+                Dim kodeDokter As String = ""
+                If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
+                    kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiPoli " & _
+                                            "LEFT JOIN MasterDokter ON TransaksiPoli.KodeDokter = MasterDokter.NoNIP " & _
+                                            "WHERE TransaksiPoli.NoUrut = '" & idTransaksi & "'")
+                ElseIf jenisTransaksi = "GIGI" Then
+                    kodeDokter = ReadSQLNIK("SELECT MasterDokter.KodeBridgingPCare FROM TransaksiGigi " & _
+                                            "LEFT JOIN MasterDokter ON TransaksiGigi.KodeDokter = MasterDokter.NoNIP " & _
+                                            "WHERE TransaksiGigi.NoUrut = '" & idTransaksi & "'")
+                End If
+
+                ' Tgl Kunjungan
+                Dim tglKunjungan As Date = rowDetailTransaksi("TanggalTransaksi")
+
+                ' Get Diagnosa
+                Dim tblsDiagnosa As DataTable = ReadSQL("SELECT * FROM TransaksiDetailDiagnosa WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
+
+                If tblsDiagnosa.Rows.Count > 0 Then
+                    For Each trowDiagnosa As DataRow In tblsDiagnosa.Rows
+                        If trowDiagnosa("JenisDiagnosa") = "Diagnosa Utama" Then
+                            kodeDiagnosa = kodeDiagnosa & """kdDiag1"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+                        ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Sekunder" Then
+                            kodeDiagnosa = kodeDiagnosa & """kdDiag2"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+                        ElseIf trowDiagnosa("JenisDiagnosa") = "Diagnosa Komplikasi" Then
+                            kodeDiagnosa = kodeDiagnosa & """kdDiag3"": """ & trowDiagnosa("KodeDiagnosa") & ""","
+                        End If
+                    Next
+                End If
+
+                ' Get Status Insert / Update 
+                If noKunjunganBPJS.Length = 0 Then
+                    paramNoKunjungan = """noKunjungan"" : null,"
+                    statusTransaksi = "INSERT"
+                Else
+                    paramNoKunjungan = """noKunjungan"" : """ & noKunjunganBPJS & ""","
+                    statusTransaksi = "UPDATE"
+                End If
+
+                ' Get Rujukan Pasien
+                Dim tblsRujukan As DataTable = ReadSQL("SELECT * FROM TransaksiDetailRujukan WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL")
+                Dim jenisRujukan As String = ""
+                Dim kdKhusus As String = ""
+                Dim kdSubSpesialis As String = ""
+                Dim catatan As String = ""
+                Dim kdSubSpesialis1 As String = ""
+                Dim kdSarana As String = ""
+                Dim kdTacc As String = ""
+                Dim alasanTacc As String = ""
+                Dim kodePPK As String = ""
+                Dim tglRujukan As String = ""
+
+                If tblsRujukan.Rows.Count > 0 Then
+                    For Each trowRujukan As DataRow In tblsRujukan.Rows
+                        jenisRujukan = trowRujukan("JenisRujukan")
+                        Dim convertTglRujukan As Date = CType(trowRujukan("TanggalRujukan"), Date)
+                        tglRujukan = convertTglRujukan.ToString("dd-MM-yyyy")
+                        kodePPK = trowRujukan("KodePPK")
+
+                        If jenisRujukan = "Kondisi Khusus" Then
+                            ' Rujukan Kondisi Khusus
+                            kdKhusus = """kdKhusus"": """ & trowRujukan("KodeKhusus") & ""","
+
+                            If trowRujukan("KodeSubSpesialis") <> "" Then
+                                kdSubSpesialis = """kdSubSpesialis"": """ & trowRujukan("KodeSubSpesialis") & ""","
+                            Else
+                                kdSubSpesialis = """kdSubSpesialis"": null,"
+                            End If
+
+                            catatan = """catatan"": """ & Replace(trowRujukan("Catatan"), vbCrLf, " ") & """ } },"
+                        ElseIf jenisRujukan = "Spesialis" Then
+                            ' Rujukan Spesialis
+                            kdSubSpesialis1 = """kdSubSpesialis1"": """ & trowRujukan("KodeSubSpesialis") & ""","
+
+                            If trowRujukan("KodeSarana") <> "" Then
+                                kdSarana = """kdSarana"": """ & trowRujukan("KodeSarana") & """ },"
+                            Else
+                                kdSarana = """kdSarana"": null },"
+                            End If
+                        End If
+
+                        ' Set Status TACC Rujukan
+                        If trowRujukan("KodeTACC").ToString <> "" Then
+                            kdTacc = """kdTacc"": " & trowRujukan("KodeTACC") & ","
+                            alasanTacc = """alasanTacc"": """ & trowRujukan("AlasanTACC") & """"
+                        Else
+                            kdTacc = """kdTacc"": -1,"
+                            alasanTacc = """alasanTacc"": null"
+                        End If
+                    Next
+                End If
+
+                ' Get Status Rujukan / Non Rujukan
+                If statusPulang = "3" Then
+                    paramRujukLanjut = """rujukLanjut"": { " & _
+                                        """tglEstRujuk"": """"," & _
+                                        """kdppk"": """"," & _
+                                        """subSpesialis"": null," & _
+                                        """khusus"": null }," & _
+                                       """kdTacc"": -1," & _
+                                       """alasanTacc"": null" & _
+                                       "}"
+                ElseIf statusPulang = "4" Then
+                    If jenisRujukan = "Kondisi Khusus" Then
+                        paramRujukLanjut = """rujukLanjut"": { " & _
+                                            """tglEstRujuk"": """ & tglRujukan & """," & _
+                                            """kdppk"": """ & kodePPK & """," & _
+                                            """subSpesialis"": null," & _
+                                            """khusus"": { " & _
+                                                kdKhusus & _
+                                                kdSubSpesialis & _
+                                                catatan & _
+                                            kdTacc & _
+                                            alasanTacc & _
+                                          "}"
+                    ElseIf jenisRujukan = "Spesialis" Then
+                        paramRujukLanjut = """rujukLanjut"": { " & _
+                                            """kdppk"": """ & kodePPK & """," & _
+                                            """tglEstRujuk"": """ & tglRujukan & """," & _
+                                            """subSpesialis"": { " & _
+                                                kdSubSpesialis1 & _
+                                                kdSarana & _
+                                            """khusus"": null }," & _
+                                            kdTacc & _
+                                            alasanTacc & _
+                                          "}"
+                    End If
+                End If
+
+                parameterKunjunganBPJS = "{" & _
+                                          paramNoKunjungan & _
+                                          """noKartu"" : """ & noBPJS & """," & _
+                                          """tglDaftar"" : """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
+                                          """kdPoli"" : """ & kdPoli & """," & _
+                                          """keluhan"": """ & rowDetailTransaksi("KeluhanUtama") & """," & _
+                                          """kdSadar"": """ & kodeKesadaran & """," & _
+                                          """sistole"": " & rowDetailTransaksi("Sistole") & "," & _
+                                          """diastole"": " & rowDetailTransaksi("Diastole") & "," & _
+                                          """beratBadan"": " & rowDetailTransaksi("Berat") & "," & _
+                                          """tinggiBadan"": " & rowDetailTransaksi("Tinggi") & "," & _
+                                          """suhu"": " & rowDetailTransaksi("Suhu") & "," & _
+                                          """respRate"": " & rowDetailTransaksi("RespiratoryRate") & "," & _
+                                          """heartRate"": " & rowDetailTransaksi("HeartRate") & "," & _
+                                          """lingkarPerut"": " & rowDetailTransaksi("LingkarPerut") & "," & _
+                                          """terapiObat"": """ & terapiObat & """," & _
+                                          """terapiNonObat"": """ & terapiNonObat & """," & _
+                                          """anamnesa"": """ & anamnesa & """," & _
+                                          """alergiMakan"": """ & alergiMakan & """," & _
+                                          """alergiUdara"": """ & alergiUdara & """," & _
+                                          """alergiObat"": """ & alergiObat & """," & _
+                                          """kdPrognosa"": """ & prognosa & """," & _
+                                          """bmhp"": """ & bmhp & """," & _
+                                          """kdStatusPulang"": """ & statusPulang & """," & _
+                                          """tglPulang"": """ & Format(tglKunjungan, "dd-MM-yyyy") & """," & _
+                                          """kdDokter"": """ & kodeDokter & """," & _
+                                          kodeDiagnosa & _
+                                          """kdPoliRujukInternal"": null," & _
+                                          paramRujukLanjut
+
+                ' Insert / update data ke pcare BPJS
+                Dim jsonString As String = ""
+                Try
                     If statusTransaksi = "INSERT" Then
-                        For Each responseArrayObj As JObject In responseArray
-                            noKunjunganBPJS = responseArrayObj("message").ToString()
-                        Next
-
-                        ' Insert No Kunjungan BPJS
-                        WriteSQL("UPDATE TransaksiDetail SET NoKunjunganBPJS = '" & noKunjunganBPJS & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
+                        jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "POST")
                     ElseIf statusTransaksi = "UPDATE" Then
-                        ' Skip
+                        jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "PUT")
                     End If
-                Case Else
-                    Dim errorMessage As String = ""
-
-                    If jsonObject("response").Type = JTokenType.Array Then
-                        For Each responseArrayObj As JObject In responseArray
-                            errorMessage = errorMessage & "- " & responseArrayObj("field").ToString() & " : " & responseArrayObj("message").ToString() & vbCrLf
-                        Next
-                    End If
-
-                    MsgBox("Eror BPJS : " & vbCrLf & errorMessage, MsgBoxStyle.Exclamation, "Error!")
+                Catch ex As Exception
+                    ' ====== PENANGANAN INTERNET PUTUS / TIMEOUT / HOST NOT RESPONDING ======
+                    MsgBox("Gagal menghubungi server BPJS PCare." & vbCrLf & _
+                           "Kemungkinan:" & vbCrLf & _
+                           "- Internet lambat / terputus" & vbCrLf & _
+                           "- Server BPJS sedang tidak dapat diakses" & vbCrLf & _
+                           "- Koneksi timeout" & vbCrLf & _
+                           vbCrLf & _
+                           "Error detail: " & ex.Message, MsgBoxStyle.Critical, "Koneksi PCare Error")
 
                     Exit Sub
-            End Select
-        Else
+                End Try
+                ' ==========================
+                ' CEK JIKA RESPON STRING KOSONG
+                ' ==========================
+                If String.IsNullOrEmpty(jsonString) Then
+                    MsgBox("Tidak ada respon dari server BPJS PCare." & vbCrLf & _
+                            "Kemungkinan server DOWN atau internet terputus.", MsgBoxStyle.Exclamation, "BPJS PCare")
+                    Exit Sub
+                End If
 
-        End If
+                Dim jsonObject As JObject = Nothing
+
+                ' ============================
+                ' PARSE JSON
+                ' ============================
+                Try
+                    jsonObject = JObject.Parse(jsonString)
+                Catch ex As Exception
+                    MsgBox("Format respon dari BPJS PCare tidak valid." & vbCrLf & _
+                           "Raw Response:" & vbCrLf & jsonString, MsgBoxStyle.Critical, "FORMAT ERROR")
+                    Exit Sub
+                End Try
+
+                ' ============================
+                ' VALIDASI metaData
+                ' ============================
+                Dim metaDataObj As JObject = Nothing
+                If jsonObject("metaData") Is Nothing Then
+                    MsgBox("Respons BPJS tidak memiliki metaData." & vbCrLf & _
+                           "Kemungkinan server DOWN / respons tidak lengkap." & vbCrLf & _
+                           "Raw Response:" & vbCrLf & jsonString, MsgBoxStyle.Critical, "MISSING METADATA")
+                    Exit Sub
+                End If
+
+                metaDataObj = jsonObject("metaData")
+
+                If metaDataObj("code") Is Nothing Then
+                    MsgBox("Kode metaData tidak ditemukan pada respons BPJS.", MsgBoxStyle.Exclamation, "META INVALID")
+                    Exit Sub
+                End If
+
+                Dim codeMetaData As Integer = CInt(metaDataObj("code"))
+
+                ' ============================
+                ' VALIDASI response
+                ' ============================
+                Dim responseToken As JToken = jsonObject("response")
+                Dim responseArray As New JArray()
+                Dim messageResponse As String = ""
+
+                If responseToken Is Nothing Then
+                    ' Respons tidak memiliki "response"
+                    responseArray = New JArray()
+                ElseIf responseToken.Type = JTokenType.Array Then
+                    responseArray = DirectCast(responseToken, JArray)
+                ElseIf responseToken.Type = JTokenType.String Then
+                    messageResponse = responseToken.ToString()
+                End If
+
+                ' ============================
+                ' HANDLE STATUS KODE
+                ' ============================
+                Select Case codeMetaData
+
+                    Case 200, 201, 204
+                        ' ----------- STATUS SUCCESS -----------
+                        If statusTransaksi = "INSERT" Then
+
+                            If responseArray.Count > 0 Then
+                                For Each item As JObject In responseArray
+                                    If item("message") IsNot Nothing Then
+                                        noKunjunganBPJS = item("message").ToString()
+                                    End If
+                                Next
+                            ElseIf messageResponse <> "" Then
+                                noKunjunganBPJS = messageResponse
+                            Else
+                                MsgBox("Berhasil, namun tidak ada nomor kunjungan yang dikembalikan.", MsgBoxStyle.Information, "INFO")
+                            End If
+
+                            ' Update database
+                            WriteSQL("UPDATE TransaksiDetail SET NoKunjunganBPJS = '" & noKunjunganBPJS & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
+                        End If
+
+                    Case Else
+                        ' ----------- STATUS ERROR -----------
+                        Dim errorMessage As String = ""
+
+                        If responseArray.Count > 0 Then
+                            For Each item As JObject In responseArray
+                                If item("field") IsNot Nothing Then
+                                    errorMessage &= "- " & item("field").ToString() & " : " & _
+                                    item("message").ToString() & vbCrLf
+                                End If
+                            Next
+                        Else
+                            errorMessage = messageResponse
+                        End If
+
+                        MsgBox("Error BPJS :" & vbCrLf & errorMessage, MsgBoxStyle.Exclamation, "ERROR!")
+                        Exit Sub
+
+                End Select
+            Else
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        End Try
     End Sub
 
     Function GetKodeAlergiBridgingPCare(ByVal alergiJenis As String, ByVal noRekamMedis As String) As String

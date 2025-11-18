@@ -867,6 +867,12 @@
     <Compile Include="Prototype\SendingUlangPendaftaran.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\ToggleSwitch.Designer.vb">
+      <DependentUpon>ToggleSwitch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\ToggleSwitch.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Prototype\ToolGantiDokter.Designer.vb">
       <DependentUpon>ToolGantiDokter.vb</DependentUpon>
     </Compile>

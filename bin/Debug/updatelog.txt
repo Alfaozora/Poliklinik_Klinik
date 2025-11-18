@@ -8,6 +8,7 @@ Version : 2.0.0.56 ()
 # [New Feature] Penambahan Fitur Analisis Data - Pemakaian Obat
 # [New Feature] Penambahan Fitur Auto Complete pada Pencarian Obat
 # [New Feature] Penambahan Fitur WhatsApp API (Development) 
+# [New Feature] Penambahan Fitur Notifikasi API Pcare
 # [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
 # [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 
