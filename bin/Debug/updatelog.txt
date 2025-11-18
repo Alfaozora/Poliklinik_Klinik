@@ -1,5 +1,4 @@
 Version : 2.0.0.56 ()
-# [Usability Improvement] Penambahan Jenis Gambar pada Upload Gambar
 # [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
 # [New Feature] Penambahan Fitur Analisis Data - Forecasting Kunjungan Pasien Menggunakan Metode SES + MAPE
 # [New Feature] Penambahan Fitur Analisis Data - Tren Kunjungan Pasien
@@ -9,6 +8,8 @@ Version : 2.0.0.56 ()
 # [New Feature] Penambahan Fitur Auto Complete pada Pencarian Obat
 # [New Feature] Penambahan Fitur WhatsApp API (Development) 
 # [New Feature] Penambahan Fitur Notifikasi API Pcare
+# [New Feature] Penambahan Fitur Akses Diagnosa Lokal saat PCare Gangguan
+# [Usability Improvement] Penambahan Jenis Gambar pada Upload Gambar
 # [Usability Improvement] Penambahan Jenis Hasil PDF di Riwayat Laboratorium
 # [Usability Improvement] Penambahan Notifikasi Riwayat Rujukan Sebelumnya
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 

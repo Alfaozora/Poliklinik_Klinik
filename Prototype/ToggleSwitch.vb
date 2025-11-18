@@ -1,5 +1,5 @@
 ﻿Public Class ToggleSwitch
-    Private _checked As Boolean = False
+    Private _checked As Boolean = True
     Public Event CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
 
     Public Property Checked() As Boolean
@@ -17,6 +17,7 @@
         Me.DoubleBuffered = True
         Me.Width = 50
         Me.Height = 25
+        _checked = True
     End Sub
 
     Protected Overrides Sub OnPaint(ByVal pe As PaintEventArgs)

@@ -154,6 +154,7 @@ Public Class FindDiagnosa
         Me.CenterToScreen()
         TextBoxKriteria.Focus()
         TextBoxKriteria.ResetText()
+        ToggleSwitch1.Checked = True
     End Sub
 
     'NEW VER 1
@@ -239,6 +240,26 @@ Public Class FindDiagnosa
 
     Private Sub FindQuery()
         Try
+            '===========================
+            ' MODE LOKAL (Switch OFF)
+            '===========================
+            If ToggleSwitch1.Checked = False Then
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
+
+            '===========================
+            ' MODE PCARE (Switch ON)
+            '===========================
+            If Not CekKoneksiPCare() Then
+                MsgBox("PCare tidak dapat diakses." & vbCrLf & _
+                       "Berpindah ke Diagnosa Lokal.", MsgBoxStyle.Exclamation)
+
+                ToggleSwitch1.Checked = False
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
+
             If Checking() = True Then
 
                 Dim kriteria As String = TextBoxKriteria.Text
@@ -286,12 +307,12 @@ Public Class FindDiagnosa
                     Try
                         varsespoli = JsonConvert.DeserializeObject(Of varJson())(getResponse)
                     Catch ex As Exception
-                    MsgBox("Gagal membaca data diagnostik dari PCare." & vbCrLf & _
-                           "Kemungkinan:" & vbCrLf & _
-                           "- Server BPJS sedang tidak stabil" & vbCrLf & _
-                           "- Data JSON tidak lengkap (internet lambat)" & vbCrLf & _
-                           vbCrLf & _
-                           getResponse,MsgBoxStyle.Critical, "Error JSON")
+                        MsgBox("Gagal membaca data diagnostik dari PCare." & vbCrLf & _
+                               "Kemungkinan:" & vbCrLf & _
+                               "- Server BPJS sedang tidak stabil" & vbCrLf & _
+                               "- Data JSON tidak lengkap (internet lambat)" & vbCrLf & _
+                               vbCrLf & _
+                               getResponse, MsgBoxStyle.Critical, "Error JSON")
                         Exit Sub
                     End Try
 
@@ -299,7 +320,7 @@ Public Class FindDiagnosa
 
                         'Metadata tidak OK
                         If oneVar.metaData Is Nothing Then
-                        MsgBox("PCare: metadata tidak ditemukan. Server kemungkinan tidak stabil.",MsgBoxStyle.Exclamation, "PCare Error")
+                            MsgBox("PCare: metadata tidak ditemukan. Server kemungkinan tidak stabil.", MsgBoxStyle.Exclamation, "PCare Error")
                             Exit Sub
                         End If
 
@@ -316,7 +337,7 @@ Public Class FindDiagnosa
                             End If
 
                         Else
-                        MsgBox("BPJS Error: " & oneVar.metaData.message,MsgBoxStyle.Exclamation, "Peringatan!")
+                            MsgBox("BPJS Error: " & oneVar.metaData.message, MsgBoxStyle.Exclamation, "Peringatan!")
                             Exit Sub
                         End If
 
@@ -356,6 +377,53 @@ Public Class FindDiagnosa
         End Try
     End Sub
 
+    Private Function CekKoneksiPCare() As Boolean
+        Try
+            Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+            Dim testUrl As String = urlPcare & "diagnosa/Z00/1/1"
+
+            Dim result As String = getDataFromPcare(testUrl)
+
+            'respons kosong → gagal
+            If String.IsNullOrEmpty(result) Then Return False
+
+            'respons harus JSON
+            Dim r As String = result.Trim
+            If Not (r.StartsWith("{") Or r.StartsWith("[")) Then Return False
+
+            'deserialisasi aman
+            Dim obj = JsonConvert.DeserializeObject(Of varJson())(result)
+
+            'metadata wajib OK
+            If obj(0).metaData.message = "OK" Then
+                Return True
+            End If
+
+            Return False
+
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+    Private Sub LoadDiagnosaLokal()
+        Try
+            Dim Tdata As DataTable = New DataTable
+            Tdata.Columns.Add("Kode Diagnosa")
+            Tdata.Columns.Add("Nama Diagnosa")
+            Tdata.Columns.Add("Non Spesialis")
+
+            Dim sql As String = "SELECT code AS [Kode Diagnosa], name_en AS [Nama Diagnosa], 0 AS [Non Spesialis] FROM MasterICDX WHERE name_en LIKE '%" & TextBoxKriteria.Text & "%' OR code LIKE '%" & TextBoxKriteria.Text & "%'"
+
+            Dim dt As DataTable = ReadSQL(sql)
+
+            GridControlPencarian.DataSource = dt
+            GridViewPencarian.BestFitColumns()
+
+        Catch ex As Exception
+            MsgBox("Error memuat diagnosa lokal: " & ex.Message)
+        End Try
+    End Sub
 
     Private Sub Find_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         GridControlPencarian.DataSource = CreateTableICD()
@@ -404,6 +472,25 @@ Public Class FindDiagnosa
     End Sub
 
     Private Sub ButtonFindDiagnosa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFindDiagnosa.Click
-        FindQuery()
+        Try
+            If ToggleSwitch1.Checked = False Then
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message)
+        End Try
     End Sub
+
+    Private Sub ToggleSwitch1_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ToggleSwitch1.CheckedChanged
+        Try
+            If ToggleSwitch1.Checked = True Then
+
+            Else
+                MsgBox("Mode: Diagnosa Lokal", MsgBoxStyle.Information)
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+
 End Class

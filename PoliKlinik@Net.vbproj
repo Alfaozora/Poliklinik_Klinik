@@ -1731,6 +1731,9 @@
     <EmbeddedResource Include="Prototype\SendingUlangPendaftaran.resx">
       <DependentUpon>SendingUlangPendaftaran.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\ToggleSwitch.resx">
+      <DependentUpon>ToggleSwitch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\ToolGantiDokter.resx">
       <DependentUpon>ToolGantiDokter.vb</DependentUpon>
     </EmbeddedResource>
