@@ -1,6 +1,7 @@
 ﻿Imports System.Net
 Imports System.IO
 Imports Newtonsoft.Json.Serialization
+Imports System.Drawing.Drawing2D
 
 Public Class WhatsAppSetting
     Private isInitializing As Boolean = False
@@ -20,6 +21,12 @@ Public Class WhatsAppSetting
         End If
     End Sub
 
+    Private Sub MakeButtonRound(ByVal btn As Button)
+        Dim gp As New GraphicsPath()
+        gp.AddEllipse(0, 0, btn.Width - 1, btn.Height - 1)
+        btn.Region = New Region(gp)
+    End Sub
+
     Private Sub WhatsAppSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         isInitializing = True
 
@@ -34,6 +41,8 @@ Public Class WhatsAppSetting
         TextBoxIPLab.Text = ipLab
 
         TextBoxNoHp.MaxLength = 13
+
+        MakeButtonRound(ButtonStart)
 
         CheckWaStatus()
 
@@ -466,7 +475,7 @@ Public Class WhatsAppSetting
         End Try
     End Sub
 
-    Private Sub CheckWaStatus()
+    Private Function CheckWaStatus() As Newtonsoft.Json.Linq.JObject
         Try
             Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
             Dim url As String = "http://" & baseIP & ":4444/status"
@@ -477,19 +486,48 @@ Public Class WhatsAppSetting
             Dim json = Newtonsoft.Json.Linq.JObject.Parse(result)
 
             If json("connected").ToString() = "True" Then
-                LabelStatusWA.Text = "Terhubung"
-                LabelStatusWA.ForeColor = Color.Green
+                UpdateButtonState(True)
             Else
-                LabelStatusWA.Text = "Terputus"
-                LabelStatusWA.ForeColor = Color.Red
+                UpdateButtonState(False)
             End If
 
+            Return json
+
         Catch ex As Exception
-            LabelStatusWA.Text = "500 Error"
+            LabelStatusWA.Text = "Server Off"
             LabelStatusWA.ForeColor = Color.OrangeRed
             LabelStatusWA.TextAlign = ContentAlignment.MiddleCenter
+            ButtonStart.BackColor = Color.Red
+
+            Return Nothing
         End Try
+    End Function
+
+    Private Function GetWaStatus() As Boolean
+        Try
+            Dim json = CheckWaStatus()
+            If json Is Nothing Then
+                UpdateButtonState(False)
+                Exit Function
+            End If
+            Return json("connected").ToString() = "True"
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Private Sub UpdateButtonState(ByVal isConnected As Boolean)
+        If isConnected Then
+            LabelStatusWA.Text = "Terhubung"
+            LabelStatusWA.ForeColor = Color.Green
+            ButtonStart.BackColor = Color.MediumSeaGreen
+        Else
+            LabelStatusWA.Text = "Terputus"
+            LabelStatusWA.ForeColor = Color.Red
+            ButtonStart.BackColor = Color.Red
+        End If
     End Sub
+
 
 
     Private Sub ButtonCekKoneksiWA_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCekKoneksiWA.Click
@@ -510,12 +548,16 @@ Public Class WhatsAppSetting
         Try
             If waProcess Is Nothing OrElse waProcess.HasExited Then
                 Dim psi As New ProcessStartInfo()
-                psi.FileName = "C:\Program Files\Git\bin\bash.exe"   ' === PATH GIT BASH ===
-                psi.WorkingDirectory = "D:\Hafiz\Server WhatsApp\WhatsappAPI"           ' === Sesuaikan folder ===
+                Dim pathServer As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_server_path'")
+                Dim pathBash As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_bash_path'")
+
+                psi.FileName = pathBash   ' === PATH GIT BASH ===
+                psi.WorkingDirectory = pathServer          ' === Sesuaikan folder ===
                 psi.Arguments = "-c ""node index.js"""
                 psi.UseShellExecute = False
+                'psi.CreateNoWindow = False
 
-                Process.Start(psi)
+                waProcess = Process.Start(psi)
                 MsgBox("Server WA berjalan.", MsgBoxStyle.Information)
             Else
                 MsgBox("Server sudah berjalan!", MsgBoxStyle.Exclamation)
@@ -526,17 +568,106 @@ Public Class WhatsAppSetting
         End Try
     End Sub
 
+    Private Sub StopWaServer()
+        Try
+            Dim killed As Boolean = False
+
+            ' === 1. Kill proses node ===
+            For Each p As Process In Process.GetProcessesByName("node")
+                Try
+                    p.Kill()
+                    killed = True
+                Catch
+                End Try
+            Next
+
+            ' === 2. Kill bash.exe yang kita simpan di waProcess ===
+            If waProcess IsNot Nothing AndAlso Not waProcess.HasExited Then
+                waProcess.Kill()
+                killed = True
+                waProcess = Nothing
+            End If
+
+            ' === 3. Cek jika masih ada bash sisa tanpa handle ===
+            For Each p As Process In Process.GetProcessesByName("bash")
+                Try
+                    p.Kill()
+                Catch
+                End Try
+            Next
+
+            If killed Then
+                MsgBox("Server WA berhasil dihentikan.", MsgBoxStyle.Information)
+            Else
+                MsgBox("Server tidak sedang berjalan.", MsgBoxStyle.Exclamation)
+            End If
+
+        Catch ex As Exception
+            MsgBox("Gagal Stop: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub ButtonStart_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles ButtonStart.Paint
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+    End Sub
+
     Private Sub ButtonStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStart.Click
         Me.Cursor = Cursors.WaitCursor
         ButtonStart.Enabled = False
 
         Try
-            StartWaServer()
+            Dim status As Boolean = GetWaStatus()
+
+            If status = False Then
+                StartWaServer()
+            Else
+                StopWaServer()
+            End If
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
             Me.Cursor = Cursors.Default
             ButtonStart.Enabled = True
+            CheckWaStatus()
+        End Try
+    End Sub
+
+    Private Sub ButtonQR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonQR.Click
+        Try
+            Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+            Dim url As String = "http://" & baseIP & ":4444/qr"
+
+            Dim wc As New Net.WebClient()
+            Dim html As String = wc.DownloadString(url)
+
+            ' Jika server belum siap
+            If html.Contains("not ready yet") Then
+                MsgBox("QR belum siap, tunggu sebentar...", MsgBoxStyle.Information)
+                Exit Sub
+            End If
+
+            ' Cari URL QR di dalam tag <a href="URL">
+            Dim qrUrl As String = ""
+            Dim startTag As String = "href="""
+            Dim startPos As Integer = html.IndexOf(startTag)
+
+            If startPos > -1 Then
+                startPos += startTag.Length
+                Dim endPos As Integer = html.IndexOf("""", startPos)
+                qrUrl = html.Substring(startPos, endPos - startPos)
+            End If
+
+            If qrUrl = "" Then
+                MsgBox("Tidak dapat menemukan URL QR dari server.", MsgBoxStyle.Critical)
+                Exit Sub
+            End If
+
+            ' Tampilkan QR ke PictureBox
+            PictureBox1.ImageLocation = qrUrl
+            'PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+
+        Catch ex As Exception
+            MsgBox("Gagal memuat QR: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 End Class
