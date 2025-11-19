@@ -1,15 +1,28 @@
-﻿Public Class ToggleSwitch
-    Private _checked As Boolean = True
+﻿Imports System.ComponentModel
+
+Public Class ToggleSwitch
+    Private _checked As Boolean = False
+    Private _suspendEvent As Boolean = False
+
     Public Event CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
 
+    <DefaultValue(False)> _
+    <Browsable(True)> _
+    <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)> _
     Public Property Checked() As Boolean
         Get
             Return _checked
         End Get
         Set(ByVal value As Boolean)
-            _checked = value
-            Me.Invalidate()
-            RaiseEvent CheckedChanged(Me, EventArgs.Empty)
+            If _checked <> value Then
+                _checked = value
+                Me.Invalidate()
+
+                If Not _suspendEvent Then
+                    RaiseEvent CheckedChanged(Me, EventArgs.Empty)
+                End If
+
+            End If
         End Set
     End Property
 
@@ -17,7 +30,7 @@
         Me.DoubleBuffered = True
         Me.Width = 50
         Me.Height = 25
-        _checked = True
+        '_checked = False
     End Sub
 
     Protected Overrides Sub OnPaint(ByVal pe As PaintEventArgs)
