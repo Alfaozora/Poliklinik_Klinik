@@ -45,6 +45,9 @@ Partial Class WhatsAppSetting
         Me.Label7 = New System.Windows.Forms.Label
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.GroupBox11 = New System.Windows.Forms.GroupBox
+        Me.LabelIP = New System.Windows.Forms.Label
+        Me.ButtonIP = New System.Windows.Forms.Button
         Me.Label14 = New System.Windows.Forms.Label
         Me.ButtonStart = New System.Windows.Forms.Button
         Me.GroupBox10 = New System.Windows.Forms.GroupBox
@@ -53,9 +56,11 @@ Partial Class WhatsAppSetting
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.Label11 = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
+        Me.ToggleSwitchLab = New PoliKlinik_Net2.ToggleSwitch
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
         Me.Label10 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
+        Me.ToggleSwitchKlinik = New PoliKlinik_Net2.ToggleSwitch
         Me.ButtonUpdateIP = New System.Windows.Forms.Button
         Me.TextBoxIPLab = New System.Windows.Forms.TextBox
         Me.TextBoxIPKlinik = New System.Windows.Forms.TextBox
@@ -68,15 +73,15 @@ Partial Class WhatsAppSetting
         Me.RadioButtonIya = New System.Windows.Forms.RadioButton
         Me.TextBoxNoHp = New System.Windows.Forms.TextBox
         Me.Label13 = New System.Windows.Forms.Label
-        Me.ToggleSwitchLab = New PoliKlinik_Net2.ToggleSwitch
-        Me.ToggleSwitchKlinik = New PoliKlinik_Net2.ToggleSwitch
-        Me.ButtonQR = New System.Windows.Forms.Button
+        Me.bgwQR = New System.ComponentModel.BackgroundWorker
+        Me.bgwWAStatus = New System.ComponentModel.BackgroundWorker
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        Me.GroupBox11.SuspendLayout()
         Me.GroupBox10.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -91,7 +96,7 @@ Partial Class WhatsAppSetting
         Me.PictureBox1.Location = New System.Drawing.Point(19, 21)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(233, 241)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
         '
@@ -319,7 +324,8 @@ Partial Class WhatsAppSetting
         '
         'GroupBox5
         '
-        Me.GroupBox5.Controls.Add(Me.ButtonQR)
+        Me.GroupBox5.Controls.Add(Me.GroupBox11)
+        Me.GroupBox5.Controls.Add(Me.ButtonIP)
         Me.GroupBox5.Controls.Add(Me.Label14)
         Me.GroupBox5.Controls.Add(Me.ButtonStart)
         Me.GroupBox5.Controls.Add(Me.GroupBox10)
@@ -337,6 +343,41 @@ Partial Class WhatsAppSetting
         Me.GroupBox5.TabIndex = 6
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "WhatsApp Lokal Baileys"
+        '
+        'GroupBox11
+        '
+        Me.GroupBox11.Controls.Add(Me.LabelIP)
+        Me.GroupBox11.Location = New System.Drawing.Point(550, 80)
+        Me.GroupBox11.Name = "GroupBox11"
+        Me.GroupBox11.Size = New System.Drawing.Size(127, 53)
+        Me.GroupBox11.TabIndex = 12
+        Me.GroupBox11.TabStop = False
+        Me.GroupBox11.Text = "IP Server"
+        '
+        'LabelIP
+        '
+        Me.LabelIP.AutoSize = True
+        Me.LabelIP.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelIP.Location = New System.Drawing.Point(17, 20)
+        Me.LabelIP.Name = "LabelIP"
+        Me.LabelIP.Size = New System.Drawing.Size(13, 17)
+        Me.LabelIP.TabIndex = 6
+        Me.LabelIP.Text = "-"
+        '
+        'ButtonIP
+        '
+        Me.ButtonIP.BackColor = System.Drawing.Color.OrangeRed
+        Me.ButtonIP.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonIP.FlatAppearance.BorderSize = 0
+        Me.ButtonIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonIP.ForeColor = System.Drawing.Color.White
+        Me.ButtonIP.Location = New System.Drawing.Point(251, 92)
+        Me.ButtonIP.Name = "ButtonIP"
+        Me.ButtonIP.Size = New System.Drawing.Size(107, 25)
+        Me.ButtonIP.TabIndex = 11
+        Me.ButtonIP.Text = "Show IP"
+        Me.ButtonIP.UseVisualStyleBackColor = False
+        Me.ButtonIP.Visible = False
         '
         'Label14
         '
@@ -427,6 +468,13 @@ Partial Class WhatsAppSetting
         Me.Label12.TabIndex = 2
         Me.Label12.Text = "ON"
         '
+        'ToggleSwitchLab
+        '
+        Me.ToggleSwitchLab.Location = New System.Drawing.Point(39, 18)
+        Me.ToggleSwitchLab.Name = "ToggleSwitchLab"
+        Me.ToggleSwitchLab.Size = New System.Drawing.Size(50, 25)
+        Me.ToggleSwitchLab.TabIndex = 0
+        '
         'GroupBox6
         '
         Me.GroupBox6.Controls.Add(Me.Label10)
@@ -456,6 +504,13 @@ Partial Class WhatsAppSetting
         Me.Label9.Size = New System.Drawing.Size(23, 13)
         Me.Label9.TabIndex = 2
         Me.Label9.Text = "ON"
+        '
+        'ToggleSwitchKlinik
+        '
+        Me.ToggleSwitchKlinik.Location = New System.Drawing.Point(39, 18)
+        Me.ToggleSwitchKlinik.Name = "ToggleSwitchKlinik"
+        Me.ToggleSwitchKlinik.Size = New System.Drawing.Size(50, 25)
+        Me.ToggleSwitchKlinik.TabIndex = 0
         '
         'ButtonUpdateIP
         '
@@ -578,33 +633,15 @@ Partial Class WhatsAppSetting
         Me.Label13.TabIndex = 4
         Me.Label13.Text = "No HP :"
         '
-        'ToggleSwitchLab
+        'bgwQR
         '
-        Me.ToggleSwitchLab.Location = New System.Drawing.Point(39, 18)
-        Me.ToggleSwitchLab.Name = "ToggleSwitchLab"
-        Me.ToggleSwitchLab.Size = New System.Drawing.Size(50, 25)
-        Me.ToggleSwitchLab.TabIndex = 0
+        Me.bgwQR.WorkerReportsProgress = True
+        Me.bgwQR.WorkerSupportsCancellation = True
         '
-        'ToggleSwitchKlinik
+        'bgwWAStatus
         '
-        Me.ToggleSwitchKlinik.Location = New System.Drawing.Point(39, 18)
-        Me.ToggleSwitchKlinik.Name = "ToggleSwitchKlinik"
-        Me.ToggleSwitchKlinik.Size = New System.Drawing.Size(50, 25)
-        Me.ToggleSwitchKlinik.TabIndex = 0
-        '
-        'ButtonQR
-        '
-        Me.ButtonQR.BackColor = System.Drawing.Color.Bisque
-        Me.ButtonQR.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonQR.FlatAppearance.BorderSize = 0
-        Me.ButtonQR.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonQR.ForeColor = System.Drawing.Color.Black
-        Me.ButtonQR.Location = New System.Drawing.Point(251, 92)
-        Me.ButtonQR.Name = "ButtonQR"
-        Me.ButtonQR.Size = New System.Drawing.Size(107, 25)
-        Me.ButtonQR.TabIndex = 11
-        Me.ButtonQR.Text = "QR CODE"
-        Me.ButtonQR.UseVisualStyleBackColor = False
+        Me.bgwWAStatus.WorkerReportsProgress = True
+        Me.bgwWAStatus.WorkerSupportsCancellation = True
         '
         'WhatsAppSetting
         '
@@ -621,12 +658,13 @@ Partial Class WhatsAppSetting
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        Me.GroupBox11.ResumeLayout(False)
+        Me.GroupBox11.PerformLayout()
         Me.GroupBox10.ResumeLayout(False)
         Me.GroupBox10.PerformLayout()
         Me.GroupBox7.ResumeLayout(False)
@@ -687,5 +725,9 @@ Partial Class WhatsAppSetting
     Friend WithEvents ButtonCekKoneksiWA As System.Windows.Forms.Button
     Friend WithEvents ButtonStart As System.Windows.Forms.Button
     Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents ButtonQR As System.Windows.Forms.Button
+    Friend WithEvents ButtonIP As System.Windows.Forms.Button
+    Friend WithEvents bgwQR As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgwWAStatus As System.ComponentModel.BackgroundWorker
+    Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
+    Friend WithEvents LabelIP As System.Windows.Forms.Label
 End Class

@@ -1,7 +1,11 @@
 ﻿Imports System.Net
+Imports System.Net.Sockets
 Imports System.IO
 Imports Newtonsoft.Json.Serialization
 Imports System.Drawing.Drawing2D
+Imports System.ComponentModel
+Imports Newtonsoft.Json.Linq
+Imports System.Net.NetworkInformation
 
 Public Class WhatsAppSetting
     Private isInitializing As Boolean = False
@@ -50,6 +54,7 @@ Public Class WhatsAppSetting
 
         CekStatus()
         CekInfo()
+        LabelIP.Text = GetIPv4()
     End Sub
 
     Private Sub WhatsAppSetting_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Shown
@@ -475,6 +480,85 @@ Public Class WhatsAppSetting
         End Try
     End Sub
 
+    Private Sub StartPollingWA()
+        If Not bgwWAStatus.IsBusy Then
+            bgwWAStatus.RunWorkerAsync()
+        End If
+    End Sub
+
+    ' Stop BackgroundWorker
+    Private Sub StopPollingWA()
+        If bgwWAStatus.IsBusy Then
+            bgwWAStatus.CancelAsync()
+        End If
+    End Sub
+
+    ' =========================
+    ' DO WORK: polling status & QR
+    ' =========================
+    Private Sub bgwWAStatus_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles bgwWAStatus.DoWork
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+
+        While Not worker.CancellationPending
+            Try
+                ' --- Ambil status WA ---
+                Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+                Dim urlStatus As String = "http://" & baseIP & ":4444/status"
+                Dim client As New Net.WebClient()
+                Dim result As String = client.DownloadString(urlStatus)
+                Dim json = Newtonsoft.Json.Linq.JObject.Parse(result)
+
+                Dim isConnected As Boolean = json("connected").ToString().ToLower() = "true"
+
+                ' --- Ambil QR jika belum connected ---
+                Dim bmp As Image = Nothing
+                If Not isConnected Then
+                    Try
+                        Dim urlQR As String = "http://" & baseIP & ":4444/qr-base64"
+                        Dim jsonQR As String = client.DownloadString(urlQR)
+                        Dim qrJson = Newtonsoft.Json.Linq.JObject.Parse(jsonQR)
+                        If qrJson("qrBase64") IsNot Nothing AndAlso qrJson("qrBase64").ToString() <> "" Then
+                            Dim bytes() As Byte = Convert.FromBase64String(qrJson("qrBase64").ToString())
+                            Using ms As New IO.MemoryStream(bytes)
+                                bmp = Image.FromStream(ms)
+                            End Using
+                        End If
+                    Catch
+                        ' QR belum siap
+                    End Try
+                End If
+
+                ' Kirim progress ke UI thread
+                worker.ReportProgress(0, New Object() {isConnected, bmp})
+
+            Catch
+                ' skip jika gagal
+            End Try
+
+            System.Threading.Thread.Sleep(2000) ' delay 2 detik
+        End While
+    End Sub
+
+    ' =========================
+    ' PROGRESS CHANGED: update UI
+    ' =========================
+    Private Sub bgwWAStatus_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles bgwWAStatus.ProgressChanged
+        Dim data() As Object = CType(e.UserState, Object())
+        Dim isConnected As Boolean = CBool(data(0))
+        Dim bmp As Image = CType(data(1), Image)
+
+        ' Update status label & button
+        UpdateButtonState(isConnected)
+
+        ' Update QR
+        If bmp IsNot Nothing Then
+            PictureBox1.Image = bmp
+            PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        ElseIf isConnected Then
+            PictureBox1.Image = Nothing
+        End If
+    End Sub
+
     Private Function CheckWaStatus() As Newtonsoft.Json.Linq.JObject
         Try
             Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
@@ -482,18 +566,16 @@ Public Class WhatsAppSetting
 
             Dim client As New Net.WebClient()
             Dim result As String = client.DownloadString(url)
-
             Dim json = Newtonsoft.Json.Linq.JObject.Parse(result)
 
-            If json("connected").ToString() = "True" Then
-                UpdateButtonState(True)
-            Else
-                UpdateButtonState(False)
-            End If
+            ' Update status button & label
+            Dim isConnected As Boolean = json("connected").ToString().ToLower() = "true"
+            UpdateButtonState(isConnected)
 
             Return json
 
         Catch ex As Exception
+            ' Kalau server belum jalan atau gagal koneksi
             LabelStatusWA.Text = "Server Off"
             LabelStatusWA.ForeColor = Color.OrangeRed
             LabelStatusWA.TextAlign = ContentAlignment.MiddleCenter
@@ -555,7 +637,8 @@ Public Class WhatsAppSetting
                 psi.WorkingDirectory = pathServer          ' === Sesuaikan folder ===
                 psi.Arguments = "-c ""node index.js"""
                 psi.UseShellExecute = False
-                'psi.CreateNoWindow = False
+                psi.CreateNoWindow = True
+                psi.WindowStyle = ProcessWindowStyle.Hidden
 
                 waProcess = Process.Start(psi)
                 MsgBox("Server WA berjalan.", MsgBoxStyle.Information)
@@ -611,6 +694,83 @@ Public Class WhatsAppSetting
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
     End Sub
 
+    Private Sub StartPollingQR()
+        If Not bgwQR.IsBusy Then
+            bgwQR.RunWorkerAsync()
+        End If
+    End Sub
+
+    Private Sub StopPollingQR()
+        If bgwQR.IsBusy Then
+            bgwQR.CancelAsync()
+        End If
+    End Sub
+
+    'Private Sub ButtonStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStart.Click
+    '    Me.Cursor = Cursors.WaitCursor
+    '    ButtonStart.Enabled = False
+
+    '    Try
+    '        Dim status As Boolean = GetWaStatus()
+
+    '        If status = False Then
+    '            StartWaServer()
+    '        Else
+    '            StopWaServer()
+    '        End If
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error: " & ex.Message)
+    '    Finally
+    '        Me.Cursor = Cursors.Default
+    '        ButtonStart.Enabled = True
+    '        CheckWaStatus()
+    '    End Try
+    'End Sub
+
+    Private Sub bgwQR_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles bgwQR.DoWork
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+        Dim attempts As Integer = 0
+
+        While attempts < 30 AndAlso Not worker.CancellationPending
+            Try
+                Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+                Dim url As String = "http://" & baseIP & ":4444/qr-base64"
+                Dim client As New Net.WebClient()
+                Dim jsonStr As String = client.DownloadString(url)
+                Dim json = Newtonsoft.Json.Linq.JObject.Parse(jsonStr)
+
+                If json("qrBase64") IsNot Nothing AndAlso json("qrBase64").ToString() <> "" Then
+                    Dim base64 As String = json("qrBase64").ToString()
+                    Dim bytes() As Byte = Convert.FromBase64String(base64)
+                    Using ms As New IO.MemoryStream(bytes)
+                        Dim bmp As Image = Image.FromStream(ms)
+                        worker.ReportProgress(0, bmp) ' kirim image ke UI thread
+                    End Using
+                End If
+
+                ' jika WA sudah terhubung → stop polling
+                If GetWaStatus() Then Exit While
+
+            Catch
+                ' QR belum siap → skip
+            End Try
+
+            attempts += 1
+            System.Threading.Thread.Sleep(2000) ' tunggu 2 detik
+        End While
+    End Sub
+
+    Private Sub bgwQR_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles bgwQR.ProgressChanged
+        Dim bmp As Image = CType(e.UserState, Image)
+        PictureBox1.Image = bmp
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+    End Sub
+
+    Private Sub bgwQR_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwQR.RunWorkerCompleted
+        ' QR polling selesai
+        ' Bisa tampilkan Label: "WA connected" atau hapus QR
+    End Sub
+
     Private Sub ButtonStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonStart.Click
         Me.Cursor = Cursors.WaitCursor
         ButtonStart.Enabled = False
@@ -618,11 +778,18 @@ Public Class WhatsAppSetting
         Try
             Dim status As Boolean = GetWaStatus()
 
-            If status = False Then
+            If Not status Then
+                ' Start server WA
                 StartWaServer()
+                ' Mulai polling WA & QR
+                StartPollingWA()
             Else
+                ' Stop server WA
                 StopWaServer()
+                StopPollingWA()
+                PictureBox1.Image = Nothing
             End If
+
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         Finally
@@ -632,42 +799,40 @@ Public Class WhatsAppSetting
         End Try
     End Sub
 
-    Private Sub ButtonQR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonQR.Click
-        Try
-            Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
-            Dim url As String = "http://" & baseIP & ":4444/qr"
+    'Private Sub ButtonQR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonQR.Click
+    '    Try
+    '        Dim baseIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+    '        Dim url As String = "http://" & baseIP & ":4444/qr-base64"
 
-            Dim wc As New Net.WebClient()
-            Dim html As String = wc.DownloadString(url)
+    '        Dim client As New Net.WebClient()
+    '        Dim jsonStr As String = client.DownloadString(url)
+    '        Dim json = Newtonsoft.Json.Linq.JObject.Parse(jsonStr)
 
-            ' Jika server belum siap
-            If html.Contains("not ready yet") Then
-                MsgBox("QR belum siap, tunggu sebentar...", MsgBoxStyle.Information)
-                Exit Sub
+    '        If json("qrBase64") IsNot Nothing Then
+    '            Dim base64 As String = json("qrBase64").ToString()
+    '            Dim bytes() As Byte = Convert.FromBase64String(base64)
+    '            Using ms As New IO.MemoryStream(bytes)
+    '                PictureBox1.Image = Image.FromStream(ms)
+    '                PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+    '            End Using
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Gagal load QR Code:" & vbCrLf & ex.Message)
+    '    End Try
+    'End Sub
+
+    Public Function GetIPv4() As String
+        For Each ni As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
+            If ni.OperationalStatus = OperationalStatus.Up AndAlso ni.NetworkInterfaceType <> NetworkInterfaceType.Loopback Then
+
+                For Each ip As UnicastIPAddressInformation In ni.GetIPProperties().UnicastAddresses
+                    If ip.Address.AddressFamily = AddressFamily.InterNetwork Then
+                        Return ip.Address.ToString()
+                    End If
+                Next
             End If
+        Next
 
-            ' Cari URL QR di dalam tag <a href="URL">
-            Dim qrUrl As String = ""
-            Dim startTag As String = "href="""
-            Dim startPos As Integer = html.IndexOf(startTag)
-
-            If startPos > -1 Then
-                startPos += startTag.Length
-                Dim endPos As Integer = html.IndexOf("""", startPos)
-                qrUrl = html.Substring(startPos, endPos - startPos)
-            End If
-
-            If qrUrl = "" Then
-                MsgBox("Tidak dapat menemukan URL QR dari server.", MsgBoxStyle.Critical)
-                Exit Sub
-            End If
-
-            ' Tampilkan QR ke PictureBox
-            PictureBox1.ImageLocation = qrUrl
-            'PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
-
-        Catch ex As Exception
-            MsgBox("Gagal memuat QR: " & ex.Message, MsgBoxStyle.Critical)
-        End Try
-    End Sub
+        Return "IP aktif tidak ditemukan"
+    End Function
 End Class
