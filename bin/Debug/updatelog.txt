@@ -7,6 +7,7 @@ Version : 2.0.0.56 ()
 # [New Feature] Penambahan Fitur Analisis Data - Pemakaian Obat
 # [New Feature] Penambahan Fitur Auto Complete pada Pencarian Obat
 # [New Feature] Penambahan Fitur WhatsApp API (Development) 
+# [New Feature] Penambahan Fitur Setting WhatsApp Baileys 
 # [New Feature] Penambahan Fitur Notifikasi API Pcare
 # [New Feature] Penambahan Fitur Akses Diagnosa Lokal saat PCare Gangguan
 # [Usability Improvement] Penambahan Jenis Gambar pada Upload Gambar

@@ -48,7 +48,7 @@ Partial Class WhatsAppSetting
         Me.GroupBox11 = New System.Windows.Forms.GroupBox
         Me.LabelIP = New System.Windows.Forms.Label
         Me.ButtonIP = New System.Windows.Forms.Button
-        Me.Label14 = New System.Windows.Forms.Label
+        Me.LabelStart = New System.Windows.Forms.Label
         Me.ButtonStart = New System.Windows.Forms.Button
         Me.GroupBox10 = New System.Windows.Forms.GroupBox
         Me.LabelStatusWA = New System.Windows.Forms.Label
@@ -56,11 +56,9 @@ Partial Class WhatsAppSetting
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
         Me.Label11 = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
-        Me.ToggleSwitchLab = New PoliKlinik_Net2.ToggleSwitch
         Me.GroupBox6 = New System.Windows.Forms.GroupBox
         Me.Label10 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
-        Me.ToggleSwitchKlinik = New PoliKlinik_Net2.ToggleSwitch
         Me.ButtonUpdateIP = New System.Windows.Forms.Button
         Me.TextBoxIPLab = New System.Windows.Forms.TextBox
         Me.TextBoxIPKlinik = New System.Windows.Forms.TextBox
@@ -75,6 +73,15 @@ Partial Class WhatsAppSetting
         Me.Label13 = New System.Windows.Forms.Label
         Me.bgwQR = New System.ComponentModel.BackgroundWorker
         Me.bgwWAStatus = New System.ComponentModel.BackgroundWorker
+        Me.GroupBox12 = New System.Windows.Forms.GroupBox
+        Me.ToggleSwitchLab = New PoliKlinik_Net2.ToggleSwitch
+        Me.ToggleSwitchKlinik = New PoliKlinik_Net2.ToggleSwitch
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.Label15 = New System.Windows.Forms.Label
+        Me.Label16 = New System.Windows.Forms.Label
+        Me.LabelNo = New System.Windows.Forms.Label
+        Me.LabelDevice = New System.Windows.Forms.Label
+        Me.LabelUptime = New System.Windows.Forms.Label
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -87,6 +94,7 @@ Partial Class WhatsAppSetting
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
+        Me.GroupBox12.SuspendLayout()
         Me.SuspendLayout()
         '
         'PictureBox1
@@ -326,7 +334,7 @@ Partial Class WhatsAppSetting
         '
         Me.GroupBox5.Controls.Add(Me.GroupBox11)
         Me.GroupBox5.Controls.Add(Me.ButtonIP)
-        Me.GroupBox5.Controls.Add(Me.Label14)
+        Me.GroupBox5.Controls.Add(Me.LabelStart)
         Me.GroupBox5.Controls.Add(Me.ButtonStart)
         Me.GroupBox5.Controls.Add(Me.GroupBox10)
         Me.GroupBox5.Controls.Add(Me.ButtonCekKoneksiWA)
@@ -352,7 +360,7 @@ Partial Class WhatsAppSetting
         Me.GroupBox11.Size = New System.Drawing.Size(127, 53)
         Me.GroupBox11.TabIndex = 12
         Me.GroupBox11.TabStop = False
-        Me.GroupBox11.Text = "IP Server"
+        Me.GroupBox11.Text = "IP Komputer"
         '
         'LabelIP
         '
@@ -379,14 +387,14 @@ Partial Class WhatsAppSetting
         Me.ButtonIP.UseVisualStyleBackColor = False
         Me.ButtonIP.Visible = False
         '
-        'Label14
+        'LabelStart
         '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(341, 16)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(59, 13)
-        Me.Label14.TabIndex = 10
-        Me.Label14.Text = "Start | Stop"
+        Me.LabelStart.AutoSize = True
+        Me.LabelStart.Location = New System.Drawing.Point(341, 16)
+        Me.LabelStart.Name = "LabelStart"
+        Me.LabelStart.Size = New System.Drawing.Size(59, 13)
+        Me.LabelStart.TabIndex = 10
+        Me.LabelStart.Text = "Start | Stop"
         '
         'ButtonStart
         '
@@ -468,13 +476,6 @@ Partial Class WhatsAppSetting
         Me.Label12.TabIndex = 2
         Me.Label12.Text = "ON"
         '
-        'ToggleSwitchLab
-        '
-        Me.ToggleSwitchLab.Location = New System.Drawing.Point(39, 18)
-        Me.ToggleSwitchLab.Name = "ToggleSwitchLab"
-        Me.ToggleSwitchLab.Size = New System.Drawing.Size(50, 25)
-        Me.ToggleSwitchLab.TabIndex = 0
-        '
         'GroupBox6
         '
         Me.GroupBox6.Controls.Add(Me.Label10)
@@ -504,13 +505,6 @@ Partial Class WhatsAppSetting
         Me.Label9.Size = New System.Drawing.Size(23, 13)
         Me.Label9.TabIndex = 2
         Me.Label9.Text = "ON"
-        '
-        'ToggleSwitchKlinik
-        '
-        Me.ToggleSwitchKlinik.Location = New System.Drawing.Point(39, 18)
-        Me.ToggleSwitchKlinik.Name = "ToggleSwitchKlinik"
-        Me.ToggleSwitchKlinik.Size = New System.Drawing.Size(50, 25)
-        Me.ToggleSwitchKlinik.TabIndex = 0
         '
         'ButtonUpdateIP
         '
@@ -643,16 +637,101 @@ Partial Class WhatsAppSetting
         Me.bgwWAStatus.WorkerReportsProgress = True
         Me.bgwWAStatus.WorkerSupportsCancellation = True
         '
+        'GroupBox12
+        '
+        Me.GroupBox12.Controls.Add(Me.LabelUptime)
+        Me.GroupBox12.Controls.Add(Me.LabelDevice)
+        Me.GroupBox12.Controls.Add(Me.LabelNo)
+        Me.GroupBox12.Controls.Add(Me.Label16)
+        Me.GroupBox12.Controls.Add(Me.Label15)
+        Me.GroupBox12.Controls.Add(Me.Label14)
+        Me.GroupBox12.Location = New System.Drawing.Point(421, 513)
+        Me.GroupBox12.Name = "GroupBox12"
+        Me.GroupBox12.Size = New System.Drawing.Size(287, 120)
+        Me.GroupBox12.TabIndex = 8
+        Me.GroupBox12.TabStop = False
+        Me.GroupBox12.Text = "Info"
+        '
+        'ToggleSwitchLab
+        '
+        Me.ToggleSwitchLab.Location = New System.Drawing.Point(39, 18)
+        Me.ToggleSwitchLab.Name = "ToggleSwitchLab"
+        Me.ToggleSwitchLab.Size = New System.Drawing.Size(50, 25)
+        Me.ToggleSwitchLab.TabIndex = 0
+        '
+        'ToggleSwitchKlinik
+        '
+        Me.ToggleSwitchKlinik.Location = New System.Drawing.Point(39, 18)
+        Me.ToggleSwitchKlinik.Name = "ToggleSwitchKlinik"
+        Me.ToggleSwitchKlinik.Size = New System.Drawing.Size(50, 25)
+        Me.ToggleSwitchKlinik.TabIndex = 0
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(14, 25)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(45, 13)
+        Me.Label14.TabIndex = 2
+        Me.Label14.Text = "No HP :"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(14, 51)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(47, 13)
+        Me.Label15.TabIndex = 3
+        Me.Label15.Text = "Device :"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(14, 79)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(46, 13)
+        Me.Label16.TabIndex = 4
+        Me.Label16.Text = "Uptime :"
+        '
+        'LabelNo
+        '
+        Me.LabelNo.AutoSize = True
+        Me.LabelNo.Location = New System.Drawing.Point(65, 25)
+        Me.LabelNo.Name = "LabelNo"
+        Me.LabelNo.Size = New System.Drawing.Size(10, 13)
+        Me.LabelNo.TabIndex = 5
+        Me.LabelNo.Text = "-"
+        '
+        'LabelDevice
+        '
+        Me.LabelDevice.AutoSize = True
+        Me.LabelDevice.Location = New System.Drawing.Point(65, 51)
+        Me.LabelDevice.Name = "LabelDevice"
+        Me.LabelDevice.Size = New System.Drawing.Size(10, 13)
+        Me.LabelDevice.TabIndex = 6
+        Me.LabelDevice.Text = "-"
+        '
+        'LabelUptime
+        '
+        Me.LabelUptime.AutoSize = True
+        Me.LabelUptime.Location = New System.Drawing.Point(65, 79)
+        Me.LabelUptime.Name = "LabelUptime"
+        Me.LabelUptime.Size = New System.Drawing.Size(10, 13)
+        Me.LabelUptime.TabIndex = 7
+        Me.LabelUptime.Text = "-"
+        '
         'WhatsAppSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(720, 659)
+        Me.ClientSize = New System.Drawing.Size(720, 643)
+        Me.Controls.Add(Me.GroupBox12)
         Me.Controls.Add(Me.GroupBox8)
         Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.GroupBox4)
         Me.Name = "WhatsAppSetting"
+        Me.ShowIcon = False
         Me.Text = "WhatsAppSetting"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -675,6 +754,8 @@ Partial Class WhatsAppSetting
         Me.GroupBox8.PerformLayout()
         Me.GroupBox9.ResumeLayout(False)
         Me.GroupBox9.PerformLayout()
+        Me.GroupBox12.ResumeLayout(False)
+        Me.GroupBox12.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -724,10 +805,17 @@ Partial Class WhatsAppSetting
     Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
     Friend WithEvents ButtonCekKoneksiWA As System.Windows.Forms.Button
     Friend WithEvents ButtonStart As System.Windows.Forms.Button
-    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents LabelStart As System.Windows.Forms.Label
     Friend WithEvents ButtonIP As System.Windows.Forms.Button
     Friend WithEvents bgwQR As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgwWAStatus As System.ComponentModel.BackgroundWorker
     Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
     Friend WithEvents LabelIP As System.Windows.Forms.Label
+    Friend WithEvents GroupBox12 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label16 As System.Windows.Forms.Label
+    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents LabelUptime As System.Windows.Forms.Label
+    Friend WithEvents LabelDevice As System.Windows.Forms.Label
+    Friend WithEvents LabelNo As System.Windows.Forms.Label
 End Class

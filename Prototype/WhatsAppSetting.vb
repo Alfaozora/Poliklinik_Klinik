@@ -11,6 +11,7 @@ Public Class WhatsAppSetting
     Private isInitializing As Boolean = False
     Private preventEvent As Boolean = False
     Private waProcess As Process = Nothing
+    Private Delegate Sub UpdateUIDelegate()
 
     Public Function Base64ToImage(ByVal base64String As String) As Image
         Dim imageBytes() As Byte = Convert.FromBase64String(base64String)
@@ -55,6 +56,8 @@ Public Class WhatsAppSetting
         CekStatus()
         CekInfo()
         LabelIP.Text = GetIPv4()
+
+        bgwWAStatus.RunWorkerAsync()
     End Sub
 
     Private Sub WhatsAppSetting_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Shown
@@ -510,6 +513,10 @@ Public Class WhatsAppSetting
 
                 Dim isConnected As Boolean = json("connected").ToString().ToLower() = "true"
 
+                Dim phone As String = If(json("phone") IsNot Nothing, json("phone").ToString(), "")
+                Dim device As String = If(json("device") IsNot Nothing, json("device").ToString(), "")
+                Dim uptime As Integer = If(json("uptime_seconds") IsNot Nothing, CInt(json("uptime_seconds")), 0)
+
                 ' --- Ambil QR jika belum connected ---
                 Dim bmp As Image = Nothing
                 If Not isConnected Then
@@ -529,7 +536,7 @@ Public Class WhatsAppSetting
                 End If
 
                 ' Kirim progress ke UI thread
-                worker.ReportProgress(0, New Object() {isConnected, bmp})
+                worker.ReportProgress(0, New Object() {isConnected, bmp, phone, device, uptime})
 
             Catch
                 ' skip jika gagal
@@ -544,20 +551,45 @@ Public Class WhatsAppSetting
     ' =========================
     Private Sub bgwWAStatus_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles bgwWAStatus.ProgressChanged
         Dim data() As Object = CType(e.UserState, Object())
+
         Dim isConnected As Boolean = CBool(data(0))
         Dim bmp As Image = CType(data(1), Image)
+        Dim phone As String = data(2).ToString()
+        Dim device As String = data(3).ToString()
+        Dim uptime As Integer = CInt(data(4))
 
-        ' Update status label & button
+        ' >>> Update status dan tombol
         UpdateButtonState(isConnected)
 
-        ' Update QR
-        If bmp IsNot Nothing Then
-            PictureBox1.Image = bmp
-            PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
-        ElseIf isConnected Then
+        ' >>> Update info device SELALU, tidak tergantung QR
+        If isConnected Then
+            LabelNo.Text = phone
+            LabelDevice.Text = device
+            LabelUptime.Text = FormatUptime(uptime)
+        Else
+            LabelNo.Text = "-"
+            LabelDevice.Text = "-"
+            LabelUptime.Text = "-"
+        End If
+
+        ' >>> Update QR jika belum konek
+        If Not isConnected Then
+            If bmp IsNot Nothing Then
+                PictureBox1.Image = bmp
+                PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+            End If
+        Else
+            ' connected → QR hilangkan
             PictureBox1.Image = Nothing
         End If
     End Sub
+
+    Private Function FormatUptime(ByVal seconds As Integer) As String
+        Dim ts As TimeSpan = TimeSpan.FromSeconds(seconds)
+        Return ts.Hours.ToString("00") & ":" & _
+               ts.Minutes.ToString("00") & ":" & _
+            ts.Seconds.ToString("00")
+    End Function
 
     Private Function CheckWaStatus() As Newtonsoft.Json.Linq.JObject
         Try
@@ -584,6 +616,34 @@ Public Class WhatsAppSetting
             Return Nothing
         End Try
     End Function
+
+    Private Sub UpdateWaDisplay()
+        Dim json As JObject = CheckWaStatus()
+
+        'If json Is Nothing Then
+        '    LabelStatusWA.Text = "Server Off"
+        '    LabelStatusWA.ForeColor = Color.Red
+        '    Exit Sub
+        'End If
+
+        'Dim status As String = json("status").ToString()
+        Dim phone As String = If(json("phone").Type = JTokenType.Null, "-", json("phone").ToString())
+        Dim device As String = If(json("device").Type = JTokenType.Null, "-", json("device").ToString())
+        Dim uptimeSec As Integer = Convert.ToInt32(json("uptime_seconds"))
+
+        ' Konversi uptime ke hari/jam/menit/detik
+        Dim ts As TimeSpan = TimeSpan.FromSeconds(uptimeSec)
+        Dim uptimeText As String = "{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}"
+
+        ' Tampilkan ke UI
+        'LabelStatusWA.Text = status.ToUpper()
+        LabelNo.Text = "No HP : " & phone
+        LabelDevice.Text = "Device : " & device
+        LabelUptime.Text = "Uptime : " & uptimeText
+
+        'LabelStatusWA.ForeColor = If(status = "connected", Color.Green, Color.Red)
+    End Sub
+
 
     Private Function GetWaStatus() As Boolean
         Try
