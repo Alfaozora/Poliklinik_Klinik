@@ -705,7 +705,6 @@ Public Class WhatsAppSetting
             Else
                 MsgBox("Server sudah berjalan!", MsgBoxStyle.Exclamation)
             End If
-
         Catch ex As Exception
             MsgBox("Gagal Start: " & ex.Message)
         End Try

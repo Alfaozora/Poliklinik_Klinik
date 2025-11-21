@@ -1135,6 +1135,7 @@ Partial Class PoliKlinik
         '
         Me.SettingWhatsAppToolStripMenuItem.Name = "SettingWhatsAppToolStripMenuItem"
         Me.SettingWhatsAppToolStripMenuItem.Size = New System.Drawing.Size(182, 22)
+        Me.SettingWhatsAppToolStripMenuItem.Tag = "0608"
         Me.SettingWhatsAppToolStripMenuItem.Text = "Setting WhatsApp"
         '
         'ToolToolStripMenuItem
