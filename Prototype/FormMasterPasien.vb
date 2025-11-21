@@ -282,7 +282,53 @@ Public Class FormMasterPasien
                 getResponse = getDataFromPcare(uri)
                 'MessageBox.Show(getResponse, "Raw Response from PCare API")
 
-                Dim jsonArray As JArray = JArray.Parse(getResponse)
+                '======================
+                ' CEK 1 : RESPONSE KOSONG
+                '======================
+                If String.IsNullOrEmpty(getResponse) Then
+                    MsgBox("Tidak ada respons dari server PCare." & vbCrLf & _
+                           "Kemungkinan:" & vbCrLf & _
+                           "- Koneksi internet terputus" & vbCrLf & _
+                           "- Server BPJS sedang DOWN", MsgBoxStyle.Exclamation, "PCare Offline")
+                    Exit Sub
+                End If
+
+                '======================
+                ' CEK 2 : JSON bukan array
+                '======================
+                Dim isArray As Boolean = True
+                Dim jsonArray As JArray = Nothing
+
+                Try
+                    jsonArray = JArray.Parse(getResponse)
+                Catch
+                    isArray = False
+                End Try
+
+                If isArray = False Then
+                    ' Berarti respon error dari PCare
+                    Try
+                        Dim jobj As JObject = JObject.Parse(getResponse)
+                        Dim message As String = jobj("metaData")("message").ToString()
+
+                        MsgBox("Gagal memuat data peserta." & vbCrLf & _
+                               "Pesan BPJS: " & message & vbCrLf & _
+                               vbCrLf & "Kemungkinan server BPJS DOWN atau NIK/Kartu tidak valid.", MsgBoxStyle.Critical, "Error PCare")
+
+                        Exit Sub
+                    Catch
+                        MsgBox("Format respons PCare tidak dikenali. Server mungkin DOWN.", MsgBoxStyle.Critical, "PCare Error")
+                        Exit Sub
+                    End Try
+                End If
+
+                '======================
+                ' CEK 3 : ARRAY KOSONG
+                '======================
+                If jsonArray.Count = 0 Then
+                    MsgBox("Data peserta kosong. Server BPJS kemungkinan bermasalah.", MsgBoxStyle.Exclamation, "PCare Error")
+                    Exit Sub
+                End If
 
                 For Each item As JObject In jsonArray
                     If item("response") IsNot Nothing AndAlso item("response").Type <> JTokenType.Null Then

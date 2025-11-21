@@ -167,23 +167,73 @@ Public Class FormSettingBPJS
             Dim jsonString As String = InsertDataAPI(parameterPendaftaran, webServiceUrl)
 
             ' Parsing respon
+            'If Not String.IsNullOrEmpty(jsonString) Then
+            '    Dim jArray As JArray = JArray.Parse(jsonString)
+
+            '    If jArray.Count > 0 Then
+            '        Dim firstItem As JObject = jArray(0)
+
+            '        Dim status As String = firstItem("status").ToString()
+            '        Dim message As String = firstItem("message").ToString()
+
+            '        MessageBox.Show("Status Kirim: " & status & vbCrLf & "Pesan: " & message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '    Else
+            '        MessageBox.Show("Respon kosong dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            '    End If
+            'Else
+            '    MessageBox.Show("Tidak ada respon dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End If
+
+            ' Parsing respon
             If Not String.IsNullOrEmpty(jsonString) Then
-                Dim jArray As JArray = JArray.Parse(jsonString)
+                Try
+                    ' Coba sebagai array dulu
+                    Dim jArray As JArray = Nothing
 
-                If jArray.Count > 0 Then
-                    Dim firstItem As JObject = jArray(0)
+                    Dim isArray As Boolean = False
 
-                    Dim status As String = firstItem("status").ToString()
-                    Dim message As String = firstItem("message").ToString()
+                    Try
+                        jArray = jArray.Parse(jsonString)
+                        isArray = True
+                    Catch
+                        isArray = False
+                    End Try
 
-                    MessageBox.Show("Status Kirim: " & status & vbCrLf & "Pesan: " & message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    MessageBox.Show("Respon kosong dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End If
+                    If isArray Then
+                        ' RESPONS NORMAL (ARRAY)
+                        If jArray.Count > 0 Then
+                            Dim firstItem As JObject = jArray(0)
+
+                            Dim status As String = firstItem("status").ToString()
+                            Dim message As String = firstItem("message").ToString()
+
+                            MessageBox.Show("Status Kirim: " & status & vbCrLf & _
+                                            "Pesan: " & message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            MessageBox.Show("Respon kosong dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
+
+                    Else
+                        ' RESPONS ERROR (OBJECT)
+                        Dim jobj As JObject = JObject.Parse(jsonString)
+
+                        Dim status As String = If(jobj("status") Is Nothing, "error", jobj("status").ToString())
+                        Dim message As String = If(jobj("message") Is Nothing, "Format data tidak dikenali.", jobj("message").ToString())
+
+                        MessageBox.Show("Server mengembalikan error:" & vbCrLf & _
+                                        "Status: " & status & vbCrLf & _
+                                        "Pesan : " & message & vbCrLf & _
+                                        vbCrLf & "Kemungkinan server bridging DOWN atau koneksi internet bermasalah.", "Bridging Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                    End If
+
+                Catch ex As Exception
+                    MessageBox.Show("Gagal parsing respon: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+
             Else
                 MessageBox.Show("Tidak ada respon dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
-
         Catch ex As Exception
             MessageBox.Show("Gagal parsing respon: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

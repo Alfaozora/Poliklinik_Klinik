@@ -276,7 +276,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ComboBoxJaminan.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.ComboBoxJaminan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxJaminan.FormattingEnabled = True
-        Me.ComboBoxJaminan.Items.AddRange(New Object() {"BPJS", "UMUM", "ASURANSI", "GABUNGAN"})
+        Me.ComboBoxJaminan.Items.AddRange(New Object() {"BPJS", "UMUM", "Asuransai Lain", "GABUNGAN"})
         Me.ComboBoxJaminan.Location = New System.Drawing.Point(17, 192)
         Me.ComboBoxJaminan.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBoxJaminan.Name = "ComboBoxJaminan"
@@ -578,7 +578,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ComboBoxJaminanWaktu.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.ComboBoxJaminanWaktu.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxJaminanWaktu.FormattingEnabled = True
-        Me.ComboBoxJaminanWaktu.Items.AddRange(New Object() {"BPJS", "UMUM", "ASURANSI", "GABUNGAN"})
+        Me.ComboBoxJaminanWaktu.Items.AddRange(New Object() {"BPJS", "UMUM", "Asuransi Lain", "GABUNGAN"})
         Me.ComboBoxJaminanWaktu.Location = New System.Drawing.Point(23, 194)
         Me.ComboBoxJaminanWaktu.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBoxJaminanWaktu.Name = "ComboBoxJaminanWaktu"

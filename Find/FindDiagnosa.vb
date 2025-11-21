@@ -154,37 +154,178 @@ Public Class FindDiagnosa
         Me.CenterToScreen()
         TextBoxKriteria.Focus()
         TextBoxKriteria.ResetText()
+        ToggleSwitch1.Checked = True
     End Sub
+
+    'NEW VER 1
+    'Private Sub FindQuery()
+    '    Try
+    '        If Checking() = True Then
+    '            Dim kriteria As String = TextBoxKriteria.Text
+    '            'Dim Tdata As DataTable = New DataTable
+    '            Dim Tdata As DataTable = CreateTableICD()
+
+    '            'Tdata = CreateTableICD()
+    '            Tdata.Rows.Clear()
+
+    '            Dim getResponse As String = ""
+    '            Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+    '            Dim uri As String = urlPcare & "diagnosa/" & kriteria & "/1/100"
+
+    '            getResponse = getDataFromPcare(uri)
+
+    '            If getResponse = "Nothing" OrElse getResponse Is Nothing OrElse getResponse.Trim() = "" Then
+    '                MsgBox("Tidak ada respon dari server.", MsgBoxStyle.Critical, "Warning!")
+    '                Exit Sub
+    '            End If
+
+    '            Dim isArray As Boolean = getResponse.Trim().StartsWith("[")
+    '            Dim isObject As Boolean = getResponse.Trim().StartsWith("{")
+
+    '            If isArray Then
+    '                Dim varsespoli() As varJson = JsonConvert.DeserializeObject(Of varJson())(getResponse)
+
+    '                For Each oneVar As varJson In varsespoli
+    '                    If oneVar.metaData.message = "OK" Then
+    '                        If oneVar.response IsNot Nothing AndAlso oneVar.response.list IsNot Nothing Then
+    '                            For Each diag In oneVar.response.list
+    '                                Dim Tlastnew As DataRow = Tdata.NewRow
+    '                                Tlastnew("Kode Diagnosa") = diag.kdDiag
+    '                                Tlastnew("Nama Diagnosa") = diag.nmDiag
+    '                                Tlastnew("Non Spesialis") = diag.nonSpesialis
+    '                                Tdata.Rows.Add(Tlastnew)
+    '                            Next
+    '                        End If
+    '                    Else
+    '                        MsgBox("BPJS: " & oneVar.metaData.message, MsgBoxStyle.Critical, "Peringatan!")
+    '                    End If
+    '                Next
+
+    '            ElseIf isObject Then
+    '                Dim errResponse As ErrorMeta = JsonConvert.DeserializeObject(Of ErrorMeta)(getResponse)
+    '                MsgBox("BPJS Error: " & errResponse.metaData.message, MsgBoxStyle.Exclamation, "Peringatan!")
+    '            Else
+    '                MsgBox("Format respon tidak dikenali!", MsgBoxStyle.Critical, "Kesalahan Format")
+    '            End If
+
+    '            'If getResponse <> "Nothing" Then
+    '            '    'Dim varsespoli() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(getResponse)
+    '            '    Dim varsespoli() As varJson = JsonConvert.DeserializeObject(Of varJson())(getResponse)
+
+    '            '    For Each oneVar As varJson In varsespoli
+    '            '        If oneVar.metaData.message = "OK" Then
+    '            '            For index As Integer = 0 To oneVar.response.list.Length - 1
+    '            '                Dim Tlastnew As DataRow = Tdata.NewRow
+    '            '                Tlastnew("Kode Diagnosa") = oneVar.response.list(index).kdDiag
+    '            '                Tlastnew("Nama Diagnosa") = oneVar.response.list(index).nmDiag
+    '            '                Tlastnew("Non Spesialis") = oneVar.response.list(index).nonSpesialis
+    '            '                Tdata.Rows.Add(Tlastnew)
+    '            '            Next
+    '            '        Else
+    '            '            MsgBox("Data tidak ditemukan.", MsgBoxStyle.Critical, "Warning!")
+    '            '        End If
+    '            '    Next
+    '            'Else
+    '            '    MsgBox("Data tidak ditemukan.", MsgBoxStyle.Critical, "Warning!")
+    '            'End If
+
+    '            GridControlPencarian.DataSource = Tdata
+    '            GridViewPencarian.BestFitColumns()
+    '            'GridViewPencarian.Columns("NonSpesialis ").Visible = False
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Eror saat memproses data: " & ex.Message, MsgBoxStyle.Exclamation, "Error!")
+    '    End Try
+    'End Sub
 
     Private Sub FindQuery()
         Try
-            If Checking() = True Then
-                Dim kriteria As String = TextBoxKriteria.Text
-                'Dim Tdata As DataTable = New DataTable
-                Dim Tdata As DataTable = CreateTableICD()
+            '===========================
+            ' MODE LOKAL (Switch OFF)
+            '===========================
+            If ToggleSwitch1.Checked = False Then
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
 
-                'Tdata = CreateTableICD()
+            '===========================
+            ' MODE PCARE (Switch ON)
+            '===========================
+            If Not CekKoneksiPCare() Then
+                MsgBox("PCare tidak dapat diakses." & vbCrLf & _
+                       "Berpindah ke Diagnosa Lokal.", MsgBoxStyle.Exclamation)
+
+                ToggleSwitch1.Checked = False
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
+
+            If Checking() = True Then
+
+                Dim kriteria As String = TextBoxKriteria.Text
+                Dim Tdata As DataTable = CreateTableICD()
                 Tdata.Rows.Clear()
 
-                Dim getResponse As String = ""
                 Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
                 Dim uri As String = urlPcare & "diagnosa/" & kriteria & "/1/100"
 
-                getResponse = getDataFromPcare(uri)
+                Dim getResponse As String = getDataFromPcare(uri)
 
-                If getResponse = "Nothing" OrElse getResponse Is Nothing OrElse getResponse.Trim() = "" Then
-                    MsgBox("Tidak ada respon dari server.", MsgBoxStyle.Critical, "Warning!")
+                '===========================================================
+                ' 1. CEK RESPONS KOSONG (server down / koneksi putus)
+                '===========================================================
+                If String.IsNullOrEmpty(getResponse) OrElse getResponse.Trim() = "" Then
+                    MsgBox("Tidak ada respons dari PCare." & vbCrLf & _
+                           "Kemungkinan:" & vbCrLf & _
+                           "- Server BPJS DOWN" & vbCrLf & _
+                           "- Internet terputus / lambat" & vbCrLf & _
+                           "- Gateway API tidak merespon", MsgBoxStyle.Critical, "PCare Tidak Merespon")
                     Exit Sub
                 End If
 
-                Dim isArray As Boolean = getResponse.Trim().StartsWith("[")
-                Dim isObject As Boolean = getResponse.Trim().StartsWith("{")
+                Dim trimmed As String = getResponse.Trim()
 
+                '===========================================================
+                ' 2. CEK APAKAH FORMAT JSON VALID
+                '===========================================================
+                If Not (trimmed.StartsWith("[") Or trimmed.StartsWith("{")) Then
+                    MsgBox("Format respons PCare tidak valid." & vbCrLf & _
+                           "Raw Response:" & vbCrLf & _
+                           getResponse, MsgBoxStyle.Critical, "Format Error")
+                    Exit Sub
+                End If
+
+                Dim isArray As Boolean = trimmed.StartsWith("[")
+                Dim isObject As Boolean = trimmed.StartsWith("{")
+
+                '===========================================================
+                ' 3. JIKA RESPONS BERBENTUK ARRAY
+                '===========================================================
                 If isArray Then
-                    Dim varsespoli() As varJson = JsonConvert.DeserializeObject(Of varJson())(getResponse)
+                    Dim varsespoli() As varJson = Nothing
+
+                    Try
+                        varsespoli = JsonConvert.DeserializeObject(Of varJson())(getResponse)
+                    Catch ex As Exception
+                        MsgBox("Gagal membaca data diagnostik dari PCare." & vbCrLf & _
+                               "Kemungkinan:" & vbCrLf & _
+                               "- Server BPJS sedang tidak stabil" & vbCrLf & _
+                               "- Data JSON tidak lengkap (internet lambat)" & vbCrLf & _
+                               vbCrLf & _
+                               getResponse, MsgBoxStyle.Critical, "Error JSON")
+                        Exit Sub
+                    End Try
 
                     For Each oneVar As varJson In varsespoli
+
+                        'Metadata tidak OK
+                        If oneVar.metaData Is Nothing Then
+                            MsgBox("PCare: metadata tidak ditemukan. Server kemungkinan tidak stabil.", MsgBoxStyle.Exclamation, "PCare Error")
+                            Exit Sub
+                        End If
+
                         If oneVar.metaData.message = "OK" Then
+
                             If oneVar.response IsNot Nothing AndAlso oneVar.response.list IsNot Nothing Then
                                 For Each diag In oneVar.response.list
                                     Dim Tlastnew As DataRow = Tdata.NewRow
@@ -194,45 +335,93 @@ Public Class FindDiagnosa
                                     Tdata.Rows.Add(Tlastnew)
                                 Next
                             End If
+
                         Else
-                            MsgBox("BPJS: " & oneVar.metaData.message, MsgBoxStyle.Critical, "Peringatan!")
+                            MsgBox("BPJS Error: " & oneVar.metaData.message, MsgBoxStyle.Exclamation, "Peringatan!")
+                            Exit Sub
                         End If
+
                     Next
 
+                    '===========================================================
+                    ' 4. JIKA RESPONS BERBENTUK OBJECT → Biasanya error BPJS
+                    '===========================================================
                 ElseIf isObject Then
-                    Dim errResponse As ErrorMeta = JsonConvert.DeserializeObject(Of ErrorMeta)(getResponse)
-                    MsgBox("BPJS Error: " & errResponse.metaData.message, MsgBoxStyle.Exclamation, "Peringatan!")
+                    Try
+                        Dim errResponse As ErrorMeta = JsonConvert.DeserializeObject(Of ErrorMeta)(getResponse)
+                        MsgBox("BPJS Error: " & errResponse.metaData.message, MsgBoxStyle.Exclamation, "Peringatan!")
+                    Catch ex As Exception
+                        MsgBox("Tidak dapat membaca respons PCare." & vbCrLf & _
+                               getResponse, MsgBoxStyle.Critical, "Kesalahan PCare")
+                    End Try
+                    Exit Sub
+
+                    '===========================================================
+                    ' 5. FORMAT TIDAK DIKENALI
+                    '===========================================================
                 Else
-                    MsgBox("Format respon tidak dikenali!", MsgBoxStyle.Critical, "Kesalahan Format")
+                    MsgBox("Format respons PCare tidak dikenali!", MsgBoxStyle.Critical, "Kesalahan Format")
+                    Exit Sub
                 End If
 
-                'If getResponse <> "Nothing" Then
-                '    'Dim varsespoli() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(getResponse)
-                '    Dim varsespoli() As varJson = JsonConvert.DeserializeObject(Of varJson())(getResponse)
-
-                '    For Each oneVar As varJson In varsespoli
-                '        If oneVar.metaData.message = "OK" Then
-                '            For index As Integer = 0 To oneVar.response.list.Length - 1
-                '                Dim Tlastnew As DataRow = Tdata.NewRow
-                '                Tlastnew("Kode Diagnosa") = oneVar.response.list(index).kdDiag
-                '                Tlastnew("Nama Diagnosa") = oneVar.response.list(index).nmDiag
-                '                Tlastnew("Non Spesialis") = oneVar.response.list(index).nonSpesialis
-                '                Tdata.Rows.Add(Tlastnew)
-                '            Next
-                '        Else
-                '            MsgBox("Data tidak ditemukan.", MsgBoxStyle.Critical, "Warning!")
-                '        End If
-                '    Next
-                'Else
-                '    MsgBox("Data tidak ditemukan.", MsgBoxStyle.Critical, "Warning!")
-                'End If
-
+                '===========================================================
+                ' 6. TAMPILKAN KE GRID
+                '===========================================================
                 GridControlPencarian.DataSource = Tdata
                 GridViewPencarian.BestFitColumns()
-                'GridViewPencarian.Columns("NonSpesialis ").Visible = False
+
             End If
+
         Catch ex As Exception
             MsgBox("Eror saat memproses data: " & ex.Message, MsgBoxStyle.Exclamation, "Error!")
+        End Try
+    End Sub
+
+    Private Function CekKoneksiPCare() As Boolean
+        Try
+            Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
+            Dim testUrl As String = urlPcare & "diagnosa/Z00/1/1"
+
+            Dim result As String = getDataFromPcare(testUrl)
+
+            'respons kosong → gagal
+            If String.IsNullOrEmpty(result) Then Return False
+
+            'respons harus JSON
+            Dim r As String = result.Trim
+            If Not (r.StartsWith("{") Or r.StartsWith("[")) Then Return False
+
+            'deserialisasi aman
+            Dim obj = JsonConvert.DeserializeObject(Of varJson())(result)
+
+            'metadata wajib OK
+            If obj(0).metaData.message = "OK" Then
+                Return True
+            End If
+
+            Return False
+
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+    Private Sub LoadDiagnosaLokal()
+        Try
+            Dim Tdata As DataTable = New DataTable
+            Tdata.Columns.Add("Kode Diagnosa")
+            Tdata.Columns.Add("Nama Diagnosa")
+            Tdata.Columns.Add("Non Spesialis")
+
+            Dim sql As String = "SELECT code AS [Kode Diagnosa], name_en AS [Nama Diagnosa], 0 AS [Non Spesialis] FROM MasterICDX WHERE name_en LIKE '%" & TextBoxKriteria.Text & "%' OR code LIKE '%" & TextBoxKriteria.Text & "%'"
+
+            Dim dt As DataTable = ReadSQL(sql)
+
+            GridControlPencarian.DataSource = dt
+            GridViewPencarian.BestFitColumns()
+
+        Catch ex As Exception
+            MsgBox("Error memuat diagnosa lokal: " & ex.Message)
         End Try
     End Sub
 
@@ -283,6 +472,25 @@ Public Class FindDiagnosa
     End Sub
 
     Private Sub ButtonFindDiagnosa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFindDiagnosa.Click
-        FindQuery()
+        Try
+            If ToggleSwitch1.Checked = False Then
+                LoadDiagnosaLokal()
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message)
+        End Try
     End Sub
+
+    Private Sub ToggleSwitch1_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ToggleSwitch1.CheckedChanged
+        Try
+            If ToggleSwitch1.Checked = True Then
+
+            Else
+                MsgBox("Mode: Diagnosa Lokal", MsgBoxStyle.Information)
+            End If
+        Catch ex As Exception
+        End Try
+    End Sub
+
 End Class

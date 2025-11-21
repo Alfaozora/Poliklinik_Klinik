@@ -2204,6 +2204,29 @@ Module Test
         End Try
     End Function
 
+    Public Function SendPOST(ByVal apiUrl As String, ByVal postData As String) As String
+        Try
+            Dim req As Net.HttpWebRequest = CType(Net.WebRequest.Create(apiUrl), Net.HttpWebRequest)
+            req.Method = "POST"
+            req.ContentType = "application/x-www-form-urlencoded"
+
+            Dim dataBytes As Byte() = System.Text.Encoding.UTF8.GetBytes(postData)
+            req.ContentLength = dataBytes.Length
+
+            Using stream = req.GetRequestStream()
+                stream.Write(dataBytes, 0, dataBytes.Length)
+            End Using
+
+            Dim resp As Net.HttpWebResponse = CType(req.GetResponse(), Net.HttpWebResponse)
+            Dim reader As New IO.StreamReader(resp.GetResponseStream())
+            Return reader.ReadToEnd()
+
+        Catch ex As Exception
+            Return "Error: " & ex.Message
+        End Try
+    End Function
+
+
     Public Function InsertDataAPI(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Dim str As String = ""
@@ -2503,31 +2526,125 @@ Module Test
         End Try
     End Function
 
+    'NEW VER 1
+    'Public Function CheckConnectPcare() As Boolean
+    '    Try
+    '        Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_base_url'")
+    '        Dim uri As String = urlPcare & "kesadaran" 'URL bebas untuk testing.
+
+    '        'Dim rawresp As String = GetDataBPJSv4(uri)
+    '        Dim rawresp As String = getDataFromPcare(uri)
+    '        'InputBox("response", "response", rawresp)
+    '        'MsgBox(rawresp)
+    '        Dim varses() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJsonPcare())(rawresp)
+
+    '        For Each oneVar As varJsonPcare In varses
+    '            If oneVar IsNot Nothing Then
+    '                If oneVar.metaData.message = "OK" Then
+    '                    Return True
+    '                Else
+    '                    MsgBox(oneVar.metaData.message, MsgBoxStyle.Exclamation, "Failed")
+    '                    Return False
+    '                End If
+    '            End If
+    '        Next
+
+    '        Return False
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message)
+    '        Return False
+    '    End Try
+    'End Function
+
+    'NEW VER 2
     Public Function CheckConnectPcare() As Boolean
         Try
             Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_base_url'")
-            Dim uri As String = urlPcare & "kesadaran" 'URL bebas untuk testing.
+            Dim uri As String = urlPcare & "kesadaran"   'endpoint bebas untuk test koneksi
 
-            'Dim rawresp As String = GetDataBPJSv4(uri)
             Dim rawresp As String = getDataFromPcare(uri)
-            'InputBox("response", "response", rawresp)
-            'MsgBox(rawresp)
-            Dim varses() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJsonPcare())(rawresp)
 
-            For Each oneVar As varJsonPcare In varses
-                If oneVar IsNot Nothing Then
-                    If oneVar.metaData.message = "OK" Then
-                        Return True
-                    Else
-                        MsgBox(oneVar.metaData.message, MsgBoxStyle.Exclamation, "Failed")
-                        Return False
+            '===============================================
+            ' 1. CEK RESPONS KOSONG (Internet putus / Server down total)
+            '===============================================
+            If String.IsNullOrEmpty(rawresp) OrElse rawresp.Trim = "" Then
+                MsgBox("Tidak ada respons dari server PCare." & vbCrLf & _
+                       "Kemungkinan:" & vbCrLf & _
+                       "- Internet terputus" & vbCrLf & _
+                       "- Server BPJS PCare DOWN" & vbCrLf & _
+                       "- Gateway/Proxy tidak merespon", MsgBoxStyle.Critical, "Koneksi PCare Gagal")
+                Return False
+            End If
+
+            '===============================================
+            ' 2. CEK FORMAT JSON VALID
+            '===============================================
+            Dim trimmed As String = rawresp.Trim()
+
+            'PCare normalnya mengembalikan JSON object {}
+            'kadang proxy mengembalikan array []
+            If Not (trimmed.StartsWith("{") Or trimmed.StartsWith("[")) Then
+                MsgBox("Respons PCare bukan format JSON yang valid." & vbCrLf & _
+                       "Raw Response:" & vbCrLf & _
+                       rawresp, MsgBoxStyle.Critical, "Format PCare Error")
+                Return False
+            End If
+
+            '===============================================
+            ' 3. PROSES JSON
+            '===============================================
+            Dim varses() As varJsonPcare = Nothing
+
+            Try
+                varses = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJsonPcare())(rawresp)
+            Catch ex As Exception
+                MsgBox("Gagal membaca respons PCare." & vbCrLf & _
+                       "Kemungkinan:" & vbCrLf & _
+                       "- Server BPJS DOWN" & vbCrLf & _
+                       "- Respons tidak lengkap / terpotong" & vbCrLf & _
+                       "- Internet sangat lambat sehingga data corrupt" & vbCrLf & _
+                       vbCrLf & _
+                       "Raw Response:" & vbCrLf & rawresp, MsgBoxStyle.Critical, "PCare Tidak Stabil")
+                Return False
+            End Try
+
+            '===============================================
+            ' 4. CEK METADATA
+            '===============================================
+            If varses IsNot Nothing Then
+                For Each oneVar As varJsonPcare In varses
+                    If oneVar IsNot Nothing AndAlso oneVar.metaData IsNot Nothing Then
+
+                        If oneVar.metaData.message = "OK" Then
+                            Return True
+                        Else
+                            MsgBox("PCare Error: " & oneVar.metaData.message, MsgBoxStyle.Exclamation, "Koneksi PCare Gagal")
+                            Return False
+                        End If
+
                     End If
-                End If
-            Next
+                Next
+            End If
+
+            '===============================================
+            ' 5. FALLBACK – METADATA TIDAK ADA
+            '===============================================
+            MsgBox("Tidak bisa membaca metadata PCare." & vbCrLf & _
+               "Kemungkinan server BPJS tidak stabil.", MsgBoxStyle.Exclamation, "PCare Tidak Merespon")
 
             Return False
+
         Catch ex As Exception
-            MsgBox(ex.Message)
+            '===============================================
+            ' 6. EXCEPTION UMUM (timeout, koneksi putus)
+            '===============================================
+            MsgBox("Koneksi ke PCare gagal:" & vbCrLf & _
+               ex.Message & vbCrLf & _
+               vbCrLf & _
+               "Kemungkinan:" & vbCrLf & _
+               "- Internet putus / lambat" & vbCrLf & _
+               "- Server BPJS DOWN" & vbCrLf & _
+               "- Timeout koneksi", MsgBoxStyle.Critical, "Koneksi Error")
             Return False
         End Try
     End Function

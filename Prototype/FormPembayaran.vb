@@ -1762,118 +1762,271 @@ Public Class FormPembayaran
     End Sub
 
     ' API PCare - Bridging Antrean (v2)
+    'NEW VER 1
+    'Function SendPCareDataV2() As Boolean
+    '    '# Variabel BPJS
+    '    Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '    Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+
+    '    Dim baseUrl As String = ""
+
+    '    If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+    '        baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+    '    Else
+    '        baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+    '    End If
+
+    '    Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
+    '    Dim kdPoli As String = ""
+    '    Dim kdTkp As String = ""
+    '    Dim kunjSakit As String = ""
+
+    '    '# Variabel SINA
+    '    Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '    Dim _sumber As String = "SINA"
+
+    '    ' Get kdprovider
+    '    Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
+
+    '    ' Get Data Master Poli Tujuan
+    '    Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '    Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '    '# Post Data BPJS
+
+    '    ' Get kdPoli
+    '    kdPoli = rowPoli("KodeBPJS")
+
+    '    ' Validasi apakah bridging PCare terpenuhi
+    '    If ValidateBridgingPcare() = False Then Exit Function
+
+    '    ' Validasi apakah transaksi sudah pelayanan di PCare
+    '    If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+
+    '    ' Get kunjSakit
+    '    If rowPoli("PoliSakit") = True Then
+    '        kunjSakit = "true"
+    '    ElseIf rowPoli("PoliSakit") = False Then
+    '        kunjSakit = "false"
+    '    End If
+
+    '    ' Get kdTkp
+    '    If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
+    '    ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
+    '    ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
+    '    End If
+
+    '    ' Set parameter untuk POST data ke pcare BPJS
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """kdProviderPeserta"" : """ & kdprovider & """," & _
+    '           """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+    '           """noKartu"" : """ & _noBPJS & """," & _
+    '           """nik"" : """ & _noNIK & """," & _
+    '           """kdPoli"" : """ & kdPoli & """," & _
+    '           """keluhan"": """ & _keluhanUtama & """," & _
+    '           """kunjSakit"": " & kunjSakit & "," & _
+    '           """sistole"": 0," & _
+    '           """diastole"": 0," & _
+    '           """beratBadan"": 0," & _
+    '           """tinggiBadan"": 0," & _
+    '           """respRate"": 0," & _
+    '           """lingkarPerut"": 0," & _
+    '           """heartRate"": 0," & _
+    '           """rujukBalik"": 0," & _
+    '           """kdTkp"": """ & kdTkp & """," & _
+    '           """loc"": """ & _loc & """," & _
+    '           """bridgingPcare"": true," & _
+    '           """sumber"": """ & _sumber & """" & _
+    '          "}"
+
+    '    Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
+
+    '    jsonString = jsonString
+    '    Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+
+    '    ' Get data no urut pendaftaran pcare BPJS
+    '    For Each rowData As varJson In jsonObject
+    '        Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+    '        Dim messageMetaData As String = rowData.metaData.message
+    '        Dim messageResponse As String = rowData.response.message
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
+
+    '                Return True
+    '            Case Else
+    '                If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+    '                    Dim messageError As String = ""
+    '                    If messageResponse <> "" And messageMetaData <> "" Then
+    '                        messageError = messageResponse & " (" & messageMetaData & ")"
+    '                    ElseIf messageResponse <> "" Then
+    '                        messageError = messageResponse
+    '                    ElseIf messageMetaData <> "" Then
+    '                        messageError = messageMetaData
+    '                    End If
+
+    '                    MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+
+    '                    Return False
+    '                End If
+    '        End Select
+    '    Next
+
+    '    Return True
+    'End Function
+
+    'NEW VER 2
     Function SendPCareDataV2() As Boolean
-        '# Variabel BPJS
-        Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
+        Try
+            '# Variabel BPJS
+            Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+            Dim wsCadangan As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_cadangan'")
 
-        Dim baseUrl As String = ""
+            Dim baseUrl As String = ""
 
-        If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
-            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
-        Else
-            baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
-        End If
+            If wsCadangan IsNot Nothing AndAlso wsCadangan.ToUpper() = "YES" Then
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_cadangan'")
+            Else
+                baseUrl = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_klinik'")
+            End If
 
-        Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
-        Dim kdPoli As String = ""
-        Dim kdTkp As String = ""
-        Dim kunjSakit As String = ""
+            Dim urlWebService As String = baseUrl & "api/bridge/add-registrations"
+            Dim kdPoli As String = ""
+            Dim kdTkp As String = ""
+            Dim kunjSakit As String = ""
 
-        '# Variabel SINA
-        Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-        Dim _sumber As String = "SINA"
+            '# Variabel SINA
+            Dim _loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+            Dim _sumber As String = "SINA"
 
-        ' Get kdprovider
-        Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
+            ' Get kdprovider
+            Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
 
-        ' Get Data Master Poli Tujuan
-        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
-        Dim rowPoli As DataRow = tblPoli.Rows(0)
+            ' Get Data Master Poli Tujuan
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
 
-        '# Post Data BPJS
+            '# Post Data BPJS
 
-        ' Get kdPoli
-        kdPoli = rowPoli("KodeBPJS")
+            ' Get kdPoli
+            kdPoli = rowPoli("KodeBPJS")
 
-        ' Validasi apakah bridging PCare terpenuhi
-        If ValidateBridgingPcare() = False Then Exit Function
+            ' Validasi apakah bridging PCare terpenuhi
+            If ValidateBridgingPcare() = False Then
+                MsgBox("Konfigurasi Bridging PCare belum lengkap.", MsgBoxStyle.Critical)
+                Return False
+            End If
 
-        ' Validasi apakah transaksi sudah pelayanan di PCare
-        If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+            ' Validasi apakah transaksi sudah pelayanan di PCare
+            If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then
+                Return False
+            End If
 
-        ' Get kunjSakit
-        If rowPoli("PoliSakit") = True Then
-            kunjSakit = "true"
-        ElseIf rowPoli("PoliSakit") = False Then
-            kunjSakit = "false"
-        End If
+            ' Get kunjSakit
+            kunjSakit = If(rowPoli("PoliSakit") = True, "true", "false")
 
-        ' Get kdTkp
-        If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
-        ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
-        ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
-        End If
+            ' Get kdTkp
+            If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked = True Then
+                kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
+            ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked = True Then
+                kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
+            ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked = True Then
+                kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
+            End If
 
-        ' Set parameter untuk POST data ke pcare BPJS
-        Dim parameterPendaftaran As String = "{" & _
-               """kdProviderPeserta"" : """ & kdprovider & """," & _
-               """tglDaftar"" : """ & tglDaftarBPJS & """," & _
-               """noKartu"" : """ & _noBPJS & """," & _
-               """nik"" : """ & _noNIK & """," & _
-               """kdPoli"" : """ & kdPoli & """," & _
-               """keluhan"": """ & _keluhanUtama & """," & _
-               """kunjSakit"": " & kunjSakit & "," & _
-               """sistole"": 0," & _
-               """diastole"": 0," & _
-               """beratBadan"": 0," & _
-               """tinggiBadan"": 0," & _
-               """respRate"": 0," & _
-               """lingkarPerut"": 0," & _
-               """heartRate"": 0," & _
-               """rujukBalik"": 0," & _
-               """kdTkp"": """ & kdTkp & """," & _
-               """loc"": """ & _loc & """," & _
-               """bridgingPcare"": true," & _
-               """sumber"": """ & _sumber & """" & _
-              "}"
+            ' Set parameter JSON
+            Dim parameterPendaftaran As String = _
+            "{" & _
+            """kdProviderPeserta"": """ & kdprovider & """," & _
+            """tglDaftar"": """ & tglDaftarBPJS & """," & _
+            """noKartu"": """ & _noBPJS & """," & _
+            """nik"": """ & _noNIK & """," & _
+            """kdPoli"": """ & kdPoli & """," & _
+            """keluhan"": """ & _keluhanUtama & """," & _
+            """kunjSakit"": " & kunjSakit & "," & _
+            """sistole"": 0," & _
+            """diastole"": 0," & _
+            """beratBadan"": 0," & _
+            """tinggiBadan"": 0," & _
+            """respRate"": 0," & _
+            """lingkarPerut"": 0," & _
+            """heartRate"": 0," & _
+            """rujukBalik"": 0," & _
+            """kdTkp"": """ & kdTkp & """," & _
+            """loc"": """ & _loc & """," & _
+            """bridgingPcare"": true," & _
+            """sumber"": """ & _sumber & """}"
 
-        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
+            ' ---- KIRIM KE API LARAVEL ----
+            Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlWebService)
 
-        jsonString = jsonString
-        Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            ' === VALIDASI RESPONSE KOSONG ===
+            If String.IsNullOrEmpty(jsonString) Then
+                MsgBox("Tidak ada respon dari server. Kemungkinan Web Service DOWN.", MsgBoxStyle.Critical)
+                Return False
+            End If
 
-        ' Get data no urut pendaftaran pcare BPJS
-        For Each rowData As varJson In jsonObject
-            Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
-            Dim messageMetaData As String = rowData.metaData.message
-            Dim messageResponse As String = rowData.response.message
+            ' === PASTIKAN FORMAT ARRAY ===
+            If jsonString.Trim.StartsWith("{") Then
+                jsonString = "[" & jsonString & "]"
+            End If
 
-            Select Case codeMetaData
-                Case 200, 201, 204
-                    NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
+            Dim jsonObject() As varJson = Nothing
 
-                    Return True
-                Case Else
-                    If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
-                        Dim messageError As String = ""
-                        If messageResponse <> "" And messageMetaData <> "" Then
-                            messageError = messageResponse & " (" & messageMetaData & ")"
-                        ElseIf messageResponse <> "" Then
-                            messageError = messageResponse
-                        ElseIf messageMetaData <> "" Then
-                            messageError = messageMetaData
+            Try
+                jsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            Catch ex As Exception
+                MsgBox("Gagal membaca respon PCare. Kemungkinan server BPJS DOWN atau format respon berubah." & _
+                   vbCrLf & ex.Message, MsgBoxStyle.Exclamation)
+                Return False
+            End Try
+
+            ' === CEK ARRAY KOSONG ===
+            If jsonObject Is Nothing OrElse jsonObject.Length = 0 Then
+                MsgBox("Respons PCare tidak lengkap. Kemungkinan server BPJS DOWN.", MsgBoxStyle.Exclamation)
+                Return False
+            End If
+
+            ' === LOOPING HASIL ===
+            For Each rowData As varJson In jsonObject
+                Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+                Dim messageMetaData As String = rowData.metaData.message
+                Dim messageResponse As String = rowData.response.message
+
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        NoUrutBPJS = messageResponse
+                        MsgBox("BPJS Berhasil!" & vbCrLf & _
+                           "No. Urut : " & messageResponse, MsgBoxStyle.Information, "Sukses")
+                        Return True
+
+                    Case Else
+                        ' Jika bukan error duplicate
+                        If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+                            Dim messageError As String = ""
+
+                            If messageResponse <> "" And messageMetaData <> "" Then
+                                messageError = messageResponse & " (" & messageMetaData & ")"
+                            ElseIf messageResponse <> "" Then
+                                messageError = messageResponse
+                            ElseIf messageMetaData <> "" Then
+                                messageError = messageMetaData
+                            End If
+
+                            MsgBox("Eror BPJS :" & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+                            Return False
                         End If
+                End Select
+            Next
 
-                        MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
-
-                        Return False
-                    End If
-            End Select
-        Next
+        Catch ex As Exception
+            MsgBox("Error internal : " & ex.Message, MsgBoxStyle.Critical)
+            Return False
+        End Try
 
         Return True
     End Function
@@ -1920,98 +2073,237 @@ Public Class FormPembayaran
     End Function
 
     ' API PCare - Non Bridging Antrean (v1)
+    'NEW VER 1
+    'Function SendPCareDataV1() As Boolean
+    '    '# Variabel BPJS
+    '    Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
+    '    Dim urlBPJS As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_base_url'")
+    '    Dim uriBPJS As String = urlBPJS + "pendaftaran"
+    '    Dim kdPoli As String = ""
+    '    Dim kdTkp As String = ""
+    '    Dim kunjSakit As String = ""
+
+    '    ' Get kdprovider
+    '    Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
+
+    '    ' Get Data Master Poli Tujuan
+    '    Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+    '    Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '    ' Get kdPoli
+    '    kdPoli = rowPoli("KodeBPJS")
+
+    '    ' Validasi apakah bridging PCare terpenuhi
+    '    If ValidateBridgingPcare() = False Then Exit Function
+
+    '    ' Validasi apakah transaksi sudah pelayanan di PCare
+    '    If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+
+    '    ' Get kunjSakit
+    '    If rowPoli("PoliSakit") = True Then
+    '        kunjSakit = "true"
+    '    ElseIf rowPoli("PoliSakit") = False Then
+    '        kunjSakit = "false"
+    '    End If
+
+    '    ' Get kdTkp
+    '    If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
+    '    ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
+    '    ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked = True Then
+    '        kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
+    '    End If
+
+    '    ' Set parameter untuk POST data ke pcare BPJS
+    '    Dim parameterPendaftaran As String = "{" & _
+    '           """kdProviderPeserta"" : """ & kdprovider & """," & _
+    '           """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+    '           """noKartu"" : """ & _noBPJS & """," & _
+    '           """kdPoli"" : """ & kdPoli & """," & _
+    '           """keluhan"": """ & _keluhanUtama & """," & _
+    '           """kunjSakit"": " & kunjSakit & "," & _
+    '           """sistole"": 0," & _
+    '           """diastole"": 0," & _
+    '           """beratBadan"": 0," & _
+    '           """tinggiBadan"": 0," & _
+    '           """respRate"": 0," & _
+    '           """lingkarPerut"": 0," & _
+    '           """heartRate"": 0," & _
+    '           """rujukBalik"": 0," & _
+    '           """kdTkp"": """ & kdTkp & """" & _
+    '          "}"
+
+    '    Dim jsonString As String = PostDataFromPcare(parameterPendaftaran, uriBPJS, "POST")
+    '    jsonString = "[" + jsonString + "]"
+    '    Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+
+    '    ' Get data no urut pendaftaran pcare BPJS
+    '    For Each rowData As varJson In jsonObject
+    '        Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
+    '        Dim messageMetaData As String = rowData.metaData.message
+    '        Dim messageResponse As String = rowData.response.message
+
+    '        Select Case codeMetaData
+    '            Case 200, 201, 204
+    '                NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
+    '            Case Else
+    '                If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+    '                    Dim messageError As String = ""
+    '                    If messageResponse <> "" And messageMetaData <> "" Then
+    '                        messageError = messageResponse & " (" & messageMetaData & ")"
+    '                    ElseIf messageResponse <> "" Then
+    '                        messageError = messageResponse
+    '                    ElseIf messageMetaData <> "" Then
+    '                        messageError = messageMetaData
+    '                    End If
+
+    '                    MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+
+    '                    Return False
+    '                End If
+    '        End Select
+    '    Next
+
+    '    Return True
+    'End Function
+
+    'NEW VER 2
     Function SendPCareDataV1() As Boolean
-        '# Variabel BPJS
-        Dim tglDaftarBPJS As String = Format(DateAndTime.Now, "dd-MM-yyyy")
-        Dim urlBPJS As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_base_url'")
-        Dim uriBPJS As String = urlBPJS + "pendaftaran"
-        Dim kdPoli As String = ""
-        Dim kdTkp As String = ""
-        Dim kunjSakit As String = ""
+        Try
+            Dim tglDaftarBPJS As String = Format(DateTime.Now, "dd-MM-yyyy")
+            Dim urlBPJS As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_base_url'")
+            Dim uriBPJS As String = urlBPJS & "pendaftaran"
 
-        ' Get kdprovider
-        Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
+            '========== CEK POLI ==========
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
+            If tblPoli.Rows.Count = 0 Then
+                MsgBox("Master Poli tidak ditemukan.", MsgBoxStyle.Exclamation, "Error Master")
+                Return False
+            End If
 
-        ' Get Data Master Poli Tujuan
-        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & _namaPoli & "'")
-        Dim rowPoli As DataRow = tblPoli.Rows(0)
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
+            Dim kdPoli As String = rowPoli("KodeBPJS")
 
-        ' Get kdPoli
-        kdPoli = rowPoli("KodeBPJS")
+            '========== VALIDASI BRIDGING ==========
+            If ValidateBridgingPcare() = False Then
+                MsgBox("Bridging PCare tidak aktif / gagal koneksi.", MsgBoxStyle.Critical, "PCare Offline")
+                Return False
+            End If
 
-        ' Validasi apakah bridging PCare terpenuhi
-        If ValidateBridgingPcare() = False Then Exit Function
+            '========== CEK ANTREAN SUDAH ADA ==========
+            Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu = '" & _noBPJS & "'")
+            If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then Return False
 
-        ' Validasi apakah transaksi sudah pelayanan di PCare
-        If CheckAntreanBPJS(kdprovider, _noBPJS, kdPoli, tglDaftarBPJS) = False Then Exit Function
+            '========== KUNJUNGAN SAKIT ==========
+            Dim kunjSakit As String = If(CBool(rowPoli("PoliSakit")), "true", "false")
 
-        ' Get kunjSakit
-        If rowPoli("PoliSakit") = True Then
-            kunjSakit = "true"
-        ElseIf rowPoli("PoliSakit") = False Then
-            kunjSakit = "false"
-        End If
+            '========== STATUS RAWAT ==========
+            Dim kdTkp As String = ""
+            If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked Then
+                kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
+            ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked Then
+                kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
+            ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked Then
+                kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
+            End If
 
-        ' Get kdTkp
-        If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
-        ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
-        ElseIf FormPendaftaranAwal.RadioButtonPromotifPreventif.Checked = True Then
-            kdTkp = FormPendaftaranAwal.RadioButtonPromotifPreventif.Tag
-        End If
+            '========== PARAMETER JSON ==========
+            Dim parameterPendaftaran As String = "{" & _
+                  """kdProviderPeserta"" : """ & kdprovider & """," & _
+                  """tglDaftar"" : """ & tglDaftarBPJS & """," & _
+                  """noKartu"" : """ & _noBPJS & """," & _
+                  """kdPoli"" : """ & kdPoli & """," & _
+                  """keluhan"": """ & _keluhanUtama & """," & _
+                  """kunjSakit"": " & kunjSakit & "," & _
+                  """sistole"": 0," & _
+                  """diastole"": 0," & _
+                  """beratBadan"": 0," & _
+                  """tinggiBadan"": 0," & _
+                  """respRate"": 0," & _
+                  """lingkarPerut"": 0," & _
+                  """heartRate"": 0," & _
+                  """rujukBalik"": 0," & _
+                  """kdTkp"": """ & kdTkp & """" & _
+                  "}"
 
-        ' Set parameter untuk POST data ke pcare BPJS
-        Dim parameterPendaftaran As String = "{" & _
-               """kdProviderPeserta"" : """ & kdprovider & """," & _
-               """tglDaftar"" : """ & tglDaftarBPJS & """," & _
-               """noKartu"" : """ & _noBPJS & """," & _
-               """kdPoli"" : """ & kdPoli & """," & _
-               """keluhan"": """ & _keluhanUtama & """," & _
-               """kunjSakit"": " & kunjSakit & "," & _
-               """sistole"": 0," & _
-               """diastole"": 0," & _
-               """beratBadan"": 0," & _
-               """tinggiBadan"": 0," & _
-               """respRate"": 0," & _
-               """lingkarPerut"": 0," & _
-               """heartRate"": 0," & _
-               """rujukBalik"": 0," & _
-               """kdTkp"": """ & kdTkp & """" & _
-              "}"
+            '========== KIRIM DATA ==========
+            Dim jsonString As String = PostDataFromPcare(parameterPendaftaran, uriBPJS, "POST")
 
-        Dim jsonString As String = PostDataFromPcare(parameterPendaftaran, uriBPJS, "POST")
-        jsonString = "[" + jsonString + "]"
-        Dim jsonObject() = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            '===============================
+            ' CEK ERROR : RESPONS KOSONG
+            '===============================
+            If String.IsNullOrEmpty(jsonString) Then
+                MsgBox("Tidak ada respons dari server PCare." & vbCrLf & _
+                       "Kemungkinan:" & vbCrLf & _
+                       "- Internet putus" & vbCrLf & _
+                       "- Server PCare DOWN", MsgBoxStyle.Critical, "PCare Tidak Merespon")
+                Return False
+            End If
 
-        ' Get data no urut pendaftaran pcare BPJS
-        For Each rowData As varJson In jsonObject
-            Dim codeMetaData As Integer = Convert.ToInt32(rowData.metaData.code)
-            Dim messageMetaData As String = rowData.metaData.message
-            Dim messageResponse As String = rowData.response.message
+            '===============================
+            ' JSON YANG MASUK BUKAN ARRAY
+            '===============================
+            If jsonString.Trim.StartsWith("{") Then
+                jsonString = "[" & jsonString & "]" ' bungkus agar tetap bisa diparse
+            End If
 
-            Select Case codeMetaData
-                Case 200, 201, 204
-                    NoUrutBPJS = messageResponse ' Set Nomor Urut BPJS
-                Case Else
-                    If messageMetaData <> "Peserta sudah di-entri di poli yang sama pada hari yang sama." Then
+            Dim jsonObject() As varJson
+
+            Try
+                jsonObject = JsonConvert.DeserializeObject(Of varJson())(jsonString)
+            Catch ex As Exception
+                MsgBox("Format respons PCare tidak valid." & vbCrLf & _
+                       "Server kemungkinan DOWN." & vbCrLf & _
+                       ex.Message, MsgBoxStyle.Critical, "Error JSON")
+                Return False
+            End Try
+
+            If jsonObject Is Nothing OrElse jsonObject.Count = 0 Then
+                MsgBox("Respons PCare kosong atau tidak dikenali.", MsgBoxStyle.Critical, "Kesalahan")
+                Return False
+            End If
+
+            '===============================
+            ' PROSES RESULT
+            '===============================
+            For Each rowData As varJson In jsonObject
+
+                Dim codeMetaData As Integer = Val(rowData.metaData.code)
+                Dim messageMetaData As String = rowData.metaData.message
+                Dim messageResponse As String = rowData.response.message
+
+                Select Case codeMetaData
+                    Case 200, 201, 204
+                        NoUrutBPJS = messageResponse
+                        Return True
+
+                    Case Else
                         Dim messageError As String = ""
+
                         If messageResponse <> "" And messageMetaData <> "" Then
                             messageError = messageResponse & " (" & messageMetaData & ")"
                         ElseIf messageResponse <> "" Then
                             messageError = messageResponse
-                        ElseIf messageMetaData <> "" Then
+                        Else
                             messageError = messageMetaData
                         End If
 
-                        MsgBox("Eror BPJS : " & vbCrLf & messageError, MsgBoxStyle.Exclamation, "Error!")
+                        MsgBox("Gagal mengirim pendaftaran ke BPJS." & vbCrLf & _
+                               "Pesan BPJS: " & messageError, MsgBoxStyle.Exclamation, "Error PCare")
 
                         Return False
-                    End If
-            End Select
-        Next
+                End Select
 
-        Return True
+            Next
+
+            Return True
+
+        Catch ex As Exception
+            MsgBox("Terjadi error proses PCare:" & vbCrLf & _
+               ex.Message, MsgBoxStyle.Critical, "Error Fatal")
+            Return False
+        End Try
     End Function
 
     Function CreateXRPictureBox(ByVal imageSignature As Image, ByVal LocX As Integer, ByVal LocY As Integer, ByVal SizeX As Integer, ByVal SizeY As Integer) As XRPictureBox
@@ -2280,17 +2572,16 @@ Public Class FormPembayaran
             End If
 
             ' Validasi Setting WhatsApp
-            If whatsAppStatus <> "Yes" Then
-                MessageBox.Show("Gagal!. WhatsApp belum di setting, hubungi tim IT.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Exit Sub
-            End If
+            'If whatsAppStatus <> "Yes" Then
+            '    MessageBox.Show("Gagal!. WhatsApp belum di setting, hubungi tim IT.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            '    Exit Sub
+            'End If
 
             ' Set Variabel API
             Dim fileBase64 As String = ""
             Dim parameter As String = ""
             Dim urlSendPDF As String = ""
             Dim urlSendMessage As String = ""
-            Dim statusKirim As String = ""
 
             ' Set PDF
             Dim fileName As String = NomorTransaksi & "_" & JenisTransaksi
@@ -2310,13 +2601,72 @@ Public Class FormPembayaran
                                           "" & keteranganLokasi & ".\n\n" & _
                                           "----- Pesan ini adalah pesan otomatis, mohon agar tidak membalas -----"
 
+            ' ======================================================
+            '    JIKA STATUS = "No" → KIRIM VIA API LARAVEL (ULTRAMSG)
+            ' ======================================================
+            If whatsAppStatus = "No" Then
+
+                If MessageBox.Show("WhatsApp lokal tidak aktif. Kirim via WhatsApp cadangan (UltraMsg) ke " & NoWhatsappCustomer & "?", _
+                                   "Validasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
+
+                Try
+                    ' ================================
+                    ' ULTRAMSG DIRECT API (VB.NET 2008)
+                    ' ================================
+                    Dim instance As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_instance'")
+                    Dim token As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_token'")
+
+                    ' URL WAJIB ADA TOKEN-NYA DI GET
+                    Dim apiUrl As String = "http://api.ultramsg.com/" & instance & "/messages/document"
+
+                    ' File lokal harus berupa URL publik
+                    ' Misalkan file PDF sudah Anda upload:
+                    Dim fileUrl As String = "https://file-example.s3-accelerate.amazonaws.com/documents/cv.pdf"
+
+                    ' Data POST sesuai format UltraMsg
+                    Dim postdata As String = "token=" & token & _
+                                             "&to=" & NoWhatsappCustomer & _
+                                             "&filename=" & fileName & _
+                                             "&document=" & fileUrl & _
+                                             "&caption=" & pesanWhatsApp & _
+                                             "&priority=5"
+                    MsgBox(postdata)
+
+                    Dim enc As New UTF8Encoding()
+                    Dim postBytes As Byte() = enc.GetBytes(postdata)
+
+                    Dim req As HttpWebRequest = CType(WebRequest.Create(apiUrl), HttpWebRequest)
+                    req.Method = "POST"
+                    req.ContentType = "application/x-www-form-urlencoded"
+                    req.ContentLength = postBytes.Length
+
+                    ' Kompatibel VB 2008
+                    Dim stream = req.GetRequestStream()
+                    stream.Write(postBytes, 0, postBytes.Length)
+                    stream.Close()
+
+                    Dim resp As HttpWebResponse = CType(req.GetResponse(), HttpWebResponse)
+                    Dim reader As New IO.StreamReader(resp.GetResponseStream())
+                    Dim responseText As String = reader.ReadToEnd()
+
+                    MsgBox("Response API UltraMsg:" & vbCrLf & responseText, MsgBoxStyle.Information)
+
+                Catch ex As Exception
+                    MsgBox("Error UltraMsg: " & ex.Message, MsgBoxStyle.Critical)
+                End Try
+
+                Exit Sub
+            End If
+
+
             ' Set Parameter WhatsApp
             parameter = SetParameterWhatsappKlinik(NoWhatsappCustomer, fileBase64, fileName, pesanWhatsApp)
 
             ' Set URL WhatsApp
-            'urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendMessage = "http://" & whatsAppIP & ":4444/send"
             urlSendPDF = "http://" & whatsAppIP & ":4444/send-pdf"
+
+            Dim statusKirim As String = ""
 
             ' Validasi Kirim WhatsApp
             If CheckSQL("SELECT * FROM LogSendingWhatsappEmail WHERE NoUrut = '" & NomorTransaksi & "' AND SendingNamaFile = '" & fileName & "' AND SendingStatus = 1 AND CONVERT(DATE, SendingDate) = '" & Format(DateTime.Now, "yyyy-MM-dd") & "'") = True Then
@@ -2341,6 +2691,8 @@ Public Class FormPembayaran
             ElseIf statusKirim = "Nothing" Then
                 MsgBox("Gagal Mengirim Whatsapp ke " & NoWhatsappCustomer.Trim & ". Cek koneksi jaringan atau hubungi IT untuk restart server Whatsapp.", MsgBoxStyle.Exclamation, "Warning!")
             End If
+
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try

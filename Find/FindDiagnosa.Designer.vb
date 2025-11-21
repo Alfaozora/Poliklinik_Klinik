@@ -27,6 +27,9 @@ Partial Class FindDiagnosa
         Me.TextBoxKriteria = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.PanelTop = New System.Windows.Forms.Panel
+        Me.ToggleSwitch1 = New PoliKlinik_Net2.ToggleSwitch
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
         Me.btnClose = New System.Windows.Forms.Button
         Me.PanelHeader = New System.Windows.Forms.Panel
         Me.ButtonFindDiagnosa = New System.Windows.Forms.Button
@@ -73,12 +76,47 @@ Partial Class FindDiagnosa
         'PanelTop
         '
         Me.PanelTop.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.PanelTop.Controls.Add(Me.ToggleSwitch1)
+        Me.PanelTop.Controls.Add(Me.Label4)
+        Me.PanelTop.Controls.Add(Me.Label3)
         Me.PanelTop.Controls.Add(Me.btnClose)
         Me.PanelTop.Dock = System.Windows.Forms.DockStyle.Top
         Me.PanelTop.Location = New System.Drawing.Point(0, 0)
         Me.PanelTop.Name = "PanelTop"
         Me.PanelTop.Size = New System.Drawing.Size(694, 35)
         Me.PanelTop.TabIndex = 5
+        '
+        'ToggleSwitch1
+        '
+        Me.ToggleSwitch1.Checked = True
+        Me.ToggleSwitch1.Location = New System.Drawing.Point(509, 5)
+        Me.ToggleSwitch1.Name = "ToggleSwitch1"
+        Me.ToggleSwitch1.Size = New System.Drawing.Size(50, 25)
+        Me.ToggleSwitch1.TabIndex = 433
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.White
+        Me.Label4.Location = New System.Drawing.Point(565, 9)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(43, 17)
+        Me.Label4.TabIndex = 432
+        Me.Label4.Text = "PCare"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.White
+        Me.Label3.Location = New System.Drawing.Point(466, 9)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(39, 17)
+        Me.Label3.TabIndex = 431
+        Me.Label3.Text = "Lokal"
         '
         'btnClose
         '
@@ -177,6 +215,7 @@ Partial Class FindDiagnosa
         Me.Name = "FindDiagnosa"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.PanelTop.ResumeLayout(False)
+        Me.PanelTop.PerformLayout()
         Me.PanelHeader.ResumeLayout(False)
         Me.PanelHeader.PerformLayout()
         Me.Panel2.ResumeLayout(False)
@@ -195,4 +234,7 @@ Partial Class FindDiagnosa
     Friend WithEvents ButtonFindDiagnosa As System.Windows.Forms.Button
     Private WithEvents GridControlPencarian As DevExpress.XtraGrid.GridControl
     Private WithEvents GridViewPencarian As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents ToggleSwitch1 As PoliKlinik_Net2.ToggleSwitch
 End Class
