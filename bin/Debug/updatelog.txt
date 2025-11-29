@@ -1,3 +1,7 @@
+Version : 2.0.0.57 ()
+# [New Feature] Penambahan Fitur Notifikasi Riwayat Pasien B20
+# [Usability Improvement] Penambahan Rhesus Pada Goldar data Pasien
+
 Version : 2.0.0.56 (21 November 2025)
 # [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
 # [New Feature] Penambahan Fitur Analisis Data - Forecasting Kunjungan Pasien Menggunakan Metode SES + MAPE

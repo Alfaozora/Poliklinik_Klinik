@@ -423,7 +423,7 @@ Public Class FormMasterPasien
                     End Select
                 End If
             Else
-                MsgBox("FKTP belum bridging PCare.", MsgBoxStyle.Critical, "Warning!")
+                MsgBox("Bridging PCare FKTP dalam keadaan OFF.", MsgBoxStyle.Critical, "Warning!")
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")

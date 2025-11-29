@@ -2144,7 +2144,7 @@ Partial Class FormMasterPasien
         Me.ComboBoxGolDarahIdentitas.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.ComboBoxGolDarahIdentitas.Font = New System.Drawing.Font("Segoe UI", 9.75!)
         Me.ComboBoxGolDarahIdentitas.FormattingEnabled = True
-        Me.ComboBoxGolDarahIdentitas.Items.AddRange(New Object() {"A", "B", "AB", "O", "-"})
+        Me.ComboBoxGolDarahIdentitas.Items.AddRange(New Object() {"A+", "B+", "AB+", "O+", "A-", "B-", "AB-", "O-", "-"})
         Me.ComboBoxGolDarahIdentitas.Location = New System.Drawing.Point(187, 214)
         Me.ComboBoxGolDarahIdentitas.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBoxGolDarahIdentitas.Name = "ComboBoxGolDarahIdentitas"

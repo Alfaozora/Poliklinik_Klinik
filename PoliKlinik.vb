@@ -1377,10 +1377,6 @@ Public Class PoliKlinik
         ReportMasterHarga.Focus()
     End Sub
 
-    Private Sub TesFingerprintToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TesFingerprintToolStripMenuItem.Click
-
-    End Sub
-
     Private Sub GantiDokterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GantiDokterToolStripMenuItem.Click
         ToolGantiDokter.Show()
         ToolGantiDokter.Focus()

@@ -201,8 +201,6 @@ Partial Class PoliKlinik
         Me.FormPembayaranToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FormRekamMedisDokterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CariTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PencarianObatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PrediksiPasienToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Prototype2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KasirPoliToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PopupTindakanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -283,6 +281,7 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
+        Me.PencarianObatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1502,7 +1501,7 @@ Partial Class PoliKlinik
         '
         'PrototypeToolStripMenuItem
         '
-        Me.PrototypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormMasterPasienToolStripMenuItem, Me.FormPendaftaranToolStripMenuItem, Me.FormPembayaranToolStripMenuItem, Me.FormRekamMedisDokterToolStripMenuItem, Me.CariTransaksiToolStripMenuItem, Me.PencarianObatToolStripMenuItem, Me.PrediksiPasienToolStripMenuItem})
+        Me.PrototypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormMasterPasienToolStripMenuItem, Me.FormPendaftaranToolStripMenuItem, Me.FormPembayaranToolStripMenuItem, Me.FormRekamMedisDokterToolStripMenuItem, Me.CariTransaksiToolStripMenuItem, Me.PencarianObatToolStripMenuItem})
         Me.PrototypeToolStripMenuItem.Name = "PrototypeToolStripMenuItem"
         Me.PrototypeToolStripMenuItem.Size = New System.Drawing.Size(238, 22)
         Me.PrototypeToolStripMenuItem.Text = "Prototype"
@@ -1536,18 +1535,6 @@ Partial Class PoliKlinik
         Me.CariTransaksiToolStripMenuItem.Name = "CariTransaksiToolStripMenuItem"
         Me.CariTransaksiToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
         Me.CariTransaksiToolStripMenuItem.Text = "Cari Transaksi"
-        '
-        'PencarianObatToolStripMenuItem
-        '
-        Me.PencarianObatToolStripMenuItem.Name = "PencarianObatToolStripMenuItem"
-        Me.PencarianObatToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.PencarianObatToolStripMenuItem.Text = "Pencarian Obat"
-        '
-        'PrediksiPasienToolStripMenuItem
-        '
-        Me.PrediksiPasienToolStripMenuItem.Name = "PrediksiPasienToolStripMenuItem"
-        Me.PrediksiPasienToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.PrediksiPasienToolStripMenuItem.Text = "Prediksi Pasien"
         '
         'Prototype2ToolStripMenuItem
         '
@@ -2076,6 +2063,12 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
+        'PencarianObatToolStripMenuItem
+        '
+        Me.PencarianObatToolStripMenuItem.Name = "PencarianObatToolStripMenuItem"
+        Me.PencarianObatToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.PencarianObatToolStripMenuItem.Text = "Pencarian Obat"
+        '
         'PoliKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2306,7 +2299,6 @@ Partial Class PoliKlinik
     Friend WithEvents FormRekamMedisDokterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CariTransaksiToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FormPendaftaranToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PencarianObatToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Form3ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PembatalanTransaksiToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FormExportHasilMCUToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -2355,9 +2347,9 @@ Partial Class PoliKlinik
     Friend WithEvents ObservationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MappingTindakanICD9CMToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MappingObatKFAToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PrediksiPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AnalisisDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ForecastingPasienToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SettingWhatsAppToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PencarianObatToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
