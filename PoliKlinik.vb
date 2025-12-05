@@ -156,9 +156,6 @@ Public Class PoliKlinik
     Private isTestingMode As Boolean = False
 
     Private Sub KirimReminderOtomatis()
-        If isProcessing Then Exit Sub
-        isProcessing = True
-
         Try
             Dim now As DateTime = DateTime.Now
             Dim batasKirim As New TimeSpan(9, 0, 0) ' jam 09:00 WIB
@@ -168,18 +165,21 @@ Public Class PoliKlinik
                 "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, TanggalKirim, JenisKelamin " & _
                 "FROM LogReminderPasien " & _
                 "WHERE Status = 'TERJADWAL' " & _
-                "AND DATEDIFF(DAY, GETDATE(), Tanggal) = 1 " & _
+                "AND CONVERT(date, Tanggal) = CONVERT(date, DATEADD(day, 1, GETDATE())) " & _
                 "AND (TanggalKirim IS NULL OR DATEDIFF(SECOND, TanggalKirim, GETDATE()) > 60)"
 
             Dim dt As DataTable = ReadSQL(query)
 
             For Each row As DataRow In dt.Rows
                 Dim waktuReminder As DateTime = CDate(row("Tanggal"))
+                If now.TimeOfDay < batasKirim Then
+                    Continue For
+                End If
+
                 Dim sudahDikirim As Boolean = Not IsDBNull(row("TanggalKirim"))
                 Dim id As Integer = CInt(row("ReminderID"))
 
-                If DateDiff(DateInterval.Day, now.Date, waktuReminder.Date) = 1 AndAlso _
-                   now.TimeOfDay >= batasKirim AndAlso Not sudahDikirim Then
+                If now.TimeOfDay >= batasKirim AndAlso Not sudahDikirim Then
 
                     ' --- Lock data (hanya 1 instance bisa ubah Status dan cap timestamp unik) ---
                     Dim sqlLock As String = "" & _
@@ -229,16 +229,14 @@ Public Class PoliKlinik
         isProcessing = False
     End Sub
 
-    Private Sub TimerKirimReminderWA_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles Timer1.Tick
-        If isProcessing Then Exit Sub ' cegah pemanggilan ganda
+    Private Sub TimerKirimReminderWA_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles TimerKirimReminderWA.Tick
+        If isProcessing Then Exit Sub
         isProcessing = True
 
         Try
             KirimReminderOtomatis()
-        Catch ex As Exception
-            MsgBox("Error Timer: " & ex.Message)
+        Catch
         End Try
-
         isProcessing = False
     End Sub
 
@@ -347,8 +345,8 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub PoliKlinik_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        TimerKirimReminderWA.Enabled = True
         TimerKirimReminderWA.Interval = 60000
-        TimerKirimReminderWA.Start()
 
         Me.BackgroundImage = Image.FromFile(Application.StartupPath + "\Image\wallpaper.jpg")
 
@@ -1375,10 +1373,6 @@ Public Class PoliKlinik
     Private Sub MasterHargaToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MasterHargaToolStripMenuItem.Click
         ReportMasterHarga.Show()
         ReportMasterHarga.Focus()
-    End Sub
-
-    Private Sub TesFingerprintToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TesFingerprintToolStripMenuItem.Click
-
     End Sub
 
     Private Sub GantiDokterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GantiDokterToolStripMenuItem.Click

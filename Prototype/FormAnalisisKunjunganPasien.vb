@@ -116,10 +116,22 @@ Public Class FormAnalisisKunjunganPasien
 
             Dim jsonData As String = JsonConvert.SerializeObject(dataKirim)
 
-            ' --- Ambil URL API dari MsConfig ---
+            Dim apiUrl As String
             Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-            baseURL = baseURL.TrimEnd("/"c)
-            Dim apiUrl As String = baseURL & "/api/predict-patient"
+            Dim baseURLPython As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_python'")
+
+            If RadioButtonSes.Checked Then
+                apiUrl = baseURL & "api/predict-patient"
+            ElseIf RadioButtonHoltW.Checked Then
+                apiUrl = baseURLPython & "api/predict-holtwinters"
+            Else
+                MessageBox.Show("Silakan pilih metode prediksi (SES atau Holt-Winters).")
+                Exit Sub
+            End If
+
+            ' --- Ambil URL API dari MsConfig ---
+            'baseURL = baseURL.TrimEnd("/"c)
+            'Dim apiUrl As String = baseURL & "/api/predict-patient"
 
             ' --- Kirim data ke API ---
             Dim response As String = InsertDataAPIRM(jsonData, apiUrl)
@@ -130,8 +142,8 @@ Public Class FormAnalisisKunjunganPasien
 
                 If hasil("status").ToString().ToLower() = "success" Then
                     Dim prediksiArray As JArray = hasil("prediksi")
-                    Dim alpha As Double = hasil("detail")("best_alpha")
-                    Dim mape As Double = hasil("detail")("mape_validasi")
+                    Dim alpha As Double = If(hasil("detail")("best_alpha"), 0)
+                    Dim mape As Double = If(hasil("detail")("mape_validasi"), 0)
 
                     ' --- Reset dan siapkan DataGridView ---
                     DataGridView1.Rows.Clear()

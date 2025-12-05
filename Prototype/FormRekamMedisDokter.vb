@@ -663,6 +663,24 @@ Public Class FormRekamMedisDokter
         TextBoxNomorNIK.BackColor = SystemColors.Window
     End Sub
 
+    Private Function CekRiwayatB20(ByVal idInternet As String) As Boolean
+        Try
+            Dim sql As String = _
+            "SELECT TOP 1 TDD.KodeDiagnosa " & _
+            "FROM TransaksiDetailDiagnosa TDD " & _
+            "INNER JOIN TransaksiDetail TD ON TDD.NoTransaksi = TD.NoUrut " & _
+            "WHERE TDD.KodeDiagnosa LIKE '%B20%' " & _
+            "AND TD.IDInternet = '" & idInternet & "'"
+
+            Dim dt As DataTable = ReadSQL(sql)
+
+            Return dt.Rows.Count > 0
+
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
     Private Sub LoadNotification(ByRef messageBox As Boolean)
         ' Hidden Notification
         TimerNotifikasi.Stop()
@@ -690,6 +708,13 @@ Public Class FormRekamMedisDokter
 
             '# Tampilkan alert
             If messageBox = True Then MsgBox("Pasien memiliki alergi." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
+        End If
+
+        'Cek riwayat B20
+        If CekRiwayatB20(idPasien) = True Then
+            MsgBox("PERHATIAN!" & vbCrLf & _
+                   "Pasien memiliki riwayat diagnosis B20 (HIV/AIDS).", _
+                   MsgBoxStyle.Exclamation, "Warning!")
         End If
     End Sub
 

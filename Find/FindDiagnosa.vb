@@ -377,24 +377,35 @@ Public Class FindDiagnosa
         End Try
     End Sub
 
+    Public Function CheckBridgingPcareActive() As Boolean
+        Dim statusBridgingPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_status_bridging'")
+
+        Return (statusBridgingPcare = "Yes")
+    End Function
+
+
     Private Function CekKoneksiPCare() As Boolean
         Try
+            If Not CheckBridgingPcareActive() Then
+                MsgBox("Bridging PCare FKTP dalam keadaan OFF.", MsgBoxStyle.Critical, "Warning!")
+                Return False
+            End If
+
             Dim urlPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='pcare_base_url'")
             Dim testUrl As String = urlPcare & "diagnosa/Z00/1/1"
 
             Dim result As String = getDataFromPcare(testUrl)
 
-            'respons kosong → gagal
+            ' Response kosong
             If String.IsNullOrEmpty(result) Then Return False
 
-            'respons harus JSON
-            Dim r As String = result.Trim
+            Dim r As String = result.Trim()
             If Not (r.StartsWith("{") Or r.StartsWith("[")) Then Return False
 
-            'deserialisasi aman
+            ' Parse JSON menggunakan JObject agar fleksibel
             Dim obj = JsonConvert.DeserializeObject(Of varJson())(result)
 
-            'metadata wajib OK
+            ' MetaData wajib ada
             If obj(0).metaData.message = "OK" Then
                 Return True
             End If
@@ -476,6 +487,8 @@ Public Class FindDiagnosa
             If ToggleSwitch1.Checked = False Then
                 LoadDiagnosaLokal()
                 Exit Sub
+            Else
+                FindQuery()
             End If
         Catch ex As Exception
             MsgBox("Error: " & ex.Message)

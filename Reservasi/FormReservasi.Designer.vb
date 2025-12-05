@@ -688,10 +688,10 @@ Partial Class FormReservasi
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.PanelLayoutMenu2TopMain)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 27)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(942, 563)
+        Me.TabPage2.Size = New System.Drawing.Size(942, 565)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Tab Menu 2"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -704,7 +704,7 @@ Partial Class FormReservasi
         Me.PanelLayoutMenu2TopMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelLayoutMenu2TopMain.Location = New System.Drawing.Point(3, 3)
         Me.PanelLayoutMenu2TopMain.Name = "PanelLayoutMenu2TopMain"
-        Me.PanelLayoutMenu2TopMain.Size = New System.Drawing.Size(936, 557)
+        Me.PanelLayoutMenu2TopMain.Size = New System.Drawing.Size(936, 559)
         Me.PanelLayoutMenu2TopMain.TabIndex = 3
         '
         'SplitContainer2
@@ -731,7 +731,7 @@ Partial Class FormReservasi
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.DataGridViewReminder)
-        Me.SplitContainer2.Size = New System.Drawing.Size(936, 557)
+        Me.SplitContainer2.Size = New System.Drawing.Size(936, 559)
         Me.SplitContainer2.SplitterDistance = 178
         Me.SplitContainer2.TabIndex = 0
         '
@@ -882,7 +882,7 @@ Partial Class FormReservasi
         Me.DataGridViewReminder.RowHeadersVisible = False
         Me.DataGridViewReminder.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
         Me.DataGridViewReminder.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridViewReminder.Size = New System.Drawing.Size(936, 375)
+        Me.DataGridViewReminder.Size = New System.Drawing.Size(936, 377)
         Me.DataGridViewReminder.StandardTab = True
         Me.DataGridViewReminder.TabIndex = 521
         '

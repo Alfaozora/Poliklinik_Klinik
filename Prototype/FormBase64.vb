@@ -68,18 +68,11 @@ Public Class FormBase64
         CekTLS()
     End Sub
 
-    Private Sub port_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles port.Click
-        Dim url As String = "http://202.10.46.4/" ' pakai IP langsung
-        Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
-
-        ' Tambahkan header Host secara manual
-        request.Headers("Host") = "kyc.mitramedicare.com"
-
-        ' Kalau API butuh JSON
-        request.ContentType = "application/json"
-        request.Method = "GET" ' atau POST sesuai kebutuhan
-
-        Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-        MsgBox("Status: " & response.StatusCode)
+    Private Sub ButtonAPI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAPI.Click
+        Dim client As New WebClient()
+        client.Headers.Add("Content-Type", "application/json")
+        Dim json = "{""angka"": 5}"
+        Dim result = client.UploadString("http://localhost:5000/prediksi", json)
+        MsgBox(result)
     End Sub
 End Class

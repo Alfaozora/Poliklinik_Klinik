@@ -70,6 +70,9 @@ Partial Class FormAnalisisKunjunganPasien
         Me.Label14 = New System.Windows.Forms.Label
         Me.ComboBoxPoliWaktu = New System.Windows.Forms.ComboBox
         Me.DataGridView4 = New System.Windows.Forms.DataGridView
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.RadioButtonSes = New System.Windows.Forms.RadioButton
+        Me.RadioButtonHoltW = New System.Windows.Forms.RadioButton
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -91,6 +94,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.SplitContainer4.Panel2.SuspendLayout()
         Me.SplitContainer4.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -128,6 +132,7 @@ Partial Class FormAnalisisKunjunganPasien
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonKirimData)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ButtonReport)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ComboBoxHari)
@@ -147,7 +152,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ButtonKirimData.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonKirimData.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonKirimData.ForeColor = System.Drawing.Color.White
-        Me.ButtonKirimData.Location = New System.Drawing.Point(124, 121)
+        Me.ButtonKirimData.Location = New System.Drawing.Point(125, 192)
         Me.ButtonKirimData.Name = "ButtonKirimData"
         Me.ButtonKirimData.Size = New System.Drawing.Size(132, 34)
         Me.ButtonKirimData.TabIndex = 513
@@ -166,7 +171,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ButtonReport.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonReport.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(254, Byte), Integer))
         Me.ButtonReport.Image = Global.PoliKlinik_Net2.My.Resources.Resources.icons8_save_16
-        Me.ButtonReport.Location = New System.Drawing.Point(14, 171)
+        Me.ButtonReport.Location = New System.Drawing.Point(15, 242)
         Me.ButtonReport.Name = "ButtonReport"
         Me.ButtonReport.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ButtonReport.Size = New System.Drawing.Size(242, 34)
@@ -188,7 +193,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ComboBoxHari.Location = New System.Drawing.Point(18, 77)
         Me.ComboBoxHari.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.ComboBoxHari.Name = "ComboBoxHari"
-        Me.ComboBoxHari.Size = New System.Drawing.Size(204, 25)
+        Me.ComboBoxHari.Size = New System.Drawing.Size(239, 25)
         Me.ComboBoxHari.TabIndex = 511
         '
         'Label1
@@ -207,7 +212,7 @@ Partial Class FormAnalisisKunjunganPasien
         Me.ButtonKirim.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonKirim.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonKirim.ForeColor = System.Drawing.Color.White
-        Me.ButtonKirim.Location = New System.Drawing.Point(14, 121)
+        Me.ButtonKirim.Location = New System.Drawing.Point(15, 192)
         Me.ButtonKirim.Name = "ButtonKirim"
         Me.ButtonKirim.Size = New System.Drawing.Size(104, 34)
         Me.ButtonKirim.TabIndex = 509
@@ -737,6 +742,39 @@ Partial Class FormAnalisisKunjunganPasien
         Me.DataGridView4.Size = New System.Drawing.Size(569, 474)
         Me.DataGridView4.TabIndex = 0
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RadioButtonHoltW)
+        Me.GroupBox1.Controls.Add(Me.RadioButtonSes)
+        Me.GroupBox1.Location = New System.Drawing.Point(18, 109)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(239, 77)
+        Me.GroupBox1.TabIndex = 514
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Metode"
+        '
+        'RadioButtonSes
+        '
+        Me.RadioButtonSes.AutoSize = True
+        Me.RadioButtonSes.Checked = True
+        Me.RadioButtonSes.Location = New System.Drawing.Point(11, 32)
+        Me.RadioButtonSes.Name = "RadioButtonSes"
+        Me.RadioButtonSes.Size = New System.Drawing.Size(86, 17)
+        Me.RadioButtonSes.TabIndex = 0
+        Me.RadioButtonSes.TabStop = True
+        Me.RadioButtonSes.Text = "SES + MAPE"
+        Me.RadioButtonSes.UseVisualStyleBackColor = True
+        '
+        'RadioButtonHoltW
+        '
+        Me.RadioButtonHoltW.AutoSize = True
+        Me.RadioButtonHoltW.Location = New System.Drawing.Point(103, 32)
+        Me.RadioButtonHoltW.Name = "RadioButtonHoltW"
+        Me.RadioButtonHoltW.Size = New System.Drawing.Size(133, 17)
+        Me.RadioButtonHoltW.TabIndex = 1
+        Me.RadioButtonHoltW.Text = "Holt Winters + MAPE"
+        Me.RadioButtonHoltW.UseVisualStyleBackColor = True
+        '
         'FormAnalisisKunjunganPasien
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -771,6 +809,8 @@ Partial Class FormAnalisisKunjunganPasien
         Me.SplitContainer4.Panel2.ResumeLayout(False)
         Me.SplitContainer4.ResumeLayout(False)
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -822,4 +862,7 @@ Partial Class FormAnalisisKunjunganPasien
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents ComboBoxPoliWaktu As System.Windows.Forms.ComboBox
     Friend WithEvents DataGridView4 As System.Windows.Forms.DataGridView
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents RadioButtonHoltW As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonSes As System.Windows.Forms.RadioButton
 End Class

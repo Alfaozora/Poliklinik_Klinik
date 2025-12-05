@@ -940,6 +940,12 @@
     <Compile Include="Satu Sehat\Resource\ConditionResource.vb" />
     <Compile Include="Satu Sehat\Resource\PatientResource.vb" />
     <Compile Include="Satu Sehat\Resource\ResponseResource.vb" />
+    <Compile Include="Tindakan\LabAdmin.Designer.vb">
+      <DependentUpon>LabAdmin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tindakan\LabAdmin.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Upload\FormUploadJurnal.Designer.vb">
       <DependentUpon>FormUploadJurnal.vb</DependentUpon>
     </Compile>
@@ -1385,12 +1391,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tindakan\LabAdmin.Designer.vb">
-      <DependentUpon>LabAdmin.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Tindakan\LabAdmin.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Tindakan\PendaftaranAwal.Designer.vb">
       <DependentUpon>PendaftaranAwal.vb</DependentUpon>
     </Compile>
@@ -1764,6 +1764,9 @@
     <EmbeddedResource Include="Satu Sehat\FormSynchronizationSatuSehat.resx">
       <DependentUpon>FormSynchronizationSatuSehat.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tindakan\LabAdmin.resx">
+      <DependentUpon>LabAdmin.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Upload\FormUploadJurnal.resx">
       <DependentUpon>FormUploadJurnal.vb</DependentUpon>
     </EmbeddedResource>
@@ -2040,10 +2043,6 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tindakan\LabAdmin.resx">
-      <DependentUpon>LabAdmin.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tindakan\PendaftaranAwal.resx">
       <DependentUpon>PendaftaranAwal.vb</DependentUpon>
