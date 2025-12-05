@@ -7,6 +7,7 @@ Imports Excel = Microsoft.Office.Interop.Excel
 Imports Microsoft.Office
 Imports Microsoft.Office.Interop
 Imports System.Text
+Imports System.IO.StreamReader
 
 Imports Newtonsoft.Json
 Imports System.Data.SqlClient
@@ -1237,4 +1238,128 @@ Public Class MasterTindakanKlinik
         End If
     End Sub
 
+    Private Sub ButtonImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonImport.Click
+        Try
+            Dim ofd As New OpenFileDialog()
+            ofd.Filter = "CSV Files (*.csv)|*.csv"
+
+            If ofd.ShowDialog() = Windows.Forms.DialogResult.OK Then
+
+                Dim filePath As String = ofd.FileName
+                Dim sr As StreamReader = New StreamReader(filePath)
+                Dim line As String = ""
+
+                ' Lewati header
+                line = sr.ReadLine()
+
+                While sr.EndOfStream = False
+                    line = sr.ReadLine()
+                    If Trim(line) = "" Then Continue While
+
+                    Dim data() As String = line.Split(","c)
+
+                    ' =============================
+                    ' MAPPING CSV
+                    ' =============================
+                    Dim NamaTindakan As String = data(0).Replace("'", "''")
+                    Dim JenisTindakan As String = data(1).Replace("'", "''")
+                    Dim BiayaTindakan As Double = CDbl(data(2))
+                    Dim JenisDokter As String = data(3).Replace("'", "''")
+
+                    ' BOOLEAN KE INTEGER
+                    Dim StatusFee As Integer = CInt(data(4))
+                    Dim StatusBHP As Integer = CInt(data(5))
+                    Dim StatusPersentase As Integer = CInt(data(6))
+                    Dim StatusNominal As Integer = CInt(data(7))
+
+                    Dim PersenFeePerusahaan As Double = CDbl(data(8))
+                    Dim PersenFeeKaryawan As Double = CDbl(data(9))
+                    Dim NominalFee As Double = CDbl(data(10))
+
+                    Dim FeeDokter As Double = CDbl(data(11))
+                    Dim FeePerawat As Double = CDbl(data(12))
+
+                    Dim StatusFeeKonsultasi As Integer = CInt(data(13))
+                    Dim MaksBHP As Double = CDbl(data(14))
+
+                    Dim StatusIC As Integer = CInt(data(15))
+
+                    Dim NamaIC As String = data(16).Replace("'", "''")
+
+                    Dim Hari As Integer = CInt(data(17))
+                    Dim Reminder As Integer = CInt(data(18))
+
+                    If RadioButtonPoliUmum.Checked = True Then
+
+                        Dim q As String = _
+                            "INSERT INTO MasterTindakan (" & _
+                            "NamaTindakan, JenisTindakan, BiayaTindakan, JenisDokter, CreatedDate, CreatedBy, " & _
+                            "StatusFeeTindakan, StatusBHP, StatusPersentaseFee, StatusNominalFee, " & _
+                            "PersentaseFeePerusahaan, PersentaseFeeKaryawan, FeePerTindakan, FeeDokter, FeePerawat, " & _
+                            "StatusFeeKonsultasi, MaksimalBHP, StatusInformedConsent, TindakanInformedConsent, Hari, Reminder) " & _
+                            "VALUES ('" & NamaTindakan & "', '" & JenisTindakan & "', " & BiayaTindakan & ", '" & JenisDokter & "', " & _
+                            "GETDATE(), '" & userInput & "', " & StatusFee & ", " & StatusBHP & ", " & StatusPersentase & ", " & StatusNominal & ", " & _
+                            PersenFeePerusahaan & ", " & PersenFeeKaryawan & ", " & NominalFee & ", " & FeeDokter & ", " & FeePerawat & ", " & _
+                            StatusFeeKonsultasi & ", " & MaksBHP & ", " & StatusIC & ", '" & NamaIC & "', " & Hari & ", " & Reminder & ")"
+
+                        WriteSQL(q, 4)
+
+                    End If
+
+
+                    If RadioButtonPoliGigi.Checked = True Then
+
+                        Dim q2 As String = _
+                            "INSERT INTO MasterTindakanGigi (" & _
+                            "NamaTindakan, JenisTindakan, BiayaTindakan, JenisDokter, CreatedDate, CreatedBy, " & _
+                            "StatusFeeTindakan, StatusBHP, StatusPersentaseFee, StatusNominalFee, " & _
+                            "PersentaseFeePerusahaan, PersentaseFeeKaryawan, FeePerTindakan, FeeDokter, FeePerawat, " & _
+                            "StatusFeeKonsultasi, MaksimalBHP, StatusInformedConsent, TindakanInformedConsent, Hari, Reminder, PoliTujuan) " & _
+                            "VALUES ('" & NamaTindakan & "', '" & JenisTindakan & "', " & BiayaTindakan & ", '" & JenisDokter & "', " & _
+                            "GETDATE(), '" & userInput & "', " & StatusFee & ", " & StatusBHP & ", " & StatusPersentase & ", " & StatusNominal & ", " & _
+                            PersenFeePerusahaan & ", " & PersenFeeKaryawan & ", " & NominalFee & ", " & FeeDokter & ", " & FeePerawat & ", " & _
+                            StatusFeeKonsultasi & ", " & MaksBHP & ", " & StatusIC & ", '" & NamaIC & "', " & Hari & ", " & Reminder & ", 'PoliGigi')"
+
+                        WriteSQL(q2, 4)
+
+                    End If
+
+                End While
+
+                sr.Close()
+
+                MsgBox("Import CSV Selesai!", MsgBoxStyle.Information)
+
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error Import: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub ButtonTemplate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTemplate.Click
+        Try
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "CSV Files (*.csv)|*.csv"
+            sfd.FileName = "TemplateMasterTindakan.csv"
+
+            If sfd.ShowDialog() = Windows.Forms.DialogResult.OK Then
+
+                Dim header As String = _
+                    "NamaTindakan,JenisTindakan,BiayaTindakan,JenisDokter,StatusFee,StatusBHP,StatusPersentase,StatusNominal," & _
+                    "PersenPerusahaan,PersenKaryawan,NominalFee,FeeDokter,FeePerawat,StatusFeeKonsultasi,MaksimalBHP," & _
+                    "StatusInformedConsent,TindakanInformedConsent,Hari,Reminder"
+
+                Dim sw As New StreamWriter(sfd.FileName, False)
+                sw.WriteLine(header)
+                sw.Close()
+
+                MsgBox("Template CSV berhasil dibuat!", MsgBoxStyle.Information)
+
+            End If
+
+        Catch ex As Exception
+            MsgBox("Gagal membuat template: " & ex.Message)
+        End Try
+    End Sub
 End Class

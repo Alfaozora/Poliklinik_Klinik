@@ -1,6 +1,9 @@
 Version : 2.0.0.57 ()
 # [New Feature] Penambahan Fitur Notifikasi Riwayat Pasien B20
+# [New Feature] Penambahan Fitur Import Data Excel (CSV) Master Tindakan
+# [Usability Improvement] Pengembangan Fitur ON OFF Pcare
 # [Usability Improvement] Penambahan Rhesus Pada Goldar data Pasien
+# [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis 
 
 Version : 2.0.0.56 (21 November 2025)
 # [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB

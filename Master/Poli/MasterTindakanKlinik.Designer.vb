@@ -39,6 +39,8 @@ Partial Class MasterTindakanKlinik
         Me.ButtonSimpanMasterTindakan = New System.Windows.Forms.Button
         Me.ButtonClearMasterTindakan = New System.Windows.Forms.Button
         Me.ButtonExportMasterTindakan = New System.Windows.Forms.Button
+        Me.ButtonImport = New System.Windows.Forms.Button
+        Me.ButtonTemplate = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.PanelMasterTindakan = New System.Windows.Forms.Panel
         Me.CheckedListBoxPoli = New System.Windows.Forms.CheckedListBox
@@ -162,6 +164,7 @@ Partial Class MasterTindakanKlinik
         Me.TextBoxReffID = New System.Windows.Forms.TextBox
         Me.GridControlTindakan = New DevExpress.XtraGrid.GridControl
         Me.GridViewTindakan = New DevExpress.XtraGrid.Views.Grid.GridView
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.PanelTop.SuspendLayout()
         Me.PanelMasterTindakanKlinik.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -371,6 +374,8 @@ Partial Class MasterTindakanKlinik
         Me.FlowLayoutPanel1.Controls.Add(Me.ButtonSimpanMasterTindakan)
         Me.FlowLayoutPanel1.Controls.Add(Me.ButtonClearMasterTindakan)
         Me.FlowLayoutPanel1.Controls.Add(Me.ButtonExportMasterTindakan)
+        Me.FlowLayoutPanel1.Controls.Add(Me.ButtonImport)
+        Me.FlowLayoutPanel1.Controls.Add(Me.ButtonTemplate)
         Me.FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
@@ -439,6 +444,40 @@ Partial Class MasterTindakanKlinik
         Me.ButtonExportMasterTindakan.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ButtonExportMasterTindakan.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonExportMasterTindakan.UseVisualStyleBackColor = False
+        '
+        'ButtonImport
+        '
+        Me.ButtonImport.BackColor = System.Drawing.Color.White
+        Me.ButtonImport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.ButtonImport.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonImport.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonImport.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ButtonImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonImport.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonImport.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonImport.Image = CType(resources.GetObject("ButtonImport.Image"), System.Drawing.Image)
+        Me.ButtonImport.Location = New System.Drawing.Point(496, 3)
+        Me.ButtonImport.Name = "ButtonImport"
+        Me.ButtonImport.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.ButtonImport.Size = New System.Drawing.Size(150, 40)
+        Me.ButtonImport.TabIndex = 586
+        Me.ButtonImport.Text = " Import Data"
+        Me.ButtonImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ButtonImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonImport.UseVisualStyleBackColor = False
+        '
+        'ButtonTemplate
+        '
+        Me.ButtonTemplate.BackColor = System.Drawing.Color.White
+        Me.ButtonTemplate.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonTemplate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonTemplate.Location = New System.Drawing.Point(652, 3)
+        Me.ButtonTemplate.Name = "ButtonTemplate"
+        Me.ButtonTemplate.Size = New System.Drawing.Size(90, 40)
+        Me.ButtonTemplate.TabIndex = 587
+        Me.ButtonTemplate.Text = "Download Template"
+        Me.ButtonTemplate.UseVisualStyleBackColor = False
         '
         'SplitContainer3
         '
@@ -1983,6 +2022,10 @@ Partial Class MasterTindakanKlinik
         Me.GridViewTindakan.OptionsView.ShowIndicator = False
         Me.GridViewTindakan.PaintStyleName = "Skin"
         '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'MasterTindakanKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2191,4 +2234,7 @@ Partial Class MasterTindakanKlinik
     Friend WithEvents CheckBoxReminder As System.Windows.Forms.CheckBox
     Friend WithEvents CheckedListBoxPoli As System.Windows.Forms.CheckedListBox
     Friend WithEvents CheckedListBoxPoli2 As System.Windows.Forms.CheckedListBox
+    Friend WithEvents ButtonImport As System.Windows.Forms.Button
+    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ButtonTemplate As System.Windows.Forms.Button
 End Class

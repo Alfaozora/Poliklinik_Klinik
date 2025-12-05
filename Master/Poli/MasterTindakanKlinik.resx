@@ -230,6 +230,24 @@
         AAAASUVORK5CYII=
 </value>
   </data>
+  <data name="ButtonImport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAs5JREFUSEvt
+        VutOE0EU7iP4CD6Cb6DxBUz8T1mlUOJC0NAtW1roBVoqaaDS0sv2frGhqIWa0FIC/VETTIoxqAkh0Rhi
+        NIqIMQa8gHHMmWaa7ZRCt11/6Zd87e7M2fPtt+fM7igUEsF4NZc6BO6i0q8xKn2c81pg6HGnn3tDx7UE
+        SK70aa5Ackbgk11B3UanoD3o8GlQb2xkb+Cued+Wd3+aLgrH0fIcgnE6x5lQ+rWWriBf6A7pNhlBewhJ
+        +pPmXW5+4rN92XM4W4oiSH7/eRblX66cSLhGCtVhg10BByR5dmupLmkzhBzN4uDHt8oTgh86kVRKEQb8
+        F26ZkGNn9wsmgBzTbCgMTQbnhJMFb8O56bVAjTARFP+LcaowdHV3aBh9/LqPqQoNVzv9RsyItt69wuMQ
+        I14BbTsGOlb8aCofxgGe1SR2Bm7NCzN4bDw7i2aKoZpriONmcaIwkI2bsDsgGzMiNl5xS87peFkcA8Gh
+        ZdGNg/j0JLIsuvDxQGIMv2jo+LZrLCZ/7zYqbZerTjMbBWTIOOriiLAsjoFQW0cuWA0G54H1ZF0cEZaC
+        hsLQsdDRO3tvUexRBj15/aJhfYmwLI5tOTfyrqXwC70npEfmhUqN4QlA19PxstQYPn+wTkEU6mp5eAfd
+        So3jepM1TH8iZXGsnbej5WclHNCfsGAR6GToaADMQQwtLAV1wtA80EQAcMilJ2puCMYAdKO17ViTtuFB
+        QvGaJVscQvFNEcdiYRqnCrfKth23SuK4WfzDwoNztl/WJRfuVHqNNkMpwtVdJkAVNlzuS5q8fXHTJhMY
+        +qmO6I+M2SnkLAZQ6umDOiGakEgKbybGnPT+HoPx8ud7oqMsmzCtqiP6D9cDQ0eDaesxbIVi5XTd/rvq
+        QG4wEdM5xqe9ysZHPb0xwzYIsQnjd2vO9Zvsxehr/hoYgbugCul4dXRknfFr39PzZ+EP3R4kWWuZfpMA
+        AAAASUVORK5CYII=
+</value>
+  </data>
   <data name="ButtonSimpanMasterPaket.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAANZJREFUSEtj
@@ -271,4 +289,7 @@
         AAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
