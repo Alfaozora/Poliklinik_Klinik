@@ -17,7 +17,7 @@
         DB_Poliklinik.Tdb = Utility.GetConfig("ServerOnlinePoli_DB")
     End Sub
 
-    Private Sub count()
+    Private Sub UploadData()
         SetConnection()
 
         If CekKoneksi("SHOW TABLES FROM " & DB_Poliklinik.Tdb & "", DB_Poliklinik) = False Then
@@ -29,10 +29,10 @@
             Dim procent As Integer = 0
 
             Me.ControlBox = False
-            Me.dtuploadstart.Enabled = False
+            Me.DateTimeUpload.Enabled = False
 
             'Inisialisasi No Transaksi yang sudah di upload
-            Dim Tonline As DataTable = ReadThemysql("SELECT a.translabid FROM transaksilab a WHERE a.idtempatlab='" & Ttempat & "' AND DATE(a.tgllab) = '" & Format(dtuploadstart.Value, "yyyy-MM-dd") & "'", DB_Poliklinik)
+            Dim Tonline As DataTable = ReadThemysql("SELECT a.translabid FROM transaksilab a WHERE a.idtempatlab='" & Ttempat & "' AND DATE(a.tgllab) = '" & Format(DateTimeUpload.Value, "yyyy-MM-dd") & "'", DB_Poliklinik)
             If Tonline.Rows.Count > 0 Then
                 For Each TRowDetail As DataRow In Tonline.Rows
                     TtempTranslabid = TtempTranslabid & "" & TRowDetail("translabid").ToString.Trim & ", "
@@ -45,7 +45,7 @@
             Dim persen As Integer = 0
             Dim Ttemp As DataTable = ReadSQL("SELECT t.SendingWhatsapp, t.SendingEmail, t.saran, t.TransLabID,t.IDInternet,t.DokterLab,t.DokterRequest,t.IDPaket,t.TglLab, t.DetailPemeriksaan, t.TotalTagihan,t.TotalDisc,t.Pembulatan,t.NettBayar,t.TotalBayar,t.Pengembalian,t.ClosedBayar,t.ClosedInputHasil,t.UserInputHasil,t.TglInputHasil,t.TglCetakHasil,t.UserCetakHasil,t.LabJenisPembayaran,t.TglTerimahasil,t.ClosedTransaksi,t.CreateDate,t.CreateBy,t.ChangeDate,t.ChangeBy,t.LabJenisPasien,t.NoUrut,t.Status,t.CaraAmbil,t.LabDaftar,t.LabSamplingTime,t.LabStartTime,t.LabSendMail,t.LabEndTime,t.LabCetak,t.Upload,t.UploadDate,t.Kesimpulan,t.UploadHasil,m.NoRekamMedis,m.Nama,m.DomisiliAlamat,m.NoHandphone,m.TglLahir,m.JenisKelamin,m.GolonganDarah,m.NoNIK,m.TempatLahir,m.Agama,m.Kewarganegaraan,m.NoTelepon,m.Email,m.NoNIK,m.NoNIP, m.StatusPerkawinan, m.KtpAlamat " & _
                                              "FROM TransaksiLab t, MasterPasien m " & _
-                                             "WHERE t.IDInternet = m.NoRekamMedis and t.UploadMesin is null and t.deleted=0 and t.status<>'OPEN' and t.SendKeu is not null and " & TDataOnline & " CONVERT(date, t.TglLab) = '" & Format(dtuploadstart.Value, "yyyyMMdd") & "'")
+                                             "WHERE t.IDInternet = m.NoRekamMedis and t.UploadMesin is null and t.deleted=0 and t.status<>'OPEN' and t.SendKeu is not null and " & TDataOnline & " CONVERT(date, t.TglLab) = '" & Format(DateTimeUpload.Value, "yyyyMMdd") & "'")
             If Ttemp.Rows.Count > 0 Then
 
                 status.Text += "Memulai memproses data sejumlah " + Ttemp.Rows.Count.ToString + vbCrLf
@@ -59,11 +59,11 @@
                                       "VALUES('" & Ttempat & "', '" & Trow("NoRekamMedis") & "', '-', '" & Trow("Nama") & "','" & Trow("DomisiliAlamat") & "', '" & Trow("TempatLahir") & "', '" & Format(Trow("TglLahir"), "yyyyMMdd") & "', '" & Trow("StatusPerkawinan") & "', '" & Trow("Agama") & "', '" & Trow("Kewarganegaraan") & "', '" & Trow("JenisKelamin") & "', '" & Trow("GolonganDarah") & "', '-', '" & Trow("NoNIK") & "', '" & Trow("KtpAlamat") & "', '" & Trow("NoTelepon") & "', '" & Trow("NoHandphone") & "', '" & Trow("Email") & "', '" & Format(DateAndTime.Now, "yyyyMMdd") & "', '" & UserLabAdmin & "','" & Trow("NoNIK") & "','" & Trow("NoNIP") & "')", DB_Poliklinik)
                     Else
                         If Trow("Email").ToString.Trim <> "" And Trow("Email").ToString.Trim <> "-" And IsDBNull(Trow("Email")) = False And Trow("NoHandphone").ToString.Trim <> "" And Trow("NoHandphone").ToString.Trim <> "-" And IsDBNull(Trow("NoHandphone")) = False Then
-                            WriteThemysql("update masterpasien set Tlp='" & Trow("NoHandphone") & "', email='" & Trow("Email") & "',Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
+                            WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', Tlp='" & Trow("NoHandphone") & "', email='" & Trow("Email") & "',Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
                         ElseIf Trow("Email").ToString.Trim <> "" And Trow("Email").ToString.Trim <> "-" And IsDBNull(Trow("Email")) = False Then
-                            WriteThemysql("update masterpasien set email='" & Trow("email") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
+                            WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', email='" & Trow("email") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
                         ElseIf Trow("NoHandphone").ToString.Trim <> "" And Trow("NoHandphone").ToString.Trim <> "-" And IsDBNull(Trow("NoHandphone")) = False Then
-                            WriteThemysql("update masterpasien set Tlp='" & Trow("NoHandphone") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
+                            WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', Tlp='" & Trow("NoHandphone") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
                         End If
                     End If
 
@@ -157,37 +157,34 @@
                 status.Text += "Proses Data telah terkirim semua. " + vbCrLf
                 MsgBox("Proses Data telah terkirim semua.", MsgBoxStyle.Information, "Success!")
 
-                Me.butupload.Enabled = True
+                Me.ButtonUpload.Enabled = True
                 Me.ControlBox = True
-                Me.dtuploadstart.Enabled = True
+                Me.DateTimeUpload.Enabled = True
             Else
                 MsgBox("Tidak ada data yang di upload.", MsgBoxStyle.Exclamation, "Warning!")
 
-                Me.butupload.Enabled = True
+                Me.ButtonUpload.Enabled = True
                 Me.ControlBox = True
-                Me.dtuploadstart.Enabled = True
+                Me.DateTimeUpload.Enabled = True
             End If
         End If
     End Sub
 
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butupload.Click
+    Private Sub ButtonUpload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUpload.Click
         Try
-            butupload.Enabled = False
+            ButtonUpload.Enabled = False
 
-            thread = New System.Threading.Thread(AddressOf count)
+            thread = New System.Threading.Thread(AddressOf UploadData)
             thread.Start()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
-
-        'thread = New System.Threading.Thread(AddressOf count)
-        'thread.Start()
     End Sub
 
     Private Sub ToolsTransaksiLab_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Control.CheckForIllegalCrossThreadCalls = False
         Me.MdiParent = PoliKlinik
-        dtuploadstart.Value = DateAndTime.Now
+        DateTimeUpload.Value = DateAndTime.Now
         SetConnection()
     End Sub
 End Class
