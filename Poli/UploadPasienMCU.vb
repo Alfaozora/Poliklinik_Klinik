@@ -39,7 +39,7 @@ Public Class UploadPasienMCU
         Return Thasil
     End Function
 
-    Private Sub updateevent_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles buttambahpasien.Click
+    Private Sub ButtonUploadFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUploadFile.Click
         Try
             opFileDialog.Filter = "Excel Files 2003|*.xls|Excel Files|*.xlsx"
             opFileDialog.Title = "Select a Excel File"
@@ -53,12 +53,12 @@ Public Class UploadPasienMCU
                 dta = New OleDbDataAdapter("SELECT * FROM [Sheet1$]", conn)
                 dts = New DataSet("NewTables")
                 dta.Fill(dts)
-                gridpasien.DataSource = dts.Tables(0)
+                GridControlDataPasien.DataSource = dts.Tables(0)
                 conn.Close()
             End If
 
-            butsavemultiple.Enabled = False
-            butsavelab.Enabled = True
+            ButtonSimpanData.Enabled = False
+            ButtonValidasiData.Enabled = True
         Catch ex As Exception
             conn.Close()
             MsgBox(ex.ToString)
@@ -82,22 +82,22 @@ Public Class UploadPasienMCU
                 Return False
             End If
 
-            If CheckSQL("SELECT * FROM MasterPasien WHERE Nama = '" & Trow("Nama").ToString & "' AND TglLahir = '" & Format(Trow("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Trow("PTNIK").ToString & "'") = True Then
-                If MsgBox("Telah ada karyawan sama. Cek Pasien atas nama " & Trow("Nama").ToString & ". Apakah tetap dilanjutkan ?", MsgBoxStyle.YesNo, "Verifikasi Pasien.") = MsgBoxResult.No Then
-                    Return False
-                End If
-            End If
+            'If CheckSQL("SELECT * FROM MasterPasien WHERE Nama = '" & Trow("Nama").ToString & "' AND TglLahir = '" & Format(Trow("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Trow("PTNIK").ToString & "'") = True Then
+            '    If MsgBox("Telah ada karyawan sama. Cek Pasien atas nama " & Trow("Nama").ToString & ". Apakah tetap dilanjutkan ?", MsgBoxStyle.YesNo, "Verifikasi Pasien.") = MsgBoxResult.No Then
+            '        Return False
+            '    End If
+            'End If
         Next
 
         Return True
     End Function
 
     Private Sub SetGrid()
-        gridpasien.DataSource = CreateTable()
+        GridControlDataPasien.DataSource = CreateTable()
 
         ProgressBar1.Value = 0
         ProgressBar1.Visible = False
-        butsavemultiple.Enabled = False
+        ButtonSimpanData.Enabled = False
     End Sub
 
     Private Sub UploadPasienMCU_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -112,23 +112,24 @@ Public Class UploadPasienMCU
         Me.Width = Screen.PrimaryScreen.Bounds.Width * 0.95
     End Sub
 
-    Private Sub butsavelab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butsavelab.Click
-        thread = New System.Threading.Thread(AddressOf SaveUpload)
+    Private Sub ButtonValidasiData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonValidasiData.Click
+        thread = New System.Threading.Thread(AddressOf ValidasiUploadData)
         thread.Start()
     End Sub
 
-    Private Sub SaveUpload()
-        Dim Tbls As DataTable = gridpasien.DataSource
-        Dim saved As Integer = 1
+    Private Sub ValidasiUploadData()
+        Dim tblUpload As DataTable = GridControlDataPasien.DataSource
+        'Dim saved As Integer = 1
+        Dim statusValidasi As Boolean = True
 
         Try
-            If Tbls.Rows.Count > 0 Then
-                butsavelab.Enabled = False
+            If tblUpload.Rows.Count > 0 Then
+                ButtonValidasiData.Enabled = False
                 ProgressBar1.Visible = True
                 Dim persen As Integer = 0
                 Dim jumlah As Integer = 0
 
-                For Each Trow As DataRow In Tbls.Rows
+                For Each Trow As DataRow In tblUpload.Rows
                     persen = persen + 1
 
                     'Validasi Data
@@ -143,7 +144,7 @@ Public Class UploadPasienMCU
                     'Cek NIK
                     If Trow("PTNIK").ToString.Trim <> "-" And Trow("PTNIK").ToString.Length <> 16 Then
                         MsgBox("NIK harus terdiri 16 digit atau isi - jika tidak ada. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
@@ -165,14 +166,14 @@ Public Class UploadPasienMCU
 
                     If numbericNIK = False Then
                         MsgBox("NIK hanya boleh berupa angka. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
                     'Cek Paket
                     If CheckSQL("SELECT * FROM MasterLabPaket WHERE PaketID = '" & Trow("NoPaket").ToString.Trim & "' AND PaketEnd > GETDATE()") = False Then
                         MsgBox("No. Paket Tidak Terdaftar di Sistem. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
@@ -183,7 +184,7 @@ Public Class UploadPasienMCU
                         Trow("AmbilSendiri") = False
                     Else
                         MsgBox("Pilihan Ambil Sendiri hanya Ya/Tidak. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
@@ -191,7 +192,7 @@ Public Class UploadPasienMCU
                     If Trow("Email").ToString.Trim <> "" And Trow("Email").ToString.Trim <> "-" Then
                         If validateEmail(Trow("Email").ToString) = False Then
                             MsgBox("Perhatikan penulisan email dengan benar (Atas nama : " & Trow("Nama") & ").", MsgBoxStyle.Exclamation, "Warning!")
-                            saved = 0
+                            statusValidasi = False
                             Exit For
                         End If
                     End If
@@ -199,7 +200,7 @@ Public Class UploadPasienMCU
                     'Cek No Whatsapp
                     If Trow("Whatsapp").ToString.Trim <> "" And Trow("Whatsapp").ToString.Trim <> "-" Then
                         If validateNoWhatsapp(Trow("Whatsapp").ToString) = False Then
-                            saved = 0
+                            statusValidasi = False
                             Exit For
                         End If
                     End If
@@ -238,58 +239,59 @@ Public Class UploadPasienMCU
                         End If
                     Else
                         MsgBox("Cek Kode Company. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
                     'Softcopy pilih salah satu
                     If Trow("Email").ToString.Trim <> "" And Trow("Email").ToString.Trim <> "-" And Trow("Whatsapp").ToString.Trim <> "" And Trow("Whatsapp").ToString.Trim <> "-" Then
                         MsgBox("Email & Whatsapp harus dipilih salah satu, tidak bisa keduanya. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
                     'Hardcopy pilih salah satu
                     If Trow("AmbilSendiri") <> False And Trow("Kirim").ToString.Trim <> "" And Trow("Kirim").ToString.Trim <> "-" Then
                         MsgBox("Kirim & Ambil Sendiri harus dipilih salah satu, tidak bisa keduanya. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
                     'Harus pilih
                     If Trow("Email").ToString.Trim = "-" And Trow("Whatsapp").ToString.Trim = "-" And Trow("Kirim").ToString.Trim = "-" And Trow("AmbilSendiri") = False Then
                         MsgBox("Harus memilih antara Whatsapp/Email & Kirim/Ambil Sendiri. (Atas nama : " & Trow("Nama") & ")", MsgBoxStyle.Exclamation, "Warning!")
-                        saved = 0
+                        statusValidasi = False
                         Exit For
                     End If
 
-                    Dim procent As Integer = persen * 100 / Tbls.Rows.Count
+                    Dim procent As Integer = persen * 100 / tblUpload.Rows.Count
                     ProgressBar1.Value = procent
                 Next
-                If saved <> 0 Then
-                    If DoubleCheck(Tbls) = False Then saved = 0
+
+                If statusValidasi = True Then
+                    If DoubleCheck(tblUpload) = False Then statusValidasi = False
                 End If
             Else
                 MsgBox("Tidak ada data yang di Upload.", MsgBoxStyle.Exclamation, "Warning!")
-                saved = 0
+                statusValidasi = False
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
             Exit Sub
         End Try
 
-        If saved = 0 Then
-            butsavemultiple.Enabled = False
+        If statusValidasi = False Then
+            ButtonSimpanData.Enabled = False
             MsgBox("Data Gagal Upload.", MsgBoxStyle.Critical, "Failed")
         Else
-            butsavemultiple.Enabled = True
-            MsgBox(Tbls.Rows.Count & " data berhasil disimpan, klik tombol save multiple untuk melanjutkan.", MsgBoxStyle.Information, "Success!")
+            ButtonSimpanData.Enabled = True
+            MsgBox(tblUpload.Rows.Count & " data berhasil divalidasi. Klik tombol simpan data untuk melanjutkan.", MsgBoxStyle.Information, "Validasi Berhasil!")
         End If
 
         ProgressBar1.Visible = False
     End Sub
 
-    Private Sub butnormallab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butnormallab.Click
+    Private Sub ButtonDownloadFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDownloadFile.Click
         Try
             Dim saveFileDialog1 As New SaveFileDialog
             saveFileDialog1.Filter = "Excel File|*.xlsx"
@@ -314,48 +316,46 @@ Public Class UploadPasienMCU
         End Try
     End Sub
 
-    Private Sub butsavemultiple_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butsavemultiple.Click
+    Private Sub ButtonSimpanData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSimpanData.Click
         thread = New System.Threading.Thread(AddressOf SaveMultiple)
         thread.Start()
     End Sub
 
     Private Sub SaveMultiple()
-        butsavemultiple.Enabled = False
-        buttambahpasien.Enabled = False
+        Dim tblPasien As DataTable = GridControlDataPasien.DataSource
+        tblPasien.AcceptChanges()
+
+        ButtonSimpanData.Enabled = False
+        ButtonUploadFile.Enabled = False
 
         Dim procent As Integer = 0
         Dim persen As Integer = 0
-        Dim status_urine As String = Utility.GetConfig("MesinUrine")
-        Dim KodeBarcode As String = ReadSQLNIK("select StrValue from MsConfig where ConfigName='KodeBarcode'")
 
-        If MsgBox("Yakin proses lanjut ?", MsgBoxStyle.YesNo, "Verifikasi Akhir") = MsgBoxResult.Yes Then
+        If MsgBox(tblPasien.Rows.Count & " data pasien akan diproses. Yakin lanjut?", MsgBoxStyle.YesNo, "Verifikasi Akhir") = MsgBoxResult.Yes Then
             ProgressBar1.Visible = True
 
             Dim company As String = ""
             Dim updatePasien As Boolean = False
-            Dim Ttemp As DataTable = gridpasien.DataSource
-            Ttemp.AcceptChanges()
-
             Dim NomorRekamMedis As String = ""
 
-            For Each Tdata As DataRow In Ttemp.Rows
+            For Each Tdata As DataRow In tblPasien.Rows
                 persen = persen + 1
-                procent = persen * 100 / Ttemp.Rows.Count
+                procent = persen * 100 / tblPasien.Rows.Count
                 ProgressBar1.Value = procent
 
-                'Dim butcustid As String = ""
                 updatePasien = False
-                Dim Tcheck As String = CekPasienAktif(Tdata)
-                If Tcheck = 1 Then
+                Dim statusPasienAktif As Boolean = CekPasienAktif(Tdata)
+
+                If statusPasienAktif = False Then ' Pasien belum ada di Database
                     NomorRekamMedis = generateNomorRekamMedis()
 
                     WriteSQL("INSERT INTO MasterPasien (noRekamMedis, NoNIK, NoNIP, Nama, TglLahir, JenisKelamin, DomisiliAlamat, FromUpload, CreatedBy, CreatedDate) " & _
                              "VALUES('" & NomorRekamMedis & "', '" & Tdata("PTNIK") & "', '" & Tdata("NIP") & "', '" & Tdata("Nama") & "', '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "','" & Tdata("Sex") & "', '" & Tdata("Alamat") & "', " & Convert.ToInt32(True) & ", '" & userUploadMCU & "', GETDATE())", 4)
-                ElseIf Tcheck = 2 Then
+                ElseIf statusPasienAktif = True Then ' Pasien sudah ada di Database
                     NomorRekamMedis = ReadSQLNIK("SELECT noRekamMedis FROM MasterPasien WHERE Nama = '" & Tdata("Nama") & "' AND TglLahir = '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Tdata("PTNIK") & "'")
 
                     ' Update alamat di MasterPasien
-                    WriteSQL("UPDATE MasterPasien SET DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+                    WriteSQL("UPDATE MasterPasien SET DomisiliAlamat = '" & Tdata("Alamat") & "', NoNIP = '" & Tdata("NIP") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
 
                     updatePasien = True
                 End If
@@ -398,14 +398,16 @@ Public Class UploadPasienMCU
                     StatusSoftcopy = 1
                 End If
 
+                ' Insert Tabel TransaksiLab
                 WriteSQL("INSERT INTO TransaksiLab (IDInternet, DokterRequest, DokterLab, TglLab, ClosedBayar,TotalTagihan,TotalDisc,Pembulatan,NettBayar,LabJenisPembayaran,ClosedTransaksi,CreateDate,CreateBy,LabJenisPasien,NoUrut,Status,LabDaftar,IDPaket,CaraAmbil, StatusSoftcopy, StatusHardcopy, SendingWhatsapp, SendingEmail) " & _
                          "VALUES('" & NomorRekamMedis & "','','','" & Format(Tdata("TglTrans"), "MM/dd/yyyy") & "',GETDATE(),0,0,0,0,'',1,GETDATE(),'" & userUploadMCU & "','','" & nomorUrutTransaksi & "','SAMPLE',getdate(),'" & Tdata("NoPaket") & "', '" & CaraAmbil & "'," & StatusSoftcopy & "," & StatusHardcopy & ", '" & Tdata("Whatsapp").ToString & "', '" & Tdata("Email").ToString & "')", 4)
 
-                ' Set ID Poli
+                ' Set ID Transaksi
                 Dim idTransaksi As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE IDInternet = '" & NomorRekamMedis & "' AND NoUrut = '" & nomorUrutTransaksi & "'")
 
-                Dim Tbls As DataTable = ReadSQL("SELECT * FROM MasterLabPaket a LEFT JOIN MasterLabPaketDetail b on a.PaketID=b.PaketID  where a.PaketID='" & Tdata("NoPaket") & "'")
-                Tbls.AcceptChanges()
+                ' Set Tabel Master Paket
+                Dim tblPaket As DataTable = ReadSQL("SELECT * FROM MasterLabPaket a LEFT JOIN MasterLabPaketDetail b on a.PaketID = b.PaketID  where a.PaketID = '" & Tdata("NoPaket") & "'")
+                tblPaket.AcceptChanges()
 
                 Dim ttlbruto As Double = 0
                 Dim ttldisc As Double = 0
@@ -414,11 +416,14 @@ Public Class UploadPasienMCU
                 Dim DetailPemeriksaan As String = ""
                 Dim TtempDetailPemeriksaan As String = ""
 
-                For Each Trow As DataRow In Tbls.Rows
+                For Each Trow As DataRow In tblPaket.Rows
                     TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & Trow("NamaTindakan").ToString.Trim & ", "
                     Dim Disc As Double = CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett"))
+
+                    ' Insert Tabel TransaksiLabDetail
                     WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan) " & _
                              "VALUES('" & idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("NamaTindakan") & "','" & Trow("JenisTindakan") & "'," & CDbl(Trow("TindakanNilai")) & "," & Disc & "," & CDbl(Trow("TindakanNett")) & ",'" & userUploadMCU & "',getdate()," & CDbl(Trow("TindakanDiscount")) & ")", 4)
+
                     Dim Tnomber As String = ReadSQLNIK("select TransLabIDDetail from TransaksiLabDetail where TransLabID='" & idTransaksi & "' and TindakanID='" & Trow("TindakanID") & "' and NamaTindakan='" & Trow("NamaTindakan") & "' and JenisTindakan='" & Trow("JenisTindakan") & "'")
                     ttlbruto = ttlbruto + CDbl(Trow("TindakanNilai"))
                     ttlnett = ttlnett + CDbl(Trow("TindakanNett"))
@@ -426,66 +431,79 @@ Public Class UploadPasienMCU
 
                     Dim Tbls2 As DataTable = ReadSQL("SELECT * FROM MasterLabDetail where TindakanID='" & Trow("TindakanID") & "' and deleted=0 order by groupid,nourut")
                     For Each Trow2 As DataRow In Tbls2.Rows
+                        ' Insert Tabel TransaksiLabResult
                         WriteSQL("INSERT INTO TransaksiLabResult(TransLabIDDetail,TindakanID,GroupID,NoUrut,DetailKet,Pria,Wanita,Result,Keterangan,Satuan) " & _
                                  " values('" & Tnomber & "','" & Trow("TindakanID") & "','" & Trow2("GroupID") & "','" & Trow2("NoUrut") & "','" & Trow2("DetailKet") & "','" & Trow2("Pria") & "','" & Trow2("Wanita") & "','','" & Trow2("KeteranganHasil") & "','" & Trow2("DisplayHasil") & "') ", 4)
                     Next
                 Next
 
-                'set nama tindakan
+                ' Set Detail Pemeriksaan
                 DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
 
-                'set no urutan
-                Dim Trtemp As DataTable = ReadSQL("SELECT * FROM TransaksiLabDetail where TransLabID='" & idTransaksi & "'")
-                For Each Trow As DataRow In Trtemp.Rows
-                    Dim Turutan As String = ReadSQLNIK("select Urutan from MasterLab where TindakanID='" & Trow("TindakanID") & "' and NamaTindakan='" & Trow("NamaTindakan") & "'")
-                    WriteSQL("update TransaksiLabDetail set Urutan='" & Turutan & "' where TransLabID='" & Trow("TransLabID") & "' and TindakanID='" & Trow("TindakanID") & "' and NamaTindakan='" & Trow("NamaTindakan") & "'", 4)
-                Next
+                ' Update Nomor Urut dan Mesin di Tabel UpdateTransLabDetail
+                UpdateTransLabDetail(idTransaksi)
 
-                'set mesin atau normal
-                Dim TSetmesin As DataTable = ReadSQL("SELECT a.TindakanID FROM TransaksiLabDetail a " & _
-                                                     "LEFT JOIN TransaksiLab b ON a.TransLabID = b.TransLabID " & _
-                                                     "WHERE b.TransLabID = '" & idTransaksi & "'")
-                For Each Rrow As DataRow In TSetmesin.Rows
-                    If CheckSQL("SELECT * FROM MasterLab where TindakanID='" & Rrow("TindakanID") & "' and Mesin='TMS'") = True Then
-                        WriteSQL("Update TransaksiLabDetail set Mesin='TMS' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                    ElseIf CheckSQL("SELECT * FROM MasterLab where TindakanID='" & Rrow("TindakanID") & "' and Mesin='SYSMEX'") = True Then
-                        WriteSQL("Update TransaksiLabDetail set Mesin='SYSMEX' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                    ElseIf CheckSQL("SELECT * FROM masterlab where TindakanID='" & Rrow("TindakanID") & "' and Mesin='CL900'") = True Then
-                        WriteSQL("Update transaksilabdetail set Mesin='CL900' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                    ElseIf CheckSQL("SELECT * FROM masterlab where TindakanID='" & Rrow("TindakanID") & "' and Mesin='C0BAS6600'") = True Then
-                        WriteSQL("Update transaksilabdetail set Mesin='C0BAS6600' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                    ElseIf CheckSQL("SELECT * FROM masterlab where TindakanID='" & Rrow("TindakanID") & "' and Mesin='URINE'") = True Then
-                        If status_urine = "Yes" Then
-                            WriteSQL("Update transaksilabdetail set Mesin='URINE' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                        End If
-                    Else
-                        WriteSQL("Update TransaksiLabDetail set Mesin='' where TransLabID='" & idTransaksi & "' and TindakanID='" & Rrow("TindakanID") & "'", 4)
-                    End If
-                Next
+                ' Insert Tabel TransaksiDetail
+                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
+                         "VALUES(NULL, '" & idTransaksi & "', 'Kunjungan Sakit', 'Rawat Jalan', 'LAB', 'LABORATORIUM', GETDATE(), '-', '-', '" & NomorRekamMedis & "'," & Convert.ToInt32(False) & ", '" & nomorUrutTransaksi & "', " & Convert.ToInt32(False) & ", " & _
+                         "" & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", '" & userUploadMCU & "', GETDATE())", 4)
 
-                'INSERT INTO detail pembayaran dan Ttl di transaksilab
+                ' Insert Tabel TransaksiLabBayar
                 WriteSQL("INSERT INTO TransaksiLabBayar (TransLabID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu) values('" & idTransaksi & "','TAGIHAN','" & company & "-" & Tdata("Company").ToString.Trim & "'," & ttlnett & ",'" & userUploadMCU & "',getdate(),'','')", 4)
-                WriteSQL("update Transaksilab set DetailPemeriksaan='" & DetailPemeriksaan & "', TotalTagihan=" & ttlbruto & " , TotalDisc=" & ttldisc & " ,  NettBayar=" & ttlnett & " , TotalBayar=" & ttlnett & "  where TransLabID='" & idTransaksi & "'", 4)
+
+                ' Update DetailPemeriksaan di Tabel Transaksilab
+                WriteSQL("UPDATE Transaksilab SET DetailPemeriksaan = '" & DetailPemeriksaan & "', TotalTagihan = " & ttlbruto & " , TotalDisc=" & ttldisc & " ,  NettBayar = " & ttlnett & ", TotalBayar = " & ttlnett & " WHERE TransLabID = '" & idTransaksi & "'", 4)
             Next
 
-            MsgBox("Data berhasil disimpan.", MsgBoxStyle.Information, "Success!")
+            MsgBox(tblPasien.Rows.Count & "data berhasil diupload ke sistem.", MsgBoxStyle.Information, "Success!")
         Else
             MsgBox("Canceled.", MsgBoxStyle.Exclamation, "Warning!")
         End If
 
-        buttambahpasien.Enabled = True
+        ButtonUploadFile.Enabled = True
         ProgressBar1.Visible = False
     End Sub
 
-    Function CekPasienAktif(ByVal Tdata As DataRow) As String
+    Private Sub UpdateTransLabDetail(ByVal idTransaksi As String)
+        Try
+            ' ================================================================
+            ' 1) Update kolom Urutan dari MasterLab (tanpa loop)
+            ' ================================================================
+            Dim sqlUpdateUrutan As String = _
+                "UPDATE d " & _
+                "SET d.Urutan = m.Urutan " & _
+                "FROM TransaksiLabDetail d " & _
+                "INNER JOIN MasterLab m " & _
+                "    ON d.TindakanID = m.TindakanID " & _
+                "    AND d.NamaTindakan = m.NamaTindakan " & _
+                "WHERE d.TransLabID = '" & idTransaksi & "'"
 
+            WriteSQL(sqlUpdateUrutan, 4)
 
+            ' ================================================================
+            ' 2) Update Mesin (ambil dari MasterLab)
+            ' ================================================================
+            Dim sqlUpdateMesin As String = _
+                "UPDATE d " & _
+                "SET d.Mesin = ISNULL(m.Mesin, '') " & _
+                "FROM TransaksiLabDetail d " & _
+                "LEFT JOIN MasterLab m " & _
+                "    ON d.TindakanID = m.TindakanID " & _
+                "WHERE d.TransLabID = '" & idTransaksi & "'"
 
+            WriteSQL(sqlUpdateMesin, 4)
 
+        Catch ex As Exception
+            ' Ganti sesuai mekanisme logging/handling aplikasi Anda
+            MsgBox("Error UpdateTransLabDetail: " & ex.Message)
+        End Try
+    End Sub
+
+    Function CekPasienAktif(ByVal Tdata As DataRow) As Boolean
         If CheckSQL("SELECT * FROM MasterPasien WHERE Nama = '" & Tdata("Nama") & "' AND TglLahir = '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Tdata("PTNIK") & "'") = True Then
-            Return 2
+            Return True
         Else
-            Return 1
+            Return False
         End If
 
         Return False
