@@ -315,43 +315,6 @@ Public Class LabAdminOnline
         End If
     End Sub
 
-    'Private Sub EnableUSG()
-    '    '=== Aktifkan kontrol form ===
-    '    txusg.Enabled = True
-    '    butsaveusg.Enabled = True
-    '    butprintusg.Enabled = True
-
-    '    '=== Ambil base URL API dari konfigurasi ===
-    '    Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '    If String.IsNullOrEmpty(baseURL) Then
-    '        MsgBox("Konfigurasi API belum diset (ws_RM).", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-    '    If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '    '=== Susun endpoint API ===
-    '    Dim apiUrl As String = baseURL & "api/usg?nourut=" & TextBoxNoTransaksi.Text & "&cabang=" & kodeLokasi
-
-    '    '=== Ambil data JSON dari API ===
-    '    Dim jsonResponse As String = GetDataAPI(apiUrl)
-    '    If String.IsNullOrEmpty(jsonResponse) Then
-    '        MsgBox("Tidak ada respon dari API USG.", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-
-    '    '=== Convert JSON ke DataTable ===
-    '    Dim Tbls As DataTable = JsonToDataTable(jsonResponse)
-    '    If Tbls Is Nothing OrElse Tbls.Rows.Count = 0 Then
-    '        Exit Sub
-    '    End If
-
-    '    '=== Isi hasil ke form ===
-    '    Dim Trow As DataRow = Tbls.Rows(0)
-    '    If Not IsDBNull(Trow("usg")) Then
-    '        txusg.Text = Trow("usg").ToString()
-    '    End If
-    'End Sub
-
     Private Sub EnableAudio()
         txaudiometri.Enabled = True
         butsaveaudio.Enabled = True
@@ -365,67 +328,6 @@ Public Class LabAdminOnline
             If IsDBNull(Trow("AudioBy")) = False Then txaudioby.Text = Trow("AudioBy")
         End If
     End Sub
-
-    'Private Sub EnableAudio()
-    '    ' Aktifkan kontrol
-    '    txaudiometri.Enabled = True
-    '    butsaveaudio.Enabled = True
-    '    butprintaudio.Enabled = True
-
-    '    Try
-    '        '=== Ambil base URL dari konfigurasi ===
-    '        Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '        If String.IsNullOrEmpty(baseURL) Then
-    '            MsgBox("Konfigurasi API belum diset (ws_RM).", MsgBoxStyle.Exclamation)
-    '            Exit Sub
-    '        End If
-    '        If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '        '=== Susun URL API ===
-    '        Dim apiUrl As String = baseURL & "api/audio?nourut=" & TextBoxNoTransaksi.Text & "&cabang=" & kodeLokasi
-
-    '        '=== Ambil data JSON dari API ===
-    '        Dim jsonResponse As String = GetDataAPI(apiUrl)
-    '        If String.IsNullOrEmpty(jsonResponse) Then
-    '            MsgBox("Tidak ada respon dari API Audio.", MsgBoxStyle.Exclamation)
-    '            Exit Sub
-    '        End If
-
-    '        '=== Parse JSON menggunakan Newtonsoft.Json ===
-    '        Dim jsonObj As JObject = JObject.Parse(jsonResponse)
-
-    '        ' Cek status
-    '        If jsonObj("status").ToString().ToLower() <> "true" Then
-    '            MsgBox("Data audiometri tidak ditemukan di API.", MsgBoxStyle.Information)
-    '            Exit Sub
-    '        End If
-
-    '        ' Ambil data array
-    '        Dim dataArray As JArray = JArray.Parse(jsonObj("data").ToString())
-    '        If dataArray.Count = 0 Then
-    '            MsgBox("Data audiometri kosong.", MsgBoxStyle.Information)
-    '            Exit Sub
-    '        End If
-
-    '        ' Konversi ke DataTable
-    '        Dim Tbls As DataTable = JsonToDataTable(dataArray.ToString())
-    '        If Tbls Is Nothing OrElse Tbls.Rows.Count = 0 Then
-    '            MsgBox("Gagal mengubah data audiometri ke DataTable.", MsgBoxStyle.Critical)
-    '            Exit Sub
-    '        End If
-
-    '        '=== Isi ke kontrol ===
-    '        Dim Trow As DataRow = Tbls.Rows(0)
-    '        If Not IsDBNull(Trow("Audio")) Then txaudiometri.Text = Trow("Audio").ToString()
-    '        If Not IsDBNull(Trow("AudioDate")) AndAlso Trow("AudioDate").ToString() <> "" Then
-    '            dtaudio.Value = CDate(Trow("AudioDate"))
-    '        End If
-    '        If Not IsDBNull(Trow("AudioBy")) Then txaudioby.Text = Trow("AudioBy").ToString()
-
-    '    Catch ex As Exception
-    '        MsgBox("Terjadi kesalahan: " & ex.Message, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
 
     Private Sub EnableFisikNew2()
         PanelDetailPemeriksaanFisik.Enabled = True
@@ -914,80 +816,42 @@ GoBackthis:
         Next
     End Sub
 
-    'Private Sub SetUrutan()
-    '    Try
-    '        ' Ambil base URL dari konfigurasi
-    '        Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '        If String.IsNullOrEmpty(baseURL) Then
-    '            MsgBox("Konfigurasi API belum diset (ws_RM).", MsgBoxStyle.Exclamation)
-    '            Exit Sub
-    '        End If
-    '        If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '        ' Susun endpoint API
-    '        Dim apiUrl As String = baseURL & "api/set-urutan"
-
-    '        ' Siapkan body JSON
-    '        Dim jsonBody As String = "{""trans_lab_id"": """ & idTransaksi & """}"
-
-    '        ' Kirim POST ke API
-    '        Dim jsonResponse As String = InsertDataAPIRM(apiUrl, jsonBody)
-
-    '        ' Cek hasil response
-    '        If String.IsNullOrEmpty(jsonResponse) Then
-    '            MsgBox("Tidak ada respon dari API.", MsgBoxStyle.Exclamation)
-    '            Exit Sub
-    '        End If
-
-    '        ' Tampilkan hasil
-    '        Dim dt As DataTable = JsonToDataTable(jsonResponse)
-    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '            Dim status As Boolean = CBool(dt.Rows(0)("status"))
-    '            Dim message As String = dt.Rows(0)("message").ToString()
-
-    '            If status Then
-    '                MsgBox("Urutan berhasil diperbarui: " & message, MsgBoxStyle.Information)
-    '            Else
-    '                MsgBox("Gagal memperbarui urutan: " & message, MsgBoxStyle.Exclamation)
-    '            End If
-    '        Else
-    '            MsgBox("Format response tidak dikenali.", MsgBoxStyle.Exclamation)
-    '        End If
-
-    '    Catch ex As Exception
-    '        MsgBox("Terjadi kesalahan saat memperbarui urutan: " & ex.Message, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
-
     Public Sub SetClearGrid()
-        'SetUrutan()
+        ' Set query string detail tindakan lab
+        Dim queryString As New StringBuilder()
+        queryString.AppendLine("SELECT a.TransLabID, a.TransLabIDDetail, a.TindakanID, a.NamaTindakan, a.JenisTindakan,")
+        queryString.AppendLine("       b.NoUrut, b.GroupID, b.DetailKet, b.Result, b.Flag, b.Satuan, b.Pria, b.Wanita,")
+        queryString.AppendLine("       b.Keterangan, m.UrutanJenisID, a.Urutan, b.Saran AS 'Saran'")
+        queryString.AppendLine("FROM transaksilabdetail a")
+        queryString.AppendLine("     LEFT JOIN transaksilabresult b")
+        queryString.AppendLine("         ON a.TransLabIDDetail = b.TransLabIDDetail")
+        queryString.AppendLine("         AND a.TindakanID = b.TindakanID")
+        queryString.AppendLine("         AND a.idlabinternet = b.idlabinternet")
+        queryString.AppendLine("     LEFT JOIN masterjenistindakan m")
+        queryString.AppendLine("         ON m.JenisTindakan = a.JenisTindakan")
+        queryString.AppendLine("WHERE a.idlabinternet = '" & idTransaksi & "' AND a.idlabinternet <> 0")
+        queryString.AppendLine("ORDER BY m.UrutanJenisID, a.Urutan, b.TindakanID, b.NoUrut,")
+        queryString.AppendLine("         a.TransLabIDDetail, a.TindakanID, b.GroupID, b.DetailKet")
 
-        'Dim Tlab As DataTable = ReadThemysql(" SELECT b.translabid As TransLabID, a.translabiddetail as TransLabIDDetail, a.tindakanid as TindakanID, a.groupid as NamaTindakan, c.jenistindakan as JenisTindakan, a.nourut as NoUrut, a.groupid as GroupID, a.detailket as DetailKet, a.result as Result, a.satuan as Satuan, a.pria as Pria, a.wanita as Wanita, a.keterangan as Keterangan, a.urutan as Urutan " & _
-        '"from transaksilab b, transaksilabresult a, masterjenistindakan c " & _
-        '"where a.idlabinternet = b.idlabinternet and a.urutan = c.urutanjenisid and b.translabid='" & idTransaksi & "'", DB_Poliklinik)
-        'insertRowToTbls(Tlab, "typchecked", "Checked")
+        ' Set tabel detail tindakan lab
+        Dim tblDetailTindakan As DataTable = ReadThemysql(queryString.ToString(), DB_Poliklinik)
 
-        Dim Tlab As DataTable = ReadThemysql(" select a.TransLabID,a.TransLabIDDetail,a.TindakanID,a.NamaTindakan,a.JenisTindakan,b.NoUrut,b.GroupID,b.DetailKet,b.Result,b.Satuan,b.Pria,b.Wanita,b.Keterangan,m.UrutanJenisID,a.Urutan, b.saran as 'Saran' " & _
-                                        " from transaksilabdetail a left join transaksilabresult b on a.TransLabIDDetail =b.TransLabIDDetail and a.TindakanID=b.TindakanID and a.idlabinternet=b.idlabinternet left join masterjenistindakan m on m.JenisTindakan=a.JenisTindakan where a.idlabinternet='" & idTransaksi & "' AND a.idlabinternet<>0" & _
-                                        " order by  m.UrutanJenisID,a.Urutan,b.TindakanID,b.NoUrut,a.TransLabIDDetail,a.TindakanID,b.GroupID,b.DetailKet ", DB_Poliklinik)
-        'insertRowToTbls(Tlab, "typchecked", "Checked")
-        For Each Tcol As DataColumn In Tlab.Columns
+        For Each Tcol As DataColumn In tblDetailTindakan.Columns
             Tcol.ReadOnly = True
         Next
 
-        'Tlab.Columns("Checked").ReadOnly = False
-        Tlab.Columns("Pria").ReadOnly = False
-        Tlab.Columns("Wanita").ReadOnly = False
+        tblDetailTindakan.Columns("Pria").ReadOnly = False
+        tblDetailTindakan.Columns("Wanita").ReadOnly = False
+        tblDetailTindakan.Columns("Result").ReadOnly = False
+        tblDetailTindakan.Columns("Saran").ReadOnly = False
+        tblDetailTindakan.Columns("Flag").ReadOnly = False
+        tblDetailTindakan.Columns("Satuan").ReadOnly = False
+        tblDetailTindakan.Columns("Keterangan").ReadOnly = False
 
-        Tlab.Columns("Result").ReadOnly = False
-        Tlab.Columns("Saran").ReadOnly = False
-        Tlab.Columns("Satuan").ReadOnly = False
-        Tlab.Columns("Keterangan").ReadOnly = False
-
-        'TEMPAT UNTUK PEMISAHAN DATA YANG CETAK SENDIRI DENGAN CETAKAN LAINNYA
+        ' TEMPAT UNTUK PEMISAHAN DATA YANG CETAK SENDIRI DENGAN CETAKAN LAINNYA
         ClearTextDetailSelainLab()
 
-        For Each Trow As DataRow In Tlab.Rows
+        For Each Trow As DataRow In tblDetailTindakan.Rows
             If Strings.LCase(Trow("NamaTindakan").ToString).Contains("thorax") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("ecg") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("audiometri") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("fisik") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("usg") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("treadmill") = True Or Strings.LCase(Trow("NamaTindakan").ToString).Contains("spirometri") = True Then
 
                 If Strings.LCase(Trow("NamaTindakan").ToString).Contains("thorax") Then
@@ -1016,122 +880,30 @@ GoBackthis:
             End If
         Next
 
-        gridlab.DataSource = Tlab
-        GridView2.Columns("TransLabIDDetail").Visible = False
-        GridView2.Columns("TindakanID").Visible = False
-        GridView2.Columns("TransLabID").Visible = False
-        GridView2.Columns("Urutan").Visible = False
+        gridlab.DataSource = tblDetailTindakan
+        GridViewTindakanLab.Columns("NoUrut").Visible = False
+        GridViewTindakanLab.Columns("GroupID").Visible = False
+        GridViewTindakanLab.Columns("TransLabIDDetail").Visible = False
+        GridViewTindakanLab.Columns("TindakanID").Visible = False
+        GridViewTindakanLab.Columns("TransLabID").Visible = False
+        GridViewTindakanLab.Columns("Urutan").Visible = False
+        GridViewTindakanLab.Columns("UrutanJenisID").Visible = False
 
         If TextBoxJenisKelamin.Text = "L" Then
-            GridView2.Columns("Pria").Visible = True
-            GridView2.Columns("Wanita").Visible = False
+            GridViewTindakanLab.Columns("Pria").Visible = True
+            GridViewTindakanLab.Columns("Wanita").Visible = False
         ElseIf TextBoxJenisKelamin.Text = "P" Then
-            GridView2.Columns("Pria").Visible = False
-            GridView2.Columns("Wanita").Visible = True
+            GridViewTindakanLab.Columns("Pria").Visible = False
+            GridViewTindakanLab.Columns("Wanita").Visible = True
         End If
 
-        GridView2.SortInfo.ClearAndAddRange(New GridColumnSortInfo() _
-                                            {New GridColumnSortInfo(GridView2.Columns("JenisTindakan"), DevExpress.Data.ColumnSortOrder.Ascending) _
-                                             }, 1)
+        GridViewTindakanLab.SortInfo.ClearAndAddRange(New GridColumnSortInfo() _
+                                                     {New GridColumnSortInfo(GridViewTindakanLab.Columns("JenisTindakan"), DevExpress.Data.ColumnSortOrder.Ascending) _
+                                                     }, 1)
 
-        GridView2.ExpandAllGroups()
+        GridViewTindakanLab.ExpandAllGroups()
         TextBoxNoTransaksi.Focus()
     End Sub
-
-    'Public Sub SetClearGrid()
-    '    '=== Reset tampilan grid sebelum isi data baru ===
-    '    gridlab.DataSource = Nothing
-    '    GridView2.Columns.Clear()
-    '    GridView2.RefreshData()
-
-    '    '=== Ambil base URL API dari konfigurasi ===
-    '    Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '    If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '    '=== Susun endpoint API ===
-    '    Dim apiUrl As String = baseURL & "api/detail-tindakan?idlabinternet=" & idTransaksi
-
-    '    '=== Ambil data JSON dari API ===
-    '    Dim jsonResponse As String = GetDataAPI(apiUrl)
-    '    If String.IsNullOrEmpty(jsonResponse) Then
-    '        MsgBox("Tidak ada respon dari API detail tindakan.", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-
-    '    '=== Convert JSON ke DataTable ===
-    '    Dim Tlab As DataTable = JsonToDataTable(jsonResponse)
-    '    If Tlab Is Nothing OrElse Tlab.Rows.Count = 0 Then
-    '        Exit Sub
-    '    End If
-
-    '    '=== Set semua kolom jadi ReadOnly ===
-    '    For Each Tcol As DataColumn In Tlab.Columns
-    '        Tcol.ReadOnly = True
-    '    Next
-
-    '    '=== Kolom yang bisa diedit ===
-    '    If Tlab.Columns.Contains("Pria") Then Tlab.Columns("Pria").ReadOnly = False
-    '    If Tlab.Columns.Contains("Wanita") Then Tlab.Columns("Wanita").ReadOnly = False
-    '    If Tlab.Columns.Contains("Result") Then Tlab.Columns("Result").ReadOnly = False
-    '    If Tlab.Columns.Contains("Saran") Then Tlab.Columns("Saran").ReadOnly = False
-    '    If Tlab.Columns.Contains("Satuan") Then Tlab.Columns("Satuan").ReadOnly = False
-    '    If Tlab.Columns.Contains("Keterangan") Then Tlab.Columns("Keterangan").ReadOnly = False
-
-    '    '=== TEMPAT UNTUK PEMISAHAN DATA YANG CETAK SENDIRI ===
-    '    ClearTextDetailSelainLab()
-
-    '    '=== Penyesuaian otomatis untuk hasil terlampir ===
-    '    For Each Trow As DataRow In Tlab.Rows
-    '        Dim namaTindakan As String = Strings.LCase(Trow("NamaTindakan").ToString)
-
-    '        If namaTindakan.Contains("thorax") OrElse namaTindakan.Contains("ecg") OrElse namaTindakan.Contains("audiometri") OrElse namaTindakan.Contains("fisik") OrElse namaTindakan.Contains("usg") OrElse namaTindakan.Contains("treadmill") OrElse namaTindakan.Contains("spirometri") Then
-    '            If namaTindakan.Contains("thorax") Then
-    '                EnableThorax()
-    '            ElseIf namaTindakan.Contains("ecg") Then
-    '                EnableECG()
-    '            ElseIf namaTindakan.Contains("audiometri") Then
-    '                EnableAudio()
-    '            ElseIf namaTindakan.Contains("fisik") Then
-    '                EnableFisikNew2()
-    '            ElseIf namaTindakan.Contains("usg") Then
-    '                EnableUSG()
-    '            ElseIf namaTindakan.Contains("treadmill") Then
-    '                EnableTreadmill()
-    '            ElseIf namaTindakan.Contains("spirometri") Then
-    '                EnableSipro()
-    '            End If
-
-    '            If IsDBNull(Trow("Result")) OrElse String.IsNullOrEmpty(Trow("Result").ToString) Then
-    '                Trow("Result") = "Hasil Terlampir"
-    '            End If
-    '        End If
-    '    Next
-
-    '    '=== Tampilkan hasil ke grid ===
-    '    gridlab.DataSource = Tlab
-
-    '    '=== Sembunyikan kolom internal ===
-    '    If GridView2.Columns.Contains(GridView2.Columns("TransLabIDDetail")) Then GridView2.Columns("TransLabIDDetail").Visible = False
-    '    If GridView2.Columns.Contains(GridView2.Columns("TindakanID")) Then GridView2.Columns("TindakanID").Visible = False
-    '    If GridView2.Columns.Contains(GridView2.Columns("TransLabID")) Then GridView2.Columns("TransLabID").Visible = False
-    '    If GridView2.Columns.Contains(GridView2.Columns("Urutan")) Then GridView2.Columns("Urutan").Visible = False
-
-    '    '=== Tampilkan kolom gender sesuai jenis kelamin ===
-    '    If TextBoxJenisKelamin.Text = "L" Then
-    '        If GridView2.Columns.Contains(GridView2.Columns("Pria")) Then GridView2.Columns("Pria").Visible = True
-    '        If GridView2.Columns.Contains(GridView2.Columns("Wanita")) Then GridView2.Columns("Wanita").Visible = False
-    '    ElseIf TextBoxJenisKelamin.Text = "P" Then
-    '        If GridView2.Columns.Contains(GridView2.Columns("Pria")) Then GridView2.Columns("Pria").Visible = False
-    '        If GridView2.Columns.Contains(GridView2.Columns("Wanita")) Then GridView2.Columns("Wanita").Visible = True
-    '    End If
-
-    '    '=== Sort dan expand group seperti sebelumnya ===
-    '    GridView2.SortInfo.ClearAndAddRange(New GridColumnSortInfo() _
-    '                                        {New GridColumnSortInfo(GridView2.Columns("JenisTindakan"), DevExpress.Data.ColumnSortOrder.Ascending) _
-    '                                              }, 1)
-    '    GridView2.ExpandAllGroups()
-    '    TextBoxNoTransaksi.Focus()
-    'End Sub
 
     Public Sub LoadAdminLab(ByRef TxID As String, ByRef Txnourut As String)
         Dim Tbls As DataTable = ReadThemysql("SELECT a.tglinputhasil, a.caraambil, b.alamat, a.kesimpulan, a.saran, a.idpasien, a.tgllab, a.dokterrequest, a.idtempatlab, a.idlabinternet from transaksilab a LEFT JOIN masterpasien b ON a.idpasien=b.nomitra AND a.idtempatlab=b.cabang where a.idlabinternet='" & TxID & "' and a.NoUrut='" & Txnourut & "'", DB_Poliklinik)
@@ -1236,86 +1008,6 @@ GoBackthis:
         'QR_Code_Trans.SizeMode = PictureBoxSizeMode.StretchImage
     End Sub
 
-    'Public Sub LoadAdminLab(ByRef TxID As String, ByRef Txnourut As String)
-    '    '=== Ambil base URL API dari konfigurasi ===
-    '    Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '    If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '    '=== Susun endpoint ===
-    '    Dim apiUrl As String = baseURL & "api/adminlab?idlabinternet=" & TxID & "&nourut=" & Txnourut
-
-    '    '=== Ambil data dari API ===
-    '    Dim jsonResponse As String = GetDataAPI(apiUrl)
-    '    If String.IsNullOrEmpty(jsonResponse) Then
-    '        MsgBox("Tidak ada respon dari API Admin Lab.", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-
-    '    '=== Parse JSON ke JObject (lebih aman untuk ambil nested data) ===
-    '    Dim jsonObj As JObject = JObject.Parse(jsonResponse)
-    '    Dim labData As JObject = jsonObj("lab")
-    '    Dim companyData As String = ""
-    '    If jsonObj("company") IsNot Nothing Then companyData = jsonObj("company").ToString()
-
-    '    If labData Is Nothing Then
-    '        MsgBox("Data tidak ditemukan untuk transaksi ini.", MsgBoxStyle.Information)
-    '        Exit Sub
-    '    End If
-
-    '    '=== Kosongkan header terlebih dahulu ===
-    '    SetClearHeader()
-
-    '    '=== Isi data perusahaan / penagihan ===
-    '    If companyData.Trim() = "" Then
-    '        txpenagihan.Text = "PASIEN UMUM"
-    '        txcodepenagihan.Text = "-"
-    '    Else
-    '        Dim Tsplit() As String = companyData.Split("-"c)
-    '        If Tsplit.Length >= 2 Then
-    '            txpenagihan.Text = Tsplit(0).Trim()
-    '            txcodepenagihan.Text = Tsplit(1).Trim()
-    '        Else
-    '            txpenagihan.Text = companyData.Trim()
-    '            txcodepenagihan.Text = "-"
-    '        End If
-    '    End If
-
-    '    '=== Isi data dari API ===
-    '    TextBoxNoTransaksi.Text = Txnourut
-    '    TextBoxNoTransaksi.ReadOnly = True
-    '    kodeLokasi = labData("idtempatlab").ToString()
-    '    idTransaksi = labData("idlabinternet").ToString()
-    '    butdokter.Text = labData("dokterrequest").ToString()
-    '    txalamat.Text = labData("alamat").ToString()
-    '    idTransaksi = TxID
-    '    LoadLabPasien(labData("idpasien").ToString())
-
-    '    DateTimeTanggalTransaksi.Value = CDate(labData("tgllab").ToString())
-
-    '    If labData("kesimpulan") IsNot Nothing Then txketall.Text = labData("kesimpulan").ToString() Else txketall.ResetText()
-    '    If labData("saran") IsNot Nothing Then txsaranall.Text = labData("saran").ToString() Else txsaranall.ResetText()
-    '    If labData("caraambil") IsNot Nothing Then txcaraambil.Text = labData("caraambil").ToString() Else txcaraambil.ResetText()
-
-    '    If labData("tglinputhasil") IsNot Nothing AndAlso labData("tglinputhasil").ToString() <> "" Then
-    '        chkclosed.Checked = True
-    '    Else
-    '        chkclosed.Checked = False
-    '    End If
-
-    '    '=== Aktifkan tombol menu ===
-    '    PrintSementaraToolStripMenuItem.Enabled = True
-    '    PreviewHasilLabToolStripMenuItem.Enabled = True
-    '    SendingWhatsappEmailToolStripMenuItem.Enabled = True
-    '    DownloadHasilToolStripMenuItem.Enabled = True
-    '    ResendToMesinToolStripMenuItem.Enabled = True
-    '    CetakBarcodeToolStripMenuItem.Enabled = True
-
-    '    '=== Panggil fungsi detail lab (API) ===
-    '    SetClearGrid()
-
-    '    butfindtindakanid.Enabled = False
-    'End Sub
-
     Public Sub LoadLabPasien(ByRef Txid As String)
         Dim Tbls As DataTable = ReadThemysql("select NoMitra,NoKartu,Nama,TglLahir,Sex from masterpasien where nomitra='" & Txid & "' AND cabang='" & kodeLokasi & "'", DB_Poliklinik)
         Dim Trow As DataRow = Tbls.Rows(0)
@@ -1326,99 +1018,6 @@ GoBackthis:
         TextBoxUmur.Text = Umur(DateTimeTanggalLahir.Value)
         TextBoxGelar.Text = Gelar(Year(Now()) - Year(DateTimeTanggalLahir.Value), TextBoxJenisKelamin.Text)
     End Sub
-
-    'Public Sub LoadLabPasien(ByRef Txid As String)
-    '    ' Ambil base URL dari konfigurasi
-    '    Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '    If String.IsNullOrEmpty(baseURL) Then
-    '        MsgBox("Konfigurasi API belum diset (ws_RM).", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-    '    If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '    ' Ambil kode lokasi (cabang)
-    '    'Dim kodeLokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeCabang'")
-
-    '    ' Susun URL API
-    '    Dim apiUrl As String = baseURL & "api/pasien?nomitra=" & Txid & "&cabang=" & kodeLokasi
-
-    '    ' Ambil data dari API
-    '    Dim jsonResponse As String = GetDataAPI(apiUrl)
-
-    '    If String.IsNullOrEmpty(jsonResponse) Then
-    '        MsgBox("Tidak ada respon dari API pasien.", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-    '    ' Parse JSON menggunakan Newtonsoft.Json
-    '    'Dim jsonObj As JObject = JObject.Parse(jsonResponse)
-
-    '    '' Pastikan status true
-    '    'If jsonObj("status").ToString().ToLower() <> "false" Then
-    '    '    MsgBox("Data pasien tidak ditemukan di API.", MsgBoxStyle.Information)
-    '    '    Exit Sub
-    '    'End If
-
-    '    '' Ambil array "data"
-    '    'Dim dataArray As JArray = JArray.Parse(jsonObj("data").ToString())
-    '    'If dataArray.Count = 0 Then
-    '    '    MsgBox("Data pasien kosong.", MsgBoxStyle.Information)
-    '    '    Exit Sub
-    '    'End If
-
-    '    '' Ubah JArray menjadi DataTable
-    '    'Dim Tbls As DataTable = JsonToDataTable(dataArray.ToString())
-    '    'If Tbls Is Nothing OrElse Tbls.Rows.Count = 0 Then
-    '    '    MsgBox("Gagal mengubah data pasien ke DataTable.", MsgBoxStyle.Critical)
-    '    '    Exit Sub
-    '    'End If
-
-    '    '' === Isi ke form ===
-    '    'Dim Trow As DataRow = Tbls.Rows(0)
-    '    'TextBoxNoRekamMedis.Text = Txid
-    '    'TextBoxNamaPasien.Text = Trow("Nama").ToString()
-    '    'TextBoxJenisKelamin.Text = Trow("Sex").ToString()
-
-    '    'If Not IsDBNull(Trow("TglLahir")) AndAlso Not String.IsNullOrEmpty(Trow("TglLahir").ToString()) Then
-    '    '    DateTimeTanggalLahir.Value = CDate(Trow("TglLahir"))
-    '    '    TextBoxUmur.Text = Umur(DateTimeTanggalLahir.Value)
-    '    '    TextBoxGelar.Text = Gelar(Year(Now()) - Year(DateTimeTanggalLahir.Value), TextBoxJenisKelamin.Text)
-    '    'End If
-    '    Try
-    '        Dim jsonObj As JObject = JObject.Parse(jsonResponse)
-
-    '        If jsonObj("status").ToString().ToLower() <> "true" Then
-    '            MsgBox("Data pasien tidak ditemukan di API.", MsgBoxStyle.Information)
-    '            Exit Sub
-    '        End If
-
-    '        Dim dataArray As JArray = JArray.Parse(jsonObj("data").ToString())
-    '        If dataArray.Count = 0 Then
-    '            MsgBox("Data pasien kosong.", MsgBoxStyle.Information)
-    '            Exit Sub
-    '        End If
-
-    '        Dim Tbls As DataTable = JsonToDataTable(dataArray.ToString())
-    '        If Tbls Is Nothing OrElse Tbls.Rows.Count = 0 Then
-    '            MsgBox("Gagal mengubah data pasien ke DataTable.", MsgBoxStyle.Critical)
-    '            Exit Sub
-    '        End If
-
-    '        ' Isi form
-    '        Dim Trow As DataRow = Tbls.Rows(0)
-    '        TextBoxNoRekamMedis.Text = Txid
-    '        TextBoxNamaPasien.Text = Trow("nama").ToString()
-    '        TextBoxJenisKelamin.Text = Trow("sex").ToString()
-
-    '        If Not IsDBNull(Trow("tgllahir")) AndAlso Not String.IsNullOrEmpty(Trow("tgllahir").ToString()) Then
-    '            DateTimeTanggalLahir.Value = CDate(Trow("tgllahir"))
-    '            TextBoxUmur.Text = Umur(DateTimeTanggalLahir.Value)
-    '            TextBoxGelar.Text = Gelar(Year(Now()) - Year(DateTimeTanggalLahir.Value), TextBoxJenisKelamin.Text)
-    '        End If
-
-    '    Catch ex As Exception
-    '        MsgBox("Error parsing JSON: " & ex.Message & vbCrLf & jsonResponse, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
 
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
         SetClearHeader()
@@ -1468,6 +1067,21 @@ GoBackthis:
         For Each Trow As DataRow In Tbls.Rows
             If Trow("Result").ToString.Trim <> "" And Trow("Result").ToString.Trim <> "-" Then
                 I = I + 1
+            End If
+
+            Dim flagValue As String = Trow("Flag").ToString.Trim
+            Dim namaTindakanValue As String = Trow("NamaTindakan").ToString.Trim
+            Dim detailKetValue As String = Trow("DetailKet").ToString.Trim
+
+            If flagValue <> "" Then
+                ' Hanya boleh "High" atau "Low"
+                If Not (flagValue.Equals("High", StringComparison.OrdinalIgnoreCase) OrElse _
+                        flagValue.Equals("Low", StringComparison.OrdinalIgnoreCase)) Then
+                    MsgBox("Nilai Flag hanya boleh 'High' atau 'Low'." & vbCrLf & _
+                       "Periksa baris " & namaTindakanValue & " (" & detailKetValue & ")", _
+                       MsgBoxStyle.Exclamation, "Validasi Flag")
+                    Return False
+                End If
             End If
         Next
 
@@ -1991,85 +1605,6 @@ GoBackthis:
         Find.Show()
         Find.QueryTheMysql("select a.idlabinternet, c.kodeket, a.idtempatlab, a.nourut, a.translabid, a.idpasien, a.nama, d.alamat, a.tgllab from transaksilab a LEFT JOIN mastercodebarcode c ON c.kodecabang=a.idtempatlab LEFT JOIN masterpasien d ON a.idpasien=d.nomitra AND a.idtempatlab=d.cabang where (date(a.tgllab) between '" & Format(Tawal, "yyyy-MM-dd") & "' and '" & Format(Takhir, "yyyy-MM-dd") & "') and a.idtempatlab=c.kodecabang and a.idtempatlab<>'MCUC040 '", " order by a.idlabinternet desc", "FindTransaksiIDLab", 0, Find_Poliklinik)
     End Sub
-
-    'Public Function JsonToDataTable(ByVal json As String) As DataTable
-    '    Dim dt As New DataTable()
-    '    Try
-    '        ' Coba langsung
-    '        dt = JsonConvert.DeserializeObject(Of DataTable)(json)
-    '    Catch
-    '        ' Kalau gagal, mungkin JSON memiliki wrapper "data"
-    '        Try
-    '            Dim wrapper = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(json)
-    '            If wrapper.ContainsKey("data") Then
-    '                Dim dataJson As String = wrapper("data").ToString()
-    '                dt = JsonConvert.DeserializeObject(Of DataTable)(dataJson)
-    '            End If
-    '        Catch ex As Exception
-    '            MsgBox("Gagal parsing JSON: " & ex.Message)
-    '        End Try
-    '    End Try
-    '    Return dt
-    'End Function
-
-    'Private Sub butfindtindakanid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butfindtindakanid.Click
-    '    Dim Thasil As Date = DateAndTime.Now
-    '    Dim Takhir As Date = DateSerial(Thasil.Year, Thasil.Month, Thasil.Day)
-    '    Dim Tawal As Date = "01/01/2001"
-
-    '    ' Ambil LongDate dari konfigurasi
-    '    Dim DTlong As DataTable = ReadSQL("SELECT StrValue FROM MsConfig WHERE ConfigName='LongDate'")
-    '    If DTlong.Rows.Count > 0 Then
-    '        Dim Rdata As DataRow = DTlong.Rows(0)
-    '        Tawal = FormatDateTime(Rdata("StrValue"), DateFormat.ShortDate)
-    '    Else
-    '        MsgBox("Range Tanggal belum ada di config. Set terlebih dahulu.")
-    '        Exit Sub
-    '    End If
-
-    '    ' Tentukan range tanggal
-    '    Select Case cmbrangedate.SelectedIndex
-    '        Case 0 : Tawal = DateAdd(DateInterval.Day, -14, Takhir.Date)
-    '        Case 1 : Tawal = DateAdd(DateInterval.Month, -1, Takhir.Date)
-    '        Case 2 : Tawal = DateAdd(DateInterval.Month, -6, Takhir.Date)
-    '        Case 3 : Tawal = DateAdd(DateInterval.Month, -12, Takhir.Date)
-    '    End Select
-
-    '    ' Ambil base URL API dari konfigurasi
-    '    Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-    '    If Not baseURL.EndsWith("/") Then baseURL &= "/"
-
-    '    ' Susun endpoint API
-    '    Dim apiUrl As String = baseURL & "api/tindakan?awal=" & Format(Tawal, "yyyy-MM-dd") & "&akhir=" & Format(Takhir, "yyyy-MM-dd")
-
-    '    ' Ambil data JSON dari API Gateway
-    '    Dim jsonResponse As String = GetDataAPI(apiUrl)
-    '    If String.IsNullOrEmpty(jsonResponse) Then
-    '        MsgBox("Tidak ada respon dari API.", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
-
-    '    ' Parse JSON ke DataTable
-    '    Dim dt As DataTable = JsonToDataTable(jsonResponse)
-    '    If dt Is Nothing OrElse dt.Rows.Count = 0 Then
-    '        MsgBox("Tidak ada data ditemukan untuk rentang tanggal ini.", MsgBoxStyle.Information)
-    '        Exit Sub
-    '    End If
-
-    '    ' === Tampilkan hasil ke form Find ===
-    '    Find.Show()
-    '    Find.QueryTheAPI(dt, "FindTransaksiIDLab", 0)
-    'End Sub
-
-    'Private Function GetRangeCode(ByVal index As Integer) As String
-    '    Select Case index
-    '        Case 0 : Return "14d"
-    '        Case 1 : Return "1m"
-    '        Case 2 : Return "6m"
-    '        Case 3 : Return "12m"
-    '        Case Else : Return "14d"
-    '    End Select
-    'End Function
 
     Private Sub ChangeDatawithText(ByVal Tcmb As System.Windows.Forms.ComboBox, ByVal Txid As System.Windows.Forms.TextBox)
         If Tcmb.Text.Contains("...") = True Then
@@ -2744,30 +2279,30 @@ NextSystem:
             MsgBox("Pilih Pasien Terlebih Dahulu")
         Else
             If Checking() = True Then
-                Dim CountReultEmpty As Integer = 0
+                Dim CountResultEmpty As Integer = 0
                 Dim Tbls As DataTable = gridlab.DataSource
                 Tbls.AcceptChanges()
 
                 For Each Trownew As DataRow In Tbls.Rows
                     If (Trownew("Result").ToString.Trim = "" Or Trownew("Result").ToString.Trim = "-") And Trownew("DetailKet").ToString.Trim <> "SEDIMEN :" And Trownew("DetailKet").ToString.Trim <> "Lain-lain" And Trownew("DetailKet").ToString.Trim <> "Makros" Then
-                        CountReultEmpty = CountReultEmpty + 1
+                        CountResultEmpty = CountResultEmpty + 1
                     End If
 
                     If Strings.LCase(Trownew("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("spirometri") Then
                         WriteThemysql("update transaksilabresult set Result='" & Trownew("Result") & "' , Keterangan='-'  where idlabinternet = '" & idTransaksi & "' and TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' and TindakanID='" & Trownew("TindakanID") & "' and GroupID='" & Trownew("GroupID") & "' and NoUrut='" & Trownew("NoUrut") & "' and DetailKet='" & Trownew("DetailKet") & "'", DB_Poliklinik)
                     Else
-                        WriteThemysql("update transaksilabresult set acc1=CONCAT('" & UserLabAdminOnline & "',';',now()) ,acc2=CONCAT('BYPASS;',now()), Result='" & Trownew("Result") & "' , Keterangan='" & Trownew("Keterangan") & "', Saran='" & Trownew("Saran") & "', Pria='" & Trownew("Pria") & "' , Wanita='" & Trownew("Wanita") & "' , Satuan='" & Trownew("Satuan") & "' , Urutan='" & Trownew("Urutan") & "' where idlabinternet = '" & idTransaksi & "' and TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' and TindakanID='" & Trownew("TindakanID") & "' and GroupID='" & Trownew("GroupID") & "' and NoUrut='" & Trownew("NoUrut") & "' and DetailKet='" & Trownew("DetailKet") & "'", DB_Poliklinik)
+                        WriteThemysql("update transaksilabresult set acc1=CONCAT('" & UserLabAdminOnline & "',';',now()) ,acc2=CONCAT('BYPASS;',now()), Result='" & Trownew("Result") & "' , Keterangan='" & Trownew("Keterangan") & "', Saran='" & Trownew("Saran") & "', Pria='" & Trownew("Pria") & "' , Wanita='" & Trownew("Wanita") & "',Flag = '" & Trownew("Flag") & "' , Satuan='" & Trownew("Satuan") & "' , Urutan='" & Trownew("Urutan") & "' where idlabinternet = '" & idTransaksi & "' and TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' and TindakanID='" & Trownew("TindakanID") & "' and GroupID='" & Trownew("GroupID") & "' and NoUrut='" & Trownew("NoUrut") & "' and DetailKet='" & Trownew("DetailKet") & "'", DB_Poliklinik)
                     End If
                 Next
 
-                If CheckThemysql("select * from transaksilab where idlabinternet='" & idTransaksi & "' and status='CHECK'", DB_Poliklinik) = True And CountReultEmpty = 0 Then
+                If CheckThemysql("select * from transaksilab where idlabinternet='" & idTransaksi & "' and status='CHECK'", DB_Poliklinik) = True And CountResultEmpty = 0 Then
                     WriteThemysql("update transaksilab set saran='" & txsaranall.Text & "', kesimpulan='" & txketall.Text & "', status='CETAK',  labstarttime=now(), labendtime=now(), tglinputhasil=now() where idlabinternet='" & idTransaksi & "'", DB_Poliklinik)
                     chkclosed.Checked = True
                     MsgBox("Berhasil menyimpan data.", MsgBoxStyle.Information, "Success!")
-                ElseIf CountReultEmpty > 0 Then
+                ElseIf CountResultEmpty > 0 Then
                     WriteThemysql("update transaksilab set saran='" & txsaranall.Text & "', kesimpulan='" & txketall.Text & "' where idlabinternet='" & idTransaksi & "'", DB_Poliklinik)
-                    MsgBox("Berhasil menyimpan data & terdapat " & CountReultEmpty & " hasil belum terisi.", MsgBoxStyle.Information, "Success!")
-                ElseIf CountReultEmpty = 0 Then
+                    MsgBox("Berhasil menyimpan data & terdapat " & CountResultEmpty & " hasil belum terisi.", MsgBoxStyle.Information, "Success!")
+                ElseIf CountResultEmpty = 0 Then
                     WriteThemysql("update transaksilab set saran='" & txsaranall.Text & "', kesimpulan='" & txketall.Text & "' where idlabinternet='" & idTransaksi & "'", DB_Poliklinik)
                     chkclosed.Checked = True
                     MsgBox("Berhasil menyimpan data.", MsgBoxStyle.Information, "Success!")
@@ -2776,13 +2311,13 @@ NextSystem:
                 ' Aktifkan Jika Ingin ada QR Code
                 SavePDFtoPath()
 
-                'If CheckThemysql("select * from transaksilab WHERE idlabinternet = '" & txidinternet.Text.Trim & "' AND (caraambil LIKE '%Ambil%' OR caraambil LIKE '%Kirim%')", DB_Poliklinik) = True And CountReultEmpty = 0 Then
+                'If CheckThemysql("select * from transaksilab WHERE idlabinternet = '" & txidinternet.Text.Trim & "' AND (caraambil LIKE '%Ambil%' OR caraambil LIKE '%Kirim%')", DB_Poliklinik) = True And CountResultEmpty = 0 Then
                 '    If HardcopyCompany(txidinternet.Text, "Online") = True Then
                 '        PrintSementaraToolStripMenuItem.PerformClick()
                 '    Else
                 '        PreviewHasilLabToolStripMenuItem.PerformClick()
                 '    End If
-                'ElseIf CheckThemysql("select * from transaksilab WHERE idlabinternet = '" & txidinternet.Text.Trim & "' AND (caraambil LIKE '%Email%' OR caraambil LIKE '%Whatsapp%')", DB_Poliklinik) = True And CountReultEmpty = 0 Then
+                'ElseIf CheckThemysql("select * from transaksilab WHERE idlabinternet = '" & txidinternet.Text.Trim & "' AND (caraambil LIKE '%Email%' OR caraambil LIKE '%Whatsapp%')", DB_Poliklinik) = True And CountResultEmpty = 0 Then
                 '    PreviewHasilLabToolStripMenuItem.PerformClick()
                 'End If
             End If
@@ -6096,6 +5631,28 @@ GoBackthis:
         insertRowToTbls(Tbls, "typstring", "barcodenotrans")
         insertRowToTbls(Tbls, "typstring", "KesimpulanAll")
 
+        '' tblTanggal ganti sesuai data online
+        'Dim tblTanggal As DataTable = ReadSQL("SELECT LabDaftar, LabStartTime, LabCetak FROM TransaksiLab WHERE TransLabID='" & idTransaksi & "'")
+        'Dim rowTanggal As DataRow = tblTanggal.Rows(0)
+
+        ''--- Ambil data dari DataRow (cek NULL)
+        'Dim tglOrder As Date = If(IsDBNull(rowTanggal("LabDaftar")), Date.MinValue, CDate(rowTanggal("LabDaftar")))
+        'Dim tglStart As Date = If(IsDBNull(rowTanggal("LabStartTime")), Date.MinValue, CDate(rowTanggal("LabStartTime")))
+        'Dim tglCetak As Date = If(IsDBNull(rowTanggal("LabCetak")), Date.MinValue, CDate(rowTanggal("LabCetak")))
+
+        ''--- Format tanggal
+        'Dim sTglOrder As String = tglOrder.ToString("dd-MM-yyyy HH:mm:ss")
+        'Dim sTglStart As String = tglStart.ToString("dd-MM-yyyy HH:mm:ss")
+        'Dim sTglCetak As String = tglCetak.ToString("dd-MM-yyyy HH:mm:ss")
+
+        ''--- Hitung Turn Around Time (jika LabCetak tidak kosong)
+        'Dim sTAT As String = "-"
+        'If tglCetak <> Date.MinValue AndAlso tglOrder <> Date.MinValue Then
+        '    Dim tat As TimeSpan = tglCetak - tglOrder
+        '    sTAT = String.Format("{0} hari {1} jam {2} menit {3} detik", _
+        '                         tat.Days, tat.Hours, tat.Minutes, tat.Seconds)
+        'End If
+
         Dim Tlab As DataTable = ReadThemysql("SELECT a.SendingWhatsapp, a.SendingEmail, a.Kesimpulan, a.Saran, b.PTNIK, b.NIP, a.caraambil, a.dokterrequest " & _
                                              "FROM transaksilab a " & _
                                              "LEFT JOIN masterpasien b ON a.idpasien=b.nomitra AND a.idtempatlab=b.cabang " & _
@@ -6185,6 +5742,7 @@ GoBackthis:
             End If
 
             Trow("Tanggal") = Format(DateTimeTanggalTransaksi.Value, "dd-MMM-yyyy")
+            Trow("Flag") = Trow("Flag").ToString
             Trow("Satuan") = Trow("Satuan").ToString
             Dim Tkriteria As String = ""
             If TextBoxJenisKelamin.Text = "L" Then
@@ -6360,13 +5918,28 @@ GoBackthis:
                 If (Trownew("GroupID").ToString.Trim = "Creatinin" Or Trownew("GroupID").ToString.Trim = "Creatinin PAP") And varJenisResult <> "" And Trownew("NoUrut") = "1" Then
                     varNilaiCreatinin = varJenisResult
                 ElseIf (Trownew("GroupID").ToString.Trim = "Creatinin" Or Trownew("GroupID").ToString.Trim = "Creatinin PAP") And varNilaiCreatinin >= 0 And Trownew("NoUrut") = "2" Then
+                    Dim Scr As Double = varNilaiCreatinin
+                    Dim Age As Double = GetCurrentAge(DateTimeTanggalLahir.Value)
+
+                    Dim k As Double
+                    Dim a As Double
+                    Dim genderFactor As Double
+
                     If TextBoxJenisKelamin.Text = "P" Then
-                        varNilaiCreatininEGFR = 175 * (varNilaiCreatinin) ^ -1.154 * (GetCurrentAge(DateTimeTanggalLahir.Value)) ^ -0.203 * 0.742
+                        k = 0.7
+                        a = -0.241
+                        genderFactor = 1.012
                     ElseIf TextBoxJenisKelamin.Text = "L" Then
-                        varNilaiCreatininEGFR = 175 * (varNilaiCreatinin) ^ -1.154 * (GetCurrentAge(DateTimeTanggalLahir.Value)) ^ -0.203
+                        k = 0.9
+                        a = -0.302
+                        genderFactor = 1.0
                     End If
 
-                    Trownew("Result") = Math.Round(varNilaiCreatininEGFR, 1)
+                    Dim ratio As Double = Scr / k
+
+                    varNilaiCreatininEGFR = 142 * (Math.Min(ratio, 1)) ^ a * (Math.Max(ratio, 1)) ^ -1.2 * (0.9938 ^ Age) * genderFactor
+
+                    Trownew("Result") = Math.Round(varNilaiCreatininEGFR, 0, MidpointRounding.AwayFromZero)
                 End If
 
                 '======== END MANUAL CODE ========'
@@ -7309,5 +6882,94 @@ GoBackthis:
             MsgBox("Status sembuh penyakit TBC harus lebih dari 6 bulan.", MsgBoxStyle.Exclamation, "Warning!")
             CheckBoxSembuhTBC.Checked = False
         End If
+    End Sub
+
+    Private Sub SetNilaiRujukan()
+        Try
+            ' Set Variabel
+            Dim tanggalLahir As Date = DateTimeTanggalLahir.Value
+            Dim tanggalPeriksa As Date = DateTimeTanggalTransaksi.Value
+            Dim usiaHariPasien As Integer = DateDiff(DateInterval.Day, tanggalLahir, tanggalPeriksa)
+            Dim jenisKelaminPasien As String = TextBoxJenisKelamin.Text
+
+            Dim tblTransaksi As DataTable = gridlab.DataSource
+            tblTransaksi.AcceptChanges()
+
+            If tblTransaksi.Rows.Count > 0 Then
+                For Each rowTransaksi As DataRow In tblTransaksi.Rows
+                    Dim stringHasilPemeriksaan As String = rowTransaksi("Result").ToString()
+
+                    If stringHasilPemeriksaan <> "" Then
+                        Dim displayFlagHasil As String = ""
+                        Dim displayNilaiRujukan As String = ""
+                        Dim displaySatuan As String = ""
+                        Dim nilaiMinRujukan As Double = 0
+                        Dim nilaiMaxRujukan As Double = 0
+
+                        Dim hasilPemeriksaan As Double
+                        If Double.TryParse(stringHasilPemeriksaan, hasilPemeriksaan) Then
+                            ' Set Tabel Nilai Rujukan
+                            Dim tblNilaiRujukan As DataTable = ReadSQL("SELECT * FROM MasterLabDetailNilaiRujukan WHERE TindakanID = '" & rowTransaksi("TindakanID").ToString() & "' AND GroupID = '" & rowTransaksi("GroupID").ToString() & "' AND NoUrut = '" & rowTransaksi("NoUrut").ToString() & "' AND (" & usiaHariPasien & " BETWEEN ISNULL(UsiaMinHari, 0) AND ISNULL(UsiaMaxHari, 999999))")
+
+                            If tblNilaiRujukan.Rows.Count > 0 Then
+                                Dim rowNilaiRujukan As DataRow = tblNilaiRujukan.Rows(0)
+
+                                If jenisKelaminPasien = "L" Then
+                                    If Not IsDBNull(rowNilaiRujukan("NilaiMinPria")) Then nilaiMinRujukan = Convert.ToDouble(rowNilaiRujukan("NilaiMinPria"))
+                                    If Not IsDBNull(rowNilaiRujukan("NilaiMaxPria")) Then nilaiMaxRujukan = Convert.ToDouble(rowNilaiRujukan("NilaiMaxPria"))
+
+                                    displayNilaiRujukan = rowNilaiRujukan("DisplayKeteranganPria").ToString()
+                                ElseIf jenisKelaminPasien = "P" Then
+                                    If Not IsDBNull(rowNilaiRujukan("NilaiMinWanita")) Then nilaiMinRujukan = Convert.ToDouble(rowNilaiRujukan("NilaiMinWanita"))
+                                    If Not IsDBNull(rowNilaiRujukan("NilaiMaxWanita")) Then nilaiMaxRujukan = Convert.ToDouble(rowNilaiRujukan("NilaiMaxWanita"))
+
+                                    displayNilaiRujukan = rowNilaiRujukan("DisplayKeteranganWanita").ToString()
+                                End If
+
+                                ' Set variabel displayFlagHasil & displayNilaiRujukan
+                                If nilaiMinRujukan > 0 And nilaiMaxRujukan > 0 Then
+                                    If hasilPemeriksaan < nilaiMinRujukan Then
+                                        displayFlagHasil = "Low"
+                                    ElseIf hasilPemeriksaan > nilaiMaxRujukan Then
+                                        displayFlagHasil = "High"
+                                    End If
+                                ElseIf nilaiMaxRujukan > 0 Then
+                                    If hasilPemeriksaan > nilaiMaxRujukan Then
+                                        displayFlagHasil = "High"
+                                    End If
+                                ElseIf nilaiMinRujukan > 0 Then
+                                    If hasilPemeriksaan < nilaiMinRujukan Then
+                                        displayFlagHasil = "Low"
+                                    End If
+                                End If
+
+                                ' Set variabel displaySatuan
+                                displaySatuan = rowNilaiRujukan("DisplaySatuan").ToString()
+
+                                ' Insert ke row hasil
+                                rowTransaksi("Flag") = displayFlagHasil
+                                rowTransaksi("Satuan") = displaySatuan
+
+                                If jenisKelaminPasien = "L" Then
+                                    rowTransaksi("Pria") = displayNilaiRujukan
+                                ElseIf jenisKelaminPasien = "P" Then
+                                    rowTransaksi("Wanita") = displayNilaiRujukan
+                                End If
+                            Else
+                                rowTransaksi("Flag") = ""
+                            End If
+                        Else
+                            rowTransaksi("Flag") = ""
+                        End If
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
+        End Try
+    End Sub
+
+    Private Sub ButtonSetNilaiRujukan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetNilaiRujukan.Click
+        SetNilaiRujukan()
     End Sub
 End Class

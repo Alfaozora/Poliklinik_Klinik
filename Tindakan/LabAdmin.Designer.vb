@@ -38,7 +38,7 @@ Partial Class LabAdmin
         Me.groupdetail = New System.Windows.Forms.GroupBox
         Me.drecg = New System.Windows.Forms.TabControl
         Me.TabLab = New System.Windows.Forms.TabPage
-        Me.SplitContainer7 = New System.Windows.Forms.SplitContainer
+        Me.SplitContainerTabLaboratorium = New System.Windows.Forms.SplitContainer
         Me.Panel16 = New System.Windows.Forms.Panel
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel
         Me.butsavelab = New System.Windows.Forms.Button
@@ -372,9 +372,9 @@ Partial Class LabAdmin
         Me.groupdetail.SuspendLayout()
         Me.drecg.SuspendLayout()
         Me.TabLab.SuspendLayout()
-        Me.SplitContainer7.Panel1.SuspendLayout()
-        Me.SplitContainer7.Panel2.SuspendLayout()
-        Me.SplitContainer7.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.Panel1.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.Panel2.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.SuspendLayout()
         Me.Panel16.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
         CType(Me.gridlab, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -500,7 +500,7 @@ Partial Class LabAdmin
         'TabLab
         '
         Me.TabLab.AutoScroll = True
-        Me.TabLab.Controls.Add(Me.SplitContainer7)
+        Me.TabLab.Controls.Add(Me.SplitContainerTabLaboratorium)
         Me.TabLab.Location = New System.Drawing.Point(4, 22)
         Me.TabLab.Name = "TabLab"
         Me.TabLab.Padding = New System.Windows.Forms.Padding(3)
@@ -509,27 +509,27 @@ Partial Class LabAdmin
         Me.TabLab.Text = "Laboratorium"
         Me.TabLab.UseVisualStyleBackColor = True
         '
-        'SplitContainer7
+        'SplitContainerTabLaboratorium
         '
-        Me.SplitContainer7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer7.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer7.IsSplitterFixed = True
-        Me.SplitContainer7.Location = New System.Drawing.Point(3, 3)
-        Me.SplitContainer7.Name = "SplitContainer7"
-        Me.SplitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.SplitContainerTabLaboratorium.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerTabLaboratorium.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerTabLaboratorium.IsSplitterFixed = True
+        Me.SplitContainerTabLaboratorium.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainerTabLaboratorium.Name = "SplitContainerTabLaboratorium"
+        Me.SplitContainerTabLaboratorium.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'SplitContainer7.Panel1
+        'SplitContainerTabLaboratorium.Panel1
         '
-        Me.SplitContainer7.Panel1.Controls.Add(Me.Panel16)
+        Me.SplitContainerTabLaboratorium.Panel1.Controls.Add(Me.Panel16)
         '
-        'SplitContainer7.Panel2
+        'SplitContainerTabLaboratorium.Panel2
         '
-        Me.SplitContainer7.Panel2.AutoScroll = True
-        Me.SplitContainer7.Panel2.Controls.Add(Me.gridlab)
-        Me.SplitContainer7.Size = New System.Drawing.Size(1180, 277)
-        Me.SplitContainer7.SplitterDistance = 45
-        Me.SplitContainer7.SplitterWidth = 5
-        Me.SplitContainer7.TabIndex = 460
+        Me.SplitContainerTabLaboratorium.Panel2.AutoScroll = True
+        Me.SplitContainerTabLaboratorium.Panel2.Controls.Add(Me.gridlab)
+        Me.SplitContainerTabLaboratorium.Size = New System.Drawing.Size(1180, 277)
+        Me.SplitContainerTabLaboratorium.SplitterDistance = 45
+        Me.SplitContainerTabLaboratorium.SplitterWidth = 5
+        Me.SplitContainerTabLaboratorium.TabIndex = 460
         '
         'Panel16
         '
@@ -637,6 +637,8 @@ Partial Class LabAdmin
         Me.GridViewTindakanLab.GroupPanelText = "Laboratorium"
         Me.GridViewTindakanLab.Name = "GridViewTindakanLab"
         Me.GridViewTindakanLab.OptionsView.ShowGroupPanel = False
+        Me.GridViewTindakanLab.OptionsView.ShowIndicator = False
+        Me.GridViewTindakanLab.PaintStyleName = "Skin"
         '
         'TabPage1
         '
@@ -4271,9 +4273,9 @@ Partial Class LabAdmin
         Me.groupdetail.ResumeLayout(False)
         Me.drecg.ResumeLayout(False)
         Me.TabLab.ResumeLayout(False)
-        Me.SplitContainer7.Panel1.ResumeLayout(False)
-        Me.SplitContainer7.Panel2.ResumeLayout(False)
-        Me.SplitContainer7.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.Panel1.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.Panel2.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.ResumeLayout(False)
         Me.Panel16.ResumeLayout(False)
         Me.FlowLayoutPanel1.ResumeLayout(False)
         CType(Me.gridlab, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4651,7 +4653,7 @@ Partial Class LabAdmin
     Friend WithEvents ComboBoxFisikRectalToucher As System.Windows.Forms.ComboBox
     Friend WithEvents Label88 As System.Windows.Forms.Label
     Friend WithEvents ButtonSetNilaiRujukan As System.Windows.Forms.Button
-    Friend WithEvents SplitContainer7 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainerTabLaboratorium As System.Windows.Forms.SplitContainer
     Friend WithEvents Panel16 As System.Windows.Forms.Panel
     Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
     'Friend WithEvents CetakLabelToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

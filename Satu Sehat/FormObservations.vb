@@ -58,7 +58,9 @@ Public Class FormObservation
         ComboBoxJenisData.Items.Add("Observation")
         ComboBoxJenisData.Items.Add("Procedure")
         ComboBoxJenisData.Items.Add("Medication")
+        ComboBoxJenisData.Items.Add("Medication Compound")
         ComboBoxJenisData.Items.Add("Medication Request")
+        ComboBoxJenisData.Items.Add("Medication Request Compound")
         ComboBoxJenisData.SelectedIndex = -1
         PostSatuSehat.Enabled = False
 
@@ -82,11 +84,23 @@ Public Class FormObservation
 
                 Dim jumlah As Integer = GetJumlahTransaksiMedication()
                 LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+            ElseIf Pilihan = "Medication Compound" Then
+                Dim jumlahData As Integer = GetJumlahData()
+                LabelData.Text = jumlahData.ToString() & " Data"
+
+                Dim jumlah As Integer = GetJumlahTransaksiMedicationCompound()
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
             ElseIf Pilihan = "Medication Request" Then
                 Dim jumlahData As Integer = GetJumlahData()
                 LabelData.Text = jumlahData.ToString() & " Data"
 
                 Dim jumlah As Integer = GetJumlahTransaksiMedicationRequest()
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
+            ElseIf Pilihan = "Medication Request Compound" Then
+                Dim jumlahData As Integer = GetJumlahData()
+                LabelData.Text = jumlahData.ToString() & " Data"
+
+                Dim jumlah As Integer = GetJumlahTransaksiMedicationRequestRacikan()
                 LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi"
             End If
         End If
@@ -192,6 +206,14 @@ Public Class FormObservation
         WriteSQL(sql, 4)
     End Sub
 
+    Private Sub InsertLogMedicationRequestRacikan(ByVal resepNomor As String, ByVal resourceId As String, ByVal encounterId As String, ByVal respStatus As String)
+        Dim sql As String = "INSERT INTO SatuSehat_LogMedicationRequestRacikan " & _
+                            "(NoTransaksi, ResourceID, Encounter, Status, CreatedBy, CreatedDate) " & _
+                            "VALUES('" & resepNomor & "', '" & resourceId & "', '" & encounterId & "', '" & respStatus & "', '" & userInput & "', GETDATE())"
+
+        WriteSQL(sql, 4)
+    End Sub
+
     Private Sub UpdateUploadStatus(ByVal noTransaksi As String)
         Dim sql As String = "UPDATE TransaksiDetailFisik SET UploadSatuSehat = 1 WHERE NoTransaksi = '" & noTransaksi & "'"
         WriteSQL(sql, 4)
@@ -224,6 +246,16 @@ Public Class FormObservation
                             "AND ObatID = '" & obatId & "'"
         WriteSQL(sql, 4)
     End Sub
+
+    Private Sub UpdateUploadStatusMedicationRequestRacikan(ByVal noTransaksi As String,ByVal kodeRacikan As String)
+        Dim sql As String = "UPDATE TransaksiObat " & _
+                            "SET UploadSatuSehat = 1 " & _
+                            "WHERE NoTransaksi = '" & noTransaksi & "' " & _
+                            "AND KodeRacikan = '" & kodeRacikan & "'"
+
+        WriteSQL(sql, 4)
+    End Sub
+
 
     ' --- Buat fungsi baru untuk ambil data Observasi ---
     Private Function GetDataObservasi() As DataTable
@@ -419,6 +451,119 @@ Public Class FormObservation
         Return tbls
     End Function
 
+    Private Function GetDataMedicationRequestRacikan() As DataTable
+        Dim tbls As New DataTable()
+        Dim query As New StringBuilder()
+
+        query.AppendLine("SELECT")
+        query.AppendLine("    TD.NoUrut,")
+        query.AppendLine("    TP.ResepNomor,")
+        query.AppendLine("    SLTR.ResourceID AS [Encounter],")
+        query.AppendLine("    MP.Nama AS NamaPasien,")
+        query.AppendLine("    MP.NoIHS AS NoIHSPasien,")
+        query.AppendLine("    TP.DokterPoli AS [NamaDokter],")
+        query.AppendLine("    MD.NoIHS AS NoIHSDokter,")
+        query.AppendLine("    MAX(TDD.KodeDiagnosa) AS KodeDiagnosa,")
+        query.AppendLine("    MAX(TDD.KeteranganDiagnosa) AS KeteranganDiagnosa,")
+
+        query.AppendLine("    -- Pembeda racikan")
+        query.AppendLine("    TBO.KodeRacikan,")
+
+        query.AppendLine("    -- Nama racikan (tanpa wadah)")
+        query.AppendLine("    'Racikan ' + STUFF((")
+        query.AppendLine("        SELECT ' + ' + TBO2.ObatNama")
+        query.AppendLine("        FROM TransaksiObat TBO2")
+        query.AppendLine("        WHERE TBO2.NoTransaksi = TD.NoUrut")
+        query.AppendLine("          AND TBO2.KodeRacikan = TBO.KodeRacikan")
+        query.AppendLine("          AND TBO2.DeletedBy IS NULL")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%KERTAS%'")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%PUYER%'")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%BUNGKUS%'")
+        query.AppendLine("        FOR XML PATH(''), TYPE")
+        query.AppendLine("    ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS NamaRacikan,")
+
+        query.AppendLine("    -- Komposisi racikan (tanpa wadah)")
+        query.AppendLine("    STUFF((")
+        query.AppendLine("        SELECT ' + ' + TBO2.ObatNama")
+        query.AppendLine("        FROM TransaksiObat TBO2")
+        query.AppendLine("        WHERE TBO2.NoTransaksi = TD.NoUrut")
+        query.AppendLine("          AND TBO2.KodeRacikan = TBO.KodeRacikan")
+        query.AppendLine("          AND TBO2.DeletedBy IS NULL")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%KERTAS%'")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%PUYER%'")
+        query.AppendLine("          AND TBO2.ObatNama NOT LIKE '%BUNGKUS%'")
+        query.AppendLine("        FOR XML PATH(''), TYPE")
+        query.AppendLine("    ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS KomposisiRacikan,")
+
+        query.AppendLine("    -- Quantity racikan (wadah -> jumlah kapsul -> default 1)")
+        query.AppendLine("    COALESCE(")
+        query.AppendLine("        MAX(CASE")
+        query.AppendLine("            WHEN TBO.ObatNama LIKE '%KERTAS%'")
+        query.AppendLine("              OR TBO.ObatNama LIKE '%PUYER%'")
+        query.AppendLine("              OR TBO.ObatNama LIKE '%BUNGKUS%'")
+        query.AppendLine("            THEN TBO.Jumlah")
+        query.AppendLine("        END),")
+        query.AppendLine("        MAX(TBR.JumlahKapsul),")
+        query.AppendLine("        1")
+        query.AppendLine("    ) AS QuantityRacikan,")
+
+        query.AppendLine("    -- Unit racikan")
+        query.AppendLine("    COALESCE(")
+        query.AppendLine("        MAX(CASE")
+        query.AppendLine("            WHEN TBO.ObatNama LIKE '%KERTAS%' THEN 'KERTAS'")
+        query.AppendLine("            WHEN TBO.ObatNama LIKE '%PUYER%'  THEN 'PUYER'")
+        query.AppendLine("            WHEN TBO.ObatNama LIKE '%BUNGKUS%' THEN 'BUNGKUS'")
+        query.AppendLine("        END),")
+        query.AppendLine("        CASE")
+        query.AppendLine("            WHEN MAX(TBR.JumlahKapsul) IS NOT NULL THEN 'KAPSUL'")
+        query.AppendLine("            ELSE 'RACIKAN'")
+        query.AppendLine("        END")
+        query.AppendLine("    ) AS UnitRacikan,")
+
+        query.AppendLine("    MAX(TBO.CreatedDate) AS AuthoredOn,")
+        query.AppendLine("    CAST(MAX(TBR.Signa1) AS VARCHAR(10)) + ' x ' + CAST(MAX(TBR.Signa2) AS VARCHAR(10)) AS Signa,")
+        query.AppendLine("    MAX(ISNULL(TBR.AturanPakai, '-')) AS CaraPakai,")
+        query.AppendLine("    MAX(CASE")
+        query.AppendLine("        WHEN TBR.Catatan IS NOT NULL AND TBR.Catatan <> ''")
+        query.AppendLine("        THEN TBR.Catatan")
+        query.AppendLine("    END) AS KeteranganTambahan")
+
+        query.AppendLine("FROM TransaksiDetail TD")
+        query.AppendLine("INNER JOIN TransaksiPoli TP ON TD.NoUrut = TP.NoUrut")
+        query.AppendLine("INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi")
+        query.AppendLine("INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis")
+        query.AppendLine("INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID")
+        query.AppendLine("INNER JOIN TransaksiDetailDiagnosa TDD ON TD.NoUrut = TDD.NoTransaksi")
+        query.AppendLine("INNER JOIN TransaksiObat TBO ON TD.NoUrut = TBO.NoTransaksi")
+        query.AppendLine("LEFT JOIN TransaksiObatRacikan TBR")
+        query.AppendLine("       ON TBO.NoTransaksi = TBR.NoTransaksi")
+        query.AppendLine("      AND TBO.KodeRacikan = TBR.KodeRacikan")
+
+        query.AppendLine("WHERE TP.ResepNomor IS NOT NULL")
+        query.AppendLine("  AND TP.UploadSatuSehat = '1'")
+        query.AppendLine("  AND SLTR.ResourceType = 'Encounter'")
+        query.AppendLine("  AND TBO.UploadSatuSehat = '0'")
+        query.AppendLine("  AND TBO.Racikan = '1'")
+        query.AppendLine("  AND TBO.DeletedBy IS NULL")
+        query.AppendLine("  AND MP.NoIHS <> ''")
+        query.AppendLine("  AND TBO.KodeRacikan IS NOT NULL")
+
+        query.AppendLine("GROUP BY")
+        query.AppendLine("    TD.NoUrut,")
+        query.AppendLine("    TP.ResepNomor,")
+        query.AppendLine("    SLTR.ResourceID,")
+        query.AppendLine("    MP.Nama,")
+        query.AppendLine("    MP.NoIHS,")
+        query.AppendLine("    TP.DokterPoli,")
+        query.AppendLine("    MD.NoIHS,")
+        query.AppendLine("    TBO.KodeRacikan")
+
+        query.AppendLine("ORDER BY TD.NoUrut ASC, TBO.KodeRacikan ASC;")
+
+        tbls = ReadSQL(query.ToString())
+        Return tbls
+    End Function
+
     Private Sub ComboBoxJenisData_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles ComboBoxJenisData.SelectedIndexChanged
         If ComboBoxJenisData.SelectedIndex <> -1 Then
             PostSatuSehat.Enabled = True
@@ -462,7 +607,7 @@ Public Class FormObservation
                 bgWorkerMedication.RunWorkerAsync()
             End If
         ElseIf pilihan = "Medication Request" Then
-            If Not bgWorkerMedication.IsBusy Then
+            If Not bgWorkerMedicationRequest.IsBusy Then
                 PostSatuSehat.Enabled = False
                 ButtonGetToken.Enabled = False
                 ButtonStopProses.Enabled = True
@@ -470,6 +615,16 @@ Public Class FormObservation
                 TextBoxResponse.Clear()
 
                 bgWorkerMedicationRequest.RunWorkerAsync()
+            End If
+        ElseIf pilihan = "Medication Request Compound" Then
+            If Not bgWorkerMedication.IsBusy Then
+                PostSatuSehat.Enabled = False
+                ButtonGetToken.Enabled = False
+                ButtonStopProses.Enabled = True
+                ButtonRefresh.Enabled = False
+                TextBoxResponse.Clear()
+
+                bgWorkerMedicationRequestRacikan.RunWorkerAsync()
             End If
         End If
     End Sub
@@ -504,8 +659,28 @@ Public Class FormObservation
         Return 0
     End Function
 
+    Private Function GetJumlahTransaksiMedicationCompound() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT KomposisiObat) AS Jumlah FROM SatuSehat_LogMedicationRacikan")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
+        End If
+
+        Return 0
+    End Function
+
     Private Function GetJumlahTransaksiMedicationRequest() As Integer
         Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogMedicationRequest")
+
+        If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
+            Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function GetJumlahTransaksiMedicationRequestRacikan() As Integer
+        Dim dtCek As DataTable = ReadSQL("SELECT COUNT(DISTINCT NoTransaksi) AS Jumlah FROM SatuSehat_LogMedicationRequestRacikan")
 
         If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("Jumlah")) Then
             Return Convert.ToInt32(dtCek.Rows(0)("Jumlah"))
@@ -609,6 +784,7 @@ Public Class FormObservation
         sql &= "      AND SLM.ResourceID IS NOT NULL" & vbCrLf
         sql &= "      AND SLM.ResourceID <> ''" & vbCrLf
         sql &= "      AND TBO.UploadSatuSehat = '0'" & vbCrLf
+        sql &= "      AND TBO.DeletedBy IS NULL" & vbCrLf
         sql &= "    GROUP BY TD.NoUrut, TP.ResepNomor, SLTR.ResourceID, MP.Nama, MP.NoIHS, TP.DokterPoli, MD.NoIHS," & vbCrLf
         sql &= "             TBO.ObatNama, TBO.Jumlah, TBR.Signa1, TBR.Signa2, TBR.AturanPakai, TBR.Catatan," & vbCrLf
         sql &= "             SLM.ResourceID, MOK.POA, MOK.BahanBakuSatuan, MOK.BahanBakuCode, TBO.CreatedDate," & vbCrLf
@@ -619,6 +795,41 @@ Public Class FormObservation
 
         If dtCek.Rows.Count > 0 AndAlso Not IsDBNull(dtCek.Rows(0)("JumlahData")) Then
             Return Convert.ToInt32(dtCek.Rows(0)("JumlahData"))
+        End If
+
+        Return 0
+    End Function
+
+    Private Function GetJumlahDataMedicationRequestRacikan() As Integer
+        Dim sql As String = ""
+
+        sql &= "SELECT COUNT(*) AS JumlahData FROM (" & vbCrLf
+        sql &= "    SELECT TD.NoUrut" & vbCrLf
+        sql &= "    FROM TransaksiDetail TD" & vbCrLf
+        sql &= "    INNER JOIN TransaksiPoli TP ON TD.NoUrut = TP.NoUrut" & vbCrLf
+        sql &= "    INNER JOIN SatuSehat_LogTransaksiResource SLTR ON TD.NoUrut = SLTR.NoTransaksi" & vbCrLf
+        sql &= "    INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis" & vbCrLf
+        sql &= "    INNER JOIN MasterDokter MD ON TP.KodeDokter = MD.ID" & vbCrLf
+        sql &= "    INNER JOIN TransaksiDetailDiagnosa TDD ON TD.NoUrut = TDD.NoTransaksi" & vbCrLf
+        sql &= "    INNER JOIN TransaksiObat TBO ON TD.NoUrut = TBO.NoTransaksi" & vbCrLf
+        sql &= "    INNER JOIN TransaksiObatRacikan TBR ON TBO.NoTransaksi = TBR.NoTransaksi " & _
+               "AND TBO.KodeRacikan = TBR.KodeRacikan" & vbCrLf
+        sql &= "    WHERE TP.ResepNomor IS NOT NULL" & vbCrLf
+        sql &= "      AND TP.UploadSatuSehat = '1'" & vbCrLf
+        sql &= "      AND SLTR.ResourceType = 'Encounter'" & vbCrLf
+        sql &= "      AND TBO.UploadSatuSehat = '0'" & vbCrLf
+        sql &= "      AND TBR.KodeRacikan IS NOT NULL" & vbCrLf
+        sql &= "      AND TBO.DeletedBy IS NULL" & vbCrLf
+        sql &= "    GROUP BY TD.NoUrut, TP.ResepNomor, SLTR.ResourceID, MP.Nama, MP.NoIHS," & vbCrLf
+        sql &= "             TP.DokterPoli, MD.NoIHS, TBO.ObatNama, TBO.Jumlah," & vbCrLf
+        sql &= "             TBR.Signa1, TBR.Signa2, TBR.AturanPakai, TBR.Catatan," & vbCrLf
+        sql &= "             TBO.CreatedDate" & vbCrLf
+        sql &= ") AS X"
+
+        Dim dt As DataTable = ReadSQL(sql)
+
+        If dt.Rows.Count > 0 AndAlso Not IsDBNull(dt.Rows(0)("JumlahData")) Then
+            Return Convert.ToInt32(dt.Rows(0)("JumlahData"))
         End If
 
         Return 0
@@ -638,6 +849,215 @@ Public Class FormObservation
             Return ""
         End Try
     End Function
+
+    Private Sub bgWorkerMedicationRequestRacikan_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles bgWorkerMedicationRequestRacikan.DoWork
+
+        Dim tbls As DataTable = GetDataMedicationRequestRacikan()
+        Dim worker As BackgroundWorker = CType(sender, BackgroundWorker)
+
+        Dim maxRetry As Integer = 3
+        Dim counter As Integer = 0
+
+        ' 1 NoUrut + 1 KodeRacikan = 1 MedicationRequest
+        Dim grouped = tbls.AsEnumerable().GroupBy(Function(r) r("NoUrut").ToString() & "|" & r("KodeRacikan").ToString())
+
+        For Each group In grouped
+            If isStopRequested Then Exit For
+            counter += 1
+
+            Dim row0 As DataRow = group.First()
+
+            Dim noTransaksi As String = row0("NoUrut").ToString()
+            Dim kodeRacikan As String = row0("KodeRacikan").ToString()
+            Dim resepNomor As String = row0("ResepNomor").ToString()
+
+            Dim encounterId As String = row0("Encounter").ToString()
+            Dim noIHSPasien As String = row0("NoIHSPasien").ToString()
+            Dim namaPasien As String = row0("NamaPasien").ToString()
+            Dim noIHSDokter As String = row0("NoIHSDokter").ToString()
+            Dim namaDokter As String = row0("NamaDokter").ToString()
+
+            ' ===============================
+            ' AuthoredOn
+            ' ===============================
+            Dim authoredOn As String
+            Try
+                Dim dt As DateTime = DateTime.Parse(row0("AuthoredOn").ToString())
+                authoredOn = dt.ToString("yyyy-MM-ddTHH:mm:ssK")
+            Catch
+                authoredOn = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK")
+            End Try
+
+            ' ===============================
+            ' Payload utama
+            ' ===============================
+            Dim data As New Dictionary(Of String, Object)
+
+            data("organization_id") = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'satu_sehat_organization_id'")
+            data("encounter_id") = encounterId
+            data("patient_id") = noIHSPasien
+            data("displayPatient") = namaPasien
+            data("practitioner_id") = noIHSDokter
+            data("displayPractitioner") = namaDokter
+            data("resep_nomor") = resepNomor & "-" & kodeRacikan
+            data("kodeDiagnosa") = row0("KodeDiagnosa").ToString()
+            data("keteranganDiagnosa") = row0("KeteranganDiagnosa").ToString()
+            data("authored_on") = authoredOn
+
+            ' ===============================
+            ' RACIKAN
+            ' ===============================
+            Dim qty As Integer = 1
+            If Not IsDBNull(row0("QuantityRacikan")) Then
+                qty = Convert.ToInt32(row0("QuantityRacikan"))
+            End If
+
+            Dim racikan As New Dictionary(Of String, Object)
+            racikan("nama_racikan") = row0("NamaRacikan").ToString()
+            racikan("komposisi") = row0("KomposisiRacikan").ToString()
+            racikan("jumlah") = qty
+            racikan("unit") = row0("UnitRacikan").ToString()
+            racikan("signa") = row0("Signa").ToString()
+            racikan("cara_pakai") = row0("CaraPakai").ToString()
+
+            data("racikan") = racikan
+
+            ' ===============================
+            ' Kirim ke API
+            ' ===============================
+            Dim json As String = JsonConvert.SerializeObject(data, Formatting.None)
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim apiUrl As String = baseURL & "api/medicationRequest/racikan"
+
+            Dim response As String = ""
+            Dim success As Boolean = False
+            Dim retryCount As Integer = 0
+
+            Do
+                retryCount += 1
+                response = InsertDataAPIRM(json, apiUrl)
+
+                MsgBox(response)
+
+                Try
+                    Dim rowJson As JObject = JObject.Parse(response)
+                    Dim status As String = rowJson("status").ToString().ToLower()
+
+                    If status = "success" Then
+                        success = True
+                        worker.ReportProgress(0, "[MedicationRequest-Racikan] " & resepNomor & " (" & kodeRacikan & ") sukses.")
+
+                        For Each resp As JObject In rowJson("responses")
+                            Dim respStatus As String = resp("status").ToString()
+
+                            If respStatus = "200" OrElse respStatus = "201" Then
+                                Dim resourceId As String = resp("body")("id").ToString()
+
+                                InsertLogMedicationRequestRacikan(resepNomor & "-" & kodeRacikan, resourceId, encounterId, respStatus)
+
+                                UpdateUploadStatusMedicationRequestRacikan(noTransaksi, kodeRacikan)
+
+                            Else
+                                ' === Deteksi duplicate ===
+                                Dim isDuplicate As Boolean = False
+                                Try
+                                    Dim errJson As JObject = JObject.Parse(resp("body").ToString())
+                                    If errJson("issue") IsNot Nothing Then
+                                        For Each issue As JObject In errJson("issue")
+                                            If issue("code") IsNot Nothing AndAlso issue("code").ToString().ToLower() = "duplicate" Then
+                                                isDuplicate = True
+                                                Exit For
+                                            End If
+                                        Next
+                                    End If
+                                Catch
+                                End Try
+
+                                If isDuplicate Then
+                                    worker.ReportProgress(0, "[MedicationRequest-Racikan] DUPLICATE " & resepNomor & " (" & kodeRacikan & ")")
+
+                                    InsertLogMedicationRequestRacikan(resepNomor & "-" & kodeRacikan, "-", encounterId, "Duplicate")
+
+                                    UpdateUploadStatusMedicationRequestRacikan(noTransaksi, kodeRacikan)
+                                    success = True
+                                Else
+                                    Dim debugMsg As New StringBuilder()
+
+                                    debugMsg.AppendLine("[MedicationRequest-Racikan] ERROR " & respStatus & " (" & kodeRacikan & ")")
+
+                                    Try
+                                        Dim errBody As String = ""
+                                        If resp("body") IsNot Nothing Then
+                                            errBody = resp("body").ToString()
+                                        End If
+
+                                        debugMsg.AppendLine("=== ERROR BODY ===")
+                                        debugMsg.AppendLine(errBody)
+
+                                        ' Parse FHIR issue[]
+                                        Dim errJson As JObject = JObject.Parse(errBody)
+
+                                        If errJson("issue") IsNot Nothing Then
+                                            For Each issue As JObject In errJson("issue")
+                                                debugMsg.AppendLine("---- ISSUE ----")
+
+                                                If issue("severity") IsNot Nothing Then
+                                                    debugMsg.AppendLine("severity : " & issue("severity").ToString())
+                                                End If
+
+                                                If issue("code") IsNot Nothing Then
+                                                    debugMsg.AppendLine("code     : " & issue("code").ToString())
+                                                End If
+
+                                                If issue("details") IsNot Nothing AndAlso issue("details")("text") IsNot Nothing Then
+                                                    debugMsg.AppendLine("details  : " & issue("details")("text").ToString())
+                                                End If
+
+                                                If issue("expression") IsNot Nothing Then
+                                                    debugMsg.AppendLine("field    : " & issue("expression").ToString())
+                                                End If
+                                            Next
+                                        End If
+
+                                        ' Optional: tampilkan payload yang dikirim
+                                        debugMsg.AppendLine("=== PAYLOAD ===")
+                                        debugMsg.AppendLine(json)
+
+                                    Catch ex As Exception
+                                        debugMsg.AppendLine("DEBUG PARSE ERROR: " & ex.Message)
+                                    End Try
+
+                                    worker.ReportProgress(0, debugMsg.ToString())
+                                End If
+                            End If
+                        Next
+                    End If
+
+                Catch ex As Exception
+                    worker.ReportProgress(0, "[MedicationRequest-Racikan] Exception: " & ex.Message & " | Raw: " & response)
+                End Try
+
+                If Not success Then Threading.Thread.Sleep(2000)
+            Loop While Not success AndAlso retryCount < maxRetry
+
+            If Not success Then
+                worker.ReportProgress(0, "[MedicationRequest-Racikan] GAGAL " & resepNomor & " (" & kodeRacikan & ")")
+            End If
+
+            ' ===============================
+            ' Progress
+            ' ===============================
+            Dim percent As Integer = CInt(Math.Floor((counter * 100.0) / grouped.Count()))
+            worker.ReportProgress(percent)
+
+            Threading.Thread.Sleep(100)
+
+            If counter Mod 50 = 0 Then
+                worker.ReportProgress(0, "[MedicationRequest-Racikan] Delay 5 detik...")
+                Threading.Thread.Sleep(5000)
+            End If
+        Next
+    End Sub
 
     Private Sub bgWorkerMedicationRequest_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerMedicationRequest.DoWork
         Dim tbls As DataTable = GetDataMedicationRequest()
@@ -820,6 +1240,10 @@ Public Class FormObservation
                 Threading.Thread.Sleep(5000)
             End If
         Next
+    End Sub
+
+    Private Sub bgWorkerMedicationRacikan_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles bgWorkerMedicationRacikan.DoWork
+
     End Sub
 
     Private Sub bgWorkerMedication_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bgWorkerMedication.DoWork
@@ -1398,6 +1822,50 @@ Public Class FormObservation
     ' === Selesai Proses Medication Request ===
     Private Sub bgWorkerMedicationRequest_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerMedicationRequest.RunWorkerCompleted
         MsgBox("Selesai mengirim semua data Medication Request.")
+
+        isStopRequested = False
+        PostSatuSehat.Enabled = True
+        ButtonGetToken.Enabled = True
+        ButtonStopProses.Enabled = False
+        ButtonRefresh.Enabled = True
+    End Sub
+
+    Private Sub bgWorkerMedicationRequestRacikan_ProgressChanged(ByVal sender As Object, ByVal e As ProgressChangedEventArgs) Handles bgWorkerMedicationRequestRacikan.ProgressChanged
+
+        ' Update progress bar
+        If e.ProgressPercentage > 0 Then
+            UpdateProgress(e.ProgressPercentage)
+        End If
+
+        ' Update TextBox response (thread-safe)
+        If e.UserState IsNot Nothing Then
+            Dim msg As String = e.UserState.ToString()
+            If TextBoxResponse.InvokeRequired Then
+                TextBoxResponse.Invoke(New Action(Of String)(AddressOf AppendTextSafe), msg)
+            Else
+                AppendTextSafe(msg)
+            End If
+        End If
+
+        ' Update counter tiap 10%
+        Static lastUpdate As Integer = 0
+        If e.ProgressPercentage - lastUpdate >= 10 OrElse e.ProgressPercentage = 100 Then
+            lastUpdate = e.ProgressPercentage
+            Try
+                Dim jumlah As Integer = GetJumlahTransaksiMedicationRequestRacikan()
+                Dim jumlahData As Integer = GetJumlahDataMedicationRequestRacikan()
+
+                LabelJmlTerkirim.Text = jumlah.ToString() & " Transaksi Medication Request (Racikan)"
+                LabelData.Text = jumlahData.ToString() & " Data Medication Request (Racikan)"
+            Catch ex As Exception
+                ' Abaikan error ringan
+            End Try
+        End If
+    End Sub
+
+    Private Sub bgWorkerMedicationRequestRacikan_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bgWorkerMedicationRequestRacikan.RunWorkerCompleted
+
+        MsgBox("Selesai mengirim semua data Medication Request RACIKAN.")
 
         isStopRequested = False
         PostSatuSehat.Enabled = True

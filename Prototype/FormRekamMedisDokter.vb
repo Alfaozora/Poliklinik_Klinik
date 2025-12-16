@@ -663,23 +663,30 @@ Public Class FormRekamMedisDokter
         TextBoxNomorNIK.BackColor = SystemColors.Window
     End Sub
 
-    Private Function CekRiwayatB20(ByVal idInternet As String) As Boolean
+    Private Function GetRiwayatB20(ByVal idInternet As String) As DataTable
         Try
             Dim sql As String = _
-            "SELECT TOP 1 TDD.KodeDiagnosa " & _
+            "SELECT TOP 1 TDD.KodeDiagnosa, TDD.KeteranganDiagnosa " & _
             "FROM TransaksiDetailDiagnosa TDD " & _
             "INNER JOIN TransaksiDetail TD ON TDD.NoTransaksi = TD.NoUrut " & _
-            "WHERE TDD.KodeDiagnosa LIKE '%B20%' " & _
+            "WHERE (TDD.KodeDiagnosa LIKE 'B16%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B17%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B18%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B19%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B20%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B21%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B22%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B23%' " & _
+            "OR TDD.KodeDiagnosa LIKE 'B24%') " & _
             "AND TD.IDInternet = '" & idInternet & "'"
 
-            Dim dt As DataTable = ReadSQL(sql)
-
-            Return dt.Rows.Count > 0
+            Return ReadSQL(sql)
 
         Catch ex As Exception
-            Return False
+            Return Nothing
         End Try
     End Function
+
 
     Private Sub LoadNotification(ByRef messageBox As Boolean)
         ' Hidden Notification
@@ -711,10 +718,17 @@ Public Class FormRekamMedisDokter
         End If
 
         'Cek riwayat B20
-        If CekRiwayatB20(idPasien) = True Then
+        Dim dt As DataTable = GetRiwayatB20(idPasien)
+
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+            Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
+            Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
+
             MsgBox("PERHATIAN!" & vbCrLf & _
-                   "Pasien memiliki riwayat diagnosis B20 (HIV/AIDS).", _
-                   MsgBoxStyle.Exclamation, "Warning!")
+                   "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
+                   "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
+
         End If
     End Sub
 
@@ -8891,6 +8905,13 @@ Public Class FormRekamMedisDokter
         Dim Takhir As Date = TglAkhirRiwayatLaboratorium.Value
         Dim tblTemp As DataTable = CreateTableRiwayatLaboratorium()
 
+        ' Set Jenis Kelamin
+        Dim jenisKelamin As String = ""
+        Dim dtJK As DataTable = ReadSQL("SELECT JenisKelamin FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
+        If dtJK.Rows.Count > 0 Then
+            jenisKelamin = dtJK.Rows(0)("JenisKelamin").ToString().Trim().ToUpper()
+        End If
+
         If RadioButtonCekStik.Checked = True Then
             ' Ambil hanya data dari HasilCekstik
             Dim queryCekStik As String = "SELECT CreatedDate, Kategori, Kondisi, Hasil, Satuan, Keterangan " & _
@@ -8911,11 +8932,6 @@ Public Class FormRekamMedisDokter
                     newRow("Satuan") = rowCekStik("Satuan").ToString()
                     Dim kondisi As String = rowCekStik("Kondisi").ToString().Trim().ToUpper()
                     Dim nilaiRujukan As String = ""
-                    Dim jenisKelamin As String = ""
-                    Dim dtJK As DataTable = ReadSQL("SELECT JenisKelamin FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
-                    If dtJK.Rows.Count > 0 Then
-                        jenisKelamin = dtJK.Rows(0)("JenisKelamin").ToString().Trim().ToUpper()
-                    End If
 
                     Select Case kondisi
                         Case "Tes Gulah Darah Puasa (GDP)"
@@ -8954,55 +8970,6 @@ Public Class FormRekamMedisDokter
             End If
 
             Exit Sub
-        ElseIf RadioButtonPDF.Checked = True Then
-            ' Ambil data file PDF yang diupload
-            Dim queryPDF As String = "SELECT ID, NoRM, NoUrut, NamaFile, CreatedDate, FilePath " & _
-                                     "FROM UploadPDF " & _
-                                     "WHERE NoRM = '" & idPasien & "' " & _
-                                     "AND DeletedDate IS NULL " & _
-                                     "AND CONVERT(date, CreatedDate) BETWEEN '" & Format(Tawal, "yyyy-MM-dd") & "' AND '" & Format(Takhir, "yyyy-MM-dd") & "' " & _
-                                     "ORDER BY CreatedDate DESC"
-
-            Dim TblPDF As DataTable = ReadSQL(queryPDF)
-
-            If TblPDF.Rows.Count > 0 Then
-                For Each rowPDF As DataRow In TblPDF.Rows
-                    Dim newRow As DataRow = tblTemp.NewRow()
-                    newRow("Tgl Pemeriksaan") = Format(rowPDF("CreatedDate"), "yyyy-MM-dd HH:mm:ss")
-                    newRow("Nama Pemeriksaan") = rowPDF("NamaFile").ToString()
-                    newRow("Jenis Pemeriksaan") = "Hasil PDF"
-                    newRow("Detail Keterangan") = "-"
-                    newRow("Hasil") = "-"
-                    newRow("Satuan") = "-"
-                    newRow("Nilai Rujukan") = "-"
-                    newRow("Keterangan") = "-"
-                    newRow("FilePath") = rowPDF("FilePath").ToString()
-                    tblTemp.Rows.Add(newRow)
-                Next
-
-                DataGridViewRiwayatLaboratorium.DataSource = tblTemp
-                DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
-                DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
-                If DataGridViewRiwayatLaboratorium.Columns.Contains("FilePath") Then
-                    DataGridViewRiwayatLaboratorium.Columns("FilePath").Visible = False
-                End If
-
-                ' Tambahkan tombol di kolom terakhir (jika belum ada)
-                If DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF") Is Nothing Then
-                    Dim btnCol As New DataGridViewButtonColumn()
-                    btnCol.Name = "BtnLihatPDF"
-                    btnCol.HeaderText = "Aksi"
-                    btnCol.Text = "Lihat"
-                    btnCol.UseColumnTextForButtonValue = True
-                    DataGridViewRiwayatLaboratorium.Columns.Add(btnCol)
-                End If
-
-            Else
-                MsgBox("Tidak ada PDF hasil lab ditemukan.", MsgBoxStyle.Information, "Informasi")
-            End If
-
-            Exit Sub
         End If
 
         ' Jika bukan Cek Stik, ambil dari TransaksiLabDetail
@@ -9011,24 +8978,52 @@ Public Class FormRekamMedisDokter
             queryTindakanString = "AND a.TindakanID = '" & TextBoxKodeTindakanRiwayatLaboratorium.Text & "'"
         End If
 
-        Dim queryString As String = "SELECT a.CreatedDate, a.NamaTindakan, a.JenisTindakan, b.DetailKet, b.Result, b.Satuan, b.Pria, b.Wanita, b.Keterangan, b.saran AS 'Saran' " & _
-                                    "FROM TransaksiLabDetail a " & _
-                                    "LEFT JOIN TransaksiLabResult b ON a.TransLabIDDetail = b.TransLabIDDetail AND a.TindakanID = b.TindakanID " & _
-                                    "LEFT JOIN MasterJenisTindakan m ON m.JenisTindakan=a.JenisTindakan " & _
-                                    "WHERE a.StatusPembayaran = 'PAID' " & queryTindakanString & " AND a.TransLabID IN (SELECT TransLabID FROM TransaksiLab WHERE IDInternet = '" & idPasien & "' AND Status IN ('CETAK', 'TAKEIT')  AND CONVERT(date, Tgllab) BETWEEN '" & Format(Tawal, "yyyy-MM-dd") & "' AND '" & Format(Takhir, "yyyy-MM-dd") & "' AND deleted <> 1 AND LabStartTime IS NOT NULL)"
-        Dim queryOrderString As String = " ORDER BY a.TransLabID DESC, m.UrutanJenisID, a.Urutan, b.TindakanID, b.NoUrut, a.TransLabIDDetail, a.TindakanID, b.GroupID, b.DetailKet"
+        Dim queryString As New System.Text.StringBuilder()
+        queryString.AppendLine("SELECT t.NoUrut + ' (' + CONVERT(VARCHAR(10), t.TglLab, 105) + ')' AS NoTransaksiTgl,")
+        queryString.AppendLine("       a.NamaTindakan, a.JenisTindakan, b.DetailKet, b.Result, b.Satuan, b.Flag,")
+        queryString.AppendLine("       b.Pria, b.Wanita, b.Keterangan, b.Saran AS Saran, CONVERT(VARCHAR(10), t.TglLab, 105) AS TanggalLab")
+        queryString.AppendLine("FROM TransaksiLabDetail a")
+        queryString.AppendLine("     LEFT JOIN TransaksiLabResult b ON a.TransLabIDDetail=b.TransLabIDDetail AND a.TindakanID=b.TindakanID")
+        queryString.AppendLine("     INNER JOIN TransaksiLab t ON a.TransLabID=t.TransLabID")
+        queryString.AppendLine("WHERE a.StatusPembayaran='PAID' " & queryTindakanString)
+        queryString.AppendLine("  AND t.IDInternet='" & idPasien & "'")
+        queryString.AppendLine("  AND t.Status IN ('CETAK', 'TAKEIT')")
+        queryString.AppendLine("  AND CONVERT(DATE, t.TglLab) BETWEEN '" & Format(Tawal, "yyyy-MM-dd") & "' AND '" & Format(Takhir, "yyyy-MM-dd") & "'")
+        queryString.AppendLine("  AND t.deleted<>1")
+        queryString.AppendLine("  AND t.LabStartTime IS NOT NULL")
 
-        Dim Tbls As DataTable = ReadSQL(queryString & queryOrderString)
+        Dim queryOrderString As String = " ORDER BY a.TransLabID DESC, a.Urutan, b.TindakanID, b.NoUrut, a.TransLabIDDetail, a.TindakanID, b.GroupID, b.DetailKet"
+
+        Dim Tbls As DataTable = ReadSQL(queryString.ToString() & queryOrderString)
+        'Dim jenisKelamin As String = ReadSQLNIK("SELECT JenisKelamin FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
+
         If Tbls.Rows.Count > 0 Then
             For Each Trow As DataRow In Tbls.Rows
                 Dim newRow As DataRow = tblTemp.NewRow()
-                newRow("Tgl Pemeriksaan") = Format(Trow("CreatedDate"), "yyyy-MM-dd HH:mm:ss")
+
+                Dim hasil As String = Trow("Result").ToString()
+                Dim flag As String = Trow("Flag").ToString().Trim()
+                Dim nilaiRujukan As String = ""
+
+                ' Tambahkan tanda * jika Flag High/Low
+                If flag = "High" OrElse flag = "Low" Then
+                    hasil &= " *"
+                End If
+
+                ' Set Nilai Rujukan berdasarkan Jenis Kelamin
+                If jenisKelamin = "L" Then
+                    nilaiRujukan = Trow("Pria").ToString
+                ElseIf jenisKelamin = "P" Then
+                    nilaiRujukan = Trow("Wanita").ToString
+                End If
+
+                newRow("Tgl Pemeriksaan") = Trow("TanggalLab")
                 newRow("Nama Pemeriksaan") = Trow("NamaTindakan")
                 newRow("Jenis Pemeriksaan") = Trow("JenisTindakan")
                 newRow("Detail Keterangan") = Trow("DetailKet")
-                newRow("Hasil") = Trow("Result")
+                newRow("Hasil") = hasil
                 newRow("Satuan") = Trow("Satuan")
-                newRow("Nilai Rujukan") = Trow("Pria")
+                newRow("Nilai Rujukan") = nilaiRujukan
                 newRow("Keterangan") = Trow("Keterangan")
 
                 tblTemp.Rows.Add(newRow)

@@ -64,6 +64,8 @@
                             WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', email='" & Trow("email") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
                         ElseIf Trow("NoHandphone").ToString.Trim <> "" And Trow("NoHandphone").ToString.Trim <> "-" And IsDBNull(Trow("NoHandphone")) = False Then
                             WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', Tlp='" & Trow("NoHandphone") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
+                        Else
+                            WriteThemysql("update masterpasien set NIP = '" & Trow("NoNIP") & "', Alamat='" & Trow("DomisiliAlamat") & "' WHERE nomitra = '" & Trow("NoRekamMedis") & "' and cabang = '" & Ttempat & "'", DB_Poliklinik)
                         End If
                     End If
 

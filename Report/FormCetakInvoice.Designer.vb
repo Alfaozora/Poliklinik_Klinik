@@ -34,6 +34,10 @@ Partial Class FormCetakInvoice
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.Label9 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.TextBoxKeteranganVoucher = New System.Windows.Forms.TextBox
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.CheckBoxStatusPembelianPaket = New System.Windows.Forms.CheckBox
+        Me.ButtonCetakInvoice = New System.Windows.Forms.Button
         Me.txtotalrow = New System.Windows.Forms.TextBox
         Me.TextBoxNomorRM = New System.Windows.Forms.TextBox
         Me.txadmin = New System.Windows.Forms.TextBox
@@ -60,10 +64,6 @@ Partial Class FormCetakInvoice
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
         Me.gridbayar = New DevExpress.XtraGrid.GridControl
         Me.GridView3 = New DevExpress.XtraGrid.Views.Grid.GridView
-        Me.ButtonCetakInvoice = New System.Windows.Forms.Button
-        Me.CheckBoxStatusPembelianPaket = New System.Windows.Forms.CheckBox
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.TextBoxKeteranganVoucher = New System.Windows.Forms.TextBox
         Me.GroupBox1.SuspendLayout()
         CType(Me.GridControlTindakan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -219,6 +219,59 @@ Partial Class FormCetakInvoice
         Me.GroupBox2.Size = New System.Drawing.Size(679, 239)
         Me.GroupBox2.TabIndex = 4
         Me.GroupBox2.TabStop = False
+        '
+        'TextBoxKeteranganVoucher
+        '
+        Me.TextBoxKeteranganVoucher.BackColor = System.Drawing.Color.White
+        Me.TextBoxKeteranganVoucher.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TextBoxKeteranganVoucher.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TextBoxKeteranganVoucher.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.TextBoxKeteranganVoucher.Location = New System.Drawing.Point(184, 174)
+        Me.TextBoxKeteranganVoucher.Name = "TextBoxKeteranganVoucher"
+        Me.TextBoxKeteranganVoucher.ReadOnly = True
+        Me.TextBoxKeteranganVoucher.Size = New System.Drawing.Size(137, 23)
+        Me.TextBoxKeteranganVoucher.TabIndex = 597
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(26, 176)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(101, 15)
+        Me.Label5.TabIndex = 596
+        Me.Label5.Text = "Pembelian Paket"
+        '
+        'CheckBoxStatusPembelianPaket
+        '
+        Me.CheckBoxStatusPembelianPaket.AutoSize = True
+        Me.CheckBoxStatusPembelianPaket.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.CheckBoxStatusPembelianPaket.Location = New System.Drawing.Point(138, 174)
+        Me.CheckBoxStatusPembelianPaket.Name = "CheckBoxStatusPembelianPaket"
+        Me.CheckBoxStatusPembelianPaket.Size = New System.Drawing.Size(40, 21)
+        Me.CheckBoxStatusPembelianPaket.TabIndex = 595
+        Me.CheckBoxStatusPembelianPaket.Text = "Ya"
+        Me.CheckBoxStatusPembelianPaket.UseVisualStyleBackColor = True
+        '
+        'ButtonCetakInvoice
+        '
+        Me.ButtonCetakInvoice.BackColor = System.Drawing.Color.White
+        Me.ButtonCetakInvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.ButtonCetakInvoice.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonCetakInvoice.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonCetakInvoice.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonCetakInvoice.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ButtonCetakInvoice.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonCetakInvoice.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.ButtonCetakInvoice.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonCetakInvoice.Location = New System.Drawing.Point(360, 180)
+        Me.ButtonCetakInvoice.Name = "ButtonCetakInvoice"
+        Me.ButtonCetakInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.ButtonCetakInvoice.Size = New System.Drawing.Size(207, 25)
+        Me.ButtonCetakInvoice.TabIndex = 594
+        Me.ButtonCetakInvoice.Text = "Cetak Invoice"
+        Me.ButtonCetakInvoice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ButtonCetakInvoice.UseVisualStyleBackColor = False
         '
         'txtotalrow
         '
@@ -477,59 +530,6 @@ Partial Class FormCetakInvoice
         Me.GridView3.OptionsView.ShowAutoFilterRow = True
         Me.GridView3.OptionsView.ShowGroupPanel = False
         Me.GridView3.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowForFocusedRow
-        '
-        'ButtonCetakInvoice
-        '
-        Me.ButtonCetakInvoice.BackColor = System.Drawing.Color.White
-        Me.ButtonCetakInvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.ButtonCetakInvoice.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonCetakInvoice.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonCetakInvoice.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonCetakInvoice.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ButtonCetakInvoice.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonCetakInvoice.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.ButtonCetakInvoice.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ButtonCetakInvoice.Location = New System.Drawing.Point(360, 180)
-        Me.ButtonCetakInvoice.Name = "ButtonCetakInvoice"
-        Me.ButtonCetakInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ButtonCetakInvoice.Size = New System.Drawing.Size(207, 25)
-        Me.ButtonCetakInvoice.TabIndex = 594
-        Me.ButtonCetakInvoice.Text = "Cetak Invoice"
-        Me.ButtonCetakInvoice.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.ButtonCetakInvoice.UseVisualStyleBackColor = False
-        '
-        'CheckBoxStatusPembelianPaket
-        '
-        Me.CheckBoxStatusPembelianPaket.AutoSize = True
-        Me.CheckBoxStatusPembelianPaket.Font = New System.Drawing.Font("Segoe UI", 9.75!)
-        Me.CheckBoxStatusPembelianPaket.Location = New System.Drawing.Point(138, 174)
-        Me.CheckBoxStatusPembelianPaket.Name = "CheckBoxStatusPembelianPaket"
-        Me.CheckBoxStatusPembelianPaket.Size = New System.Drawing.Size(40, 21)
-        Me.CheckBoxStatusPembelianPaket.TabIndex = 595
-        Me.CheckBoxStatusPembelianPaket.Text = "Ya"
-        Me.CheckBoxStatusPembelianPaket.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(26, 176)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(101, 15)
-        Me.Label5.TabIndex = 596
-        Me.Label5.Text = "Pembelian Paket"
-        '
-        'TextBoxKeteranganVoucher
-        '
-        Me.TextBoxKeteranganVoucher.BackColor = System.Drawing.Color.White
-        Me.TextBoxKeteranganVoucher.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBoxKeteranganVoucher.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TextBoxKeteranganVoucher.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.TextBoxKeteranganVoucher.Location = New System.Drawing.Point(184, 174)
-        Me.TextBoxKeteranganVoucher.Name = "TextBoxKeteranganVoucher"
-        Me.TextBoxKeteranganVoucher.ReadOnly = True
-        Me.TextBoxKeteranganVoucher.Size = New System.Drawing.Size(137, 23)
-        Me.TextBoxKeteranganVoucher.TabIndex = 597
         '
         'FormCetakInvoice
         '
