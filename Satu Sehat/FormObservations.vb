@@ -105,11 +105,21 @@ Public Class FormObservation
             End If
         End If
 
-        Dim lastDateSinkron As String = ReadSQLNIK("SELECT TOP(1) CreatedDate FROM SatuSehat_LogObservations ORDER BY CreatedDate DESC")
+        Dim lastDateSinkron As String = ReadSQLNIK( _
+            "SELECT MAX(CreatedDate) AS LastSync " & _
+            "FROM ( " & _
+            "   SELECT MAX(CreatedDate) AS CreatedDate FROM SatuSehat_LogObservations WHERE CreatedDate IS NOT NULL " & _
+            "   UNION ALL SELECT MAX(CreatedDate) FROM SatuSehat_LogMedicationRequest WHERE CreatedDate IS NOT NULL " & _
+            "   UNION ALL SELECT MAX(CreatedDate) FROM SatuSehat_LogMedicationRequestRacikan WHERE CreatedDate IS NOT NULL " & _
+            "   UNION ALL SELECT MAX(CreatedDate) FROM SatuSehat_LogMedication WHERE CreatedDate IS NOT NULL " & _
+            "   UNION ALL SELECT MAX(CreatedDate) FROM SatuSehat_LogMedicationRacikan WHERE CreatedDate IS NOT NULL " & _
+            "   UNION ALL SELECT MAX(CreatedDate) FROM SatuSehat_LogProcedure WHERE CreatedDate IS NOT NULL " & _
+            ") X")
+
         If String.IsNullOrEmpty(lastDateSinkron) Then
             LabelSinkronisasi.Text = "Belum ada data terkirim"
         Else
-            LabelSinkronisasi.Text = "Kirim Data Terakhir pada " & lastDateSinkron
+            LabelSinkronisasi.Text = "Sinkronisasi terakhir: " & lastDateSinkron
         End If
     End Sub
 
@@ -1086,6 +1096,17 @@ Public Class FormObservation
                 retryCount += 1
                 response = InsertDataAPIRM(json, apiUrl)
 
+                If response Is Nothing OrElse response.Trim() = "" Then
+                    worker.ReportProgress(0, "[MedicationRequest-Racikan] Response kosong")
+                    Exit Do
+                End If
+
+                If response.ToLower().Contains("too many attempts") Then
+                    worker.ReportProgress(0, "[MedicationRequest-Racikan] RATE LIMIT - delay 30 detik...")
+                    Threading.Thread.Sleep(30000)
+                    Continue Do
+                End If
+
                 Try
                     Dim rowJson As JObject = JObject.Parse(response)
                     Dim status As String = rowJson("status").ToString().ToLower()
@@ -1429,6 +1450,17 @@ Public Class FormObservation
             Do
                 attempt += 1
                 response = InsertDataAPIRM(json, apiUrl)
+
+                If response Is Nothing OrElse response.Trim() = "" Then
+                    worker.ReportProgress(0, "[Medication-Racikan] Response kosong")
+                    Exit Do
+                End If
+
+                If response.ToLower().Contains("too many attempts") Then
+                    worker.ReportProgress(0, "[Medication-Racikan] RATE LIMIT - delay 30 detik...")
+                    Threading.Thread.Sleep(30000)
+                    Continue Do
+                End If
 
                 Try
                     Dim rowJson As JObject = JObject.Parse(response)
