@@ -44,8 +44,10 @@ Partial Class FormObservation
         Me.bgWorkerObservasi = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerProcedure = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerMedication = New System.ComponentModel.BackgroundWorker
-        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.bgWorkerMedicationRequest = New System.ComponentModel.BackgroundWorker
+        Me.bgWorkerMedicationRequestRacikan = New System.ComponentModel.BackgroundWorker
+        Me.bgWorkerMedicationRacikan = New System.ComponentModel.BackgroundWorker
+        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -352,6 +354,21 @@ Partial Class FormObservation
         Me.bgWorkerMedication.WorkerReportsProgress = True
         Me.bgWorkerMedication.WorkerSupportsCancellation = True
         '
+        'bgWorkerMedicationRequest
+        '
+        Me.bgWorkerMedicationRequest.WorkerReportsProgress = True
+        Me.bgWorkerMedicationRequest.WorkerSupportsCancellation = True
+        '
+        'bgWorkerMedicationRequestRacikan
+        '
+        Me.bgWorkerMedicationRequestRacikan.WorkerReportsProgress = True
+        Me.bgWorkerMedicationRequestRacikan.WorkerSupportsCancellation = True
+        '
+        'bgWorkerMedicationRacikan
+        '
+        Me.bgWorkerMedicationRacikan.WorkerReportsProgress = True
+        Me.bgWorkerMedicationRacikan.WorkerSupportsCancellation = True
+        '
         'PanelProgressFill
         '
         Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -361,11 +378,6 @@ Partial Class FormObservation
         Me.PanelProgressFill.Name = "PanelProgressFill"
         Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
         Me.PanelProgressFill.TabIndex = 522
-        '
-        'bgWorkerMedicationRequest
-        '
-        Me.bgWorkerMedicationRequest.WorkerReportsProgress = True
-        Me.bgWorkerMedicationRequest.WorkerSupportsCancellation = True
         '
         'FormObservation
         '
@@ -413,4 +425,6 @@ Partial Class FormObservation
     Friend WithEvents bgWorkerProcedure As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgWorkerMedication As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgWorkerMedicationRequest As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgWorkerMedicationRequestRacikan As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgWorkerMedicationRacikan As System.ComponentModel.BackgroundWorker
 End Class

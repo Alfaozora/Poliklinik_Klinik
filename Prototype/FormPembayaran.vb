@@ -1604,8 +1604,8 @@ Public Class FormPembayaran
 
                     If CheckSQL("SELECT * FROM TransaksiLabDetail WHERE TransLabID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "'") = False Then
                         ' Insert TransaksiLabDetail
-                        WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,Mesin,Urutan) " & _
-                             "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & Trow("Mesin") & "','" & Trow("Urutan") & "')", 4)
+                        WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,Mesin,Urutan,StatusPembayaran) " & _
+                                 "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & Trow("Mesin") & "','" & Trow("Urutan") & "','PAID')", 4)
                     Else
                         ' Update TransaksiLabDetail
                         WriteSQL("UPDATE TransaksiLabDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", StatusPembayaran = 'PAID' " & _

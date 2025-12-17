@@ -359,6 +359,12 @@
     <Compile Include="Form_Trial\UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Lab\LabAdminOnline.Designer.vb">
+      <DependentUpon>LabAdminOnline.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\LabAdminOnline.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Lab\ToolsTransaksiLab.Designer.vb">
       <DependentUpon>ToolsTransaksiLab.vb</DependentUpon>
     </Compile>
@@ -988,12 +994,6 @@
     <Compile Include="Lab\ImportMCU.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Lab\LabAdminOnline.Designer.vb">
-      <DependentUpon>LabAdminOnline.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Lab\LabAdminOnline.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Lab\RekapHasilLab.Designer.vb">
       <DependentUpon>RekapHasilLab.vb</DependentUpon>
     </Compile>
@@ -1462,6 +1462,9 @@
     <EmbeddedResource Include="Form_Trial\UserControl1.resx">
       <DependentUpon>UserControl1.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Lab\LabAdminOnline.resx">
+      <DependentUpon>LabAdminOnline.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Lab\ToolsTransaksiLab.resx">
       <DependentUpon>ToolsTransaksiLab.vb</DependentUpon>
     </EmbeddedResource>
@@ -1790,10 +1793,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Lab\ImportMCU.resx">
       <DependentUpon>ImportMCU.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Lab\LabAdminOnline.resx">
-      <DependentUpon>LabAdminOnline.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Lab\RekapHasilLab.resx">

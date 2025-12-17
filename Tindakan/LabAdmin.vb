@@ -17,7 +17,7 @@ Imports DevExpress.XtraPrinting
 Imports DevExpress.XtraPrinting.Drawing
 
 Public Class LabAdmin
-    Dim Ttcon As TLcon
+    Dim DB_Sysmex As TLcon
     Dim TtconU As TLcon
     Dim Ttmesin As TLcon
 
@@ -149,10 +149,10 @@ Public Class LabAdmin
         DB_Poliklinik.Tpass = serverOnline_Password
         DB_Poliklinik.Tdb = Utility.GetConfig("ServerOnlinePoli_DB")
 
-        Ttcon.Tid = "root"
-        Ttcon.Tip = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TIP'")
-        Ttcon.Tdb = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TDB'")
-        Ttcon.Tpass = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TPass'")
+        DB_Sysmex.Tid = "root"
+        DB_Sysmex.Tip = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'db_host_sysmex'")
+        DB_Sysmex.Tdb = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'db_name_sysmex'")
+        DB_Sysmex.Tpass = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'db_pass_sysmex'")
 
         Dim status_urine As String = Utility.GetConfig("MesinUrine")
         Dim Tdiff As Integer = Utility.GetConfig("MesinDiff")
@@ -815,8 +815,6 @@ GoBackthis:
                                                      }, 1)
 
         GridViewTindakanLab.ExpandAllGroups()
-        'GridViewTindakanLab.BestFitColumns()
-
         TextBoxNoTransaksi.Focus()
     End Sub
 
@@ -1122,13 +1120,13 @@ GoBackthis:
                                                                "LEFT JOIN MasterDokterKirim f on f.IdKirim=g.IdKirim " & _
                                                                "WHERE  b.TransLabID='" & TempTranslabID & "' AND mesin<>'URINE' AND Mesin is not null AND LTRIM(RTRIM(Mesin))<>'' AND LTRIM(RTRIM(Mesin))<>'-'")
                             If Tmesin5.Rows.Count > 0 Then
-                                If CekKoneksi("SHOW TABLES FROM " & Ttcon.Tdb & "", Ttcon) = False Then
-                                    MsgBox("Sending data ke mesin gagal, cek koneksi ke server DB " & Ttcon.Tdb & " atau IP " & Ttcon.Tip & ".", MsgBoxStyle.Exclamation, "Warning!")
+                                If CekKoneksi("SHOW TABLES FROM " & DB_Sysmex.Tdb & "", DB_Sysmex) = False Then
+                                    MsgBox("Sending data ke mesin gagal, cek koneksi ke server DB " & DB_Sysmex.Tdb & " atau IP " & DB_Sysmex.Tip & ".", MsgBoxStyle.Exclamation, "Warning!")
                                 Else
                                     For Each Trow As DataRow In Tmesin5.Rows
-                                        If CheckThemysql("SELECT * FROM paslab WHERE NoUrut='" & KodeBarcode & Strings.Replace(Strings.Replace(Strings.Right(Trow("NoUrut"), Len(Trow("NoUrut")) - 2), "L", "8"), "M", "9") & "' AND TglLab='" & Format(Trow("TglLab"), "yyyyMMdd") & "' AND Instrument='" & Trow("Mesin") & "' AND kode_jasa='" & Trow("TindakanID") & "' AND nama_jasa='" & Trow("NamaTindakan") & "'", Ttcon) = False Then
+                                        If CheckThemysql("SELECT * FROM paslab WHERE NoUrut='" & KodeBarcode & Strings.Replace(Strings.Replace(Strings.Right(Trow("NoUrut"), Len(Trow("NoUrut")) - 2), "L", "8"), "M", "9") & "' AND TglLab='" & Format(Trow("TglLab"), "yyyyMMdd") & "' AND Instrument='" & Trow("Mesin") & "' AND kode_jasa='" & Trow("TindakanID") & "' AND nama_jasa='" & Trow("NamaTindakan") & "'", DB_Sysmex) = False Then
                                             WriteThemysql("INSERT INTO paslab(`NoUrut`, `TglLab`, `Nama`, `Instrument`, `kode_jasa`, `nama_jasa`,`nama_dok`,`sex`,`alamat`,`no_rm`,`tgl_lahir`,`usertime`) " & _
-                                                     " VALUES('" & KodeBarcode & Strings.Replace(Strings.Replace(Strings.Right(Trow("NoUrut"), Len(Trow("NoUrut")) - 2), "L", "8"), "M", "9") & "','" & Format(Trow("TglLab"), "yyyyMMdd") & "','" & Trow("Nama") & "','" & Trow("Mesin") & "','" & Trow("TindakanID") & "','" & Trow("NamaTindakan") & "','" & Trow("DrNama") & "','" & Trow("JenisKelamin") & "','" & Trow("DomisiliAlamat") & "','" & Trow("NoRekamMedis") & "','" & Format(Trow("TglLahir"), "yyyyMMdd") & "', NOW())", Ttcon)
+                                                     " VALUES('" & KodeBarcode & Strings.Replace(Strings.Replace(Strings.Right(Trow("NoUrut"), Len(Trow("NoUrut")) - 2), "L", "8"), "M", "9") & "','" & Format(Trow("TglLab"), "yyyyMMdd") & "','" & Trow("Nama") & "','" & Trow("Mesin") & "','" & Trow("TindakanID") & "','" & Trow("NamaTindakan") & "','" & Trow("DrNama") & "','" & Trow("JenisKelamin") & "','" & Trow("DomisiliAlamat") & "','" & Trow("NoRekamMedis") & "','" & Format(Trow("TglLahir"), "yyyyMMdd") & "', NOW())", DB_Sysmex)
                                         End If
                                     Next
                                 End If
@@ -1211,6 +1209,33 @@ GoBackthis:
         insertRowToTbls(Tbls, "typstring", "Tanggal")
         insertRowToTbls(Tbls, "typstring", "barcodenotrans")
         insertRowToTbls(Tbls, "typstring", "KesimpulanAll")
+
+        ' Set Value Tanggal
+        insertRowToTbls(Tbls, "typstring", "TglOrder")
+        insertRowToTbls(Tbls, "typstring", "TglTerima")
+        insertRowToTbls(Tbls, "typstring", "TglCetak")
+        insertRowToTbls(Tbls, "typstring", "TurnAroundTime")
+
+        Dim tblTanggal As DataTable = ReadSQL("SELECT LabDaftar, LabStartTime, LabCetak FROM TransaksiLab WHERE TransLabID='" & idTransaksi & "'")
+        Dim rowTanggal As DataRow = tblTanggal.Rows(0)
+
+        '--- Ambil data dari DataRow (cek NULL)
+        Dim tglOrder As Date = If(IsDBNull(rowTanggal("LabDaftar")), Date.MinValue, CDate(rowTanggal("LabDaftar")))
+        Dim tglStart As Date = If(IsDBNull(rowTanggal("LabStartTime")), Date.MinValue, CDate(rowTanggal("LabStartTime")))
+        Dim tglCetak As Date = If(IsDBNull(rowTanggal("LabCetak")), Date.MinValue, CDate(rowTanggal("LabCetak")))
+
+        '--- Format tanggal
+        Dim sTglOrder As String = tglOrder.ToString("dd-MM-yyyy HH:mm:ss")
+        Dim sTglStart As String = tglStart.ToString("dd-MM-yyyy HH:mm:ss")
+        Dim sTglCetak As String = tglCetak.ToString("dd-MM-yyyy HH:mm:ss")
+
+        '--- Hitung Turn Around Time (jika LabCetak tidak kosong)
+        Dim sTAT As String = "-"
+        If tglCetak <> Date.MinValue AndAlso tglOrder <> Date.MinValue Then
+            Dim tat As TimeSpan = tglCetak - tglOrder
+            sTAT = String.Format("{0} hari {1} jam {2} menit {3} detik", _
+                                 tat.Days, tat.Hours, tat.Minutes, tat.Seconds)
+        End If
 
         Dim Tlab As DataTable = ReadSQL("SELECT a.StatusHardcopy, a.SendingWhatsapp, a.SendingEmail, a.Kesimpulan, a.Saran, b.NoNIK, b.NoNIP, a.caraambil " & _
                                         "FROM transaksilab a " & _
@@ -1315,6 +1340,12 @@ GoBackthis:
             ElseIf Tsaran <> "" Then
                 Trow("KesimpulanAll") = "Saran :" + vbCrLf + Tsaran
             End If
+
+            ' Set Tanggal Cetak
+            Trow("TglOrder") = sTglOrder
+            Trow("TglTerima") = sTglStart
+            Trow("TglCetak") = sTglCetak
+            Trow("TurnAroundTime") = sTAT
 
             If (Trow("Result").ToString.Trim = "" Or Trow("Result").ToString.Trim = "-") And Trow("DetailKet").ToString.Trim <> "SEDIMEN :" And Trow("DetailKet").ToString.Trim <> "Lain-lain" And Trow("DetailKet").ToString.Trim <> "Makros" Then
                 CountResultEmpty = CountResultEmpty + 1
@@ -3124,7 +3155,6 @@ GoBackthis:
                     End If
 
                     If Strings.LCase(Trownew("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("spirometri") Then
-                        'di skip... Lanjut ke hal lain selain hasil terlampir
                         WriteSQL("update TransaksiLabResult set Result='" & Trownew("Result") & "' , Keterangan='-'  WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
                     Else
                         WriteSQL("update TransaksiLabResult set Acc1='" & UserLabAdmin & "' + ';'  + convert(nvarchar(MAX), GETDATE(), 113) ,acc2='BYPASS;'  + convert(nvarchar(MAX), GETDATE(), 113), Result='" & Trownew("Result") & "' , Keterangan='" & Trownew("Keterangan") & "', Saran='" & Trownew("Saran") & "', Pria='" & Trownew("Pria") & "' , Wanita='" & Trownew("Wanita") & "', Flag = '" & Trownew("Flag") & "', Satuan='" & Trownew("Satuan") & "' WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
@@ -3731,7 +3761,7 @@ GoBackthis:
         For Each TrowDetail As DataRow In TblsDetail.Rows
             If Strings.LCase(TrowDetail("NamaTindakan").ToString).Contains("hematologi lengkap") = True Then
                 'Check Hematologi Lengkap
-                If Utility.GetConfig("Mesin") = "Yes" And CekKoneksi("SHOW TABLES FROM " & Ttcon.Tdb & "", Ttcon) = True Then
+                If Utility.GetConfig("Mesin") = "Yes" And CekKoneksi("SHOW TABLES FROM " & DB_Sysmex.Tdb & "", DB_Sysmex) = True Then
                     Dim NameFileDL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap"
                     Dim filepathDL As String = "FileDownload\Hasil\Hematologi_Lengkap\" & NameFileDL & ".pdf"
                     If File.Exists(filepathDL) = False Then
@@ -3930,9 +3960,9 @@ GoBackthis:
 
                 Dim NoUrutMesin As String = KodeBarcode & Strings.Right(Tstrtemp.ToString.Trim, Len(Tstrtemp.ToString.Trim) - 2)
 
-                Dim tbls As DataTable = ReadThemysql("SELECT a.plt_grafik, a.rbc_grafik, a.diff_grafik FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 order by a.seq_no desc limit 1", Ttcon)
-                Dim seq_no As String = ReadThemysqlNIK("SELECT seq_no FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 order by a.seq_no desc limit 1", Ttcon)
-                Dim tbls_grafik As DataTable = ReadThemysql("SELECT * FROM fsysmex2 WHERE seq_no IN (SELECT seq_no FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 AND a.seq_no = '" & seq_no & "')", Ttcon)
+                Dim tbls As DataTable = ReadThemysql("SELECT a.plt_grafik, a.rbc_grafik, a.diff_grafik FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 order by a.seq_no desc limit 1", DB_Sysmex)
+                Dim seq_no As String = ReadThemysqlNIK("SELECT seq_no FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 order by a.seq_no desc limit 1", DB_Sysmex)
+                Dim tbls_grafik As DataTable = ReadThemysql("SELECT * FROM fsysmex2 WHERE seq_no IN (SELECT seq_no FROM sysmex a WHERE a.rnoreg='" & NoUrutMesin & "' AND a.`dok`<>'' AND a.`dok`<>0 AND a.seq_no = '" & seq_no & "')", DB_Sysmex)
                 Dim umur As Integer = ReadSQLNIK("SELECT DATEDIFF(YYYY, TglLahir, GETDATE()) as Umur FROM MasterPasien WHERE NoRekamMedis = '" & Registrasi & "'")
                 Dim jenisKelamin As String = ReadSQLNIK("SELECT JenisKelamin FROM MasterPasien WHERE NoRekamMedis = '" & Registrasi & "'")
                 Dim Tnilairujukan As New DataTable
@@ -4487,8 +4517,8 @@ GoBackthis:
             Return False
         End If
 
-        If CekKoneksi("SHOW TABLES FROM " & Ttcon.Tdb & "", Ttcon) = False Then
-            MsgBox("Diagram Hematologi Lengkap Gagal. Cek Koneksi ke Server DB " & Ttcon.Tdb & " atau IP " & Ttcon.Tip & ".", MsgBoxStyle.Exclamation, "Warning!")
+        If CekKoneksi("SHOW TABLES FROM " & DB_Sysmex.Tdb & "", DB_Sysmex) = False Then
+            MsgBox("Diagram Hematologi Lengkap Gagal. Cek Koneksi ke Server DB " & DB_Sysmex.Tdb & " atau IP " & DB_Sysmex.Tip & ".", MsgBoxStyle.Exclamation, "Warning!")
             Return False
         End If
 
@@ -5786,13 +5816,28 @@ GoBackthis:
                 If (Trownew("GroupID").ToString.Trim = "Creatinin" Or Trownew("GroupID").ToString.Trim = "Creatinin PAP") And varJenisResult <> "" And Trownew("NoUrut") = "1" Then
                     varNilaiCreatinin = varJenisResult
                 ElseIf (Trownew("GroupID").ToString.Trim = "Creatinin" Or Trownew("GroupID").ToString.Trim = "Creatinin PAP") And varNilaiCreatinin >= 0 And Trownew("NoUrut") = "2" Then
+                    Dim Scr As Double = varNilaiCreatinin
+                    Dim Age As Double = GetCurrentAge(DateTimeTanggalLahir.Value)
+
+                    Dim k As Double
+                    Dim a As Double
+                    Dim genderFactor As Double
+
                     If TextBoxJenisKelamin.Text = "P" Then
-                        varNilaiCreatininEGFR = 175 * (varNilaiCreatinin) ^ -1.154 * (GetCurrentAge(DateTimeTanggalLahir.Value)) ^ -0.203 * 0.742
+                        k = 0.7
+                        a = -0.241
+                        genderFactor = 1.012
                     ElseIf TextBoxJenisKelamin.Text = "L" Then
-                        varNilaiCreatininEGFR = 175 * (varNilaiCreatinin) ^ -1.154 * (GetCurrentAge(DateTimeTanggalLahir.Value)) ^ -0.203
+                        k = 0.9
+                        a = -0.302
+                        genderFactor = 1.0
                     End If
 
-                    Trownew("Result") = Math.Round(varNilaiCreatininEGFR, 1)
+                    Dim ratio As Double = Scr / k
+
+                    varNilaiCreatininEGFR = 142 * (Math.Min(ratio, 1)) ^ a * (Math.Max(ratio, 1)) ^ -1.2 * (0.9938 ^ Age) * genderFactor
+
+                    Trownew("Result") = Math.Round(varNilaiCreatininEGFR, 0, MidpointRounding.AwayFromZero)
                 End If
 
                 '======== END MANUAL CODE ========'
