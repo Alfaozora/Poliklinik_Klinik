@@ -455,7 +455,7 @@ Localization=en-US
 <Dpi>100</Dpi>
 <BindingItemCount>1</BindingItemCount>
 <BindingItem0_X_PropertyName id="ref-66">Text</BindingItem0_X_PropertyName>
-<BindingItem0_X_DataMember id="ref-67">TindakanNama</BindingItem0_X_DataMember>
+<BindingItem0_X_DataMember id="ref-67">NamaTindakan</BindingItem0_X_DataMember>
 <BindingItem0_X_FormatString id="ref-68">{0:#,#}</BindingItem0_X_FormatString>
 <BindingItem0_X_DataSource id="ref-69">dataSource.</BindingItem0_X_DataSource>
 <Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
@@ -869,7 +869,7 @@ Localization=en-US
 <width>725</width>
 <height>23</height>
 </Bounds>
-<Text id="ref-95">Data per : 10-Feb-2018 12:04</Text>
+<Text id="ref-95">Data per : 18-Dec-2025 15:28</Text>
 <NavigateUrl href="#ref-6"/>
 <Target href="#ref-6"/>
 <CanGrow>true</CanGrow>
@@ -1212,14 +1212,14 @@ Localization=en-US
 <BindingItem0_X_PropertyName id="ref-114">Text</BindingItem0_X_PropertyName>
 <BindingItem0_X_DataMember id="ref-115">TindakanNett</BindingItem0_X_DataMember>
 <BindingItem0_X_FormatString href="#ref-6"/>
-<BindingItem0_X_DataSource href="#ref-6"/>
+<BindingItem0_X_DataSource id="ref-116">dataSource.</BindingItem0_X_DataSource>
 <Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
 <x>617</x>
 <y>0</y>
 <width>125</width>
 <height>25</height>
 </Bounds>
-<Text id="ref-116">xrLabel7</Text>
+<Text id="ref-117">xrLabel7</Text>
 <NavigateUrl href="#ref-6"/>
 <Target href="#ref-6"/>
 <CanGrow>true</CanGrow>
@@ -1228,7 +1228,7 @@ Localization=en-US
 <KeepTogether>false</KeepTogether>
 <Multiline>false</Multiline>
 <Angle>0</Angle>
-<Summary_X_FormatString id="ref-117">{0:#,#}</Summary_X_FormatString>
+<Summary_X_FormatString id="ref-118">{0:#,#}</Summary_X_FormatString>
 <Summary_X_Func xsi:type="a3:SummaryFunc" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Sum</Summary_X_Func>
 <Summary_X_Running xsi:type="a3:SummaryRunning" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">Report</Summary_X_Running>
 <Summary_X_IgnoreNullValues>false</Summary_X_IgnoreNullValues>
@@ -1240,8 +1240,8 @@ Localization=en-US
 <Visible>true</Visible>
 <Tag href="#ref-6"/>
 <Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
-<Name id="ref-118">lbltanggalacc</Name>
-<Style_X_Font id="ref-119">Times New Roman, 9.75pt</Style_X_Font>
+<Name id="ref-119">lbltanggalacc</Name>
+<Style_X_Font id="ref-120">Times New Roman, 9.75pt</Style_X_Font>
 <Style_X_ForeColor href="#ref-13"/>
 <Style_X_BackColor href="#ref-14"/>
 <Style_X_BorderColor href="#ref-13"/>
@@ -1290,8 +1290,8 @@ Localization=en-US
 <Visible>true</Visible>
 <Tag href="#ref-6"/>
 <Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
-<Name id="ref-120">xrLabel3</Name>
-<Style_X_Font id="ref-121">Times New Roman, 9.75pt</Style_X_Font>
+<Name id="ref-121">xrLabel3</Name>
+<Style_X_Font id="ref-122">Times New Roman, 9.75pt</Style_X_Font>
 <Style_X_ForeColor href="#ref-13"/>
 <Style_X_BackColor href="#ref-14"/>
 <Style_X_BorderColor href="#ref-13"/>
@@ -1314,17 +1314,17 @@ Localization=en-US
 <ParentStyleUsing_X_UseTextAlignment>false</ParentStyleUsing_X_UseTextAlignment>
 <Dpi>100</Dpi>
 <BindingItemCount>1</BindingItemCount>
-<BindingItem0_X_PropertyName id="ref-122">Text</BindingItem0_X_PropertyName>
-<BindingItem0_X_DataMember id="ref-123">admin</BindingItem0_X_DataMember>
+<BindingItem0_X_PropertyName id="ref-123">Text</BindingItem0_X_PropertyName>
+<BindingItem0_X_DataMember id="ref-124">admin</BindingItem0_X_DataMember>
 <BindingItem0_X_FormatString href="#ref-6"/>
-<BindingItem0_X_DataSource id="ref-124">dataSource.</BindingItem0_X_DataSource>
+<BindingItem0_X_DataSource id="ref-125">dataSource.</BindingItem0_X_DataSource>
 <Bounds xsi:type="a2:Rectangle" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing%2C%20Version%3D2.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Db03f5f7f11d50a3a">
 <x>125</x>
 <y>67</y>
 <width>150</width>
 <height>25</height>
 </Bounds>
-<Text id="ref-125">(...................................)</Text>
+<Text id="ref-126">(...................................)</Text>
 <NavigateUrl href="#ref-6"/>
 <Target href="#ref-6"/>
 <CanGrow>true</CanGrow>
@@ -1344,8 +1344,8 @@ Localization=en-US
 <Visible>true</Visible>
 <Tag href="#ref-6"/>
 <Dock xsi:type="a3:XRDockStyle" xmlns:a3="http://schemas.microsoft.com/clr/nsassem/DevExpress.XtraReports.UI/DevExpress.XtraReports3%2C%20Version%3D1.12.3.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D79868b8147b5eae4">None</Dock>
-<Name id="ref-126">xrLabel9</Name>
-<Style_X_Font id="ref-127">Times New Roman, 9.75pt</Style_X_Font>
+<Name id="ref-127">xrLabel9</Name>
+<Style_X_Font id="ref-128">Times New Roman, 9.75pt</Style_X_Font>
 <Style_X_ForeColor href="#ref-13"/>
 <Style_X_BackColor href="#ref-14"/>
 <Style_X_BorderColor href="#ref-13"/>
@@ -1374,7 +1374,7 @@ Localization=en-US
 <width>200</width>
 <height>23</height>
 </Bounds>
-<Text id="ref-128">(................................................)</Text>
+<Text id="ref-129">(................................................)</Text>
 <NavigateUrl href="#ref-6"/>
 <Target href="#ref-6"/>
 <CanGrow>true</CanGrow>
