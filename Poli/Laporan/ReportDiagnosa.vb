@@ -35,6 +35,8 @@ Public Class ReportDiagnosa
         DataGridViewDaftarDiagnosa.Columns.Add("ColumnKodeDiagnosa", "Kode Diagnosa")
         DataGridViewDaftarDiagnosa.Columns.Add("ColumnNamaDiagnosa", "Nama Diagnosa")
         DataGridViewDaftarDiagnosa.Columns.Add("ColumnRentangUsia", "Rentang Usia")
+        DataGridViewDaftarDiagnosa.Columns.Add("ColumnLaki-laki", "Laki-laki")
+        DataGridViewDaftarDiagnosa.Columns.Add("ColumnPerempuan", "Perempuan")
         DataGridViewDaftarDiagnosa.Columns.Add("ColumnJumlah", "Jumlah")
 
         ' Kolom checkbox di akhir
@@ -67,6 +69,18 @@ Public Class ReportDiagnosa
         End With
 
         With DataGridViewDaftarDiagnosa.Columns("ColumnRentangUsia")
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            .Width = 150
+            .ReadOnly = True
+        End With
+
+        With DataGridViewDaftarDiagnosa.Columns("ColumnLaki-laki")
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            .Width = 150
+            .ReadOnly = True
+        End With
+
+        With DataGridViewDaftarDiagnosa.Columns("ColumnPerempuan")
             .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             .Width = 150
             .ReadOnly = True
@@ -128,7 +142,7 @@ Public Class ReportDiagnosa
 
             If Tbls.Rows.Count > 0 Then
                 For Each Trow As DataRow In Tbls.Rows
-                    DataGridViewDaftarDiagnosa.Rows.Add(Trow("Kode Diagnosa").ToString(), Trow("Nama Diagnosa").ToString(), Trow("Rentang Usia").ToString(), Trow("Jumlah").ToString(), False)
+                    DataGridViewDaftarDiagnosa.Rows.Add(Trow("Kode Diagnosa").ToString(), Trow("Nama Diagnosa").ToString(), Trow("Rentang Usia").ToString(), Trow("Laki-laki").ToString(), Trow("Perempuan").ToString(), Trow("Jumlah").ToString(), False)
                 Next
 
                 DataGridViewDaftarDiagnosa.CurrentCell = Nothing
@@ -162,6 +176,8 @@ Public Class ReportDiagnosa
         selectedTable.Columns.Add("Kode Diagnosa", GetType(String))
         selectedTable.Columns.Add("Nama Diagnosa", GetType(String))
         selectedTable.Columns.Add("Rentang Usia", GetType(String))
+        selectedTable.Columns.Add("Laki-laki", GetType(String))
+        selectedTable.Columns.Add("Perempuan", GetType(String))
         selectedTable.Columns.Add("Jumlah", GetType(Integer))
 
         Dim noUrut As Integer = 1
@@ -175,6 +191,8 @@ Public Class ReportDiagnosa
                 newRow("Kode Diagnosa") = row.Cells("ColumnKodeDiagnosa").Value.ToString()
                 newRow("Nama Diagnosa") = row.Cells("ColumnNamaDiagnosa").Value.ToString()
                 newRow("Rentang Usia") = row.Cells("ColumnRentangUsia").Value.ToString()
+                newRow("Laki-laki") = row.Cells("ColumnLaki-laki").Value.ToString()
+                newRow("Perempuan") = row.Cells("ColumnPerempuan").Value.ToString()
                 newRow("Jumlah") = Convert.ToInt32(row.Cells("ColumnJumlah").Value)
                 selectedTable.Rows.Add(newRow)
             End If
@@ -182,7 +200,7 @@ Public Class ReportDiagnosa
 
         If selectedTable.Rows.Count > 0 Then
             Dim kodePPK As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodePPK'")
-            Dim namaPPK As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NamaPPK'")
+            Dim namaPPK As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NamaPoli'")
 
             Report = XtraReport.FromFile(Application.StartupPath + "\Reports\Klinik\LaporanDiagnosa.repx", True)
             Report.DataSource = selectedTable
@@ -206,67 +224,88 @@ Public Class ReportDiagnosa
         End If
     End Sub
 
-    Function LoadDataDiagnosa() As DataTable
+    Private Function LoadDataDiagnosa() As DataTable
         Dim queryString As String = ""
 
-        ' Ambil tanggal awal dan akhir dari DateTimePicker
+        ' Ambil tanggal awal dan akhir
         Dim tanggalAwal As String = Format(DateTimePickerAwal.Value, "yyyy-MM-dd")
         Dim tanggalAkhir As String = Format(DateTimePickerAkhir.Value, "yyyy-MM-dd")
 
-        ' Set Tingkat Pelayanan
+        ' ===============================
+        ' Filter Tingkat Pelayanan
+        ' ===============================
         Dim tingkatPelayananSearch As String = ""
         If ComboBoxTingkatPelayanan.Text <> "Semua" Then
-            tingkatPelayananSearch = " AND JenisRawat = '" & ComboBoxTingkatPelayanan.Text & "'"
+            tingkatPelayananSearch = " AND td.JenisRawat = '" & ComboBoxTingkatPelayanan.Text & "'"
         End If
 
-        ' Set Indikator
+        ' ===============================
+        ' Filter Indikator
+        ' ===============================
         Dim indikatorSearch As String = ""
         If ComboBoxIndikator.Text = "Kunjungan" Then
-            indikatorSearch = " AND StatusPulang LIKE '%Berobat Jalan%'"
+            indikatorSearch = " AND td.StatusPulang LIKE '%Berobat Jalan%'"
         ElseIf ComboBoxIndikator.Text = "Rujukan" Then
-            indikatorSearch = " AND StatusPulang LIKE '%Rujuk%'"
+            indikatorSearch = " AND td.StatusPulang LIKE '%Rujuk%'"
         End If
 
-        ' Set Jenis Poli
+        ' ===============================
+        ' Filter Jenis Poli
+        ' ===============================
         Dim jenisPoliSearch As String = ""
         If ComboBoxPoliTujuan.Text <> "Semua Transaksi" Then
-            jenisPoliSearch = " AND JenisPoli = '" & ComboBoxPoliTujuan.Text & "'"
+            jenisPoliSearch = " AND td.JenisPoli = '" & ComboBoxPoliTujuan.Text & "'"
         End If
 
-        ' Buat query
-        queryString = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(tdd.KodeDiagnosa) DESC) AS 'No', " & _
-              "tdd.KodeDiagnosa AS 'Kode Diagnosa', tdd.KeteranganDiagnosa AS 'Nama Diagnosa', " & _
-              "CASE " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) < 1 THEN '<1' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 1 AND 4 THEN '1-4' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 5 AND 14 THEN '5-14' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 15 AND 44 THEN '15-44' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 45 AND 55 THEN '45-55' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 55 AND 64 THEN '55-64' " & _
-              "    ELSE '>65' " & _
-              "END AS 'Rentang Usia', " & _
-              "COUNT(tdd.KodeDiagnosa) AS 'Jumlah' " & _
-              "FROM TransaksiDetailDiagnosa tdd " & _
-              "JOIN TransaksiDetail td ON tdd.NoTransaksi = td.NoUrut " & _
-              "JOIN MasterPasien mp ON td.IDInternet = mp.NoRekamMedis " & _
-              "WHERE tdd.DeletedDate IS NULL " & _
-              "AND CONVERT(date, td.TanggalTransaksi) BETWEEN '" & tanggalAwal & "' AND '" & tanggalAkhir & "'" & _
-              tingkatPelayananSearch & indikatorSearch & jenisPoliSearch & " " & _
-              "GROUP BY tdd.KodeDiagnosa, tdd.KeteranganDiagnosa, " & _
-              "CASE " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) < 1 THEN '<1' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 1 AND 4 THEN '1-4' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 5 AND 14 THEN '5-14' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 15 AND 44 THEN '15-44' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 45 AND 55 THEN '45-55' " & _
-              "    WHEN DATEDIFF(YEAR, mp.TglLahir, GETDATE()) BETWEEN 55 AND 64 THEN '55-64' " & _
-              "    ELSE '>65' " & _
-              "END " & _
-              "ORDER BY COUNT(tdd.KodeDiagnosa) DESC"
+        ' ===============================
+        ' Query Utama
+        ' ===============================
+        queryString = _
+            "SELECT " & _
+            "ROW_NUMBER() OVER (ORDER BY COUNT(tdd.KodeDiagnosa) DESC) AS No, " & _
+            "tdd.KodeDiagnosa AS [Kode Diagnosa], " & _
+            "tdd.KeteranganDiagnosa AS [Nama Diagnosa], " & _
+            "CASE " & _
+            "   WHEN DATEDIFF(DAY, mp.TglLahir, td.TanggalTransaksi) BETWEEN 0 AND 7 THEN '0-7 hari' " & _
+            "   WHEN DATEDIFF(DAY, mp.TglLahir, td.TanggalTransaksi) BETWEEN 8 AND 28 THEN '8-28 hari' " & _
+            "   WHEN DATEDIFF(MONTH, mp.TglLahir, td.TanggalTransaksi) BETWEEN 1 AND 11 " & _
+            "        AND DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) = 0 THEN '1-11 bulan' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 1 AND 4 THEN '1-4 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 5 AND 9 THEN '5-9 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 10 AND 14 THEN '10-14 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 15 AND 19 THEN '15-19 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 20 AND 44 THEN '20-44 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 45 AND 59 THEN '45-59 tahun' " & _
+            "   ELSE '>59 tahun' " & _
+            "END AS [Rentang Usia], " & _
+            "SUM(CASE WHEN mp.JenisKelamin = 'L' THEN 1 ELSE 0 END) AS [Laki-laki], " & _
+            "SUM(CASE WHEN mp.JenisKelamin = 'P' THEN 1 ELSE 0 END) AS [Perempuan], " & _
+            "COUNT(tdd.KodeDiagnosa) AS [Jumlah] " & _
+            "FROM TransaksiDetailDiagnosa tdd " & _
+            "INNER JOIN TransaksiDetail td ON tdd.NoTransaksi = td.NoUrut " & _
+            "INNER JOIN MasterPasien mp ON td.IDInternet = mp.NoRekamMedis " & _
+            "WHERE tdd.DeletedDate IS NULL " & _
+            "AND CONVERT(date, td.TanggalTransaksi) BETWEEN '" & tanggalAwal & "' AND '" & tanggalAkhir & "' " & _
+            tingkatPelayananSearch & indikatorSearch & jenisPoliSearch & _
+            " GROUP BY " & _
+            "tdd.KodeDiagnosa, tdd.KeteranganDiagnosa, " & _
+            "CASE " & _
+            "   WHEN DATEDIFF(DAY, mp.TglLahir, td.TanggalTransaksi) BETWEEN 0 AND 7 THEN '0-7 hari' " & _
+            "   WHEN DATEDIFF(DAY, mp.TglLahir, td.TanggalTransaksi) BETWEEN 8 AND 28 THEN '8-28 hari' " & _
+            "   WHEN DATEDIFF(MONTH, mp.TglLahir, td.TanggalTransaksi) BETWEEN 1 AND 11 " & _
+            "        AND DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) = 0 THEN '1-11 bulan' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 1 AND 4 THEN '1-4 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 5 AND 9 THEN '5-9 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 10 AND 14 THEN '10-14 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 15 AND 19 THEN '15-19 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 20 AND 44 THEN '20-44 tahun' " & _
+            "   WHEN DATEDIFF(YEAR, mp.TglLahir, td.TanggalTransaksi) BETWEEN 45 AND 59 THEN '45-59 tahun' " & _
+            "   ELSE '>59 tahun' " & _
+            "END " & _
+            "ORDER BY [Jumlah]"
 
         ' Eksekusi query
-        Dim Tbls As DataTable = ReadSQL(queryString)
-        Return Tbls
+       Return ReadSQL(queryString)
     End Function
 
     Private Sub TextBoxSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBoxSearch.TextChanged

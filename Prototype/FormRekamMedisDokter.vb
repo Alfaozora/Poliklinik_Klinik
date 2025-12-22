@@ -8913,6 +8913,9 @@ Public Class FormRekamMedisDokter
         End If
 
         If RadioButtonCekStik.Checked = True Then
+            If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = False
+            End If
             ' Ambil hanya data dari HasilCekstik
             Dim queryCekStik As String = "SELECT CreatedDate, Kategori, Kondisi, Hasil, Satuan, Keterangan " & _
                                          "FROM HasilCekstik " & _
@@ -8958,13 +8961,24 @@ Public Class FormRekamMedisDokter
 
                     tblTemp.Rows.Add(newRow)
                 Next
+            Else
+                If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                    DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = True
+                End If
             End If
 
             ' Tampilkan hasil cek stik
             If tblTemp.Rows.Count > 0 Then
                 DataGridViewRiwayatLaboratorium.DataSource = tblTemp
+                SetupGridRiwayatLaboratorium()
+
                 DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
                 DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                ' Nonaktifkan PDF di mode Cek Stik
+                If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                    DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = False
+                End If
             Else
                 MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
             End If
@@ -9033,29 +9047,87 @@ Public Class FormRekamMedisDokter
         ' Tampilkan data lab
         If tblTemp.Rows.Count > 0 Then
             DataGridViewRiwayatLaboratorium.DataSource = tblTemp
+            SetupGridRiwayatLaboratorium()
+
             DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
             DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            ' Aktifkan PDF di mode Lab
+            If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = True
+            End If
         Else
             MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
         End If
     End Sub
 
-    Private Sub DataGridViewRiwayatLaboratorium_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewRiwayatLaboratorium.CellContentClick
-        If e.RowIndex >= 0 AndAlso e.ColumnIndex = DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Index Then
-            Dim filePath As String = DataGridViewRiwayatLaboratorium.Rows(e.RowIndex).Cells("FilePath").Value.ToString()
+    Private Sub SetupGridRiwayatLaboratorium()
+        With DataGridViewRiwayatLaboratorium
+            .AutoGenerateColumns = True
+            .AllowUserToAddRows = False
+            .ReadOnly = True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
 
-            If IO.File.Exists(filePath) Then
-                Try
-                    Process.Start(filePath)
-                Catch ex As Exception
-                    MessageBox.Show("Gagal membuka PDF. Pastikan aplikasi pembuka PDF tersedia." & vbCrLf & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            Else
-                MessageBox.Show("File PDF tidak ditemukan di lokasi: " & filePath, "File Tidak Ada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' === Tambahkan kolom FilePath jika belum ada ===
+            If Not .Columns.Contains("FilePath") Then
+                Dim colPath As New DataGridViewTextBoxColumn()
+                colPath.Name = "FilePath"
+                colPath.HeaderText = "FilePath"
+                colPath.Visible = False
+                .Columns.Add(colPath)
             End If
-        End If
+
+            ' === Tambahkan tombol PDF jika belum ada ===
+            If Not .Columns.Contains("BtnLihatPDF") Then
+                Dim btnPdf As New DataGridViewButtonColumn()
+                btnPdf.Name = "BtnLihatPDF"
+                btnPdf.HeaderText = "PDF"
+                btnPdf.Text = "Lihat PDF"
+                btnPdf.UseColumnTextForButtonValue = True
+                btnPdf.Width = 80
+                .Columns.Add(btnPdf)
+            End If
+        End With
     End Sub
 
+    Private Sub DataGridViewRiwayatLaboratorium_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewRiwayatLaboratorium.CellContentClick
+
+        ' === Validasi baris ===
+        If e.RowIndex < 0 Then Exit Sub
+
+        ' === Pastikan kolom tombol ada ===
+        If Not DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then Exit Sub
+
+        ' === Pastikan klik di kolom PDF ===
+        If e.ColumnIndex <> DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Index Then Exit Sub
+
+        ' === Ambil FilePath ===
+        Dim cellPath = DataGridViewRiwayatLaboratorium.Rows(e.RowIndex).Cells("FilePath")
+
+        If cellPath Is Nothing OrElse IsDBNull(cellPath.Value) Then
+            MessageBox.Show("File PDF tidak tersedia.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        Dim filePath As String = cellPath.Value.ToString().Trim()
+
+        If filePath = "" Then
+            MessageBox.Show("File PDF tidak tersedia.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        ' === Buka PDF ===
+        If IO.File.Exists(filePath) Then
+            Try
+                Process.Start(filePath)
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF." & vbCrLf & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        Else
+            MessageBox.Show("File PDF tidak ditemukan:" & vbCrLf & filePath, "File Tidak Ada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
 
     Function CreateTableRiwayatLaboratorium() As DataTable
         Dim Thasil As New DataTable

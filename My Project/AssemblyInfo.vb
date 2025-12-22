@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("PoliKlinik@Net 2.0")> 
+<Assembly: AssemblyTitle("PoliKlinik.NET 2.0")> 
 <Assembly: AssemblyDescription("21 November 2025")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("PoliKlinik@Net 2.0")> 
-<Assembly: AssemblyCopyright("Copyright ©  2023")> 
+<Assembly: AssemblyCompany("PT. Jaya Bakti Mandiri")> 
+<Assembly: AssemblyProduct("PoliKlinik.NET")> 
+<Assembly: AssemblyCopyright("Copyright ©  2023-2025")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

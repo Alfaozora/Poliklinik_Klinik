@@ -1,4 +1,4 @@
-Version : 2.0.0.57 ()
+Version : 2.0.0.57 (21 Desember 2025)
 # [New Feature] Penambahan Fitur Notifikasi Riwayat Pasien B16-B24
 # [New Feature] Penambahan Fitur Import Data Excel (CSV) Master Tindakan
 # [New Feature] Penambahan Fitur Kirim Medication/Obat Lokal (Racikan/Compound) ke SATUSEHAT
@@ -6,6 +6,7 @@ Version : 2.0.0.57 ()
 # [New Feature] Penambahan Fitur Riwayat Hasil Lab
 # [Usability Improvement] Pengembangan Fitur ON OFF Pcare
 # [Usability Improvement] Penambahan Rhesus Pada Goldar data Pasien
+# [Usability Improvement] Penyesuaian Rentang Usia dan Jenis Kelamin Laporan Diagnosa
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis
 # [Bug Fix] Memperbaiki Bug GetRiwayatLaboratorium 
 
