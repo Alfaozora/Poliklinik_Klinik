@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("PoliKlinik.NET 2.0")> 
-<Assembly: AssemblyDescription("21 November 2025")> 
+<Assembly: AssemblyDescription("21 Desember 2025")> 
 <Assembly: AssemblyCompany("PT. Jaya Bakti Mandiri")> 
 <Assembly: AssemblyProduct("PoliKlinik.NET")> 
 <Assembly: AssemblyCopyright("Copyright ©  2023-2025")> 
@@ -32,4 +32,4 @@ Imports System.Runtime.InteropServices
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
 <Assembly: AssemblyVersion("2.0.0.0")> 
-<Assembly: AssemblyFileVersion("2.0.0.56")> 
+<Assembly: AssemblyFileVersion("2.0.0.57")> 

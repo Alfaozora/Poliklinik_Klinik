@@ -60,11 +60,11 @@ Public Class FormReservasi
             ButtonCari.Visible = (strValue = "L003")
             btnMenu3.Visible = (strValue = "L003")
 
-
             ' Set judul form
             If strValue <> "L003" Then
                 formName = "REMINDER PASIEN"
                 TabControlMenu.SelectedTab = TabPage2
+                btnMenu4.Visible = True
             Else
                 formName = "RESERVASI"
                 btnMenu2.Visible = False
@@ -575,11 +575,14 @@ Public Class FormReservasi
                     ButtonCari.Visible = True
                 Case "btnMenu2"
                     TabControlMenu.SelectedTab = TabPage2
+                    ButtonSimpan.Visible = True
                 Case "btnMenu3"
                     TabControlMenu.SelectedTab = TabPage3
                     ButtonCari.Visible = False
                 Case "btnMenu4"
                     TabControlMenu.SelectedTab = TabPage4
+                    ButtonCari.Visible = False
+                    ButtonSimpan.Visible = False
             End Select
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
@@ -1056,5 +1059,103 @@ Public Class FormReservasi
             TextBoxPraktisi.Text = ""
             MessageBox.Show("Dokter tidak ditemukan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+
+    Private Sub SetupHeaderLogPesan()
+        With DataGridViewLogPesan
+            ' Header full size
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing
+            .ColumnHeadersHeight = 40
+
+            ' Warna header
+            .EnableHeadersVisualStyles = False
+            '.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 100, 200)
+            '.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+
+            ' Font header
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+
+            ' Alignment
+            .ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+            ' Grid tambahan
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .RowTemplate.Height = 32
+        End With
+    End Sub
+
+    'Private Sub SetupZebraRowLogPesan()
+    '    With DataGridViewLogPesan
+    '        ' Warna dasar baris
+    '        .DefaultCellStyle.BackColor = Color.White
+    '        .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 245, 255)
+
+    '        ' Warna saat dipilih
+    '        .DefaultCellStyle.SelectionBackColor = Color.FromArgb(180, 215, 255)
+    '        .DefaultCellStyle.SelectionForeColor = Color.Black
+
+    '        ' Font baris
+    '        .DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+    '    End With
+    'End Sub
+
+    Private Sub LoadLogPesan()
+        DataGridViewLogPesan.DataSource = Nothing
+
+        Dim tglAwal As Date = dtAwalLog.Value.Date
+        Dim tglAkhir As Date = dtAkhirLog.Value.Date.AddDays(1)
+
+        Dim query As String = ""
+        query &= "SELECT "
+        query &= "SendingJenis, "
+        query &= "SendingTujuan, "
+        query &= "SendingBy, "
+        query &= "SendingDate "
+        query &= "FROM LogSendingWhatsapp "
+        query &= "WHERE SendingDate >= '" & Format(tglAwal, "yyyy-MM-dd") & "' "
+        query &= "AND SendingDate < '" & Format(tglAkhir, "yyyy-MM-dd") & "' "
+        query &= "ORDER BY SendingDate DESC"
+
+        Dim dt As DataTable = ReadSQL(query)
+
+        ' === Kolom tampilan ===
+        dt.Columns.Add("Jenis Pesan", GetType(String))
+        dt.Columns.Add("Tujuan", GetType(String))
+        dt.Columns.Add("Dikirim Oleh", GetType(String))
+        dt.Columns.Add("Tanggal Kirim", GetType(String))
+
+        For Each row As DataRow In dt.Rows
+            Dim jenis As String = If(IsDBNull(row("SendingJenis")), "", row("SendingJenis").ToString())
+            Dim tujuan As String = If(IsDBNull(row("SendingTujuan")), "", row("SendingTujuan").ToString())
+            Dim byUser As String = If(IsDBNull(row("SendingBy")), "", row("SendingBy").ToString())
+            Dim tglKirim As DateTime = If(IsDBNull(row("SendingDate")), DateTime.MinValue, CDate(row("SendingDate")))
+
+            row("Jenis Pesan") = jenis
+            row("Tujuan") = tujuan
+            row("Dikirim Oleh") = byUser
+            row("Tanggal Kirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+        Next
+
+        DataGridViewLogPesan.DataSource = dt
+        SetupHeaderLogPesan()
+        'SetupZebraRowLogPesan()
+
+        ' === Sembunyikan kolom mentah ===
+        If DataGridViewLogPesan.Columns.Contains("SendingJenis") Then
+            DataGridViewLogPesan.Columns("SendingJenis").Visible = False
+            DataGridViewLogPesan.Columns("SendingTujuan").Visible = False
+            DataGridViewLogPesan.Columns("SendingBy").Visible = False
+            DataGridViewLogPesan.Columns("SendingDate").Visible = False
+        End If
+
+        DataGridViewLogPesan.RowTemplate.Height = 32
+    End Sub
+
+    Private Sub ButtonCariLogPesan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariLogPesan.Click
+        Try
+            LoadLogPesan()
+        Catch ex As Exception
+            MsgBox("Gagal memuat log pesan: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 End Class

@@ -669,16 +669,19 @@ Public Class FormRekamMedisDokter
             "SELECT TOP 1 TDD.KodeDiagnosa, TDD.KeteranganDiagnosa " & _
             "FROM TransaksiDetailDiagnosa TDD " & _
             "INNER JOIN TransaksiDetail TD ON TDD.NoTransaksi = TD.NoUrut " & _
-            "WHERE (TDD.KodeDiagnosa LIKE 'B16%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B17%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B18%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B19%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B20%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B21%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B22%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B23%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B24%') " & _
-            "AND TD.IDInternet = '" & idInternet & "'"
+            "WHERE ( " & _
+            "    TDD.KodeDiagnosa LIKE 'B16%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B17%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B18%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B19%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B20%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B21%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B22%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B23%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B24%' " & _
+            ") " & _
+            "AND TD.IDInternet = '" & idInternet & "' " & _
+            "AND TDD.DeletedBy IS NULL"
 
             Return ReadSQL(sql)
 
@@ -686,7 +689,6 @@ Public Class FormRekamMedisDokter
             Return Nothing
         End Try
     End Function
-
 
     Private Sub LoadNotification(ByRef messageBox As Boolean)
         ' Hidden Notification

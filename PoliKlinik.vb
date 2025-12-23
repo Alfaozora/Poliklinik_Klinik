@@ -165,7 +165,7 @@ Public Class PoliKlinik
                 "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, TanggalKirim, JenisKelamin " & _
                 "FROM LogReminderPasien " & _
                 "WHERE Status = 'TERJADWAL' " & _
-                "AND CONVERT(date, Tanggal) = CONVERT(date, DATEADD(day, 1, GETDATE())) " & _
+                "AND CONVERT(date, Tanggal) = CONVERT(date, DATEADD(day, 7, GETDATE())) " & _
                 "AND (TanggalKirim IS NULL OR DATEDIFF(SECOND, TanggalKirim, GETDATE()) > 60)"
 
             Dim dt As DataTable = ReadSQL(query)
@@ -212,6 +212,11 @@ Public Class PoliKlinik
                                 KirimReminderWhatsAppOtomatis(namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
                                 Dim sqlUpdate As String = "UPDATE LogReminderPasien SET Status = 'TERKIRIM', TanggalKirim = GETDATE() WHERE ReminderID = " & id
                                 WriteSQL(sqlUpdate, 4)
+
+                                Dim SqlInsertLog As String = _
+                                   "INSERT INTO LogSendingWhatsapp (SendingJenis, SendingTujuan, SendingBy, SendingDate) " & _
+                                   "VALUES ('REMINDER', '" & noHP & "', 'System', GETDATE())"
+                                WriteSQL(SqlInsertLog, 4)
                             End If
                         Catch ex As Exception
                             ' Jika gagal kirim, rollback

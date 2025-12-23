@@ -2,6 +2,7 @@
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.IO
+Imports System.Net
 Imports System.Drawing
 Imports Newtonsoft.Json
 Imports Newtonsoft
@@ -1628,52 +1629,221 @@ Public Class FormPendaftaranAwal
         End Try
     End Function
 
+    'Public Sub GetDataAntreanOnline()
+    '    Try
+    '        MsgBox("STEP 1: Mulai GetDataAntreanOnline")
+
+    '        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_get_data_antrol'")
+
+    '        MsgBox("STEP 2: URL dari DB = " & urlWebService)
+
+    '        If urlWebService = "" Then
+    '            MsgBox("URL Web Service kosong!", MsgBoxStyle.Critical)
+    '            Exit Sub
+    '        End If
+
+    '        If Not urlWebService.EndsWith("/") Then
+    '            urlWebService &= "/"
+    '        End If
+
+    '        Dim Tawal As Date = TglAwalAntrean.Value
+    '        MsgBox("STEP 3: Tanggal Awal = " & Format(Tawal, "yyyy-MM-dd"))
+
+    '        Dim fullUrl As String = urlWebService & "0/" & Format(Tawal.Date, "yyyy-MM-dd") & "/1"
+    '        MsgBox("STEP 4: FULL URL = " & fullUrl)
+
+    '        MsgBox("STEP 5: Call API")
+
+    '        Dim responseString As String = GetDataAntrianOnline(fullUrl)
+
+    '        If responseString Is Nothing Then
+    '            MsgBox("STEP 6: responseString = NOTHING", MsgBoxStyle.Critical)
+    '            Exit Sub
+    '        End If
+
+    '        MsgBox("STEP 6: responseString DIDAPAT")
+    '        Dim preview As String = responseString
+
+    '        If responseString.Length > 500 Then
+    '            preview = responseString.Substring(0, 500)
+    '        End If
+
+    '        MsgBox(preview, MsgBoxStyle.Information, "RAW JSON (500 char)")
+
+
+    '        ' ===== FIX JSON NaN =====
+    '        responseString = responseString.Replace(":NaN", ":null")
+    '        responseString = responseString.Replace(": NaN", ": null")
+    '        responseString = responseString.Replace("NaN,", "null,")
+    '        responseString = responseString.Replace("NaN]", "null]")
+
+    '        MsgBox(responseString.Substring(0, 1), MsgBoxStyle.Information, "JSON FIRST CHAR")
+
+    '        MsgBox("STEP 7: Mulai Deserialize JSON (ARRAY)")
+
+    '        Dim rootList As List(Of RootAntrean) = JsonConvert.DeserializeObject(Of List(Of RootAntrean))(responseString)
+
+    '        If rootList Is Nothing OrElse rootList.Count = 0 Then
+    '            MsgBox("STEP 8: Data kosong / gagal deserialize", MsgBoxStyle.Critical)
+    '            Exit Sub
+    '        End If
+
+    '        MsgBox("STEP 8: rootList COUNT = " & rootList.Count)
+
+    '        Dim rootObj As RootAntrean = rootList(0)
+
+    '        If rootObj.metadata Is Nothing Then
+    '            MsgBox("STEP 9: metadata = NOTHING", MsgBoxStyle.Critical)
+    '            Exit Sub
+    '        End If
+
+    '        MsgBox("STEP 10: metadata.code = " & rootObj.metadata.code)
+    '        MsgBox("STEP 10: metadata.message = " & rootObj.metadata.message)
+
+    '        MsgBox("STEP 11: Isi DataGridView")
+
+    '        DataGridViewAntrean.Rows.Clear()
+
+    '        If rootObj.response IsNot Nothing Then
+    '            MsgBox("STEP 12: Jumlah data = " & rootObj.response.Count)
+
+    '            For Each item As AntreanItem In rootObj.response
+
+    '                Dim tglPeriksa As String = item.tanggalperiksa
+    '                Try
+    '                    tglPeriksa = ConvertDateStringAntreanOnline(item.tanggalperiksa)
+    '                Catch
+    '                End Try
+
+    '                DataGridViewAntrean.Rows.Add(New String() { _
+    '                    item.namapeserta, _
+    '                    item.nik, _
+    '                    item.namapoli, _
+    '                    item.jenispeserta, _
+    '                    item.nomorantrean, _
+    '                    tglPeriksa.Split(" "c)(0), _
+    '                    item.statusantrean, _
+    '                    item.sumberantrean, _
+    '                    If(item.nomorkartu, ""), _
+    '                    item.jeniskelamin, _
+    '                    item.tanggallahir, _
+    '                    If(item.alamat, ""), _
+    '                    If(item.nohp, ""), _
+    '                    If(item.kodedokter, ""), _
+    '                    If(item.namadokter, ""), _
+    '                    If(item.kodepoli, ""), _
+    '                    If(item.namapoli, ""), _
+    '                    If(item.keluhan, ""), _
+    '                    If(item.kodefaskes, ""), _
+    '                    If(item.namafaskes, "") _
+    '                })
+    '            Next
+    '        End If
+
+    '        DataGridViewAntrean.CurrentCell = Nothing
+    '        MsgBox("STEP 13: SELESAI")
+
+    '    Catch ex As Exception
+    '        MsgBox("EXCEPTION TERJADI: " & ex.Message, MsgBoxStyle.Critical)
+    '    End Try
+    'End Sub
+
     Public Sub GetDataAntreanOnline()
         Try
+            ' Ambil URL web service
             Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_get_data_antrol'")
+
+            If urlWebService = "" Then
+                MessageBox.Show("URL Web Service belum disetting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            ' Pastikan ada trailing slash
+            If Not urlWebService.EndsWith("/") Then
+                urlWebService &= "/"
+            End If
+
+            ' Parameter tanggal
             Dim Tawal As Date = TglAwalAntrean.Value
+            Dim fullUrl As String = urlWebService & "0/" & Format(Tawal.Date, "yyyy-MM-dd") & "/1"
 
-            Dim responseString As String = GetDataAntrianOnline(urlWebService & "0/" & Format(Tawal.Date, "yyyy-MM-dd") & "/1")
-            ' Debug isi response
-            'MessageBox.Show(responseString, "Raw JSON Response")
+            ' Call API
+            Dim responseString As String = GetDataAntrianOnline(fullUrl)
 
+            If responseString Is Nothing OrElse responseString.Trim() = "" Then
+                MessageBox.Show("Tidak ada respon dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            ' ===== FIX JSON NaN (WAJIB) =====
+            responseString = responseString.Replace(":NaN", ":null")
+            responseString = responseString.Replace(": NaN", ": null")
+            responseString = responseString.Replace("NaN,", "null,")
+            responseString = responseString.Replace("NaN]", "null]")
+
+            ' Deserialize (JSON ARRAY)
             Dim rootList As List(Of RootAntrean) = JsonConvert.DeserializeObject(Of List(Of RootAntrean))(responseString)
+
             If rootList Is Nothing OrElse rootList.Count = 0 Then
                 MessageBox.Show("Data kosong dari server.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
+
             Dim rootObj As RootAntrean = rootList(0)
 
-
-            ' Cek status code dari metadata
+            ' Validasi metadata
             If rootObj Is Nothing OrElse rootObj.metadata Is Nothing Then
-                MessageBox.Show("Format response tidak sesuai!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Format response tidak sesuai.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
-            If rootObj.metadata.code = 200 Then
-                DataGridViewAntrean.Rows.Clear()
+            If rootObj.metadata.code <> 200 Then
+                MessageBox.Show("Data tidak ditemukan: " & rootObj.metadata.message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
+            ' Isi DataGridView
+            DataGridViewAntrean.Rows.Clear()
+
+            If rootObj.response IsNot Nothing Then
                 For Each item As AntreanItem In rootObj.response
-                    Dim tglPeriksa As String = ""
+                    Dim tglPeriksa As String = item.tanggalperiksa
                     Try
                         tglPeriksa = ConvertDateStringAntreanOnline(item.tanggalperiksa)
-                    Catch ex As Exception
-                        tglPeriksa = item.tanggalperiksa
+                    Catch
+                        ' pakai nilai asli
                     End Try
 
-                    DataGridViewAntrean.Rows.Add(New String() {item.namapeserta, item.nik, item.namapoli, item.jenispeserta, item.nomorantrean, tglPeriksa.Split(" "c)(0), item.statusantrean, item.sumberantrean, If(item.nomorkartu, ""), item.jeniskelamin, item.tanggallahir, If(item.alamat, ""), If(item.nohp, ""), If(item.kodedokter, ""), If(item.namadokter, ""), If(item.kodepoli, ""), If(item.namapoli, ""), If(item.keluhan, ""), If(item.kodefaskes, ""), If(item.namafaskes, "")})
-                Next
-
-                DataGridViewAntrean.CurrentCell = Nothing
-            Else
-                MsgBox("Data tidak ditemukan: " & rootObj.metadata.message, MsgBoxStyle.Critical, "Warning!")
+                    DataGridViewAntrean.Rows.Add(New String() { _
+                        item.namapeserta, _
+                        item.nik, _
+                        item.namapoli, _
+                        item.jenispeserta, _
+                        item.nomorantrean, _
+                        tglPeriksa.Split(" "c)(0), _
+                        item.statusantrean, _
+                        item.sumberantrean, _
+                        If(item.nomorkartu, ""), _
+                        item.jeniskelamin, _
+                        item.tanggallahir, _
+                        If(item.alamat, ""), _
+                        If(item.nohp, ""), _
+                        If(item.kodedokter, ""), _
+                        If(item.namadokter, ""), _
+                        If(item.kodepoli, ""), _
+                        If(item.namapoli, ""), _
+                        If(item.keluhan, ""), _
+                        If(item.kodefaskes, ""), _
+                        If(item.namafaskes, "")})
+            Next
             End If
+
+            DataGridViewAntrean.CurrentCell = Nothing
+
         Catch ex As Exception
             MessageBox.Show("Terjadi kesalahan: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
 
     Private Sub CreateDataGridViewAntreanOnline()
         ' Add columns
