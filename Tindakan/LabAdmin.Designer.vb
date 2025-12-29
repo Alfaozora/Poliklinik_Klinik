@@ -353,7 +353,7 @@ Partial Class LabAdmin
         Me.butdokter = New System.Windows.Forms.TextBox
         Me.butfindtindakanid = New System.Windows.Forms.Button
         Me.txpraktekid = New System.Windows.Forms.TextBox
-        Me.TextBoxNoTransaksi = New System.Windows.Forms.TextBox
+        Me.TextBoxNomorTransaksi = New System.Windows.Forms.TextBox
         Me.TextBoxJenisKelamin = New System.Windows.Forms.TextBox
         Me.chkclosed = New System.Windows.Forms.CheckBox
         Me.Label10 = New System.Windows.Forms.Label
@@ -3923,7 +3923,7 @@ Partial Class LabAdmin
         Me.groupcustomer.Controls.Add(Me.butdokter)
         Me.groupcustomer.Controls.Add(Me.butfindtindakanid)
         Me.groupcustomer.Controls.Add(Me.txpraktekid)
-        Me.groupcustomer.Controls.Add(Me.TextBoxNoTransaksi)
+        Me.groupcustomer.Controls.Add(Me.TextBoxNomorTransaksi)
         Me.groupcustomer.Controls.Add(Me.TextBoxJenisKelamin)
         Me.groupcustomer.Controls.Add(Me.chkclosed)
         Me.groupcustomer.Controls.Add(Me.Label10)
@@ -4103,14 +4103,14 @@ Partial Class LabAdmin
         Me.txpraktekid.TabIndex = 105
         Me.txpraktekid.Visible = False
         '
-        'TextBoxNoTransaksi
+        'TextBoxNomorTransaksi
         '
-        Me.TextBoxNoTransaksi.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.TextBoxNoTransaksi.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxNoTransaksi.Location = New System.Drawing.Point(97, 15)
-        Me.TextBoxNoTransaksi.Name = "TextBoxNoTransaksi"
-        Me.TextBoxNoTransaksi.Size = New System.Drawing.Size(187, 21)
-        Me.TextBoxNoTransaksi.TabIndex = 104
+        Me.TextBoxNomorTransaksi.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.TextBoxNomorTransaksi.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxNomorTransaksi.Location = New System.Drawing.Point(97, 15)
+        Me.TextBoxNomorTransaksi.Name = "TextBoxNomorTransaksi"
+        Me.TextBoxNomorTransaksi.Size = New System.Drawing.Size(187, 21)
+        Me.TextBoxNomorTransaksi.TabIndex = 104
         '
         'TextBoxJenisKelamin
         '
@@ -4333,7 +4333,7 @@ Partial Class LabAdmin
     'Friend WithEvents buttindakanid As DevExpress.XtraEditors.ButtonEdit
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents TextBoxJenisKelamin As System.Windows.Forms.TextBox
-    Friend WithEvents TextBoxNoTransaksi As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxNomorTransaksi As System.Windows.Forms.TextBox
     Friend WithEvents txpraktekid As System.Windows.Forms.TextBox
     Friend WithEvents DownloadHasilToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StartProcessToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

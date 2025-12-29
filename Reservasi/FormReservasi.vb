@@ -1109,9 +1109,10 @@ Public Class FormReservasi
         query &= "SELECT "
         query &= "SendingJenis, "
         query &= "SendingTujuan, "
+        query &= "SendingNamaFile, "
         query &= "SendingBy, "
         query &= "SendingDate "
-        query &= "FROM LogSendingWhatsapp "
+        query &= "FROM LogSendingWhatsappEmail "
         query &= "WHERE SendingDate >= '" & Format(tglAwal, "yyyy-MM-dd") & "' "
         query &= "AND SendingDate < '" & Format(tglAkhir, "yyyy-MM-dd") & "' "
         query &= "ORDER BY SendingDate DESC"
@@ -1121,17 +1122,20 @@ Public Class FormReservasi
         ' === Kolom tampilan ===
         dt.Columns.Add("Jenis Pesan", GetType(String))
         dt.Columns.Add("Tujuan", GetType(String))
+        dt.Columns.Add("Keperluan", GetType(String))
         dt.Columns.Add("Dikirim Oleh", GetType(String))
         dt.Columns.Add("Tanggal Kirim", GetType(String))
 
         For Each row As DataRow In dt.Rows
             Dim jenis As String = If(IsDBNull(row("SendingJenis")), "", row("SendingJenis").ToString())
             Dim tujuan As String = If(IsDBNull(row("SendingTujuan")), "", row("SendingTujuan").ToString())
+            Dim namaFile As String = If(IsDBNull(row("SendingNamaFile")), "", row("SendingNamaFile").ToString())
             Dim byUser As String = If(IsDBNull(row("SendingBy")), "", row("SendingBy").ToString())
             Dim tglKirim As DateTime = If(IsDBNull(row("SendingDate")), DateTime.MinValue, CDate(row("SendingDate")))
 
             row("Jenis Pesan") = jenis
             row("Tujuan") = tujuan
+            row("Keperluan") = namaFile
             row("Dikirim Oleh") = byUser
             row("Tanggal Kirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
         Next
@@ -1144,6 +1148,7 @@ Public Class FormReservasi
         If DataGridViewLogPesan.Columns.Contains("SendingJenis") Then
             DataGridViewLogPesan.Columns("SendingJenis").Visible = False
             DataGridViewLogPesan.Columns("SendingTujuan").Visible = False
+            DataGridViewLogPesan.Columns("SendingNamaFile").Visible = False
             DataGridViewLogPesan.Columns("SendingBy").Visible = False
             DataGridViewLogPesan.Columns("SendingDate").Visible = False
         End If

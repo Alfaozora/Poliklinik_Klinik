@@ -2246,17 +2246,27 @@ Public Class FormRekamMedisDokter
 
                     ' Hitung tanggal reminder = hari ini + jumlah hari
                     Dim tglReminder As Date = Date.Today.AddDays(jumlahHari)
+                    Dim kdPoli As String = ReadSQLNIK( _
+                        "SELECT TOP 1 MPT.KodeBPJS " & _
+                        "FROM TransaksiDetail TD " & _
+                        "INNER JOIN MasterPoliTujuan MPT ON TD.JenisPoli = MPT.NamaPoli " & _
+                        "WHERE TD.NoUrut = '" & idTransaksi & "'")
 
                     ' Simpan ke LogReminderPasien
-                    WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
-                             "VALUES ('" & namaPasien.Replace("'", "''") & "', " & _
-                             "'" & NoHp.Replace("'", "''") & "', " & _
-                             "'" & TextBoxNamaTindakan.Text & "', " & _
-                             "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
-                             "'TERJADWAL', " & _
-                             "'" & userInput.Replace("'", "''") & "', " & _
-                             "GETDATE(), " & _
-                             "'" & jenisKelamin & "')", 4)
+                    WriteSQL("INSERT INTO LogReminderPasien " & _
+                          "(NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin, NoRekamMedis,  KodePoli) " & _
+                          "VALUES (" & _
+                          "'" & namaPasien.Replace("'", "''") & "', " & _
+                          "'" & NoHp.Replace("'", "''") & "', " & _
+                          "'" & TextBoxNamaTindakan.Text.Replace("'", "''") & "', " & _
+                          "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
+                          "'TERJADWAL', " & _
+                          "'" & userInput.Replace("'", "''") & "', " & _
+                          "GETDATE(), " & _
+                          "'" & jenisKelamin & "', " & _
+                          "'" & idPasien & "'," & _
+                          "'" & kdPoli & "'" & _
+                          ")", 4)
 
                     MsgBox("INSERT Reminder sukses untuk: " & namaPasien & vbCrLf & "Tanggal: " & tglReminder.ToString("yyyy-MM-dd"), MsgBoxStyle.Information)
                 End If
@@ -6618,8 +6628,18 @@ Public Class FormRekamMedisDokter
 
                 ' ===================== Non-Rujukan =====================
             Else
-                ' Jika status bukan rujuk/rjk, hapus data rujukan jika ada
-                WriteSQL("UPDATE TransaksiDetailRujukan SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+                ' Soft delete rujukan BPJS
+                WriteSQL("UPDATE TransaksiDetailRujukan " & _
+                         "SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                         "WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+
+                ' Soft delete rujukan Non-BPJS
+                WriteSQL("UPDATE TransaksiDetailRujukanNonBPJS " & _
+                         "SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                         "WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+
+                'WAJIB: Kosongkan ringkasan rujukan
+                WriteSQL("UPDATE TransaksiDetail SET Rujukan = NULL WHERE NoUrut = '" & idTransaksi & "'", 4)
             End If
 
             ' ===================== Update Status Pulang =====================
@@ -6635,6 +6655,11 @@ Public Class FormRekamMedisDokter
                 MsgBox("Data berhasil disimpan." & vbCrLf & "No kunjungan PCare: " & noKunjunganBPJS, MsgBoxStyle.Information, "Success!")
             Else
                 MsgBox("Data berhasil disimpan.", MsgBoxStyle.Information, "Success!")
+            End If
+
+            ' Safety net: jika bukan rujukan, pastikan kolom rujukan kosong
+            If Not statusPulang.Contains("Rujuk") AndAlso Not statusPulang.Contains("Rjk") Then
+                WriteSQL("UPDATE TransaksiDetail SET Rujukan = NULL WHERE NoUrut = '" & idTransaksi & "'", 4)
             End If
 
         Catch ex As Exception
@@ -11512,15 +11537,37 @@ Public Class FormRekamMedisDokter
                         WriteSQL("INSERT INTO SuratKeteranganKontrol (NoTransaksi, NoRekamMedis, NoSurat, TanggalSurat, DokterID, DokterNama, Diagnosa, Tanggal, CreatedBy, CreatedDate) " & _
                                 "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & nomorSurat & "', GETDATE(), '" & rowData("KodeDokter") & "', '" & rowData("NamaDokter") & "', '" & diagnosa & "', '" & Format(tgl, "yyyy-MM-dd") & "', '" & userInput & "', GETDATE())", 4)
 
-                        WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
-                           "VALUES ('" & namaPasien & "', " & _
-                                  "'" & NoHp & "', " & _
-                                  "'Kontrol Kembali Ke Faskes', " & _
-                                  "'" & tgl.ToString("yyyy-MM-dd 09:00") & "', " & _
+                       
+
+                        ' Tanggal kontrol
+                        Dim tglKontrol As DateTime = DateTimePickerTanggalKontrol.Value.Date
+
+                        ' Reminder H-6 jam 09:00 WIB
+                        Dim tglReminder As DateTime = tglKontrol.AddDays(-6).AddHours(9)
+                        Dim kdPoli As String = ReadSQLNIK( _
+                           "SELECT TOP 1 MPT.KodeBPJS " & _
+                           "FROM TransaksiDetail TD " & _
+                           "INNER JOIN MasterPoliTujuan MPT ON TD.JenisPoli = MPT.NamaPoli " & _
+                           "WHERE TD.NoUrut = '" & idTransaksi & "'")
+
+                        If CheckSQL("SELECT 1 FROM LogReminderPasien WHERE NoRekamMedis='" & idPasien & "' AND Tanggal='" & tglReminder.ToString("yyyy-MM-dd HH:mm") & "'") = False Then
+
+                            'Simpan ke LogReminderPasien
+                            WriteSQL("INSERT INTO LogReminderPasien " & _
+                                  "(NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin, NoRekamMedis,  KodePoli) " & _
+                                  "VALUES (" & _
+                                  "'" & namaPasien.Replace("'", "''") & "', " & _
+                                  "'" & NoHp.Replace("'", "''") & "', " & _
+                                  "'" & TextBoxNamaTindakan.Text.Replace("'", "''") & "', " & _
+                                  "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
                                   "'TERJADWAL', " & _
-                                  "'" & userInput & "', " & _
+                                  "'" & userInput.Replace("'", "''") & "', " & _
                                   "GETDATE(), " & _
-                                  "'" & jenisKelamin & "')", 4)
+                                  "'" & jenisKelamin & "', " & _
+                                  "'" & idPasien & "'," & _
+                                  "'" & kdPoli & "'" & _
+                                  ")", 4)
+                        End If
 
                         ' Set Nomor Surat
                         TextBoxNoSuratKeteranganKontrol.Text = nomorSurat

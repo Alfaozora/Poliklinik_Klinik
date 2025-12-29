@@ -131,26 +131,26 @@ Public Class PoliKlinik
                 Dim strValue As String = row("StrValue").ToString()
 
                 Select Case strValue
-                    Case "W001" : Return "KLINIK MITRA MEDICARE SUCI"
-                    Case "W002" : Return "KLINIK MITRA MEDICARE MANYAR"
-                    Case "W003" : Return "KLINIK MITRA MEDICARE DRIYOREJO"
-                    Case "L001" : Return "KLINIK MITRA MEDICARE DHARMAHUSADA"
-                    Case "L002" : Return "KLINIK MITRA MEDICARE DIPONEGORO"
-                    Case "L003" : Return "KLINIK LUMIERA LUZELLA"
-                    Case "L005" : Return "INHOUSE WINGS SURYA"
-                    Case "A002" : Return "KLINIK MITRA MEDICARE JATIUWUH"
-                    Case "AD01" : Return "KLINIK MITRA MEDICARE BOYOLALI"
-                    Case "D002" : Return "KLINIK MITRA MEDICARE RANCAEKEK"
-                    Case "T001" : Return "KLINIK CITRA MEDICARE KARAWANG"
+                    Case "W001" : Return "Klinik Mitra Medicare Suci"
+                    Case "W002" : Return "Klinik Mitra Medicare Manyar"
+                    Case "W003" : Return "Klinik Mitra Medicare Driyorejo"
+                    Case "L001" : Return "Klinik Mitra Medicare Dharmahusada"
+                    Case "L002" : Return "Cahaya Diagnostic Centre Diponegoro"
+                    Case "L003" : Return "Lumiera Luzella"
+                    Case "L005" : Return "Inhouse Wings Surya"
+                    Case "A002" : Return "Klinik Mitra Medicare Jatiuwuh"
+                    Case "AD01" : Return "Klinik Mitra Medicare Boyolali"
+                    Case "D002" : Return "Klinik Mitra Medicare Rancaekek"
+                    Case "T001" : Return "Klinik Citra Medika Karawang"
                 End Select
             End If
 
         Catch ex As Exception
             ' Optional: log error atau berikan default
-            Return "KLINIK MITRA MEDICARE/INHOUSE"
+            Return "KLINIK MITRA MEDICARE"
         End Try
 
-        Return "KLINIK MITRA MEDICARE/INHOUSE"
+        Return "KLINIK MITRA MEDICARE"
     End Function
 
     Private isTestingMode As Boolean = False
@@ -161,12 +161,13 @@ Public Class PoliKlinik
             Dim batasKirim As New TimeSpan(9, 0, 0) ' jam 09:00 WIB
             Dim uniqueStamp As String = Guid.NewGuid().ToString() ' penanda unik instance
 
-            Dim query As String = "" & _
-                "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, TanggalKirim, JenisKelamin " & _
-                "FROM LogReminderPasien " & _
-                "WHERE Status = 'TERJADWAL' " & _
-                "AND CONVERT(date, Tanggal) = CONVERT(date, DATEADD(day, 7, GETDATE())) " & _
-                "AND (TanggalKirim IS NULL OR DATEDIFF(SECOND, TanggalKirim, GETDATE()) > 60)"
+            Dim query As String = _
+                "SELECT lr.ReminderID, lr.NamaPasien, lr.NoHP, lr.Keperluan, lr.Tanggal, " & _
+                "       lr.TanggalKirim, lr.JenisKelamin, lr.NoRekamMedis, lr.KodePoli " & _
+                "FROM LogReminderPasien lr " & _
+                "WHERE lr.Status = 'TERJADWAL' " & _
+                "AND CONVERT(date, lr.Tanggal) = CONVERT(date, DATEADD(day, 6, GETDATE())) " & _
+                "AND (lr.TanggalKirim IS NULL OR DATEDIFF(SECOND, lr.TanggalKirim, GETDATE()) > 60)"
 
             Dim dt As DataTable = ReadSQL(query)
 
@@ -179,13 +180,22 @@ Public Class PoliKlinik
                 Dim sudahDikirim As Boolean = Not IsDBNull(row("TanggalKirim"))
                 Dim id As Integer = CInt(row("ReminderID"))
 
+                Dim noRM As String = ""
+                If Not IsDBNull(row("NoRekamMedis")) Then
+                    noRM = row("NoRekamMedis").ToString()
+                End If
+
+                Dim kdPoli As String = ""
+                If Not IsDBNull(row("KodePoli")) Then
+                    kdPoli = row("KodePoli").ToString()
+                End If
+
                 If now.TimeOfDay >= batasKirim AndAlso Not sudahDikirim Then
 
                     ' --- Lock data (hanya 1 instance bisa ubah Status dan cap timestamp unik) ---
-                    Dim sqlLock As String = "" & _
+                    Dim sqlLock As String = _
                         "UPDATE LogReminderPasien " & _
                         "SET Status = 'PROSES', " & _
-                        "    TanggalKirim = GETDATE(), " & _
                         "    Catatan = '" & uniqueStamp & "' " & _
                         "WHERE ReminderID = " & id & " AND Status = 'TERJADWAL'"
 
@@ -206,17 +216,19 @@ Public Class PoliKlinik
 
                         Try
                             If isTestingMode Then
-                                KirimReminderWhatsAppOtomatis("[TEST]" & namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
+                                KirimReminderWhatsAppOtomatis("[TEST]" & namaPasien, noHP, waktuReminder, keperluan, jenisKelamin, noRM, kdPoli)
                                 My.Computer.FileSystem.WriteAllText("log_reminder_test.txt", now.ToString() & " >> TEST MODE >> " & noHP & vbCrLf, True)
                             Else
-                                KirimReminderWhatsAppOtomatis(namaPasien, noHP, waktuReminder, keperluan, jenisKelamin)
+                                KirimReminderWhatsAppOtomatis(namaPasien, noHP, waktuReminder, keperluan, jenisKelamin, noRM, kdPoli)
                                 Dim sqlUpdate As String = "UPDATE LogReminderPasien SET Status = 'TERKIRIM', TanggalKirim = GETDATE() WHERE ReminderID = " & id
                                 WriteSQL(sqlUpdate, 4)
 
-                                Dim SqlInsertLog As String = _
-                                   "INSERT INTO LogSendingWhatsapp (SendingJenis, SendingTujuan, SendingBy, SendingDate) " & _
-                                   "VALUES ('REMINDER', '" & noHP & "', 'System', GETDATE())"
-                                WriteSQL(SqlInsertLog, 4)
+                                Dim sqlInsertLog As String = _
+                                    "INSERT INTO LogSendingWhatsappEmail " & _
+                                    "(SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, JenisSending) " & _
+                                    "VALUES ('REMINDER', '" & noHP & "', '" & keperluan & "', 1, GETDATE(), 'System', 'PASIEN')"
+
+                                WriteSQL(sqlInsertLog, 4)
                             End If
                         Catch ex As Exception
                             ' Jika gagal kirim, rollback
@@ -245,6 +257,20 @@ Public Class PoliKlinik
         isProcessing = False
     End Sub
 
+    Private isTestingBirthday As Boolean = False
+
+    Private Sub TimerBirthday_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerBirthday.Tick
+        If isProcessing Then Exit Sub
+        isProcessing = True
+
+        Try
+            KirimUcapanUlangTahunOtomatis()
+        Catch
+        End Try
+
+        isProcessing = False
+    End Sub
+
     Public Function SetParameterWhatsappText(ByVal nomor As String, ByVal pesan As String) As String
         Dim cleanPesan As String = pesan.Replace(vbCrLf, "\n").Replace("""", "\""")
 
@@ -257,7 +283,7 @@ Public Class PoliKlinik
         Return json
     End Function
 
-    Private Sub KirimReminderWhatsAppOtomatis(ByVal namaPasien As String, ByVal noHP As String, ByVal tanggal As DateTime, ByVal keperluan As String, ByVal jenisKelamin As String)
+    Private Sub KirimReminderWhatsAppOtomatis(ByVal namaPasien As String, ByVal noHP As String, ByVal tanggal As DateTime, ByVal keperluan As String, ByVal jenisKelamin As String, ByVal noRM As String, ByVal kdPoli As String)
         Try
             If noHP.StartsWith("08") Then
                 noHP = "62" & noHP.Substring(1)
@@ -267,20 +293,31 @@ Public Class PoliKlinik
             Dim waStatus As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_status'")
             Dim waIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
             Dim lokasiKlinik As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'AlamatCompany'")
+            Dim telpKlinik As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'TelpCompany'")
+            Dim nik As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & noRM & "'")
+            Dim kodeFaskes As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodePPK'")
+
+            ' Encode Base64
+            Dim plainText As String = nik & "*" & kodeFaskes & "*" & tanggal.ToString("yyyy-MM-yy") & "*BPJS*" & kdPoli
+            Dim bytes As Byte() = Encoding.UTF8.GetBytes(plainText)
+            Dim encodedBase64 As String = Convert.ToBase64String(bytes)
+            Dim bookingUrl As String = "https://hyu.cmhgroup.id/app/antrean/" & encodedBase64
 
             If waStatus <> "Yes" Then Exit Sub
 
             Dim tanggalIndo As String = tanggal.ToString("dddd, dd MMMM yyyy", New Globalization.CultureInfo("id-ID"))
-            Dim pesan As String = "Salam sehat, " & jenisKelamin & " *" & namaPasien & "*." & vbCrLf & vbCrLf & _
-                                  "Kami dari " & namaKlinik & " mengingatkan bahwa jadwal kunjungan kesehatan rutin Anda telah tiba." & vbCrLf & vbCrLf & _
-                                  "Mohon hadir ke fasilitas kami untuk *" & keperluan & "* sesuai program yang telah disepakati." & vbCrLf & vbCrLf & _
-                                  "Tanggal Kunjungan: " & tanggalIndo & vbCrLf & _
-                                  "Jam: " & tanggal.ToString("HH:mm") & " WIB" & vbCrLf & _
-                                  "Alamat: " & lokasiKlinik & vbCrLf & vbCrLf & _
-                                  "Mohon hadir tepat waktu. Untuk informasi lebih lanjut, silakan hubungi kami di Nomor ini." & vbCrLf & _
-                                  "Terima kasih." & vbCrLf & vbCrLf & _
-                                  "" & namaKlinik & vbCrLf & vbCrLf & _
-                                  "----- Sehat Itu Hak Anda -----"
+
+            Dim pesan As String = "Selamat Pagi, " & jenisKelamin & " *" & namaPasien & "* ☺️. " & vbCrLf & vbCrLf & _
+                                  "Kami dari " & namaKlinik & " ingin mengingatkan jadwal tindakan *" & keperluan & "* yang rencananya akan dilakukan pada " & _
+                                  "" & tanggalIndo & ". Apakah " & jenisKelamin & " berkenan untuk melakukan tindakan *" & keperluan & "* di tanggal tersebut?" & vbCrLf & vbCrLf & _
+                                  "Untuk booking jadwal, " & jenisKelamin & " dapat mengakses melalui link di bawah ini 👇." & vbCrLf & vbCrLf & _
+                                  "🔗  [ " & bookingUrl & " ]" & vbCrLf & vbCrLf & _
+                                  "Sebagai persiapan sebelum tindakan, kami sarankan " & jenisKelamin & " untuk istirahat yang cukup, makan terlebih dahulu, dan minum air putih yang cukup ya ☺️. " & _
+                                  "Jika sedang kurang fit, demam, batuk pilek berat, atau ada keluhan kesehatan tertentu, mohon diinformasikan terlebih dahulu kepada kami agar tindakan dapat dilakukan dengan aman dan nyaman." & vbCrLf & vbCrLf & _
+                                  "📍 Alamat " & namaKlinik & "" & vbCrLf & _
+                                  "" & lokasiKlinik & "" & vbCrLf & _
+                                  " " & telpKlinik & "" & vbCrLf & vbCrLf & _
+                                  "Terima kasih, kami tunggu konfirmasinya ☺️🙏"
 
             Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
             Dim urlSend As String = "http://" & waIP & ":4444/send"
@@ -292,6 +329,155 @@ Public Class PoliKlinik
         My.Computer.FileSystem.WriteAllText("log_reminder.txt", DateTime.Now & " - Dikirim ke: " & noHP & vbCrLf, True)
     End Sub
     '---------------------END Reminder WA-------------------------'
+
+    Private Function HitungUsia(ByVal tglLahir As Date) As Integer
+        Dim usia As Integer = Date.Now.Year - tglLahir.Year
+        If Date.Now < tglLahir.AddYears(usia) Then usia -= 1
+        Return usia
+    End Function
+
+    Private Function EmojiBerdasarkanUsia(ByVal usia As Integer) As String
+        If usia <= 12 Then
+            Return "🧸🎈"          ' Anak
+        ElseIf usia <= 17 Then
+            Return "🎉✨"          ' Remaja
+        ElseIf usia <= 40 Then
+            Return "🎂🥳"          ' Dewasa muda
+        ElseIf usia <= 60 Then
+            Return "🎂🙏"          ' Dewasa
+        Else
+            Return "🎂🌸"          ' Lansia
+        End If
+    End Function
+
+    Private Function GetSapaan(ByVal usia As Integer, ByVal jenisKelamin As String) As String
+        If usia < 18 Then
+            Return "Kakak"
+        Else
+            If jenisKelamin.Trim().ToUpper() = "L" Then
+                Return "Bapak"
+            ElseIf jenisKelamin.Trim().ToUpper() = "P" Then
+                Return "Ibu"
+            Else
+                Return ""
+            End If
+        End If
+    End Function
+
+    Private Sub KirimUcapanUlangTahunWhatsApp(ByVal namaPasien As String, ByVal noHP As String, ByVal jenisKelamin As String, ByVal usia As Integer, ByVal emojiUsia As String)
+        Try
+            If noHP.StartsWith("08") Then
+                noHP = "62" & noHP.Substring(1)
+            End If
+
+            Dim namaKlinik As String = GetNamaKlinik()
+            Dim waStatus As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_status'")
+            Dim waIP As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'whatsapp_klinik_ip'")
+            Dim sapaan As String = GetSapaan(usia, jenisKelamin)
+
+            If waStatus <> "Yes" Then Exit Sub
+
+            Dim pesan As String = _
+                 emojiUsia & " *Selamat Ulang Tahun* " & emojiUsia & vbCrLf & vbCrLf & _
+                 sapaan & " *" & namaPasien & "*." & vbCrLf & vbCrLf & _
+                 "Di hari yang spesial ini, kami dari *" & namaKlinik & "* ingin mengucapkan selamat ulang tahun." & _
+                 "Semoga selalu diberikan kesehatan, umur yang panjang, serta kebahagiaan dalam setiap aktivitas sehari-hari." & vbCrLf & vbCrLf & _
+                 "Terima kasih telah mempercayakan perawatan kesehatan Anda kepada kami. " & _
+                 "Merupakan suatu kehormatan bagi kami dapat mendampingi Anda dalam menjaga kesehatan." & vbCrLf & vbCrLf & _
+                 "Semoga hari ini " & sapaan & " dipenuhi senyum kebahagiaan dan kebaikan yang berlipat 🤍" & vbCrLf & _
+                 "Salam sehat selalu." & vbCrLf & vbCrLf & _
+                 "Hormat kami," & vbCrLf & _
+                 "*" & namaKlinik & "*"
+
+            If isTestingBirthday Then
+                pesan = "[TEST] 🧪 *PESAN UJI COBA*" & vbCrLf & vbCrLf & pesan
+            End If
+
+            Dim parameter As String = SetParameterWhatsappText(noHP, pesan)
+            Dim urlSend As String = "http://" & waIP & ":4444/send"
+            SendDataWhatsapp(parameter, urlSend)
+
+        Catch ex As Exception
+            ' Optional: log error
+        End Try
+    End Sub
+
+    Private Sub KirimUcapanUlangTahunOtomatis()
+        Try
+            Dim batasKirim As New TimeSpan(9, 0, 0)
+            If DateTime.Now.TimeOfDay < batasKirim Then Exit Sub
+
+            Dim query As String = ""
+
+            If isTestingBirthday Then
+                ' =========================
+                ' MODE TESTING
+                ' =========================
+                ' Queue BERDASARKAN PASIEN (Nama + NoHP)
+                query = _
+                    "SELECT TOP 1 p.Nama, p.NoHandphone, p.TglLahir, p.JenisKelamin " & _
+                    "FROM MasterPasien p " & _
+                    "WHERE p.DeletedDate IS NULL " & _
+                    "AND MONTH(p.TglLahir) = MONTH(GETDATE()) " & _
+                    "AND DAY(p.TglLahir) = DAY(GETDATE()) " & _
+                    "AND NOT EXISTS ( " & _
+                    "   SELECT 1 FROM LogSendingWhatsappEmail l " & _
+                    "   WHERE l.SendingJenis = 'BIRTHDAY' " & _
+                    "   AND l.SendingTujuan = p.NoHandphone " & _
+                    "   AND l.SendingNamaFile = p.Nama " & _
+                    "   AND CONVERT(date, l.SendingDate) = CONVERT(date, GETDATE()) " & _
+                    ") " & _
+                    "ORDER BY p.Nama ASC"
+
+            Else
+                ' =========================
+                ' MODE PRODUCTION
+                ' =========================
+                ' Aman: 1 nomor / hari
+                query = _
+                    "SELECT TOP 1 p.Nama, p.NoHandphone, p.TglLahir, p.JenisKelamin " & _
+                    "FROM MasterPasien p " & _
+                    "WHERE p.DeletedDate IS NULL " & _
+                    "AND MONTH(p.TglLahir) = MONTH(GETDATE()) " & _
+                    "AND DAY(p.TglLahir) = DAY(GETDATE()) " & _
+                    "AND NOT EXISTS ( " & _
+                    "   SELECT 1 FROM LogSendingWhatsappEmail l " & _
+                    "   WHERE l.SendingJenis = 'BIRTHDAY' " & _
+                    "   AND l.SendingTujuan = p.NoHandphone " & _
+                    "   AND CONVERT(date, l.SendingDate) = CONVERT(date, GETDATE()) " & _
+                    ") " & _
+                    "ORDER BY p.Nama ASC"
+            End If
+
+            Dim dt As DataTable = ReadSQL(query)
+            If dt.Rows.Count = 0 Then Exit Sub
+
+            Dim row As DataRow = dt.Rows(0)
+
+            Dim namaPasien As String = row("Nama").ToString()
+            Dim noHP As String = row("NoHandphone").ToString()
+            Dim jenisKelamin As String = row("JenisKelamin").ToString().Trim().ToUpper()
+            Dim tglLahir As Date = CDate(row("TglLahir"))
+
+            Dim usia As Integer = HitungUsia(tglLahir)
+            Dim emojiUsia As String = EmojiBerdasarkanUsia(usia)
+
+            KirimUcapanUlangTahunWhatsApp(namaPasien, noHP, jenisKelamin, usia, emojiUsia)
+
+            ' =========================
+            ' LOG PENGIRIMAN (PENTING)
+            ' =========================
+            Dim sqlLog As String = _
+                "INSERT INTO LogSendingWhatsappEmail " & _
+                "(SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, JenisSending) " & _
+                "VALUES ('BIRTHDAY', '" & noHP & "', '" & namaPasien & "', 1, GETDATE(), 'System', 'PASIEN')"
+
+            WriteSQL(sqlLog, 4)
+
+        Catch ex As Exception
+            MsgBox("Error Birthday Sender: " & ex.Message)
+        End Try
+    End Sub
 
     Private Sub ExitToolsStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         Me.Close()

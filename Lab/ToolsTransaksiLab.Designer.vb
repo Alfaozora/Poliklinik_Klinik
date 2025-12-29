@@ -25,8 +25,8 @@ Partial Class ToolsTransaksiLab
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolsTransaksiLab))
         Me.Label1 = New System.Windows.Forms.Label
         Me.status = New System.Windows.Forms.TextBox
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
-        Me.txprocent = New System.Windows.Forms.Label
+        Me.ProgressBarSinkronisasi = New System.Windows.Forms.ProgressBar
+        Me.TextBoxKeteranganSinkronisasi = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.DateTimeUpload = New System.Windows.Forms.DateTimePicker
         Me.Label12 = New System.Windows.Forms.Label
@@ -53,22 +53,22 @@ Partial Class ToolsTransaksiLab
         Me.status.Size = New System.Drawing.Size(475, 103)
         Me.status.TabIndex = 4
         '
-        'ProgressBar1
+        'ProgressBarSinkronisasi
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(12, 149)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(475, 20)
-        Me.ProgressBar1.TabIndex = 5
+        Me.ProgressBarSinkronisasi.Location = New System.Drawing.Point(12, 149)
+        Me.ProgressBarSinkronisasi.Name = "ProgressBarSinkronisasi"
+        Me.ProgressBarSinkronisasi.Size = New System.Drawing.Size(475, 20)
+        Me.ProgressBarSinkronisasi.TabIndex = 5
         '
-        'txprocent
+        'TextBoxKeteranganSinkronisasi
         '
-        Me.txprocent.AutoSize = True
-        Me.txprocent.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.txprocent.Location = New System.Drawing.Point(12, 129)
-        Me.txprocent.Name = "txprocent"
-        Me.txprocent.Size = New System.Drawing.Size(30, 17)
-        Me.txprocent.TabIndex = 6
-        Me.txprocent.Text = "0 %"
+        Me.TextBoxKeteranganSinkronisasi.AutoSize = True
+        Me.TextBoxKeteranganSinkronisasi.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.TextBoxKeteranganSinkronisasi.Location = New System.Drawing.Point(12, 129)
+        Me.TextBoxKeteranganSinkronisasi.Name = "TextBoxKeteranganSinkronisasi"
+        Me.TextBoxKeteranganSinkronisasi.Size = New System.Drawing.Size(30, 17)
+        Me.TextBoxKeteranganSinkronisasi.TabIndex = 6
+        Me.TextBoxKeteranganSinkronisasi.Text = "0 %"
         '
         'Label3
         '
@@ -133,8 +133,8 @@ Partial Class ToolsTransaksiLab
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.DateTimeUpload)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.txprocent)
-        Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.TextBoxKeteranganSinkronisasi)
+        Me.Controls.Add(Me.ProgressBarSinkronisasi)
         Me.Controls.Add(Me.status)
         Me.Controls.Add(Me.Label1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -147,8 +147,8 @@ Partial Class ToolsTransaksiLab
     End Sub
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents status As System.Windows.Forms.TextBox
-    Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
-    Friend WithEvents txprocent As System.Windows.Forms.Label
+    Friend WithEvents ProgressBarSinkronisasi As System.Windows.Forms.ProgressBar
+    Friend WithEvents TextBoxKeteranganSinkronisasi As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents DateTimeUpload As System.Windows.Forms.DateTimePicker
     Friend WithEvents Label12 As System.Windows.Forms.Label

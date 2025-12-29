@@ -2492,6 +2492,40 @@ Module Test
         Return True
     End Function
 
+    Public Function CekKoneksiDB(ByVal db As Object) As Boolean
+        Dim connStr As String = "Server=" & db.Tip & _
+                                ";Database=" & db.Tdb & _
+                                ";Uid=" & db.Tid & _
+                                ";Pwd=" & db.Tpass & _
+                                ";Pooling=false;Connection Timeout=5;"
+
+        Dim conn As MySqlConnection = Nothing
+
+        Try
+            conn = New MySqlConnection(connStr)
+            conn.Open()
+            Return True
+        Catch ex As Exception
+            Return False
+        Finally
+            If conn IsNot Nothing Then
+                If conn.State = ConnectionState.Open Then conn.Close()
+                conn.Dispose()
+            End If
+        End Try
+    End Function
+
+    Public Function ValidasiKoneksi(ByVal namaDb As String, ByVal db As Object) As Boolean
+        If Not CekKoneksiDB(db) Then
+            MsgBox("Koneksi MySQL gagal: " & namaDb & _
+                   vbCrLf & "DB : " & db.Tdb & _
+                   vbCrLf & "IP : " & db.Tip, _
+                   MsgBoxStyle.Exclamation, "Warning!")
+            Return False
+        End If
+        Return True
+    End Function
+
     Public Function ValidateBridgingPcare() As Boolean
         ' Cek sambungan internet
         If CheckInternetConnection() = False Then

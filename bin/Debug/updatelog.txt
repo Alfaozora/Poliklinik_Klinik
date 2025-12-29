@@ -4,12 +4,15 @@ Version : 2.0.0.57 (21 Desember 2025)
 # [New Feature] Penambahan Fitur Kirim Medication/Obat Lokal (Racikan/Compound) ke SATUSEHAT
 # [New Feature] Penambahan Fitur Kirim Medication Request/Permintaan Obat (Racikan/Compound) ke SATUSEHAT
 # [New Feature] Penambahan Fitur Riwayat Hasil Lab
+# [New Feature] Penambahan Fitur Ucapan Selamat Ulang Tahun kepada Pasien
 # [Usability Improvement] Pengembangan Fitur ON OFF Pcare
 # [Usability Improvement] Penambahan Rhesus Pada Goldar data Pasien
 # [Usability Improvement] Penyesuaian Rentang Usia dan Jenis Kelamin Laporan Diagnosa
 # [Usability Improvement] Penyesuaian Kirim Pesan Reminder Menjadi H-7 yang Sebelumnya H-1
+# [Usability Improvement] Pengembangan Mekanisme Input Laboratorium Lokal agar Data Dapat Tersimpan Secara Lokal dan Online
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis
 # [Bug Fix] Memperbaiki Bug GetRiwayatLaboratorium 
+# [Bug Fix] Perbaikan logika status pulang pasien ketika rujukan dibatalkan dan pasien kembali berstatus rawat jalan
 
 Version : 2.0.0.56 (21 November 2025)
 # [New Feature] Penambahan Fitur Attachment PDF pada Pemeriksaan LAB
