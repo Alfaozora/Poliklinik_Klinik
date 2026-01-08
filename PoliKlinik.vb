@@ -147,10 +147,10 @@ Public Class PoliKlinik
 
         Catch ex As Exception
             ' Optional: log error atau berikan default
-            Return "KLINIK MITRA MEDICARE"
+            Return "Klinik Mitra Medicare"
         End Try
 
-        Return "KLINIK MITRA MEDICARE"
+        Return "Klinik Mitra Medicare"
     End Function
 
     Private isTestingMode As Boolean = False
@@ -166,7 +166,7 @@ Public Class PoliKlinik
                 "       lr.TanggalKirim, lr.JenisKelamin, lr.NoRekamMedis, lr.KodePoli " & _
                 "FROM LogReminderPasien lr " & _
                 "WHERE lr.Status = 'TERJADWAL' " & _
-                "AND CONVERT(date, lr.Tanggal) = CONVERT(date, DATEADD(day, 6, GETDATE())) " & _
+                "AND CONVERT(date, lr.Tanggal) = CONVERT(date, DATEADD(day, 4, GETDATE())) " & _
                 "AND (lr.TanggalKirim IS NULL OR DATEDIFF(SECOND, lr.TanggalKirim, GETDATE()) > 60)"
 
             Dim dt As DataTable = ReadSQL(query)
@@ -298,7 +298,7 @@ Public Class PoliKlinik
             Dim kodeFaskes As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodePPK'")
 
             ' Encode Base64
-            Dim plainText As String = nik & "*" & kodeFaskes & "*" & tanggal.ToString("yyyy-MM-yy") & "*BPJS*" & kdPoli
+            Dim plainText As String = nik & "*" & kodeFaskes & "*" & tanggal.ToString("yyyy-MM-dd") & "*BPJS*" & kdPoli
             Dim bytes As Byte() = Encoding.UTF8.GetBytes(plainText)
             Dim encodedBase64 As String = Convert.ToBase64String(bytes)
             Dim bookingUrl As String = "https://hyu.cmhgroup.id/app/antrean/" & encodedBase64

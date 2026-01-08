@@ -2072,7 +2072,6 @@ Partial Class PoliKlinik
         '
         'TimerBirthday
         '
-        Me.TimerBirthday.Enabled = True
         Me.TimerBirthday.Interval = 300000
         '
         'PoliKlinik

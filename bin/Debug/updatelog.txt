@@ -1,3 +1,7 @@
+Version : 2.0.0.58 (21 Januari 2025)
+# [Usability Improvement] Penyesuaian Log Reminder dan Booking Pasien
+# [Usability Improvement] Penambahan Pemfilteran Tanggal Transaksi pada Tool Ganti Dokter
+
 Version : 2.0.0.57 (21 Desember 2025)
 # [New Feature] Penambahan Fitur Notifikasi Riwayat Pasien B16-B24
 # [New Feature] Penambahan Fitur Import Data Excel (CSV) Master Tindakan
@@ -10,7 +14,9 @@ Version : 2.0.0.57 (21 Desember 2025)
 # [Usability Improvement] Penyesuaian Rentang Usia dan Jenis Kelamin Laporan Diagnosa
 # [Usability Improvement] Penyesuaian Kirim Pesan Reminder Menjadi H-7 yang Sebelumnya H-1
 # [Usability Improvement] Pengembangan Mekanisme Input Laboratorium Lokal agar Data Dapat Tersimpan Secara Lokal dan Online
+# [Usability Improvement] Optimalisasi Kalimat pada Pesan Pengingat dan Ucapan Ulang Tahun
 # [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Reminder Otomatis
+# [Bug Fix] Memperbaiki Error Saat Mengirim Pesan Ucapan Ulang Tahun
 # [Bug Fix] Memperbaiki Bug GetRiwayatLaboratorium 
 # [Bug Fix] Perbaikan logika status pulang pasien ketika rujukan dibatalkan dan pasien kembali berstatus rawat jalan
 
