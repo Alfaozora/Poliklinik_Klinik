@@ -166,7 +166,7 @@ Public Class PoliKlinik
                 "       lr.TanggalKirim, lr.JenisKelamin, lr.NoRekamMedis, lr.KodePoli " & _
                 "FROM LogReminderPasien lr " & _
                 "WHERE lr.Status = 'TERJADWAL' " & _
-                "AND CONVERT(date, lr.Tanggal) = CONVERT(date, DATEADD(day, 4, GETDATE())) " & _
+                "AND CONVERT(date, lr.Tanggal) = CONVERT(date, DATEADD(day, 6, GETDATE())) " & _
                 "AND (lr.TanggalKirim IS NULL OR DATEDIFF(SECOND, lr.TanggalKirim, GETDATE()) > 60)"
 
             Dim dt As DataTable = ReadSQL(query)
@@ -283,7 +283,7 @@ Public Class PoliKlinik
         Return json
     End Function
 
-    Private Sub KirimReminderWhatsAppOtomatis(ByVal namaPasien As String, ByVal noHP As String, ByVal tanggal As DateTime, ByVal keperluan As String, ByVal jenisKelamin As String, ByVal noRM As String, ByVal kdPoli As String)
+    Public Sub KirimReminderWhatsAppOtomatis(ByVal namaPasien As String, ByVal noHP As String, ByVal tanggal As DateTime, ByVal keperluan As String, ByVal jenisKelamin As String, ByVal noRM As String, ByVal kdPoli As String)
         Try
             If noHP.StartsWith("08") Then
                 noHP = "62" & noHP.Substring(1)

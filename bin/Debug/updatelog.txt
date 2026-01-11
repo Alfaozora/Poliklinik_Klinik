@@ -1,6 +1,9 @@
 Version : 2.0.0.58 (21 Januari 2025)
+# [New Feature] Penambahan Fitur Risiko Penyakit DM, HT, Stroke
+# [New Feature] Penambahan Fitur Saran Diagnosa Menggunakan Machine Learning v1
 # [Usability Improvement] Penyesuaian Log Reminder dan Booking Pasien
 # [Usability Improvement] Penambahan Pemfilteran Tanggal Transaksi pada Tool Ganti Dokter
+# [Usability Improvement] Penambahan Checkbox Untuk Nomor WhatsApp Pasien LAB 
 
 Version : 2.0.0.57 (21 Desember 2025)
 # [New Feature] Penambahan Fitur Notifikasi Riwayat Pasien B16-B24

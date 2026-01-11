@@ -19,6 +19,7 @@ Imports DevExpress.XtraPrinting.Drawing
 Imports PoliKlinik_Net2.ShapeDrawingFunctions
 Imports System.Text
 Imports System.Globalization
+Imports System.Text.RegularExpressions
 
 Public Class FormRekamMedisDokter
 
@@ -234,6 +235,8 @@ Public Class FormRekamMedisDokter
         End Try
     End Sub
 
+    Private ttRisikoDM As New ToolTip()
+
     Private Sub FormRekamMedisDokter_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
@@ -269,6 +272,125 @@ Public Class FormRekamMedisDokter
 
             '# Load PDF
             Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
+
+            'Cek riwayat B20
+            Dim dt As DataTable = GetRiwayatB20(idPasien)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
+                Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
+
+                MsgBox("PERHATIAN!" & vbCrLf & _
+                       "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
+                       "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
+
+            End If
+
+            '========================================
+            ' TAMPILAN RISIKO DM SAAT FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    Dim risiko As Dictionary(Of String, String) = HitungRisikoDM_Tahap2(idPasien)
+
+                    If risiko.Count > 0 Then
+                        LabelResikoDM.Text = "Risiko DM : " & risiko("StatusRisiko") & _
+                                             " | Skor : " & risiko("Skor")
+
+                        Select Case risiko("StatusRisiko")
+                            Case "RENDAH"
+                                LabelResikoDM.ForeColor = Color.Green
+                            Case "SEDANG"
+                                LabelResikoDM.ForeColor = Color.Orange
+                            Case "TINGGI"
+                                LabelResikoDM.ForeColor = Color.Red
+                        End Select
+                    Else
+                        LabelResikoDM.Text = "Risiko DM : -"
+                        LabelResikoDM.ForeColor = Color.Black
+                    End If
+                End If
+            Catch
+                LabelResikoDM.Text = "Risiko DM : -"
+            End Try
+
+
+            '========================================
+            ' TAMPILAN RISIKO HT SAAT FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    Dim risikoHT As Dictionary(Of String, String) = HitungRisikoHipertensi_Tahap2(idPasien)
+
+                    If risikoHT.Count > 0 Then
+                        LabelRisikoHT.Text = "Risiko HT : " & risikoHT("StatusRisiko") & _
+                                             " | Skor : " & risikoHT("Skor")
+
+                        Select Case risikoHT("StatusRisiko")
+                            Case "RENDAH"
+                                LabelRisikoHT.ForeColor = Color.Green
+                            Case "SEDANG"
+                                LabelRisikoHT.ForeColor = Color.Orange
+                            Case "TINGGI"
+                                LabelRisikoHT.ForeColor = Color.Red
+                        End Select
+                    Else
+                        LabelRisikoHT.Text = "Risiko HT : -"
+                        LabelRisikoHT.ForeColor = Color.Black
+                    End If
+                End If
+            Catch
+                LabelRisikoHT.Text = "Risiko HT : -"
+            End Try
+
+            '========================================
+            ' TAMPILKAN RISIKO STROKE SAAT FORM LOAD
+            '========================================
+            Try
+                Dim risikoDM As Dictionary(Of String, String) = HitungRisikoDM_Tahap2(idPasien)
+                Dim risikoHT As Dictionary(Of String, String) = HitungRisikoHipertensi_Tahap2(idPasien)
+
+                If risikoDM.Count > 0 And risikoHT.Count > 0 Then
+                    Dim Umur As Integer = CInt(risikoDM("Umur"))
+                    Dim StatusDM As String = risikoDM("StatusRisiko")
+                    Dim StatusHT As String = risikoHT("StatusRisiko")
+                    Dim IMT As Double = CDbl(risikoDM("RataIMT"))
+
+                    Dim risikoStroke As Dictionary(Of String, String) = HitungRisikoStroke(Umur, StatusDM, StatusHT, IMT)
+
+                    LabelRisikoStroke.Text = "Risiko Stroke : " & _
+                                             risikoStroke("StatusRisiko") & _
+                                             " | Skor : " & risikoStroke("Skor")
+
+                    Select Case risikoStroke("StatusRisiko")
+                        Case "RENDAH"
+                            LabelRisikoStroke.ForeColor = Color.Green
+                        Case "SEDANG"
+                            LabelRisikoStroke.ForeColor = Color.Orange
+                        Case "TINGGI"
+                            LabelRisikoStroke.ForeColor = Color.Red
+                    End Select
+                End If
+            Catch ex As Exception
+                LabelRisikoStroke.Text = "Risiko Stroke : -"
+            End Try
+
+
+            '========================================
+            ' TAMPILKAN ICD ASISTAN FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    TextBoxSaranDiagnosa.Text = GetSaranDiagnosaICD_ML(idPasien)
+
+                    If TextBoxSaranDiagnosa.Text.Trim() = "" Then
+                        TextBoxSaranDiagnosa.Text = "-"
+                    End If
+                End If
+            Catch
+                TextBoxSaranDiagnosa.Text = "-"
+            End Try
 
             '# Set Timer Notification
             TimerNotifikasi.Interval = 1000 ' berkedip setiap 1000ms (1 detik)
@@ -717,20 +839,6 @@ Public Class FormRekamMedisDokter
 
             '# Tampilkan alert
             If messageBox = True Then MsgBox("Pasien memiliki alergi." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
-        End If
-
-        'Cek riwayat B20
-        Dim dt As DataTable = GetRiwayatB20(idPasien)
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-
-            Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
-            Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
-
-            MsgBox("PERHATIAN!" & vbCrLf & _
-                   "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
-                   "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
-
         End If
     End Sub
 
@@ -2487,6 +2595,13 @@ Public Class FormRekamMedisDokter
                 ' UATBPJS
                 ' Refresh Form Rekam Medis
                 SetDataFromPendaftaran(idPasien, idTransaksi, jenisTransaksi)
+
+
+                TextBoxSaranDiagnosa.Text = GetSaranDiagnosaICD_ML(idPasien)
+
+                If TextBoxSaranDiagnosa.Text.Trim() = "" Then
+                    TextBoxSaranDiagnosa.Text = "-"
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Warning!")
@@ -13920,4 +14035,302 @@ Public Class FormRekamMedisDokter
             End Try
         End If
     End Sub
+
+    Public Function HitungRisikoDM_Tahap2(ByVal NoRM As String) As Dictionary(Of String, String)
+        Dim hasil As New Dictionary(Of String, String)
+
+        '===========================
+        ' 1. HITUNG UMUR
+        '===========================
+        Dim tglLahirStr As String = ReadSQLNIK("SELECT TglLahir FROM MasterPasien WHERE NoRekamMedis='" & NoRM & "'")
+
+        If tglLahirStr = "" Then Return hasil
+
+        Dim TglLahir As Date = CDate(tglLahirStr)
+        Dim Umur As Integer = DateDiff(DateInterval.Year, TglLahir, Date.Now)
+
+        Dim tglUltahTahunIni As Date
+        tglUltahTahunIni = DateSerial(Year(Date.Now), Month(TglLahir), TglLahir.Day)
+
+        If Date.Now < tglUltahTahunIni Then
+            Umur = Umur - 1
+        End If
+
+
+        '===========================
+        ' 2. GULA DARAH (3 BULAN)
+        '===========================
+        Dim JumlahGulaNaik As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM HasilCekStik " & _
+            "WHERE NoRM='" & NoRM & "' AND Kategori='GULA DARAH' " & _
+            "AND Hasil>=110 AND Deleted IS NULL " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataGula As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(Hasil) FROM HasilCekStik " & _
+            "WHERE NoRM='" & NoRM & "' AND Kategori='GULA DARAH' " & _
+            "AND Deleted IS NULL " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 3. IMT (3 BULAN)
+        '===========================
+        Dim RataIMT As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.IMT) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 4. KELUHAN
+        '===========================
+        Dim AdaKeluhanDM As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetail " & _
+            "WHERE IDInternet='" & NoRM & "' " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE()) " & _
+            "AND ( " & _
+            "KeluhanUtama LIKE '%haus%' OR KeluhanUtama LIKE '%lelah%' OR " & _
+            "KeluhanUtama LIKE '%DM%' OR KeluhanUtama LIKE '%dm%' OR " & _
+            "KeluhanUtama LIKE '%kencing%' OR KeluhanUtama LIKE '%minum%' OR " & _
+            "KeluhanTambahan LIKE '%haus%' OR KeluhanTambahan LIKE '%lelah%' OR " & _
+            "KeluhanTambahan LIKE '%kencing%' OR KeluhanTambahan LIKE '%minum%' " & _
+            ")"))
+
+        '===========================
+        ' 5. SCORING
+        '===========================
+        Dim Skor As Integer = 0
+
+        If Umur >= 45 Then Skor += 2
+        If JumlahGulaNaik >= 2 Then Skor += 3
+        If RataGula >= 120 Then Skor += 2
+        If RataIMT >= 25 Then Skor += 2
+        If AdaKeluhanDM >= 1 Then Skor += 1
+        If AdaKeluhanDM >= 2 And JumlahGulaNaik >= 2 Then Skor += 1
+
+        Dim StatusRisiko As String
+        If Skor >= 7 Then
+            StatusRisiko = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusRisiko = "SEDANG"
+        Else
+            StatusRisiko = "RENDAH"
+        End If
+
+        '===========================
+        ' 6. RETURN
+        '===========================
+        hasil("Umur") = Umur.ToString()
+        hasil("JumlahGulaNaik") = JumlahGulaNaik.ToString()
+        hasil("RataGulaDarah") = FormatNumber(RataGula, 0)
+        hasil("RataIMT") = FormatNumber(RataIMT, 1)
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusRisiko
+
+        Return hasil
+    End Function
+
+    Public Function HitungRisikoHipertensi_Tahap2(ByVal NoRM As String) As Dictionary(Of String, String)
+        Dim hasil As New Dictionary(Of String, String)
+
+        '===========================
+        ' 1. HITUNG UMUR
+        '===========================
+        Dim tglLahirStr As String = ReadSQLNIK("SELECT TglLahir FROM MasterPasien WHERE NoRekamMedis='" & NoRM & "'")
+
+        If tglLahirStr = "" Then Return hasil
+
+        Dim TglLahir As Date = CDate(tglLahirStr)
+        Dim Umur As Integer = DateDiff(DateInterval.Year, TglLahir, Date.Now)
+
+        Dim tglUltahTahunIni As Date
+        tglUltahTahunIni = DateSerial(Year(Date.Now), Month(TglLahir), TglLahir.Day)
+        If Date.Now < tglUltahTahunIni Then Umur = Umur - 1
+
+        '===========================
+        ' 2. TEKANAN DARAH (3 BULAN)
+        '===========================
+        Dim JumlahTDNaik As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND (TDF.Sistole>=140 OR TDF.Diastole>=90) " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataSistol As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.Sistole) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataDiastol As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.Diastole) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 3. IMT (OPSIONAL)
+        '===========================
+        Dim RataIMT As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.IMT) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 4. KELUHAN
+        '===========================
+        Dim AdaKeluhanHT As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetail " & _
+            "WHERE IDInternet='" & NoRM & "' " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE()) " & _
+            "AND ( " & _
+            "KeluhanUtama LIKE '%pusing%' OR KeluhanUtama LIKE '%sakit kepala%' OR " & _
+            "KeluhanUtama LIKE '%tengkuk%' OR KeluhanUtama LIKE '%leher%' OR " & _
+            "KeluhanUtama LIKE '%HT%' OR KeluhanUtama LIKE '%ht%' OR " & _
+            "KeluhanTambahan LIKE '%pusing%' OR KeluhanTambahan LIKE '%sakit kepala%' OR " & _
+            "KeluhanTambahan LIKE '%tengkuk%' OR KeluhanTambahan LIKE '%leher%' " & _
+            ")"))
+
+
+        '===========================
+        ' 5. SCORING HIPERTENSI
+        '===========================
+        Dim Skor As Integer = 0
+
+        If Umur >= 40 Then Skor += 2
+        If JumlahTDNaik >= 2 Then Skor += 3
+        If RataSistol >= 140 Or RataDiastol >= 90 Then Skor += 2
+        If RataIMT >= 25 Then Skor += 1
+        If AdaKeluhanHT >= 1 Then Skor += 1
+
+        Dim StatusRisiko As String
+        If Skor >= 7 Then
+            StatusRisiko = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusRisiko = "SEDANG"
+        Else
+            StatusRisiko = "RENDAH"
+        End If
+
+        '===========================
+        ' 6. RETURN
+        '===========================
+        hasil("Umur") = Umur.ToString()
+        hasil("JumlahTDNaik") = JumlahTDNaik.ToString()
+        hasil("RataSistol") = FormatNumber(RataSistol, 0)
+        hasil("RataDiastol") = FormatNumber(RataDiastol, 0)
+        hasil("RataIMT") = FormatNumber(RataIMT, 1)
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusRisiko
+
+        Return hasil
+    End Function
+
+    Public Function HitungRisikoStroke( _
+        ByVal Umur As Integer, _
+        ByVal StatusDM As String, _
+        ByVal StatusHT As String, _
+        ByVal IMT As Double _
+    ) As Dictionary(Of String, String)
+
+        Dim hasil As New Dictionary(Of String, String)
+        Dim Skor As Integer = 0
+
+        '===========================
+        ' UMUR
+        '===========================
+        If Umur >= 55 Then Skor += 2
+
+        '===========================
+        ' DIABETES
+        '===========================
+        If StatusDM = "TINGGI" Then
+            Skor += 3
+        ElseIf StatusDM = "SEDANG" Then
+            Skor += 2
+        End If
+
+        '===========================
+        ' HIPERTENSI
+        '===========================
+        If StatusHT = "TINGGI" Then
+            Skor += 3
+        ElseIf StatusHT = "SEDANG" Then
+            Skor += 2
+        End If
+
+        '===========================
+        ' IMT
+        '===========================
+        If IMT >= 25 Then Skor += 1
+
+        '===========================
+        ' KATEGORI
+        '===========================
+        Dim StatusStroke As String
+        If Skor >= 7 Then
+            StatusStroke = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusStroke = "SEDANG"
+        Else
+            StatusStroke = "RENDAH"
+        End If
+
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusStroke
+
+        Return hasil
+    End Function
+
+    Public Function NormalizeKeluhan(ByVal teks As String) As String
+        If teks Is Nothing Then Return ""
+
+        ' 1. Lowercase
+        teks = teks.ToLower()
+
+        ' 2. Hilangkan tanda baca (selain huruf & angka)
+        teks = Regex.Replace(teks, "[^a-z0-9\s]", " ")
+
+        ' 3. Rapikan spasi berlebih
+        teks = Regex.Replace(teks, "\s+", " ").Trim()
+
+        Return teks
+    End Function
+
+    Public Function GetSaranDiagnosaICD_ML(ByVal idPasien As String) As String
+        Try
+            Dim keluhan As String = ReadSQLNIK( _
+                "SELECT TOP 1 " & _
+                "ISNULL(KeluhanUtama,'') + ' ' + ISNULL(KeluhanTambahan,'') " & _
+                "FROM TransaksiDetail " & _
+                "WHERE IDInternet='" & idPasien & "' " & _
+                "ORDER BY CreatedDate DESC")
+
+            If keluhan.Trim() = "" Then Return "-"
+
+            ' =========================
+            ' PREPROCESS TEKS
+            ' =========================
+            keluhan = NormalizeKeluhan(keluhan)
+
+            ' =========================
+            ' PANGGIL ML LOKAL
+            ' =========================
+            Dim jsonResult As String = CallLocalICDML(keluhan)
+
+            If jsonResult.StartsWith("ERROR") Then
+                Return "-"
+            End If
+
+            ' =========================
+            ' FORMAT OUTPUT
+            ' =========================
+            Return FormatICDResult(jsonResult)
+
+        Catch
+            Return "-"
+        End Try
+    End Function
 End Class

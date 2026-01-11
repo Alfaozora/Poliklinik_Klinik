@@ -67,9 +67,12 @@ Public Class TransaksiLab
         rdhardcopy2.Checked = False
         rdhardcopy3.Checked = False
         rdsoftcopy1.Checked = False
-        rdsoftcopy2.Checked = False
+        RadioButtonSoftCopyWhatsapp.Checked = False
         rdsoftcopy3.Checked = False
-        txsoftcopywhatsapp.ResetText()
+        TextBoxSoftCopyWhatsapp.ResetText()
+
+        CheckBoxNomorWhatsapp.Checked = False
+
         txsoftcopyemail.ResetText()
         txhardcopykirim.ResetText()
     End Sub
@@ -344,7 +347,7 @@ Public Class TransaksiLab
         End If
 
         'Cek Cara Ambil
-        If rdsoftcopy1.Checked = False And rdsoftcopy2.Checked = False And rdsoftcopy3.Checked = False Then
+        If rdsoftcopy1.Checked = False And RadioButtonSoftCopyWhatsapp.Checked = False And rdsoftcopy3.Checked = False Then
             MsgBox("Pilih cara pengambilan hasil (Softcopy).", MsgBoxStyle.Exclamation, "Warning!")
             Return False
         ElseIf rdhardcopy1.Checked = False And rdhardcopy2.Checked = False And rdhardcopy3.Checked = False Then
@@ -353,7 +356,7 @@ Public Class TransaksiLab
         ElseIf rdsoftcopy1.Checked = True And rdhardcopy1.Checked = True Then
             MsgBox("Wajib memilih salah satu antara Hardcopy atau Softcopy.", MsgBoxStyle.Exclamation, "Warning!")
             Return False
-        ElseIf rdsoftcopy2.Checked = True And txsoftcopywhatsapp.Text = "" Then
+        ElseIf RadioButtonSoftCopyWhatsapp.Checked = True And TextBoxSoftCopyWhatsapp.Text = "" Then
             MsgBox("Isi No Whatsapp terlebih dahulu.", MsgBoxStyle.Exclamation, "Warning!")
             Return False
         ElseIf rdsoftcopy3.Checked = True And txsoftcopyemail.Text = "" Then
@@ -373,8 +376,8 @@ Public Class TransaksiLab
         End If
 
         'Cek No Whatsapp
-        If rdsoftcopy2.Checked = True Then
-            If validateNoWhatsapp(txsoftcopywhatsapp.Text) = False Then
+        If RadioButtonSoftCopyWhatsapp.Checked = True Then
+            If validateNoWhatsapp(TextBoxSoftCopyWhatsapp.Text) = False Then
                 Return False
             End If
         End If
@@ -388,8 +391,8 @@ Public Class TransaksiLab
 
         If rdsoftcopy1.Checked = True Then
             Tsoftcopy = ""
-        ElseIf rdsoftcopy2.Checked = True Then
-            Tsoftcopy = "Whatsapp ke " & txsoftcopywhatsapp.Text
+        ElseIf RadioButtonSoftCopyWhatsapp.Checked = True Then
+            Tsoftcopy = "Whatsapp ke " & TextBoxSoftCopyWhatsapp.Text
         ElseIf rdsoftcopy3.Checked = True Then
             Tsoftcopy = "Email ke " & txsoftcopyemail.Text
         End If
@@ -428,9 +431,9 @@ Public Class TransaksiLab
                 'Create Cara Ambil.
                 If rdsoftcopy1.Checked = True Then
                     StatusSoftcopy = "0"
-                ElseIf rdsoftcopy2.Checked = True Then
+                ElseIf RadioButtonSoftCopyWhatsapp.Checked = True Then
                     StatusSoftcopy = "1"
-                    SendingWhatsapp = txsoftcopywhatsapp.Text.Trim
+                    SendingWhatsapp = TextBoxSoftCopyWhatsapp.Text.Trim
                 ElseIf rdsoftcopy3.Checked = True Then
                     StatusSoftcopy = "1"
                     SendingEmail = txsoftcopyemail.Text.Trim
@@ -526,12 +529,6 @@ Public Class TransaksiLab
         End If
     End Sub
 
-    Private Sub rdemail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdemail.CheckedChanged
-        If rdemail.Checked = True Then
-            rdemail.Checked = True
-        End If
-    End Sub
-
     Private Sub NewToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem1.Click
         SetClearHeader()
         SetClearGrid()
@@ -571,19 +568,26 @@ Public Class TransaksiLab
         Button3.PerformClick()
     End Sub
 
-    Private Sub rdsoftcopy2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdsoftcopy2.CheckedChanged
-        If rdsoftcopy2.Checked = True Then
+    Private Sub rdsoftcopy2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioButtonSoftCopyWhatsapp.CheckedChanged
+        If RadioButtonSoftCopyWhatsapp.Checked = True Then
             txsoftcopyemail.Enabled = False
             txsoftcopyemail.ResetText()
-            txsoftcopywhatsapp.Enabled = True
-            txsoftcopywhatsapp.Focus()
+            TextBoxSoftCopyWhatsapp.Enabled = True
+            TextBoxSoftCopyWhatsapp.Focus()
+
+            CheckBoxNomorWhatsapp.Enabled = True
+            CheckBoxNomorWhatsapp.Checked = False
         End If
     End Sub
 
     Private Sub rdsoftcopy3_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdsoftcopy3.CheckedChanged
         If rdsoftcopy3.Checked = True Then
-            txsoftcopywhatsapp.Enabled = False
-            txsoftcopywhatsapp.ResetText()
+            TextBoxSoftCopyWhatsapp.Enabled = False
+            TextBoxSoftCopyWhatsapp.ResetText()
+
+            CheckBoxNomorWhatsapp.Enabled = False
+            CheckBoxNomorWhatsapp.Checked = False
+
             txsoftcopyemail.Enabled = True
             txsoftcopyemail.Focus()
         End If
@@ -600,8 +604,11 @@ Public Class TransaksiLab
         If rdsoftcopy1.Checked = True Then
             txsoftcopyemail.Enabled = False
             txsoftcopyemail.ResetText()
-            txsoftcopywhatsapp.Enabled = False
-            txsoftcopywhatsapp.ResetText()
+            TextBoxSoftCopyWhatsapp.Enabled = False
+            TextBoxSoftCopyWhatsapp.ResetText()
+
+            CheckBoxNomorWhatsapp.Enabled = False
+            CheckBoxNomorWhatsapp.Checked = False
         End If
     End Sub
 
@@ -619,7 +626,7 @@ Public Class TransaksiLab
         End If
     End Sub
 
-    Private Sub txsoftcopywhatsapp_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txsoftcopywhatsapp.KeyPress
+    Private Sub txsoftcopywhatsapp_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBoxSoftCopyWhatsapp.KeyPress
         If Not ((e.KeyChar >= "0" And e.KeyChar <= "9") Or e.KeyChar = vbBack Or e.KeyChar = ",") Then e.Handled = True
     End Sub
 
@@ -640,14 +647,14 @@ Public Class TransaksiLab
         rdhardcopy2.Enabled = True
         rdhardcopy3.Enabled = True
         rdsoftcopy1.Enabled = True
-        rdsoftcopy2.Enabled = True
+        RadioButtonSoftCopyWhatsapp.Enabled = True
         rdsoftcopy3.Enabled = True
 
         rdsoftcopy1.Checked = True
         rdhardcopy1.Checked = True
         txhardcopykirim.ReadOnly = False
         txsoftcopyemail.ReadOnly = False
-        txsoftcopywhatsapp.ReadOnly = False
+        TextBoxSoftCopyWhatsapp.ReadOnly = False
 
         txjenisbayar_.ResetText()
         txkartu_.ResetText()
@@ -668,23 +675,22 @@ Public Class TransaksiLab
         If Trow("HardcopyPerusahaan") = True And Trow("TerimaHasilKaryawan") = True Then
             'Softcopy
             If Trow("Whatsapp_Auto") = True Then
-                rdsoftcopy2.Checked = True
+                RadioButtonSoftCopyWhatsapp.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = True
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.Text = Trow("No_Handphone").ToString.Trim
+                TextBoxSoftCopyWhatsapp.Text = Trow("No_Handphone").ToString.Trim
                 'txsoftcopywhatsapp.ReadOnly = True
             ElseIf Trow("Email_Auto") = True Then
                 rdsoftcopy3.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = True
                 txsoftcopyemail.Text = Trow("Email_Perusahaan").ToString.Trim
                 'txsoftcopyemail.ReadOnly = True
             Else
                 rdsoftcopy1.Checked = True
                 rdsoftcopy1.Enabled = True
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = False
                 'txsoftcopywhatsapp.ReadOnly = True
                 'txsoftcopyemail.ReadOnly = True
@@ -701,23 +707,23 @@ Public Class TransaksiLab
         ElseIf Trow("HardcopyPerusahaan") = False And Trow("TerimaHasilKaryawan") = True Then
             'Softcopy
             If Trow("Whatsapp_Auto") = True Then
-                rdsoftcopy2.Checked = True
+                RadioButtonSoftCopyWhatsapp.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = True
+                RadioButtonSoftCopyWhatsapp.Enabled = True
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.Text = Trow("No_Handphone").ToString.Trim
+                TextBoxSoftCopyWhatsapp.Text = Trow("No_Handphone").ToString.Trim
                 'txsoftcopywhatsapp.ReadOnly = True
             ElseIf Trow("Email_Auto") = True Then
                 rdsoftcopy3.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = True
                 txsoftcopyemail.Text = Trow("Email_Perusahaan").ToString.Trim
                 'txsoftcopyemail.ReadOnly = True
             Else
                 rdsoftcopy1.Checked = True
                 rdsoftcopy1.Enabled = True
-                rdsoftcopy2.Enabled = True
+                RadioButtonSoftCopyWhatsapp.Enabled = True
                 rdsoftcopy3.Enabled = True
                 'txsoftcopywhatsapp.ReadOnly = True
                 'txsoftcopyemail.ReadOnly = True
@@ -740,25 +746,25 @@ Public Class TransaksiLab
         ElseIf Trow("HardcopyPerusahaan") = True And Trow("TerimaHasilKaryawan") = False Then
             'Softcopy
             If Trow("Whatsapp_Auto") = True Then
-                rdsoftcopy2.Checked = True
+                RadioButtonSoftCopyWhatsapp.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = True
+                RadioButtonSoftCopyWhatsapp.Enabled = True
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.Text = Trow("No_Handphone").ToString.Trim
+                TextBoxSoftCopyWhatsapp.Text = Trow("No_Handphone").ToString.Trim
                 'txsoftcopywhatsapp.ReadOnly = True
             ElseIf Trow("Email_Auto") = True Then
                 rdsoftcopy3.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = True
                 txsoftcopyemail.Text = Trow("Email_Perusahaan").ToString.Trim
                 'txsoftcopyemail.ReadOnly = True
             Else
                 rdsoftcopy1.Checked = True
                 rdsoftcopy1.Enabled = True
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.ReadOnly = True
+                TextBoxSoftCopyWhatsapp.ReadOnly = True
                 txsoftcopyemail.ReadOnly = True
             End If
             'Hardcopy
@@ -775,25 +781,25 @@ Public Class TransaksiLab
         ElseIf Trow("HardcopyPerusahaan") = False And Trow("TerimaHasilKaryawan") = False Then
             'Softcopy
             If Trow("Whatsapp_Auto") = True Then
-                rdsoftcopy2.Checked = True
+                RadioButtonSoftCopyWhatsapp.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = True
+                RadioButtonSoftCopyWhatsapp.Enabled = True
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.Text = Trow("No_Handphone").ToString.Trim
+                TextBoxSoftCopyWhatsapp.Text = Trow("No_Handphone").ToString.Trim
                 'txsoftcopywhatsapp.ReadOnly = True
             ElseIf Trow("Email_Auto") = True Then
                 rdsoftcopy3.Checked = True
                 rdsoftcopy1.Enabled = False
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = True
                 txsoftcopyemail.Text = Trow("Email_Perusahaan").ToString.Trim
                 'txsoftcopyemail.ReadOnly = True
             Else
                 rdsoftcopy1.Checked = True
                 rdsoftcopy1.Enabled = True
-                rdsoftcopy2.Enabled = False
+                RadioButtonSoftCopyWhatsapp.Enabled = False
                 rdsoftcopy3.Enabled = False
-                txsoftcopywhatsapp.ReadOnly = True
+                TextBoxSoftCopyWhatsapp.ReadOnly = True
                 txsoftcopyemail.ReadOnly = True
             End If
             'Hardcopy
@@ -871,5 +877,23 @@ Public Class TransaksiLab
     Private Sub ButtonFindDokter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFindDokter.Click
         Find.Show()
         Find.Query("select b.IdPraktek,a.DrNama,b.NamaPraktek,b.AlamatPraktek,b.KotaPraktek,b.TelpPraktek,b.KeteranganPraktek from MasterDokterKirim a right join MasterDokterTempatPraktek b on a.IdKirim=b.IdKirim ", " order by a.DrNama,b.NamaPraktek", "FindDoktertindakan", 1)
+    End Sub
+
+    Private Sub CheckBoxNomorWhatsapp_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBoxNomorWhatsapp.CheckedChanged
+        If CheckBoxNomorWhatsapp.Checked = True Then
+            Dim noWhatsapp As String = ReadSQLNIK("SELECT NoHandphone FROM MasterPasien WHERE NoRekamMedis = '" & TextBoxNoRekamMedis.Text & "'")
+
+            ' Validasi NULL / Kosong
+            If noWhatsapp Is Nothing OrElse noWhatsapp.Trim() = "" Then
+                MessageBox.Show("Nomor WhatsApp pasien tidak ditemukan.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                CheckBoxNomorWhatsapp.Checked = False
+                TextBoxSoftCopyWhatsapp.ResetText()
+                Exit Sub
+            Else
+                TextBoxSoftCopyWhatsapp.Text = noWhatsapp
+            End If
+        ElseIf CheckBoxNomorWhatsapp.Checked = False Then
+            TextBoxSoftCopyWhatsapp.ResetText()
+        End If
     End Sub
 End Class
