@@ -377,9 +377,9 @@ Public Class FormReservasi
                 Dim statusBooking As String = row.Cells("Status Booking").Value.ToString().ToUpper()
 
                 If statusBooking = "CANCEL" Then
-                    row.Cells("Daftarkan").Style.ForeColor = Color.Gray
-                    row.Cells("Daftarkan").Style.BackColor = Color.LightGray
-                    row.Cells("Daftarkan").Style.SelectionBackColor = Color.LightGray
+                    'row.Cells("Daftarkan").Style.ForeColor = Color.Gray
+                    'row.Cells("Daftarkan").Style.BackColor = Color.LightGray
+                    'row.Cells("Daftarkan").Style.SelectionBackColor = Color.LightGray
                 End If
             End If
 
@@ -1255,7 +1255,6 @@ Public Class FormReservasi
                 Exit Sub
             End If
 
-
             ' Bandingkan
             If jumlahBooking >= kuotaRuangan Then
                 MsgBox("Kuota untuk sesi ini sudah penuh. Silakan pilih sesi atau waktu lain.", MsgBoxStyle.Critical, "Kuota Penuh")
@@ -1457,7 +1456,9 @@ Public Class FormReservasi
             NoHp = NoHp.Replace("'", "''")
             keperluan = keperluan.Replace("'", "''")
 
-            WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
+            Dim noRM As String = ReadSQLNIK("SELECT NoRekamMedis FROM MasterPasien WHERE Nama = '" & namaPasien & "'")
+
+            WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, NoRekamMedis, JenisKelamin) " & _
             "VALUES ('" & namaPasien & "', " & _
                    "'" & NoHp & "', " & _
                    "'" & keperluan & "', " & _
@@ -1465,6 +1466,7 @@ Public Class FormReservasi
                    "'TERJADWAL', " & _
                    "'" & userInput & "', " & _
                    "GETDATE(), " & _
+                   "'" & noRM & "', " & _
                    "'" & jenisKelamin & "')", 4)
 
             MsgBox("Pesan Reminder berhasil disimpan.", MsgBoxStyle.Information)
@@ -1723,5 +1725,9 @@ Public Class FormReservasi
         Catch ex As Exception
             MsgBox("Gagal memuat log pesan: " & ex.Message, MsgBoxStyle.Critical)
         End Try
+    End Sub
+
+    Private Sub BtnTampilSemua_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnTampilSemua.Click
+        LoadReminder()
     End Sub
 End Class

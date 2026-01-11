@@ -135,6 +135,7 @@ Partial Class FormReservasi
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.BgSyncAntrean = New System.ComponentModel.BackgroundWorker
         Me.TimerAutoSync = New System.Windows.Forms.Timer(Me.components)
+        Me.BtnTampilSemua = New System.Windows.Forms.Button
         Me.PanelTop.SuspendLayout()
         Me.PanelSide.SuspendLayout()
         Me.TabControlMenu.SuspendLayout()
@@ -737,6 +738,7 @@ Partial Class FormReservasi
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.BtnTampilSemua)
         Me.SplitContainer2.Panel1.Controls.Add(Me.LblSyncStatus)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ProgressBarSync)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label166)
@@ -1521,6 +1523,26 @@ Partial Class FormReservasi
         Me.TimerAutoSync.Enabled = True
         Me.TimerAutoSync.Interval = 2000
         '
+        'BtnTampilSemua
+        '
+        Me.BtnTampilSemua.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.BtnTampilSemua.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.BtnTampilSemua.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnTampilSemua.FlatAppearance.BorderSize = 0
+        Me.BtnTampilSemua.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.BtnTampilSemua.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.BtnTampilSemua.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnTampilSemua.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnTampilSemua.ForeColor = System.Drawing.Color.White
+        Me.BtnTampilSemua.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.BtnTampilSemua.Location = New System.Drawing.Point(802, 70)
+        Me.BtnTampilSemua.Name = "BtnTampilSemua"
+        Me.BtnTampilSemua.Size = New System.Drawing.Size(120, 25)
+        Me.BtnTampilSemua.TabIndex = 546
+        Me.BtnTampilSemua.Text = "Tampilkan Semua"
+        Me.BtnTampilSemua.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.BtnTampilSemua.UseVisualStyleBackColor = False
+        '
         'FormReservasi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -1676,4 +1698,5 @@ Partial Class FormReservasi
     Friend WithEvents TimerAutoSync As System.Windows.Forms.Timer
     Friend WithEvents LblSyncStatus As System.Windows.Forms.Label
     Friend WithEvents ProgressBarSync As System.Windows.Forms.ProgressBar
+    Friend WithEvents BtnTampilSemua As System.Windows.Forms.Button
 End Class
