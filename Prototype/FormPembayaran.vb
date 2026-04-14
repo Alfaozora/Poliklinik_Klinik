@@ -914,6 +914,110 @@ Public Class FormPembayaran
         End Try
     End Function
 
+    Private Sub SendInvoiceValidator(ByVal jenisInvoice As String)
+
+        Try
+
+            Dim nama As String = ""
+            Dim jenisKelamin As String = ""
+            Dim tglLahir As String = ""
+            Dim alamat As String = ""
+            Dim pelaksana As String = ""
+            Dim transPoliID As String = _idTransaksi
+
+            Dim dt As DataTable = ReadSQL("SELECT Nama,JenisKelamin,TglLahir,DomisiliAlamat FROM MasterPasien WHERE NoRekamMedis='" & _noRekamMedis & "'")
+
+            If dt.Rows.Count > 0 Then
+                nama = dt.Rows(0)("Nama").ToString
+                jenisKelamin = dt.Rows(0)("JenisKelamin").ToString
+                tglLahir = CDate(dt.Rows(0)("TglLahir")).ToString("yyyy-MM-dd")
+                alamat = dt.Rows(0)("DomisiliAlamat").ToString
+            End If
+
+
+            '========================
+            ' AMBIL DOKTER PELAKSANA
+            '========================
+            pelaksana = ReadSQLNIK("SELECT DokterPoli FROM TransaksiPoli WHERE TransPoliID='" & _idTransaksi & "'")
+
+
+            Dim tindakanList As New List(Of Object)
+
+            Dim dtTindakan As DataTable = ReadSQL("SELECT NamaTindakan,BiayaTindakan,DiscTindakan,NettBayar FROM TransaksiPoliDetail WHERE TransPoliID='" & _idTransaksi & "'")
+
+            For Each row As DataRow In dtTindakan.Rows
+
+                Dim tindakan As New Dictionary(Of String, Object)
+
+                tindakan.Add("nama_tindakan", row("NamaTindakan").ToString())
+                tindakan.Add("biaya", CDbl(row("BiayaTindakan")))
+                tindakan.Add("diskon", CDbl(row("DiscTindakan")))
+                tindakan.Add("nett", CDbl(row("NettBayar")))
+
+                tindakanList.Add(tindakan)
+
+            Next
+
+
+            Dim payload As New Dictionary(Of String, Object)
+
+            payload.Add("nomor_registrasi", _noRekamMedis)
+            payload.Add("id_bayar", transPoliID)
+            payload.Add("nomor_transaksi", _nomorUrutTransaksi)
+            payload.Add("jenis_invoice", jenisInvoice)
+            payload.Add("nama_pasien", nama)
+            payload.Add("jenis_kelamin", jenisKelamin)
+            payload.Add("tgl_lahir", tglLahir)
+            payload.Add("alamat", alamat)
+            payload.Add("pelaksana", pelaksana)
+            payload.Add("detail_tindakan", tindakanList)
+            payload.Add("total_bayar", CDbl(TextBoxTotalBayar.Value))
+            payload.Add("nett_bayar", CDbl(TextBoxTotalBayar.Value))
+            payload.Add("tanggal_transaksi", Now.ToString("yyyy-MM-dd HH:mm:ss"))
+            payload.Add("nama_kasir", userInput)
+
+
+            Dim jsonParam As String = JsonConvert.SerializeObject(payload)
+
+            Dim baseURL As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='ws_RM'")
+            Dim urlApi As String = baseURL & "api/invoice/store"
+
+            Dim response As String = InsertDataAPIRM(jsonParam, urlApi)
+
+            If response Is Nothing OrElse response.Trim = "" Then
+                Throw New Exception("Response kosong dari server")
+            End If
+
+            If Not response.Trim.StartsWith("{") Then
+                Throw New Exception("Response bukan JSON : " & response)
+            End If
+
+            Dim obj = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(response)
+
+            If obj.ContainsKey("status") AndAlso CBool(obj("status")) Then
+
+                If obj.ContainsKey("url") AndAlso obj.ContainsKey("key") Then
+
+                    Dim urlValidator As String = obj("url").ToString()
+                    Dim keyValidator As String = obj("key").ToString()
+
+                    WriteSQL("UPDATE TransaksiDetail SET " & _
+                             "ValidatorURL='" & urlValidator.Replace("'", "''") & "'," & _
+                             "ValidatorKey='" & keyValidator.Replace("'", "''") & "' " & _
+                             "WHERE NoUrut='" & _nomorUrutTransaksi.Replace("'", "''") & "'", 4)
+
+                End If
+
+            Else
+                Throw New Exception("API gagal : " & response)
+            End If
+
+        Catch ex As Exception
+            MsgBox("Gagal kirim validator : " & ex.Message)
+        End Try
+
+    End Sub
+
     Private Sub SaveDataPembayaran()
         '# Variabel Umum
         Dim NewHeader As DataTable = CreateTable()
@@ -1171,6 +1275,9 @@ Public Class FormPembayaran
                 ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
                 SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
 
+                'Send Validator
+                SendInvoiceValidator("PEMERIKSAAN")
+
                 ' Pesan Success
                 If NoUrutBPJS = "" Then
                     ' Non BPJS
@@ -1311,6 +1418,9 @@ Public Class FormPembayaran
                 '    Report.PageHeight = txtotalrow
                 'End If
 
+                'Send Validator
+                SendInvoiceValidator("TINDAKAN")
+
                 ' Pesan Success
                 MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
 
@@ -1441,6 +1551,9 @@ Public Class FormPembayaran
                 'If Jeniscetak = "Struk" Then
                 '    Report.PageHeight = txtotalrow
                 'End If
+
+                'Send Validator
+                SendInvoiceValidator("PEMERIKSAAN")
 
                 ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
                 SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
@@ -1578,6 +1691,9 @@ Public Class FormPembayaran
                 'If Jeniscetak = "Struk" Then
                 '    Report.PageHeight = txtotalrow
                 'End If
+
+                'Send Validator
+                SendInvoiceValidator("TINDAKAN")
 
                 ' Pesan Success
                 MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
@@ -1746,6 +1862,9 @@ Public Class FormPembayaran
                 End If
                 Report.CreatePdfDocument(filepath)
                 'End Save Report
+
+                'Send Validator
+                SendInvoiceValidator("TINDAKAN")
 
                 TransaksiLab.NewToolStripMenuItem1.PerformClick()
 
@@ -2329,6 +2448,9 @@ Public Class FormPembayaran
     End Sub
 
     Private Sub GenerateInvoice(ByVal JenisTransaksi As String, ByVal JenisProses As String, ByVal NomorTransaksi As String)
+
+        Dim validatorURL As String = ReadSQLNIK("SELECT TOP 1 ValidatorURL FROM TransaksiDetail WHERE NoUrut = '" & NomorTransaksi & "'")
+
         ' Validasi Pembayaran
         If CheckBoxLunasBayar.Checked = False Then
             MessageBox.Show("Gagal!. Transaksi belum dilakukan pembayaran.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -2434,6 +2556,23 @@ Public Class FormPembayaran
         End Select
 
         Report.DataSource = NewHeader
+        'Report.RunDesigner()
+
+        If validatorURL <> "" Then
+
+            Dim Generator As New MessagingToolkit.Barcode.BarcodeEncoder
+            Dim qrImage As Bitmap = Generator.Encode(MessagingToolkit.Barcode.BarcodeFormat.QRCode, validatorURL)
+
+            Dim picQR As XRPictureBox
+            picQR = CType(Report.FindControl("xrValidator", True), XRPictureBox)
+
+            If Not picQR Is Nothing Then
+                picQR.Image = qrImage
+            Else
+                MsgBox("Control xrValidator tidak ditemukan di report.")
+            End If
+
+        End If
 
         Dim tblPembayaran As New DataTable
         Dim nominalTotalInvoice As Double
@@ -2530,6 +2669,7 @@ Public Class FormPembayaran
                     End If
 
                     ' Simpan PDF ke lokasi yang dipilih user
+                    'Report.RunDesigner()
                     Report.CreatePdfDocument(filepath)
                 End If
             Case "WhatsApp"

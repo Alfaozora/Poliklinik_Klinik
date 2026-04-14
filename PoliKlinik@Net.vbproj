@@ -442,6 +442,12 @@
     <Compile Include="Poli\Laporan\ReportPendapatanKlinik.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.Designer.vb">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Poli\Rekap\RekapFeeKaryawan.Designer.vb">
       <DependentUpon>RekapFeeKaryawan.vb</DependentUpon>
     </Compile>
@@ -1076,12 +1082,6 @@
     <Compile Include="Poli\Pendapatan\RekapPendapatanPoli.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.Designer.vb">
-      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Poli\RujukLab.Designer.vb">
       <DependentUpon>RujukLab.vb</DependentUpon>
     </Compile>
@@ -1507,6 +1507,9 @@
     <EmbeddedResource Include="Poli\Laporan\ReportPendapatanKlinik.resx">
       <DependentUpon>ReportPendapatanKlinik.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Pendapatan\ReportTagihanPoli.resx">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Poli\Rekap\RekapFeeKaryawan.resx">
       <DependentUpon>RekapFeeKaryawan.vb</DependentUpon>
     </EmbeddedResource>
@@ -1845,9 +1848,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Poli\Pendapatan\RekapPendapatanPoli.resx">
       <DependentUpon>RekapPendapatanPoli.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Poli\Pendapatan\ReportTagihanPoli.resx">
-      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Poli\RujukLab.resx">
       <DependentUpon>RujukLab.vb</DependentUpon>

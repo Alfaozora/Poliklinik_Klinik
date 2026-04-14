@@ -7,8 +7,15 @@ Module ICDAsistenHelper
 
     Public Function CallLocalICDML(ByVal keluhan As String) As String
         Try
+            Dim url As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='ws_python'")
+
+            ' Validasi URL
+            If url Is Nothing OrElse url.Trim() = "" Then
+                Return "ERROR: URL ML belum dikonfigurasi"
+            End If
+
             Dim req As HttpWebRequest
-            req = DirectCast(WebRequest.Create("http://127.0.0.1:5000/predict"), HttpWebRequest)
+            req = DirectCast(WebRequest.Create(url), HttpWebRequest)
 
             req.Method = "POST"
             req.ContentType = "application/json"

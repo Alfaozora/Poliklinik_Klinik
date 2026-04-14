@@ -487,8 +487,7 @@ Public Class Find
                     ReportTagihanLab.txkodecabang.Text = Grdrow("nocompany").ToString
                     ReportTagihanLab.txcompanycode.Text = Grdrow("companynama").ToString
                 Case "FindCabangReportTagihanPoli"
-                    ReportTagihanPoli.txkodecabang.Text = Grdrow("nocompany").ToString
-                    ReportTagihanPoli.txcompanycode.Text = Grdrow("companynama").ToString
+                    ReportTagihanPoli.TextBoxNamaPerusahaan.Text = Grdrow("Keterangan").ToString & "-" & Grdrow("ID").ToString
                 Case "FindLabCreateRujukan"
                     FormCreateRujukan.txlabrujukanid.Text = Grdrow("NoLabRujukan").ToString
                     FormCreateRujukan.txlabrujukanket.Text = Grdrow("NamaLabRujukan").ToString

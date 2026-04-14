@@ -383,7 +383,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>8CSwGpja04eyX2Zw8fcZS+jJhAM=</dsig:DigestValue>
+        <dsig:DigestValue>RNKSDI1zNBzqBnLTD6BGZJK+oS0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -472,14 +472,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17054720">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17056256">
       <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Ki+Qr3nXtLIj/QflR5lrVPEQU60=</dsig:DigestValue>
+        <dsig:DigestValue>5XdUMeQtKswkcsVDgpX1izaAKDY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

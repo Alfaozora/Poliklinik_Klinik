@@ -274,18 +274,18 @@ Public Class FormRekamMedisDokter
             Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
 
             'Cek riwayat B20
-            Dim dt As DataTable = GetRiwayatB20(idPasien)
+            'Dim dt As DataTable = GetRiwayatB20(idPasien)
 
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
-                Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
+            '    Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
+            '    Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
 
-                MsgBox("PERHATIAN!" & vbCrLf & _
-                       "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
-                       "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
+            '    MsgBox("PERHATIAN!" & vbCrLf & _
+            '           "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
+            '           "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
 
-            End If
+            'End If
 
             '========================================
             ' TAMPILAN RISIKO DM SAAT FORM LOAD
@@ -812,8 +812,8 @@ Public Class FormRekamMedisDokter
         End Try
     End Function
 
-    Private Sub LoadNotification(ByRef messageBox As Boolean)
-        ' Hidden Notification
+    Private Sub LoadNotification(ByVal messageBox As Boolean)
+
         TimerNotifikasi.Stop()
         PanelNotifikasi.Visible = False
 
@@ -823,23 +823,41 @@ Public Class FormRekamMedisDokter
         Dim daftarAlergiMakanan As String = GetListAlergi("Makanan", idPasien)
         Dim daftarAlergiObat As String = GetListAlergi("Obat", idPasien)
 
-        If daftarAlergiMakanan.Count > 0 Then alergiList.Add("Alergi Makanan : " & daftarAlergiMakanan.ToString())
-        If daftarAlergiObat.Count > 0 Then alergiList.Add("Alergi Obat : " & daftarAlergiObat.ToString())
+        'Riwayat B20
+        Dim dtRiwayatB20 As DataTable = GetRiwayatB20(idPasien)
 
-        If alergiList.Count > 0 Then ketAlergi = String.Join(vbCrLf, alergiList.ToArray())
+        If daftarAlergiMakanan.Count > 0 Then
+            alergiList.Add("Alergi Makanan : " & daftarAlergiMakanan)
+        End If
 
-        '# Start Notifikasi
+        If daftarAlergiObat.Count > 0 Then
+            alergiList.Add("Alergi Obat : " & daftarAlergiObat)
+        End If
+
+        If dtRiwayatB20 IsNot Nothing AndAlso dtRiwayatB20.Rows.Count > 0 Then
+            Dim kode As String = dtRiwayatB20.Rows(0)("KodeDiagnosa").ToString()
+            Dim ket As String = dtRiwayatB20.Rows(0)("KeteranganDiagnosa").ToString()
+
+            alergiList.Add("Riwayat Diagnosa : " & kode & " - " & ket)
+        End If
+
+        If alergiList.Count > 0 Then
+            ketAlergi = String.Join(vbCrLf, alergiList.ToArray())
+        End If
+
         If ketAlergi <> "" Then
-            ' Set Text Notifikasi
+
             TextBoxNotifikasi.Text = ketAlergi
 
-            ' Show Notifikasi
             TimerNotifikasi.Start()
             PanelNotifikasi.Visible = True
 
-            '# Tampilkan alert
-            If messageBox = True Then MsgBox("Pasien memiliki alergi." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
+            'If messageBox Then
+            '    MsgBox("Pasien memiliki catatan penting." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
+            'End If
+
         End If
+
     End Sub
 
     Private Sub LoadFontDataGridView()

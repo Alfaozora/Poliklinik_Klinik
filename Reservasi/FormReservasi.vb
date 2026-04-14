@@ -262,6 +262,55 @@ Public Class FormReservasi
     End Function
 
     Private isLoadingGrid As Boolean = False
+    Private filterMenu As New ContextMenuStrip()
+    Private filterColumnName As String = ""
+
+    Private Sub DataGridViewReminder_ColumnHeaderMouseClick(ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) Handles DataGridViewReminder.ColumnHeaderMouseClick
+
+        filterMenu.Items.Clear()
+
+        filterColumnName = DataGridViewReminder.Columns(e.ColumnIndex).Name
+
+        ' Hanya kolom tertentu yang boleh difilter
+        If filterColumnName <> "Status Booking" Then Exit Sub
+
+        ' Ambil nilai unik dari kolom
+        Dim values As New List(Of String)
+
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+            If row.Cells(filterColumnName).Value IsNot Nothing Then
+                Dim val As String = row.Cells(filterColumnName).Value.ToString()
+                If Not values.Contains(val) Then values.Add(val)
+            End If
+        Next
+
+        ' Tambah menu "Semua"
+        filterMenu.Items.Add("Semua", Nothing, AddressOf FilterSemua)
+
+        filterMenu.Items.Add(New ToolStripSeparator())
+
+        ' Tambah menu berdasarkan nilai unik
+        For Each v As String In values
+            filterMenu.Items.Add(v, Nothing, AddressOf FilterByValue)
+        Next
+
+        ' Tampilkan menu di posisi mouse
+        filterMenu.Show(Cursor.Position)
+
+    End Sub
+
+    Private Sub FilterSemua(ByVal sender As Object, ByVal e As EventArgs)
+        CType(DataGridViewReminder.DataSource, DataTable).DefaultView.RowFilter = ""
+    End Sub
+
+    Private Sub FilterByValue(ByVal sender As Object, ByVal e As EventArgs)
+
+        Dim selectedValue As String = CType(sender, ToolStripItem).Text
+        Dim dt As DataTable = CType(DataGridViewReminder.DataSource, DataTable)
+
+        dt.DefaultView.RowFilter = "[" & filterColumnName & "] = '" & selectedValue & "'"
+
+    End Sub
 
     Private Sub LoadReminder()
         Dim query As String = _
@@ -270,7 +319,7 @@ Public Class FormReservasi
             "LRP.Tanggal, LRP.Status, LRP.CreatedDate, LRP.TanggalKirim, " & _
             "LRP.StatusBooking, LRP.NoAntrean, MP.NoNIK, LRP.NoRekamMedis " & _
             "FROM LogReminderPasien LRP " & _
-            "INNER JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
             "WHERE LRP.DeletedBy IS NULL " & _
             "ORDER BY CASE " & _
             "WHEN CONVERT(date, LRP.Tanggal) = CONVERT(date, GETDATE()) THEN 0 " & _
@@ -287,7 +336,7 @@ Public Class FormReservasi
             "LRP.Tanggal, LRP.Status, LRP.CreatedDate, LRP.TanggalKirim, " & _
             "LRP.StatusBooking, LRP.NoAntrean, MP.NoNIK, LRP.NoRekamMedis " & _
             "FROM LogReminderPasien LRP " & _
-            "INNER JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
             "WHERE LRP.DeletedBy IS NULL " & _
             "AND CONVERT(date, LRP.Tanggal) = '" & Format(tanggal, "yyyy-MM-dd") & "' " & _
             "ORDER BY LRP.Tanggal DESC"
@@ -565,7 +614,7 @@ Public Class FormReservasi
         Dim sql As String = _
             "SELECT LRP.ReminderID, LRP.Tanggal, MP.NoNIK " & _
             "FROM LogReminderPasien LRP " & _
-            "INNER JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
             "WHERE LRP.DeletedBy IS NULL " & _
             "AND (LRP.StatusBooking IS NULL OR LRP.StatusBooking <> 'BOOKED') " & _
             "AND CONVERT(date, LRP.Tanggal) IN (" & _
@@ -668,10 +717,7 @@ Public Class FormReservasi
             dt.Columns.Add("Tanggal Terkirim", GetType(String))
         End If
 
-        If antreanByNik.Count = 0 Then
-            ' API error / kosong → jangan ubah status
-            Exit Sub
-        End If
+        Dim apiAvailable As Boolean = Not (antreanByNik Is Nothing OrElse antreanByNik.Count = 0)
 
         ' 3. Mapping reminder ↔ antrean
         For Each row As DataRow In dt.Rows
@@ -692,28 +738,26 @@ Public Class FormReservasi
             row("No Antrean") = If(IsDBNull(row("NoAntrean")), "-", row("NoAntrean").ToString())
 
             ' ===== CEK API =====
-            If antreanByNik.ContainsKey(nik) Then
+            If apiAvailable Then
 
-                ' 👉 ADA DI API
-                Dim antrean As AntreanItem = antreanByNik(nik)
+                If antreanByNik.ContainsKey(nik) Then
 
-                If statusDb <> "BOOKED" Then
-                    ' BELUM BOOKED → JADI BOOKED
-                    row("Status Booking") = "BOOKED"
-                    row("No Antrean") = antrean.nomorantrean
+                    Dim antrean As AntreanItem = antreanByNik(nik)
 
-                    UpdateBookingToDatabase(reminderID, antrean.nomorantrean)
-                End If
+                    If statusDb <> "BOOKED" Then
+                        row("Status Booking") = "BOOKED"
+                        row("No Antrean") = antrean.nomorantrean
+                        UpdateBookingToDatabase(reminderID, antrean.nomorantrean)
+                    End If
 
-            Else
-                ' 👉 TIDAK ADA DI API
-                If statusDb = "BOOKED" Then
-                    ' 🔥 SEBELUMNYA BOOKED → SEKARANG CANCEL
+                ElseIf statusDb = "BOOKED" Then
+
                     row("Status Booking") = "CANCEL"
                     row("No Antrean") = "-"
-
                     UpdateCancelBookingToDatabase(reminderID)
+
                 End If
+
             End If
 
             ' ===== KOLOM TAMPILAN =====
@@ -1070,6 +1114,9 @@ Public Class FormReservasi
             Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
             Me.MdiParent = PoliKlinik
             Me.Dock = DockStyle.Fill
+
+            DataGridViewReminder.Columns.Clear()
+            DataGridViewReminder.AutoGenerateColumns = True
 
             btnMenu1.BackColor = Color.FromArgb(81, 168, 255)
             btnMenu1.ForeColor = Color.White

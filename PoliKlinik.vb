@@ -435,18 +435,23 @@ Public Class PoliKlinik
                 ' =========================
                 ' Aman: 1 nomor / hari
                 query = _
-                    "SELECT TOP 1 p.Nama, p.NoHandphone, p.TglLahir, p.JenisKelamin " & _
-                    "FROM MasterPasien p " & _
-                    "WHERE p.DeletedDate IS NULL " & _
-                    "AND MONTH(p.TglLahir) = MONTH(GETDATE()) " & _
-                    "AND DAY(p.TglLahir) = DAY(GETDATE()) " & _
-                    "AND NOT EXISTS ( " & _
-                    "   SELECT 1 FROM LogSendingWhatsappEmail l " & _
-                    "   WHERE l.SendingJenis = 'BIRTHDAY' " & _
-                    "   AND l.SendingTujuan = p.NoHandphone " & _
-                    "   AND CONVERT(date, l.SendingDate) = CONVERT(date, GETDATE()) " & _
-                    ") " & _
-                    "ORDER BY p.Nama ASC"
+                        "SELECT TOP 1 " & _
+                        "    p.Nama, " & _
+                        "    p.NoHandphone, " & _
+                        "    p.TglLahir, " & _
+                        "    p.JenisKelamin " & _
+                        "FROM MasterPasien p " & _
+                        "WHERE p.DeletedDate IS NULL " & _
+                        "    AND NULLIF(LTRIM(RTRIM(p.NoHandphone)), '') IS NOT NULL " & _
+                        "    AND MONTH(p.TglLahir) = MONTH(GETDATE()) " & _
+                        "    AND DAY(p.TglLahir) = DAY(GETDATE()) " & _
+                        "    AND NOT EXISTS ( " & _
+                        "        SELECT 1 FROM LogSendingWhatsappEmail l " & _
+                        "        WHERE l.SendingJenis = 'BIRTHDAY' " & _
+                        "            AND l.SendingTujuan = p.NoHandphone " & _
+                        "            AND CONVERT(date, l.SendingDate) = CONVERT(date, GETDATE()) " & _
+                        "    ) " & _
+                        "ORDER BY p.Nama ASC"
             End If
 
             Dim dt As DataTable = ReadSQL(query)
@@ -455,6 +460,7 @@ Public Class PoliKlinik
             Dim row As DataRow = dt.Rows(0)
 
             Dim namaPasien As String = row("Nama").ToString()
+            Dim namaPasienFix As String = namaPasien.Replace("'", "''")
             Dim noHP As String = row("NoHandphone").ToString()
             Dim jenisKelamin As String = row("JenisKelamin").ToString().Trim().ToUpper()
             Dim tglLahir As Date = CDate(row("TglLahir"))
@@ -470,7 +476,7 @@ Public Class PoliKlinik
             Dim sqlLog As String = _
                 "INSERT INTO LogSendingWhatsappEmail " & _
                 "(SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, JenisSending) " & _
-                "VALUES ('BIRTHDAY', '" & noHP & "', '" & namaPasien & "', 1, GETDATE(), 'System', 'PASIEN')"
+                "VALUES ('BIRTHDAY', '" & noHP & "', '" & namaPasienFix & "', 1, GETDATE(), 'System', 'PASIEN')"
 
             WriteSQL(sqlLog, 4)
 
