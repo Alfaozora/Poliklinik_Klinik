@@ -12,9 +12,12 @@ Imports System.Security.Cryptography
 Imports System.Collections.Generic
 Imports Newtonsoft.Json.Linq
 Imports System.Drawing
+Imports System.Drawing.Printing
 Imports DevExpress.XtraReports.UI
 Imports DevExpress.XtraPrinting
 Imports DevExpress.XtraPrinting.Drawing
+Imports System.Diagnostics
+Imports System.Drawing.Imaging
 
 Public Class LabAdminOnline
     Private DB_Poliklinik As TLcon
@@ -6405,6 +6408,68 @@ GoBackthis:
         ComboBoxPusing.SelectedIndex = 2
         ComboBoxTypoidFever.SelectedIndex = 2
         ComboBoxTurunBB.SelectedIndex = 2
+
+        Try
+            Dim noRM As String = TextBoxNoRekamMedis.Text.Trim()
+            If noRM = "" Then Exit Sub
+
+            Dim noUrut As String = TextBoxNoTransaksi.Text
+
+            Dim cabang As String = GetKodeCabangFromNoRM(noRM).ToUpper()
+            If cabang = "" Then Exit Sub
+
+            Dim baseUrl As String = ReadSQLNIK( _
+                "SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+
+            If Trim(baseUrl) = "" Then Exit Sub
+
+            Dim url As String = baseUrl & _
+                "api/lumiera-luzelle/inbody/getinbodydata/" & noUrut & "/" & cabang
+
+            'MsgBox("URL API: " & url)
+
+            Dim response As String = GetDataAPIRM(url)
+            'MsgBox("Response API:" & vbCrLf & response)
+
+            If Trim(response) = "" Then
+                MsgBox("Response kosong!")
+                Exit Sub
+            End If
+
+            Dim json As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(response)
+
+            If json("IsResult") Is Nothing OrElse _
+               Not CBool(json("IsResult")) Then
+                'MsgBox("Data tidak ditemukan: " & Json("ErrorMsg").ToString())
+                Exit Sub
+            End If
+
+            Dim data As Newtonsoft.Json.Linq.JArray = CType(json("Data"), Newtonsoft.Json.Linq.JArray)
+
+            If data Is Nothing OrElse data.Count = 0 Then
+                'MsgBox("Data InBody tidak tersedia.")
+                Exit Sub
+            End If
+
+            Dim item As Newtonsoft.Json.Linq.JObject = CType(data(0), Newtonsoft.Json.Linq.JObject)
+
+            If item("USER_HEIGHT") IsNot Nothing Then
+                Dim tinggi As String = item("USER_HEIGHT").ToString().Trim()
+                If tinggi <> "" Then
+                    TextBoxTinggiBadan.Text = tinggi
+                End If
+            End If
+
+            If item("WT") IsNot Nothing Then
+                Dim berat As String = item("WT").ToString().Trim()
+                If berat <> "" Then
+                    TextBoxBeratBadan.Text = berat
+                End If
+            End If
+
+        Catch ex As Exception
+            'MsgBox("Error mengambil data InBody: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub ButtonSimpanFisik_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSimpanFisik.Click
@@ -6971,5 +7036,295 @@ GoBackthis:
 
     Private Sub ButtonSetNilaiRujukan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetNilaiRujukan.Click
         SetNilaiRujukan()
+    End Sub
+
+    Private Function GetKodeCabangFromNoRM(ByVal noRM As String) As String
+        Try
+            If noRM Is Nothing OrElse Trim(noRM) = "" Then
+                Return ""
+            End If
+
+            noRM = Trim(noRM)
+
+            If noRM.Length >= 4 Then
+                Return noRM.Substring(0, 4)
+            Else
+                Return ""
+            End If
+
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
+
+    Private Sub ButtonInBodyPdf_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonInBodyPdf.Click
+        Try
+            Dim noUrut As String = TextBoxNoTransaksi.Text.Trim()
+            Dim userId As String = TextBoxNoRekamMedis.Text.Trim()
+            If userId = "" Then
+                MessageBox.Show("No. Rekam Medis tidak ditemukan.", _
+                                "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim cabang As String = GetKodeCabangFromNoRM(userId).ToUpper()
+            If cabang = "" Then
+                MessageBox.Show("Kode cabang tidak valid.", _
+                                "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim baseUrl As String = ReadSQLNIK( _
+                "SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+
+            If Trim(baseUrl) = "" Then
+                MessageBox.Show("Base URL API tidak ditemukan.", _
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            Dim url As String = baseUrl & _
+                "api/lumiera-luzelle/inbody/result/" & noUrut & "/" & cabang
+
+            'MsgBox("URL API: " & url)
+
+            Dim response As String = GetDataAPIRM(url)
+
+            If Trim(response) = "" Then
+                MessageBox.Show("Response API kosong.", _
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            ' Debug Response
+            'MsgBox("Response API:" & vbCrLf & response)
+
+            Dim json As Newtonsoft.Json.Linq.JObject = _
+                Newtonsoft.Json.Linq.JObject.Parse(response)
+
+            If json("IsResult") Is Nothing OrElse _
+               Not CBool(json("IsResult")) Then
+                MessageBox.Show("Hasil InBody tidak ditemukan." & vbCrLf & _
+                                json("ErrorMsg").ToString(), _
+                                "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Dim pdfUrl As String = ""
+
+            If json("INBODY_IMAGE") IsNot Nothing Then
+                pdfUrl = json("INBODY_IMAGE").ToString()
+            End If
+
+            If pdfUrl = "" AndAlso json("Data") IsNot Nothing Then
+                Dim data As Newtonsoft.Json.Linq.JArray = CType(json("Data"), Newtonsoft.Json.Linq.JArray)
+                If data.Count > 0 Then
+                    pdfUrl = data(0)("INBODY_IMAGE").ToString()
+                End If
+            End If
+
+            If pdfUrl.Trim() = "" Then
+                MessageBox.Show("File PDF InBody tidak tersedia.", _
+                                "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Process.Start(pdfUrl)
+
+        Catch ex As Exception
+            MessageBox.Show("Gagal membuka hasil InBody: " & ex.Message, _
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private imageToPrint As Image
+
+    Private Function CompressImage(ByVal originalImage As Image, _
+                               Optional ByVal maxWidth As Integer = 1240, _
+                               Optional ByVal maxHeight As Integer = 1754, _
+                               Optional ByVal quality As Long = 60L) As Image
+        Try
+            ' Hitung rasio resize
+            Dim ratioX As Double = maxWidth / originalImage.Width
+            Dim ratioY As Double = maxHeight / originalImage.Height
+            Dim ratio As Double = Math.Min(ratioX, ratioY)
+
+            If ratio > 1 Then ratio = 1
+
+            Dim newWidth As Integer = CInt(originalImage.Width * ratio)
+            Dim newHeight As Integer = CInt(originalImage.Height * ratio)
+
+            ' Resize gambar
+            Dim bmp As New Bitmap(newWidth, newHeight)
+            Using g As Graphics = Graphics.FromImage(bmp)
+                g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+                g.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
+                g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+                g.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+                g.DrawImage(originalImage, 0, 0, newWidth, newHeight)
+            End Using
+
+            ' Ambil encoder JPEG
+            Dim jpgEncoder As ImageCodecInfo = Nothing
+            For Each codec As ImageCodecInfo In ImageCodecInfo.GetImageEncoders()
+                If codec.MimeType = "image/jpeg" Then
+                    jpgEncoder = codec
+                    Exit For
+                End If
+            Next
+
+            ' Jika encoder tidak ditemukan, kembalikan bitmap hasil resize
+            If jpgEncoder Is Nothing Then
+                Return bmp
+            End If
+
+            ' Atur kualitas kompresi
+            Dim encoderParams As New EncoderParameters(1)
+            encoderParams.Param(0) = New EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality)
+
+            ' Simpan ke MemoryStream
+            Dim ms As New MemoryStream()
+            bmp.Save(ms, jpgEncoder, encoderParams)
+
+            Return Image.FromStream(New MemoryStream(ms.ToArray()))
+
+        Catch ex As Exception
+            MessageBox.Show("Gagal mengompres gambar: " & ex.Message)
+            Return originalImage
+        End Try
+    End Function
+
+    Private Sub ButtonCetakInBody_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCetakInBody.Click
+        Try
+            Dim noUrut As String = TextBoxNoTransaksi.Text.Trim()
+            Dim userId As String = TextBoxNoRekamMedis.Text.Trim()
+
+            If userId = "" Then
+                MessageBox.Show("No. Rekam Medis tidak ditemukan.", "Peringatan", _
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim cabang As String = GetKodeCabangFromNoRM(userId).ToUpper()
+            If cabang = "" Then
+                MessageBox.Show("Kode cabang tidak valid.", "Peringatan", _
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim baseUrl As String = ReadSQLNIK( _
+            "SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+
+            If Trim(baseUrl) = "" Then
+                MessageBox.Show("Base URL API tidak ditemukan.", "Error", _
+                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            Dim url As String = baseUrl & _
+            "api/lumiera-luzelle/inbody/result/" & noUrut & "/" & cabang
+
+            Dim response As String = GetDataAPIRM(url)
+            If Trim(response) = "" Then
+                MessageBox.Show("Response API kosong.", "Error")
+                Exit Sub
+            End If
+
+            Dim json As Newtonsoft.Json.Linq.JObject = _
+            Newtonsoft.Json.Linq.JObject.Parse(response)
+
+            If json("IsResult") Is Nothing OrElse Not CBool(json("IsResult")) Then
+                MessageBox.Show("Hasil InBody tidak ditemukan." & vbCrLf & _
+                                json("ErrorMsg").ToString(), _
+                                "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Dim imageUrl As String = json("INBODY_IMAGE").ToString()
+            If imageUrl.Trim() = "" Then
+                MessageBox.Show("File hasil InBody tidak tersedia.", "Informasi")
+                Exit Sub
+            End If
+
+            ' Simpan file sementara
+            Dim extension As String = IO.Path.GetExtension(imageUrl)
+            If extension = "" Then extension = ".jpg"
+
+            Dim tempFile As String = IO.Path.Combine( _
+                IO.Path.GetTempPath(), _
+                "InBody_" & userId & extension)
+
+            Using client As New Net.WebClient()
+                client.DownloadFile(imageUrl, tempFile)
+            End Using
+
+            Using originalImage As Image = Image.FromFile(tempFile)
+                imageToPrint = CompressImage(originalImage, 1240, 1754, 60L)
+            End Using
+
+            ' Inisialisasi PrintDocument
+            Dim pd As New Printing.PrintDocument()
+
+            ' Ukuran A4 (dalam 1/100 inci)
+            pd.DefaultPageSettings.PaperSize = _
+            New Printing.PaperSize("A4", 827, 1169)
+
+            ' Margin 1 cm = 39 (1 cm = 0.3937 inci × 100)
+            pd.DefaultPageSettings.Margins = _
+            New Printing.Margins(39, 39, 39, 39)
+
+            ' Orientasi otomatis
+            pd.DefaultPageSettings.Landscape = _
+            (imageToPrint.Width > imageToPrint.Height)
+
+            pd.OriginAtMargins = True
+
+            ' Hubungkan ke handler
+            AddHandler pd.PrintPage, AddressOf PrintImageHandler
+
+            ' Cetak langsung tanpa dialog
+            pd.Print()
+
+            MessageBox.Show("Hasil InBody berhasil dikirim ke printer.", _
+                        "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            MessageBox.Show("Gagal mencetak hasil InBody: " & ex.Message, _
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub PrintImageHandler(ByVal sender As Object, _
+                              ByVal e As Printing.PrintPageEventArgs)
+        Try
+            If imageToPrint Is Nothing Then Exit Sub
+
+            ' Pengaturan kualitas cetak
+            e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+            e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
+            e.Graphics.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+            e.Graphics.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+
+            ' Area cetak sesuai margin
+            Dim printArea As Rectangle = e.MarginBounds
+
+            ' Hitung skala agar memenuhi halaman
+            Dim ratioX As Double = printArea.Width / imageToPrint.Width
+            Dim ratioY As Double = printArea.Height / imageToPrint.Height
+            Dim ratio As Double = Math.Min(ratioX, ratioY)
+
+            Dim newWidth As Integer = CInt(imageToPrint.Width * ratio)
+            Dim newHeight As Integer = CInt(imageToPrint.Height * ratio)
+
+            Dim posX As Integer = printArea.X + (printArea.Width - newWidth) \ 2
+            Dim posY As Integer = printArea.Y + (printArea.Height - newHeight) \ 2
+
+            ' Cetak gambar
+            e.Graphics.DrawImage(imageToPrint, posX, posY, newWidth, newHeight)
+            e.HasMorePages = False
+
+        Catch ex As Exception
+            MessageBox.Show("Error saat mencetak: " & ex.Message)
+        End Try
     End Sub
 End Class

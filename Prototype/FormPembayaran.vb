@@ -64,6 +64,10 @@ Public Class FormPembayaran
     Private _statusLansia As String = ""
     Private _statusGawatDarurat As String = ""
 
+    Private _nomorAntrean As String = ""
+    Private _nomorNIK As String = ""
+    Private _nomorKartuBPJS As String = ""
+
     Public Property DataDictionary() As Dictionary(Of String, Object)
         Get
             Return _dataDictionary
@@ -1043,15 +1047,58 @@ Public Class FormPembayaran
             If _jenisTransaksi = "AWAL" Or _jenisTransaksi = "AWALGIGI" Then
                 Dim versiProgramAntrol As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'versi_program_antrian_online'")
 
+                Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+                Dim Tawal As Date = Date.Now()
+                Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+                Dim url As String = urlWebService & "api/antrian?kode_klinik=" & loc & _
+                   "&visit_date=" & Format(Tawal.Date, "yyyy-MM-dd") & _
+                   "&patient_nik=" & _noNIK
+
+                Dim responseString As String = GetDataAPIRM(url)
+                'MsgBox(responseString)
+                Dim json As JObject = JObject.Parse(responseString)
+
+                Dim nomorAntrean As String = ""
+
+                If json("status").ToString() = "success" Then
+                    Dim dataArray As JArray = json("data")
+
+                    If dataArray.Count > 0 Then
+                        nomorAntrean = dataArray(0)("nomor_antrean").ToString()
+                    End If
+                End If
+
+                _nomorAntrean = nomorAntrean
+
                 If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then
                     ' Post Pendaftaran PCare (Antrol v1)
                     If versiProgramAntrol = "v1" AndAlso SendPCareDataV1() = False Then Exit Sub
 
                     ' Post Pendaftaran PCare & Flag Status Hadir di SINA (Antrol v2)
                     If versiProgramAntrol = "v2" AndAlso SendPCareDataV2() = False Then Exit Sub
+
+                    ' Post Pendaftaran PCare & Flag Status Hadir di SINA (Antrol v3)
+                    If versiProgramAntrol = "v3" AndAlso _
+                         SendPCareDataV3( _
+                             _nomorAntrean, _
+                             "dilayani", _
+                             "pendaftaran", _
+                             _noNIK, _
+                             _noBPJS _
+                         ) = False Then Exit Sub
                 Else
                     ' Flag Status Hadir di SINA (Antrol v2)
                     If versiProgramAntrol = "v2" Then SetStatusHadir()
+
+                    If versiProgramAntrol = "v3" AndAlso _
+                        SendPCareDataV3( _
+                            _nomorAntrean, _
+                            "dilayani", _
+                            "pendaftaran", _
+                            _noNIK, _
+                            _noBPJS _
+                        ) = False Then Exit Sub
                 End If
             End If
 
@@ -1109,9 +1156,9 @@ Public Class FormPembayaran
                 Dim jenisBayar As String = GetJenisPembayaran("POLI", _nomorUrutTransaksi)
 
                 ' Insert TransaksiDetail
-                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate, TransaksiPaket) " & _
+                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate, TransaksiPaket) " & _
                          "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'POLI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(),'" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
-                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE(), " & Convert.ToInt32(statusPaket) & ")", 4)
+                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE(), " & Convert.ToInt32(statusPaket) & ")", 4)
 
                 '' Set Data Pasien
                 'Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
@@ -1471,9 +1518,9 @@ Public Class FormPembayaran
                 Dim jenisBayar As String = GetJenisPembayaran("GIGI", _nomorUrutTransaksi)
 
                 ' Insert TransaksiDetail
-                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
+                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
                          "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'GIGI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(), '" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
-                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE())", 4)
+                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE())", 4)
 
                 'NewHeader.Rows.Clear()
 
@@ -2152,6 +2199,88 @@ Public Class FormPembayaran
         End Try
 
         Return True
+    End Function
+
+    'NEW HYU V3
+    Public Function SendPCareDataV3( _
+            ByVal queueNumber As String, _
+            ByVal queueStatus As String, _
+            Optional ByVal queueStage As String = "", _
+            Optional ByVal patientNIK As String = "", _
+            Optional ByVal bpjsNumber As String = "" _
+        ) As Boolean
+
+        Try
+            ' 🔒 Validasi wajib
+            If String.IsNullOrEmpty(queueNumber) Then
+                MessageBox.Show("Queue Number tidak boleh kosong", "Validasi")
+                Return False
+            End If
+
+            If String.IsNullOrEmpty(queueStatus) Then
+                MessageBox.Show("Queue Status tidak boleh kosong", "Validasi")
+                Return False
+            End If
+
+            ' 🔗 Ambil config
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            If String.IsNullOrEmpty(loc) Then
+                MessageBox.Show("Kode Klinik tidak ditemukan di config", "Error")
+                Return False
+            End If
+
+            Dim url As String = urlWebService & "api/antrian/update-status"
+
+            ' 🔥 Build form-urlencoded
+            Dim postData As String = ""
+
+            postData &= "clinic_code=" & Uri.EscapeDataString(loc.Trim())
+            postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
+            postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
+
+            If Not String.IsNullOrEmpty(queueStage) Then
+                postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage.Trim())
+            End If
+
+            If Not String.IsNullOrEmpty(patientNIK) Then
+                postData &= "&patient_nik=" & Uri.EscapeDataString(patientNIK.Trim())
+            End If
+
+            If Not String.IsNullOrEmpty(bpjsNumber) Then
+                postData &= "&bpjs_number=" & Uri.EscapeDataString(bpjsNumber.Trim())
+            End If
+
+            ' 🚀 Call API (error sudah ditangani di sini)
+            Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
+
+            If String.IsNullOrEmpty(responseString) Then
+                MessageBox.Show("Response kosong dari server", "Error")
+                Return False
+            End If
+
+            ' 📦 Parse JSON
+            Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            If jsonObj("status") Is Nothing Then
+                MessageBox.Show("Format response tidak valid", "Error")
+                Return False
+            End If
+
+            If jsonObj("status").ToString().ToLower() = "success" Then
+                Return True
+            Else
+                Dim msg As String = If(jsonObj("message") IsNot Nothing, jsonObj("message").ToString(), "Unknown error")
+                MessageBox.Show("Gagal update: " & msg, "Error")
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message, "Error")
+            Return False
+        End Try
+
     End Function
 
     Function SetStatusHadir() As Boolean
