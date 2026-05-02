@@ -1,10 +1,11 @@
-Version : 2.0.0.59 ()
-# [Bug Fix] Memperbaiki Bug Pada Tools Upload Transaksi Lab Online
+Version : 2.0.0.59 (28 Maret 2026)
 # [New Feature] Penambahan Fitur Validator Invoice
+# [New Feature] Pengintegrasian dengan Antrian Hyu
 # [Usability Improvement] Penambahan Notifikasi Riwayat Diagnosa B16-B20 di Alert Alergi
-# [Bug Fix] Laporan Closed/Unclosed Klinik tidak bisa ditarik.
+# [Bug Fix] Memperbaiki Bug Pada Tools Upload Transaksi Lab Online
+# [Bug Fix] Laporan Closed/Unclosed Klinik tidak bisa ditarik
 
-Version : 2.0.0.58 (21 Januari 2025)
+Version : 2.0.0.58 (21 Januari 2026)
 # [New Feature] Penambahan Fitur Risiko Penyakit DM, HT, Stroke
 # [New Feature] Penambahan Fitur Saran Diagnosa Menggunakan Machine Learning v1
 # [Usability Improvement] Penyesuaian Log Reminder dan Booking Pasien

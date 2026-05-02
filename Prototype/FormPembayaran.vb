@@ -1026,6 +1026,37 @@ Public Class FormPembayaran
         End Try
     End Sub
 
+    Public Sub UpdateAntrianSaja( _
+        ByVal queueNumber As String, _
+        ByVal queueStatus As String, _
+        ByVal queueStage As String, _
+        ByVal patientNIK As String, _
+        ByVal bpjsNumber As String)
+
+        Try
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim url As String = urlWebService & "api/antrian/update-status"
+
+            Dim postData As String = ""
+            postData &= "clinic_code=" & Uri.EscapeDataString(loc)
+            postData &= "&queue_number=" & queueNumber
+            postData &= "&queue_status=" & queueStatus
+            postData &= "&queue_stage=" & queueStage
+            postData &= "&patient_nik=" & patientNIK
+            postData &= "&bpjs_number=" & bpjsNumber
+
+            Dim response As String = InsertDataAPIRMUrlEncode(postData, url)
+
+            'MsgBox("DEBUG NON BPJS: " & response)
+
+        Catch ex As Exception
+            MsgBox("Error UpdateAntrianSaja: " & ex.Message)
+        End Try
+
+    End Sub
+
     Private Sub SaveDataPembayaran()
         '# Variabel Umum
         Dim NewHeader As DataTable = CreateTable()
@@ -1055,880 +1086,607 @@ Public Class FormPembayaran
                    "&visit_date=" & Format(Tawal.Date, "yyyy-MM-dd") & _
                    "&patient_nik=" & _noNIK
 
-                Dim responseString As String = GetDataAPIRM(url)
-                'MsgBox(responseString)
-                Dim json As JObject = JObject.Parse(responseString)
+                'Dim responseString As String = GetDataAPIRM(url)
+                'Dim json As JObject = JObject.Parse(responseString)
 
                 Dim nomorAntrean As String = ""
+                Dim isAntreanOnline As Boolean = True
 
-                If json("status").ToString() = "success" Then
-                    Dim dataArray As JArray = json("data")
+                Try
+                    Dim responseString As String = GetDataAPIRM(url)
 
-                    If dataArray.Count > 0 Then
-                        nomorAntrean = dataArray(0)("nomor_antrean").ToString()
+                    'MsgBox("DEBUG: Response API = " & vbCrLf & responseString)
+
+                    If Not String.IsNullOrEmpty(responseString) Then
+                        Dim json As JObject = JObject.Parse(responseString)
+
+                        'MsgBox("DEBUG: Status JSON = " & json("status").ToString())
+
+                        If json("status").ToString() = "success" Then
+                            Dim dataArray As JArray = json("data")
+
+                            'MsgBox("DEBUG: Jumlah Data = " & dataArray.Count)
+
+                            If dataArray.Count > 0 Then
+                                nomorAntrean = dataArray(0)("nomor_antrean").ToString()
+                                'MsgBox("DEBUG: Nomor Antrean dari API = " & nomorAntrean)
+                            Else
+                                'MsgBox("DEBUG: Data kosong")
+                                isAntreanOnline = False
+                            End If
+                        Else
+                            'MsgBox("DEBUG: Status bukan success")
+                            isAntreanOnline = False
+                        End If
+                    Else
+                        'MsgBox("DEBUG: Response kosong")
+                        isAntreanOnline = False
                     End If
+
+                Catch ex As Exception
+                    'MsgBox("DEBUG: ERROR = " & ex.Message)
+                    isAntreanOnline = False
+                End Try
+
+                'Dim nomorAntrean As String = ""
+
+                'If json("status").ToString() = "success" Then
+                '    Dim dataArray As JArray = json("data")
+
+                '    If dataArray.Count > 0 Then
+                '        nomorAntrean = dataArray(0)("nomor_antrean").ToString()
+                '    End If
+                'End If
+
+                If isAntreanOnline = False Then
+                    'MsgBox("DEBUG: MODE OFFLINE AKTIF")
+                    MsgBox("Sistem Antrean Sedang Gangguan/Offline, Transaksi Dilanjutkan Tanpa Antrean.", MsgBoxStyle.Exclamation)
+
+                    ' 🔥 WAJIB: isi dummy nomor antrean
+                    nomorAntrean = "OFF-" & Format(Now, "yyyyMMddHHmmss")
                 End If
 
                 _nomorAntrean = nomorAntrean
 
+                Dim versiAktif As String = versiProgramAntrol
+
+                If isAntreanOnline = False Then
+                    versiAktif = "v1"
+                End If
+
+                'MsgBox("DEBUG: Versi Program = " & versiProgramAntrol & vbCrLf & _
+                '       "Versi Aktif = " & versiAktif & vbCrLf & _
+                '       "Status Online = " & isAntreanOnline.ToString())
+
+                Dim isAntreanSuccess As Boolean = True
+
+                'If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then
                 If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then
-                    ' Post Pendaftaran PCare (Antrol v1)
-                    If versiProgramAntrol = "v1" AndAlso SendPCareDataV1() = False Then Exit Sub
+                    'MsgBox("DEBUG: MASUK BLOK BPJS")
 
-                    ' Post Pendaftaran PCare & Flag Status Hadir di SINA (Antrol v2)
-                    If versiProgramAntrol = "v2" AndAlso SendPCareDataV2() = False Then Exit Sub
+                    If isAntreanOnline = False Then
+                        MsgBox("Sistem Antrean Offline, Lanjut Kirim Pendaftaran PCare Via ERM", MsgBoxStyle.Exclamation)
+                    End If
 
-                    ' Post Pendaftaran PCare & Flag Status Hadir di SINA (Antrol v3)
-                    If versiProgramAntrol = "v3" AndAlso _
-                         SendPCareDataV3( _
-                             _nomorAntrean, _
-                             "dilayani", _
-                             "pendaftaran", _
-                             _noNIK, _
-                             _noBPJS _
-                         ) = False Then Exit Sub
-                Else
-                    ' Flag Status Hadir di SINA (Antrol v2)
-                    If versiProgramAntrol = "v2" Then SetStatusHadir()
-
-                    If versiProgramAntrol = "v3" AndAlso _
-                        SendPCareDataV3( _
+                    If versiAktif = "v1" Then
+                        'MsgBox("DEBUG: KIRIM KE PCARE V1")
+                        isAntreanSuccess = SendPCareDataV1()
+                    ElseIf versiAktif = "v2" Then
+                        'MsgBox("DEBUG: KIRIM KE PCARE V2")
+                        isAntreanSuccess = SendPCareDataV2()
+                    ElseIf versiAktif = "v3" Then
+                        'MsgBox("DEBUG: KIRIM KE PCARE V3 (BUTUH ANTREAN)")
+                        isAntreanSuccess = SendPCareDataV3( _
                             _nomorAntrean, _
                             "dilayani", _
                             "pendaftaran", _
                             _noNIK, _
                             _noBPJS _
-                        ) = False Then Exit Sub
-                End If
-            End If
-
-            ' Get Kode Dokter
-            kodeDokter = ReadSQLNIK("SELECT ID FROM MasterDokter WHERE Nama = '" & _namaDokter & "'")
-
-            ' Generate No Urut Transaksi Jika Masih Kosong
-            If _nomorUrutTransaksi = "" Then _nomorUrutTransaksi = generateNoTransaksi(rowPoli("KodeTransaksi"), rowPoli("JenisPoli"), DateTime.Now.ToString("yyyyMMdd"), False)
-
-            If _jenisTransaksi = "AWAL" Then
-                ' Insert TransaksiPoli
-                WriteSQL("INSERT INTO TransaksiPoli (IDInternet, DokterPoli, PerawatPoli, TglPoli, CreatedDate, CreatedBy, ClosedBayar, KodeDokter, NoUrut, StatusKeterangan, StatusTransaksi, ArrivedDate, MarketingPoli) " & _
-                     "VALUES('" & _noRekamMedis & "','" & _namaDokter & "', '" & _namaPerawat & "', GETDATE(), GETDATE(),'" & userInput & "', '12/31/9998', '" & kodeDokter & "', '" & _nomorUrutTransaksi & "', 'Belum Diperiksa', 'arrived', GETDATE(), '" & _namaMarketing & "')", 4)
-
-                ' Set ID Poli
-                _idTransaksi = ReadSQLNIK("SELECT TransPoliID FROM TransaksiPoli WHERE NoUrut = '" & _nomorUrutTransaksi & "'")
-
-                Dim Tuang As DataTable = GridControlPembayaran.DataSource
-                Tuang.AcceptChanges()
-
-                For Each rowBayar As DataRow In Tuang.Rows
-                    ' Insert ke tabel TransaksiPoliBayarAwal
-                    WriteSQL("INSERT INTO TransaksiPoliBayarAwal (TransJenis, TransPoliID, JenisBayar, NoJenisBayar, JumlahBayar, admin, transaksitime, mesin, kartu) " & _
-                             "VALUES('POLI','" & _idTransaksi & "','" & rowBayar("Jenis") & "','" & rowBayar("KartuData") & "','" & CDbl(rowBayar("Jumlah")) & "','" & userInput & "',GETDATE(),'" & rowBayar("MesinData") & "','" & rowBayar("JenisKartu") & "')", 4)
-
-                    If penjaminTindakan <> "Tanpa Asuransi / Umum" Then
-                        If rowBayar("Jenis") = "TUNAI" Or rowBayar("Jenis") = "DEBET" Or rowBayar("Jenis") = "CARD" Then
-                            penjaminTindakan = "Tanpa Asuransi / Umum"
-                        Else
-                            Dim splitKeteranganBayar() As String = rowBayar("KartuData").ToString.Split("-")
-                            penjaminTindakan = splitKeteranganBayar(0)
-                        End If
+                        )
                     End If
-                Next
+                    'MsgBox("DEBUG: HASIL KIRIM PCARE = " & isAntreanSuccess.ToString())
+                Else
+                    'NON BPJS
+                    ' Flag Status Hadir di SINA (Antrol v2)
+                    'MsgBox("DEBUG: MASUK NON BPJS")
 
-                ' Insert ke tabel TransaksiPoliDetail (Cek Inputan Paket / Tindakan)
-                If _jenisTindakan = "Tindakan" Then
-                    For Each Trow As DataRow In tblTindakan.Rows
-                        ' Cek apakah KodeVoucher kosong atau null
-                        Dim voucherIDValue As String = If(String.IsNullOrEmpty(Trow("KodeVoucher").ToString()), "NULL", "'" & Trow("KodeVoucher").ToString() & "'")
+                    If versiProgramAntrol = "v2" Then
+                        'MsgBox("DEBUG: SetStatusHadir()")
+                        SetStatusHadir()
+                    End If
 
-                        WriteSQL("INSERT INTO TransaksiPoliDetail(Awal, TransPoliID, PaketID, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran, KodeVoucher, Penjamin) " & _
-                                 "VALUES('1', '" & _idTransaksi & "' ,'" & Trow("PaketID") & "', '" & Trow("TindakanID") & "', '" & Trow("Tindakan") & "', '" & Trow("Jenis") & "', " & CDbl(Trow("Biaya Tindakan")) & ", " & CDbl(Trow("DiscNilai")) & ", " & CDbl(Trow("NettBayar")) & ", '" & userInput & "', GETDATE(), 0, 'PAID', " & voucherIDValue & ", '" & penjaminTindakan & "')", 4)
-                    Next
-                ElseIf _jenisTindakan = "Paket" Then
-                    For Each rowTindakan As DataRow In tblTindakan.Rows
-                        WriteSQL("INSERT INTO TransaksiPoliDetail(Awal, TransPoliID, PaketID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran, KodeVoucher, Penjamin) " & _
-                                         "VALUES('1', '" & _idTransaksi & "' ,'" & rowTindakan("PaketID") & "', '" & rowTindakan("Nama Paket") & "', '-', " & CDbl(rowTindakan("Harga Awal")) & ", " & CDbl(rowTindakan("Diskon")) & ", " & CDbl(rowTindakan("Harga Nett")) & ", '" & userInput & "', GETDATE(), 0, 'PAID', '" & voucherID & "', '" & penjaminTindakan & "')", 4)
-                    Next
-
-                    statusPaket = True ' Set Status Paket
+                    If versiProgramAntrol = "v3" AndAlso isAntreanOnline = True Then
+                        'MsgBox("DEBUG: UpdateAntrianSaja()")
+                        Call UpdateAntrianSaja(_nomorAntrean, "dilayani", "pendaftaran", _noNIK, _noBPJS)
+                    End If
+                End If
                 End If
 
-                ' Set Jenis Bayar
-                Dim jenisBayar As String = GetJenisPembayaran("POLI", _nomorUrutTransaksi)
+                ' Get Kode Dokter
+                kodeDokter = ReadSQLNIK("SELECT ID FROM MasterDokter WHERE Nama = '" & _namaDokter & "'")
 
-                ' Insert TransaksiDetail
-                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate, TransaksiPaket) " & _
-                         "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'POLI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(),'" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
-                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE(), " & Convert.ToInt32(statusPaket) & ")", 4)
+                ' Generate No Urut Transaksi Jika Masih Kosong
+                If _nomorUrutTransaksi = "" Then _nomorUrutTransaksi = generateNoTransaksi(rowPoli("KodeTransaksi"), rowPoli("JenisPoli"), DateTime.Now.ToString("yyyyMMdd"), False)
 
-                '' Set Data Pasien
-                'Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
-                '                                      "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
-                '                                      "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
-                'Dim TrowPasien As DataRow = tblsPasien.Rows(0)
-                'Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
+                If _jenisTransaksi = "AWAL" Then
+                    ' Insert TransaksiPoli
+                    WriteSQL("INSERT INTO TransaksiPoli (IDInternet, DokterPoli, PerawatPoli, TglPoli, CreatedDate, CreatedBy, ClosedBayar, KodeDokter, NoUrut, StatusKeterangan, StatusTransaksi, ArrivedDate, MarketingPoli) " & _
+                         "VALUES('" & _noRekamMedis & "','" & _namaDokter & "', '" & _namaPerawat & "', GETDATE(), GETDATE(),'" & userInput & "', '12/31/9998', '" & kodeDokter & "', '" & _nomorUrutTransaksi & "', 'Belum Diperiksa', 'arrived', GETDATE(), '" & _namaMarketing & "')", 4)
 
-                'NewHeader.Rows.Clear()
-                'For Each rowTindakan As DataRow In tblTindakan.Rows
-                '    If _jenisTindakan = "Tindakan" Then
-                '        Dim Tnew As DataRow = NewHeader.NewRow
-                '        Tnew("TindakanID") = rowTindakan("TindakanID")
-                '        Tnew("Tindakan") = rowTindakan("Tindakan")
-                '        Tnew("Jenis") = rowTindakan("Jenis")
-                '        Tnew("Biaya Tindakan") = rowTindakan("Biaya Tindakan")
-                '        Tnew("DiscTindakan") = rowTindakan("DiscTindakan")
-                '        Tnew("DiscNilai") = rowTindakan("DiscNilai")
-                '        Tnew("NettBayar") = rowTindakan("NettBayar")
+                    ' Set ID Poli
+                    _idTransaksi = ReadSQLNIK("SELECT TransPoliID FROM TransaksiPoli WHERE NoUrut = '" & _nomorUrutTransaksi & "'")
 
-                '        Tnew("Registrasi") = _noRekamMedis
-                '        Tnew("Nama") = TrowPasien("Nama")
-                '        Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                '        Tnew("Alamat") = TrowPasien("Alamat")
-                '        Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                '        Tnew("NoTransaksi") = _nomorUrutTransaksi + " (" + _idTransaksi + ")"
-                '        Tnew("DrPengirim") = _namaDokter
-                '        Tnew("StatusAmbil") = ""
-                '        Tnew("lblDokter") = "Dr. Pelaksana"
-                '        Tnew("lblStatusAmbil") = ""
-                '        Tnew("lbltitikDokter") = ":"
-                '        Tnew("lbltitikStatusAmbil") = ""
-                '        NewHeader.Rows.Add(Tnew)
-                '    ElseIf _jenisTindakan = "Paket" And rowTindakan("KodeVoucher").ToString() = "" Then
-                '        Dim Tnew As DataRow = NewHeader.NewRow
-                '        Dim hargaAwal As Decimal = Convert.ToDecimal(rowTindakan("Harga Awal"))
-                '        Dim diskon As Decimal = Convert.ToDecimal(rowTindakan("Diskon"))
+                    Dim Tuang As DataTable = GridControlPembayaran.DataSource
+                    Tuang.AcceptChanges()
 
-                '        ' Menghitung persentase diskon berdasarkan harga awal dan diskon
-                '        Dim discTindakan As Decimal
-                '        If hargaAwal > 0 Then
-                '            discTindakan = (diskon / hargaAwal) * 100
-                '        Else
-                '            discTindakan = 0 ' Menghindari pembagian dengan nol
-                '        End If
+                    For Each rowBayar As DataRow In Tuang.Rows
+                        ' Insert ke tabel TransaksiPoliBayarAwal
+                        WriteSQL("INSERT INTO TransaksiPoliBayarAwal (TransJenis, TransPoliID, JenisBayar, NoJenisBayar, JumlahBayar, admin, transaksitime, mesin, kartu) " & _
+                                 "VALUES('POLI','" & _idTransaksi & "','" & rowBayar("Jenis") & "','" & rowBayar("KartuData") & "','" & CDbl(rowBayar("Jumlah")) & "','" & userInput & "',GETDATE(),'" & rowBayar("MesinData") & "','" & rowBayar("JenisKartu") & "')", 4)
 
-                '        Tnew("TindakanID") = rowTindakan("PaketID").ToString()
-                '        Tnew("Tindakan") = rowTindakan("Nama Paket")
-                '        Tnew("Jenis") = rowTindakan("Keterangan Paket")
-                '        Tnew("Biaya Tindakan") = rowTindakan("Harga Awal")
-                '        Tnew("DiscTindakan") = discTindakan
-                '        Tnew("DiscNilai") = rowTindakan("Diskon")
-                '        Tnew("NettBayar") = rowTindakan("Harga Nett")
+                        If penjaminTindakan <> "Tanpa Asuransi / Umum" Then
+                            If rowBayar("Jenis") = "TUNAI" Or rowBayar("Jenis") = "DEBET" Or rowBayar("Jenis") = "CARD" Then
+                                penjaminTindakan = "Tanpa Asuransi / Umum"
+                            Else
+                                Dim splitKeteranganBayar() As String = rowBayar("KartuData").ToString.Split("-")
+                                penjaminTindakan = splitKeteranganBayar(0)
+                            End If
+                        End If
+                    Next
 
-                '        Tnew("Registrasi") = _noRekamMedis
-                '        Tnew("Nama") = TrowPasien("Nama")
-                '        Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                '        Tnew("Alamat") = TrowPasien("Alamat")
-                '        Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                '        Tnew("NoTransaksi") = _nomorUrutTransaksi + " (" + _idTransaksi + ")"
-                '        Tnew("DrPengirim") = _namaDokter
-                '        Tnew("StatusAmbil") = ""
-                '        Tnew("lblDokter") = "Dr. Pelaksana"
-                '        Tnew("lblStatusAmbil") = ""
-                '        Tnew("lbltitikDokter") = ":"
-                '        Tnew("lbltitikStatusAmbil") = ""
-                '        NewHeader.Rows.Add(Tnew)
-                '    End If
-                'Next
+                    ' Insert ke tabel TransaksiPoliDetail (Cek Inputan Paket / Tindakan)
+                    If _jenisTindakan = "Tindakan" Then
+                        For Each Trow As DataRow In tblTindakan.Rows
+                            ' Cek apakah KodeVoucher kosong atau null
+                            Dim voucherIDValue As String = If(String.IsNullOrEmpty(Trow("KodeVoucher").ToString()), "NULL", "'" & Trow("KodeVoucher").ToString() & "'")
 
-                ' DELETE
-                WriteSQL("UPDATE TransaksiPoli SET TotalTagihan = " & CDbl(txtotalbruto) & ", TotalDisc = " & CDbl(txtotaldisc) & ", Pembulatan = " & CDbl(txtotalpembulatan) & ", NettBayar = " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = " & CDbl(TextBoxTotalKembali.Value) & " WHERE TransPoliID = '" & _idTransaksi & "'", 4)
-
-                If TextBoxTotalKembali.Value > 0 Then
-                    WriteSQL("UPDATE TransaksiPoliBayarAwal SET Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransPoliID='" & _idTransaksi & "' AND JenisBayar='TUNAI' AND TransJenis='POLI'", 4)
-                End If
-
-                'Report = New XtraReport
-
-                'If Jeniscetak = "Struk" Then
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
-                'Else
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
-                'End If
-
-                'Report.DataSource = NewHeader
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
-                'End If
-
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
-
-                'Dim Ttemp As DataTable = ReadSQL("SELECT * FROM TransaksiPoliBayarAwal WHERE TransPoliID = '" & _idTransaksi & "' AND TransJenis='POLI'")
-                'If Ttemp.Rows.Count > 1 Then
-                '    For i As Integer = 1 To Ttemp.Rows.Count
-                '        Dim Trow As DataRow = Ttemp.Rows(i - 1)
-                '        Dim Tket As String = "bayar" & i
-                '        Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
-                '        If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        Else
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        End If
-                '    Next
-                'Else
-                '    Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
-                'End If
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.PageHeight = txtotalrow
-                'End If
-
-                ' Insert Transaksi Paket (Jika ada)
-                For Each rowTindakan As DataRow In tblTindakan.Rows
-                    If rowTindakan("KodeVoucher").ToString() = "" And _jenisTindakan = "Paket" Then
-                        ' Insert Tabel TransaksiPaketTindakan
-                        WriteSQL("INSERT INTO TransaksiPaketTindakan(NoRekamMedis, NoTransaksi, PaketID, NamaPaket, KeteranganPaket, JenisPaket, TanggalMulaiPaket, TanggalAkhirPaket, HargaAwal, DiskonNominal, HargaNett, Kuota, DetailTindakan, StatusPembayaran, KodeVoucher, Penjamin, CreatedBy, CreatedDate) " & _
-                                 "VALUES('" & _noRekamMedis & "', '" & _nomorUrutTransaksi & "', '" & rowTindakan("PaketID") & "', '" & rowTindakan("Nama Paket") & "', '" & rowTindakan("Keterangan Paket") & "', '" & rowTindakan("Jenis Paket") & "', GETDATE(), DATEADD(DAY, " & rowTindakan("DurasiAktif") & ", GETDATE()), " & CDbl(rowTindakan("Harga Awal")) & ", " & _
-                                 "" & CDbl(rowTindakan("Diskon")) & ", " & CDbl(rowTindakan("Harga Nett")) & ", '" & rowTindakan("Kuota") & "', '" & rowTindakan("DetailTindakan") & "', 'PAID', '" & voucherID & "', '" & penjaminTindakan & "', '" & userInput & "', GETDATE())", 4)
-
-                        ' Insert Tabel TransaksiPaketTindakanDetail
-                        Dim tblPaketDetail As DataTable = ReadSQL("SELECT * FROM MasterPaketTindakanDetail WHERE PaketID = '" & rowTindakan("PaketID") & "'")
-                        For Each rowPaketDetail As DataRow In tblPaketDetail.Rows
-                            WriteSQL("INSERT INTO TransaksiPaketTindakanDetail(PaketID, KodeVoucher, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiskonTindakan, NettBayar, Jumlah, GrandTotal, KuotaTindakan, CreatedBy, CreatedDate) " & _
-                                     "VALUES('" & rowPaketDetail("PaketID").ToString() & "', '" & voucherID & "', '" & rowPaketDetail("TindakanID") & "', '" & rowPaketDetail("NamaTindakan") & "', '" & rowPaketDetail("JenisTindakan") & "', " & _
-                                     CDbl(rowPaketDetail("BiayaTindakan")) & ", " & CDbl(rowPaketDetail("DiskonTindakan")) & ", " & CDbl(rowPaketDetail("NettBayar")) & ", '" & rowPaketDetail("Jumlah") & "', " & _
-                                     CDbl(rowPaketDetail("GrandTotal")) & ", '" & rowPaketDetail("Jumlah") & "', '" & userInput & "', GETDATE())", 4)
+                            WriteSQL("INSERT INTO TransaksiPoliDetail(Awal, TransPoliID, PaketID, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran, KodeVoucher, Penjamin) " & _
+                                     "VALUES('1', '" & _idTransaksi & "' ,'" & Trow("PaketID") & "', '" & Trow("TindakanID") & "', '" & Trow("Tindakan") & "', '" & Trow("Jenis") & "', " & CDbl(Trow("Biaya Tindakan")) & ", " & CDbl(Trow("DiscNilai")) & ", " & CDbl(Trow("NettBayar")) & ", '" & userInput & "', GETDATE(), 0, 'PAID', " & voucherIDValue & ", '" & penjaminTindakan & "')", 4)
+                        Next
+                    ElseIf _jenisTindakan = "Paket" Then
+                        For Each rowTindakan As DataRow In tblTindakan.Rows
+                            WriteSQL("INSERT INTO TransaksiPoliDetail(Awal, TransPoliID, PaketID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran, KodeVoucher, Penjamin) " & _
+                                             "VALUES('1', '" & _idTransaksi & "' ,'" & rowTindakan("PaketID") & "', '" & rowTindakan("Nama Paket") & "', '-', " & CDbl(rowTindakan("Harga Awal")) & ", " & CDbl(rowTindakan("Diskon")) & ", " & CDbl(rowTindakan("Harga Nett")) & ", '" & userInput & "', GETDATE(), 0, 'PAID', '" & voucherID & "', '" & penjaminTindakan & "')", 4)
                         Next
 
-                        ' Set Status QR
-                        statusQR = True
-                        keteranganQR = voucherID
-                    ElseIf rowTindakan("KodeVoucher").ToString() <> "" And rowTindakan("Klasifikasi") = "Paket" Then
-                        ' Insert Tabel LogPenggunaanPaket
-                        WriteSQL("INSERT INTO LogPenggunaanPaket(NoRekamMedis, NoTransaksi, PaketID, TanggalTransaksi, KodeVoucher, CreatedBy, CreatedDate) " & _
-                                 "VALUES('" & _noRekamMedis & "', '" & _nomorUrutTransaksi & "', '" & rowTindakan("PaketID") & "', GETDATE(), '" & rowTindakan("KodeVoucher").ToString() & "', '" & userInput & "', GETDATE())", 4)
-
-                        ' Update Sisa Kuota Paket
-                        WriteSQL("UPDATE TransaksiPaketTindakan SET Kuota = Kuota - 1 WHERE PaketID = '" & rowTindakan("PaketID") & "' AND KodeVoucher = '" & rowTindakan("KodeVoucher").ToString() & "' AND DeletedDate IS NULL", 4)
-                    End If
-                Next
-
-                ' Set QR (Report)
-                'If statusQR = True Then
-                '    Dim Generator As New MessagingToolkit.Barcode.BarcodeEncoder
-                '    Dim qrImage As Bitmap = New Bitmap(Generator.Encode(MessagingToolkit.Barcode.BarcodeFormat.QRCode, keteranganQR))
-
-                '    Dim pictureBox As XRPictureBox = CreateXRPictureBox(qrImage, 0, 0, 175, 100)
-                '    Dim panelQR As XRPanel = CType(Report.Bands(BandKind.ReportFooter).Controls("xrPanelQR"), XRPanel)
-
-                '    ' Add pictureBox
-                '    panelQR.Controls.Add(pictureBox)
-
-                '    ' Set Visible
-                '    panelQR.Visible = True
-                '    Report.Bands.Item(BandKind.ReportFooter).Controls("xrLabelKodeVoucher").Visible = True
-                'End If
-
-                ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
-                SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
-
-                'Send Validator
-                SendInvoiceValidator("PEMERIKSAAN", "POLI")
-
-                ' Pesan Success
-                If NoUrutBPJS = "" Then
-                    ' Non BPJS
-                    MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
-                    UpdateDilayaniERM()
-                Else
-                    ' BPJS
-                    MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
-                End If
-
-                ' Cetak Barcode
-                If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & _namaPasien & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    CetakBarcodeKlinik(_idTransaksi)
-                End If
-
-                'Report.RunDesigner()
-                'Report.ShowPreview()
-                'Report.Print()
-
-                '# Close Form
-                'Me.Close()
-
-                '# Set Clear FormPendaftaranAwal
-                FormPendaftaranAwal.ClearDataPendaftaranAwal()
-
-                ' Checklist Lunas
-                CheckBoxLunasBayar.Checked = True
-            ElseIf _jenisTransaksi = "UMUM" Then
-                Dim Tuang As DataTable = GridControlPembayaran.DataSource
-                Tuang.AcceptChanges()
-
-                Dim Tno As Integer = 1
-                Dim Turut As Boolean = False
-                Dim NoPembayaran As String = ""
-
-                Do
-                    If CheckSQL("SELECT * FROM TransaksiPoliBayar WHERE TransPoliID = '" & _idTransaksi & "' AND GroupBayar='" & _nomorUrutTransaksi & "-" & Tno & "'") = True Then
-                        Tno = Tno + 1
-                    Else
-                        Turut = True
-                    End If
-                Loop While Turut = False
-
-                NoPembayaran = _nomorUrutTransaksi & "-" & Tno
-
-                ' Insert ke tabel TransaksiPoliBayar
-                For Each Trow As DataRow In Tuang.Rows
-                    WriteSQL("INSERT INTO TransaksiPoliBayar (TransPoliID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu,GroupBayar) " & _
-                             "VALUES('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "','" & NoPembayaran & "')", 4)
-                Next
-
-                For Each Trow As DataRow In tblTindakan.Rows
-                    If Trow("TransPoliIDDetail") = "0" Then
-                        WriteSQL("INSERT INTO TransaksiPoliDetail(TransPoliID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,GroupBayar,StatusPembayaran,CreatedBy, CreatedDate) " & _
-                                 "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & NoPembayaran & "', 'PAID', '" & userInput & "', GETDATE())", 4)
-                    Else
-                        WriteSQL("UPDATE TransaksiPoliDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", GroupBayar = '" & NoPembayaran & "', StatusPembayaran = 'PAID' " & _
-                                 "WHERE TransPoliIDDetail = '" & Trow("TransPoliIDDetail") & "' AND TransPoliID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
+                        statusPaket = True ' Set Status Paket
                     End If
 
-                    'NewHeader.Rows.Clear()
+                    ' Set Jenis Bayar
+                    Dim jenisBayar As String = GetJenisPembayaran("POLI", _nomorUrutTransaksi)
 
-                    'For Each TrowNewHeader As DataRow In tblTindakan.Rows
-                    '    Dim Tnew As DataRow = NewHeader.NewRow
-                    '    Tnew("TindakanID") = TrowNewHeader("TindakanID")
-                    '    Tnew("Tindakan") = TrowNewHeader("Nama")
-                    '    Tnew("Jenis") = TrowNewHeader("Jenis")
-                    '    Tnew("Biaya Tindakan") = TrowNewHeader("Biaya Tindakan")
-                    '    Tnew("DiscTindakan") = TrowNewHeader("DiscTindakan")
-                    '    Tnew("DiscNilai") = TrowNewHeader("DiscNilai")
-                    '    Tnew("NettBayar") = TrowNewHeader("NettBayar")
-                    '    Tnew("Registrasi") = _noRekamMedis
+                    ' Insert TransaksiDetail
+                    WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate, TransaksiPaket) " & _
+                             "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'POLI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(),'" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
+                             "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE(), " & Convert.ToInt32(statusPaket) & ")", 4)
 
-                    '    Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
-                    '                                      "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
-                    '                                      "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
-                    '    Dim TrowPasien As DataRow = tblsPasien.Rows(0)
 
-                    '    Tnew("Nama") = TrowPasien("Nama")
-                    '    Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
-                    '    Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                    '    Tnew("Alamat") = TrowPasien("Alamat")
-                    '    Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                    '    Tnew("NoTransaksi") = _nomorUrutTransaksi + " (" + _idTransaksi + ")"
-                    '    Tnew("DrPengirim") = _namaDokter
-                    '    Tnew("StatusAmbil") = ""
-                    '    Tnew("lblDokter") = "Dr. Pelaksana"
-                    '    Tnew("lblStatusAmbil") = ""
-                    '    Tnew("lbltitikDokter") = ":"
-                    '    Tnew("lbltitikStatusAmbil") = ""
-                    '    NewHeader.Rows.Add(Tnew)
-                    'Next
-                Next
+                    ' DELETE
+                    WriteSQL("UPDATE TransaksiPoli SET TotalTagihan = " & CDbl(txtotalbruto) & ", TotalDisc = " & CDbl(txtotaldisc) & ", Pembulatan = " & CDbl(txtotalpembulatan) & ", NettBayar = " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = " & CDbl(TextBoxTotalKembali.Value) & " WHERE TransPoliID = '" & _idTransaksi & "'", 4)
 
-                WriteSQL("UPDATE TransaksiPoli SET TotalTagihan = TotalTagihan + " & CDbl(txtotalbruto) & ", TotalDisc = TotalDisc + " & CDbl(txtotaldisc) & ", Pembulatan = Pembulatan + " & CDbl(txtotalpembulatan) & ", NettBayar = NettBayar + " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = TotalBayar + " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = Pengembalian + " & CDbl(TextBoxTotalKembali.Value) & ", ClosedBayar = '" & Format(DateAndTime.Now, "MM/dd/yyyy") & "', Status = 'CLOSED' WHERE TransPoliID = '" & _idTransaksi & "'", 4)
-
-                If TextBoxTotalKembali.Value > 0 Then
-                    WriteSQL("UPDATE TransaksiPoliBayar SET Kembali = '" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransPoliID = '" & _idTransaksi & "' AND JenisBayar = 'TUNAI' ", 4)
-                End If
-
-                'Report = New XtraReport
-
-                'If Jeniscetak = "Struk" Then
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
-                'Else
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
-                'End If
-
-                'Report.DataSource = NewHeader
-                'If Jeniscetak = "Struk" Then
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
-                'End If
-
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
-
-                'Dim Ttemp As DataTable = ReadSQL("SELECT * FROM TransaksiPoliBayar WHERE TransPoliID = '" & _idTransaksi & "'")
-                'If Ttemp.Rows.Count > 0 Then
-                '    For i As Integer = 1 To Ttemp.Rows.Count
-                '        Dim Trow As DataRow = Ttemp.Rows(i - 1)
-                '        Dim Tket As String = "bayar" & i
-                '        Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
-                '        If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        Else
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        End If
-                '    Next
-                'Else
-                '    Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
-                'End If
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.PageHeight = txtotalrow
-                'End If
-
-                'Send Validator
-                SendInvoiceValidator("TINDAKAN", "POLI")
-
-                ' Pesan Success
-                MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
-
-                ' Cetak Barcode
-                If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & _namaPasien & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    CetakBarcodeKlinik(_idTransaksi)
-                End If
-
-                FormTransaksiPoli.NewToolStripMenuItem.PerformClick()
-
-                'Report.RunDesigner()
-                'Report.ShowPreview()
-                'Report.PrintDialog()
-
-                ' Checklist Lunas
-                CheckBoxLunasBayar.Checked = True
-
-                '# Close Form
-                'Me.Close()
-            ElseIf _jenisTransaksi = "AWALGIGI" Then
-                ' Insert TransaksiGigi
-                WriteSQL("INSERT INTO TransaksiGigi (IDInternet, DokterGigi, PerawatGigi, TglGigi, CreateDate, CreateBy, KodeDokter, NoUrut, StatusKeterangan, StatusTransaksi, ArrivedDate) " & _
-                         "VALUES('" & _noRekamMedis & "','" & _namaDokter & "','" & _namaPerawat & "', GETDATE(), GETDATE(),'" & userInput & "', '" & kodeDokter & "', '" & _nomorUrutTransaksi & "', 'Belum Diperiksa', 'arrived', GETDATE())", 4)
-
-                ' Set ID Poli
-                _idTransaksi = ReadSQLNIK("SELECT TransGigiID FROM TransaksiGigi WHERE NoUrut = '" & _nomorUrutTransaksi & "'")
-
-                Dim Tuang As DataTable = GridControlPembayaran.DataSource
-                Tuang.AcceptChanges()
-
-                ' Insert ke tabel TransaksiGigiBayarAwal
-                For Each Trow As DataRow In Tuang.Rows
-                    WriteSQL("INSERT INTO TransaksiGigiBayarAwal (TransJenis, TransGigiID, JenisBayar, NoJenisBayar, JumlahBayar, admin, transaksitime, mesin, kartu) " & _
-                             "VALUES('GIGI','" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "')", 4)
-                Next
-
-                ' Insert ke tabel TransaksiGigiDetail
-                For Each Trow As DataRow In tblTindakan.Rows
-                    WriteSQL("INSERT INTO TransaksiGigiDetail(Awal, TransGigiID, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran) " & _
-                             "VALUES('1', '" & _idTransaksi & "', '" & Trow("TindakanID") & "', '" & Trow("Tindakan") & "', '" & Trow("Jenis") & "', " & CDbl(Trow("Biaya Tindakan")) & ", " & CDbl(Trow("DiscNilai")) & ", " & CDbl(Trow("NettBayar")) & ", '" & userInput & "', GETDATE(), 0, 'PAID')", 4)
-                Next
-
-                ' Set Jenis Bayar
-                Dim jenisBayar As String = GetJenisPembayaran("GIGI", _nomorUrutTransaksi)
-
-                ' Insert TransaksiDetail
-                WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
-                         "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'GIGI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(), '" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
-                         "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE())", 4)
-
-                'NewHeader.Rows.Clear()
-
-                'For Each TrowNewHeader As DataRow In tblTindakan.Rows
-                '    Dim Tnew As DataRow = NewHeader.NewRow
-                '    Tnew("TindakanID") = TrowNewHeader("TindakanID")
-                '    Tnew("Tindakan") = TrowNewHeader("Tindakan")
-                '    Tnew("Jenis") = TrowNewHeader("Jenis")
-                '    Tnew("Biaya Tindakan") = TrowNewHeader("Biaya Tindakan")
-                '    Tnew("DiscTindakan") = TrowNewHeader("DiscTindakan")
-                '    Tnew("DiscNilai") = TrowNewHeader("DiscNilai")
-                '    Tnew("NettBayar") = TrowNewHeader("NettBayar")
-                '    Tnew("Registrasi") = _noRekamMedis
-
-                '    Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
-                '                                          "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
-                '                                          "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
-                '    Dim TrowPasien As DataRow = tblsPasien.Rows(0)
-
-                '    Tnew("Nama") = TrowPasien("Nama")
-                '    Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
-                '    Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                '    Tnew("Alamat") = TrowPasien("Alamat")
-                '    Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                '    Tnew("NoTransaksi") = _nomorUrutTransaksi + " (" + _idTransaksi + ")"
-                '    Tnew("DrPengirim") = _namaDokter
-                '    Tnew("StatusAmbil") = ""
-                '    Tnew("lblDokter") = "Dr. Pelaksana"
-                '    Tnew("lblStatusAmbil") = ""
-                '    Tnew("lbltitikDokter") = ":"
-                '    Tnew("lbltitikStatusAmbil") = ""
-                '    NewHeader.Rows.Add(Tnew)
-                'Next
-
-                ' DELETE
-                WriteSQL("UPDATE TransaksiGigi SET TotalTagihan = " & CDbl(txtotalbruto) & ", TotalDisc = " & CDbl(txtotaldisc) & ", Pembulatan = " & CDbl(txtotalpembulatan) & ", NettBayar = " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = " & CDbl(TextBoxTotalKembali.Value) & " WHERE TransGigiID='" & _idTransaksi & "'", 4)
-
-                If TextBoxTotalKembali.Value > 0 Then
-                    WriteSQL("UPDATE TransaksiGigiBayarAwal SET Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransGigiID='" & _idTransaksi & "' AND JenisBayar='TUNAI' AND TransJenis='GIGI'", 4)
-                End If
-
-                'Report = New XtraReport
-
-                'If Jeniscetak = "Struk" Then
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
-                'Else
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
-                'End If
-
-                'Report.DataSource = NewHeader
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
-                'End If
-
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
-
-                'Dim Ttemp As DataTable = ReadSQL("SELECT * FROM TransaksiGigiBayarAwal WHERE TransGigiID = '" & _idTransaksi & "' AND TransJenis='GIGI'")
-                'If Ttemp.Rows.Count > 1 Then
-                '    For i As Integer = 1 To Ttemp.Rows.Count
-                '        Dim Trow As DataRow = Ttemp.Rows(i - 1)
-                '        Dim Tket As String = "bayar" & i
-                '        Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
-                '        If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        Else
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        End If
-                '    Next
-                'Else
-                '    Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
-                'End If
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.PageHeight = txtotalrow
-                'End If
-
-                'Send Validator
-                SendInvoiceValidator("PEMERIKSAAN", "GIGI")
-
-                ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
-                SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
-
-                ' Pesan Success
-                If NoUrutBPJS = "" Then
-                    ' Non BPJS
-                    MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
-                    UpdateDilayaniERM()
-                Else
-                    ' BPJS
-                    MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
-                End If
-
-                FormPendaftaranAwal.ClearDataPendaftaranAwal()
-
-                ' Checklist Lunas
-                CheckBoxLunasBayar.Checked = True
-
-                'Report.RunDesigner()
-                'Report.ShowPreview()
-                'Report.Print()
-
-                '# Close Form
-                'Me.Close()
-            ElseIf _jenisTransaksi = "GIGI" Then
-                Dim Tuang As DataTable = GridControlPembayaran.DataSource
-                Tuang.AcceptChanges()
-
-                Dim Tno As Integer = 1
-                Dim Turut As Boolean = False
-                Dim NoPembayaran As String = ""
-
-                Do
-                    If CheckSQL("SELECT * FROM TransaksiGigiBayar WHERE TransGigiID = '" & _idTransaksi & "' AND GroupBayar='" & _nomorUrutTransaksi & "-" & Tno & "'") = True Then
-                        Tno = Tno + 1
-                    Else
-                        Turut = True
-                    End If
-                Loop While Turut = False
-
-                NoPembayaran = _nomorUrutTransaksi & "-" & Tno
-
-                ' Insert ke tabel TransaksiGigiBayar
-                For Each Trow As DataRow In Tuang.Rows
-                    WriteSQL("INSERT INTO TransaksiGigiBayar (TransGigiID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu,GroupBayar) " & _
-                             "VALUES('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "','" & NoPembayaran & "')", 4)
-                Next
-
-                For Each Trow As DataRow In tblTindakan.Rows
-                    If Trow("TransPoliIDDetail") = "0" Then
-                        WriteSQL("INSERT INTO TransaksiGigiDetail(TransGigiID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,GroupBayar,StatusPembayaran,CreatedBy, CreatedDate) " & _
-                                 "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & NoPembayaran & "', 'PAID', '" & userInput & "', GETDATE())", 4)
-                    Else
-                        WriteSQL("UPDATE TransaksiGigiDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", GroupBayar = '" & NoPembayaran & "', StatusPembayaran = 'PAID' " & _
-                                 "WHERE TransGigiIDDetail = '" & Trow("TransPoliIDDetail") & "' AND TransGigiID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
+                    If TextBoxTotalKembali.Value > 0 Then
+                        WriteSQL("UPDATE TransaksiPoliBayarAwal SET Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransPoliID='" & _idTransaksi & "' AND JenisBayar='TUNAI' AND TransJenis='POLI'", 4)
                     End If
 
-                    'NewHeader.Rows.Clear()
 
-                    'For Each TrowNewHeader As DataRow In tblTindakan.Rows
-                    '    Dim Tnew As DataRow = NewHeader.NewRow
-                    '    Tnew("TindakanID") = TrowNewHeader("TindakanID")
-                    '    Tnew("Tindakan") = TrowNewHeader("Nama")
-                    '    Tnew("Jenis") = TrowNewHeader("Jenis")
-                    '    Tnew("Biaya Tindakan") = TrowNewHeader("Biaya Tindakan")
-                    '    Tnew("DiscTindakan") = TrowNewHeader("DiscTindakan")
-                    '    Tnew("DiscNilai") = TrowNewHeader("DiscNilai")
-                    '    Tnew("NettBayar") = TrowNewHeader("NettBayar")
-                    '    Tnew("Registrasi") = _noRekamMedis
+                    ' Insert Transaksi Paket (Jika ada)
+                    For Each rowTindakan As DataRow In tblTindakan.Rows
+                        If rowTindakan("KodeVoucher").ToString() = "" And _jenisTindakan = "Paket" Then
+                            ' Insert Tabel TransaksiPaketTindakan
+                            WriteSQL("INSERT INTO TransaksiPaketTindakan(NoRekamMedis, NoTransaksi, PaketID, NamaPaket, KeteranganPaket, JenisPaket, TanggalMulaiPaket, TanggalAkhirPaket, HargaAwal, DiskonNominal, HargaNett, Kuota, DetailTindakan, StatusPembayaran, KodeVoucher, Penjamin, CreatedBy, CreatedDate) " & _
+                                     "VALUES('" & _noRekamMedis & "', '" & _nomorUrutTransaksi & "', '" & rowTindakan("PaketID") & "', '" & rowTindakan("Nama Paket") & "', '" & rowTindakan("Keterangan Paket") & "', '" & rowTindakan("Jenis Paket") & "', GETDATE(), DATEADD(DAY, " & rowTindakan("DurasiAktif") & ", GETDATE()), " & CDbl(rowTindakan("Harga Awal")) & ", " & _
+                                     "" & CDbl(rowTindakan("Diskon")) & ", " & CDbl(rowTindakan("Harga Nett")) & ", '" & rowTindakan("Kuota") & "', '" & rowTindakan("DetailTindakan") & "', 'PAID', '" & voucherID & "', '" & penjaminTindakan & "', '" & userInput & "', GETDATE())", 4)
 
-                    '    Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
-                    '                                      "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
-                    '                                      "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
-                    '    Dim TrowPasien As DataRow = tblsPasien.Rows(0)
+                            ' Insert Tabel TransaksiPaketTindakanDetail
+                            Dim tblPaketDetail As DataTable = ReadSQL("SELECT * FROM MasterPaketTindakanDetail WHERE PaketID = '" & rowTindakan("PaketID") & "'")
+                            For Each rowPaketDetail As DataRow In tblPaketDetail.Rows
+                                WriteSQL("INSERT INTO TransaksiPaketTindakanDetail(PaketID, KodeVoucher, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiskonTindakan, NettBayar, Jumlah, GrandTotal, KuotaTindakan, CreatedBy, CreatedDate) " & _
+                                         "VALUES('" & rowPaketDetail("PaketID").ToString() & "', '" & voucherID & "', '" & rowPaketDetail("TindakanID") & "', '" & rowPaketDetail("NamaTindakan") & "', '" & rowPaketDetail("JenisTindakan") & "', " & _
+                                         CDbl(rowPaketDetail("BiayaTindakan")) & ", " & CDbl(rowPaketDetail("DiskonTindakan")) & ", " & CDbl(rowPaketDetail("NettBayar")) & ", '" & rowPaketDetail("Jumlah") & "', " & _
+                                         CDbl(rowPaketDetail("GrandTotal")) & ", '" & rowPaketDetail("Jumlah") & "', '" & userInput & "', GETDATE())", 4)
+                            Next
 
-                    '    Tnew("Nama") = TrowPasien("Nama")
-                    '    Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
-                    '    Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                    '    Tnew("Alamat") = TrowPasien("Alamat")
-                    '    Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                    '    Tnew("NoTransaksi") = _nomorUrutTransaksi + " (" + _idTransaksi + ")"
-                    '    Tnew("DrPengirim") = _namaDokter
-                    '    Tnew("StatusAmbil") = ""
-                    '    Tnew("lblDokter") = "Dr. Pelaksana"
-                    '    Tnew("lblStatusAmbil") = ""
-                    '    Tnew("lbltitikDokter") = ":"
-                    '    Tnew("lbltitikStatusAmbil") = ""
-                    '    NewHeader.Rows.Add(Tnew)
-                    'Next
-                Next
+                            ' Set Status QR
+                            statusQR = True
+                            keteranganQR = voucherID
+                        ElseIf rowTindakan("KodeVoucher").ToString() <> "" And rowTindakan("Klasifikasi") = "Paket" Then
+                            ' Insert Tabel LogPenggunaanPaket
+                            WriteSQL("INSERT INTO LogPenggunaanPaket(NoRekamMedis, NoTransaksi, PaketID, TanggalTransaksi, KodeVoucher, CreatedBy, CreatedDate) " & _
+                                     "VALUES('" & _noRekamMedis & "', '" & _nomorUrutTransaksi & "', '" & rowTindakan("PaketID") & "', GETDATE(), '" & rowTindakan("KodeVoucher").ToString() & "', '" & userInput & "', GETDATE())", 4)
 
-                WriteSQL("UPDATE TransaksiGigi SET TotalTagihan = TotalTagihan + " & CDbl(txtotalbruto) & ", TotalDisc = TotalDisc + " & CDbl(txtotaldisc) & ", Pembulatan = Pembulatan + " & CDbl(txtotalpembulatan) & ", NettBayar = NettBayar + " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = TotalBayar + " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = Pengembalian + " & CDbl(TextBoxTotalKembali.Value) & ", ClosedBayar = '" & Format(DateAndTime.Now, "MM/dd/yyyy") & "', Status = 'CLOSED', ChangeDate = GETDATE(), ChangeBy = '" & userInput & "' WHERE TransGigiID = '" & _idTransaksi & "'", 4)
-
-                If TextBoxTotalKembali.Value > 0 Then
-                    WriteSQL("UPDATE TransaksiGigiBayar SET Kembali = '" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransGigiID = '" & _idTransaksi & "' AND JenisBayar = 'TUNAI' ", 4)
-                End If
-
-                'Report = New XtraReport
-
-                'If Jeniscetak = "Struk" Then
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
-                'Else
-                '    Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
-                'End If
-
-                'Report.DataSource = NewHeader
-                'If Jeniscetak = "Struk" Then
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
-                '    Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
-                'End If
-
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
-                'Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
-                'Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
-
-                'Dim Ttemp As DataTable = ReadSQL("SELECT * FROM TransaksiGigiBayar WHERE TransGigiID = '" & _idTransaksi & "'")
-                'If Ttemp.Rows.Count > 0 Then
-                '    For i As Integer = 1 To Ttemp.Rows.Count
-                '        Dim Trow As DataRow = Ttemp.Rows(i - 1)
-                '        Dim Tket As String = "bayar" & i
-                '        Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
-                '        If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        Else
-                '            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
-                '        End If
-                '    Next
-                'Else
-                '    Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
-                'End If
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.PageHeight = txtotalrow
-                'End If
-
-                'Send Validator
-                SendInvoiceValidator("TINDAKAN", "GIGI")
-
-                ' Pesan Success
-                MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
-
-                FormTransaksiPoli.NewToolStripMenuItem.PerformClick()
-
-                ' Checklist Lunas
-                CheckBoxLunasBayar.Checked = True
-
-                'Report.RunDesigner()
-                'Report.ShowPreview()
-                'Report.PrintDialog()
-
-                '# Close Form
-                'Me.Close()
-            ElseIf _jenisTransaksi = "LAB" Then
-                Dim KodeBarcode As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeBarcode'")
-
-                Dim DetailPemeriksaan As String = ""
-                Dim TtempDetailPemeriksaan As String = ""
-
-                For Each Trow As DataRow In tblTindakan.Rows
-                    TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & Trow("Tindakan").ToString.Trim & ", "
-
-                    If CheckSQL("SELECT * FROM TransaksiLabDetail WHERE TransLabID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "'") = False Then
-                        ' Insert TransaksiLabDetail
-                        WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,Mesin,Urutan,StatusPembayaran) " & _
-                                 "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & Trow("Mesin") & "','" & Trow("Urutan") & "','PAID')", 4)
-                    Else
-                        ' Update TransaksiLabDetail
-                        WriteSQL("UPDATE TransaksiLabDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", StatusPembayaran = 'PAID' " & _
-                                 "WHERE TransLabID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
-                    End If
-
-                    Dim TransLabIDDetail As String = ReadSQLNIK("SELECT TransLabIDDetail FROM TransaksiLabDetail WHERE TransLabID='" & _idTransaksi & "' AND TindakanID='" & Trow("TindakanID") & "' AND NamaTindakan='" & Trow("Tindakan") & "' AND JenisTindakan='" & Trow("Jenis") & "'")
-                    Dim Tbls2 As DataTable = ReadSQL("SELECT * FROM MasterLabDetail WHERE TindakanID = '" & Trow("TindakanID") & "' AND deleted = 0 ORDER BY groupid, nourut")
-                    For Each Trow2 As DataRow In Tbls2.Rows
-                        WriteSQL("INSERT INTO TransaksiLabResult(TransLabIDDetail,TindakanID,GroupID,NoUrut,DetailKet,Pria,Wanita,Result,Keterangan,Satuan) " & _
-                                 "VALUES('" & TransLabIDDetail & "','" & Trow("TindakanID") & "','" & Trow2("GroupID") & "','" & Trow2("NoUrut") & "','" & Trow2("DetailKet") & "','" & Trow2("Pria") & "','" & Trow2("Wanita") & "','','" & Trow2("KeteranganHasil") & "','" & Trow2("DisplayHasil") & "') ", 4)
-                    Next
-
-                    Dim TblsCopy As DataTable = tblTindakan
-                    NewHeader.Rows.Clear()
-
-                    For Each TrowNewHeader As DataRow In tblTindakan.Rows
-                        Dim Tnew As DataRow = NewHeader.NewRow
-                        Tnew("TindakanID") = TrowNewHeader("TindakanID")
-                        Tnew("Tindakan") = TrowNewHeader("Tindakan")
-                        Tnew("Jenis") = TrowNewHeader("Jenis")
-                        Tnew("Biaya Tindakan") = TrowNewHeader("Biaya Tindakan")
-                        Tnew("DiscTindakan") = TrowNewHeader("DiscTindakan")
-                        Tnew("DiscNilai") = TrowNewHeader("DiscNilai")
-                        Tnew("NettBayar") = TrowNewHeader("NettBayar")
-                        Tnew("Registrasi") = _noRekamMedis
-
-                        Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
-                                                          "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
-                                                          "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
-
-                        Dim TblsTrans As DataTable = ReadSQL("SELECT NoUrut, CaraAmbil FROM TransaksiLab WHERE TransLabID = '" & _idTransaksi & "'")
-                        If tblsPasien.Rows.Count > 0 And TblsTrans.Rows.Count > 0 Then
-                            Dim TrowPasien As DataRow = tblsPasien.Rows(0)
-                            Dim TTrans As DataRow = TblsTrans.Rows(0)
-                            Tnew("Nama") = TrowPasien("nama")
-                            Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
-                            Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
-                            Tnew("Alamat") = TrowPasien("Alamat")
-                            Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                            Tnew("NoTransaksi") = TTrans("NoUrut") + " (" + _idTransaksi + ")"
-                            Tnew("StatusAmbil") = TTrans("CaraAmbil")
+                            ' Update Sisa Kuota Paket
+                            WriteSQL("UPDATE TransaksiPaketTindakan SET Kuota = Kuota - 1 WHERE PaketID = '" & rowTindakan("PaketID") & "' AND KodeVoucher = '" & rowTindakan("KodeVoucher").ToString() & "' AND DeletedDate IS NULL", 4)
                         End If
-
-                        Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
-                        Tnew("DrPengirim") = ReadSQLNIK("select a.DrNama  from MasterDokterKirim a left join  MasterDokterTempatPraktek b on a.IdKirim=b.IdKirim WHERE b.IdPraktek in ( select DokterRequest from transaksilab WHERE TransLabID='" & _idTransaksi & "')")
-                        Tnew("lblDokter") = "Dr. Pengirim"
-                        Tnew("lblStatusAmbil") = "Status Ambil"
-                        Tnew("lbltitikDokter") = ":"
-                        Tnew("lbltitikStatusAmbil") = ":"
-                        NewHeader.Rows.Add(Tnew)
                     Next
-                Next
 
-                DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
-                Dim Tuang As DataTable = GridControlPembayaran.DataSource
-                Tuang.AcceptChanges()
-                WriteSQL("DELETE FROM TransaksiLabBayar WHERE TransLabID='" & _idTransaksi & "'", 4)
-                For Each Trow As DataRow In Tuang.Rows
-                    If CheckSQL("select * from TransaksiLabBayar WHERE TransLabID = '" & _idTransaksi & "' AND JenisBayar = '" & Trow("Jenis") & "'") = False Then
-                        WriteSQL("insert into TransaksiLabBayar (TransLabID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu) values('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "')", 4)
-                        JenisBayarSaved = Trow("Jenis").ToString.Trim
-                        JenisBayarSavedKet = Trow("KartuData").ToString.Trim
+                    ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
+                    SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
+
+                    'Send Validator
+                    SendInvoiceValidator("PEMERIKSAAN", "POLI")
+
+                    ' Pesan Success
+                    If NoUrutBPJS = "" Then
+                        ' Non BPJS
+                        MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+                        UpdateDilayaniERM()
+                    Else
+                        ' BPJS
+                        MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
                     End If
 
-                    'set pemakaian discount
-                    If Trow("Jenis").ToString = "DISC" Then
-                        WriteSQL("update DiscountNumber set Used=1, UsedDate=GETDATE(), TransJenis='" & _jenisTransaksi & "', TransID='" & _idTransaksi & "'  WHERE DiscNo='" & Trow("KartuData") & "'", 4)
+                    ' Cetak Barcode
+                    If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & _namaPasien & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        CetakBarcodeKlinik(_idTransaksi)
                     End If
-                Next
 
-                WriteSQL("update TransaksiLab set DetailPemeriksaan='" & DetailPemeriksaan & "', LabDaftar=GETDATE(), TotalTagihan=TotalTagihan+" & CDbl(txtotalbruto) & ",TotalDisc=TotalDisc+" & CDbl(txtotaldisc) & ",Pembulatan=Pembulatan+" & CDbl(txtotalpembulatan) & ",NettBayar=NettBayar+" & CDbl(TextBoxTotalTagihan.Value) & ",TotalBayar=TotalBayar+" & CDbl(TextBoxTotalBayar.Value) & ",Pengembalian=Pengembalian+" & CDbl(TextBoxTotalKembali.Value) & ",ClosedBayar='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',LabJenisPembayaran='" & ComboBoxJenisBayar.Text & "', Status='SAMPLE' ,ClosedTransaksi='1',ChangeDate=GETDATE(),ChangeBy='" & userInput & "'  WHERE TransLabID='" & _idTransaksi & "'", 4)
+                    'Report.RunDesigner()
+                    'Report.ShowPreview()
+                    'Report.Print()
 
-                If TextBoxTotalKembali.Value > 0 Then
-                    WriteSQL("update TransaksiLabBayar set Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransLabID='" & _idTransaksi & "' AND JenisBayar='TUNAI' ", 4)
-                End If
+                    '# Close Form
+                    'Me.Close()
 
-                Report = New XtraReport
-                If Jeniscetak = "Struk" Then
-                    Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
-                Else
-                    Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
-                End If
+                    '# Set Clear FormPendaftaranAwal
+                    FormPendaftaranAwal.ClearDataPendaftaranAwal()
 
-                Report.DataSource = NewHeader
-                If Jeniscetak = "Struk" Then
-                    Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
-                    Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
-                    Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
-                End If
+                    ' Checklist Lunas
+                    CheckBoxLunasBayar.Checked = True
+                ElseIf _jenisTransaksi = "UMUM" Then
+                    Dim Tuang As DataTable = GridControlPembayaran.DataSource
+                    Tuang.AcceptChanges()
 
-                Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
-                Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
-                Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
-                Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
+                    Dim Tno As Integer = 1
+                    Dim Turut As Boolean = False
+                    Dim NoPembayaran As String = ""
 
-                Dim Ttemp As DataTable = ReadSQL("select * from TransaksiLabBayar WHERE  TransLabID='" & _idTransaksi & "'")
-                If Ttemp.Rows.Count > 0 Then
-                    For i As Integer = 1 To Ttemp.Rows.Count
-                        Dim Trow As DataRow = Ttemp.Rows(i - 1)
-                        Dim Tket As String = "bayar" & i
-                        Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
-                        If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
-                            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
+                    Do
+                        If CheckSQL("SELECT * FROM TransaksiPoliBayar WHERE TransPoliID = '" & _idTransaksi & "' AND GroupBayar='" & _nomorUrutTransaksi & "-" & Tno & "'") = True Then
+                            Tno = Tno + 1
                         Else
-                            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
+                            Turut = True
+                        End If
+                    Loop While Turut = False
+
+                    NoPembayaran = _nomorUrutTransaksi & "-" & Tno
+
+                    ' Insert ke tabel TransaksiPoliBayar
+                    For Each Trow As DataRow In Tuang.Rows
+                        WriteSQL("INSERT INTO TransaksiPoliBayar (TransPoliID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu,GroupBayar) " & _
+                                 "VALUES('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "','" & NoPembayaran & "')", 4)
+                    Next
+
+                    For Each Trow As DataRow In tblTindakan.Rows
+                        If Trow("TransPoliIDDetail") = "0" Then
+                            WriteSQL("INSERT INTO TransaksiPoliDetail(TransPoliID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,GroupBayar,StatusPembayaran,CreatedBy, CreatedDate) " & _
+                                     "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & NoPembayaran & "', 'PAID', '" & userInput & "', GETDATE())", 4)
+                        Else
+                            WriteSQL("UPDATE TransaksiPoliDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", GroupBayar = '" & NoPembayaran & "', StatusPembayaran = 'PAID' " & _
+                                     "WHERE TransPoliIDDetail = '" & Trow("TransPoliIDDetail") & "' AND TransPoliID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
+                        End If
+
+                    Next
+
+                    WriteSQL("UPDATE TransaksiPoli SET TotalTagihan = TotalTagihan + " & CDbl(txtotalbruto) & ", TotalDisc = TotalDisc + " & CDbl(txtotaldisc) & ", Pembulatan = Pembulatan + " & CDbl(txtotalpembulatan) & ", NettBayar = NettBayar + " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = TotalBayar + " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = Pengembalian + " & CDbl(TextBoxTotalKembali.Value) & ", ClosedBayar = '" & Format(DateAndTime.Now, "MM/dd/yyyy") & "', Status = 'CLOSED' WHERE TransPoliID = '" & _idTransaksi & "'", 4)
+
+                    If TextBoxTotalKembali.Value > 0 Then
+                        WriteSQL("UPDATE TransaksiPoliBayar SET Kembali = '" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransPoliID = '" & _idTransaksi & "' AND JenisBayar = 'TUNAI' ", 4)
+                    End If
+
+                    'Send Validator
+                    SendInvoiceValidator("TINDAKAN", "POLI")
+
+                    ' Pesan Success
+                    MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+
+                    ' Cetak Barcode
+                    If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & _namaPasien & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        CetakBarcodeKlinik(_idTransaksi)
+                    End If
+
+                    FormTransaksiPoli.NewToolStripMenuItem.PerformClick()
+
+                    'Report.RunDesigner()
+                    'Report.ShowPreview()
+                    'Report.PrintDialog()
+
+                    ' Checklist Lunas
+                    CheckBoxLunasBayar.Checked = True
+
+                    '# Close Form
+                    'Me.Close()
+                ElseIf _jenisTransaksi = "AWALGIGI" Then
+                    ' Insert TransaksiGigi
+                    WriteSQL("INSERT INTO TransaksiGigi (IDInternet, DokterGigi, PerawatGigi, TglGigi, CreateDate, CreateBy, KodeDokter, NoUrut, StatusKeterangan, StatusTransaksi, ArrivedDate) " & _
+                             "VALUES('" & _noRekamMedis & "','" & _namaDokter & "','" & _namaPerawat & "', GETDATE(), GETDATE(),'" & userInput & "', '" & kodeDokter & "', '" & _nomorUrutTransaksi & "', 'Belum Diperiksa', 'arrived', GETDATE())", 4)
+
+                    ' Set ID Poli
+                    _idTransaksi = ReadSQLNIK("SELECT TransGigiID FROM TransaksiGigi WHERE NoUrut = '" & _nomorUrutTransaksi & "'")
+
+                    Dim Tuang As DataTable = GridControlPembayaran.DataSource
+                    Tuang.AcceptChanges()
+
+                    ' Insert ke tabel TransaksiGigiBayarAwal
+                    For Each Trow As DataRow In Tuang.Rows
+                        WriteSQL("INSERT INTO TransaksiGigiBayarAwal (TransJenis, TransGigiID, JenisBayar, NoJenisBayar, JumlahBayar, admin, transaksitime, mesin, kartu) " & _
+                                 "VALUES('GIGI','" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "')", 4)
+                    Next
+
+                    ' Insert ke tabel TransaksiGigiDetail
+                    For Each Trow As DataRow In tblTindakan.Rows
+                        WriteSQL("INSERT INTO TransaksiGigiDetail(Awal, TransGigiID, TindakanID, NamaTindakan, JenisTindakan, BiayaTindakan, DiscTindakan, NettBayar, admin, transaksitime, DiscPersenTindakan, StatusPembayaran) " & _
+                                 "VALUES('1', '" & _idTransaksi & "', '" & Trow("TindakanID") & "', '" & Trow("Tindakan") & "', '" & Trow("Jenis") & "', " & CDbl(Trow("Biaya Tindakan")) & ", " & CDbl(Trow("DiscNilai")) & ", " & CDbl(Trow("NettBayar")) & ", '" & userInput & "', GETDATE(), 0, 'PAID')", 4)
+                    Next
+
+                    ' Set Jenis Bayar
+                    Dim jenisBayar As String = GetJenisPembayaran("GIGI", _nomorUrutTransaksi)
+
+                    ' Insert TransaksiDetail
+                    WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, JenisPenagihan, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, NoAntreanHyu, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
+                             "VALUES('" & NoUrutBPJS & "', '" & _idTransaksi & "', '" & _jenisKunjungan & "', '" & _jenisRawat & "', 'GIGI', '" & _namaPoli & "', '" & jenisBayar & "', GETDATE(), '" & _keluhanUtama & "', '" & _keluhanTambahan & "', " & _
+                             "'" & _noRekamMedis & "'," & Convert.ToInt32(statusBPJS) & ", '" & _nomorUrutTransaksi & "', '" & _nomorAntrean & "', '" & _statusHandaya & "', '" & _statusLansia & "', '" & _statusDifabel & "', '" & _statusGawatDarurat & "', '" & userInput & "', GETDATE())", 4)
+
+                    ' DELETE
+                    WriteSQL("UPDATE TransaksiGigi SET TotalTagihan = " & CDbl(txtotalbruto) & ", TotalDisc = " & CDbl(txtotaldisc) & ", Pembulatan = " & CDbl(txtotalpembulatan) & ", NettBayar = " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = " & CDbl(TextBoxTotalKembali.Value) & " WHERE TransGigiID='" & _idTransaksi & "'", 4)
+
+                    If TextBoxTotalKembali.Value > 0 Then
+                        WriteSQL("UPDATE TransaksiGigiBayarAwal SET Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransGigiID='" & _idTransaksi & "' AND JenisBayar='TUNAI' AND TransJenis='GIGI'", 4)
+                    End If
+
+                    'Send Validator
+                    SendInvoiceValidator("PEMERIKSAAN", "GIGI")
+
+                    ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiPendaftaran)
+                    SetDetailWaktuTransaksi(_nomorUrutTransaksi, "WaktuSelesaiPendaftaran", userInput)
+
+                    ' Pesan Success
+                    If NoUrutBPJS = "" Then
+                        ' Non BPJS
+                        MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+                        UpdateDilayaniERM()
+                    Else
+                        ' BPJS
+                        MsgBox("Berhasil Menyimpan Data Pendaftaran Pasien." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi & vbCrLf & "No Urut BPJS : " & NoUrutBPJS, MsgBoxStyle.Information, "Success!")
+                    End If
+
+                    FormPendaftaranAwal.ClearDataPendaftaranAwal()
+
+                    ' Checklist Lunas
+                    CheckBoxLunasBayar.Checked = True
+
+                    'Report.RunDesigner()
+                    'Report.ShowPreview()
+                    'Report.Print()
+
+                    '# Close Form
+                    'Me.Close()
+                ElseIf _jenisTransaksi = "GIGI" Then
+                    Dim Tuang As DataTable = GridControlPembayaran.DataSource
+                    Tuang.AcceptChanges()
+
+                    Dim Tno As Integer = 1
+                    Dim Turut As Boolean = False
+                    Dim NoPembayaran As String = ""
+
+                    Do
+                        If CheckSQL("SELECT * FROM TransaksiGigiBayar WHERE TransGigiID = '" & _idTransaksi & "' AND GroupBayar='" & _nomorUrutTransaksi & "-" & Tno & "'") = True Then
+                            Tno = Tno + 1
+                        Else
+                            Turut = True
+                        End If
+                    Loop While Turut = False
+
+                    NoPembayaran = _nomorUrutTransaksi & "-" & Tno
+
+                    ' Insert ke tabel TransaksiGigiBayar
+                    For Each Trow As DataRow In Tuang.Rows
+                        WriteSQL("INSERT INTO TransaksiGigiBayar (TransGigiID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu,GroupBayar) " & _
+                                 "VALUES('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "','" & NoPembayaran & "')", 4)
+                    Next
+
+                    For Each Trow As DataRow In tblTindakan.Rows
+                        If Trow("TransPoliIDDetail") = "0" Then
+                            WriteSQL("INSERT INTO TransaksiGigiDetail(TransGigiID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,GroupBayar,StatusPembayaran,CreatedBy, CreatedDate) " & _
+                                     "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & NoPembayaran & "', 'PAID', '" & userInput & "', GETDATE())", 4)
+                        Else
+                            WriteSQL("UPDATE TransaksiGigiDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", GroupBayar = '" & NoPembayaran & "', StatusPembayaran = 'PAID' " & _
+                                     "WHERE TransGigiIDDetail = '" & Trow("TransPoliIDDetail") & "' AND TransGigiID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
+                        End If
+
+                    Next
+
+                    WriteSQL("UPDATE TransaksiGigi SET TotalTagihan = TotalTagihan + " & CDbl(txtotalbruto) & ", TotalDisc = TotalDisc + " & CDbl(txtotaldisc) & ", Pembulatan = Pembulatan + " & CDbl(txtotalpembulatan) & ", NettBayar = NettBayar + " & CDbl(TextBoxTotalTagihan.Value) & ", TotalBayar = TotalBayar + " & CDbl(TextBoxTotalBayar.Value) & ", Pengembalian = Pengembalian + " & CDbl(TextBoxTotalKembali.Value) & ", ClosedBayar = '" & Format(DateAndTime.Now, "MM/dd/yyyy") & "', Status = 'CLOSED', ChangeDate = GETDATE(), ChangeBy = '" & userInput & "' WHERE TransGigiID = '" & _idTransaksi & "'", 4)
+
+                    If TextBoxTotalKembali.Value > 0 Then
+                        WriteSQL("UPDATE TransaksiGigiBayar SET Kembali = '" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransGigiID = '" & _idTransaksi & "' AND JenisBayar = 'TUNAI' ", 4)
+                    End If
+
+                    'Send Validator
+                    SendInvoiceValidator("TINDAKAN", "GIGI")
+
+                    ' Pesan Success
+                    MsgBox("Berhasil Menyimpan Data Transaksi." & vbCrLf & "No Transaksi : " & _nomorUrutTransaksi, MsgBoxStyle.Information, "Success!")
+
+                    FormTransaksiPoli.NewToolStripMenuItem.PerformClick()
+
+                    ' Checklist Lunas
+                    CheckBoxLunasBayar.Checked = True
+
+                    'Report.RunDesigner()
+                    'Report.ShowPreview()
+                    'Report.PrintDialog()
+
+                    '# Close Form
+                    'Me.Close()
+                ElseIf _jenisTransaksi = "LAB" Then
+                    Dim KodeBarcode As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeBarcode'")
+
+                    Dim DetailPemeriksaan As String = ""
+                    Dim TtempDetailPemeriksaan As String = ""
+
+                    For Each Trow As DataRow In tblTindakan.Rows
+                        TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & Trow("Tindakan").ToString.Trim & ", "
+
+                        If CheckSQL("SELECT * FROM TransaksiLabDetail WHERE TransLabID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "'") = False Then
+                            ' Insert TransaksiLabDetail
+                            WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan,Mesin,Urutan,StatusPembayaran) " & _
+                                     "VALUES('" & _idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("Tindakan") & "','" & Trow("Jenis") & "'," & CDbl(Trow("Biaya Tindakan")) & "," & CDbl(Trow("DiscNilai")) & "," & CDbl(Trow("NettBayar")) & ",'" & userInput & "',GETDATE()," & CDbl(Trow("DiscTindakan")) & ",'" & Trow("Mesin") & "','" & Trow("Urutan") & "','PAID')", 4)
+                        Else
+                            ' Update TransaksiLabDetail
+                            WriteSQL("UPDATE TransaksiLabDetail SET  BiayaTindakan = " & CDbl(Trow("Biaya Tindakan")) & ", DiscTindakan = " & CDbl(Trow("DiscNilai")) & ", NettBayar = " & CDbl(Trow("NettBayar")) & ", admin = '" & userInput & "', transaksitime = GETDATE(), DiscPersenTindakan = " & CDbl(Trow("DiscTindakan")) & ", StatusPembayaran = 'PAID' " & _
+                                     "WHERE TransLabID = '" & _idTransaksi & "' AND TindakanID = '" & Trow("TindakanID") & "' AND NamaTindakan = '" & Trow("Tindakan") & "' AND JenisTindakan = '" & Trow("Jenis") & "'", 4)
+                        End If
+
+                        Dim TransLabIDDetail As String = ReadSQLNIK("SELECT TransLabIDDetail FROM TransaksiLabDetail WHERE TransLabID='" & _idTransaksi & "' AND TindakanID='" & Trow("TindakanID") & "' AND NamaTindakan='" & Trow("Tindakan") & "' AND JenisTindakan='" & Trow("Jenis") & "'")
+                        Dim Tbls2 As DataTable = ReadSQL("SELECT * FROM MasterLabDetail WHERE TindakanID = '" & Trow("TindakanID") & "' AND deleted = 0 ORDER BY groupid, nourut")
+                        For Each Trow2 As DataRow In Tbls2.Rows
+                            WriteSQL("INSERT INTO TransaksiLabResult(TransLabIDDetail,TindakanID,GroupID,NoUrut,DetailKet,Pria,Wanita,Result,Keterangan,Satuan) " & _
+                                     "VALUES('" & TransLabIDDetail & "','" & Trow("TindakanID") & "','" & Trow2("GroupID") & "','" & Trow2("NoUrut") & "','" & Trow2("DetailKet") & "','" & Trow2("Pria") & "','" & Trow2("Wanita") & "','','" & Trow2("KeteranganHasil") & "','" & Trow2("DisplayHasil") & "') ", 4)
+                        Next
+
+                        Dim TblsCopy As DataTable = tblTindakan
+                        NewHeader.Rows.Clear()
+
+                        For Each TrowNewHeader As DataRow In tblTindakan.Rows
+                            Dim Tnew As DataRow = NewHeader.NewRow
+                            Tnew("TindakanID") = TrowNewHeader("TindakanID")
+                            Tnew("Tindakan") = TrowNewHeader("Tindakan")
+                            Tnew("Jenis") = TrowNewHeader("Jenis")
+                            Tnew("Biaya Tindakan") = TrowNewHeader("Biaya Tindakan")
+                            Tnew("DiscTindakan") = TrowNewHeader("DiscTindakan")
+                            Tnew("DiscNilai") = TrowNewHeader("DiscNilai")
+                            Tnew("NettBayar") = TrowNewHeader("NettBayar")
+                            Tnew("Registrasi") = _noRekamMedis
+
+                            Dim tblsPasien As DataTable = ReadSQL("SELECT Nama + ' / (' + JenisKelamin + ')' AS 'Nama', YEAR(TglLahir) AS 'TahunLahir', MONTH(TglLahir) AS 'BulanLahir', DAY(TglLahir) AS 'TanggalLahir', " & _
+                                                              "CONVERT(VARCHAR(11),TglLahir,106) AS 'TanggalLengkap', DomisiliAlamat AS 'Alamat' " & _
+                                                              "FROM MasterPasien WHERE NoRekamMedis = '" & _noRekamMedis & "'")
+
+                            Dim TblsTrans As DataTable = ReadSQL("SELECT NoUrut, CaraAmbil FROM TransaksiLab WHERE TransLabID = '" & _idTransaksi & "'")
+                            If tblsPasien.Rows.Count > 0 And TblsTrans.Rows.Count > 0 Then
+                                Dim TrowPasien As DataRow = tblsPasien.Rows(0)
+                                Dim TTrans As DataRow = TblsTrans.Rows(0)
+                                Tnew("Nama") = TrowPasien("nama")
+                                Dim Tdate As Date = DateSerial(TrowPasien("TahunLahir"), TrowPasien("BulanLahir"), TrowPasien("TanggalLahir"))
+                                Tnew("Umur") = TrowPasien("TanggalLengkap") & " / " & Umur(Tdate.Date)
+                                Tnew("Alamat") = TrowPasien("Alamat")
+                                Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
+                                Tnew("NoTransaksi") = TTrans("NoUrut") + " (" + _idTransaksi + ")"
+                                Tnew("StatusAmbil") = TTrans("CaraAmbil")
+                            End If
+
+                            Tnew("Tanggal") = Format(DateAndTime.Now, "dd-MMM-yyyy")
+                            Tnew("DrPengirim") = ReadSQLNIK("select a.DrNama  from MasterDokterKirim a left join  MasterDokterTempatPraktek b on a.IdKirim=b.IdKirim WHERE b.IdPraktek in ( select DokterRequest from transaksilab WHERE TransLabID='" & _idTransaksi & "')")
+                            Tnew("lblDokter") = "Dr. Pengirim"
+                            Tnew("lblStatusAmbil") = "Status Ambil"
+                            Tnew("lbltitikDokter") = ":"
+                            Tnew("lbltitikStatusAmbil") = ":"
+                            NewHeader.Rows.Add(Tnew)
+                        Next
+                    Next
+
+                    DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
+                    Dim Tuang As DataTable = GridControlPembayaran.DataSource
+                    Tuang.AcceptChanges()
+                    WriteSQL("DELETE FROM TransaksiLabBayar WHERE TransLabID='" & _idTransaksi & "'", 4)
+                    For Each Trow As DataRow In Tuang.Rows
+                        If CheckSQL("select * from TransaksiLabBayar WHERE TransLabID = '" & _idTransaksi & "' AND JenisBayar = '" & Trow("Jenis") & "'") = False Then
+                            WriteSQL("insert into TransaksiLabBayar (TransLabID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu) values('" & _idTransaksi & "','" & Trow("Jenis") & "','" & Trow("KartuData") & "','" & CDbl(Trow("Jumlah")) & "','" & userInput & "',GETDATE(),'" & Trow("MesinData") & "','" & Trow("JenisKartu") & "')", 4)
+                            JenisBayarSaved = Trow("Jenis").ToString.Trim
+                            JenisBayarSavedKet = Trow("KartuData").ToString.Trim
+                        End If
+
+                        'set pemakaian discount
+                        If Trow("Jenis").ToString = "DISC" Then
+                            WriteSQL("update DiscountNumber set Used=1, UsedDate=GETDATE(), TransJenis='" & _jenisTransaksi & "', TransID='" & _idTransaksi & "'  WHERE DiscNo='" & Trow("KartuData") & "'", 4)
                         End If
                     Next
-                Else
-                    Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
+
+                    WriteSQL("update TransaksiLab set DetailPemeriksaan='" & DetailPemeriksaan & "', LabDaftar=GETDATE(), TotalTagihan=TotalTagihan+" & CDbl(txtotalbruto) & ",TotalDisc=TotalDisc+" & CDbl(txtotaldisc) & ",Pembulatan=Pembulatan+" & CDbl(txtotalpembulatan) & ",NettBayar=NettBayar+" & CDbl(TextBoxTotalTagihan.Value) & ",TotalBayar=TotalBayar+" & CDbl(TextBoxTotalBayar.Value) & ",Pengembalian=Pengembalian+" & CDbl(TextBoxTotalKembali.Value) & ",ClosedBayar='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',LabJenisPembayaran='" & ComboBoxJenisBayar.Text & "', Status='SAMPLE' ,ClosedTransaksi='1',ChangeDate=GETDATE(),ChangeBy='" & userInput & "'  WHERE TransLabID='" & _idTransaksi & "'", 4)
+
+                    If TextBoxTotalKembali.Value > 0 Then
+                        WriteSQL("update TransaksiLabBayar set Kembali='" & CDbl(TextBoxTotalKembali.Value) & "' WHERE TransLabID='" & _idTransaksi & "' AND JenisBayar='TUNAI' ", 4)
+                    End If
+
+                    Report = New XtraReport
+                    If Jeniscetak = "Struk" Then
+                        Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintTindakanStruk.repx", True)
+                    Else
+                        Report = XtraReport.FromFile(Application.StartupPath + "\reports\Resource\PrintInvoiceTransaksi.repx", True)
+                    End If
+
+                    Report.DataSource = NewHeader
+                    If Jeniscetak = "Struk" Then
+                        Report.Bands.Item(BandKind.TopMargin).Controls("txalamat").Text = Utility.GetConfig("CompanyAddr")
+                        Report.Bands.Item(BandKind.TopMargin).Controls("txtelfon").Text = Utility.GetConfig("CompanyContact")
+                        Report.Bands.Item(BandKind.TopMargin).Controls("txfaskes").Text = Utility.GetConfig("CompanyFaskes")
+                    End If
+
+                    Report.Bands.Item(BandKind.ReportFooter).Controls("lblBayar").Text = Splitmoney(TextBoxTotalBayar.Value)
+                    Report.Bands.Item(BandKind.ReportFooter).Controls("lblKembalian").Text = Splitmoney(TextBoxTotalKembali.Value)
+                    Report.Bands.Item(BandKind.BottomMargin).Controls("lbladmin").Text = userInput
+                    Report.Bands.Item(BandKind.BottomMargin).Controls("lbltanggalcetak").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mmm:ss")
+
+                    Dim Ttemp As DataTable = ReadSQL("select * from TransaksiLabBayar WHERE  TransLabID='" & _idTransaksi & "'")
+                    If Ttemp.Rows.Count > 0 Then
+                        For i As Integer = 1 To Ttemp.Rows.Count
+                            Dim Trow As DataRow = Ttemp.Rows(i - 1)
+                            Dim Tket As String = "bayar" & i
+                            Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Visible = True
+                            If Trow("JenisBayar") = "TAGIHAN" Or Trow("JenisBayar") = "TUNAI" Then
+                                Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
+                            Else
+                                Report.Bands.Item(BandKind.ReportFooter).Controls(Tket).Text = Trow("JenisBayar") & " - No Kartu : " & "*".PadRight(Len(Trow("NoJenisBayar")) - 3) & Strings.Right(Trow("NoJenisBayar"), 3) & Trow("kartu") & " - Jumlah : " & Splitmoney(Trow("JumlahBayar"))
+                            End If
+                        Next
+                    Else
+                        Report.Bands.Item(BandKind.ReportFooter).Controls("bayar1").Text = "-"
+                    End If
+
+                    'If Jeniscetak = "Struk" Then
+                    '    Report.PageHeight = txtotalrow
+                    'End If
+
+                    'Report.RunDesigner()
+                    'Report.ShowPreview()
+                    'Report.Print()
+
+                    ' Save Report
+                    Dim PathFolder As String = ReadSQLNIK("select StrValue from MsConfig WHERE ConfigName='PathAutoSaveInvoice'")
+                    PathFolder = PathFolder & _jenisTransaksi & "\" & Format(DateAndTime.Now, "yyyy") & "\" & Format(DateAndTime.Now, "MMMM") & "\" & Format(DateAndTime.Now, "dd") & ""
+                    If (Not System.IO.Directory.Exists(PathFolder)) Then
+                        System.IO.Directory.CreateDirectory(PathFolder)
+                    End If
+
+                    Dim NameFile As String = ""
+                    If JenisBayarSaved = "TAGIHAN" Then
+                        NameFile = TextBoxNama.Text.ToUpper() & "_" & _idTransaksi.Trim & "_" & JenisBayarSaved & "_" & JenisBayarSavedKet.Replace("/", "") & "_INVOICE"
+                    Else
+                        NameFile = TextBoxNama.Text.ToUpper() & "_" & _idTransaksi.Trim & "_" & JenisBayarSaved & "_INVOICE"
+                    End If
+
+                    Dim filepath As String = PathFolder & "\" & NameFile.Replace("/", "") & ".pdf"
+                    If File.Exists(filepath) Then
+                        My.Computer.FileSystem.DeleteFile(filepath)
+                    End If
+                    Report.CreatePdfDocument(filepath)
+                    'End Save Report
+
+                    'Send Validator
+                    SendInvoiceValidator("TINDAKAN", "LAB")
+
+                    TransaksiLab.NewToolStripMenuItem1.PerformClick()
+
+                    MsgBox("Data berhasil disimpan di " & PathFolder & ", jangan lupa untuk cetak barcode untuk melanjutkan proses.", MsgBoxStyle.Information, "Success!")
+
+                    If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & TextBoxNama.Text & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        CetakBarcode()
+                    End If
+
+                    ' Checklist Lunas
+                    CheckBoxLunasBayar.Checked = True
                 End If
-
-                'If Jeniscetak = "Struk" Then
-                '    Report.PageHeight = txtotalrow
-                'End If
-
-                'Report.RunDesigner()
-                'Report.ShowPreview()
-                'Report.Print()
-
-                ' Save Report
-                Dim PathFolder As String = ReadSQLNIK("select StrValue from MsConfig WHERE ConfigName='PathAutoSaveInvoice'")
-                PathFolder = PathFolder & _jenisTransaksi & "\" & Format(DateAndTime.Now, "yyyy") & "\" & Format(DateAndTime.Now, "MMMM") & "\" & Format(DateAndTime.Now, "dd") & ""
-                If (Not System.IO.Directory.Exists(PathFolder)) Then
-                    System.IO.Directory.CreateDirectory(PathFolder)
-                End If
-
-                Dim NameFile As String = ""
-                If JenisBayarSaved = "TAGIHAN" Then
-                    NameFile = TextBoxNama.Text.ToUpper() & "_" & _idTransaksi.Trim & "_" & JenisBayarSaved & "_" & JenisBayarSavedKet.Replace("/", "") & "_INVOICE"
-                Else
-                    NameFile = TextBoxNama.Text.ToUpper() & "_" & _idTransaksi.Trim & "_" & JenisBayarSaved & "_INVOICE"
-                End If
-
-                Dim filepath As String = PathFolder & "\" & NameFile.Replace("/", "") & ".pdf"
-                If File.Exists(filepath) Then
-                    My.Computer.FileSystem.DeleteFile(filepath)
-                End If
-                Report.CreatePdfDocument(filepath)
-                'End Save Report
-
-                'Send Validator
-                SendInvoiceValidator("TINDAKAN", "LAB")
-
-                TransaksiLab.NewToolStripMenuItem1.PerformClick()
-
-                MsgBox("Data berhasil disimpan di " & PathFolder & ", jangan lupa untuk cetak barcode untuk melanjutkan proses.", MsgBoxStyle.Information, "Success!")
-
-                If MsgBox("Apakah anda ingin mencetak barcode pasien atas nama " & TextBoxNama.Text & "?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    CetakBarcode()
-                End If
-
-                ' Checklist Lunas
-                CheckBoxLunasBayar.Checked = True
             End If
-        End If
     End Sub
 
     ' API PCare - Bridging Antrean (v2)
@@ -2203,85 +1961,440 @@ Public Class FormPembayaran
 
     'NEW HYU V3
     Public Function SendPCareDataV3( _
-            ByVal queueNumber As String, _
-            ByVal queueStatus As String, _
-            Optional ByVal queueStage As String = "", _
-            Optional ByVal patientNIK As String = "", _
-            Optional ByVal bpjsNumber As String = "" _
-        ) As Boolean
+        ByVal queueNumber As String, _
+        ByVal queueStatus As String, _
+        Optional ByVal queueStage As String = "", _
+        Optional ByVal patientNIK As String = "", _
+        Optional ByVal bpjsNumber As String = "" _
+    ) As Boolean
 
         Try
-            ' 🔒 Validasi wajib
+            ' ===============================
+            ' VALIDASI AWAL
+            ' ===============================
             If String.IsNullOrEmpty(queueNumber) Then
-                MessageBox.Show("Queue Number tidak boleh kosong", "Validasi")
+                MsgBox("Queue Number kosong")
                 Return False
             End If
 
             If String.IsNullOrEmpty(queueStatus) Then
-                MessageBox.Show("Queue Status tidak boleh kosong", "Validasi")
+                MsgBox("Queue Status kosong")
                 Return False
             End If
 
-            ' 🔗 Ambil config
-            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-
-            If String.IsNullOrEmpty(loc) Then
-                MessageBox.Show("Kode Klinik tidak ditemukan di config", "Error")
+            ' ===============================
+            ' 1. UPDATE ANTREAN HYU
+            ' ===============================
+            If UpdateAntreanHYU(queueNumber, queueStatus, queueStage, patientNIK, bpjsNumber) = False Then
+                MsgBox("Gagal update antrean")
                 Return False
             End If
 
-            Dim url As String = urlWebService & "api/antrian/update-status"
-
-            ' 🔥 Build form-urlencoded
-            Dim postData As String = ""
-
-            postData &= "clinic_code=" & Uri.EscapeDataString(loc.Trim())
-            postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
-            postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
-
-            If Not String.IsNullOrEmpty(queueStage) Then
-                postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage.Trim())
-            End If
-
-            If Not String.IsNullOrEmpty(patientNIK) Then
-                postData &= "&patient_nik=" & Uri.EscapeDataString(patientNIK.Trim())
-            End If
-
-            If Not String.IsNullOrEmpty(bpjsNumber) Then
-                postData &= "&bpjs_number=" & Uri.EscapeDataString(bpjsNumber.Trim())
-            End If
-
-            ' 🚀 Call API (error sudah ditangani di sini)
-            Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
-
-            If String.IsNullOrEmpty(responseString) Then
-                MessageBox.Show("Response kosong dari server", "Error")
+            ' ===============================
+            ' 2. VALIDASI PCARE
+            ' ===============================
+            If ValidateBridgingPcare() = False Then
+                MsgBox("Bridging PCare tidak aktif")
                 Return False
             End If
 
-            ' 📦 Parse JSON
-            Dim jsonObj As JObject = JObject.Parse(responseString)
-
-            If jsonObj("status") Is Nothing Then
-                MessageBox.Show("Format response tidak valid", "Error")
+            ' ===============================
+            ' 3. KIRIM KE PCARE
+            ' ===============================
+            If SendPCarePendaftaran(patientNIK, bpjsNumber) = False Then
+                MsgBox("Update antrean berhasil, tapi PCare gagal")
                 Return False
             End If
 
-            If jsonObj("status").ToString().ToLower() = "success" Then
-                Return True
-            Else
-                Dim msg As String = If(jsonObj("message") IsNot Nothing, jsonObj("message").ToString(), "Unknown error")
-                MessageBox.Show("Gagal update: " & msg, "Error")
-                Return False
-            End If
+            MsgBox("Semua proses berhasil")
+            Return True
 
         Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message, "Error")
+            MsgBox("ERROR: " & ex.Message)
             Return False
         End Try
 
     End Function
+
+    Private Function UpdateAntreanHYU( _
+        ByVal queueNumber As String, _
+        ByVal queueStatus As String, _
+        ByVal queueStage As String, _
+        ByVal patientNIK As String, _
+        ByVal bpjsNumber As String _
+    ) As Boolean
+
+        Try
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim url As String = urlWebService & "api/antrian/update-status"
+
+            Dim postData As String = ""
+            postData &= "clinic_code=" & Uri.EscapeDataString(loc)
+            postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber)
+            postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus)
+
+            If Not String.IsNullOrEmpty(queueStage) Then
+                postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage)
+            End If
+
+            If Not String.IsNullOrEmpty(patientNIK) Then
+                postData &= "&patient_nik=" & Uri.EscapeDataString(patientNIK)
+            End If
+
+            If Not String.IsNullOrEmpty(bpjsNumber) Then
+                postData &= "&bpjs_number=" & Uri.EscapeDataString(bpjsNumber)
+            End If
+
+            Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
+
+            If String.IsNullOrEmpty(responseString) Then
+                MsgBox("Response antrean kosong")
+                Return False
+            End If
+
+            Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            If jsonObj("status") Is Nothing OrElse jsonObj("status").ToString().ToLower() <> "success" Then
+                MsgBox("Update antrean gagal")
+                Return False
+            End If
+
+            Return True
+
+        Catch ex As Exception
+            MsgBox("Error UpdateAntrean: " & ex.Message)
+            Return False
+        End Try
+
+    End Function
+
+    Private Function SendPCarePendaftaran( _
+        ByVal patientNIK As String, _
+        ByVal bpjsNumber As String _
+    ) As Boolean
+
+        Try
+            ' ===============================
+            ' AMBIL DATA
+            ' ===============================
+            Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu='" & bpjsNumber & "'")
+
+            If String.IsNullOrEmpty(kdprovider) Then
+                MsgBox("KdProvider tidak ditemukan")
+                Return False
+            End If
+
+            Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli='" & _namaPoli & "'")
+
+            If tblPoli.Rows.Count = 0 Then
+                MsgBox("Poli tidak ditemukan")
+                Return False
+            End If
+
+            Dim rowPoli As DataRow = tblPoli.Rows(0)
+            Dim kdPoli As String = rowPoli("KodeBPJS").ToString()
+
+            ' ===============================
+            ' BUILD JSON
+            ' ===============================
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim keluhanFix As String = ""
+            If Not String.IsNullOrEmpty(_keluhanUtama) Then
+                keluhanFix = _keluhanUtama.Replace("""", "\""")
+            End If
+
+            Dim jsonBody As String = "{"
+            jsonBody &= """kode_klinik"":""" & loc & ""","
+            jsonBody &= """kdProviderPeserta"":""" & kdprovider & ""","
+            jsonBody &= """tglDaftar"":""" & Format(Now, "dd-MM-yyyy") & ""","
+            jsonBody &= """noKartu"":""" & bpjsNumber & ""","
+            jsonBody &= """nik"":""" & patientNIK & ""","
+            jsonBody &= """kdPoli"":""" & kdPoli & ""","
+            jsonBody &= """kdTkp"":""10"","
+            jsonBody &= """keluhan"":""" & keluhanFix & ""","
+            jsonBody &= """kunjSakit"":true,"
+            jsonBody &= """sistole"":0,"
+            jsonBody &= """diastole"":0,"
+            jsonBody &= """beratBadan"":0,"
+            jsonBody &= """tinggiBadan"":0,"
+            jsonBody &= """respRate"":0,"
+            jsonBody &= """lingkarPerut"":0,"
+            jsonBody &= """heartRate"":0"
+            jsonBody &= "}"
+
+            ' ===============================
+            ' KIRIM
+            ' ===============================
+            Dim urlBridge As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'") & "api/pcare/pendaftaran"
+
+            Dim result As String = InsertDataAPIRM(jsonBody, urlBridge)
+
+            If String.IsNullOrEmpty(result) Then
+                MsgBox("Response PCare kosong")
+                Return False
+            End If
+
+            ' ===============================
+            ' PARSE JSON
+            ' ===============================
+            Dim jo As JObject = JObject.Parse(result)
+
+            Dim code As String = jo("metaData")("code").ToString()
+
+            If code = "201" Then
+
+                Dim noUrut As String = "-"
+                If jo("data") IsNot Nothing AndAlso jo("data")("message") IsNot Nothing Then
+                    noUrut = jo("data")("message").ToString()
+                End If
+
+                'WriteSQL("UPDATE TTransaksiDetail SET NoUrutBPJS = '" & noUrut & "' WHERE NoTransaksi = '" & _idTransaksi & "'", 4)
+
+                MsgBox("SUKSES BPJS" & vbCrLf & _
+                       "No Urut: " & noUrut)
+
+                Return True
+
+            Else
+                Dim msg As String = jo("metaData")("message").ToString()
+                MsgBox("Gagal BPJS: " & msg)
+                Return False
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error PCare: " & ex.Message)
+            Return False
+        End Try
+
+    End Function
+
+    'Public Function SendPCareDataV3( _
+    '    ByVal queueNumber As String, _
+    '    ByVal queueStatus As String, _
+    '    Optional ByVal queueStage As String = "", _
+    '    Optional ByVal patientNIK As String = "", _
+    '    Optional ByVal bpjsNumber As String = "" _
+    ') As Boolean
+
+    '    Try
+    '        ' ===============================
+    '        ' 🔒 VALIDASI AWAL
+    '        ' ===============================
+    '        If String.IsNullOrEmpty(queueNumber) Then
+    '            MsgBox("Queue Number tidak boleh kosong")
+    '            Return False
+    '        End If
+
+    '        If String.IsNullOrEmpty(queueStatus) Then
+    '            MsgBox("Queue Status tidak boleh kosong")
+    '            Return False
+    '        End If
+
+    '        ' ===============================
+    '        ' 🔥 1. UPDATE ANTREAN
+    '        ' ===============================
+    '        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+    '        Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+    '        Dim url As String = urlWebService & "api/antrian/update-status"
+
+    '        Dim postData As String = ""
+    '        postData &= "clinic_code=" & Uri.EscapeDataString(loc.Trim())
+    '        postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
+    '        postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
+
+    '        If queueStage <> "" Then postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage)
+    '        If patientNIK <> "" Then postData &= "&patient_nik=" & Uri.EscapeDataString(patientNIK)
+    '        If bpjsNumber <> "" Then postData &= "&bpjs_number=" & Uri.EscapeDataString(bpjsNumber)
+
+    '        Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
+
+    '        If String.IsNullOrEmpty(responseString) Then
+    '            MsgBox("Update antrean gagal (response kosong)")
+    '            Return False
+    '        End If
+
+    '        Dim jsonObj As JObject = JObject.Parse(responseString)
+
+    '        If jsonObj("status").ToString().ToLower() <> "success" Then
+    '            MsgBox("Update antrean gagal")
+    '            Return False
+    '        End If
+
+    '        ' ===============================
+    '        ' 🔥 2. VALIDASI PCare
+    '        ' ===============================
+    '        If ValidateBridgingPcare() = False Then
+    '            MsgBox("Konfigurasi Bridging PCare belum lengkap")
+    '            Return False
+    '        End If
+
+    '        ' ===============================
+    '        ' 🔥 3. SIAPKAN DATA PCare
+    '        ' ===============================
+    '        Dim tglDaftarBPJS As String = Format(Now, "yyyy-MM-dd")
+
+    '        Dim kdprovider As String = ReadSQLNIK("SELECT KdProviderPst FROM MasterPasienBPJS WHERE NoKartu='" & bpjsNumber & "'")
+
+    '        Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli='" & _namaPoli & "'")
+    '        Dim rowPoli As DataRow = tblPoli.Rows(0)
+
+    '        Dim kdPoli As String = rowPoli("KodeBPJS")
+    '        Dim kunjSakit As String = If(rowPoli("PoliSakit") = True, "true", "false")
+
+    '        Dim kdTkp As String = ""
+    '        If FormPendaftaranAwal.RadioButtonStatusRawatJalan.Checked Then
+    '            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatJalan.Tag
+    '        ElseIf FormPendaftaranAwal.RadioButtonStatusRawatInap.Checked Then
+    '            kdTkp = FormPendaftaranAwal.RadioButtonStatusRawatInap.Tag
+    '        End If
+
+    '        ' ===============================
+    '        ' 🔥 4. BUILD JSON
+    '        ' ===============================
+    '        Dim parameterPendaftaran As String = "{"
+    '        parameterPendaftaran &= """kdProviderPeserta"":""" & kdprovider & ""","
+    '        parameterPendaftaran &= """tglDaftar"":""" & tglDaftarBPJS & ""","
+    '        parameterPendaftaran &= """noKartu"":""" & bpjsNumber & ""","
+    '        parameterPendaftaran &= """nik"":""" & patientNIK & ""","
+    '        parameterPendaftaran &= """kdPoli"":""" & kdPoli & ""","
+    '        parameterPendaftaran &= """keluhan"":""" & _keluhanUtama.Replace("""", "\""") & ""","
+    '        parameterPendaftaran &= """kunjSakit"":" & kunjSakit & ","
+    '        parameterPendaftaran &= """sistole"":0,"
+    '        parameterPendaftaran &= """diastole"":0,"
+    '        parameterPendaftaran &= """beratBadan"":0,"
+    '        parameterPendaftaran &= """tinggiBadan"":0,"
+    '        parameterPendaftaran &= """respRate"":0,"
+    '        parameterPendaftaran &= """lingkarPerut"":0,"
+    '        parameterPendaftaran &= """heartRate"":0,"
+    '        parameterPendaftaran &= """kdTkp"":""" & kdTkp & ""","
+    '        parameterPendaftaran &= """loc"":""" & loc & ""","
+    '        parameterPendaftaran &= """bridgingPcare"":true"
+    '        parameterPendaftaran &= "}"
+
+    '        MsgBox("DEBUG JSON PCare:" & vbCrLf & parameterPendaftaran)
+
+    '        ' ===============================
+    '        ' 🔥 5. KIRIM KE API
+    '        ' ===============================
+    '        Dim urlBridge As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='web_service_klinik'") & "api/bridge/add-registrations"
+
+    '        Dim jsonString As String = InsertDataAPI(parameterPendaftaran, urlBridge)
+
+    '        If String.IsNullOrEmpty(jsonString) Then
+    '            MsgBox("Tidak ada respon dari PCare")
+    '            Return False
+    '        End If
+
+    '        MsgBox("DEBUG RESPONSE:" & vbCrLf & jsonString)
+
+    '        ' ===============================
+    '        ' 🔥 6. PARSE RESPONSE
+    '        ' ===============================
+    '        Dim jsonArray() As varJson = Newtonsoft.Json.JsonConvert.DeserializeObject(Of varJson())("[" & jsonString & "]")
+
+    '        For Each rowData In jsonArray
+    '            If rowData.metaData.code = 201 Then
+    '                MsgBox("Sukses BPJS - No Urut: " & rowData.response.message)
+    '                Return True
+    '            Else
+    '                MsgBox("Gagal BPJS: " & rowData.metaData.message)
+    '                Return False
+    '            End If
+    '        Next
+
+    '        Return True
+
+    '    Catch ex As Exception
+    '        MsgBox("Error: " & ex.Message)
+    '        Return False
+    '    End Try
+
+    'End Function
+
+    'Public Function SendPCareDataV3( _
+    '        ByVal queueNumber As String, _
+    '        ByVal queueStatus As String, _
+    '        Optional ByVal queueStage As String = "", _
+    '        Optional ByVal patientNIK As String = "", _
+    '        Optional ByVal bpjsNumber As String = "" _
+    '    ) As Boolean
+
+    '    Try
+    '        ' 🔒 Validasi wajib
+    '        If String.IsNullOrEmpty(queueNumber) Then
+    '            MessageBox.Show("Queue Number tidak boleh kosong", "Validasi")
+    '            Return False
+    '        End If
+
+    '        If String.IsNullOrEmpty(queueStatus) Then
+    '            MessageBox.Show("Queue Status tidak boleh kosong", "Validasi")
+    '            Return False
+    '        End If
+
+    '        ' 🔗 Ambil config
+    '        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+    '        Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+    '        If String.IsNullOrEmpty(loc) Then
+    '            MessageBox.Show("Kode Klinik tidak ditemukan di config", "Error")
+    '            Return False
+    '        End If
+
+    '        Dim url As String = urlWebService & "api/antrian/update-status"
+
+    '        ' 🔥 Build form-urlencoded
+    '        Dim postData As String = ""
+
+    '        postData &= "clinic_code=" & Uri.EscapeDataString(loc.Trim())
+    '        postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
+    '        postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
+
+    '        If Not String.IsNullOrEmpty(queueStage) Then
+    '            postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage.Trim())
+    '        End If
+
+    '        If Not String.IsNullOrEmpty(patientNIK) Then
+    '            postData &= "&patient_nik=" & Uri.EscapeDataString(patientNIK.Trim())
+    '        End If
+
+    '        If Not String.IsNullOrEmpty(bpjsNumber) Then
+    '            postData &= "&bpjs_number=" & Uri.EscapeDataString(bpjsNumber.Trim())
+    '        End If
+
+    '        ' 🚀 Call API (error sudah ditangani di sini)
+    '        Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
+
+    '        If String.IsNullOrEmpty(responseString) Then
+    '            MessageBox.Show("Response kosong dari server", "Error")
+    '            Return False
+    '        End If
+
+    '        ' 📦 Parse JSON
+    '        Dim jsonObj As JObject = JObject.Parse(responseString)
+
+    '        If jsonObj("status") Is Nothing Then
+    '            MessageBox.Show("Format response tidak valid", "Error")
+    '            Return False
+    '        End If
+
+    '        If jsonObj("status").ToString().ToLower() = "success" Then
+    '            Return True
+    '        Else
+    '            Dim msg As String = If(jsonObj("message") IsNot Nothing, jsonObj("message").ToString(), "Unknown error")
+    '            MessageBox.Show("Gagal update: " & msg, "Error")
+    '            Return False
+    '        End If
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error: " & ex.Message, "Error")
+    '        Return False
+    '    End Try
+
+    'End Function
 
     Function SetStatusHadir() As Boolean
         '# Variabel BPJS

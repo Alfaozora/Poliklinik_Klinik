@@ -2917,9 +2917,9 @@ Public Class FormRekamMedisDokter
 
                 End If
 
-                'If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SaveKunjunganBPJS() ' Save PCare BPJS
+                If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SaveKunjunganBPJS() ' Save PCare BPJS
 
-                If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SavePendaftaranBPJS()
+                'If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SavePendaftaranBPJS()
 
                 Dim sql As String = "SELECT TD.NoAntreanHyu, MP.NoNIK " & _
                    "FROM TransaksiDetail TD " & _
@@ -3748,6 +3748,7 @@ Public Class FormRekamMedisDokter
                     ElseIf statusTransaksi = "UPDATE" Then
                         jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "PUT")
                     End If
+
                 Catch ex As Exception
                     ' ====== PENANGANAN INTERNET PUTUS / TIMEOUT / HOST NOT RESPONDING ======
                     MsgBox("Gagal menghubungi server BPJS PCare." & vbCrLf & _
@@ -7121,10 +7122,16 @@ Public Class FormRekamMedisDokter
             Dim nomorNIK As String = If(IsDBNull(tbl.Rows(0)("NoNIK")), "", tbl.Rows(0)("NoNIK").ToString())
             Dim isExist As Boolean = CheckSQL("SELECT 1 FROM TransaksiObat WHERE NoTransaksi = '" & idTransaksi & "'")
 
-            If isExist Then
-                If SendPCareDataV3(nomorNIK, nomorAntrean, "menunggu_obat", "farmasi") = False Then Exit Sub
+            If Not nomorAntrean.ToUpper().Contains("OFF") Then
+
+                If isExist Then
+                    If SendPCareDataV3(nomorNIK, nomorAntrean, "menunggu_obat", "farmasi") = False Then Exit Sub
+                Else
+                    If SendPCareDataV3(nomorNIK, nomorAntrean, "selesai", "selesai") = False Then Exit Sub
+                End If
+
             Else
-                If SendPCareDataV3(nomorNIK, nomorAntrean, "selesai", "selesai") = False Then Exit Sub
+                'MsgBox("Antrean OFFLINE, skip update status Hyu", MsgBoxStyle.Exclamation)
             End If
 
             ' ===================== Kirim ke PCare Jika BPJS =====================

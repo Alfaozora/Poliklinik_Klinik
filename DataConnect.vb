@@ -2241,6 +2241,48 @@ Module Test
         End Try
     End Function
 
+    Private Function GenerateSignature(ByVal data As String, ByVal apiKey As String) As String
+        Dim raw As String = data & apiKey
+        Dim bytes As Byte() = Encoding.UTF8.GetBytes(raw)
+
+        Using sha As SHA256 = SHA256.Create()
+            Dim hash As Byte() = sha.ComputeHash(bytes)
+            Return BitConverter.ToString(hash).Replace("-", "").ToLower()
+        End Using
+    End Function
+
+    Public Function InsertDataAPIRMEncrypt(ByVal json As String, ByVal url As String) As String
+        Try
+            Dim client As New Net.WebClient()
+            client.Encoding = Encoding.UTF8
+
+            Dim API_KEY As String = "M1tR4M3D1c@rECaH4Y42025"
+            Dim encrypted As String = Newtonsoft.Json.Linq.JObject.Parse(json)("payload").ToString()
+
+            Dim signature As String = GenerateSignature(encrypted, API_KEY)
+
+            client.Headers.Clear()
+            client.Headers.Add("Content-Type", "application/json")
+            client.Headers.Add("Accept", "application/json")
+            client.Headers.Add("X-API-KEY", API_KEY)
+            client.Headers.Add("X-SIGNATURE", signature)
+            client.Headers.Add("User-Agent", "PostmanRuntime/7.36.0")
+
+            Dim response As String = client.UploadString(url, "POST", json)
+
+            Return response
+
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using sr As New StreamReader(ex.Response.GetResponseStream())
+                    Return sr.ReadToEnd()
+                End Using
+            End If
+
+            Return "{""metaData"":{""code"":500},""message"":""" & ex.Message & """}"
+        End Try
+    End Function
+
     Public Function SendPOST(ByVal apiUrl As String, ByVal postData As String) As String
         Try
             Dim req As Net.HttpWebRequest = CType(Net.WebRequest.Create(apiUrl), Net.HttpWebRequest)
@@ -2960,9 +3002,6 @@ Module Test
 
     Public Function InsertDataAPIRMUrlEncode(ByVal json As String, ByVal url As String) As String
         Try
-            ServicePointManager.Expect100Continue = True
-            ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType)
-
             Dim client As New Net.WebClient()
             client.Encoding = Encoding.UTF8
 

@@ -2041,10 +2041,52 @@ Public Class FormPendaftaranAwal
 
             Dim nomorAntrean As String = SafeCellValue(row, "ColumnNomorAntrean")
             Dim nomorNIK As String = SafeCellValue(row, "ColumnNomorNIK")
+            Dim nomorBPJS As String = SafeCellValue(row, "ColumnNomorKartu")
             Dim kodePoli As String = SafeCellValue(row, "ColumnKodePoli")
             Dim kodeDokter As String = SafeCellValue(row, "ColumnKodeDokter")
             Dim jenisPeserta As String = SafeCellValue(row, "ColumnJenisPeserta")
             Dim stage As String = SafeCellValue(row, "ColumnStage")
+
+            Dim Uri As String = ""
+            Dim responsePcare As String = ""
+
+            If nomorNIK <> "" Then
+                Uri = urlPcare & "peserta/nik/" & nomorNIK
+            ElseIf nomorBPJS <> "" Then
+                Uri = urlPcare & "peserta/noka/" & nomorBPJS
+            Else
+                MsgBox("NIK dan No BPJS kosong", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            Dim namaPcare As String = ""
+
+            responsePcare = getDataFromPcare(Uri)
+
+            Try
+                ' bersihkan line break biar rapi
+                Dim cleanResponse As String = responsePcare.Replace(vbCrLf, "").Replace(vbLf, "").Replace(vbCr, "")
+
+                ' cari posisi "nama"
+                Dim startIndex As Integer = cleanResponse.IndexOf("""nama"":""")
+
+                If startIndex >= 0 Then
+                    startIndex += 8 ' panjang "nama":" 
+
+                    Dim endIndex As Integer = cleanResponse.IndexOf("""", startIndex)
+
+                    If endIndex > startIndex Then
+                        namaPcare = cleanResponse.Substring(startIndex, endIndex - startIndex)
+                    End If
+                End If
+
+                'MsgBox("DEBUG Nama PCare: " & namaPcare)
+
+            Catch ex As Exception
+                MsgBox("ERROR ambil nama: " & ex.Message)
+            End Try
+
+
 
             ' 🔒 Validasi stage
             If (If(stage, "")).ToLower() <> "pendaftaran" Then
@@ -2057,7 +2099,11 @@ Public Class FormPendaftaranAwal
             dataDictionary("Nomor Antrean") = nomorAntrean
             dataDictionary("Nomor NIK") = nomorNIK
             dataDictionary("Nomor Kartu BPJS") = SafeCellValue(row, "ColumnNomorKartu")
-            dataDictionary("Nama Pasien") = SafeCellValue(row, "ColumnNamaPasien")
+            If namaPcare <> "" Then
+                dataDictionary("Nama Pasien") = namaPcare
+            Else
+                dataDictionary("Nama Pasien") = SafeCellValue(row, "ColumnNamaPasien")
+            End If
             dataDictionary("Jenis Kelamin") = SafeCellValue(row, "ColumnJenisKelamin")
             dataDictionary("Tgl Lahir") = SafeCellValue(row, "ColumnTanggalLahir")
             dataDictionary("Alamat") = SafeCellValue(row, "ColumnAlamat")

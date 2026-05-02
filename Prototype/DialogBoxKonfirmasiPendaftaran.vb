@@ -195,16 +195,36 @@ Public Class DialogBoxKonfirmasiPendaftaran
         ComboBoxPilihanPerawat.SelectedIndex = -1
     End Sub
 
+    'NEW HYU
     Private Sub SetData()
         ' Cek No Rekam Medis
         Dim tblPasien As DataTable = ReadSQL("SELECT * FROM MasterPasien WHERE NoNIK = '" & _nomorNIK & "'")
+        Dim tblFaskes As DataTable = ReadSQL("SELECT " & _
+                                                "MPB.NmProviderPst " & _
+                                            "FROM MasterPasien MP " & _
+                                            "INNER JOIN MasterPasienBPJS MPB ON MP.NoKartuBPJS = MPB.NoKartu " & _
+                                            "WHERE MP.NoNIK = '" & _nomorNIK & "'")
 
         ' Set Data Pasien
         If tblPasien.Rows.Count > 0 Then
             Dim rowPasien As DataRow = tblPasien.Rows(0)
-            TextBoxNoRekamMedis.Text = rowPasien("NoRekamMedis")
-            TextBoxAlamatDomisili.Text = rowPasien("DomisiliAlamat")
-            TextBoxNoHPIdentitas.Text = rowPasien("NoHandphone")
+            TextBoxNoRekamMedis.Text = If(IsDBNull(rowPasien("NoRekamMedis")), "", rowPasien("NoRekamMedis").ToString())
+            TextBoxAlamatDomisili.Text = If(IsDBNull(rowPasien("DomisiliAlamat")), "", rowPasien("DomisiliAlamat").ToString())
+            TextBoxNoHPIdentitas.Text = If(IsDBNull(rowPasien("NoHandphone")), "", rowPasien("NoHandphone").ToString())
+            Dim jenisKelamin As String = If(IsDBNull(rowPasien("JenisKelamin")), "", rowPasien("JenisKelamin").ToString())
+            If Not IsDBNull(rowPasien("TglLahir")) Then
+                Dim tgl As Date
+                If Date.TryParse(rowPasien("TglLahir").ToString(), tgl) Then
+                    If tgl >= DateTimePickerTglLahir.MinDate Then
+                        DateTimePickerTglLahir.Value = tgl
+                    End If
+                End If
+            End If
+            If jenisKelamin = "L" Then
+                TextBoxJenisKelamin.Text = "Laki-laki"
+            ElseIf jenisKelamin = "P" Then
+                TextBoxJenisKelamin.Text = "Perempuan"
+            End If
         Else
             TextBoxAlamatDomisili.Text = _alamat
             TextBoxNoHPIdentitas.Text = _noHP
@@ -213,18 +233,49 @@ Public Class DialogBoxKonfirmasiPendaftaran
         TextBoxNomorNIK.Text = _nomorNIK
         TextBoxNomorKIS.Text = _nomorKartuBPJS
         TextBoxNamaPasien.Text = _namaPasien
-        If _jenisKelamin = "L" Then
-            TextBoxJenisKelamin.Text = "Laki-laki"
-        ElseIf _jenisKelamin = "P" Then
-            TextBoxJenisKelamin.Text = "Perempuan"
+
+        If tblFaskes IsNot Nothing AndAlso tblFaskes.Rows.Count > 0 Then
+            Dim rowFaskes As DataRow = tblFaskes.Rows(0)
+            TextBoxNamaFaskes.Text = If(IsDBNull(rowFaskes("NmProviderPst")), "", rowFaskes("NmProviderPst").ToString())
         End If
-        DateTimePickerTglLahir.Value = _tglLahir
-        TextBoxNamaFaskes.Text = _namaFaskes
 
         ' Set Data Transaksi
         TextBoxPoliTujuan.Text = _namaPoli
         TextBoxPoliKeluhanUtama.Text = _keluhan
     End Sub
+
+    'OLD
+    'Private Sub SetData()
+    '    ' Cek No Rekam Medis
+    '    Dim tblPasien As DataTable = ReadSQL("SELECT * FROM MasterPasien WHERE NoNIK = '" & _nomorNIK & "'")
+
+    '    ' Set Data Pasien
+    '    If tblPasien.Rows.Count > 0 Then
+    '        Dim rowPasien As DataRow = tblPasien.Rows(0)
+    '        TextBoxNoRekamMedis.Text = rowPasien("NoRekamMedis")
+    '        TextBoxAlamatDomisili.Text = rowPasien("DomisiliAlamat")
+    '        TextBoxNoHPIdentitas.Text = rowPasien("NoHandphone")
+    '    Else
+    '        TextBoxAlamatDomisili.Text = _alamat
+    '        TextBoxNoHPIdentitas.Text = _noHP
+    '    End If
+
+    '    TextBoxNomorNIK.Text = _nomorNIK
+    '    TextBoxNomorKIS.Text = _nomorKartuBPJS
+    '    TextBoxNamaPasien.Text = _namaPasien
+    '    If _jenisKelamin = "L" Then
+    '        TextBoxJenisKelamin.Text = "Laki-laki"
+    '    ElseIf _jenisKelamin = "P" Then
+    '        TextBoxJenisKelamin.Text = "Perempuan"
+    '    End If
+    '    DateTimePickerTglLahir.Value = _tglLahir
+
+    '    TextBoxNamaFaskes.Text = _namaFaskes
+
+    '    ' Set Data Transaksi
+    '    TextBoxPoliTujuan.Text = _namaPoli
+    '    TextBoxPoliKeluhanUtama.Text = _keluhan
+    'End Sub
 
     'DEBUG
     'Private Sub SubmitDataPendaftaran()
@@ -558,11 +609,10 @@ Public Class DialogBoxKonfirmasiPendaftaran
 
     Private Sub SaveMasterPasien(ByRef jenisProses As String)
         Dim noRekamMedis As String = ""
-
         Dim noNIK As String = TextBoxNomorNIK.Text.Trim()
         Dim noKartuBPJS As String = TextBoxNomorKIS.Text.Trim()
         Dim namaPasien As String = TextBoxNamaPasien.Text.Trim()
-        Dim tglLahirPasien As String = Format(DateTimePickerTglLahir.Value, "MM/dd/yyyy")
+        Dim tglLahirPasien As String = Format(DateTimePickerTglLahir.Value, "dd/MM/yyyy")
         Dim jenisKelaminPasien As String = ""
 
         If TextBoxJenisKelamin.Text = "Laki-laki" Then
@@ -791,8 +841,117 @@ Public Class DialogBoxKonfirmasiPendaftaran
     '    End Select
     'End Function
 
+    Public Function SendPCarePendaftaranV3() As Boolean
+
+        Try
+            Dim kodeProvider As DataTable = ReadSQL("SELECT " & _
+                " MPB.KdProviderPst " & _
+                "FROM MasterPasien MP " & _
+                "INNER JOIN MasterPasienBPJS MPB ON MP.NoKartuBPJS = MPB.NoKartu " & _
+                "WHERE MP.NoNIK = '" & _nomorNIK & "' OR MPB.NoKartu = '" & TextBoxNomorKIS.Text & "'")
+
+            Dim kdProvider As String = ""
+
+            If kodeProvider.Rows.Count > 0 Then
+                kdProvider = If(IsDBNull(kodeProvider.Rows(0)("KdProviderPst")), "", kodeProvider.Rows(0)("KdProviderPst").ToString())
+            End If
+
+            Dim poli As DataTable = ReadSQL("SELECT KodeBPJS FROM MasterPoliTujuan WHERE NamaPoli = '" & TextBoxPoliTujuan.Text & "'")
+            Dim kodePoli As String = ""
+            If poli.Rows.Count > 0 Then
+                kodePoli = If(IsDBNull(poli.Rows(0)("KodeBPJS")), "", poli.Rows(0)("KodeBPJS").ToString())
+            End If
+
+            Dim patientKodeProvider As String = kdProvider
+            Dim bpjsNumber As String = TextBoxNomorKIS.Text.Trim()
+
+            ' 🔗 CONFIG
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim url As String = urlWebService & "api/pcare/pendaftaran"
+
+            ' 🔥 BUILD JSON BODY (vital = 0)
+            Dim jsonBody As String = "{"
+            jsonBody &= """kode_klinik"":""" & loc & ""","
+            jsonBody &= """kdProviderPeserta"":""" & kdProvider & ""","
+            jsonBody &= """noKartu"":""" & bpjsNumber & ""","
+            jsonBody &= """tglDaftar"":""" & Format(Now, "dd-MM-yyyy") & ""","
+            jsonBody &= """kdPoli"":""" & kodePoli & ""","
+            jsonBody &= """kdTkp"":""10"","
+
+            If String.IsNullOrEmpty(TextBoxPoliKeluhanUtama.Text) Then
+                jsonBody &= """keluhan"":null,"
+            Else
+                jsonBody &= """keluhan"":""" & TextBoxPoliKeluhanUtama.Text.Replace("""", "\""") & ""","
+            End If
+
+            jsonBody &= """kunjSakit"":true,"
+            jsonBody &= """sistole"":0,"
+            jsonBody &= """diastole"":0,"
+            jsonBody &= """beratBadan"":0,"
+            jsonBody &= """tinggiBadan"":0,"
+            jsonBody &= """respRate"":0,"
+            jsonBody &= """lingkarPerut"":0,"
+            jsonBody &= """heartRate"":0"
+            jsonBody &= "}"
+
+            ' 🚀 KIRIM
+            Dim responseString As String = InsertDataAPIRM(jsonBody, url)
+
+            If String.IsNullOrEmpty(responseString) Then
+                MsgBox("Response kosong dari server", MsgBoxStyle.Critical)
+                Return False
+            End If
+
+            ' 📦 PARSE
+            Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            If jsonObj("status") Is Nothing Then
+                MsgBox("Response tidak valid", MsgBoxStyle.Critical)
+                Return False
+            End If
+
+            If jsonObj("status").ToString().ToLower() = "success" Then
+                Dim meta = jsonObj("metaData")
+                If meta IsNot Nothing Then
+                    Dim code As String = meta("code").ToString()
+
+                    If code = "201" Then
+                        Dim noAntreanBPJS As String = ""
+
+                        If jsonObj("data") IsNot Nothing Then
+                            If jsonObj("data")("message") IsNot Nothing Then
+                                noAntreanBPJS = jsonObj("data")("message").ToString()
+                            End If
+                        End If
+
+                        MsgBox("Berhasil Update Antrean HYU & Daftar PCare" & vbCrLf & vbCrLf & _
+                               "No Antrean BPJS: " & noAntreanBPJS)
+
+                        Return True
+                    Else
+                        MsgBox("PCare gagal: " & meta("message").ToString(), MsgBoxStyle.Exclamation)
+                        Return False
+                    End If
+                End If
+
+                Return True
+            Else
+                MsgBox("Gagal: " & jsonObj("message").ToString(), MsgBoxStyle.Critical)
+                Return False
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error SendPCarePendaftaranV3: " & ex.Message, MsgBoxStyle.Critical)
+            Return False
+        End Try
+
+    End Function
+
     Private Sub ButtonSubmitPendaftaran_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSubmitPendaftaran.Click
         SubmitDataPendaftaran()
+        SendPCarePendaftaranV3()
     End Sub
 
     Private Sub DialogBoxKonfirmasiPendaftaran_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -1220,7 +1379,6 @@ Public Class DialogBoxKonfirmasiPendaftaran
     End Function
 
     ' API PCare - Bridging Antrean (v2)
-
     'NEW
     Function SendPCareDataV2() As Boolean
         Try
