@@ -53,6 +53,11 @@ Partial Class TransaksiLab
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Panel3 = New System.Windows.Forms.Panel
+        Me.rdhardcopy1 = New System.Windows.Forms.RadioButton
+        Me.rdhardcopy2 = New System.Windows.Forms.RadioButton
+        Me.txhardcopykirim = New System.Windows.Forms.TextBox
+        Me.rdhardcopy3 = New System.Windows.Forms.RadioButton
         Me.txwarningperusahaan = New System.Windows.Forms.Label
         Me.txidreferensiperusahaan = New System.Windows.Forms.TextBox
         Me.txnamareferensiperusahaan = New System.Windows.Forms.TextBox
@@ -61,15 +66,12 @@ Partial Class TransaksiLab
         Me.rdreferensiperusahaan2 = New System.Windows.Forms.RadioButton
         Me.Label9 = New System.Windows.Forms.Label
         Me.Panel1 = New System.Windows.Forms.Panel
+        Me.CheckBoxNomorWhatsapp = New System.Windows.Forms.CheckBox
         Me.rdsoftcopy1 = New System.Windows.Forms.RadioButton
-        Me.rdsoftcopy2 = New System.Windows.Forms.RadioButton
-        Me.txsoftcopywhatsapp = New System.Windows.Forms.TextBox
+        Me.RadioButtonSoftCopyWhatsapp = New System.Windows.Forms.RadioButton
+        Me.TextBoxSoftCopyWhatsapp = New System.Windows.Forms.TextBox
         Me.rdsoftcopy3 = New System.Windows.Forms.RadioButton
         Me.txsoftcopyemail = New System.Windows.Forms.TextBox
-        Me.txhardcopykirim = New System.Windows.Forms.TextBox
-        Me.rdhardcopy2 = New System.Windows.Forms.RadioButton
-        Me.rdhardcopy3 = New System.Windows.Forms.RadioButton
-        Me.rdhardcopy1 = New System.Windows.Forms.RadioButton
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
         Me.butsaved = New System.Windows.Forms.Button
@@ -79,7 +81,6 @@ Partial Class TransaksiLab
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label24 = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
-        Me.rdemail = New System.Windows.Forms.RadioButton
         Me.Label17 = New System.Windows.Forms.Label
         Me.TextBoxTotalBayar = New DevExpress.XtraEditors.TextEdit
         Me.TextBoxTotalPembulatan = New DevExpress.XtraEditors.TextEdit
@@ -101,6 +102,7 @@ Partial Class TransaksiLab
         Me.GroupBoxDetailPasien.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.TextBoxTotalBayar.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -425,16 +427,13 @@ Partial Class TransaksiLab
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Panel3)
         Me.GroupBox1.Controls.Add(Me.txwarningperusahaan)
         Me.GroupBox1.Controls.Add(Me.txidreferensiperusahaan)
         Me.GroupBox1.Controls.Add(Me.txnamareferensiperusahaan)
         Me.GroupBox1.Controls.Add(Me.Panel2)
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Panel1)
-        Me.GroupBox1.Controls.Add(Me.txhardcopykirim)
-        Me.GroupBox1.Controls.Add(Me.rdhardcopy2)
-        Me.GroupBox1.Controls.Add(Me.rdhardcopy3)
-        Me.GroupBox1.Controls.Add(Me.rdhardcopy1)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.butsaved)
@@ -444,7 +443,6 @@ Partial Class TransaksiLab
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label24)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Controls.Add(Me.rdemail)
         Me.GroupBox1.Controls.Add(Me.Label17)
         Me.GroupBox1.Controls.Add(Me.TextBoxTotalBayar)
         Me.GroupBox1.Controls.Add(Me.TextBoxTotalPembulatan)
@@ -452,12 +450,69 @@ Partial Class TransaksiLab
         Me.GroupBox1.Controls.Add(Me.TextBoxTotalDiskon)
         Me.GroupBox1.Controls.Add(Me.TextBoxTotalNett)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.GroupBox1.Location = New System.Drawing.Point(0, 406)
+        Me.GroupBox1.Location = New System.Drawing.Point(0, 366)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(957, 175)
+        Me.GroupBox1.Size = New System.Drawing.Size(957, 215)
         Me.GroupBox1.TabIndex = 6
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Summary Total"
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.rdhardcopy1)
+        Me.Panel3.Controls.Add(Me.rdhardcopy2)
+        Me.Panel3.Controls.Add(Me.txhardcopykirim)
+        Me.Panel3.Controls.Add(Me.rdhardcopy3)
+        Me.Panel3.Location = New System.Drawing.Point(580, 50)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(281, 88)
+        Me.Panel3.TabIndex = 258
+        '
+        'rdhardcopy1
+        '
+        Me.rdhardcopy1.AutoSize = True
+        Me.rdhardcopy1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdhardcopy1.Location = New System.Drawing.Point(8, 3)
+        Me.rdhardcopy1.Name = "rdhardcopy1"
+        Me.rdhardcopy1.Size = New System.Drawing.Size(90, 19)
+        Me.rdhardcopy1.TabIndex = 248
+        Me.rdhardcopy1.TabStop = True
+        Me.rdhardcopy1.Text = "Tidak Perlu."
+        Me.rdhardcopy1.UseVisualStyleBackColor = True
+        '
+        'rdhardcopy2
+        '
+        Me.rdhardcopy2.AutoSize = True
+        Me.rdhardcopy2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdhardcopy2.Location = New System.Drawing.Point(8, 28)
+        Me.rdhardcopy2.Name = "rdhardcopy2"
+        Me.rdhardcopy2.Size = New System.Drawing.Size(86, 19)
+        Me.rdhardcopy2.TabIndex = 250
+        Me.rdhardcopy2.TabStop = True
+        Me.rdhardcopy2.Text = "Dikirim ke :"
+        Me.rdhardcopy2.UseVisualStyleBackColor = True
+        '
+        'txhardcopykirim
+        '
+        Me.txhardcopykirim.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.txhardcopykirim.Enabled = False
+        Me.txhardcopykirim.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txhardcopykirim.Location = New System.Drawing.Point(116, 28)
+        Me.txhardcopykirim.Name = "txhardcopykirim"
+        Me.txhardcopykirim.Size = New System.Drawing.Size(150, 20)
+        Me.txhardcopykirim.TabIndex = 251
+        '
+        'rdhardcopy3
+        '
+        Me.rdhardcopy3.AutoSize = True
+        Me.rdhardcopy3.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdhardcopy3.Location = New System.Drawing.Point(8, 54)
+        Me.rdhardcopy3.Name = "rdhardcopy3"
+        Me.rdhardcopy3.Size = New System.Drawing.Size(100, 19)
+        Me.rdhardcopy3.TabIndex = 249
+        Me.rdhardcopy3.TabStop = True
+        Me.rdhardcopy3.Text = "Ambil sendiri."
+        Me.rdhardcopy3.UseVisualStyleBackColor = True
         '
         'txwarningperusahaan
         '
@@ -537,15 +592,27 @@ Partial Class TransaksiLab
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.CheckBoxNomorWhatsapp)
         Me.Panel1.Controls.Add(Me.rdsoftcopy1)
-        Me.Panel1.Controls.Add(Me.rdsoftcopy2)
-        Me.Panel1.Controls.Add(Me.txsoftcopywhatsapp)
+        Me.Panel1.Controls.Add(Me.RadioButtonSoftCopyWhatsapp)
+        Me.Panel1.Controls.Add(Me.TextBoxSoftCopyWhatsapp)
         Me.Panel1.Controls.Add(Me.rdsoftcopy3)
         Me.Panel1.Controls.Add(Me.txsoftcopyemail)
         Me.Panel1.Location = New System.Drawing.Point(222, 50)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(560, 25)
+        Me.Panel1.Size = New System.Drawing.Size(265, 103)
         Me.Panel1.TabIndex = 252
+        '
+        'CheckBoxNomorWhatsapp
+        '
+        Me.CheckBoxNomorWhatsapp.AutoSize = True
+        Me.CheckBoxNomorWhatsapp.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxNomorWhatsapp.Location = New System.Drawing.Point(108, 79)
+        Me.CheckBoxNomorWhatsapp.Name = "CheckBoxNomorWhatsapp"
+        Me.CheckBoxNomorWhatsapp.Size = New System.Drawing.Size(147, 19)
+        Me.CheckBoxNomorWhatsapp.TabIndex = 247
+        Me.CheckBoxNomorWhatsapp.Text = "Sesuai Master Pasien"
+        Me.CheckBoxNomorWhatsapp.UseVisualStyleBackColor = True
         '
         'rdsoftcopy1
         '
@@ -559,33 +626,33 @@ Partial Class TransaksiLab
         Me.rdsoftcopy1.Text = "Tidak Perlu."
         Me.rdsoftcopy1.UseVisualStyleBackColor = True
         '
-        'rdsoftcopy2
+        'RadioButtonSoftCopyWhatsapp
         '
-        Me.rdsoftcopy2.AutoSize = True
-        Me.rdsoftcopy2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdsoftcopy2.Location = New System.Drawing.Point(123, 3)
-        Me.rdsoftcopy2.Name = "rdsoftcopy2"
-        Me.rdsoftcopy2.Size = New System.Drawing.Size(87, 19)
-        Me.rdsoftcopy2.TabIndex = 243
-        Me.rdsoftcopy2.TabStop = True
-        Me.rdsoftcopy2.Text = "Whatsapp :"
-        Me.rdsoftcopy2.UseVisualStyleBackColor = True
+        Me.RadioButtonSoftCopyWhatsapp.AutoSize = True
+        Me.RadioButtonSoftCopyWhatsapp.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadioButtonSoftCopyWhatsapp.Location = New System.Drawing.Point(8, 54)
+        Me.RadioButtonSoftCopyWhatsapp.Name = "RadioButtonSoftCopyWhatsapp"
+        Me.RadioButtonSoftCopyWhatsapp.Size = New System.Drawing.Size(87, 19)
+        Me.RadioButtonSoftCopyWhatsapp.TabIndex = 243
+        Me.RadioButtonSoftCopyWhatsapp.TabStop = True
+        Me.RadioButtonSoftCopyWhatsapp.Text = "Whatsapp :"
+        Me.RadioButtonSoftCopyWhatsapp.UseVisualStyleBackColor = True
         '
-        'txsoftcopywhatsapp
+        'TextBoxSoftCopyWhatsapp
         '
-        Me.txsoftcopywhatsapp.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.txsoftcopywhatsapp.Enabled = False
-        Me.txsoftcopywhatsapp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txsoftcopywhatsapp.Location = New System.Drawing.Point(216, 2)
-        Me.txsoftcopywhatsapp.Name = "txsoftcopywhatsapp"
-        Me.txsoftcopywhatsapp.Size = New System.Drawing.Size(112, 20)
-        Me.txsoftcopywhatsapp.TabIndex = 244
+        Me.TextBoxSoftCopyWhatsapp.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.TextBoxSoftCopyWhatsapp.Enabled = False
+        Me.TextBoxSoftCopyWhatsapp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxSoftCopyWhatsapp.Location = New System.Drawing.Point(108, 54)
+        Me.TextBoxSoftCopyWhatsapp.Name = "TextBoxSoftCopyWhatsapp"
+        Me.TextBoxSoftCopyWhatsapp.Size = New System.Drawing.Size(150, 20)
+        Me.TextBoxSoftCopyWhatsapp.TabIndex = 244
         '
         'rdsoftcopy3
         '
         Me.rdsoftcopy3.AutoSize = True
         Me.rdsoftcopy3.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdsoftcopy3.Location = New System.Drawing.Point(354, 3)
+        Me.rdsoftcopy3.Location = New System.Drawing.Point(8, 28)
         Me.rdsoftcopy3.Name = "rdsoftcopy3"
         Me.rdsoftcopy3.Size = New System.Drawing.Size(63, 19)
         Me.rdsoftcopy3.TabIndex = 245
@@ -598,74 +665,28 @@ Partial Class TransaksiLab
         Me.txsoftcopyemail.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.txsoftcopyemail.Enabled = False
         Me.txsoftcopyemail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txsoftcopyemail.Location = New System.Drawing.Point(437, 2)
+        Me.txsoftcopyemail.Location = New System.Drawing.Point(108, 28)
         Me.txsoftcopyemail.Name = "txsoftcopyemail"
-        Me.txsoftcopyemail.Size = New System.Drawing.Size(112, 20)
+        Me.txsoftcopyemail.Size = New System.Drawing.Size(150, 20)
         Me.txsoftcopyemail.TabIndex = 246
-        '
-        'txhardcopykirim
-        '
-        Me.txhardcopykirim.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.txhardcopykirim.Enabled = False
-        Me.txhardcopykirim.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txhardcopykirim.Location = New System.Drawing.Point(438, 77)
-        Me.txhardcopykirim.Name = "txhardcopykirim"
-        Me.txhardcopykirim.Size = New System.Drawing.Size(112, 20)
-        Me.txhardcopykirim.TabIndex = 251
-        '
-        'rdhardcopy2
-        '
-        Me.rdhardcopy2.AutoSize = True
-        Me.rdhardcopy2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdhardcopy2.Location = New System.Drawing.Point(345, 78)
-        Me.rdhardcopy2.Name = "rdhardcopy2"
-        Me.rdhardcopy2.Size = New System.Drawing.Size(86, 19)
-        Me.rdhardcopy2.TabIndex = 250
-        Me.rdhardcopy2.TabStop = True
-        Me.rdhardcopy2.Text = "Dikirim ke :"
-        Me.rdhardcopy2.UseVisualStyleBackColor = True
-        '
-        'rdhardcopy3
-        '
-        Me.rdhardcopy3.AutoSize = True
-        Me.rdhardcopy3.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdhardcopy3.Location = New System.Drawing.Point(576, 77)
-        Me.rdhardcopy3.Name = "rdhardcopy3"
-        Me.rdhardcopy3.Size = New System.Drawing.Size(100, 19)
-        Me.rdhardcopy3.TabIndex = 249
-        Me.rdhardcopy3.TabStop = True
-        Me.rdhardcopy3.Text = "Ambil sendiri."
-        Me.rdhardcopy3.UseVisualStyleBackColor = True
-        '
-        'rdhardcopy1
-        '
-        Me.rdhardcopy1.AutoSize = True
-        Me.rdhardcopy1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdhardcopy1.Location = New System.Drawing.Point(230, 78)
-        Me.rdhardcopy1.Name = "rdhardcopy1"
-        Me.rdhardcopy1.Size = New System.Drawing.Size(90, 19)
-        Me.rdhardcopy1.TabIndex = 248
-        Me.rdhardcopy1.TabStop = True
-        Me.rdhardcopy1.Text = "Tidak Perlu."
-        Me.rdhardcopy1.UseVisualStyleBackColor = True
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(147, 80)
+        Me.Label8.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(503, 55)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(61, 15)
+        Me.Label8.Size = New System.Drawing.Size(68, 16)
         Me.Label8.TabIndex = 247
         Me.Label8.Text = "Hardcopy"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(147, 53)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(57, 15)
+        Me.Label6.Size = New System.Drawing.Size(63, 16)
         Me.Label6.TabIndex = 241
         Me.Label6.Text = "Softcopy"
         '
@@ -674,7 +695,7 @@ Partial Class TransaksiLab
         Me.butsaved.Cursor = System.Windows.Forms.Cursors.Hand
         Me.butsaved.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.butsaved.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_save
-        Me.butsaved.Location = New System.Drawing.Point(549, 123)
+        Me.butsaved.Location = New System.Drawing.Point(549, 167)
         Me.butsaved.Name = "butsaved"
         Me.butsaved.Size = New System.Drawing.Size(100, 36)
         Me.butsaved.TabIndex = 238
@@ -685,7 +706,7 @@ Partial Class TransaksiLab
         Me.Button3.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.Button3.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kalkulasi
-        Me.Button3.Location = New System.Drawing.Point(655, 123)
+        Me.Button3.Location = New System.Drawing.Point(655, 167)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(100, 36)
         Me.Button3.TabIndex = 237
@@ -695,7 +716,7 @@ Partial Class TransaksiLab
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(222, 112)
+        Me.Label5.Location = New System.Drawing.Point(222, 156)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(80, 16)
         Me.Label5.TabIndex = 236
@@ -705,7 +726,7 @@ Partial Class TransaksiLab
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(432, 112)
+        Me.Label3.Location = New System.Drawing.Point(432, 156)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(77, 16)
         Me.Label3.TabIndex = 235
@@ -715,7 +736,7 @@ Partial Class TransaksiLab
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(327, 112)
+        Me.Label4.Location = New System.Drawing.Point(327, 156)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(63, 16)
         Me.Label4.TabIndex = 234
@@ -725,7 +746,7 @@ Partial Class TransaksiLab
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(117, 112)
+        Me.Label24.Location = New System.Drawing.Point(117, 156)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(79, 16)
         Me.Label24.TabIndex = 233
@@ -735,24 +756,11 @@ Partial Class TransaksiLab
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(12, 112)
+        Me.Label7.Location = New System.Drawing.Point(12, 156)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(72, 16)
         Me.Label7.TabIndex = 230
         Me.Label7.Text = "Total Biaya"
-        '
-        'rdemail
-        '
-        Me.rdemail.AutoSize = True
-        Me.rdemail.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdemail.Location = New System.Drawing.Point(549, 207)
-        Me.rdemail.Name = "rdemail"
-        Me.rdemail.Size = New System.Drawing.Size(63, 19)
-        Me.rdemail.TabIndex = 133
-        Me.rdemail.TabStop = True
-        Me.rdemail.Text = "Email :"
-        Me.rdemail.UseVisualStyleBackColor = True
-        Me.rdemail.Visible = False
         '
         'Label17
         '
@@ -767,7 +775,7 @@ Partial Class TransaksiLab
         'TextBoxTotalBayar
         '
         Me.TextBoxTotalBayar.Enabled = False
-        Me.TextBoxTotalBayar.Location = New System.Drawing.Point(225, 131)
+        Me.TextBoxTotalBayar.Location = New System.Drawing.Point(225, 175)
         Me.TextBoxTotalBayar.Name = "TextBoxTotalBayar"
         Me.TextBoxTotalBayar.Properties.Appearance.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxTotalBayar.Properties.Appearance.Options.UseFont = True
@@ -777,7 +785,7 @@ Partial Class TransaksiLab
         'TextBoxTotalPembulatan
         '
         Me.TextBoxTotalPembulatan.Enabled = False
-        Me.TextBoxTotalPembulatan.Location = New System.Drawing.Point(435, 131)
+        Me.TextBoxTotalPembulatan.Location = New System.Drawing.Point(435, 175)
         Me.TextBoxTotalPembulatan.Name = "TextBoxTotalPembulatan"
         Me.TextBoxTotalPembulatan.Properties.Appearance.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxTotalPembulatan.Properties.Appearance.Options.UseFont = True
@@ -787,7 +795,7 @@ Partial Class TransaksiLab
         'TextBoxTotalBruto
         '
         Me.TextBoxTotalBruto.Enabled = False
-        Me.TextBoxTotalBruto.Location = New System.Drawing.Point(15, 131)
+        Me.TextBoxTotalBruto.Location = New System.Drawing.Point(15, 175)
         Me.TextBoxTotalBruto.Name = "TextBoxTotalBruto"
         Me.TextBoxTotalBruto.Properties.Appearance.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxTotalBruto.Properties.Appearance.Options.UseFont = True
@@ -797,7 +805,7 @@ Partial Class TransaksiLab
         'TextBoxTotalDiskon
         '
         Me.TextBoxTotalDiskon.Enabled = False
-        Me.TextBoxTotalDiskon.Location = New System.Drawing.Point(120, 131)
+        Me.TextBoxTotalDiskon.Location = New System.Drawing.Point(120, 175)
         Me.TextBoxTotalDiskon.Name = "TextBoxTotalDiskon"
         Me.TextBoxTotalDiskon.Properties.Appearance.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxTotalDiskon.Properties.Appearance.Options.UseFont = True
@@ -807,7 +815,7 @@ Partial Class TransaksiLab
         'TextBoxTotalNett
         '
         Me.TextBoxTotalNett.Enabled = False
-        Me.TextBoxTotalNett.Location = New System.Drawing.Point(330, 131)
+        Me.TextBoxTotalNett.Location = New System.Drawing.Point(330, 175)
         Me.TextBoxTotalNett.Name = "TextBoxTotalNett"
         Me.TextBoxTotalNett.Properties.Appearance.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBoxTotalNett.Properties.Appearance.Options.UseFont = True
@@ -821,7 +829,7 @@ Partial Class TransaksiLab
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(0, 179)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(957, 227)
+        Me.GroupBox2.Size = New System.Drawing.Size(957, 187)
         Me.GroupBox2.TabIndex = 7
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Detail"
@@ -835,7 +843,7 @@ Partial Class TransaksiLab
         Me.gridtindakan.Location = New System.Drawing.Point(3, 40)
         Me.gridtindakan.MainView = Me.GridView1
         Me.gridtindakan.Name = "gridtindakan"
-        Me.gridtindakan.Size = New System.Drawing.Size(951, 184)
+        Me.gridtindakan.Size = New System.Drawing.Size(951, 144)
         Me.gridtindakan.TabIndex = 3
         Me.gridtindakan.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
         '
@@ -844,6 +852,9 @@ Partial Class TransaksiLab
         Me.GridView1.GridControl = Me.gridtindakan
         Me.GridView1.Name = "GridView1"
         Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        Me.GridView1.OptionsView.ShowGroupPanel = False
+        Me.GridView1.OptionsView.ShowIndicator = False
+        Me.GridView1.PaintStyleName = "Skin"
         '
         'MenuStrip2
         '
@@ -925,6 +936,8 @@ Partial Class TransaksiLab
         Me.GroupBox3.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.Panel1.ResumeLayout(False)
@@ -959,7 +972,6 @@ Partial Class TransaksiLab
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents chkclosed As System.Windows.Forms.CheckBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
-    Friend WithEvents rdemail As System.Windows.Forms.RadioButton
     Friend WithEvents TextBoxDokterID As System.Windows.Forms.TextBox
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents NewToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
@@ -995,8 +1007,8 @@ Partial Class TransaksiLab
     Public WithEvents rdhardcopy1 As System.Windows.Forms.RadioButton
     Public WithEvents txsoftcopyemail As System.Windows.Forms.TextBox
     Public WithEvents rdsoftcopy3 As System.Windows.Forms.RadioButton
-    Public WithEvents txsoftcopywhatsapp As System.Windows.Forms.TextBox
-    Public WithEvents rdsoftcopy2 As System.Windows.Forms.RadioButton
+    Public WithEvents TextBoxSoftCopyWhatsapp As System.Windows.Forms.TextBox
+    Public WithEvents RadioButtonSoftCopyWhatsapp As System.Windows.Forms.RadioButton
     Public WithEvents TextBoxNoUrutTransaksi As System.Windows.Forms.TextBox
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Public WithEvents rdreferensiperusahaan1 As System.Windows.Forms.RadioButton
@@ -1019,4 +1031,6 @@ Partial Class TransaksiLab
     Friend WithEvents ButtonFindTransaksi As System.Windows.Forms.Button
     Friend WithEvents ButtonFindDokter As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Panel3 As System.Windows.Forms.Panel
+    Friend WithEvents CheckBoxNomorWhatsapp As System.Windows.Forms.CheckBox
 End Class

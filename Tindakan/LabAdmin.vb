@@ -79,9 +79,9 @@ Public Class LabAdmin
         txcaraambil.ResetText()
         txpenagihan.ResetText()
         txcodepenagihan.ResetText()
-        TextBoxNoTransaksi.ResetText()
-        TextBoxNoTransaksi.Enabled = True
-        TextBoxNoTransaksi.ReadOnly = False
+        TextBoxNomorTransaksi.ResetText()
+        TextBoxNomorTransaksi.Enabled = True
+        TextBoxNomorTransaksi.ReadOnly = False
         TextBoxNoRekamMedis.ResetText()
         TextBoxGelar.ResetText()
         TextBoxJenisKelamin.ResetText()
@@ -131,7 +131,7 @@ Public Class LabAdmin
         CreateHematologiLengkapToPDF("Nothing")
     End Sub
 
-    Public Sub setConnectionMesin()
+    Public Sub SetConnection()
         ' Set Parameter Server Online
         Dim serverOnline_IP As String = Utility.GetConfig("ServerOnline_IP")
         Dim serverOnline_UserID As String = Utility.GetConfig("ServerOnline_UserID")
@@ -361,7 +361,7 @@ Public Class LabAdmin
         butsaveusg.Enabled = True
         butprintusg.Enabled = True
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("usg")) = False Then txusg.Text = Trow("usg")
@@ -373,7 +373,7 @@ Public Class LabAdmin
         butsaveaudio.Enabled = True
         butprintaudio.Enabled = True
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("Audio")) = False Then txaudiometri.Text = Trow("Audio")
@@ -428,7 +428,7 @@ Public Class LabAdmin
     End Sub
 
     Private Sub LoadFisikDetail()
-        Dim Tbls As DataTable = ReadSQL("SELECT a.fisiknourut, a.result, a.Dimana, a.Kenapa, a.Jenis, a.Kapan FROM transaksilabfisik a, transaksilab b WHERE a.nourut='" & TextBoxNoTransaksi.Text & "' AND a.nourut=b.nourut")
+        Dim Tbls As DataTable = ReadSQL("SELECT a.fisiknourut, a.result, a.Dimana, a.Kenapa, a.Jenis, a.Kapan FROM transaksilabfisik a, transaksilab b WHERE a.nourut='" & TextBoxNomorTransaksi.Text & "' AND a.nourut=b.nourut")
         For Each Trow As DataRow In Tbls.Rows
             If Trow("fisiknourut") = txriwayat.Tag.ToString Then txriwayat.Text = Trow("result") : GoTo GoBackthis
             If Trow("fisiknourut") = TextBoxTinggiBadan.Tag.ToString Then TextBoxTinggiBadan.Text = Trow("result") : GoTo GoBackthis
@@ -585,13 +585,13 @@ Public Class LabAdmin
 GoBackthis:
         Next
 
-        Dim tagvisusmata As String = ReadSQLNIK("SELECT fisiknourut FROM TransaksiLabFisik WHERE FisikNoUrut=3012 AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
-        Dim tagvisusmata2 As String = ReadSQLNIK("SELECT fisiknourut FROM TransaksiLabFisik WHERE FisikNoUrut=3014 AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
+        Dim tagvisusmata As String = ReadSQLNIK("SELECT fisiknourut FROM TransaksiLabFisik WHERE FisikNoUrut=3012 AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
+        Dim tagvisusmata2 As String = ReadSQLNIK("SELECT fisiknourut FROM TransaksiLabFisik WHERE FisikNoUrut=3014 AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
         Dim var1mata As String = ""
         Dim var2mata As String = ""
         If tagvisusmata <> "-" Then
-            var1mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut='" & txvisuskacamata.Tag.ToString & "' AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
-            var2mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut='" & txvisustanpakacamata.Tag.ToString & "' AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            var1mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut='" & txvisuskacamata.Tag.ToString & "' AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
+            var2mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut='" & txvisustanpakacamata.Tag.ToString & "' AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             Dim Tsplit() As String = var1mata.ToString.Split(",")
             Dim Tsplit2() As String = var2mata.ToString.Split(",")
@@ -615,8 +615,8 @@ GoBackthis:
             txvisuskacamata.Tag = 3012
             txvisustanpakacamata.Tag = 3013
         ElseIf tagvisusmata2 <> "-" Then
-            var1mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut=3014 AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
-            var2mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut=3015 AND NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            var1mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut=3014 AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
+            var2mata = ReadSQLNIK("SELECT Result FROM TransaksiLabFisik WHERE FisikNoUrut=3015 AND NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             Dim Tsplit() As String = var1mata.ToString.Split(",")
             Dim Tsplit2() As String = var2mata.ToString.Split(",")
@@ -652,7 +652,7 @@ GoBackthis:
         butprintecg.Enabled = True
         butpreviewecg.Enabled = True
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("Tekanan")) = False Then txecgtekanan.Text = Trow("Tekanan")
@@ -677,7 +677,7 @@ GoBackthis:
         InsertNewItemComboSQL("SELECT ValueThorax FROM MasterNilaiHasilThorax ORDER BY ValueThorax ASC", cmbjenisthorax)
         cmbjenisthorax.SelectedIndex = -1
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("Cor")) = False Then txthoraxcor.Text = Trow("Cor")
@@ -696,7 +696,7 @@ GoBackthis:
         butsavetreadmill.Enabled = True
         butprinttreadmill.Enabled = True
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("treadmill")) = False Then txtreadmill.Text = Trow("treadmill")
@@ -710,7 +710,7 @@ GoBackthis:
         butsavespiro.Enabled = True
         butprintspiro.Enabled = True
 
-        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        Dim Tbls As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
         If Tbls.Rows.Count > 0 Then
             Dim Trow As DataRow = Tbls.Rows(0)
             If IsDBNull(Trow("Spirometri")) = False Then txspiro.Text = Trow("Spirometri")
@@ -815,7 +815,7 @@ GoBackthis:
                                                      }, 1)
 
         GridViewTindakanLab.ExpandAllGroups()
-        TextBoxNoTransaksi.Focus()
+        TextBoxNomorTransaksi.Focus()
     End Sub
 
     Public Sub LoadAdminLab(ByRef TxID As String, ByRef Txnourut As String, ByRef TxFROM As String)
@@ -850,8 +850,8 @@ GoBackthis:
                 txcodepenagihan.Text = Tsplit(1).ToString.Trim
             End If
 
-            TextBoxNoTransaksi.Text = Txnourut
-            TextBoxNoTransaksi.ReadOnly = True
+            TextBoxNomorTransaksi.Text = Txnourut
+            TextBoxNomorTransaksi.ReadOnly = True
             idTransaksi = TxID
             LoadLabPasien(Trow("IDInternet"))
             DateTimeTanggalTransaksi.Value = Trow("TglLab")
@@ -978,7 +978,7 @@ GoBackthis:
         Me.MdiParent = PoliKlinik
         'SetFormHeightWeight(Me, 0.95, 0.8)
         Me.Dock = DockStyle.Fill
-        setConnectionMesin()
+        SetConnection()
         NewToolStripMenuItem.PerformClick()
         AutoTTD = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='AutoTTD'")
         'AutoTTD = "No"
@@ -1030,7 +1030,7 @@ GoBackthis:
             OptionDialog.ShowDialog()
         Else
             'Dim Tnourut As String = ReadSQLNIK("SELECT NoUrut FROM TransaksiLab WHERE TranslabID='" & idTransaksi & "'")
-            Dim Tnourut As String = TextBoxNoTransaksi.Text.Trim
+            Dim Tnourut As String = TextBoxNomorTransaksi.Text.Trim
             If idTransaksi <> "" And Tdiff = 3 Then
                 ResultMachine.LoadAdminLab(idTransaksi, Tnourut, "Diff3", "Offline", "")
                 ResultMachine.ShowDialog()
@@ -1249,7 +1249,7 @@ GoBackthis:
         If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
 
         Dim caraambil As String = TrowLab("caraambil")
-        If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+        If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
             Pengirim = "Atas Permintaan Sendiri"
         End If
 
@@ -1285,7 +1285,7 @@ GoBackthis:
         For Each Trow As DataRow In Tbls.Rows
             Trow("Registrasi") = TextBoxNoRekamMedis.Text
             Trow("barcodenotrans") = idTransaksi
-            If (TextBoxNoTransaksi.Text.Contains("M")) Then
+            If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                 If numberic = True Then
                     Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                 Else
@@ -1303,14 +1303,14 @@ GoBackthis:
             End If
 
             Trow("Alamat") = txalamat.Text
-            Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+            Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
             Trow("DrPelaksana") = DrPelaksanaKlinik
             Trow("Hasil") = caraambil
 
             If Pengirim <> "" Then
                 Trow("DrRequest") = Pengirim
             Else
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     Trow("DrRequest") = txpenagihan.Text.Trim
                 Else
                     Trow("DrRequest") = butdokter.Text
@@ -1396,7 +1396,7 @@ GoBackthis:
             Report.Print()
         ElseIf Action = "Nothing" Then
             'Save PDF
-            Dim NameFile As String = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium"
+            Dim NameFile As String = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium"
             Dim filepath As String = "FileDownload\Hasil\" & NameFile & ".pdf"
             If File.Exists(filepath) Then
                 My.Computer.FileSystem.DeleteFile(filepath)
@@ -1513,7 +1513,7 @@ GoBackthis:
                 If CheckSQL("SELECT * FROM transaksilab WHERE LabSendMail is null AND StatusSoftcopy=1 AND TransLabID=" & idTransaksi & "") = True Then
                     SendiToolStripMenuItem.PerformClick()
                 ElseIf CheckSQL("SELECT * FROM transaksilab WHERE LabSendMail is null AND TransLabID=" & idTransaksi & "") = True Then
-                    Dim NoUrut As String = TextBoxNoTransaksi.Text
+                    Dim NoUrut As String = TextBoxNomorTransaksi.Text
                     Dim Tcompany As DataTable = ReadSQL("SELECT No_Handphone2, No_Handphone, Email_Perusahaan, TerimaHasilKaryawan, Whatsapp_Auto, Email_Auto FROM MasterCompany WHERE NoCompany='" & txcodepenagihan.Text.Trim & "'")
                     If Tcompany.Rows.Count > 0 Then
                         Dim TrowCompany As DataRow = Tcompany.Rows(0)
@@ -1539,8 +1539,8 @@ GoBackthis:
             Dim NoWhatsapp As String = NoWhatsappCompany
             If Strings.Left(NoWhatsapp, 2) = "08" Then NoWhatsapp = "62" & NoWhatsapp.Substring(1, NoWhatsapp.Length - 1)
             Dim TIP_Whatsapp = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TIP_Whatsapp'")
-            Dim TxPDF As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
-            Dim filename As String = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium.pdf"
+            Dim TxPDF As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+            Dim filename As String = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium.pdf"
             Dim parameter As String = SetParameterWhatsapp(NoWhatsapp, TxPDF, filename, "No")
 
             Dim uri As String = "http://" & TIP_Whatsapp & ":4444/send-pdf"
@@ -1550,8 +1550,8 @@ GoBackthis:
 
             'Check Sending Hasil DL
             If SendHasilDL = True Then
-                Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
-                Dim filename_DL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
+                Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                Dim filename_DL As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
 
                 Dim parameter_DL As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_DL, filename_DL, "No")
                 SendDataWhatsapp(parameter_DL, uri)
@@ -1559,8 +1559,8 @@ GoBackthis:
 
             'Check Sending Hasil Thorax
             If SendHasilThorax = True Then
-                Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
-                Dim filename_Thorax As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax.pdf"
+                Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                Dim filename_Thorax As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax.pdf"
 
                 Dim parameter_Thorax As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_Thorax, filename_Thorax, "Yes")
                 SendDataWhatsapp(parameter_Thorax, uri)
@@ -1568,8 +1568,8 @@ GoBackthis:
 
             If StatsSending = "Success" Then
                 MsgBox("Berhasil mengirim Whatsapp ke " & NoWhatsappCompany.Trim & ".", MsgBoxStyle.Information, "Success!")
-                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNoTransaksi.Text & "'", 4)
-                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp & "', '" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNoTransaksi.Text & "', 'COMPANY', '" & Tloc & "')", 4)
+                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNomorTransaksi.Text & "'", 4)
+                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp & "', '" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNomorTransaksi.Text & "', 'COMPANY', '" & Tloc & "')", 4)
                 NewToolStripMenuItem.Enabled = True
             ElseIf StatsSending = "Nothing" Then
                 MsgBox("Gagal Mengirim Whatsapp ke " & NoWhatsappCompany.Trim & ". Cek koneksi jaringan atau hubungi IT untuk restart server Whatsapp.", MsgBoxStyle.Exclamation, "Warning!")
@@ -1588,8 +1588,8 @@ GoBackthis:
             Dim NoWhatsapp As String = NoWhatsappMarketing
             If Strings.Left(NoWhatsapp, 2) = "08" Then NoWhatsapp = "62" & NoWhatsapp.Substring(1, NoWhatsapp.Length - 1)
             Dim TIP_Whatsapp = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TIP_Whatsapp'")
-            Dim TxPDF As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
-            Dim filename As String = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium.pdf"
+            Dim TxPDF As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+            Dim filename As String = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium.pdf"
             Dim parameter As String = SetParameterWhatsapp(NoWhatsapp, TxPDF, filename, "No")
 
             Dim uri As String = "http://" & TIP_Whatsapp & ":4444/send-pdf"
@@ -1599,8 +1599,8 @@ GoBackthis:
 
             'Check Sending Hasil DL
             If SendHasilDL = True Then
-                Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
-                Dim filename_DL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
+                Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                Dim filename_DL As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
 
                 Dim parameter_DL As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_DL, filename_DL, "No")
                 SendDataWhatsapp(parameter_DL, uri)
@@ -1608,8 +1608,8 @@ GoBackthis:
 
             'Check Sending Hasil Thorax
             If SendHasilThorax = True Then
-                Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
-                Dim filename_Thorax As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax.pdf"
+                Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                Dim filename_Thorax As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax.pdf"
 
                 Dim parameter_Thorax As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_Thorax, filename_Thorax, "Yes")
                 SendDataWhatsapp(parameter_Thorax, uri)
@@ -1617,8 +1617,8 @@ GoBackthis:
 
             If StatsSending = "Success" Then
                 MsgBox("Berhasil mengirim Whatsapp ke " & NoWhatsappMarketing.Trim & ".", MsgBoxStyle.Information, "Success!")
-                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNoTransaksi.Text & "'", 4)
-                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp & "', '" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNoTransaksi.Text & "', 'MARKETING','" & Tloc & "')", 4)
+                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNomorTransaksi.Text & "'", 4)
+                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp & "', '" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNomorTransaksi.Text & "', 'MARKETING','" & Tloc & "')", 4)
                 NewToolStripMenuItem.Enabled = True
             ElseIf StatsSending = "Nothing" Then
                 MsgBox("Gagal Mengirim Whatsapp ke " & NoWhatsappMarketing.Trim & ". Cek koneksi jaringan atau hubungi IT untuk restart server Whatsapp.", MsgBoxStyle.Exclamation, "Warning!")
@@ -1637,7 +1637,7 @@ GoBackthis:
             Dim NoWhatsapp As String = NoWhatsappCustomer
             Dim Twhatsapp() As String = NoWhatsappCustomer.Split(",")
             If NoWhatsappCustomer = "-" Then
-                NoWhatsapp = ReadSQLNIK("SELECT NoHandphone FROM MasterPasien WHERE NoRekamMedis IN (SELECT IDInternet FROM TransaksiLab WHERE NoUrut='" & TextBoxNoTransaksi.Text & "')")
+                NoWhatsapp = ReadSQLNIK("SELECT NoHandphone FROM MasterPasien WHERE NoRekamMedis IN (SELECT IDInternet FROM TransaksiLab WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "')")
             Else
                 If NoWhatsappCustomer.Contains(",") = False Then NoWhatsapp = Twhatsapp(0)
             End If
@@ -1655,8 +1655,8 @@ GoBackthis:
             Dim StatsSending As String = ""
 
             If NoWhatsappCustomer.Contains(",") = False Or NoWhatsappCustomer = "-" Then
-                TxPDF = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
-                filename = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium.pdf"
+                TxPDF = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+                filename = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium.pdf"
 
                 parameter = SetParameterWhatsapp(NoWhatsapp, TxPDF, filename, "Yes")
 
@@ -1667,8 +1667,8 @@ GoBackthis:
 
                 'Check Sending Hasil DL
                 If SendHasilDL = True Then
-                    Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
-                    Dim filename_DL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
+                    Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                    Dim filename_DL As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
 
                     Dim parameter_DL As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_DL, filename_DL, "No")
                     SendDataWhatsapp(parameter_DL, uri)
@@ -1676,8 +1676,8 @@ GoBackthis:
 
                 'Check Sending Hasil Thorax
                 If SendHasilThorax = True Then
-                    Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
-                    Dim filename_Thorax As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax.pdf"
+                    Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                    Dim filename_Thorax As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax.pdf"
 
                     Dim parameter_Thorax As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_Thorax, filename_Thorax, "Yes")
                     SendDataWhatsapp(parameter_Thorax, uri)
@@ -1691,8 +1691,8 @@ GoBackthis:
                     NoWhatsapp = Twhatsapp(i).ToString.Trim
                     If Strings.Left(NoWhatsapp, 2) = "08" Then NoWhatsapp = "62" & NoWhatsapp.Substring(1, NoWhatsapp.Length - 1)
 
-                    TxPDF = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
-                    filename = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium.pdf"
+                    TxPDF = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+                    filename = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium.pdf"
 
                     parameter = SetParameterWhatsapp(NoWhatsapp, TxPDF, filename, "Yes")
 
@@ -1703,8 +1703,8 @@ GoBackthis:
 
                     'Check Sending Hasil DL
                     If SendHasilDL = True Then
-                        Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
-                        Dim filename_DL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
+                        Dim TxPDF_DL As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                        Dim filename_DL As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap.pdf"
 
                         Dim parameter_DL As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_DL, filename_DL, "No")
                         SendDataWhatsapp(parameter_DL, uri)
@@ -1712,8 +1712,8 @@ GoBackthis:
 
                     'Check Sending Hasil Thorax
                     If SendHasilThorax = True Then
-                        Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
-                        Dim filename_Thorax As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax.pdf"
+                        Dim TxPDF_Thorax As String = Convert.ToBase64String(System.IO.File.ReadAllBytes("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                        Dim filename_Thorax As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax.pdf"
 
                         Dim parameter_Thorax As String = SetParameterWhatsapp(NoWhatsapp, TxPDF_Thorax, filename_Thorax, "Yes")
                         SendDataWhatsapp(parameter_Thorax, uri)
@@ -1727,8 +1727,8 @@ GoBackthis:
 
             If StatsSending = "Success" Then
                 MsgBox("Berhasil mengirim Whatsapp ke " & NoWhatsappCustomer.Trim & ".", MsgBoxStyle.Information, "Success!")
-                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNoTransaksi.Text & "'", 4)
-                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp.Trim & "', '" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNoTransaksi.Text & "', 'PASIEN', '" & Tloc & "')", 4)
+                WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNomorTransaksi.Text & "'", 4)
+                WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Whatsapp', '" & NoWhatsapp.Trim & "', '" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNomorTransaksi.Text & "', 'PASIEN', '" & Tloc & "')", 4)
                 NewToolStripMenuItem.Enabled = True
             ElseIf StatsSending = "Nothing" Then
                 MsgBox("Gagal Mengirim Whatsapp ke " & NoWhatsappCustomer.Trim & ". Cek koneksi jaringan atau hubungi IT untuk restart server Whatsapp.", MsgBoxStyle.Exclamation, "Warning!")
@@ -1747,7 +1747,7 @@ GoBackthis:
             Dim email As String = EmailCustomer
             Dim Temail() As String = EmailCustomer.Split(",")
             If EmailCustomer = "-" Then
-                email = ReadSQLNIK("SELECT Email FROM MasterPasien WHERE NoRekamMedis in (SELECT IDInternet FROM TransaksiLab WHERE NoUrut='" & TextBoxNoTransaksi.Text & "')")
+                email = ReadSQLNIK("SELECT Email FROM MasterPasien WHERE NoRekamMedis in (SELECT IDInternet FROM TransaksiLab WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "')")
             Else
                 If EmailCustomer.Contains(",") = False Then
                     email = Temail(0)
@@ -1764,7 +1764,7 @@ GoBackthis:
 
             e_mail = New MailMessage()
             e_mail.From = New MailAddress("info@cahayamedika.co.id")
-            e_mail.Subject = "Hasil Laboratorium (" & TextBoxNoTransaksi.Text & ")"
+            e_mail.Subject = "Hasil Laboratorium (" & TextBoxNomorTransaksi.Text & ")"
             e_mail.To.Add("" & email.Trim & "")
             e_mail.IsBodyHtml = False
             e_mail.Body = "Kepada Yth." & vbCr & vbLf & "" & _
@@ -1779,22 +1779,22 @@ GoBackthis:
               "5. Etika batuk yang baik & benar." & vbCr & vbLf & vbCr & vbLf + "" & _
               "Best regards," & vbCr & vbLf & vbCr & vbLf + "" & _
               "Laboratorium Cahaya Diagnostic Centre."
-            e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+            e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
 
             'Check Sending Hasil DL
             If SendHasilDL = True Then
-                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
             End If
 
             'Check Sending Hasil Thorax
             If SendHasilThorax = True Then
-                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
             End If
 
             Smtp_Server.Send(e_mail)
 
-            WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Email', '" & email.Trim & "', '" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNoTransaksi.Text & "', 'PASIEN', '" & Tloc & "')", 4)
-            WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNoTransaksi.Text & "'", 4)
+            WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Email', '" & email.Trim & "', '" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNomorTransaksi.Text & "', 'PASIEN', '" & Tloc & "')", 4)
+            WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNomorTransaksi.Text & "'", 4)
             MsgBox("Berhasil mengirim email ke " & email.Trim & ".", MsgBoxStyle.Information, "Success!")
             NewToolStripMenuItem.Enabled = True
         Catch ex As Exception
@@ -1819,7 +1819,7 @@ GoBackthis:
             e_mail = New MailMessage()
             e_mail.From = New MailAddress("info@cahayamedika.co.id")
             e_mail.To.Add("" & email.Trim & "")
-            e_mail.Subject = "Hasil Laboratorium (" & TextBoxNoTransaksi.Text & ")"
+            e_mail.Subject = "Hasil Laboratorium (" & TextBoxNomorTransaksi.Text & ")"
             e_mail.IsBodyHtml = False
             e_mail.Body = "Kepada Yth." & vbCr & vbLf + "" & _
               "Customer Cahaya Diagnostic Centre" & vbCr & vbLf & vbCr & vbLf + "" & _
@@ -1833,23 +1833,23 @@ GoBackthis:
               "5. Etika batuk yang baik & benar." & vbCr & vbLf & vbCr & vbLf + "" & _
               "Best regards," & vbCr & vbLf & vbCr & vbLf + "" & _
               "Laboratorium Cahaya Diagnostic Centre."
-            e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
+            e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & ".pdf"))
 
             'Check Sending Hasil DL
             If SendHasilDL = True Then
-                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
+                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Hematologi_Lengkap\" & TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap" & ".pdf"))
             End If
 
             'Check Sending Hasil Thorax
             If SendHasilThorax = True Then
-                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Thorax\" & TextBoxNoTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
+                e_mail.Attachments.Add(New Attachment("FileDownload\Hasil\Thorax\" & TextBoxNomorTransaksi.Text & "_Hasil_Thorax" & ".pdf"))
             End If
 
             Smtp_Server.Send(e_mail)
 
             MsgBox("Berhasil mengirim email ke " & email.Trim & ".", MsgBoxStyle.Information, "Success!")
-            WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNoTransaksi.Text & "'", 4)
-            WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Email', '" & email.Trim & "', '" & TextBoxNoTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNoTransaksi.Text & "', 'COMPANY', '" & Tloc & "')", 4)
+            WriteSQL("update transaksilab set LabSendMail=getdate() WHERE nourut='" & TextBoxNomorTransaksi.Text & "'", 4)
+            WriteSQL("INSERT INTO LogSendingWhatsappEmail (SendingJenis, SendingTujuan, SendingNamaFile, SendingStatus, SendingDate, SendingBy, NoUrut, JenisSending, Cabang) VALUES ('Email', '" & email.Trim & "', '" & TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium" & "', 1, GETDATE(), '" & UserLabAdmin & "', '" & TextBoxNomorTransaksi.Text & "', 'COMPANY', '" & Tloc & "')", 4)
             NewToolStripMenuItem.Enabled = True
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
@@ -1868,10 +1868,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("thorax") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set [Cor]='" & txthoraxcor.Text & "',[Pulmo]='" & txthoraxpulmo.Text & "',[Sinus]='" & txthoraxsinus.Text & "',[Skeletal]='" & txthoraxskeletal.Text & "',[Kesimpulan]='" & txthoraxkesimpulan.Text & "',[ThoraxDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[ThoraxBy]='" & UserLabAdmin & "' , drThorax='" & drthorax.Text & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set [Cor]='" & txthoraxcor.Text & "',[Pulmo]='" & txthoraxpulmo.Text & "',[Sinus]='" & txthoraxsinus.Text & "',[Skeletal]='" & txthoraxskeletal.Text & "',[Kesimpulan]='" & txthoraxkesimpulan.Text & "',[ThoraxDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[ThoraxBy]='" & UserLabAdmin & "' , drThorax='" & drthorax.Text & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Cor],[Pulmo],[Sinus],[Skeletal],[Kesimpulan],[ThoraxDate],[ThoraxBy],[drThorax]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txthoraxcor.Text & "','" & txthoraxpulmo.Text & "','" & txthoraxsinus.Text & "','" & txthoraxskeletal.Text & "','" & txthoraxkesimpulan.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "','" & drthorax.Text & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Cor],[Pulmo],[Sinus],[Skeletal],[Kesimpulan],[ThoraxDate],[ThoraxBy],[drThorax]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txthoraxcor.Text & "','" & txthoraxpulmo.Text & "','" & txthoraxsinus.Text & "','" & txthoraxskeletal.Text & "','" & txthoraxkesimpulan.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "','" & drthorax.Text & "')", 4)
                 End If
 
                 CreateThoraxToPDF("Nothing", "Yes")
@@ -1894,10 +1894,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("ecg") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set  [Tekanan]='" & txecgtekanan.Text & "', [DiagnosisECG]='" & txhasilecg.Text & "', [ECGDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[ECGBy]='" & UserLabAdmin & "' , DrECG='" & cmbecg.Text & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set  [Tekanan]='" & txecgtekanan.Text & "', [DiagnosisECG]='" & txhasilecg.Text & "', [ECGDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[ECGBy]='" & UserLabAdmin & "' , DrECG='" & cmbecg.Text & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Tekanan],[DiagnosisECG],[ECGDate],[ECGBy]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txecgtekanan.Text & "','" & txhasilecg.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Tekanan],[DiagnosisECG],[ECGDate],[ECGBy]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txecgtekanan.Text & "','" & txhasilecg.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
                 End If
                 MsgBox("Data ECG Saved.", MsgBoxStyle.Information, "Success!")
                 Exit For
@@ -1917,10 +1917,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("audiometri") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set  [Audio]='" & txaudiometri.Text & "', [AudioDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[AudioBy]='" & UserLabAdmin & "' , DrAudio='" & draudio.Text & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set  [Audio]='" & txaudiometri.Text & "', [AudioDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "',[AudioBy]='" & UserLabAdmin & "' , DrAudio='" & draudio.Text & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Audio],[AudioDate],[AudioBy],[DrAudio]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txaudiometri.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "', '" & draudio.Text & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[Audio],[AudioDate],[AudioBy],[DrAudio]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txaudiometri.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "', '" & draudio.Text & "')", 4)
                 End If
                 MsgBox("Data Audiometri Saved")
             End If
@@ -1928,7 +1928,7 @@ GoBackthis:
     End Sub
 
     Private Sub butprintecg_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprintecg.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
             Dim TempWhatsapp As String = ""
             Dim TempEmail As String = ""
 
@@ -1945,7 +1945,7 @@ GoBackthis:
             Dim Pengirim As String = ""
             If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
             Dim caraambil As String = TrowLab("caraambil")
-            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
                 Pengirim = "Atas Permintaan Sendiri"
             End If
 
@@ -1978,7 +1978,7 @@ GoBackthis:
             For Each Trow As DataRow In Tlab.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -1996,13 +1996,13 @@ GoBackthis:
                 End If
 
                 Trow("Alamat") = txalamat.Text
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("Hasil") = caraambil
                 If Pengirim <> "" Then
                     Trow("DrRequest") = Pengirim
                 Else
-                    If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                    If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                         Trow("DrRequest") = txpenagihan.Text.Trim
                     Else
                         Trow("DrRequest") = butdokter.Text
@@ -2024,7 +2024,7 @@ GoBackthis:
 
             Report.DataSource = Tlab
             Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MM-yyyy HH:mm:ss") + " by " + UserLabAdmin
-            Report.Bands.Item(BandKind.PageHeader).Controls("DokterECG").Text = ReadSQLNIK("SELECT DrECG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            Report.Bands.Item(BandKind.PageHeader).Controls("DokterECG").Text = ReadSQLNIK("SELECT DrECG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             'Report.RunDesigner()
             'Report.ShowPreview()
@@ -2047,10 +2047,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("usg") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set  [usg]='" & txusg.Text & "', [USGDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [USGBy]='" & UserLabAdmin & "',DrUSG='" & drusg.Text & "'  WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set  [usg]='" & txusg.Text & "', [USGDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [USGBy]='" & UserLabAdmin & "',DrUSG='" & drusg.Text & "'  WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[usg],[USGDate],[USGBy]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txusg.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[usg],[USGDate],[USGBy]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txusg.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
                 End If
                 MsgBox("Data USG Saved")
                 Exit For
@@ -2070,10 +2070,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("treadmill") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set  [treadmill]='" & txtreadmill.Text & "', [treadmillDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [treadmillBy]='" & UserLabAdmin & "' , Drtreadmmill='" & drtreadmill.Text & "'  WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set  [treadmill]='" & txtreadmill.Text & "', [treadmillDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [treadmillBy]='" & UserLabAdmin & "' , Drtreadmmill='" & drtreadmill.Text & "'  WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[treadmill],[treadmillDate],[treadmillBy]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txtreadmill.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[treadmill],[treadmillDate],[treadmillBy]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txtreadmill.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
                 End If
                 MsgBox("Data Treadmill Saved")
                 Exit For
@@ -2091,10 +2091,10 @@ GoBackthis:
 
         For Each Nnew As DataRow In Tbls.Rows
             If Strings.LCase(Nnew("NamaTindakan").ToString).Contains("spirometri") = True Then
-                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
-                    WriteSQL("update TransaksiLabHasilLain set  [spirometri]='" & txspiro.Text & "', [spirometriDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [spirometriBy]='" & UserLabAdmin & "' ,DrSpiro='" & drspiro.Text & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+                If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
+                    WriteSQL("update TransaksiLabHasilLain set  [spirometri]='" & txspiro.Text & "', [spirometriDate]='" & Format(DateAndTime.Now, "MM/dd/yyyy") & "' , [spirometriBy]='" & UserLabAdmin & "' ,DrSpiro='" & drspiro.Text & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
                 Else
-                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[spirometri],[spirometriDate],[spirometriBy]) VALUES('" & TextBoxNoTransaksi.Text & "','" & txspiro.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
+                    WriteSQL("insert TransaksiLabHasilLain([NoUrut],[spirometri],[spirometriDate],[spirometriBy]) VALUES('" & TextBoxNomorTransaksi.Text & "','" & txspiro.Text & "','" & Format(DateAndTime.Now, "MM/dd/yyyy") & "','" & UserLabAdmin & "')", 4)
                 End If
                 MsgBox("Data Spirometri Saved")
                 Exit For
@@ -2184,7 +2184,7 @@ GoBackthis:
             TtconU.Tpass = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='TPass_Urine'")
         End If
 
-        If TextBoxNoTransaksi.Text = "" Then
+        If TextBoxNomorTransaksi.Text = "" Then
             MsgBox("Pilih Pasien Lab yang akan dikirim.")
             Exit Sub
         End If
@@ -2279,7 +2279,7 @@ GoBackthis:
     End Sub
 
     Private Sub butprintaudio_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprintaudio.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
             Dim TempWhatsapp As String = ""
             Dim TempEmail As String = ""
 
@@ -2296,7 +2296,7 @@ GoBackthis:
             Dim Pengirim As String = ""
             If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
             Dim caraambil As String = TrowLab("caraambil")
-            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
                 Pengirim = "Atas Permintaan Sendiri"
             End If
 
@@ -2329,7 +2329,7 @@ GoBackthis:
             For Each Trow As DataRow In Tlab.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -2347,13 +2347,13 @@ GoBackthis:
                 End If
 
                 Trow("Alamat") = txalamat.Text
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("Hasil") = caraambil
                 If Pengirim <> "" Then
                     Trow("DrRequest") = Pengirim
                 Else
-                    If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                    If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                         Trow("DrRequest") = txpenagihan.Text.Trim
                     Else
                         Trow("DrRequest") = butdokter.Text
@@ -2383,8 +2383,8 @@ GoBackthis:
     End Sub
 
     Private Sub butprintusg_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprintusg.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") Then
-            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") Then
+            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
             insertRowToTbls(Tempecg, "typstring", "Registrasi")
             insertRowToTbls(Tempecg, "typstring", "Nama")
             insertRowToTbls(Tempecg, "typstring", "Umur")
@@ -2397,7 +2397,7 @@ GoBackthis:
 
             For Each Trow As DataRow In Tempecg.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -2413,7 +2413,7 @@ GoBackthis:
                     Trow("Umur") = Format(DateTimeTanggalLahir.Value, "dd MMM yyyy") & " / " & TextBoxUmur.Text
                 End If
                 Trow("Alamat") = ReadSQLNIK("SELECT DomisiliAlamat FROM MasterPasien WHERE NoRekamMedis='" & TextBoxNoRekamMedis.Text & "'")
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("DrRequest") = butdokter.Text
                 Trow("Tanggal") = Format(DateTimeTanggalTransaksi.Value, "dd-MMM-yyyy")
@@ -2423,7 +2423,7 @@ GoBackthis:
             Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintHasilLabUSG.repx", True)
             Report.DataSource = Tempecg
             Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mm:ss") + UserLabAdmin
-            Report.Bands.Item(BandKind.PageHeader).Controls("DokterUSG").Text = ReadSQLNIK("SELECT DrUSG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            Report.Bands.Item(BandKind.PageHeader).Controls("DokterUSG").Text = ReadSQLNIK("SELECT DrUSG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             'Report.RunDesigner()
             Report.ShowPreview()
@@ -2432,9 +2432,9 @@ GoBackthis:
     End Sub
 
     Private Sub butprinttreadmill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprinttreadmill.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") Then
             Dim noNIK As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & TextBoxNoRekamMedis.Text & "'")
-            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
             insertRowToTbls(Tempecg, "typstring", "Registrasi")
             insertRowToTbls(Tempecg, "typstring", "Nama")
             insertRowToTbls(Tempecg, "typstring", "Umur")
@@ -2446,7 +2446,7 @@ GoBackthis:
 
             For Each Trow As DataRow In Tempecg.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -2462,7 +2462,7 @@ GoBackthis:
                     Trow("Umur") = Format(DateTimeTanggalLahir.Value, "dd MMM yyyy") & " / " & TextBoxUmur.Text
                 End If
                 Trow("Alamat") = ReadSQLNIK("SELECT DomisiliAlamat FROM MasterPasien WHERE NoRekamMedis='" & TextBoxNoRekamMedis.Text & "'")
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("DrRequest") = butdokter.Text
                 Trow("Tanggal") = Format(DateTimeTanggalTransaksi.Value, "dd-MMM-yyyy")
@@ -2472,7 +2472,7 @@ GoBackthis:
             Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintHasilLabTreadmill.repx", True)
             Report.DataSource = Tempecg
             Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mm:ss") + UserLabAdmin
-            Report.Bands.Item(BandKind.PageHeader).Controls("DokterTreadmill").Text = ReadSQLNIK("SELECT Drtreadmill FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            Report.Bands.Item(BandKind.PageHeader).Controls("DokterTreadmill").Text = ReadSQLNIK("SELECT Drtreadmill FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             'Report.RunDesigner()
             Report.ShowPreview()
@@ -2481,8 +2481,8 @@ GoBackthis:
     End Sub
 
     Private Sub butprintspiro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprintspiro.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") Then
-            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'")
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") Then
+            Dim Tempecg As DataTable = ReadSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'")
             insertRowToTbls(Tempecg, "typstring", "Registrasi")
             insertRowToTbls(Tempecg, "typstring", "Nama")
             insertRowToTbls(Tempecg, "typstring", "Umur")
@@ -2495,7 +2495,7 @@ GoBackthis:
 
             For Each Trow As DataRow In Tempecg.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -2511,7 +2511,7 @@ GoBackthis:
                     Trow("Umur") = Format(DateTimeTanggalLahir.Value, "dd MMM yyyy") & " / " & TextBoxUmur.Text
                 End If
                 Trow("Alamat") = ReadSQLNIK("SELECT DomisiliAlamat FROM MasterPasien WHERE NoRekamMedis='" & TextBoxNoRekamMedis.Text & "'")
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("DrRequest") = butdokter.Text
                 Trow("Tanggal") = Format(DateTimeTanggalTransaksi.Value, "dd-MMM-yyyy")
@@ -2521,7 +2521,7 @@ GoBackthis:
             Report = XtraReport.FromFile(Application.StartupPath + "\reports\PrintHasilLabSpiro.repx", True)
             Report.DataSource = Tempecg
             Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MMM-yyyy HH:mm:ss") + UserLabAdmin
-            Report.Bands.Item(BandKind.PageHeader).Controls("DokterSpiro").Text = ReadSQLNIK("SELECT DrSpiro FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            Report.Bands.Item(BandKind.PageHeader).Controls("DokterSpiro").Text = ReadSQLNIK("SELECT DrSpiro FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             'Report.RunDesigner()
             Report.ShowPreview()
@@ -2674,11 +2674,11 @@ GoBackthis:
 
         If Status = True Then
             '1=update
-            WriteSQL("Update TransaksiLabFisik set Dimana='" & Tdimana & "', Kenapa='" & Tkenapa & "',Jenis='" & Tjenis & "', Kapan='" & Tkapan & "', Result='" & Thasil & "',UpdateDate=getdate(),UpdateBy='" & UserLabAdmin & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "' AND FisikNoUrut='" & FisikID & "' AND FisikKet='" & FisikKet & "'", 4)
+            WriteSQL("Update TransaksiLabFisik set Dimana='" & Tdimana & "', Kenapa='" & Tkenapa & "',Jenis='" & Tjenis & "', Kapan='" & Tkapan & "', Result='" & Thasil & "',UpdateDate=getdate(),UpdateBy='" & UserLabAdmin & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "' AND FisikNoUrut='" & FisikID & "' AND FisikKet='" & FisikKet & "'", 4)
         ElseIf Status = False Then
             '0=new 
             Dim Txfisik As String = ReadSQLNIK("SELECT FisikKet FROM masterlabFisik WHERE FisikNoUrut='" & FisikID & "'")
-            WriteSQL("INSERT INTO TransaksiLabFisik(NoUrut,FisikNoUrut,FisikKet,Result,CreateDate,CreateBy, Dimana, Kenapa, Jenis, Kapan) VALUES('" & TextBoxNoTransaksi.Text & "','" & FisikID & "','" & Txfisik & "','" & Thasil & "',getdate(),'" & UserLabAdmin & "', '" & Tdimana & "', '" & Tkenapa & "', '" & Tjenis & "', '" & Tkapan & "')", 4)
+            WriteSQL("INSERT INTO TransaksiLabFisik(NoUrut,FisikNoUrut,FisikKet,Result,CreateDate,CreateBy, Dimana, Kenapa, Jenis, Kapan) VALUES('" & TextBoxNomorTransaksi.Text & "','" & FisikID & "','" & Txfisik & "','" & Thasil & "',getdate(),'" & UserLabAdmin & "', '" & Tdimana & "', '" & Tkenapa & "', '" & Tjenis & "', '" & Tkapan & "')", 4)
         End If
     End Sub
 
@@ -2689,7 +2689,7 @@ GoBackthis:
 
             Select Case MsgBox("Pastikan data yang anda simpan sudah di set kerangan/saran. Yakin untuk menyimpan data fisik?", MsgBoxStyle.YesNo, "Question.")
                 Case MsgBoxResult.Yes
-                    Dim Tbls As DataTable = ReadSQL("SELECT FisikNoUrut, FisikKet FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+                    Dim Tbls As DataTable = ReadSQL("SELECT FisikNoUrut, FisikKet FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
                     If Tbls.Rows.Count > 0 Then
                         For Each Trow As DataRow In Tbls.Rows
                             If Trow("FisikNoUrut") = txriwayat.Tag.ToString Then SaveFisikNew(txriwayat.Tag.ToString, txriwayat.Text, "", 1, Trow("FisikKet").ToString.Trim) : GoTo GoBackthis
@@ -2710,7 +2710,7 @@ GoBackthis:
 
                             'Khusus Visus Mata dsb
                             If Trow("FisikNoUrut").ToString.Contains("3012") = True Or Trow("FisikNoUrut").ToString.Contains("3014") = True Then
-                                WriteSQL("DELETE FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNoTransaksi.Text & "' AND FisikNoUrut IN (3012, 3013, 3014, 3015)", 4)
+                                WriteSQL("DELETE FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "' AND FisikNoUrut IN (3012, 3013, 3014, 3015)", 4)
 
                                 If txvisustanpakacamata.Text <> "" And txvisustanpakacamata2.Text <> "" Then
                                     SaveFisikNew(txvisustanpakacamata.Tag.ToString, txvisustanpakacamata.Text & "," & txvisustanpakacamata2.Text, "", 0, "")
@@ -2865,7 +2865,7 @@ GoBackthis:
             End Select
 
             ' Save StatusKesehatanFisik
-            WriteSQL("Update TransaksiLab set StatusKesehatanFisik = '" & TextBoxStatusFit.Text & "' WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'", 4)
+            WriteSQL("Update TransaksiLab set StatusKesehatanFisik = '" & TextBoxStatusFit.Text & "' WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'", 4)
 
             ' Clear TextBoxStatusFit
             TextBoxStatusFit.ResetText()
@@ -2878,7 +2878,7 @@ GoBackthis:
     End Sub
 
     Private Sub butfisiknewprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butfisiknewprint.Click
-        If CheckSQL("SELECT * FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'") = True Then
             CreateFisikToPDF("Print")
         Else
             MsgBox("Tidak ada data yang akan dicetak.", MsgBoxStyle.Critical, "Warning")
@@ -2981,11 +2981,11 @@ GoBackthis:
         End If
     End Sub
 
-    Private Sub txtindakanid_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBoxNoTransaksi.KeyUp
+    Private Sub txtindakanid_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBoxNomorTransaksi.KeyUp
         If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Tab Then
-            If CheckSQL("SELECT * FROM TransaksiLab WHERE NoUrut='20" & TextBoxNoTransaksi.Text & "'") = True Then
-                Dim Txnourut As String = Strings.Left(DateAndTime.Now.Year, 2) & TextBoxNoTransaksi.Text
-                Dim TxTransLabID As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE NoUrut='20" & TextBoxNoTransaksi.Text & "'")
+            If CheckSQL("SELECT * FROM TransaksiLab WHERE NoUrut='20" & TextBoxNomorTransaksi.Text & "'") = True Then
+                Dim Txnourut As String = Strings.Left(DateAndTime.Now.Year, 2) & TextBoxNomorTransaksi.Text
+                Dim TxTransLabID As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE NoUrut='20" & TextBoxNomorTransaksi.Text & "'")
                 LoadAdminLab(TxTransLabID, Txnourut, "empty")
             End If
         End If
@@ -3004,11 +3004,11 @@ GoBackthis:
             Report.Bands.Item(BandKind.Detail).Controls("txnama").Text = TextBoxNamaPasien.Text & " / " & noNIK
         End If
 
-        Report.Bands.Item(BandKind.Detail).Controls("txidcust").Text = TextBoxNoRekamMedis.Text & " / " & TextBoxNoTransaksi.Text
+        Report.Bands.Item(BandKind.Detail).Controls("txidcust").Text = TextBoxNoRekamMedis.Text & " / " & TextBoxNomorTransaksi.Text
         Report.Bands.Item(BandKind.Detail).Controls("txumur").Text = Format(DateTimeTanggalLahir.Value, "dd MMM yyyy") & " / " & TextBoxUmur.Text & " (" & TextBoxJenisKelamin.Text & ")"
         Report.Bands.Item(BandKind.Detail).Controls("txalamat").Text = ReadSQLNIK("SELECT DomisiliAlamat FROM MasterPasien WHERE NoRekamMedis='" & TextBoxNoRekamMedis.Text & "'")
 
-        If (TextBoxNoTransaksi.Text.Contains("M")) Then
+        If (TextBoxNomorTransaksi.Text.Contains("M")) Then
             namaCompany = ReadSQLNIK("SELECT SUBSTRING(c.NoJenisBayar, 1, CHARINDEX('-', c.NoJenisBayar) - 1) AS Result " & _
                                      "FROM TransaksiLab a " & _
                                      "INNER JOIN MasterPasien b ON a.IDInternet = b.NoRekamMedis " & _
@@ -3027,7 +3027,7 @@ GoBackthis:
     End Sub
 
     Private Sub butprintall_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butprintall.Click
-        If TextBoxNoTransaksi.Text <> "" Then
+        If TextBoxNomorTransaksi.Text <> "" Then
             If CheckedListBox1.GetItemChecked(0) Then PrintSementaraToolStripMenuItem_Click(sender, e)
             If CheckedListBox1.GetItemChecked(1) Then butprintthorax_Click(sender, e)
             If CheckedListBox1.GetItemChecked(2) Then butprintecg_Click(sender, e)
@@ -3042,9 +3042,9 @@ GoBackthis:
         End If
     End Sub
 
-    Private Sub txtindakanid_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBoxNoTransaksi.KeyDown
+    Private Sub txtindakanid_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBoxNomorTransaksi.KeyDown
         If e.KeyCode = Keys.Enter Then
-            Dim nourut As String = TextBoxNoTransaksi.Text
+            Dim nourut As String = TextBoxNomorTransaksi.Text
             Dim counttransid As String = nourut.Length()
             Dim newnourut As String
             Dim translabid As String
@@ -3087,14 +3087,14 @@ GoBackthis:
                     bagian3 = Strings.Mid(nourut, 11, 8)
                     newnourut = Strings.Left(DateAndTime.Now.Year, 2) & bagian1 & bagian2 & bagian3
                 Else
-                    TextBoxNoTransaksi.ResetText()
+                    TextBoxNomorTransaksi.ResetText()
                     MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
                     Exit Sub
                 End If
             ElseIf counttransid = 14 Then 'NoUrut Bukan Barcode
                 newnourut = nourut
             Else
-                TextBoxNoTransaksi.ResetText()
+                TextBoxNomorTransaksi.ResetText()
                 MessageBox.Show("Periksa lagi ID transaksinya", "Data Tidak Ditemukan")
                 Exit Sub
             End If
@@ -3104,7 +3104,7 @@ GoBackthis:
             If translabid.Length > 0 And translabid <> "-" Then
                 Me.LoadAdminLab(translabid, newnourut, "empty")
             Else
-                TextBoxNoTransaksi.ResetText()
+                TextBoxNomorTransaksi.ResetText()
                 MsgBox("Data tidak ditemukan, cek barcode apakah sudah benar & sudah di barcode.", MsgBoxStyle.Exclamation, "Warning!")
             End If
         End If
@@ -3155,11 +3155,14 @@ GoBackthis:
                     End If
 
                     If Strings.LCase(Trownew("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(Trownew("NamaTindakan").ToString).Contains("spirometri") Then
-                        WriteSQL("update TransaksiLabResult set Result='" & Trownew("Result") & "' , Keterangan='-'  WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
+                        WriteSQL("UPDATE TransaksiLabResult set Result='" & Trownew("Result") & "' , Keterangan='-'  WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
                     Else
-                        WriteSQL("update TransaksiLabResult set Acc1='" & UserLabAdmin & "' + ';'  + convert(nvarchar(MAX), GETDATE(), 113) ,acc2='BYPASS;'  + convert(nvarchar(MAX), GETDATE(), 113), Result='" & Trownew("Result") & "' , Keterangan='" & Trownew("Keterangan") & "', Saran='" & Trownew("Saran") & "', Pria='" & Trownew("Pria") & "' , Wanita='" & Trownew("Wanita") & "', Flag = '" & Trownew("Flag") & "', Satuan='" & Trownew("Satuan") & "' WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
+                        WriteSQL("UPDATE TransaksiLabResult set Acc1='" & UserLabAdmin & "' + ';'  + convert(nvarchar(MAX), GETDATE(), 113) ,acc2='BYPASS;'  + convert(nvarchar(MAX), GETDATE(), 113), Result='" & Trownew("Result") & "' , Keterangan='" & Trownew("Keterangan") & "', Saran='" & Trownew("Saran") & "', Pria='" & Trownew("Pria") & "' , Wanita='" & Trownew("Wanita") & "', Flag = '" & Trownew("Flag") & "', Satuan='" & Trownew("Satuan") & "' WHERE TransLabIDDetail='" & Trownew("TransLabIDDetail") & "' AND TindakanID='" & Trownew("TindakanID") & "' AND GroupID='" & Trownew("GroupID") & "' AND NoUrut='" & Trownew("NoUrut") & "' AND DetailKet='" & Trownew("DetailKet") & "'", 4)
                     End If
                 Next
+
+                ' Upload Data Online
+                UploadData(TextBoxNomorTransaksi.Text)
 
                 If CheckSQL("SELECT * FROM TransaksiLab WHERE TransLabID='" & idTransaksi & "' AND [status]='CHECK'") = True And CountResultEmpty = 0 Then
                     WriteSQL("update TransaksiLab set Saran='" & txsaranall.Text & "', Kesimpulan='" & txketall.Text & "', [status]='CETAK',  LabEndTime=getdate(), TglInputHasil=getdate() WHERE TransLabID='" & idTransaksi & "'", 4)
@@ -3174,7 +3177,7 @@ GoBackthis:
                     MsgBox("Berhasil menyimpan data.", MsgBoxStyle.Information, "Success!")
                 End If
 
-                'Save PDF Hasil
+                ' Save PDF Hasil
                 CreateHasilToPDF("Nothing", "Yes")
 
                 If CheckSQL("SELECT * FROM TransaksiLab WHERE TransLabID = '" & idTransaksi & "' AND StatusHardcopy = 1") = True And CountResultEmpty = 0 Then
@@ -3186,6 +3189,177 @@ GoBackthis:
                 ElseIf CheckSQL("SELECT * FROM TransaksiLab WHERE TransLabID = '" & idTransaksi & "' AND StatusSoftcopy = 1") = True And CountResultEmpty = 0 Then
                     PreviewHasilLabToolStripMenuItem.PerformClick()
                 End If
+            End If
+        End If
+    End Sub
+
+    Private Function ValidasiDataUpload() As Boolean
+        ' Cek sambungan internet
+        If CheckInternetConnection() = False Then
+            MessageBox.Show("Eror : Tidak ada koneksi internet.", "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+            Return False
+        End If
+
+        ' Cek Koneksi Database Online
+        If Not ValidasiKoneksi("Database Poliklinik Online", DB_Poliklinik) Then Return False
+
+        Return True
+    End Function
+
+    Private Function GetDateValue(ByVal row As DataRow, ByVal fieldName As String) As String
+        If row.IsNull(fieldName) Then
+            Return "19000101"
+        Else
+            Return CType(row(fieldName), DateTime).ToString("yyyy-MM-dd HH:mm:ss")
+        End If
+    End Function
+
+    Private Sub UploadData(ByVal nomorTransaksi As String)
+        'SetConnection()
+
+        If ValidasiDataUpload() = True Then
+            ' Set Variabel
+            Dim kodePoli As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName LIKE '%NoPoli%'")
+
+            ' Query Get Data Offline
+            Dim stringQuery As New System.Text.StringBuilder()
+            stringQuery.AppendLine("SELECT *")
+            stringQuery.AppendLine("FROM TransaksiLab t")
+            stringQuery.AppendLine("     INNER JOIN MasterPasien m ON t.IDInternet = m.NoRekamMedis")
+            stringQuery.AppendLine("WHERE t.deleted = 0")
+            stringQuery.AppendLine("  AND (t.UploadMesin IS NULL OR Status = 'CETAK' OR Status = 'TAKEIT')")
+            stringQuery.AppendLine("  AND t.LabSamplingTime IS NOT NULL")
+            stringQuery.AppendLine("  AND t.NoUrut = '" & nomorTransaksi & "'")
+
+            ' Set Data tblTransaksi
+            Dim tblTransaksi As DataTable = ReadSQL(stringQuery.ToString())
+
+            If tblTransaksi.Rows.Count > 0 Then
+                For i As Integer = 0 To tblTransaksi.Rows.Count - 1
+                    Dim rowTransaksi As DataRow = tblTransaksi.Rows(i)
+
+                    Dim closedbayar As String = GetDateValue(rowTransaksi, "closedbayar")
+                    Dim TglInputHasil As String = GetDateValue(rowTransaksi, "TglInputHasil")
+                    Dim TglCetakHasil As String = GetDateValue(rowTransaksi, "TglCetakHasil")
+                    Dim TglTerimahasil As String = GetDateValue(rowTransaksi, "TglTerimahasil")
+                    Dim ChangeDate As String = GetDateValue(rowTransaksi, "ChangeDate")
+                    Dim LabDaftar As String = GetDateValue(rowTransaksi, "LabDaftar")
+                    Dim LabSamplingTime As String = GetDateValue(rowTransaksi, "LabSamplingTime")
+                    Dim LabStartTime As String = GetDateValue(rowTransaksi, "LabStartTime")
+                    Dim LabSendMail As String = GetDateValue(rowTransaksi, "LabSendMail")
+                    Dim LabEndTime As String = GetDateValue(rowTransaksi, "LabEndTime")
+                    Dim LabCetak As String = GetDateValue(rowTransaksi, "LabCetak")
+                    Dim UploadDate As String = GetDateValue(rowTransaksi, "UploadDate")
+                    Dim UploadHasil As String = GetDateValue(rowTransaksi, "UploadHasil")
+
+                    Dim dokterPengirim As String = ReadSQLNIK("SELECT DrNama FROM MasterDokterKirim WHERE IdKirim in (SELECT IdKirim FROM MasterDokterTempatPraktek WHERE IdPraktek in (SELECT DokterRequest FROM TransaksiLab WHERE TransLabID='" & rowTransaksi("TransLabID") & "' and Nourut='" & rowTransaksi("nourut") & "'))")
+
+                    ' Query Get Data TransaksiLabResult
+                    Dim stringQueryLabResult As New System.Text.StringBuilder()
+                    stringQueryLabResult.AppendLine("SELECT *")
+                    stringQueryLabResult.AppendLine("FROM transaksilabresult a")
+                    stringQueryLabResult.AppendLine("     INNER JOIN transaksilabdetail b ON a.translabiddetail = b.translabiddetail")
+                    stringQueryLabResult.AppendLine("     INNER JOIN transaksilab c ON b.translabid = c.translabid")
+                    stringQueryLabResult.AppendLine("WHERE c.NoUrut = '" & rowTransaksi("NoUrut") & "'")
+                    stringQueryLabResult.AppendLine("ORDER BY a.groupid")
+
+                    ' Set Data tblLabResult
+                    Dim tblLabResult As DataTable = ReadSQL(stringQueryLabResult.ToString())
+                    tblLabResult.AcceptChanges()
+
+                    ' Query Get Data TransaksiLabDetail
+                    Dim stringQueryLabDetail As New System.Text.StringBuilder()
+                    stringQueryLabDetail.AppendLine("SELECT a.*")
+                    stringQueryLabDetail.AppendLine("FROM TransaksiLabDetail a")
+                    stringQueryLabDetail.AppendLine("     LEFT JOIN TransaksiLab b ON a.TransLabID = b.TransLabID")
+                    stringQueryLabDetail.AppendLine("WHERE b.NoUrut = '" & rowTransaksi("NoUrut") & "'")
+
+                    ' Set Data tblLabResult
+                    Dim tblLabDetail As DataTable = ReadSQL(stringQueryLabDetail.ToString())
+                    tblLabDetail.AcceptChanges()
+
+                    ' Query Get Data TransaksiLabBayar
+                    Dim stringQueryLabBayar As New System.Text.StringBuilder()
+                    stringQueryLabBayar.AppendLine("SELECT a.*")
+                    stringQueryLabBayar.AppendLine("FROM TransaksiLabBayar a")
+                    stringQueryLabBayar.AppendLine("     LEFT JOIN TransaksiLab b ON a.TransLabID = b.TransLabID")
+                    stringQueryLabBayar.AppendLine("WHERE b.NoUrut = '" & rowTransaksi("NoUrut") & "'")
+
+                    ' Set Data tblLabResult
+                    Dim tblLabBayar As DataTable = ReadSQL(stringQueryLabBayar.ToString())
+                    tblLabBayar.AcceptChanges()
+
+                    ' Insert/Update Tabel Master Pasien
+                    If CheckThemysql("SELECT * FROM masterpasien WHERE nomitra = '" & rowTransaksi("NoRekamMedis") & "' AND cabang = '" & kodePoli & "' ", DB_Poliklinik) = False Then
+                        WriteThemysql("INSERT INTO masterpasien (`cabang`, `nomitra`, `nokartu`, `nama`, `alamat`, `tempatlahir`, `tgllahir`, `statusmarital`, `agama`, `kebangsaan`, `sex`, `goldarah`, `alergi`, `ktp`, `ktpalamat`, `tlprumah`, `tlp`, `email`, `createdate`, `createby`,`PTNIK`,`NIP`) " & _
+                                      "VALUES('" & kodePoli & "', '" & rowTransaksi("NoRekamMedis") & "', '-', '" & rowTransaksi("Nama") & "','" & rowTransaksi("DomisiliAlamat") & "', '" & rowTransaksi("TempatLahir") & "', '" & Format(rowTransaksi("TglLahir"), "yyyyMMdd") & "', '" & rowTransaksi("StatusPerkawinan") & "', '" & rowTransaksi("Agama") & "', '" & rowTransaksi("Kewarganegaraan") & "', '" & rowTransaksi("JenisKelamin") & "', '" & rowTransaksi("GolonganDarah") & "', '-', '" & rowTransaksi("NoNIK") & "', '" & rowTransaksi("KtpAlamat") & "', '" & rowTransaksi("NoTelepon") & "', '" & rowTransaksi("NoHandphone") & "', '" & rowTransaksi("Email") & "', '" & Format(DateAndTime.Now, "yyyyMMdd") & "', '" & UserLabAdmin & "','" & rowTransaksi("NoNIK") & "','" & rowTransaksi("NoNIP") & "')", DB_Poliklinik)
+                    Else
+                        WriteThemysql("UPDATE masterpasien SET NIP = '" & rowTransaksi("NoNIP").ToString.Trim & "', alamat = '" & rowTransaksi("DomisiliAlamat").ToString.Trim & "', tlp = '" & rowTransaksi("NoHandphone").ToString.Trim & "', email='" & rowTransaksi("Email").ToString.Trim & "' WHERE nomitra = '" & rowTransaksi("NoRekamMedis") & "' and cabang = '" & kodePoli & "'", DB_Poliklinik)
+                    End If
+
+                    ' Insert/Update Tabel Transaksi
+                    If CheckThemysql("SELECT * FROM transaksilab WHERE nourut = '" & nomorTransaksi & "' AND idtempatlab = '" & kodePoli & "'", DB_Poliklinik) = False Then
+                        ' ###### INSERT DATA ONLINE ######
+
+                        ' Insert Tabel TransaksiLab Online
+                        WriteThemysql("INSERT INTO transaksilab (idlabinternet, translabid, idpasien, idtempatlab, dokterlab, dokterrequest, idpaket, tgllab, totaltagihan, totaldisc, pembulatan, nettbayar, totalbayar, pengembalian, closedbayar, closedinputhasil, userinputhasil, tglinputhasil, tglcetakhasil, usercetakhasil, labjenispembayaran, tglterimahasil, closedtransaksi, createdate, createby, changedate, changeby, labjenispasien, nourut, status, caraambil, labdaftar, labsamplingtime, labstarttime, labsendmail, labendtime, labcetak, upload, uploaddate, kesimpulan, uploadhasil, nama, tgllahir, saran, DetailPemeriksaan, SendingWhatsapp, SendingEmail) " & _
+                                      "VALUES('', '" & rowTransaksi("TransLabID") & "', '" & rowTransaksi("IDInternet").ToString & "', '" & kodePoli & "', '" & rowTransaksi("dokterlab") & "', '" & dokterPengirim & "','" & rowTransaksi("idpaket") & "', '" & Format(rowTransaksi("TglLab"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("totaltagihan") & "','" & rowTransaksi("totaldisc") & "','" & rowTransaksi("pembulatan") & "','" & rowTransaksi("nettbayar") & "','" & rowTransaksi("totalbayar") & "','" & rowTransaksi("pengembalian") & "', '" & closedbayar & "', '" & CInt(Int(rowTransaksi("closedinputhasil"))) & "','" & rowTransaksi("userinputhasil") & "', '" & TglInputHasil & "', '" & TglCetakHasil & "','" & rowTransaksi("usercetakhasil") & "','" & rowTransaksi("labjenispembayaran") & "', '" & TglTerimahasil & "', '" & rowTransaksi("closedtransaksi") & "', '" & Format(rowTransaksi("createdate"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("createby") & "', '" & ChangeDate & "', '" & rowTransaksi("changeby") & "','" & rowTransaksi("labjenispasien") & "','" & rowTransaksi("nourut") & "','" & rowTransaksi("status").ToString.Trim & "','" & rowTransaksi("caraambil") & "', '" & LabDaftar & "', '" & LabSamplingTime & "',  '" & LabStartTime & "', '" & LabSendMail & "', '" & LabEndTime & "', '" & LabCetak & "', '" & CInt(Int(rowTransaksi("upload"))) & "', '" & UploadDate & "', '" & rowTransaksi("kesimpulan") & "', '" & UploadHasil & "', '" & rowTransaksi("nama") & "', '" & Format(rowTransaksi("tgllahir"), "yyyyMMdd") & "', '" & rowTransaksi("saran") & "', '" & rowTransaksi("DetailPemeriksaan") & "', '" & rowTransaksi("SendingWhatsapp") & "', '" & rowTransaksi("SendingEmail") & "')", DB_Poliklinik)
+
+                        ' Get idlabinternet Online
+                        Dim idTransaksiOnline As String = ReadThemysqlNIK("SELECT idlabinternet FROM transaksilab WHERE idtempatlab='" & kodePoli & "' and idpasien='" & rowTransaksi("IDInternet").ToString & "' and translabid='" & rowTransaksi("TransLabID") & "'", DB_Poliklinik)
+
+                        ' Insert Tabel TransaksiLabResult Online
+                        For Each rowResult As DataRow In tblLabResult.Rows
+                            If String.IsNullOrEmpty(rowResult("transaksitime").ToString()) = True Then
+                                rowResult("transaksitime") = Convert.ToDateTime("1900-01-01")
+                            End If
+
+                            WriteThemysql("INSERT INTO transaksilabresult(idlabinternet, translabiddetail, tindakanid, groupid, nourut, detailket, pria, wanita, result, satuan, keterangan, acc1, acc2, acc3, admin, transaksitime, urutan, saran) " & _
+                                          " VALUES('" & idTransaksiOnline & "','" & rowResult("translabiddetail") & "','" & rowResult("tindakanid") & "','" & rowResult("NamaTindakan") & "','" & rowResult("NoUrut") & "','" & rowResult("DetailKet") & "','" & rowResult("Pria") & "','" & _
+                                          rowResult("Wanita") & "','" & rowResult("Result") & "','" & rowResult("Satuan") & "','" & rowResult("Keterangan") & "','" & rowResult("Acc1") & "','" & rowResult("Acc2") & "', '" & rowResult("Acc2") & "', '" & rowResult("admin") & "', '" & Format(rowResult("transaksitime"), "yyyyMMdd") & "', '" & rowResult("urutan") & "', '" & rowResult("saran") & "')", DB_Poliklinik)
+                        Next
+
+                        ' Insert Tabel TransaksiLabDetail Online
+                        For Each rowDetail As DataRow In tblLabDetail.Rows
+                            If String.IsNullOrEmpty(rowDetail("transaksitime").ToString()) = True Then
+                                rowDetail("transaksitime") = Convert.ToDateTime("1900-01-01")
+                            End If
+                            WriteThemysql("INSERT INTO transaksilabdetail(idlabinternet, translabiddetail, TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan, Mesin) " & _
+                                          "VALUES('" & idTransaksiOnline & "','" & rowDetail("translabiddetail") & "','" & rowDetail("translabid") & "','" & rowDetail("TindakanID") & "','" & rowDetail("NamaTindakan") & "','" & rowDetail("JenisTindakan") & "'," & CDbl(rowDetail("BiayaTindakan")) & "," & CDbl(rowDetail("DiscTindakan")) & "," & CDbl(rowDetail("NettBayar")) & ",'" & UserLabAdmin & "',now()," & CDbl(rowDetail("DiscPersenTindakan")) & ",'" & rowDetail("Mesin") & "')", DB_Poliklinik)
+                        Next
+
+                        ' Insert Tabel TransaksiLabBayar Online
+                        For Each rowBayar As DataRow In tblLabBayar.Rows
+                            WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid,jenisbayar,nojenisbayar,jumlahbayar,admin,transaksitime,kembali,mesin,kartu) " & _
+                                          "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & rowBayar("transaksitime") & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
+                        Next
+
+                        WriteSQL("UPDATE TransaksiLab SET UploadMesin = 1, UploadMesinDate = GETDATE() WHERE TransLabID = '" & rowTransaksi("TransLabID") & "'", 4)
+                    Else
+                        ' ###### UPDATE DATA ONLINE ######
+
+                        ' Hanya Update Jika Status CETAK / TAKEIT
+                        If rowTransaksi("Status").ToString.Trim = "CETAK" Or rowTransaksi("Status").ToString.Trim = "TAKEIT" Then
+                            ' Get idlabinternet Online
+                            Dim idTransaksiOnline As String = ReadThemysqlNIK("SELECT idlabinternet FROM transaksilab WHERE idtempatlab='" & kodePoli & "' and idpasien='" & rowTransaksi("IDInternet").ToString & "' and translabid='" & rowTransaksi("TransLabID") & "'", DB_Poliklinik)
+
+                            ' Update Tabel TransaksiLab Online
+                            WriteThemysql("UPDATE transaksilab SET saran = '" & rowTransaksi("Saran") & "', kesimpulan = '" & rowTransaksi("Kesimpulan") & "', status = '" & rowTransaksi("Status").ToString.Trim & "', labstarttime = '" & LabStartTime & "', labendtime = '" & LabEndTime & "', tglinputhasil = '" & TglInputHasil & "' WHERE idlabinternet = '" & idTransaksiOnline & "'", DB_Poliklinik)
+
+                            ' Update Tabel TransaksiLabResult Online
+                            For Each rowResult As DataRow In tblLabResult.Rows
+                                If Strings.LCase(rowResult("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("spirometri") Then
+                                    WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '-' WHERE idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                Else
+                                    WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '" & rowResult("Keterangan") & "', Saran = '" & rowResult("Saran") & "', Pria = '" & rowResult("Pria") & "' , Wanita = '" & rowResult("Wanita") & "', Flag = '" & rowResult("Flag") & "', Satuan = '" & rowResult("Satuan") & "', Urutan = '" & rowResult("Urutan") & "', acc1 = '" & rowResult("Acc1") & "', acc2 = '" & rowResult("Acc2") & "' where idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                End If
+                            Next
+                        End If
+                    End If
+
+                    WriteSQL("UPDATE TransaksiLab SET UploadMesin=1, UploadMesinDate=getdate() WHERE TransLabID='" & rowTransaksi("TransLabID") & "'", 4)
+                Next
             End If
         End If
     End Sub
@@ -3663,7 +3837,7 @@ GoBackthis:
     End Sub
 
     Private Sub PrintSuratKetToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PrintSuratKetToolStripMenuItem.Click
-        If CheckSQL("SELECT TglInputHasil FROM TransaksiLab WHERE NoUrut='" & TextBoxNoTransaksi.Text & "' AND TglInputHasil is not null") = True Then
+        If CheckSQL("SELECT TglInputHasil FROM TransaksiLab WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "' AND TglInputHasil is not null") = True Then
             Dim keycancel As Boolean = False
             Report = New XtraReport
             Select Case MsgBox("Apakah anda ingin menampilkan surat keterangan dengan Kop?", MsgBoxStyle.YesNoCancel, "Question.")
@@ -3750,7 +3924,7 @@ GoBackthis:
             EmailCustomer = "-"
         End If
         ' Save PDF Hasil ke Path Tujuan
-        Dim NameFile As String = TextBoxNoTransaksi.Text & "_Hasil_Laboratorium"
+        Dim NameFile As String = TextBoxNomorTransaksi.Text & "_Hasil_Laboratorium"
         Dim filepath As String = "FileDownload\Hasil\" & NameFile & ".pdf"
         If File.Exists(filepath) = False Then
             CreateHasilToPDF("Nothing", "Yes")
@@ -3762,7 +3936,7 @@ GoBackthis:
             If Strings.LCase(TrowDetail("NamaTindakan").ToString).Contains("hematologi lengkap") = True Then
                 'Check Hematologi Lengkap
                 If Utility.GetConfig("Mesin") = "Yes" And CekKoneksi("SHOW TABLES FROM " & DB_Sysmex.Tdb & "", DB_Sysmex) = True Then
-                    Dim NameFileDL As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap"
+                    Dim NameFileDL As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap"
                     Dim filepathDL As String = "FileDownload\Hasil\Hematologi_Lengkap\" & NameFileDL & ".pdf"
                     If File.Exists(filepathDL) = False Then
                         'Save PDF
@@ -3778,7 +3952,7 @@ GoBackthis:
                 End If
             ElseIf Strings.LCase(TrowDetail("NamaTindakan").ToString).Contains("thorax") = True Then
                 'Check Thorax
-                Dim NameFileThorax As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax"
+                Dim NameFileThorax As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax"
                 Dim filepaththorax As String = "FileDownload\Hasil\Thorax\" & NameFileThorax & ".pdf"
                 If File.Exists(filepaththorax) = False Then
                     'Save PDF
@@ -3848,7 +4022,7 @@ GoBackthis:
             End If
 
             'SENDING WHATSAPP KE COMPANY
-            Dim NoUrut As String = TextBoxNoTransaksi.Text
+            Dim NoUrut As String = TextBoxNomorTransaksi.Text
             Dim Tcompany As DataTable = ReadSQL("SELECT No_Handphone2, No_Handphone, Email_Perusahaan, TerimaHasilKaryawan, Whatsapp_Auto, Email_Auto FROM MasterCompany WHERE NoCompany='" & txcodepenagihan.Text.Trim & "'")
             If Tcompany.Rows.Count > 0 Then
                 Dim TrowCompany As DataRow = Tcompany.Rows(0)
@@ -3936,9 +4110,9 @@ GoBackthis:
                     UmurPasien = Format(DateTimeTanggalLahir.Value, "dd MMM yyyy") & " / " & TextBoxUmur.Text
                 End If
                 Dim Alamat As String = txalamat.Text
-                Dim NoTransaksi As String = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Dim NoTransaksi As String = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Dim DrRequest As String = ""
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     Dim Tsplit() As String = TrowPasien("NoJenisBayar").ToString.Split("-")
                     DrRequest = Tsplit(0).ToString.Trim
                 Else
@@ -3952,10 +4126,10 @@ GoBackthis:
                 Dim T2 As Double = 0
 
                 Dim Tstrtemp As String = ""
-                If TextBoxNoTransaksi.Text.ToString.Contains("L") = True Then
-                    Tstrtemp = Strings.Replace(TextBoxNoTransaksi.Text.ToString.Trim, "L", "8")
-                ElseIf TextBoxNoTransaksi.Text.ToString.Contains("M") = True Then
-                    Tstrtemp = Strings.Replace(TextBoxNoTransaksi.Text.ToString.Trim, "M", "9")
+                If TextBoxNomorTransaksi.Text.ToString.Contains("L") = True Then
+                    Tstrtemp = Strings.Replace(TextBoxNomorTransaksi.Text.ToString.Trim, "L", "8")
+                ElseIf TextBoxNomorTransaksi.Text.ToString.Contains("M") = True Then
+                    Tstrtemp = Strings.Replace(TextBoxNomorTransaksi.Text.ToString.Trim, "M", "9")
                 End If
 
                 Dim NoUrutMesin As String = KodeBarcode & Strings.Right(Tstrtemp.ToString.Trim, Len(Tstrtemp.ToString.Trim) - 2)
@@ -4054,7 +4228,7 @@ GoBackthis:
                     End If
 
                     'SavePDF
-                    Dim NameFile As String = TextBoxNoTransaksi.Text & "_Hasil_Hematologi_Lengkap"
+                    Dim NameFile As String = TextBoxNomorTransaksi.Text & "_Hasil_Hematologi_Lengkap"
                     Dim filepath As String = "FileDownload\Hasil\Hematologi_Lengkap\" & NameFile & ".pdf"
                     If File.Exists(filepath) Then
                         My.Computer.FileSystem.DeleteFile(filepath)
@@ -4070,7 +4244,7 @@ GoBackthis:
     End Sub
 
     Private Sub CreateThoraxToPDF(ByVal Action As String, ByVal Kop As String)
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
             Dim TempWhatsapp As String = ""
             Dim TempEmail As String = ""
 
@@ -4085,7 +4259,7 @@ GoBackthis:
             Dim Pengirim As String = ""
             If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
             Dim caraambil As String = TrowLab("caraambil")
-            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
                 Pengirim = "Atas Permintaan Sendiri"
             End If
 
@@ -4118,7 +4292,7 @@ GoBackthis:
             For Each Trow As DataRow In Tlab.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -4136,13 +4310,13 @@ GoBackthis:
                 End If
 
                 Trow("Alamat") = txalamat.Text
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("Hasil") = caraambil
                 If Pengirim <> "" Then
                     Trow("DrRequest") = Pengirim
                 Else
-                    If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                    If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                         Trow("DrRequest") = txpenagihan.Text.Trim
                     Else
                         Trow("DrRequest") = butdokter.Text
@@ -4184,7 +4358,7 @@ GoBackthis:
 
             If Kop = "Yes" Then
                 'SavePDF
-                Dim NameFile As String = TextBoxNoTransaksi.Text & "_Hasil_Thorax"
+                Dim NameFile As String = TextBoxNomorTransaksi.Text & "_Hasil_Thorax"
                 Dim filepath As String = "FileDownload\Hasil\Thorax\" & NameFile & ".pdf"
                 If File.Exists(filepath) Then
                     My.Computer.FileSystem.DeleteFile(filepath)
@@ -4213,7 +4387,7 @@ GoBackthis:
 
     Private Sub CreateFisikToPDF(ByVal Action As String)
         'Dim Tempfisik As DataTable = ReadSQL("SELECT HasilFisikID,FisikNoUrut,FisikKet,REPLACE(replace(result,'.',''),'~',' ') as Result FROM transaksilabFisik WHERE (NoUrut='" & txtindakanid.Text & "' AND FisikNoUrut between 3006 AND 3028) order by FisikNoUrut asc")
-        Dim Tempfisik As DataTable = ReadSQL("SELECT HasilFisikID,FisikNoUrut,FisikKet,REPLACE(result,'~',' ') as Result FROM transaksilabFisik WHERE NoUrut='" & TextBoxNoTransaksi.Text & "' AND ((FisikNoUrut between 3006 AND 3028) OR FisikNoUrut = 4001) order by FisikNoUrut asc")
+        Dim Tempfisik As DataTable = ReadSQL("SELECT HasilFisikID,FisikNoUrut,FisikKet,REPLACE(result,'~',' ') as Result FROM transaksilabFisik WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "' AND ((FisikNoUrut between 3006 AND 3028) OR FisikNoUrut = 4001) order by FisikNoUrut asc")
 
         insertRowToTbls(Tempfisik, "typstring", "Registrasi")
         insertRowToTbls(Tempfisik, "typstring", "Nama")
@@ -4247,7 +4421,7 @@ GoBackthis:
         Dim Pengirim As String = ""
         If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
         Dim caraambil As String = TrowLab("caraambil")
-        If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+        If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
             Pengirim = "Atas Permintaan Sendiri"
         End If
 
@@ -4270,7 +4444,7 @@ GoBackthis:
         For Each Trow As DataRow In Tempfisik.Rows
             Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-            If (TextBoxNoTransaksi.Text.Contains("M")) Then
+            If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                 If IsNumeric(Trow("Nama")) = True Then
                     Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                 Else
@@ -4289,12 +4463,12 @@ GoBackthis:
 
             Trow("Alamat") = txalamat.Text
             Trow("DrPelaksana") = DrPelaksanaKlinik
-            Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+            Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
             Trow("Hasil") = caraambil
             If Pengirim <> "" Then
                 Trow("DrRequest") = Pengirim
             Else
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     Trow("DrRequest") = txpenagihan.Text.Trim
                 Else
                     Trow("DrRequest") = butdokter.Text
@@ -4339,7 +4513,7 @@ GoBackthis:
         Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MM-yyyy HH:mm:ss") + " by " + UserLabAdmin
         Report.Bands.Item(BandKind.PageHeader).Controls("nomorijinklinik").Text = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='NomorIjinLab'")
 
-        Dim Tbls As DataTable = ReadSQL("SELECT a.result, a.fisiknourut FROM transaksilabfisik a, transaksilab b WHERE a.nourut='" & TextBoxNoTransaksi.Text & "' AND a.nourut=b.nourut")
+        Dim Tbls As DataTable = ReadSQL("SELECT a.result, a.fisiknourut FROM transaksilabfisik a, transaksilab b WHERE a.nourut='" & TextBoxNomorTransaksi.Text & "' AND a.nourut=b.nourut")
         For Each Trow As DataRow In Tbls.Rows
             If Trow("fisiknourut") = cmbfisiknewdr.Tag.ToString Then Report.Bands.Item(BandKind.PageHeader).Controls("txdrpelaksana").Text = Trow("result") : GoTo GoBackthis
             If Trow("fisiknourut") = TextBoxTinggiBadan.Tag.ToString Then Report.Bands.Item(BandKind.GroupHeader).Controls("txtb").Text = Trow("result") : GoTo GoBackthis
@@ -4530,7 +4704,7 @@ GoBackthis:
     End Sub
 
     Private Sub butpreviewecg_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butpreviewecg.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
             Dim TempWhatsapp As String = ""
             Dim TempEmail As String = ""
 
@@ -4547,7 +4721,7 @@ GoBackthis:
             Dim Pengirim As String = ""
             If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
             Dim caraambil As String = TrowLab("caraambil")
-            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
                 Pengirim = "Atas Permintaan Sendiri"
             End If
 
@@ -4580,7 +4754,7 @@ GoBackthis:
             For Each Trow As DataRow In Tlab.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -4598,13 +4772,13 @@ GoBackthis:
                 End If
 
                 Trow("Alamat") = txalamat.Text
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("Hasil") = caraambil
                 If Pengirim <> "" Then
                     Trow("DrRequest") = Pengirim
                 Else
-                    If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                    If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                         Trow("DrRequest") = txpenagihan.Text.Trim
                     Else
                         Trow("DrRequest") = butdokter.Text
@@ -4622,7 +4796,7 @@ GoBackthis:
 
             Report.DataSource = Tlab
             Report.Bands.Item(BandKind.PageFooter).Controls("lblprinted").Text = Format(DateAndTime.Now, "dd-MM-yyyy HH:mm:ss") + " by " + UserLabAdmin
-            Report.Bands.Item(BandKind.PageHeader).Controls("DokterECG").Text = ReadSQLNIK("SELECT DrECG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'")
+            Report.Bands.Item(BandKind.PageHeader).Controls("DokterECG").Text = ReadSQLNIK("SELECT DrECG FROM TransaksiLabHasilLain WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'")
 
             'Report.RunDesigner()
             Report.ShowPreview()
@@ -4631,7 +4805,7 @@ GoBackthis:
     End Sub
 
     Private Sub butpreviewaudio_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butpreviewaudio.Click
-        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabHasilLain WHERE [NoUrut]='" & TextBoxNomorTransaksi.Text & "'") = True Then
             Dim TempWhatsapp As String = ""
             Dim TempEmail As String = ""
 
@@ -4648,7 +4822,7 @@ GoBackthis:
             Dim Pengirim As String = ""
             If IsDBNull(TrowLab("NoNIK")) = False Then noNIK = TrowLab("NoNIK") Else noNIK = "-"
             Dim caraambil As String = TrowLab("caraambil")
-            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNoTransaksi.Text.Contains("M") = True Then
+            If CheckSQL("SELECT * FROM MasterCompany WHERE NoCompany = '" & txcodepenagihan.Text.Trim & "' AND ReportHasilPerusahaan = 0") = True And TextBoxNomorTransaksi.Text.Contains("M") = True Then
                 Pengirim = "Atas Permintaan Sendiri"
             End If
 
@@ -4681,7 +4855,7 @@ GoBackthis:
             For Each Trow As DataRow In Tlab.Rows
                 Trow("Registrasi") = TextBoxNoRekamMedis.Text
 
-                If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                     If IsNumeric(Trow("Nama")) = True Then
                         Trow("Nama") = TextBoxGelar.Text & " " & TextBoxNamaPasien.Text & "/(" & TextBoxJenisKelamin.Text & ")" & vbCrLf
                     Else
@@ -4699,13 +4873,13 @@ GoBackthis:
                 End If
 
                 Trow("Alamat") = txalamat.Text
-                Trow("NoTransaksi") = TextBoxNoTransaksi.Text & " (" & idTransaksi & ")"
+                Trow("NoTransaksi") = TextBoxNomorTransaksi.Text & " (" & idTransaksi & ")"
                 Trow("DrPelaksana") = DrPelaksanaKlinik
                 Trow("Hasil") = caraambil
                 If Pengirim <> "" Then
                     Trow("DrRequest") = Pengirim
                 Else
-                    If (TextBoxNoTransaksi.Text.Contains("M")) Then
+                    If (TextBoxNomorTransaksi.Text.Contains("M")) Then
                         Trow("DrRequest") = txpenagihan.Text.Trim
                     Else
                         Trow("DrRequest") = butdokter.Text
@@ -4748,7 +4922,7 @@ GoBackthis:
     End Sub
 
     Private Sub butfisiknewpreview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butfisiknewpreview.Click
-        If CheckSQL("SELECT * FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNoTransaksi.Text & "'") = True Then
+        If CheckSQL("SELECT * FROM TransaksiLabFisik WHERE NoUrut='" & TextBoxNomorTransaksi.Text & "'") = True Then
             CreateFisikToPDF("Preview")
         Else
             MsgBox("Tidak ada data yang di preview.", MsgBoxStyle.Critical, "Warning")
@@ -4769,7 +4943,7 @@ GoBackthis:
         End If
 
         If status = True Then
-            ResultMachine.LoadAdminLab(idTransaksi, TextBoxNoTransaksi.Text, "Diff3", "DownloadHasilOnline", Tloc)
+            ResultMachine.LoadAdminLab(idTransaksi, TextBoxNomorTransaksi.Text, "Diff3", "DownloadHasilOnline", Tloc)
             ResultMachine.ShowDialog()
         End If
     End Sub

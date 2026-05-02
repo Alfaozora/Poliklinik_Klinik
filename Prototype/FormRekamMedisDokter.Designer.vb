@@ -652,6 +652,12 @@ Me.PBGambar = New System.Windows.Forms.PictureBox
 Me.TabAsesmen = New System.Windows.Forms.TabPage
 Me.SplitContainerMedikAsesmen = New System.Windows.Forms.SplitContainer
 Me.PanelAsesmen = New System.Windows.Forms.Panel
+Me.GroupBox17 = New System.Windows.Forms.GroupBox
+Me.TextBoxSaranDiagnosa = New System.Windows.Forms.TextBox
+Me.GroupBox11 = New System.Windows.Forms.GroupBox
+Me.LabelRisikoStroke = New System.Windows.Forms.Label
+Me.LabelRisikoHT = New System.Windows.Forms.Label
+Me.LabelResikoDM = New System.Windows.Forms.Label
 Me.GroupBox1 = New System.Windows.Forms.GroupBox
 Me.ButtonSavePrognosa = New System.Windows.Forms.Button
 Me.ComboBoxPrognosa = New System.Windows.Forms.ComboBox
@@ -1414,6 +1420,8 @@ Me.SplitContainerMedikAsesmen.Panel1.SuspendLayout
 Me.SplitContainerMedikAsesmen.Panel2.SuspendLayout
 Me.SplitContainerMedikAsesmen.SuspendLayout
 Me.PanelAsesmen.SuspendLayout
+Me.GroupBox17.SuspendLayout
+Me.GroupBox11.SuspendLayout
 Me.GroupBox1.SuspendLayout
 Me.GroupBox25.SuspendLayout
 CType(Me.DataGridViewDiagnosa,System.ComponentModel.ISupportInitialize).BeginInit
@@ -5372,7 +5380,7 @@ Me.ButtonObjektifPemeriksaanLab.FlatAppearance.MouseOverBackColor = System.Drawi
 Me.ButtonObjektifPemeriksaanLab.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 Me.ButtonObjektifPemeriksaanLab.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Bold)
 Me.ButtonObjektifPemeriksaanLab.ForeColor = System.Drawing.Color.White
-Me.ButtonObjektifPemeriksaanLab.Image = Global.PoliKlinik_Net2.My.Resources.Resources.icons8_dental_24_outline
+Me.ButtonObjektifPemeriksaanLab.Image = CType(resources.GetObject("ButtonObjektifPemeriksaanLab.Image"),System.Drawing.Image)
 Me.ButtonObjektifPemeriksaanLab.Location = New System.Drawing.Point(603, 3)
 Me.ButtonObjektifPemeriksaanLab.Name = "ButtonObjektifPemeriksaanLab"
 Me.ButtonObjektifPemeriksaanLab.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -9237,6 +9245,9 @@ Me.SplitContainerMedikAsesmen.TabIndex = 460
 'PanelAsesmen
 '
 Me.PanelAsesmen.AutoScroll = true
+Me.PanelAsesmen.AutoSize = true
+Me.PanelAsesmen.Controls.Add(Me.GroupBox17)
+Me.PanelAsesmen.Controls.Add(Me.GroupBox11)
 Me.PanelAsesmen.Controls.Add(Me.GroupBox1)
 Me.PanelAsesmen.Controls.Add(Me.GroupBox25)
 Me.PanelAsesmen.Dock = System.Windows.Forms.DockStyle.Fill
@@ -9244,6 +9255,69 @@ Me.PanelAsesmen.Location = New System.Drawing.Point(0, 0)
 Me.PanelAsesmen.Name = "PanelAsesmen"
 Me.PanelAsesmen.Size = New System.Drawing.Size(864, 260)
 Me.PanelAsesmen.TabIndex = 451
+'
+'GroupBox17
+'
+Me.GroupBox17.Controls.Add(Me.TextBoxSaranDiagnosa)
+Me.GroupBox17.Location = New System.Drawing.Point(857, 71)
+Me.GroupBox17.Name = "GroupBox17"
+Me.GroupBox17.Size = New System.Drawing.Size(361, 140)
+Me.GroupBox17.TabIndex = 511
+Me.GroupBox17.TabStop = false
+Me.GroupBox17.Text = "Saran Diagnosa (Dev)"
+'
+'TextBoxSaranDiagnosa
+'
+Me.TextBoxSaranDiagnosa.BackColor = System.Drawing.Color.White
+Me.TextBoxSaranDiagnosa.Location = New System.Drawing.Point(6, 20)
+Me.TextBoxSaranDiagnosa.Multiline = true
+Me.TextBoxSaranDiagnosa.Name = "TextBoxSaranDiagnosa"
+Me.TextBoxSaranDiagnosa.ReadOnly = true
+Me.TextBoxSaranDiagnosa.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxSaranDiagnosa.Size = New System.Drawing.Size(350, 113)
+Me.TextBoxSaranDiagnosa.TabIndex = 510
+'
+'GroupBox11
+'
+Me.GroupBox11.Controls.Add(Me.LabelRisikoStroke)
+Me.GroupBox11.Controls.Add(Me.LabelRisikoHT)
+Me.GroupBox11.Controls.Add(Me.LabelResikoDM)
+Me.GroupBox11.Location = New System.Drawing.Point(504, 71)
+Me.GroupBox11.Name = "GroupBox11"
+Me.GroupBox11.Size = New System.Drawing.Size(347, 140)
+Me.GroupBox11.TabIndex = 509
+Me.GroupBox11.TabStop = false
+Me.GroupBox11.Text = "Risiko Penyakit"
+'
+'LabelRisikoStroke
+'
+Me.LabelRisikoStroke.AutoSize = true
+Me.LabelRisikoStroke.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.LabelRisikoStroke.Location = New System.Drawing.Point(15, 83)
+Me.LabelRisikoStroke.Name = "LabelRisikoStroke"
+Me.LabelRisikoStroke.Size = New System.Drawing.Size(13, 17)
+Me.LabelRisikoStroke.TabIndex = 505
+Me.LabelRisikoStroke.Text = "-"
+'
+'LabelRisikoHT
+'
+Me.LabelRisikoHT.AutoSize = true
+Me.LabelRisikoHT.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.LabelRisikoHT.Location = New System.Drawing.Point(15, 54)
+Me.LabelRisikoHT.Name = "LabelRisikoHT"
+Me.LabelRisikoHT.Size = New System.Drawing.Size(13, 17)
+Me.LabelRisikoHT.TabIndex = 504
+Me.LabelRisikoHT.Text = "-"
+'
+'LabelResikoDM
+'
+Me.LabelResikoDM.AutoSize = true
+Me.LabelResikoDM.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.LabelResikoDM.Location = New System.Drawing.Point(15, 24)
+Me.LabelResikoDM.Name = "LabelResikoDM"
+Me.LabelResikoDM.Size = New System.Drawing.Size(13, 17)
+Me.LabelResikoDM.TabIndex = 503
+Me.LabelResikoDM.Text = "-"
 '
 'GroupBox1
 '
@@ -17516,9 +17590,14 @@ CType(Me.PictureBoxPreview,System.ComponentModel.ISupportInitialize).EndInit
 CType(Me.PBGambar,System.ComponentModel.ISupportInitialize).EndInit
 Me.TabAsesmen.ResumeLayout(false)
 Me.SplitContainerMedikAsesmen.Panel1.ResumeLayout(false)
+Me.SplitContainerMedikAsesmen.Panel1.PerformLayout
 Me.SplitContainerMedikAsesmen.Panel2.ResumeLayout(false)
 Me.SplitContainerMedikAsesmen.ResumeLayout(false)
 Me.PanelAsesmen.ResumeLayout(false)
+Me.GroupBox17.ResumeLayout(false)
+Me.GroupBox17.PerformLayout
+Me.GroupBox11.ResumeLayout(false)
+Me.GroupBox11.PerformLayout
 Me.GroupBox1.ResumeLayout(false)
 Me.GroupBox1.PerformLayout
 Me.GroupBox25.ResumeLayout(false)
@@ -18958,4 +19037,10 @@ End Sub
     Friend WithEvents ComboBoxTampilPDF As System.Windows.Forms.ComboBox
     Friend WithEvents ButtonHapusPDF As System.Windows.Forms.Button
     Friend WithEvents RadioButtonPDF As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
+    Friend WithEvents LabelResikoDM As System.Windows.Forms.Label
+    Friend WithEvents LabelRisikoHT As System.Windows.Forms.Label
+    Friend WithEvents LabelRisikoStroke As System.Windows.Forms.Label
+    Friend WithEvents TextBoxSaranDiagnosa As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox17 As System.Windows.Forms.GroupBox
 End Class

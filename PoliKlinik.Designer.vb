@@ -201,6 +201,7 @@ Partial Class PoliKlinik
         Me.FormPembayaranToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FormRekamMedisDokterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CariTransaksiToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PencarianObatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Prototype2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.KasirPoliToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PopupTindakanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -281,7 +282,7 @@ Partial Class PoliKlinik
         Me.TimerUpdateProgram = New System.Windows.Forms.Timer(Me.components)
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
-        Me.PencarianObatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TimerBirthday = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1536,6 +1537,12 @@ Partial Class PoliKlinik
         Me.CariTransaksiToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
         Me.CariTransaksiToolStripMenuItem.Text = "Cari Transaksi"
         '
+        'PencarianObatToolStripMenuItem
+        '
+        Me.PencarianObatToolStripMenuItem.Name = "PencarianObatToolStripMenuItem"
+        Me.PencarianObatToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.PencarianObatToolStripMenuItem.Text = "Pencarian Obat"
+        '
         'Prototype2ToolStripMenuItem
         '
         Me.Prototype2ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KasirPoliToolStripMenuItem, Me.PopupTindakanToolStripMenuItem, Me.UploadTindakanToolStripMenuItem, Me.FormMasterDokterToolStripMenuItem, Me.UploadGambarToolStripMenuItem})
@@ -2063,11 +2070,9 @@ Partial Class PoliKlinik
         Me.TimerKirimReminderWA.Enabled = True
         Me.TimerKirimReminderWA.Interval = 60000
         '
-        'PencarianObatToolStripMenuItem
+        'TimerBirthday
         '
-        Me.PencarianObatToolStripMenuItem.Name = "PencarianObatToolStripMenuItem"
-        Me.PencarianObatToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
-        Me.PencarianObatToolStripMenuItem.Text = "Pencarian Obat"
+        Me.TimerBirthday.Interval = 300000
         '
         'PoliKlinik
         '
@@ -2352,4 +2357,5 @@ Partial Class PoliKlinik
     Friend WithEvents AnalisisKinerjaDokterDanTenagaMedisToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SettingWhatsAppToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PencarianObatToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TimerBirthday As System.Windows.Forms.Timer
 End Class

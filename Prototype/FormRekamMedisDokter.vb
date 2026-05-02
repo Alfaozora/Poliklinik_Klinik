@@ -19,6 +19,7 @@ Imports DevExpress.XtraPrinting.Drawing
 Imports PoliKlinik_Net2.ShapeDrawingFunctions
 Imports System.Text
 Imports System.Globalization
+Imports System.Text.RegularExpressions
 
 Public Class FormRekamMedisDokter
 
@@ -234,6 +235,8 @@ Public Class FormRekamMedisDokter
         End Try
     End Sub
 
+    Private ttRisikoDM As New ToolTip()
+
     Private Sub FormRekamMedisDokter_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
@@ -269,6 +272,125 @@ Public Class FormRekamMedisDokter
 
             '# Load PDF
             Call MuatPDFByTransaksiNoRM(idTransaksi, idPasien)
+
+            'Cek riwayat B20
+            'Dim dt As DataTable = GetRiwayatB20(idPasien)
+
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+            '    Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
+            '    Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
+
+            '    MsgBox("PERHATIAN!" & vbCrLf & _
+            '           "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
+            '           "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
+
+            'End If
+
+            '========================================
+            ' TAMPILAN RISIKO DM SAAT FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    Dim risiko As Dictionary(Of String, String) = HitungRisikoDM_Tahap2(idPasien)
+
+                    If risiko.Count > 0 Then
+                        LabelResikoDM.Text = "Risiko DM : " & risiko("StatusRisiko") & _
+                                             " | Skor : " & risiko("Skor")
+
+                        Select Case risiko("StatusRisiko")
+                            Case "RENDAH"
+                                LabelResikoDM.ForeColor = Color.Green
+                            Case "SEDANG"
+                                LabelResikoDM.ForeColor = Color.Orange
+                            Case "TINGGI"
+                                LabelResikoDM.ForeColor = Color.Red
+                        End Select
+                    Else
+                        LabelResikoDM.Text = "Risiko DM : -"
+                        LabelResikoDM.ForeColor = Color.Black
+                    End If
+                End If
+            Catch
+                LabelResikoDM.Text = "Risiko DM : -"
+            End Try
+
+
+            '========================================
+            ' TAMPILAN RISIKO HT SAAT FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    Dim risikoHT As Dictionary(Of String, String) = HitungRisikoHipertensi_Tahap2(idPasien)
+
+                    If risikoHT.Count > 0 Then
+                        LabelRisikoHT.Text = "Risiko HT : " & risikoHT("StatusRisiko") & _
+                                             " | Skor : " & risikoHT("Skor")
+
+                        Select Case risikoHT("StatusRisiko")
+                            Case "RENDAH"
+                                LabelRisikoHT.ForeColor = Color.Green
+                            Case "SEDANG"
+                                LabelRisikoHT.ForeColor = Color.Orange
+                            Case "TINGGI"
+                                LabelRisikoHT.ForeColor = Color.Red
+                        End Select
+                    Else
+                        LabelRisikoHT.Text = "Risiko HT : -"
+                        LabelRisikoHT.ForeColor = Color.Black
+                    End If
+                End If
+            Catch
+                LabelRisikoHT.Text = "Risiko HT : -"
+            End Try
+
+            '========================================
+            ' TAMPILKAN RISIKO STROKE SAAT FORM LOAD
+            '========================================
+            Try
+                Dim risikoDM As Dictionary(Of String, String) = HitungRisikoDM_Tahap2(idPasien)
+                Dim risikoHT As Dictionary(Of String, String) = HitungRisikoHipertensi_Tahap2(idPasien)
+
+                If risikoDM.Count > 0 And risikoHT.Count > 0 Then
+                    Dim Umur As Integer = CInt(risikoDM("Umur"))
+                    Dim StatusDM As String = risikoDM("StatusRisiko")
+                    Dim StatusHT As String = risikoHT("StatusRisiko")
+                    Dim IMT As Double = CDbl(risikoDM("RataIMT"))
+
+                    Dim risikoStroke As Dictionary(Of String, String) = HitungRisikoStroke(Umur, StatusDM, StatusHT, IMT)
+
+                    LabelRisikoStroke.Text = "Risiko Stroke : " & _
+                                             risikoStroke("StatusRisiko") & _
+                                             " | Skor : " & risikoStroke("Skor")
+
+                    Select Case risikoStroke("StatusRisiko")
+                        Case "RENDAH"
+                            LabelRisikoStroke.ForeColor = Color.Green
+                        Case "SEDANG"
+                            LabelRisikoStroke.ForeColor = Color.Orange
+                        Case "TINGGI"
+                            LabelRisikoStroke.ForeColor = Color.Red
+                    End Select
+                End If
+            Catch ex As Exception
+                LabelRisikoStroke.Text = "Risiko Stroke : -"
+            End Try
+
+
+            '========================================
+            ' TAMPILKAN ICD ASISTAN FORM LOAD
+            '========================================
+            Try
+                If idPasien <> "" Then
+                    TextBoxSaranDiagnosa.Text = GetSaranDiagnosaICD_ML(idPasien)
+
+                    If TextBoxSaranDiagnosa.Text.Trim() = "" Then
+                        TextBoxSaranDiagnosa.Text = "-"
+                    End If
+                End If
+            Catch
+                TextBoxSaranDiagnosa.Text = "-"
+            End Try
 
             '# Set Timer Notification
             TimerNotifikasi.Interval = 1000 ' berkedip setiap 1000ms (1 detik)
@@ -669,16 +791,19 @@ Public Class FormRekamMedisDokter
             "SELECT TOP 1 TDD.KodeDiagnosa, TDD.KeteranganDiagnosa " & _
             "FROM TransaksiDetailDiagnosa TDD " & _
             "INNER JOIN TransaksiDetail TD ON TDD.NoTransaksi = TD.NoUrut " & _
-            "WHERE (TDD.KodeDiagnosa LIKE 'B16%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B17%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B18%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B19%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B20%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B21%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B22%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B23%' " & _
-            "OR TDD.KodeDiagnosa LIKE 'B24%') " & _
-            "AND TD.IDInternet = '" & idInternet & "'"
+            "WHERE ( " & _
+            "    TDD.KodeDiagnosa LIKE 'B16%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B17%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B18%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B19%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B20%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B21%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B22%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B23%' " & _
+            " OR TDD.KodeDiagnosa LIKE 'B24%' " & _
+            ") " & _
+            "AND TD.IDInternet = '" & idInternet & "' " & _
+            "AND TDD.DeletedBy IS NULL"
 
             Return ReadSQL(sql)
 
@@ -687,9 +812,8 @@ Public Class FormRekamMedisDokter
         End Try
     End Function
 
+    Private Sub LoadNotification(ByVal messageBox As Boolean)
 
-    Private Sub LoadNotification(ByRef messageBox As Boolean)
-        ' Hidden Notification
         TimerNotifikasi.Stop()
         PanelNotifikasi.Visible = False
 
@@ -699,37 +823,41 @@ Public Class FormRekamMedisDokter
         Dim daftarAlergiMakanan As String = GetListAlergi("Makanan", idPasien)
         Dim daftarAlergiObat As String = GetListAlergi("Obat", idPasien)
 
-        If daftarAlergiMakanan.Count > 0 Then alergiList.Add("Alergi Makanan : " & daftarAlergiMakanan.ToString())
-        If daftarAlergiObat.Count > 0 Then alergiList.Add("Alergi Obat : " & daftarAlergiObat.ToString())
+        'Riwayat B20
+        Dim dtRiwayatB20 As DataTable = GetRiwayatB20(idPasien)
 
-        If alergiList.Count > 0 Then ketAlergi = String.Join(vbCrLf, alergiList.ToArray())
+        If daftarAlergiMakanan.Count > 0 Then
+            alergiList.Add("Alergi Makanan : " & daftarAlergiMakanan)
+        End If
 
-        '# Start Notifikasi
+        If daftarAlergiObat.Count > 0 Then
+            alergiList.Add("Alergi Obat : " & daftarAlergiObat)
+        End If
+
+        If dtRiwayatB20 IsNot Nothing AndAlso dtRiwayatB20.Rows.Count > 0 Then
+            Dim kode As String = dtRiwayatB20.Rows(0)("KodeDiagnosa").ToString()
+            Dim ket As String = dtRiwayatB20.Rows(0)("KeteranganDiagnosa").ToString()
+
+            alergiList.Add("Riwayat Diagnosa : " & kode & " - " & ket)
+        End If
+
+        If alergiList.Count > 0 Then
+            ketAlergi = String.Join(vbCrLf, alergiList.ToArray())
+        End If
+
         If ketAlergi <> "" Then
-            ' Set Text Notifikasi
+
             TextBoxNotifikasi.Text = ketAlergi
 
-            ' Show Notifikasi
             TimerNotifikasi.Start()
             PanelNotifikasi.Visible = True
 
-            '# Tampilkan alert
-            If messageBox = True Then MsgBox("Pasien memiliki alergi." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
-        End If
-
-        'Cek riwayat B20
-        Dim dt As DataTable = GetRiwayatB20(idPasien)
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-
-            Dim kode As String = dt.Rows(0)("KodeDiagnosa").ToString()
-            Dim ket As String = dt.Rows(0)("KeteranganDiagnosa").ToString()
-
-            MsgBox("PERHATIAN!" & vbCrLf & _
-                   "Pasien memiliki riwayat diagnosa: " & kode & vbCrLf & _
-                   "Keterangan    : " & ket, MsgBoxStyle.Exclamation, "Warning!")
+            'If messageBox Then
+            '    MsgBox("Pasien memiliki catatan penting." & vbCrLf & ketAlergi, MsgBoxStyle.Exclamation, "Warning!")
+            'End If
 
         End If
+
     End Sub
 
     Private Sub LoadFontDataGridView()
@@ -2244,17 +2372,27 @@ Public Class FormRekamMedisDokter
 
                     ' Hitung tanggal reminder = hari ini + jumlah hari
                     Dim tglReminder As Date = Date.Today.AddDays(jumlahHari)
+                    Dim kdPoli As String = ReadSQLNIK( _
+                        "SELECT TOP 1 MPT.KodeBPJS " & _
+                        "FROM TransaksiDetail TD " & _
+                        "INNER JOIN MasterPoliTujuan MPT ON TD.JenisPoli = MPT.NamaPoli " & _
+                        "WHERE TD.NoUrut = '" & idTransaksi & "'")
 
                     ' Simpan ke LogReminderPasien
-                    WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
-                             "VALUES ('" & namaPasien.Replace("'", "''") & "', " & _
-                             "'" & NoHp.Replace("'", "''") & "', " & _
-                             "'" & TextBoxNamaTindakan.Text & "', " & _
-                             "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
-                             "'TERJADWAL', " & _
-                             "'" & userInput.Replace("'", "''") & "', " & _
-                             "GETDATE(), " & _
-                             "'" & jenisKelamin & "')", 4)
+                    WriteSQL("INSERT INTO LogReminderPasien " & _
+                          "(NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin, NoRekamMedis,  KodePoli) " & _
+                          "VALUES (" & _
+                          "'" & namaPasien.Replace("'", "''") & "', " & _
+                          "'" & NoHp.Replace("'", "''") & "', " & _
+                          "'" & TextBoxNamaTindakan.Text.Replace("'", "''") & "', " & _
+                          "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
+                          "'TERJADWAL', " & _
+                          "'" & userInput.Replace("'", "''") & "', " & _
+                          "GETDATE(), " & _
+                          "'" & jenisKelamin & "', " & _
+                          "'" & idPasien & "'," & _
+                          "'" & kdPoli & "'" & _
+                          ")", 4)
 
                     MsgBox("INSERT Reminder sukses untuk: " & namaPasien & vbCrLf & "Tanggal: " & tglReminder.ToString("yyyy-MM-dd"), MsgBoxStyle.Information)
                 End If
@@ -2475,11 +2613,133 @@ Public Class FormRekamMedisDokter
                 ' UATBPJS
                 ' Refresh Form Rekam Medis
                 SetDataFromPendaftaran(idPasien, idTransaksi, jenisTransaksi)
+
+
+                TextBoxSaranDiagnosa.Text = GetSaranDiagnosaICD_ML(idPasien)
+
+                If TextBoxSaranDiagnosa.Text.Trim() = "" Then
+                    TextBoxSaranDiagnosa.Text = "-"
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Warning!")
         End Try
     End Sub
+
+    'NEW HYU
+    Public Function SendPCarePendaftaranV3( _
+            ByVal kdProviderPeserta As String, _
+            ByVal noKartu As String, _
+            ByVal tglDaftar As String, _
+            ByVal kdPoli As String, _
+            ByVal kdTkp As String, _
+            ByVal keluhan As String, _
+            ByVal kunjSakit As Boolean, _
+            ByVal sistole As Integer, _
+            ByVal diastole As Integer, _
+            ByVal beratBadan As Double, _
+            ByVal tinggiBadan As Double, _
+            ByVal respRate As Integer, _
+            ByVal lingkarPerut As Integer, _
+            ByVal heartRate As Integer _
+        ) As Boolean
+
+        Try
+            ' 🔒 VALIDASI
+            If String.IsNullOrEmpty(noKartu) Then
+                MsgBox("No Kartu kosong", MsgBoxStyle.Exclamation)
+                Return False
+            End If
+
+            If String.IsNullOrEmpty(kdPoli) Then
+                MsgBox("Kode Poli kosong", MsgBoxStyle.Exclamation)
+                Return False
+            End If
+
+            ' 🔗 CONFIG
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            Dim url As String = urlWebService & "api/pcare/pendaftaran"
+
+            ' 🔥 BUILD JSON BODY
+            Dim jsonBody As String = "{"
+            jsonBody &= """kode_klinik"":""" & loc & ""","
+            jsonBody &= """kdProviderPeserta"":""" & kdProviderPeserta & ""","
+            jsonBody &= """noKartu"":""" & noKartu & ""","
+            jsonBody &= """tglDaftar"":""" & tglDaftar & ""","
+            jsonBody &= """kdPoli"":""" & kdPoli & ""","
+            jsonBody &= """kdTkp"":""" & kdTkp & ""","
+
+            ' keluhan bisa null
+            If String.IsNullOrEmpty(keluhan) Then
+                jsonBody &= """keluhan"":null,"
+            Else
+                jsonBody &= """keluhan"":""" & keluhan.Replace("""", "\""") & ""","
+            End If
+
+            jsonBody &= """kunjSakit"":" & If(kunjSakit, "true", "false") & ","
+            jsonBody &= """sistole"":" & sistole & ","
+            jsonBody &= """diastole"":" & diastole & ","
+            jsonBody &= """beratBadan"":" & beratBadan.ToString(System.Globalization.CultureInfo.InvariantCulture) & ","
+            jsonBody &= """tinggiBadan"":" & tinggiBadan.ToString(System.Globalization.CultureInfo.InvariantCulture) & ","
+            jsonBody &= """respRate"":" & respRate & ","
+            jsonBody &= """lingkarPerut"":" & lingkarPerut & ","
+            jsonBody &= """heartRate"":" & heartRate
+            jsonBody &= "}"
+
+            ' 🔍 DEBUG
+            'MsgBox(jsonBody)
+
+            ' 🚀 KIRIM (pakai fungsi khusus JSON)
+            Dim responseString As String = InsertDataAPIRM(jsonBody, url)
+
+            ' 🔍 DEBUG RESPONSE
+            'MsgBox(responseString)
+
+            If String.IsNullOrEmpty(responseString) Then
+                MsgBox("Response kosong dari server", MsgBoxStyle.Critical)
+                Return False
+            End If
+
+            ' 📦 PARSE JSON
+            Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            If jsonObj("status") Is Nothing Then
+                MsgBox("Response tidak valid", MsgBoxStyle.Critical)
+                Return False
+            End If
+
+            If jsonObj("status").ToString().ToLower() = "success" Then
+
+                ' 🔥 cek response PCare
+                If jsonObj("response") IsNot Nothing Then
+                    Dim meta = jsonObj("response")("metaData")
+
+                    If meta IsNot Nothing Then
+                        Dim code As String = meta("code").ToString()
+
+                        If code = "201" Then
+                            Return True
+                        Else
+                            MsgBox("PCare gagal: " & meta("message").ToString(), MsgBoxStyle.Exclamation)
+                            Return False
+                        End If
+                    End If
+                End If
+
+                Return True
+            Else
+                MsgBox("Gagal: " & jsonObj("message").ToString(), MsgBoxStyle.Critical)
+                Return False
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error SendPCarePendaftaranV3: " & ex.Message, MsgBoxStyle.Critical)
+            Return False
+        End Try
+
+    End Function
 
     Private Sub SavePemeriksaanGeneralis()
         Try
@@ -2659,6 +2919,25 @@ Public Class FormRekamMedisDokter
 
                 If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SaveKunjunganBPJS() ' Save PCare BPJS
 
+                'If statusBPJS = True AndAlso CheckBridgingPcareActive() = True Then SavePendaftaranBPJS()
+
+                Dim sql As String = "SELECT TD.NoAntreanHyu, MP.NoNIK " & _
+                   "FROM TransaksiDetail TD " & _
+                   "INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis " & _
+                   "WHERE TD.NoUrut = '" & idTransaksi & "'"
+
+                Dim tbl As DataTable = ReadSQL(sql)
+
+                If tbl.Rows.Count = 0 Then
+                    MsgBox("Data antrean tidak ditemukan", MsgBoxStyle.Exclamation)
+                    Exit Sub
+                End If
+
+                Dim nomorAntrean As String = If(IsDBNull(tbl.Rows(0)("NoAntreanHyu")), "", tbl.Rows(0)("NoAntreanHyu").ToString())
+                Dim nomorNIK As String = If(IsDBNull(tbl.Rows(0)("NoNIK")), "", tbl.Rows(0)("NoNIK").ToString())
+
+                If SendPCareDataV3(nomorNIK, nomorAntrean, "dilayani", "poli") = False Then Exit Sub
+
                 If noKunjunganBPJS.Length > 0 Then
                     MsgBox("Data berhasil disimpan." & vbCr & vbLf & "No kunjungan PCare : " & noKunjunganBPJS & "", MsgBoxStyle.Information, "Success!")
                 Else
@@ -2672,6 +2951,198 @@ Public Class FormRekamMedisDokter
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Warning!")
         End Try
+    End Sub
+
+    'NEW HYU
+    Public Function SendPCareDataV3( _
+            ByVal patient_nik As String, _
+            ByVal queueNumber As String, _
+            ByVal queueStatus As String, _
+            Optional ByVal queueStage As String = "" _
+        ) As Boolean
+
+        Try
+            ' 🔒 Validasi wajib
+            If String.IsNullOrEmpty(patient_nik) Then
+                MessageBox.Show("NIK tidak boleh kosong", "Validasi")
+                Return False
+            End If
+
+            If String.IsNullOrEmpty(queueNumber) Then
+                MessageBox.Show("Queue Number tidak boleh kosong", "Validasi")
+                Return False
+            End If
+
+            If String.IsNullOrEmpty(queueStatus) Then
+                MessageBox.Show("Queue Status tidak boleh kosong", "Validasi")
+                Return False
+            End If
+
+            ' 🔗 Ambil config
+            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim Loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+            If String.IsNullOrEmpty(Loc) Then
+                MessageBox.Show("Kode Klinik tidak ditemukan di config", "Error")
+                Return False
+            End If
+
+            Dim url As String = urlWebService & "api/antrian/update-status"
+
+            ' 🔥 Build form-urlencoded
+            Dim postData As String = ""
+
+            postData &= "clinic_code=" & Uri.EscapeDataString(Loc.Trim())
+            postData &= "&patient_nik=" & Uri.EscapeDataString(patient_nik.Trim())
+            postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
+            postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
+
+            If Not String.IsNullOrEmpty(queueStage) Then
+                postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage.Trim())
+            End If
+
+            'MsgBox(postData)
+
+            ' 🚀 Call API (error sudah ditangani di sini)
+            Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
+
+            If String.IsNullOrEmpty(responseString) Then
+                MessageBox.Show("Response kosong dari server", "Error")
+                Return False
+            End If
+
+            ' 📦 Parse JSON
+            Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            If jsonObj("status") Is Nothing Then
+                MessageBox.Show("Format response tidak valid", "Error")
+                Return False
+            End If
+
+            If jsonObj("status").ToString().ToLower() = "success" Then
+                Return True
+            Else
+                Dim msg As String = If(jsonObj("message") IsNot Nothing, jsonObj("message").ToString(), "Unknown error")
+                MessageBox.Show("Gagal update: " & msg, "Error")
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message, "Error")
+            Return False
+        End Try
+
+    End Function
+
+    'NEW HYU
+    Public Sub SavePendaftaranBPJS()
+
+        Try
+            Dim noUrut As String = idTransaksi
+
+            If String.IsNullOrEmpty(noUrut) Then
+                MsgBox("No Urut BPJS kosong", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            Dim sql As String = ""
+            sql &= "SELECT "
+            sql &= "MPB.KdProviderPst, "
+            sql &= "MPB.NoKartu, "
+            sql &= "TD.TanggalTransaksi, "
+            sql &= "MPT.KodeBPJS, "
+            sql &= "TD.KeluhanUtama, "
+            sql &= "TDF.Sistole, "
+            sql &= "TDF.Diastole, "
+            sql &= "TDF.Berat, "
+            sql &= "TDF.Tinggi, "
+            sql &= "TDF.RespiratoryRate, "
+            sql &= "TDF.LingkarPerut, "
+            sql &= "TDF.HeartRate "
+            sql &= "FROM TransaksiDetail TD "
+            sql &= "LEFT JOIN TransaksiDetailFisik TDF ON TD.NoUrut = TDF.NoTransaksi "
+            sql &= "LEFT JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis "
+            sql &= "LEFT JOIN MasterPasienBPJS MPB ON MP.NoKartuBPJS = MPB.NoKartu "
+            sql &= "INNER JOIN MasterPoliTujuan MPT ON TD.JenisPoli = MPT.NamaPoli "
+            sql &= "WHERE TD.NoUrut = '" & noUrut & "' "
+            sql &= "AND TD.JenisPenagihan = 'BPJS' "
+
+            Dim tbl As DataTable = ReadSQL(sql)
+
+            If tbl.Rows.Count = 0 Then
+                MsgBox("Data BPJS tidak ditemukan", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            Dim row As DataRow = tbl.Rows(0)
+
+            ' 🔥 AMBIL DATA
+            Dim kdProvider As String = If(IsDBNull(row("KdProviderPst")), "", row("KdProviderPst").ToString())
+            Dim noKartu As String = If(IsDBNull(row("NoKartu")), "", row("NoKartu").ToString())
+
+            Dim tglDaftar As String = ""
+            If Not IsDBNull(row("TanggalTransaksi")) Then
+                tglDaftar = Format(CDate(row("TanggalTransaksi")), "dd-MM-yyyy")
+            End If
+
+            Dim kdPoli As String = If(IsDBNull(row("KodeBPJS")), "", row("KodeBPJS").ToString())
+            Dim keluhan As String = If(IsDBNull(row("KeluhanUtama")), "Keluhan tidak diisi", row("KeluhanUtama").ToString())
+
+            ' 🔥 CONVERT NUMERIC
+            Dim sistole As Integer = If(IsDBNull(row("Sistole")), 0, CInt(row("Sistole")))
+            Dim diastole As Integer = If(IsDBNull(row("Diastole")), 0, CInt(row("Diastole")))
+            Dim berat As Double = If(IsDBNull(row("Berat")), 0, CDbl(row("Berat")))
+            Dim tinggi As Double = If(IsDBNull(row("Tinggi")), 0, CDbl(row("Tinggi")))
+            Dim rr As Integer = If(IsDBNull(row("RespiratoryRate")), 0, CInt(row("RespiratoryRate")))
+            Dim lp As Integer = If(IsDBNull(row("LingkarPerut")), 0, CInt(row("LingkarPerut")))
+            Dim hr As Integer = If(IsDBNull(row("HeartRate")), 0, CInt(row("HeartRate")))
+
+            ' 🔒 VALIDASI WAJIB
+            If noKartu = "" Then
+                MsgBox("No Kartu BPJS kosong", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If kdPoli = "" Then
+                MsgBox("Kode Poli BPJS kosong", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            If kdProvider = "" Then
+                MsgBox("Kode Provider kosong", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            ' 🔍 DEBUG
+            'MsgBox("Poli: " & kdPoli & vbCrLf & "Provider: " & kdProvider)
+
+            ' 🚀 KIRIM
+            Dim result As Boolean = SendPCarePendaftaranV3( _
+                kdProviderPeserta:=kdProvider, _
+                noKartu:=noKartu, _
+                tglDaftar:=tglDaftar, _
+                kdPoli:=kdPoli, _
+                kdTkp:="10", _
+                keluhan:=keluhan, _
+                kunjSakit:=True, _
+                sistole:=sistole, _
+                diastole:=diastole, _
+                beratBadan:=berat, _
+                tinggiBadan:=tinggi, _
+                respRate:=rr, _
+                lingkarPerut:=lp, _
+                heartRate:=hr _
+            )
+
+            If result = False Then
+                MsgBox("Gagal kirim ke PCare", MsgBoxStyle.Critical)
+                Exit Sub
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error SavePendaftaranBPJS: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub SavePemeriksaanAwal()
@@ -3277,6 +3748,7 @@ Public Class FormRekamMedisDokter
                     ElseIf statusTransaksi = "UPDATE" Then
                         jsonString = PostDataFromPcare(parameterKunjunganBPJS, uri, "PUT")
                     End If
+
                 Catch ex As Exception
                     ' ====== PENANGANAN INTERNET PUTUS / TIMEOUT / HOST NOT RESPONDING ======
                     MsgBox("Gagal menghubungi server BPJS PCare." & vbCrLf & _
@@ -6616,12 +7088,51 @@ Public Class FormRekamMedisDokter
 
                 ' ===================== Non-Rujukan =====================
             Else
-                ' Jika status bukan rujuk/rjk, hapus data rujukan jika ada
-                WriteSQL("UPDATE TransaksiDetailRujukan SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+                ' Soft delete rujukan BPJS
+                WriteSQL("UPDATE TransaksiDetailRujukan " & _
+                         "SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                         "WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+
+                ' Soft delete rujukan Non-BPJS
+                WriteSQL("UPDATE TransaksiDetailRujukanNonBPJS " & _
+                         "SET DeletedBy = '" & userInput & "', DeletedDate = GETDATE() " & _
+                         "WHERE NoTransaksi = '" & idTransaksi & "' AND DeletedDate IS NULL", 4)
+
+                'WAJIB: Kosongkan ringkasan rujukan
+                WriteSQL("UPDATE TransaksiDetail SET Rujukan = NULL WHERE NoUrut = '" & idTransaksi & "'", 4)
             End If
 
             ' ===================== Update Status Pulang =====================
             WriteSQL("UPDATE TransaksiDetail SET StatusPulang = '" & statusPulang & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
+
+            'Update status antrian Hyu
+            Dim sql As String = "SELECT TD.NoAntreanHyu, MP.NoNIK " & _
+                  "FROM TransaksiDetail TD " & _
+                  "INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis " & _
+                  "WHERE TD.NoUrut = '" & idTransaksi & "'"
+
+            Dim tbl As DataTable = ReadSQL(sql)
+
+            If tbl.Rows.Count = 0 Then
+                MsgBox("Data antrean tidak ditemukan", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            Dim nomorAntrean As String = If(IsDBNull(tbl.Rows(0)("NoAntreanHyu")), "", tbl.Rows(0)("NoAntreanHyu").ToString())
+            Dim nomorNIK As String = If(IsDBNull(tbl.Rows(0)("NoNIK")), "", tbl.Rows(0)("NoNIK").ToString())
+            Dim isExist As Boolean = CheckSQL("SELECT 1 FROM TransaksiObat WHERE NoTransaksi = '" & idTransaksi & "'")
+
+            If Not nomorAntrean.ToUpper().Contains("OFF") Then
+
+                If isExist Then
+                    If SendPCareDataV3(nomorNIK, nomorAntrean, "menunggu_obat", "farmasi") = False Then Exit Sub
+                Else
+                    If SendPCareDataV3(nomorNIK, nomorAntrean, "selesai", "selesai") = False Then Exit Sub
+                End If
+
+            Else
+                'MsgBox("Antrean OFFLINE, skip update status Hyu", MsgBoxStyle.Exclamation)
+            End If
 
             ' ===================== Kirim ke PCare Jika BPJS =====================
             If statusBPJS AndAlso CheckBridgingPcareActive() Then
@@ -6633,6 +7144,11 @@ Public Class FormRekamMedisDokter
                 MsgBox("Data berhasil disimpan." & vbCrLf & "No kunjungan PCare: " & noKunjunganBPJS, MsgBoxStyle.Information, "Success!")
             Else
                 MsgBox("Data berhasil disimpan.", MsgBoxStyle.Information, "Success!")
+            End If
+
+            ' Safety net: jika bukan rujukan, pastikan kolom rujukan kosong
+            If Not statusPulang.Contains("Rujuk") AndAlso Not statusPulang.Contains("Rjk") Then
+                WriteSQL("UPDATE TransaksiDetail SET Rujukan = NULL WHERE NoUrut = '" & idTransaksi & "'", 4)
             End If
 
         Catch ex As Exception
@@ -8913,6 +9429,9 @@ Public Class FormRekamMedisDokter
         End If
 
         If RadioButtonCekStik.Checked = True Then
+            If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = False
+            End If
             ' Ambil hanya data dari HasilCekstik
             Dim queryCekStik As String = "SELECT CreatedDate, Kategori, Kondisi, Hasil, Satuan, Keterangan " & _
                                          "FROM HasilCekstik " & _
@@ -8958,13 +9477,24 @@ Public Class FormRekamMedisDokter
 
                     tblTemp.Rows.Add(newRow)
                 Next
+            Else
+                If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                    DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = True
+                End If
             End If
 
             ' Tampilkan hasil cek stik
             If tblTemp.Rows.Count > 0 Then
                 DataGridViewRiwayatLaboratorium.DataSource = tblTemp
+                SetupGridRiwayatLaboratorium()
+
                 DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
                 DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                ' Nonaktifkan PDF di mode Cek Stik
+                If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                    DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = False
+                End If
             Else
                 MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
             End If
@@ -9033,29 +9563,87 @@ Public Class FormRekamMedisDokter
         ' Tampilkan data lab
         If tblTemp.Rows.Count > 0 Then
             DataGridViewRiwayatLaboratorium.DataSource = tblTemp
+            SetupGridRiwayatLaboratorium()
+
             DataGridViewRiwayatLaboratorium.CurrentCell = Nothing
             DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            ' Aktifkan PDF di mode Lab
+            If DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then
+                DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Visible = True
+            End If
         Else
             MsgBox("Data tidak ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
         End If
     End Sub
 
-    Private Sub DataGridViewRiwayatLaboratorium_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewRiwayatLaboratorium.CellContentClick
-        If e.RowIndex >= 0 AndAlso e.ColumnIndex = DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Index Then
-            Dim filePath As String = DataGridViewRiwayatLaboratorium.Rows(e.RowIndex).Cells("FilePath").Value.ToString()
+    Private Sub SetupGridRiwayatLaboratorium()
+        With DataGridViewRiwayatLaboratorium
+            .AutoGenerateColumns = True
+            .AllowUserToAddRows = False
+            .ReadOnly = True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
 
-            If IO.File.Exists(filePath) Then
-                Try
-                    Process.Start(filePath)
-                Catch ex As Exception
-                    MessageBox.Show("Gagal membuka PDF. Pastikan aplikasi pembuka PDF tersedia." & vbCrLf & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            Else
-                MessageBox.Show("File PDF tidak ditemukan di lokasi: " & filePath, "File Tidak Ada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' === Tambahkan kolom FilePath jika belum ada ===
+            If Not .Columns.Contains("FilePath") Then
+                Dim colPath As New DataGridViewTextBoxColumn()
+                colPath.Name = "FilePath"
+                colPath.HeaderText = "FilePath"
+                colPath.Visible = False
+                .Columns.Add(colPath)
             End If
-        End If
+
+            ' === Tambahkan tombol PDF jika belum ada ===
+            If Not .Columns.Contains("BtnLihatPDF") Then
+                Dim btnPdf As New DataGridViewButtonColumn()
+                btnPdf.Name = "BtnLihatPDF"
+                btnPdf.HeaderText = "PDF"
+                btnPdf.Text = "Lihat PDF"
+                btnPdf.UseColumnTextForButtonValue = True
+                btnPdf.Width = 80
+                .Columns.Add(btnPdf)
+            End If
+        End With
     End Sub
 
+    Private Sub DataGridViewRiwayatLaboratorium_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewRiwayatLaboratorium.CellContentClick
+
+        ' === Validasi baris ===
+        If e.RowIndex < 0 Then Exit Sub
+
+        ' === Pastikan kolom tombol ada ===
+        If Not DataGridViewRiwayatLaboratorium.Columns.Contains("BtnLihatPDF") Then Exit Sub
+
+        ' === Pastikan klik di kolom PDF ===
+        If e.ColumnIndex <> DataGridViewRiwayatLaboratorium.Columns("BtnLihatPDF").Index Then Exit Sub
+
+        ' === Ambil FilePath ===
+        Dim cellPath = DataGridViewRiwayatLaboratorium.Rows(e.RowIndex).Cells("FilePath")
+
+        If cellPath Is Nothing OrElse IsDBNull(cellPath.Value) Then
+            MessageBox.Show("File PDF tidak tersedia.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        Dim filePath As String = cellPath.Value.ToString().Trim()
+
+        If filePath = "" Then
+            MessageBox.Show("File PDF tidak tersedia.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+
+        ' === Buka PDF ===
+        If IO.File.Exists(filePath) Then
+            Try
+                Process.Start(filePath)
+            Catch ex As Exception
+                MessageBox.Show("Gagal membuka PDF." & vbCrLf & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        Else
+            MessageBox.Show("File PDF tidak ditemukan:" & vbCrLf & filePath, "File Tidak Ada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
 
     Function CreateTableRiwayatLaboratorium() As DataTable
         Dim Thasil As New DataTable
@@ -11438,15 +12026,37 @@ Public Class FormRekamMedisDokter
                         WriteSQL("INSERT INTO SuratKeteranganKontrol (NoTransaksi, NoRekamMedis, NoSurat, TanggalSurat, DokterID, DokterNama, Diagnosa, Tanggal, CreatedBy, CreatedDate) " & _
                                 "VALUES ('" & idTransaksi & "', '" & idPasien & "', '" & nomorSurat & "', GETDATE(), '" & rowData("KodeDokter") & "', '" & rowData("NamaDokter") & "', '" & diagnosa & "', '" & Format(tgl, "yyyy-MM-dd") & "', '" & userInput & "', GETDATE())", 4)
 
-                        WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
-                           "VALUES ('" & namaPasien & "', " & _
-                                  "'" & NoHp & "', " & _
-                                  "'Kontrol Kembali Ke Faskes', " & _
-                                  "'" & tgl.ToString("yyyy-MM-dd 09:00") & "', " & _
+                       
+
+                        ' Tanggal kontrol
+                        Dim tglKontrol As DateTime = DateTimePickerTanggalKontrol.Value.Date
+
+                        ' Reminder H-6 jam 09:00 WIB
+                        Dim tglReminder As DateTime = tglKontrol.AddDays(-6).AddHours(9)
+                        Dim kdPoli As String = ReadSQLNIK( _
+                           "SELECT TOP 1 MPT.KodeBPJS " & _
+                           "FROM TransaksiDetail TD " & _
+                           "INNER JOIN MasterPoliTujuan MPT ON TD.JenisPoli = MPT.NamaPoli " & _
+                           "WHERE TD.NoUrut = '" & idTransaksi & "'")
+
+                        If CheckSQL("SELECT 1 FROM LogReminderPasien WHERE NoRekamMedis='" & idPasien & "' AND Tanggal='" & tglReminder.ToString("yyyy-MM-dd HH:mm") & "'") = False Then
+
+                            'Simpan ke LogReminderPasien
+                            WriteSQL("INSERT INTO LogReminderPasien " & _
+                                  "(NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin, NoRekamMedis,  KodePoli) " & _
+                                  "VALUES (" & _
+                                  "'" & namaPasien.Replace("'", "''") & "', " & _
+                                  "'" & NoHp.Replace("'", "''") & "', " & _
+                                  "'" & TextBoxNamaTindakan.Text.Replace("'", "''") & "', " & _
+                                  "'" & tglReminder.ToString("yyyy-MM-dd 09:00") & "', " & _
                                   "'TERJADWAL', " & _
-                                  "'" & userInput & "', " & _
+                                  "'" & userInput.Replace("'", "''") & "', " & _
                                   "GETDATE(), " & _
-                                  "'" & jenisKelamin & "')", 4)
+                                  "'" & jenisKelamin & "', " & _
+                                  "'" & idPasien & "'," & _
+                                  "'" & kdPoli & "'" & _
+                                  ")", 4)
+                        End If
 
                         ' Set Nomor Surat
                         TextBoxNoSuratKeteranganKontrol.Text = nomorSurat
@@ -13799,4 +14409,302 @@ Public Class FormRekamMedisDokter
             End Try
         End If
     End Sub
+
+    Public Function HitungRisikoDM_Tahap2(ByVal NoRM As String) As Dictionary(Of String, String)
+        Dim hasil As New Dictionary(Of String, String)
+
+        '===========================
+        ' 1. HITUNG UMUR
+        '===========================
+        Dim tglLahirStr As String = ReadSQLNIK("SELECT TglLahir FROM MasterPasien WHERE NoRekamMedis='" & NoRM & "'")
+
+        If tglLahirStr = "" Then Return hasil
+
+        Dim TglLahir As Date = CDate(tglLahirStr)
+        Dim Umur As Integer = DateDiff(DateInterval.Year, TglLahir, Date.Now)
+
+        Dim tglUltahTahunIni As Date
+        tglUltahTahunIni = DateSerial(Year(Date.Now), Month(TglLahir), TglLahir.Day)
+
+        If Date.Now < tglUltahTahunIni Then
+            Umur = Umur - 1
+        End If
+
+
+        '===========================
+        ' 2. GULA DARAH (3 BULAN)
+        '===========================
+        Dim JumlahGulaNaik As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM HasilCekStik " & _
+            "WHERE NoRM='" & NoRM & "' AND Kategori='GULA DARAH' " & _
+            "AND Hasil>=110 AND Deleted IS NULL " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataGula As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(Hasil) FROM HasilCekStik " & _
+            "WHERE NoRM='" & NoRM & "' AND Kategori='GULA DARAH' " & _
+            "AND Deleted IS NULL " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 3. IMT (3 BULAN)
+        '===========================
+        Dim RataIMT As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.IMT) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 4. KELUHAN
+        '===========================
+        Dim AdaKeluhanDM As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetail " & _
+            "WHERE IDInternet='" & NoRM & "' " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE()) " & _
+            "AND ( " & _
+            "KeluhanUtama LIKE '%haus%' OR KeluhanUtama LIKE '%lelah%' OR " & _
+            "KeluhanUtama LIKE '%DM%' OR KeluhanUtama LIKE '%dm%' OR " & _
+            "KeluhanUtama LIKE '%kencing%' OR KeluhanUtama LIKE '%minum%' OR " & _
+            "KeluhanTambahan LIKE '%haus%' OR KeluhanTambahan LIKE '%lelah%' OR " & _
+            "KeluhanTambahan LIKE '%kencing%' OR KeluhanTambahan LIKE '%minum%' " & _
+            ")"))
+
+        '===========================
+        ' 5. SCORING
+        '===========================
+        Dim Skor As Integer = 0
+
+        If Umur >= 45 Then Skor += 2
+        If JumlahGulaNaik >= 2 Then Skor += 3
+        If RataGula >= 120 Then Skor += 2
+        If RataIMT >= 25 Then Skor += 2
+        If AdaKeluhanDM >= 1 Then Skor += 1
+        If AdaKeluhanDM >= 2 And JumlahGulaNaik >= 2 Then Skor += 1
+
+        Dim StatusRisiko As String
+        If Skor >= 7 Then
+            StatusRisiko = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusRisiko = "SEDANG"
+        Else
+            StatusRisiko = "RENDAH"
+        End If
+
+        '===========================
+        ' 6. RETURN
+        '===========================
+        hasil("Umur") = Umur.ToString()
+        hasil("JumlahGulaNaik") = JumlahGulaNaik.ToString()
+        hasil("RataGulaDarah") = FormatNumber(RataGula, 0)
+        hasil("RataIMT") = FormatNumber(RataIMT, 1)
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusRisiko
+
+        Return hasil
+    End Function
+
+    Public Function HitungRisikoHipertensi_Tahap2(ByVal NoRM As String) As Dictionary(Of String, String)
+        Dim hasil As New Dictionary(Of String, String)
+
+        '===========================
+        ' 1. HITUNG UMUR
+        '===========================
+        Dim tglLahirStr As String = ReadSQLNIK("SELECT TglLahir FROM MasterPasien WHERE NoRekamMedis='" & NoRM & "'")
+
+        If tglLahirStr = "" Then Return hasil
+
+        Dim TglLahir As Date = CDate(tglLahirStr)
+        Dim Umur As Integer = DateDiff(DateInterval.Year, TglLahir, Date.Now)
+
+        Dim tglUltahTahunIni As Date
+        tglUltahTahunIni = DateSerial(Year(Date.Now), Month(TglLahir), TglLahir.Day)
+        If Date.Now < tglUltahTahunIni Then Umur = Umur - 1
+
+        '===========================
+        ' 2. TEKANAN DARAH (3 BULAN)
+        '===========================
+        Dim JumlahTDNaik As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND (TDF.Sistole>=140 OR TDF.Diastole>=90) " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataSistol As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.Sistole) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        Dim RataDiastol As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.Diastole) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 3. IMT (OPSIONAL)
+        '===========================
+        Dim RataIMT As Double = Val(ReadSQLNIK( _
+            "SELECT AVG(TDF.IMT) FROM TransaksiDetailFisik TDF " & _
+            "INNER JOIN TransaksiDetail TD ON TDF.NoTransaksi=TD.NoUrut " & _
+            "WHERE TD.IDInternet='" & NoRM & "' " & _
+            "AND TD.CreatedDate>=DATEADD(MONTH,-3,GETDATE())"))
+
+        '===========================
+        ' 4. KELUHAN
+        '===========================
+        Dim AdaKeluhanHT As Integer = Val(ReadSQLNIK( _
+            "SELECT COUNT(*) FROM TransaksiDetail " & _
+            "WHERE IDInternet='" & NoRM & "' " & _
+            "AND CreatedDate>=DATEADD(MONTH,-3,GETDATE()) " & _
+            "AND ( " & _
+            "KeluhanUtama LIKE '%pusing%' OR KeluhanUtama LIKE '%sakit kepala%' OR " & _
+            "KeluhanUtama LIKE '%tengkuk%' OR KeluhanUtama LIKE '%leher%' OR " & _
+            "KeluhanUtama LIKE '%HT%' OR KeluhanUtama LIKE '%ht%' OR " & _
+            "KeluhanTambahan LIKE '%pusing%' OR KeluhanTambahan LIKE '%sakit kepala%' OR " & _
+            "KeluhanTambahan LIKE '%tengkuk%' OR KeluhanTambahan LIKE '%leher%' " & _
+            ")"))
+
+
+        '===========================
+        ' 5. SCORING HIPERTENSI
+        '===========================
+        Dim Skor As Integer = 0
+
+        If Umur >= 40 Then Skor += 2
+        If JumlahTDNaik >= 2 Then Skor += 3
+        If RataSistol >= 140 Or RataDiastol >= 90 Then Skor += 2
+        If RataIMT >= 25 Then Skor += 1
+        If AdaKeluhanHT >= 1 Then Skor += 1
+
+        Dim StatusRisiko As String
+        If Skor >= 7 Then
+            StatusRisiko = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusRisiko = "SEDANG"
+        Else
+            StatusRisiko = "RENDAH"
+        End If
+
+        '===========================
+        ' 6. RETURN
+        '===========================
+        hasil("Umur") = Umur.ToString()
+        hasil("JumlahTDNaik") = JumlahTDNaik.ToString()
+        hasil("RataSistol") = FormatNumber(RataSistol, 0)
+        hasil("RataDiastol") = FormatNumber(RataDiastol, 0)
+        hasil("RataIMT") = FormatNumber(RataIMT, 1)
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusRisiko
+
+        Return hasil
+    End Function
+
+    Public Function HitungRisikoStroke( _
+        ByVal Umur As Integer, _
+        ByVal StatusDM As String, _
+        ByVal StatusHT As String, _
+        ByVal IMT As Double _
+    ) As Dictionary(Of String, String)
+
+        Dim hasil As New Dictionary(Of String, String)
+        Dim Skor As Integer = 0
+
+        '===========================
+        ' UMUR
+        '===========================
+        If Umur >= 55 Then Skor += 2
+
+        '===========================
+        ' DIABETES
+        '===========================
+        If StatusDM = "TINGGI" Then
+            Skor += 3
+        ElseIf StatusDM = "SEDANG" Then
+            Skor += 2
+        End If
+
+        '===========================
+        ' HIPERTENSI
+        '===========================
+        If StatusHT = "TINGGI" Then
+            Skor += 3
+        ElseIf StatusHT = "SEDANG" Then
+            Skor += 2
+        End If
+
+        '===========================
+        ' IMT
+        '===========================
+        If IMT >= 25 Then Skor += 1
+
+        '===========================
+        ' KATEGORI
+        '===========================
+        Dim StatusStroke As String
+        If Skor >= 7 Then
+            StatusStroke = "TINGGI"
+        ElseIf Skor >= 4 Then
+            StatusStroke = "SEDANG"
+        Else
+            StatusStroke = "RENDAH"
+        End If
+
+        hasil("Skor") = Skor.ToString()
+        hasil("StatusRisiko") = StatusStroke
+
+        Return hasil
+    End Function
+
+    Public Function NormalizeKeluhan(ByVal teks As String) As String
+        If teks Is Nothing Then Return ""
+
+        ' 1. Lowercase
+        teks = teks.ToLower()
+
+        ' 2. Hilangkan tanda baca (selain huruf & angka)
+        teks = Regex.Replace(teks, "[^a-z0-9\s]", " ")
+
+        ' 3. Rapikan spasi berlebih
+        teks = Regex.Replace(teks, "\s+", " ").Trim()
+
+        Return teks
+    End Function
+
+    Public Function GetSaranDiagnosaICD_ML(ByVal idPasien As String) As String
+        Try
+            Dim keluhan As String = ReadSQLNIK( _
+                "SELECT TOP 1 " & _
+                "ISNULL(KeluhanUtama,'') + ' ' + ISNULL(KeluhanTambahan,'') " & _
+                "FROM TransaksiDetail " & _
+                "WHERE IDInternet='" & idPasien & "' " & _
+                "ORDER BY CreatedDate DESC")
+
+            If keluhan.Trim() = "" Then Return "-"
+
+            ' =========================
+            ' PREPROCESS TEKS
+            ' =========================
+            keluhan = NormalizeKeluhan(keluhan)
+
+            ' =========================
+            ' PANGGIL ML LOKAL
+            ' =========================
+            Dim jsonResult As String = CallLocalICDML(keluhan)
+
+            If jsonResult.StartsWith("ERROR") Then
+                Return "-"
+            End If
+
+            ' =========================
+            ' FORMAT OUTPUT
+            ' =========================
+            Return FormatICDResult(jsonResult)
+
+        Catch
+            Return "-"
+        End Try
+    End Function
 End Class

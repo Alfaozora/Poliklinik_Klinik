@@ -2,6 +2,9 @@
 Imports System.Data.OleDb
 Imports System.IO
 Imports System.Drawing
+Imports Newtonsoft.Json.Linq
+Imports System.Text
+Imports System.Security.Cryptography
 
 Public Class UploadPasienMCU
 
@@ -321,6 +324,167 @@ Public Class UploadPasienMCU
         thread.Start()
     End Sub
 
+    Function EncryptAES(ByVal plainText As String, ByVal key As String) As String
+        Dim aes As New RijndaelManaged()
+        aes.Key = Encoding.UTF8.GetBytes(key.PadRight(32)) ' 256-bit
+        aes.IV = Encoding.UTF8.GetBytes(key.Substring(0, 16))
+
+        Dim encryptor = aes.CreateEncryptor(aes.Key, aes.IV)
+
+        Using ms As New MemoryStream()
+            Using cs As New CryptoStream(ms, encryptor, CryptoStreamMode.Write)
+                Using sw As New StreamWriter(cs)
+                    sw.Write(plainText)
+                End Using
+            End Using
+            Return Convert.ToBase64String(ms.ToArray())
+        End Using
+    End Function
+
+    Private Sub SendToApiInbodyFromMCU(ByVal noRM As String, _
+                                   ByVal nama As String, _
+                                   ByVal genderInbody As String, _
+                                   ByVal tglLahirStr As String, _
+                                   ByVal umur As Integer, _
+                                   ByVal tinggiUserInbody As String, _
+                                   ByVal orderDateStr As String, _
+                                   ByVal kodeServer As String, _
+                                   ByVal kodeCabang As String)
+        Try
+            'MsgBox("Mulai proses kirim ke API InBody", MsgBoxStyle.Information, "Debug Step 1")
+
+            ' =========================
+            ' SET PARAMETER
+            ' =========================
+            Dim USER_ID As String = noRM
+            Dim USER_NAME As String = UCase(nama)
+            Dim USER_GENDER As String = genderInbody
+            Dim USER_BIRTHDAY As String = tglLahirStr
+            Dim USER_AGE As Integer = umur
+            Dim ORDER_DATE As String = orderDateStr
+            Dim SERVER As String = kodeServer
+            Dim CABANG As String = kodeCabang
+
+            'MsgBox("Data Parameter:" & vbCrLf & _
+            '       "USER_ID: " & USER_ID & vbCrLf & _
+            '       "USER_NAME: " & USER_NAME & vbCrLf & _
+            '       "USER_GENDER: " & USER_GENDER & vbCrLf & _
+            '       "USER_BIRTHDAY: " & USER_BIRTHDAY & vbCrLf & _
+            '       "USER_AGE: " & USER_AGE & vbCrLf & _
+            '       "USER_HEIGHT: " & tinggiUserInbody & vbCrLf & _
+            '       "ORDER_DATE: " & ORDER_DATE & vbCrLf & _
+            '       "SERVER: " & SERVER & vbCrLf & _
+            '       "CABANG: " & CABANG, _
+            '       MsgBoxStyle.Information, "Debug Step 2")
+
+            ' =========================
+            ' VALIDASI USER_HEIGHT
+            ' =========================
+            Dim USER_HEIGHT_JSON As String
+            If tinggiUserInbody Is Nothing OrElse Trim(tinggiUserInbody) = "" Then
+                USER_HEIGHT_JSON = """" & """"
+            Else
+                USER_HEIGHT_JSON = Trim(tinggiUserInbody)
+            End If
+
+            'MsgBox("Nilai USER_HEIGHT_JSON: " & USER_HEIGHT_JSON, _
+            '       MsgBoxStyle.Information, "Debug Step 3")
+
+            ' =========================
+            ' FORMAT JSON
+            ' =========================
+            Dim json As String = _
+                "{" & _
+                """USER_ID"":""" & USER_ID & """," & _
+                """USER_NAME"":""" & USER_NAME & """," & _
+                """USER_GENDER"":""" & USER_GENDER & """," & _
+                """USER_BIRTHDAY"":""" & USER_BIRTHDAY & """," & _
+                """USER_AGE"":" & USER_AGE & "," & _
+                """USER_HEIGHT"":" & USER_HEIGHT_JSON & "," & _
+                """ORDER_DATE"":""" & ORDER_DATE & """," & _
+                """SERVER"":""" & SERVER & """," & _
+                """CABANG"":""" & CABANG & """" & _
+                "}"
+
+            'MsgBox("JSON Request:" & vbCrLf & json, _
+            '       MsgBoxStyle.Information, "Debug Step 4")
+
+            ' =========================
+            ' AMBIL URL API
+            ' =========================
+            Dim secretKey As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_payloadEnkrip'")
+
+            Dim encrypted As String = EncryptAES(json, secretKey)
+            Dim postData As String = "{""payload"":""" & encrypted & """}"
+
+            Dim baseUrl As String = ReadSQLNIK( _
+                "SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+
+            If Trim(baseUrl) = "" Then
+                MsgBox("Base URL API tidak ditemukan di MsConfig!", _
+                       MsgBoxStyle.Critical, "Debug Error")
+                Exit Sub
+            End If
+
+            Dim urlWebService As String = baseUrl & "api/lumiera-luzelle/inbody/create"
+
+            'MsgBox("URL Web Service:" & vbCrLf & urlWebService, _
+            '       MsgBoxStyle.Information, "Debug Step 5")
+
+            ' =========================
+            ' KIRIM KE API
+            ' =========================
+            Dim response As String = InsertDataAPIRMEncrypt(postData, urlWebService)
+
+            If Trim(response) = "" Then
+                MsgBox("Response API kosong!", _
+                       MsgBoxStyle.Critical, "Debug Error")
+                Exit Sub
+            End If
+
+            'MsgBox("Response API:" & vbCrLf & response, _
+            '       MsgBoxStyle.Information, "Debug Step 6")
+
+            ' =========================
+            ' PARSE JSON RESPONSE
+            ' =========================
+            Dim result As JObject = JObject.Parse(response)
+            Dim isResult As Boolean = CBool(result("IsResult"))
+            Dim errorMsg As String = result("ErrorMsg").ToString()
+            If isResult = True Then
+
+                Dim info As JArray = CType(result("INBODY_USER_INFO"), JArray)
+
+                Dim uid As String = info(0)("USER_ID").ToString()
+                Dim orderDate As String = info(0)("ORDER_DATE").ToString()
+
+                'MsgBox("Data Inbody berhasil dikirim." & vbCrLf & _
+                '    "USER_ID : " & uid & vbCrLf & _
+                '    "ORDER_DATE : " & orderDate, MsgBoxStyle.Information)
+
+            Else
+                MsgBox("Gagal kirim data Inbody." & vbCrLf & errorMsg, MsgBoxStyle.Critical)
+            End If
+
+
+
+            'MsgBox("IsResult: " & isResult & vbCrLf & _
+            '       "ErrorMsg: " & errorMsg, _
+            '       MsgBoxStyle.Information, "Debug Step 7")
+
+            'If isResult = True Then
+            '    MsgBox("Data berhasil disimpan ke InBody.", _
+            '           MsgBoxStyle.Information, "Sukses")
+            'Else
+            '    MsgBox("Gagal menyimpan ke InBody:" & vbCrLf & errorMsg, _
+            '           MsgBoxStyle.Critical, "Error InBody")
+            'End If
+
+        Catch ex As Exception
+            MsgBox("Gagal kirim ke API Inbody: " & ex.Message)
+        End Try
+    End Sub
+
     Private Sub SaveMultiple()
         Dim tblPasien As DataTable = GridControlDataPasien.DataSource
         tblPasien.AcceptChanges()
@@ -401,6 +565,53 @@ Public Class UploadPasienMCU
                 ' Insert Tabel TransaksiLab
                 WriteSQL("INSERT INTO TransaksiLab (IDInternet, DokterRequest, DokterLab, TglLab, ClosedBayar,TotalTagihan,TotalDisc,Pembulatan,NettBayar,LabJenisPembayaran,ClosedTransaksi,CreateDate,CreateBy,LabJenisPasien,NoUrut,Status,LabDaftar,IDPaket,CaraAmbil, StatusSoftcopy, StatusHardcopy, SendingWhatsapp, SendingEmail) " & _
                          "VALUES('" & NomorRekamMedis & "','','','" & Format(Tdata("TglTrans"), "MM/dd/yyyy") & "',GETDATE(),0,0,0,0,'',1,GETDATE(),'" & userUploadMCU & "','','" & nomorUrutTransaksi & "','SAMPLE',getdate(),'" & Tdata("NoPaket") & "', '" & CaraAmbil & "'," & StatusSoftcopy & "," & StatusHardcopy & ", '" & Tdata("Whatsapp").ToString & "', '" & Tdata("Email").ToString & "')", 4)
+
+                ' Kirim Ke InBody
+                Try
+                    'MsgBox("Debug: Proses Kirim ke InBody dijalankan.", MsgBoxStyle.Information, "Debug InBody")
+
+                    Dim nama As String = Tdata("Nama").ToString()
+                    Dim jenisKelamin As String = Tdata("Sex").ToString()
+                    Dim genderInbody As String = ""
+
+                    Select Case jenisKelamin.ToUpper()
+                        Case "L"
+                            genderInbody = "M"
+                        Case "P"
+                            genderInbody = "F"
+                        Case Else
+                            genderInbody = ""
+                    End Select
+
+                    Dim tglLahir As Date = CDate(Tdata("TglLahir"))
+                    Dim tglLahirStr As String = CDate(Tdata("TglLahir")).ToString("yyyyMMdd")
+                    Dim umur As Integer = DateDiff(DateInterval.Year, tglLahir, Date.Now)
+                    Dim orderDateStr As String = CDate(Tdata("TglTrans")).ToString("yyyyMMdd")
+                    Dim kodeServer As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeBarcode'")
+                    Dim kodeCabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+                    ' Tinggi badan dikosongkan sesuai permintaan
+                    Dim tinggiUserInbody As String = ""
+
+                    'MsgBox("Status WS InBody: " & statusInbody, MsgBoxStyle.Information, "Debug InBody")
+
+                    'MsgBox("Debug: Mengirim data ke API InBody.", MsgBoxStyle.Information, "Debug InBody")
+
+                    SendToApiInbodyFromMCU( _
+                        nomorUrutTransaksi, _
+                        nama, _
+                        genderInbody, _
+                        tglLahirStr, _
+                        umur, _
+                        tinggiUserInbody, _
+                        orderDateStr, _
+                        kodeServer, _
+                        kodeCabang)
+
+                Catch ex As Exception
+                    MsgBox("Gagal mengirim data ke InBody: " & ex.Message, _
+                           MsgBoxStyle.Exclamation, "Warning")
+                End Try
 
                 ' Set ID Transaksi
                 Dim idTransaksi As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE IDInternet = '" & NomorRekamMedis & "' AND NoUrut = '" & nomorUrutTransaksi & "'")

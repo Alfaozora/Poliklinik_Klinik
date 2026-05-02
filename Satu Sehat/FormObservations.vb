@@ -523,6 +523,8 @@ Public Class FormObservation
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KERTAS%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%PUYER%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%BUNGKUS%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%POT%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KAPSUL%'")
         query.AppendLine("            ) X")
         query.AppendLine("            FOR XML PATH(''), TYPE")
         query.AppendLine("        ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS NamaRacikan,")
@@ -539,6 +541,8 @@ Public Class FormObservation
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KERTAS%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%PUYER%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%BUNGKUS%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%POT%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KAPSUL%'")
         query.AppendLine("            ) X")
         query.AppendLine("            FOR XML PATH(''), TYPE")
         query.AppendLine("        ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS KomposisiRacikan,")
@@ -549,6 +553,8 @@ Public Class FormObservation
         query.AppendLine("                WHEN TBO.ObatNama LIKE '%KERTAS%'")
         query.AppendLine("                  OR TBO.ObatNama LIKE '%PUYER%'")
         query.AppendLine("                  OR TBO.ObatNama LIKE '%BUNGKUS%'")
+        query.AppendLine("                  OR TBO.ObatNama LIKE '%POT%'")
+        query.AppendLine("                  OR TBO.ObatNama LIKE '%KAPSUL%'")
         query.AppendLine("                THEN TBO.Jumlah")
         query.AppendLine("            END),")
         query.AppendLine("            MAX(TBR.JumlahKapsul),")
@@ -560,6 +566,8 @@ Public Class FormObservation
         query.AppendLine("                WHEN TBO.ObatNama LIKE '%KERTAS%' THEN 'KERTAS'")
         query.AppendLine("                WHEN TBO.ObatNama LIKE '%PUYER%' THEN 'PUYER'")
         query.AppendLine("                WHEN TBO.ObatNama LIKE '%BUNGKUS%' THEN 'BUNGKUS'")
+        query.AppendLine("                WHEN TBO.ObatNama LIKE '%POT%' THEN 'POT'")
+        query.AppendLine("                WHEN TBO.ObatNama LIKE '%KAPSUL%' THEN 'KAPSUL'")
         query.AppendLine("            END),")
         query.AppendLine("            CASE WHEN MAX(TBR.JumlahKapsul) IS NOT NULL THEN 'KAPSUL' ELSE 'RACIKAN' END")
         query.AppendLine("        ) AS UnitRacikan,")
@@ -628,6 +636,8 @@ Public Class FormObservation
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KERTAS%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%PUYER%'")
         query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%BUNGKUS%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%POT%'")
+        query.AppendLine("                  AND TBO2.ObatNama NOT LIKE '%KAPSUL%'")
         query.AppendLine("            ) X")
         query.AppendLine("            FOR XML PATH(''), TYPE")
         query.AppendLine("        ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS KomposisiObat")
@@ -1070,7 +1080,7 @@ Public Class FormObservation
             racikan("resource_id") = row0("ResourceID").ToString()
             Dim unitRacikan As String = row0("UnitRacikan").ToString().ToUpper()
             Select Case unitRacikan
-                Case "KERTAS", "PUYER", "BUNGKUS", "KAPSUL"
+                Case "KERTAS", "PUYER", "BUNGKUS", "KAPSUL", "POT"
                 Case Else
                     unitRacikan = "RACIKAN"
             End Select

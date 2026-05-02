@@ -69,6 +69,7 @@ Partial Class FormCetakBarcode
         Me.buttambahpasienmcu = New System.Windows.Forms.Button
         Me.gridlab = New DevExpress.XtraGrid.GridControl
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView
+        Me.CheckBoxInbody = New System.Windows.Forms.CheckBox
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -104,7 +105,7 @@ Partial Class FormCetakBarcode
         'BarcodeTambahanToolStripMenuItem
         '
         Me.BarcodeTambahanToolStripMenuItem.Name = "BarcodeTambahanToolStripMenuItem"
-        Me.BarcodeTambahanToolStripMenuItem.Size = New System.Drawing.Size(120, 20)
+        Me.BarcodeTambahanToolStripMenuItem.Size = New System.Drawing.Size(121, 20)
         Me.BarcodeTambahanToolStripMenuItem.Text = "Barcode Tambahan"
         '
         'txtindakanid
@@ -129,6 +130,7 @@ Partial Class FormCetakBarcode
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.CheckBoxInbody)
         Me.GroupBox1.Controls.Add(Me.rdNonMCU)
         Me.GroupBox1.Controls.Add(Me.rdMCU)
         Me.GroupBox1.Controls.Add(Me.cbtabung)
@@ -572,6 +574,17 @@ Partial Class FormCetakBarcode
         Me.GridView2.OptionsBehavior.Editable = False
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
+        'CheckBoxInbody
+        '
+        Me.CheckBoxInbody.AutoSize = True
+        Me.CheckBoxInbody.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxInbody.Location = New System.Drawing.Point(252, 40)
+        Me.CheckBoxInbody.Name = "CheckBoxInbody"
+        Me.CheckBoxInbody.Size = New System.Drawing.Size(63, 19)
+        Me.CheckBoxInbody.TabIndex = 249
+        Me.CheckBoxInbody.Text = "InBody"
+        Me.CheckBoxInbody.UseVisualStyleBackColor = True
+        '
         'FormCetakBarcode
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -649,4 +662,5 @@ Partial Class FormCetakBarcode
     Friend WithEvents cbtabung As System.Windows.Forms.CheckBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents cmbkodetransaksi As System.Windows.Forms.ComboBox
+    Friend WithEvents CheckBoxInbody As System.Windows.Forms.CheckBox
 End Class

@@ -27,6 +27,8 @@ Partial Class ToolGantiDokter
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.ButtonGanti = New System.Windows.Forms.Button
+        Me.TglTransaksi = New System.Windows.Forms.DateTimePicker
+        Me.Label3 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'ComboBoxNoTransaksi
@@ -34,7 +36,7 @@ Partial Class ToolGantiDokter
         Me.ComboBoxNoTransaksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxNoTransaksi.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxNoTransaksi.FormattingEnabled = True
-        Me.ComboBoxNoTransaksi.Location = New System.Drawing.Point(133, 48)
+        Me.ComboBoxNoTransaksi.Location = New System.Drawing.Point(133, 97)
         Me.ComboBoxNoTransaksi.Name = "ComboBoxNoTransaksi"
         Me.ComboBoxNoTransaksi.Size = New System.Drawing.Size(271, 25)
         Me.ComboBoxNoTransaksi.TabIndex = 457
@@ -44,7 +46,7 @@ Partial Class ToolGantiDokter
         Me.ComboBoxDokter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxDokter.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBoxDokter.FormattingEnabled = True
-        Me.ComboBoxDokter.Location = New System.Drawing.Point(133, 114)
+        Me.ComboBoxDokter.Location = New System.Drawing.Point(133, 150)
         Me.ComboBoxDokter.Name = "ComboBoxDokter"
         Me.ComboBoxDokter.Size = New System.Drawing.Size(271, 25)
         Me.ComboBoxDokter.TabIndex = 458
@@ -55,7 +57,7 @@ Partial Class ToolGantiDokter
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.Black
-        Me.Label2.Location = New System.Drawing.Point(12, 52)
+        Me.Label2.Location = New System.Drawing.Point(12, 97)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(101, 16)
         Me.Label2.TabIndex = 459
@@ -67,7 +69,7 @@ Partial Class ToolGantiDokter
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Black
-        Me.Label1.Location = New System.Drawing.Point(12, 118)
+        Me.Label1.Location = New System.Drawing.Point(12, 150)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(54, 16)
         Me.Label1.TabIndex = 460
@@ -84,7 +86,7 @@ Partial Class ToolGantiDokter
         Me.ButtonGanti.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonGanti.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonGanti.ForeColor = System.Drawing.Color.White
-        Me.ButtonGanti.Location = New System.Drawing.Point(303, 166)
+        Me.ButtonGanti.Location = New System.Drawing.Point(303, 198)
         Me.ButtonGanti.Name = "ButtonGanti"
         Me.ButtonGanti.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ButtonGanti.Size = New System.Drawing.Size(101, 26)
@@ -92,6 +94,29 @@ Partial Class ToolGantiDokter
         Me.ButtonGanti.Text = "Ganti"
         Me.ButtonGanti.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ButtonGanti.UseVisualStyleBackColor = False
+        '
+        'TglTransaksi
+        '
+        Me.TglTransaksi.CalendarFont = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TglTransaksi.CustomFormat = "dd-MMM-yyyy"
+        Me.TglTransaksi.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TglTransaksi.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.TglTransaksi.Location = New System.Drawing.Point(133, 47)
+        Me.TglTransaksi.Name = "TglTransaksi"
+        Me.TglTransaksi.Size = New System.Drawing.Size(125, 25)
+        Me.TglTransaksi.TabIndex = 516
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.Black
+        Me.Label3.Location = New System.Drawing.Point(12, 49)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(104, 16)
+        Me.Label3.TabIndex = 517
+        Me.Label3.Text = "Tgl Transaksi"
         '
         'ToolGantiDokter
         '
@@ -101,6 +126,8 @@ Partial Class ToolGantiDokter
         Me.BackgroundImage = Global.PoliKlinik_Net2.My.Resources.Resources.wallpaperdialog
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(448, 292)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.TglTransaksi)
         Me.Controls.Add(Me.ButtonGanti)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
@@ -117,4 +144,6 @@ Partial Class ToolGantiDokter
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ButtonGanti As System.Windows.Forms.Button
+    Friend WithEvents TglTransaksi As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Label3 As System.Windows.Forms.Label
 End Class

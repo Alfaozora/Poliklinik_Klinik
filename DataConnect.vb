@@ -2168,6 +2168,43 @@ Module Test
         Return False
     End Function
 
+    Public Function GetDataAPIRM(ByVal uri As String) As String
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+
+            webreq.Accept = "application/json"
+            webreq.Method = "GET"
+            webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            webreq.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+
+            webreq.Timeout = 300000
+            webreq.ReadWriteTimeout = 300000
+
+            Dim res As WebResponse = webreq.GetResponse()
+
+            Using stream As Stream = res.GetResponseStream()
+                Using reader As New StreamReader(stream)
+                    Return reader.ReadToEnd()
+                End Using
+            End Using
+
+        Catch ex As WebException
+
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Return reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                ' JSON error agar tetap bisa di-parse
+                Return "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+
+        End Try
+    End Function
+
     Public Function InsertDataAPIRM(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Try
@@ -2201,6 +2238,48 @@ Module Test
                 ' Buat JSON error agar tetap bisa di-parse
                 Return "{""status"":""error"",""message"":""" & ex.Message & """}"
             End If
+        End Try
+    End Function
+
+    Private Function GenerateSignature(ByVal data As String, ByVal apiKey As String) As String
+        Dim raw As String = data & apiKey
+        Dim bytes As Byte() = Encoding.UTF8.GetBytes(raw)
+
+        Using sha As SHA256 = SHA256.Create()
+            Dim hash As Byte() = sha.ComputeHash(bytes)
+            Return BitConverter.ToString(hash).Replace("-", "").ToLower()
+        End Using
+    End Function
+
+    Public Function InsertDataAPIRMEncrypt(ByVal json As String, ByVal url As String) As String
+        Try
+            Dim client As New Net.WebClient()
+            client.Encoding = Encoding.UTF8
+
+            Dim API_KEY As String = "M1tR4M3D1c@rECaH4Y42025"
+            Dim encrypted As String = Newtonsoft.Json.Linq.JObject.Parse(json)("payload").ToString()
+
+            Dim signature As String = GenerateSignature(encrypted, API_KEY)
+
+            client.Headers.Clear()
+            client.Headers.Add("Content-Type", "application/json")
+            client.Headers.Add("Accept", "application/json")
+            client.Headers.Add("X-API-KEY", API_KEY)
+            client.Headers.Add("X-SIGNATURE", signature)
+            client.Headers.Add("User-Agent", "PostmanRuntime/7.36.0")
+
+            Dim response As String = client.UploadString(url, "POST", json)
+
+            Return response
+
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using sr As New StreamReader(ex.Response.GetResponseStream())
+                    Return sr.ReadToEnd()
+                End Using
+            End If
+
+            Return "{""metaData"":{""code"":500},""message"":""" & ex.Message & """}"
         End Try
     End Function
 
@@ -2489,6 +2568,40 @@ Module Test
         ' Cek Status Bridging
         If statusBridgingPcare <> "Yes" Then Return False
 
+        Return True
+    End Function
+
+    Public Function CekKoneksiDB(ByVal db As Object) As Boolean
+        Dim connStr As String = "Server=" & db.Tip & _
+                                ";Database=" & db.Tdb & _
+                                ";Uid=" & db.Tid & _
+                                ";Pwd=" & db.Tpass & _
+                                ";Pooling=false;Connection Timeout=5;"
+
+        Dim conn As MySqlConnection = Nothing
+
+        Try
+            conn = New MySqlConnection(connStr)
+            conn.Open()
+            Return True
+        Catch ex As Exception
+            Return False
+        Finally
+            If conn IsNot Nothing Then
+                If conn.State = ConnectionState.Open Then conn.Close()
+                conn.Dispose()
+            End If
+        End Try
+    End Function
+
+    Public Function ValidasiKoneksi(ByVal namaDb As String, ByVal db As Object) As Boolean
+        If Not CekKoneksiDB(db) Then
+            MsgBox("Koneksi MySQL gagal: " & namaDb & _
+                   vbCrLf & "DB : " & db.Tdb & _
+                   vbCrLf & "IP : " & db.Tip, _
+                   MsgBoxStyle.Exclamation, "Warning!")
+            Return False
+        End If
         Return True
     End Function
 
@@ -2884,6 +2997,33 @@ Module Test
             Return response
         Catch ex As Exception
             Return ex.Message
+        End Try
+    End Function
+
+    Public Function InsertDataAPIRMUrlEncode(ByVal json As String, ByVal url As String) As String
+        Try
+            Dim client As New Net.WebClient()
+            client.Encoding = Encoding.UTF8
+
+            client.Headers.Clear()
+            client.Headers.Add("Content-Type", "application/x-www-form-urlencoded")
+            client.Headers.Add("Accept", "application/json")
+            client.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+
+            client.Headers.Add("User-Agent", "PostmanRuntime/7.36.0")
+
+            Dim response As String = client.UploadString(url, "POST", json)
+
+            Return response
+
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using sr As New StreamReader(ex.Response.GetResponseStream())
+                    Return sr.ReadToEnd()
+                End Using
+            End If
+
+            Return "{""metaData"":{""code"":500},""message"":""" & ex.Message & """}"
         End Try
     End Function
 

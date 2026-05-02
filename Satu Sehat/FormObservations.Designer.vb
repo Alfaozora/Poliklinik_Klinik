@@ -36,6 +36,7 @@ Partial Class FormObservation
         Me.LabelJudul1 = New System.Windows.Forms.Label
         Me.ButtonStopProses = New System.Windows.Forms.Button
         Me.LabelSinkronisasi = New System.Windows.Forms.Label
+        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.LabelProgress = New System.Windows.Forms.Label
         Me.PanelProgressBG = New System.Windows.Forms.Panel
         Me.PostSatuSehat = New System.Windows.Forms.Button
@@ -47,7 +48,6 @@ Partial Class FormObservation
         Me.bgWorkerMedicationRequest = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerMedicationRequestRacikan = New System.ComponentModel.BackgroundWorker
         Me.bgWorkerMedicationRacikan = New System.ComponentModel.BackgroundWorker
-        Me.PanelProgressFill = New PoliKlinik_Net2.GradientPanel
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -268,6 +268,16 @@ Partial Class FormObservation
         Me.LabelSinkronisasi.TabIndex = 523
         Me.LabelSinkronisasi.Text = "Kirim Data Terakhir pada 18 September 2025"
         '
+        'PanelProgressFill
+        '
+        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
+        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
+        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
+        Me.PanelProgressFill.Name = "PanelProgressFill"
+        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
+        Me.PanelProgressFill.TabIndex = 522
+        '
         'LabelProgress
         '
         Me.LabelProgress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -336,6 +346,7 @@ Partial Class FormObservation
         Me.TextBoxResponse.Location = New System.Drawing.Point(0, 0)
         Me.TextBoxResponse.Multiline = True
         Me.TextBoxResponse.Name = "TextBoxResponse"
+        Me.TextBoxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.TextBoxResponse.Size = New System.Drawing.Size(922, 199)
         Me.TextBoxResponse.TabIndex = 0
         '
@@ -368,16 +379,6 @@ Partial Class FormObservation
         '
         Me.bgWorkerMedicationRacikan.WorkerReportsProgress = True
         Me.bgWorkerMedicationRacikan.WorkerSupportsCancellation = True
-        '
-        'PanelProgressFill
-        '
-        Me.PanelProgressFill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PanelProgressFill.Color1 = System.Drawing.Color.SkyBlue
-        Me.PanelProgressFill.Color2 = System.Drawing.Color.MediumPurple
-        Me.PanelProgressFill.Location = New System.Drawing.Point(12, 211)
-        Me.PanelProgressFill.Name = "PanelProgressFill"
-        Me.PanelProgressFill.Size = New System.Drawing.Size(0, 20)
-        Me.PanelProgressFill.TabIndex = 522
         '
         'FormObservation
         '

@@ -12,6 +12,7 @@ Imports DevExpress.XtraReports.UI
 Imports System.Data.SqlClient
 Imports System.Drawing.Imaging
 Imports DevExpress.XtraPrinting
+Imports PoliKlinik_Net2.FormPendaftaranAwal
 
 Public Class FormReservasi
     Private formName As String = "RESERVASI"
@@ -57,14 +58,16 @@ Public Class FormReservasi
             Dim strValue As String = row("StrValue").ToString()
 
             btnMenu1.Visible = (strValue = "L003")
+            btnMenu1.BackColor = Color.FromArgb(81, 168, 255)
+            btnMenu1.ForeColor = Color.White
             ButtonCari.Visible = (strValue = "L003")
             btnMenu3.Visible = (strValue = "L003")
-
 
             ' Set judul form
             If strValue <> "L003" Then
                 formName = "REMINDER PASIEN"
                 TabControlMenu.SelectedTab = TabPage2
+                btnMenu4.Visible = True
             Else
                 formName = "RESERVASI"
                 btnMenu2.Visible = False
@@ -155,71 +158,622 @@ Public Class FormReservasi
         TambahKolomAksi()
     End Sub
 
-    Private Sub LoadReminder()
-        Dim query As String = "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedDate, TanggalKirim " & _
-                      "FROM LogReminderPasien WHERE DeletedBy IS NULL ORDER BY Tanggal ASC"
+    'Private Sub LoadReminder()
+    '    Dim query As String = "SELECT ReminderID, NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedDate, TanggalKirim " & _
+    '                  "FROM LogReminderPasien WHERE DeletedBy IS NULL ORDER BY Tanggal ASC"
 
-        Dim dt As DataTable = ReadSQL(query)
+    '    Dim dt As DataTable = ReadSQL(query)
 
-        ' Tambahkan kolom tampilan format Indonesia
-        dt.Columns.Add("Nama Pasien", GetType(String))
-        dt.Columns.Add("No HP", GetType(String))
-        dt.Columns.Add("Keperluan Kunjungan", GetType(String))
-        dt.Columns.Add("Tanggal Kunjungan", GetType(String))
-        dt.Columns.Add("Status Pesan", GetType(String))
-        dt.Columns.Add("Tanggal Terkirim", GetType(String))
+    '    ' Tambahkan kolom tampilan format Indonesia
+    '    dt.Columns.Add("Nama Pasien", GetType(String))
+    '    dt.Columns.Add("No HP", GetType(String))
+    '    dt.Columns.Add("Keperluan Kunjungan", GetType(String))
+    '    dt.Columns.Add("Tanggal Kunjungan", GetType(String))
+    '    dt.Columns.Add("Status Pesan", GetType(String))
+    '    dt.Columns.Add("Tanggal Terkirim", GetType(String))
 
-        For Each row As DataRow In dt.Rows
-            Dim namaPasien As String = If(IsDBNull(row("NamaPasien")), "", row("NamaPasien").ToString())
-            Dim noHp As String = If(IsDBNull(row("NoHP")), "", row("NoHP").ToString())
-            Dim keperluan As String = If(IsDBNull(row("Keperluan")), "", row("Keperluan").ToString())
-            Dim status As String = If(IsDBNull(row("Status")), "", row("Status").ToString())
-            Dim tgl As DateTime = If(IsDBNull(row("Tanggal")), DateTime.MinValue, CDate(row("Tanggal")))
-            Dim tglKirim As DateTime = If(IsDBNull(row("TanggalKirim")), DateTime.MinValue, CDate(row("TanggalKirim")))
+    '    For Each row As DataRow In dt.Rows
+    '        Dim namaPasien As String = If(IsDBNull(row("NamaPasien")), "", row("NamaPasien").ToString())
+    '        Dim noHp As String = If(IsDBNull(row("NoHP")), "", row("NoHP").ToString())
+    '        Dim keperluan As String = If(IsDBNull(row("Keperluan")), "", row("Keperluan").ToString())
+    '        Dim status As String = If(IsDBNull(row("Status")), "", row("Status").ToString())
+    '        Dim tgl As DateTime = If(IsDBNull(row("Tanggal")), DateTime.MinValue, CDate(row("Tanggal")))
+    '        Dim tglKirim As DateTime = If(IsDBNull(row("TanggalKirim")), DateTime.MinValue, CDate(row("TanggalKirim")))
 
 
-            row("Nama Pasien") = namaPasien
-            row("No HP") = noHp
-            row("Keperluan Kunjungan") = keperluan
-            row("Status Pesan") = status
-            row("Tanggal Kunjungan") = If(tgl = DateTime.MinValue, "", tgl.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
-            row("Tanggal Terkirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+    '        row("Nama Pasien") = namaPasien
+    '        row("No HP") = noHp
+    '        row("Keperluan Kunjungan") = keperluan
+    '        row("Status Pesan") = status
+    '        row("Tanggal Kunjungan") = If(tgl = DateTime.MinValue, "", tgl.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+    '        row("Tanggal Terkirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+    '    Next
+
+    '    DataGridViewReminder.DataSource = dt
+
+    '    If Not DataGridViewReminder.Columns.Contains("Hapus") Then
+    '        Dim btnHapus As New DataGridViewButtonColumn()
+    '        btnHapus.Name = "Hapus"
+    '        btnHapus.HeaderText = ""
+    '        btnHapus.Text = "Hapus"
+    '        btnHapus.UseColumnTextForButtonValue = True
+    '        btnHapus.Width = 50
+    '        btnHapus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '        btnHapus.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '        DataGridViewReminder.Columns.Add(btnHapus)
+    '        DataGridViewReminder.RowTemplate.Height = 35
+    '        btnHapus.DisplayIndex = DataGridViewReminder.Columns.Count - 1
+    '    End If
+
+    '    ' Sembunyikan kolom data mentah
+    '    If DataGridViewReminder.Columns.Contains("ReminderID") Then
+    '        DataGridViewReminder.Columns("ReminderID").Visible = False
+    '        DataGridViewReminder.Columns("NamaPasien").Visible = False
+    '        DataGridViewReminder.Columns("NoHP").Visible = False
+    '        DataGridViewReminder.Columns("Keperluan").Visible = False
+    '        DataGridViewReminder.Columns("Tanggal").Visible = False
+    '        DataGridViewReminder.Columns("Status").Visible = False
+    '        DataGridViewReminder.Columns("CreatedDate").Visible = False
+    '        DataGridViewReminder.Columns("TanggalKirim").Visible = False
+    '    End If
+
+    '    ' Warnai jika status CANCEL
+    '    For Each row As DataGridViewRow In DataGridViewReminder.Rows
+    '        If row.Cells("Status Pesan").Value.ToString().ToUpper() = "CANCEL" Then
+    '            row.DefaultCellStyle.ForeColor = Color.Gray
+    '        End If
+    '    Next
+    'End Sub
+
+    Private Function GetAntreanByTanggal(ByVal tanggal As Date) As Dictionary(Of String, AntreanItem)
+        Dim result As New Dictionary(Of String, AntreanItem)
+
+        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'web_service_get_data_antrol'")
+
+        If urlWebService = "" Then Return result
+        If Not urlWebService.EndsWith("/") Then urlWebService &= "/"
+
+        Dim fullUrl As String = urlWebService & "0/" & Format(tanggal, "yyyy-MM-dd") & "/0"
+
+        Dim responseString As String = GetDataAntrianOnline(fullUrl)
+        If responseString Is Nothing OrElse responseString.Trim() = "" Then Return result
+
+        responseString = responseString.Replace(":NaN", ":null") _
+                                       .Replace(": NaN", ": null") _
+                                       .Replace("NaN,", "null,") _
+                                       .Replace("NaN]", "null]")
+
+        Dim rootList As List(Of RootAntrean) = JsonConvert.DeserializeObject(Of List(Of RootAntrean))(responseString)
+
+        If rootList Is Nothing OrElse rootList.Count = 0 Then Return result
+
+        Dim rootObj As RootAntrean = rootList(0)
+        If rootObj Is Nothing OrElse rootObj.response Is Nothing Then Return result
+
+        For Each item As AntreanItem In rootObj.response
+            If Not String.IsNullOrEmpty(item.nik) Then
+                If Not result.ContainsKey(item.nik) Then
+                    result.Add(item.nik, item)
+                End If
+            End If
         Next
 
-        DataGridViewReminder.DataSource = dt
+        Return result
+    End Function
 
+    Private isLoadingGrid As Boolean = False
+    Private filterMenu As New ContextMenuStrip()
+    Private filterColumnName As String = ""
+
+    Private Sub DataGridViewReminder_ColumnHeaderMouseClick(ByVal sender As Object, ByVal e As DataGridViewCellMouseEventArgs) Handles DataGridViewReminder.ColumnHeaderMouseClick
+
+        filterMenu.Items.Clear()
+
+        filterColumnName = DataGridViewReminder.Columns(e.ColumnIndex).Name
+
+        ' Hanya kolom tertentu yang boleh difilter
+        If filterColumnName <> "Status Booking" Then Exit Sub
+
+        ' Ambil nilai unik dari kolom
+        Dim values As New List(Of String)
+
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+            If row.Cells(filterColumnName).Value IsNot Nothing Then
+                Dim val As String = row.Cells(filterColumnName).Value.ToString()
+                If Not values.Contains(val) Then values.Add(val)
+            End If
+        Next
+
+        ' Tambah menu "Semua"
+        filterMenu.Items.Add("Semua", Nothing, AddressOf FilterSemua)
+
+        filterMenu.Items.Add(New ToolStripSeparator())
+
+        ' Tambah menu berdasarkan nilai unik
+        For Each v As String In values
+            filterMenu.Items.Add(v, Nothing, AddressOf FilterByValue)
+        Next
+
+        ' Tampilkan menu di posisi mouse
+        filterMenu.Show(Cursor.Position)
+
+    End Sub
+
+    Private Sub FilterSemua(ByVal sender As Object, ByVal e As EventArgs)
+        CType(DataGridViewReminder.DataSource, DataTable).DefaultView.RowFilter = ""
+    End Sub
+
+    Private Sub FilterByValue(ByVal sender As Object, ByVal e As EventArgs)
+
+        Dim selectedValue As String = CType(sender, ToolStripItem).Text
+        Dim dt As DataTable = CType(DataGridViewReminder.DataSource, DataTable)
+
+        dt.DefaultView.RowFilter = "[" & filterColumnName & "] = '" & selectedValue & "'"
+
+    End Sub
+
+    Private Sub LoadReminder()
+        Dim query As String = _
+            "SELECT TOP 100 " & _
+            "LRP.ReminderID, LRP.NamaPasien, LRP.NoHP, LRP.Keperluan, " & _
+            "LRP.Tanggal, LRP.Status, LRP.CreatedDate, LRP.TanggalKirim, " & _
+            "LRP.StatusBooking, LRP.NoAntrean, MP.NoNIK, LRP.NoRekamMedis " & _
+            "FROM LogReminderPasien LRP " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "WHERE LRP.DeletedBy IS NULL " & _
+            "ORDER BY CASE " & _
+            "WHEN CONVERT(date, LRP.Tanggal) = CONVERT(date, GETDATE()) THEN 0 " & _
+            "ELSE 1 END, LRP.Tanggal DESC"
+
+        LoadReminderByQuery(query, Date.Now)
+    End Sub
+
+    Private Sub ButtonCariReminder_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ButtonCariReminder.Click
+        Dim tanggal As Date = TglAwalReminder.Value.Date
+
+        Dim query As String = _
+            "SELECT LRP.ReminderID, LRP.NamaPasien, LRP.NoHP, LRP.Keperluan, " & _
+            "LRP.Tanggal, LRP.Status, LRP.CreatedDate, LRP.TanggalKirim, " & _
+            "LRP.StatusBooking, LRP.NoAntrean, MP.NoNIK, LRP.NoRekamMedis " & _
+            "FROM LogReminderPasien LRP " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "WHERE LRP.DeletedBy IS NULL " & _
+            "AND CONVERT(date, LRP.Tanggal) = '" & Format(tanggal, "yyyy-MM-dd") & "' " & _
+            "ORDER BY LRP.Tanggal DESC"
+
+        LoadReminderByQuery(query, tanggal)
+    End Sub
+
+    Private Sub SetupReminderGrid()
+        isLoadingGrid = True
+
+        DataGridViewReminder.EditMode = DataGridViewEditMode.EditOnEnter
+        DataGridViewReminder.MultiSelect = False
+        DataGridViewReminder.SelectionMode = DataGridViewSelectionMode.CellSelect
+
+        For Each col As DataGridViewColumn In DataGridViewReminder.Columns
+            col.ReadOnly = True
+        Next
+
+        ' Tombol hapus
         If Not DataGridViewReminder.Columns.Contains("Hapus") Then
             Dim btnHapus As New DataGridViewButtonColumn()
             btnHapus.Name = "Hapus"
-            btnHapus.HeaderText = ""
+            btnHapus.HeaderText = "Hapus"
             btnHapus.Text = "Hapus"
             btnHapus.UseColumnTextForButtonValue = True
-            btnHapus.Width = 50
-            btnHapus.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-            btnHapus.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
-            DataGridViewReminder.Columns.Add(btnHapus)
+            btnHapus.Width = 60
             DataGridViewReminder.RowTemplate.Height = 35
-            btnHapus.DisplayIndex = DataGridViewReminder.Columns.Count - 1
+            DataGridViewReminder.Columns.Add(btnHapus)
         End If
 
-        ' Sembunyikan kolom data mentah
-        If DataGridViewReminder.Columns.Contains("ReminderID") Then
-            DataGridViewReminder.Columns("ReminderID").Visible = False
-            DataGridViewReminder.Columns("NamaPasien").Visible = False
-            DataGridViewReminder.Columns("NoHP").Visible = False
-            DataGridViewReminder.Columns("Keperluan").Visible = False
-            DataGridViewReminder.Columns("Tanggal").Visible = False
-            DataGridViewReminder.Columns("Status").Visible = False
-            DataGridViewReminder.Columns("CreatedDate").Visible = False
-            DataGridViewReminder.Columns("TanggalKirim").Visible = False
+        If Not DataGridViewReminder.Columns.Contains("AksiStatus") Then
+            Dim cmbStatus As New DataGridViewComboBoxColumn()
+            cmbStatus.Name = "AksiStatus"
+            cmbStatus.HeaderText = "Status"
+            cmbStatus.Width = 110
+            cmbStatus.Items.Add("")
+            cmbStatus.Items.Add("CANCEL")
+            cmbStatus.Items.Add("RESCHEDULE")
+            cmbStatus.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton
+            DataGridViewReminder.RowTemplate.Height = 35
+            cmbStatus.FlatStyle = FlatStyle.Flat
+            DataGridViewReminder.Columns.Add(cmbStatus)
         End If
 
-        ' Warnai jika status CANCEL
-        For Each row As DataGridViewRow In DataGridViewReminder.Rows
-            If row.Cells("Status Pesan").Value.ToString().ToUpper() = "CANCEL" Then
-                row.DefaultCellStyle.ForeColor = Color.Gray
+        If Not DataGridViewReminder.Columns.Contains("Daftarkan") Then
+            Dim btnDaftar As New DataGridViewButtonColumn()
+            btnDaftar.Name = "Daftarkan"
+            btnDaftar.HeaderText = "Antrean"
+            btnDaftar.Text = "Daftarkan"
+            btnDaftar.UseColumnTextForButtonValue = True
+            btnDaftar.Width = 90
+            DataGridViewReminder.RowTemplate.Height = 35
+            DataGridViewReminder.Columns.Add(btnDaftar)
+        End If
+
+        ' Sembunyikan kolom mentah
+        Dim kolomDisembunyikan() As String = New String() { _
+             "ReminderID", _
+             "NamaPasien", _
+             "NoHP", _
+             "Keperluan", _
+             "Tanggal", _
+             "Status", _
+             "CreatedDate", _
+             "TanggalKirim", _
+             "StatusBooking", _
+             "NoAntrean", _
+             "NoRekamMedis" _
+         }
+
+        Dim colName As String
+
+        DataGridViewReminder.Columns("AksiStatus").ReadOnly = False
+        DataGridViewReminder.Columns("Hapus").ReadOnly = False
+        DataGridViewReminder.Columns("Daftarkan").ReadOnly = False
+
+        For Each colName In kolomDisembunyikan
+            If DataGridViewReminder.Columns.Contains(colName) Then
+                DataGridViewReminder.Columns(colName).Visible = False
             End If
         Next
+
+        ' Highlight
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+
+            If row.Cells("Status Booking").Value IsNot Nothing Then
+                Dim statusBooking As String = row.Cells("Status Booking").Value.ToString().ToUpper()
+
+                If statusBooking = "CANCEL" Then
+                    'row.Cells("Daftarkan").Style.ForeColor = Color.Gray
+                    'row.Cells("Daftarkan").Style.BackColor = Color.LightGray
+                    'row.Cells("Daftarkan").Style.SelectionBackColor = Color.LightGray
+                End If
+            End If
+
+        Next
+
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+            row.Cells("AksiStatus").Value = ""
+        Next
+
+        For Each row As DataGridViewRow In DataGridViewReminder.Rows
+            If row.Cells("Status Booking").Value IsNot Nothing Then
+                Dim statusB As String = row.Cells("Status Booking").Value.ToString().ToUpper()
+
+                If statusB = "BOOKED" Then
+                    row.DefaultCellStyle.BackColor = Color.LightGreen
+                ElseIf statusB = "BATAL" Or statusB = "CANCEL" Then
+                    row.DefaultCellStyle.BackColor = Color.MistyRose
+                End If
+            End If
+        Next
+
+        isLoadingGrid = False
+    End Sub
+
+    Private Sub DataGridViewReminder_CellContentClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) _
+    Handles DataGridViewReminder.CellContentClick
+
+        If e.RowIndex < 0 Then Exit Sub
+
+        ' Tombol Daftarkan
+        If DataGridViewReminder.Columns(e.ColumnIndex).Name = "Daftarkan" Then
+
+            Dim row As DataGridViewRow = DataGridViewReminder.Rows(e.RowIndex)
+
+            Dim statusBooking As String = row.Cells("Status Booking").Value.ToString().ToUpper()
+
+            If statusBooking = "CANCEL" Then
+                MsgBox("Booking sudah dibatalkan dan tidak dapat didaftarkan.", _
+                       MsgBoxStyle.Information, "Informasi")
+                Exit Sub
+            End If
+
+            ' Ambil data dari grid
+            Dim noRM As String = CStr(row.Cells("NoRekamMedis").Value)
+            Dim nik As String = CStr(row.Cells("NoNIK").Value)
+            Dim tanggal As Date = CDate(row.Cells("Tanggal").Value)
+            Dim kdPoli As String = ReadSQLNIK("SELECT KodePoli FROM LogReminderPasien WHERE NoRekamMedis = '" & noRM & "'")
+
+            ' Ambil config
+            Dim kodeFaskes As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodePPK'")
+
+            ' Encode Base64
+            Dim plainText As String = nik & "*" & kodeFaskes & "*" & _
+                                     tanggal.ToString("yyyy-MM-dd") & "*BPJS*" & kdPoli
+
+            Dim bytes As Byte() = System.Text.Encoding.UTF8.GetBytes(plainText)
+            Dim encodedBase64 As String = Convert.ToBase64String(bytes)
+
+            Dim bookingUrl As String = "https://hyu.cmhgroup.id/app/antrean/" & encodedBase64
+
+            ' Atau langsung buka browser:
+            Process.Start(bookingUrl)
+
+        End If
+    End Sub
+
+    Private Sub DataGridViewReminder_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles DataGridViewReminder.CurrentCellDirtyStateChanged
+
+        If DataGridViewReminder.IsCurrentCellDirty Then
+            DataGridViewReminder.CommitEdit(DataGridViewDataErrorContexts.Commit)
+        End If
+
+    End Sub
+
+    Private Sub DataGridViewReminder_CellValueChanged(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewReminder.CellValueChanged
+        If isLoadingGrid Then Exit Sub
+
+        If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
+
+        If DataGridViewReminder.Columns(e.ColumnIndex).Name <> "AksiStatus" Then Exit Sub
+
+        Dim row = DataGridViewReminder.Rows(e.RowIndex)
+
+        If row.Cells("AksiStatus").Value Is Nothing Then Exit Sub
+
+        Dim statusBaru As String = row.Cells("AksiStatus").Value.ToString()
+
+        ' Abaikan pilihan kosong
+        If statusBaru = "" Then Exit Sub
+
+        Dim reminderID As Integer = CInt(row.Cells("ReminderID").Value)
+        Dim namaPasien As String = row.Cells("Nama Pasien").Value.ToString()
+        Dim statusLama As String = row.Cells("Status Pesan").Value.ToString()
+
+        Dim konfirmasi = MsgBox("Ubah status reminder " & namaPasien & " menjadi " & statusBaru & " ?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo, "Konfirmasi Perubahan Status")
+
+        If konfirmasi = MsgBoxResult.Yes Then
+            UpdateStatusReminder(reminderID, statusBaru)
+
+            If statusBaru = "CANCEL" Then
+                row.Cells("Daftarkan").ReadOnly = True
+            Else
+                row.Cells("Daftarkan").ReadOnly = False
+            End If
+
+            LoadReminder()
+        Else
+            isLoadingGrid = True
+            row.Cells("AksiStatus").Value = ""
+            isLoadingGrid = False
+        End If
+
+    End Sub
+
+    'Private Sub DataGridViewReminder_CellBeginEdit(ByVal sender As Object, ByVal e As DataGridViewCellCancelEventArgs) Handles DataGridViewReminder.CellBeginEdit
+
+    '    If DataGridViewReminder.Columns(e.ColumnIndex).Name = "AksiStatus" Then
+    '        If DataGridViewReminder.Rows(e.RowIndex).Cells("AksiStatus").Value.ToString() = "" Then
+    '            ' OK, boleh edit
+    '        End If
+    '    End If
+
+    'End Sub
+
+
+    Private Sub UpdateStatusReminder(ByVal reminderID As Integer, ByVal statusBaru As String)
+
+        Try
+            Dim query As String = _
+                "UPDATE LogReminderPasien SET " & _
+                "StatusBooking = '" & statusBaru & "', " & _
+                "UpdatedBy = '" & userInput & "', " & _
+                "UpdatedDate = GETDATE() " & _
+                "WHERE ReminderID = " & reminderID
+
+            WriteSQL(query, 4)
+
+            MsgBox("Status booking berhasil di " & statusBaru & ".", MsgBoxStyle.Information, "Informasi")
+        Catch ex As Exception
+            MsgBox("Gagal mengubah status booking." & vbCrLf & ex.Message, _
+             MsgBoxStyle.Critical, "Error")
+        End Try
+        
+
+    End Sub
+
+    Private Sub UpdateBookingToDatabase(ByVal reminderID As String, ByVal noAntrean As String)
+
+        Dim sql As String = _
+           "UPDATE LogReminderPasien SET " & _
+           "StatusBooking = 'BOOKED', " & _
+           "NoAntrean = '" & noAntrean & "', " & _
+           "LastSyncAntrean = GETDATE() " & _
+           "WHERE ReminderID = '" & reminderID & "' " & _
+           "AND (StatusBooking IS NULL OR StatusBooking <> 'BOOKED')"
+
+        WriteSQL(sql, 4)
+    End Sub
+
+    Private Sub UpdateCancelBookingToDatabase(ByVal reminderID As String)
+
+        Try
+            Dim sql As String = _
+                "UPDATE LogReminderPasien SET " & _
+                "StatusBooking = 'CANCEL', " & _
+                "NoAntrean = NULL, " & _
+                "LastSyncAntrean = GETDATE() " & _
+                "WHERE ReminderID = '" & reminderID & "' " & _
+                "AND StatusBooking = 'BOOKED'"
+
+            WriteSQL(sql, 4)
+
+            MsgBox("Status booking berhasil dicancel.", MsgBoxStyle.Information, "Informasi")
+        Catch ex As Exception
+            MsgBox("Gagal mengubah status booking." & vbCrLf & ex.Message, _
+             MsgBoxStyle.Critical, "Error")
+        End Try
+        
+    End Sub
+
+    Private Sub AutoSyncAntreanH1DanHariH(ByVal bg As System.ComponentModel.BackgroundWorker)
+
+        Dim sql As String = _
+            "SELECT LRP.ReminderID, LRP.Tanggal, MP.NoNIK " & _
+            "FROM LogReminderPasien LRP " & _
+            "LEFT JOIN MasterPasien MP ON LRP.NoRekamMedis = MP.NoRekamMedis " & _
+            "WHERE LRP.DeletedBy IS NULL " & _
+            "AND (LRP.StatusBooking IS NULL OR LRP.StatusBooking <> 'BOOKED') " & _
+            "AND CONVERT(date, LRP.Tanggal) IN (" & _
+            "CONVERT(date, DATEADD(day, -1, GETDATE())), " & _
+            "CONVERT(date, GETDATE()))"
+
+        Dim dt As DataTable = ReadSQL(sql)
+        If dt.Rows.Count = 0 Then Exit Sub
+
+        Dim total As Integer = dt.Rows.Count
+        Dim current As Integer = 0
+
+        Dim antreanByTanggal As New Dictionary(Of String, Dictionary(Of String, AntreanItem))
+
+        For Each row As DataRow In dt.Rows
+
+            If bg.CancellationPending Then Exit Sub
+
+            current += 1
+            Dim persen As Integer = CInt((current / total) * 100)
+            bg.ReportProgress(persen, "Sync " & current & " / " & total)
+
+            Dim tgl As Date = CDate(row("Tanggal")).Date
+            Dim keyTanggal As String = tgl.ToString("yyyy-MM-dd")
+
+            If Not antreanByTanggal.ContainsKey(keyTanggal) Then
+                antreanByTanggal(keyTanggal) = GetAntreanByTanggal(tgl)
+            End If
+
+            Dim nik As String = row("NoNIK").ToString().Trim()
+
+            If antreanByTanggal(keyTanggal).ContainsKey(nik) Then
+                Dim antrean As AntreanItem = antreanByTanggal(keyTanggal)(nik)
+                UpdateBookingToDatabase(row("ReminderID").ToString(), antrean.nomorantrean)
+            End If
+
+        Next
+
+    End Sub
+
+    'Private Sub TimerAutoSync_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerAutoSync.Tick
+    '    If Not BgSyncAntrean.IsBusy Then
+    '        BgSyncAntrean.RunWorkerAsync()
+    '    End If
+    'End Sub
+
+    Private Sub BgSyncAntrean_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BgSyncAntrean.DoWork
+        Try
+            Dim bg As System.ComponentModel.BackgroundWorker = CType(sender, System.ComponentModel.BackgroundWorker)
+
+            AutoSyncAntreanH1DanHariH(bg)
+
+        Catch ex As Exception
+            ' log saja, jangan MessageBox
+            MsgBox("AutoSyncAntrean error: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub BgSyncAntrean_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) _
+    Handles BgSyncAntrean.ProgressChanged
+
+        ProgressBarSync.Visible = True
+        LblSyncStatus.Visible = True
+
+        ProgressBarSync.Value = e.ProgressPercentage
+        LblSyncStatus.Text = e.UserState.ToString()
+
+    End Sub
+
+    Private Sub BgSyncAntrean_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BgSyncAntrean.RunWorkerCompleted
+        ProgressBarSync.Value = 100
+        LblSyncStatus.Text = "Sinkronisasi selesai"
+
+        ' kasih delay kecil biar kelihatan selesai
+        Threading.Thread.Sleep(500)
+
+        ProgressBarSync.Visible = False
+        LblSyncStatus.Visible = False
+
+        LoadReminder()
+    End Sub
+
+    Private Sub LoadReminderByQuery(ByVal query As String, ByVal tanggalAntrean As Date)
+
+        ' 1. Ambil antrean API sesuai tanggal
+        Dim antreanByNik As Dictionary(Of String, AntreanItem) = GetAntreanByTanggal(tanggalAntrean)
+
+        ' 2. Ambil reminder dari DB
+        Dim dt As DataTable = ReadSQL(query)
+
+        ' Kolom tampilan
+        If Not dt.Columns.Contains("Nama Pasien") Then
+            dt.Columns.Add("Nama Pasien", GetType(String))
+            dt.Columns.Add("No HP", GetType(String))
+            dt.Columns.Add("Keperluan Kunjungan", GetType(String))
+            dt.Columns.Add("Tanggal Kunjungan", GetType(String))
+            dt.Columns.Add("Status Pesan", GetType(String))
+            dt.Columns.Add("Status Booking", GetType(String))
+            dt.Columns.Add("No Antrean", GetType(String))
+            dt.Columns.Add("Tanggal Terkirim", GetType(String))
+        End If
+
+        Dim apiAvailable As Boolean = Not (antreanByNik Is Nothing OrElse antreanByNik.Count = 0)
+
+        ' 3. Mapping reminder ↔ antrean
+        For Each row As DataRow In dt.Rows
+
+            Dim nik As String = row("NoNIK").ToString().Trim()
+            Dim reminderID As String = row("ReminderID").ToString()
+
+            Dim statusDb As String = ""
+            If Not IsDBNull(row("StatusBooking")) Then
+                statusDb = row("StatusBooking").ToString().ToUpper()
+            End If
+
+            Dim tgl As DateTime = If(IsDBNull(row("Tanggal")), DateTime.MinValue, CDate(row("Tanggal")))
+            Dim tglKirim As DateTime = If(IsDBNull(row("TanggalKirim")), DateTime.MinValue, CDate(row("TanggalKirim")))
+
+            ' ===== DEFAULT DARI DB =====
+            row("Status Booking") = If(statusDb = "", "BELUM BOOKING", statusDb)
+            row("No Antrean") = If(IsDBNull(row("NoAntrean")), "-", row("NoAntrean").ToString())
+
+            ' ===== CEK API =====
+            If apiAvailable Then
+
+                If antreanByNik.ContainsKey(nik) Then
+
+                    Dim antrean As AntreanItem = antreanByNik(nik)
+
+                    If statusDb <> "BOOKED" Then
+                        row("Status Booking") = "BOOKED"
+                        row("No Antrean") = antrean.nomorantrean
+                        UpdateBookingToDatabase(reminderID, antrean.nomorantrean)
+                    End If
+
+                ElseIf statusDb = "BOOKED" Then
+
+                    row("Status Booking") = "CANCEL"
+                    row("No Antrean") = "-"
+                    UpdateCancelBookingToDatabase(reminderID)
+
+                End If
+
+            End If
+
+            ' ===== KOLOM TAMPILAN =====
+            row("Nama Pasien") = row("NamaPasien").ToString()
+            row("No HP") = row("NoHP").ToString()
+            row("Keperluan Kunjungan") = row("Keperluan").ToString()
+            row("Tanggal Kunjungan") = If(tgl = DateTime.MinValue, "", _
+                tgl.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+            row("Tanggal Terkirim") = If(tglKirim = DateTime.MinValue, "", _
+                tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+            row("Status Pesan") = row("Status").ToString()
+
+        Next
+
+        DataGridViewReminder.DataSource = dt
+        SetupReminderGrid()
     End Sub
 
     Private Sub LoadSesi()
@@ -271,27 +825,45 @@ Public Class FormReservasi
     End Sub
 
     Private Sub DataGridViewReminder_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles DataGridViewReminder.CellClick
-        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
-            Dim dgv As DataGridView = CType(sender, DataGridView)
-            Dim columnName As String = dgv.Columns(e.ColumnIndex).Name
 
-            If columnName = "Hapus" Then
-                Dim namaPasien As String = dgv.Rows(e.RowIndex).Cells("Nama Pasien").Value.ToString()
-                Dim reminderID As Integer = CInt(dgv.Rows(e.RowIndex).Cells("ReminderID").Value)
+        If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
 
-                Dim konfirmasi = MsgBox("Yakin ingin menghapus reminder untuk " & namaPasien & " ?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo, "Konfirmasi Hapus")
-                If konfirmasi = MsgBoxResult.Yes Then
-                    SoftDeleteReminder(reminderID)
-                    LoadReminder()
-                End If
-            End If
+        Dim dgv As DataGridView = CType(sender, DataGridView)
+
+        If dgv.Columns(e.ColumnIndex).Name <> "Hapus" Then Exit Sub
+
+        Dim namaPasien As String = dgv.Rows(e.RowIndex).Cells("Nama Pasien").Value.ToString()
+        Dim reminderID As Integer = CInt(dgv.Rows(e.RowIndex).Cells("ReminderID").Value)
+
+        Dim konfirmasi = MsgBox("Yakin ingin menghapus reminder untuk " & namaPasien & " ?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo, "Konfirmasi Hapus")
+
+        If konfirmasi = MsgBoxResult.Yes Then
+            SoftDeleteReminder(reminderID)
+            LoadReminder()
         End If
+
     End Sub
 
     Private Sub SoftDeleteReminder(ByVal reminderID As Integer)
-        Dim query As String = "UPDATE LogReminderPasien SET Status = 'CANCEL', DeletedBy = '" & userInput & "', " & _
-                              "DeletedDate = GETDATE()WHERE ReminderID = '" & reminderID & "'"
-        WriteSQL(query, 4)
+
+        Try
+            Dim query As String = _
+                "UPDATE LogReminderPasien SET " & _
+                "Status = 'CANCEL', " & _
+                "StatusBooking = 'CANCEL', " & _
+                "DeletedBy = '" & userInput & "', " & _
+                "DeletedDate = GETDATE() " & _
+                "WHERE ReminderID = " & reminderID
+
+            WriteSQL(query, 4)
+
+            MsgBox("Reminder berhasil dibatalkan.", MsgBoxStyle.Information, "Informasi")
+
+        Catch ex As Exception
+            MsgBox("Gagal membatalkan reminder." & vbCrLf & ex.Message, _
+                   MsgBoxStyle.Critical, "Error")
+        End Try
+
     End Sub
 
     Private Sub DataGridViewReservasi_RowPrePaint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowPrePaintEventArgs) Handles DataGridViewReservasi.RowPrePaint
@@ -537,13 +1109,22 @@ Public Class FormReservasi
         WriteSQL(queryUpdate, 4)
     End Sub
 
-    Private Sub FormReservasi_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load 
+    Private Sub FormReservasi_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
             Me.MdiParent = PoliKlinik
             Me.Dock = DockStyle.Fill
 
+            DataGridViewReminder.Columns.Clear()
+            DataGridViewReminder.AutoGenerateColumns = True
+
+            btnMenu1.BackColor = Color.FromArgb(81, 168, 255)
+            btnMenu1.ForeColor = Color.White
+
             AturTombolBerdasarkanPoli()
+
+            ' Jalankan auto sync di background
+
 
             ' Hide tab header button
             'TabControl1.Appearance = TabAppearance.FlatButtons
@@ -552,7 +1133,14 @@ Public Class FormReservasi
 
             UpdateExpiredJadwal()
             LoadReservasi()
+            'AutoSyncAntreanH1DanHariH(bg)
+
             LoadReminder()
+
+            If Not BgSyncAntrean.IsBusy Then
+                BgSyncAntrean.RunWorkerAsync()
+            End If
+
             TambahKolomAksi()
             LoadComboBoxPoliTujuan()
             LoadSesi()
@@ -565,9 +1153,29 @@ Public Class FormReservasi
         End Try
     End Sub
 
+    Private Sub FrmReservasi_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+
+        If BgSyncAntrean.IsBusy Then
+            BgSyncAntrean.CancelAsync()
+        End If
+
+    End Sub
+
     Private Sub btnMenu_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMenu4.Click, btnMenu3.Click, btnMenu2.Click, btnMenu1.Click
         Try
             Dim myButton = DirectCast(sender, Button)
+
+            For Each ctrl As System.Windows.Forms.Control In PanelSide.Controls ' ganti sesuai nama panel
+                If TypeOf ctrl Is Button AndAlso ctrl.Name.StartsWith("btnMenu") Then
+                    Dim btn As Button = DirectCast(ctrl, Button)
+                    btn.BackColor = Color.FromArgb(0, 100, 200)       ' ← ini kunci: kembali ke warna default
+                    btn.ForeColor = System.Drawing.Color.White
+                End If
+            Next
+
+            ' Set warna aktif untuk tombol yang diklik
+            myButton.BackColor = Color.FromArgb(81, 168, 255)
+            myButton.ForeColor = Color.White
 
             Select Case myButton.Name
                 Case "btnMenu1"
@@ -575,11 +1183,14 @@ Public Class FormReservasi
                     ButtonCari.Visible = True
                 Case "btnMenu2"
                     TabControlMenu.SelectedTab = TabPage2
+                    ButtonSimpan.Visible = True
                 Case "btnMenu3"
                     TabControlMenu.SelectedTab = TabPage3
                     ButtonCari.Visible = False
                 Case "btnMenu4"
                     TabControlMenu.SelectedTab = TabPage4
+                    ButtonCari.Visible = False
+                    ButtonSimpan.Visible = False
             End Select
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")
@@ -690,7 +1301,6 @@ Public Class FormReservasi
                 MsgBox("Sesi '" & Sesi & "' tidak tersedia untuk Poli " & namaRuangan & " di hari " & hari & ".", MsgBoxStyle.Critical, "Jadwal Tidak Tersedia")
                 Exit Sub
             End If
-
 
             ' Bandingkan
             If jumlahBooking >= kuotaRuangan Then
@@ -893,7 +1503,9 @@ Public Class FormReservasi
             NoHp = NoHp.Replace("'", "''")
             keperluan = keperluan.Replace("'", "''")
 
-            WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, JenisKelamin) " & _
+            Dim noRM As String = ReadSQLNIK("SELECT NoRekamMedis FROM MasterPasien WHERE Nama = '" & namaPasien & "'")
+
+            WriteSQL("INSERT INTO LogReminderPasien (NamaPasien, NoHP, Keperluan, Tanggal, Status, CreatedBy, CreatedDate, NoRekamMedis, JenisKelamin) " & _
             "VALUES ('" & namaPasien & "', " & _
                    "'" & NoHp & "', " & _
                    "'" & keperluan & "', " & _
@@ -901,6 +1513,7 @@ Public Class FormReservasi
                    "'TERJADWAL', " & _
                    "'" & userInput & "', " & _
                    "GETDATE(), " & _
+                   "'" & noRM & "', " & _
                    "'" & jenisKelamin & "')", 4)
 
             MsgBox("Pesan Reminder berhasil disimpan.", MsgBoxStyle.Information)
@@ -1056,5 +1669,112 @@ Public Class FormReservasi
             TextBoxPraktisi.Text = ""
             MessageBox.Show("Dokter tidak ditemukan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+    End Sub
+
+    Private Sub SetupHeaderLogPesan()
+        With DataGridViewLogPesan
+            ' Header full size
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing
+            .ColumnHeadersHeight = 40
+
+            ' Warna header
+            .EnableHeadersVisualStyles = False
+            '.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 100, 200)
+            '.ColumnHeadersDefaultCellStyle.ForeColor = Color.White
+
+            ' Font header
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+
+            ' Alignment
+            .ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+            ' Grid tambahan
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .RowTemplate.Height = 32
+        End With
+    End Sub
+
+    'Private Sub SetupZebraRowLogPesan()
+    '    With DataGridViewLogPesan
+    '        ' Warna dasar baris
+    '        .DefaultCellStyle.BackColor = Color.White
+    '        .AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 245, 255)
+
+    '        ' Warna saat dipilih
+    '        .DefaultCellStyle.SelectionBackColor = Color.FromArgb(180, 215, 255)
+    '        .DefaultCellStyle.SelectionForeColor = Color.Black
+
+    '        ' Font baris
+    '        .DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+    '    End With
+    'End Sub
+
+    Private Sub LoadLogPesan()
+        DataGridViewLogPesan.DataSource = Nothing
+
+        Dim tglAwal As Date = dtAwalLog.Value.Date
+        Dim tglAkhir As Date = dtAkhirLog.Value.Date.AddDays(1)
+
+        Dim query As String = ""
+        query &= "SELECT "
+        query &= "SendingJenis, "
+        query &= "SendingTujuan, "
+        query &= "SendingNamaFile, "
+        query &= "SendingBy, "
+        query &= "SendingDate "
+        query &= "FROM LogSendingWhatsappEmail "
+        query &= "WHERE SendingDate >= '" & Format(tglAwal, "yyyy-MM-dd") & "' "
+        query &= "AND SendingDate < '" & Format(tglAkhir, "yyyy-MM-dd") & "' "
+        query &= "ORDER BY SendingDate DESC"
+
+        Dim dt As DataTable = ReadSQL(query)
+
+        ' === Kolom tampilan ===
+        dt.Columns.Add("Jenis Pesan", GetType(String))
+        dt.Columns.Add("Tujuan", GetType(String))
+        dt.Columns.Add("Keperluan", GetType(String))
+        dt.Columns.Add("Dikirim Oleh", GetType(String))
+        dt.Columns.Add("Tanggal Kirim", GetType(String))
+
+        For Each row As DataRow In dt.Rows
+            Dim jenis As String = If(IsDBNull(row("SendingJenis")), "", row("SendingJenis").ToString())
+            Dim tujuan As String = If(IsDBNull(row("SendingTujuan")), "", row("SendingTujuan").ToString())
+            Dim namaFile As String = If(IsDBNull(row("SendingNamaFile")), "", row("SendingNamaFile").ToString())
+            Dim byUser As String = If(IsDBNull(row("SendingBy")), "", row("SendingBy").ToString())
+            Dim tglKirim As DateTime = If(IsDBNull(row("SendingDate")), DateTime.MinValue, CDate(row("SendingDate")))
+
+            row("Jenis Pesan") = jenis
+            row("Tujuan") = tujuan
+            row("Keperluan") = namaFile
+            row("Dikirim Oleh") = byUser
+            row("Tanggal Kirim") = If(tglKirim = DateTime.MinValue, "", tglKirim.ToString("dddd, dd MMMM yyyy HH:mm", New Globalization.CultureInfo("id-ID")))
+        Next
+
+        DataGridViewLogPesan.DataSource = dt
+        SetupHeaderLogPesan()
+        'SetupZebraRowLogPesan()
+
+        ' === Sembunyikan kolom mentah ===
+        If DataGridViewLogPesan.Columns.Contains("SendingJenis") Then
+            DataGridViewLogPesan.Columns("SendingJenis").Visible = False
+            DataGridViewLogPesan.Columns("SendingTujuan").Visible = False
+            DataGridViewLogPesan.Columns("SendingNamaFile").Visible = False
+            DataGridViewLogPesan.Columns("SendingBy").Visible = False
+            DataGridViewLogPesan.Columns("SendingDate").Visible = False
+        End If
+
+        DataGridViewLogPesan.RowTemplate.Height = 32
+    End Sub
+
+    Private Sub ButtonCariLogPesan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariLogPesan.Click
+        Try
+            LoadLogPesan()
+        Catch ex As Exception
+            MsgBox("Gagal memuat log pesan: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Private Sub BtnTampilSemua_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnTampilSemua.Click
+        LoadReminder()
     End Sub
 End Class

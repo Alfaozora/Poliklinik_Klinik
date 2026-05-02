@@ -35,163 +35,10 @@ Public Class ReportTagihanPoli
         Return Thasil
     End Function
 
-    Public Sub LoadPasien(ByRef Trow() As DataRow)
-        If Trow.Length = 0 Then
-            SetClear()
-        Else
-            Dim Tquery As String = ""
-            Dim Tcompany As String = ""
-            Dim Tjenistransaksi As String = ""
-            Dim Tpemeriksaan As String = ""
-            Dim ConcatCompany As String = ""
-            Dim TgllabStart As Date = "12/31/9998"
-            Dim TgllabEnd As Date = "12/31/9998"
-
-            'Company
-            If txkodecabang.Text <> "" And cmbpembayaran.SelectedIndex = 0 Then
-                ConcatCompany = txcompanycode.Text + "-" + txkodecabang.Text
-                Tcompany = " and (c.NoJenisBayar = '" & txcompanycode.Text & "' or c.NoJenisBayar='" & ConcatCompany & "')"
-            End If
-
-            'Jenis Transaksi
-            If cmbpembayaran.SelectedIndex = 0 Then
-                Tjenistransaksi = " AND c.JenisBayar='TAGIHAN'"
-            ElseIf cmbpembayaran.SelectedIndex = 1 Then
-                Tjenistransaksi = " AND c.JenisBayar='DEBET'"
-            ElseIf cmbpembayaran.SelectedIndex = 2 Then
-                Tjenistransaksi = " AND c.JenisBayar='TUNAI'"
-            ElseIf cmbpembayaran.SelectedIndex = 3 Then
-                Tjenistransaksi = " AND c.JenisBayar='CARD'"
-            End If
-
-            'Query Utama
-            Tquery = "SELECT ROW_NUMBER() OVER (ORDER BY a.Nourut)  AS 'No', a.Translabid, c.NoJenisBayar, a.NoUrut as 'No Lab', a.TglLab as 'Tanggal Lab', b.NoNIP, b.Nama, b.TglLahir as 'Tgl Lahir', b.DomisiliAlamat, '-' as 'pemeriksaan', c.JumlahBayar as 'Tagihan' " & _
-            "FROM transaksilab a " & _
-            "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
-            "LEFT JOIN TransaksiLabBayar c on a.TransLabID = c.TransLabID " & _
-            "WHERE (CONVERT(date, a.tgllab) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "') "
-
-            Tstr = ""
-            Dim Ttemp As String = "("
-            For i As Integer = 0 To Trow.Length - 1
-                Ttemp = Ttemp & "'" & Trow(i)("No Lab").ToString.Trim & "',"
-            Next
-            Tstr = Strings.Left(Ttemp, Ttemp.Length - 1) & ")"
-
-            Dim Tbls As DataTable = New DataTable
-            Dim Tdata As DataTable = New DataTable
-            Dim TDetailPemeriksaan As DataTable = New DataTable
-            Dim DetailPemeriksaan As String = ""
-            Dim TtempDetailPemeriksaan As String = ""
-
-            Tbls = ReadSQL(Tquery + Tcompany + Tjenistransaksi + " and a.Nourut in " & Tstr & " ORDER BY c.NoJenisBayar, a.TglLab, a.nourut asc")
-            Tdata = CreateTable()
-            Tdata.Rows.Clear()
-
-            Dim temppt As String = ""
-            Dim temppt2 As String = ""
-            Dim number As Integer = 0
-
-            If Tbls.Rows.Count > 0 Then
-                For Each TrowData As DataRow In Tbls.Rows
-                    Dim Tnew As DataRow = Tdata.NewRow
-
-                    'Periode Tanggal
-                    If TgllabStart = "12/31/9998" And TgllabEnd = "12/31/9998" Then
-                        TgllabStart = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        TgllabEnd = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                    Else
-                        If Format(TrowData("Tanggal Lab"), "MM-dd-yyyy") < TgllabStart Then
-                            TgllabStart = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        ElseIf Format(TrowData("Tanggal Lab"), "MM-dd-yyyy") > TgllabEnd Then
-                            TgllabEnd = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        End If
-                    End If
-
-                    'Create Number Start
-                    temppt2 = TrowData("NoJenisBayar")
-                    If temppt2.Contains("-") = True Then
-                        Dim Tsplit() As String = temppt2.Split("-")
-                        temppt2 = Tsplit(0).ToString.Trim.ToUpper
-                    Else
-                        temppt2 = temppt2.ToUpper
-                    End If
-
-                    If temppt = "" Then
-                        number = number + 1
-                    ElseIf temppt = temppt2 Then
-                        number = number + 1
-                    Else
-                        number = 0
-                        number = number + 1
-                    End If
-
-                    temppt = TrowData("NoJenisBayar")
-                    If temppt.Contains("-") = True Then
-                        Dim Tsplit() As String = temppt.Split("-")
-                        Tnew("NoJenisBayar") = Tsplit(0).ToString.Trim.ToUpper
-                        temppt = Tsplit(0).ToString.Trim.ToUpper
-                    Else
-                        Tnew("NoJenisBayar") = temppt.ToUpper
-                        temppt = temppt.ToUpper
-                    End If
-                    'Create Number End
-
-                    Tnew("No Lab") = TrowData("No Lab")
-                    Tnew("No") = number
-                    Tnew("Tanggal Lab") = TrowData("Tanggal Lab")
-                    Tnew("NIP") = TrowData("NoNIP")
-                    Tnew("Nama") = TrowData("Nama")
-                    Tnew("Tgl Lahir") = TrowData("Tgl Lahir")
-                    Tnew("Alamat") = TrowData("DomisiliAlamat")
-
-                    TtempDetailPemeriksaan = ""
-                    TDetailPemeriksaan = ReadSQL("SELECT b.NamaTindakan FROM TransaksiLab a LEFT JOIN TransaksiLabDetail b on a.TransLabID=b.TransLabID WHERE a.NoUrut = '" & TrowData("No Lab") & "'")
-                    For Each TRowDetailPemeriksaan As DataRow In TDetailPemeriksaan.Rows
-                        TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & TRowDetailPemeriksaan("NamaTindakan").ToString.Trim & ", "
-                    Next
-                    DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
-
-                    'Sentence
-                    'Tnew("pemeriksaan") = StrConv(DetailPemeriksaan, VbStrConv.ProperCase)
-                    Tnew("pemeriksaan") = DetailPemeriksaan
-                    Tnew("Tagihan") = TrowData("Tagihan")
-                    Tnew("Translabid") = TrowData("Translabid")
-
-                    Tdata.Rows.Add(Tnew)
-                Next
-
-                If TgllabStart = TgllabEnd Then
-                    txtgllab.Text = Format(TgllabStart, "dd") & " " & BulanIndonesia(Format(TgllabStart, "MM")) & " " & Format(TgllabStart, "yyyy")
-                Else
-                    txtgllab.Text = Format(TgllabStart, "dd") & " " & BulanIndonesia(Format(TgllabStart, "MM")) & " " & Format(TgllabStart, "yyyy") & " s/d " & Format(TgllabEnd, "dd") & " " & BulanIndonesia(Format(TgllabEnd, "MM")) & " " & Format(TgllabEnd, "yyyy")
-                End If
-
-                gridpasien.DataSource = Tdata
-                GridView1.Columns("No").Visible = False
-                GridView1.Columns("Translabid").Visible = False
-            End If
-        End If
-    End Sub
-
     Private Sub SetClear()
-        gridpasien.DataSource = CreateTable()
-
-        txcompanycode.ResetText()
-        txkodecabang.ResetText()
-        cmbpembayaran.SelectedIndex = 0
-        cmbjenistransaksi.SelectedIndex = 0
-        dtprocess.Value = DateTime.Now
-        dtprocessend.Value = DateTime.Now
-        rdstatus3.Checked = True
-        rdjenis1.Checked = True
-        butfindcompany.Enabled = True
-        cmbjenistransaksi.Enabled = True
-        rdstatus1.Enabled = True
-        rdstatus2.Enabled = True
-        rdstatus3.Enabled = True
-        rdjenis1.Enabled = True
-        rdjenis2.Enabled = True
+        GridControlTagihan.DataSource = CreateTable()
+        ComboBoxJenisTransaksi.SelectedIndex = 0
+        EnableAllButton()
     End Sub
 
     Private Sub CloseToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CloseToolStripMenuItem1.Click
@@ -228,14 +75,11 @@ Public Class ReportTagihanPoli
         Find.Query("SELECT IDCompany, CompanyCode, CompanyNama, NoCompany FROM mastercompany a", " ORDER BY a.idcompany desc", "FindCabangSummary", 2)
     End Sub
 
-    Public Sub LoadCompany(ByRef txkode As String, ByRef txlocationket As String)
-        'txcompany.Text = txlocationket
-        txkodecabang.Text = txkode
-    End Sub
-
-    Private Sub butfindcompany_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butfindcompany.Click
+    Private Sub ButtonCariPerusahaan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariPerusahaan.Click
+        'Find.Show()
+        'Find.Query("SELECT IDCompany, CompanyCode, CompanyNama, NoCompany FROM mastercompany a WHERE getdate() between StartDate and EndDate", " ORDER BY a.idcompany desc", "FindCabangReportTagihanPoli", 2)
         Find.Show()
-        Find.Query("SELECT IDCompany, CompanyCode, CompanyNama, NoCompany FROM mastercompany a WHERE getdate() between StartDate and EndDate", " ORDER BY a.idcompany desc", "FindCabangReportTagihanPoli", 2)
+        Find.Query("SELECT NoCompany AS 'ID', CompanyCode AS 'Kode Perusahaan', CompanyNama AS 'Keterangan' FROM mastercompany WHERE GETDATE() BETWEEN StartDate AND EndDate", " ORDER BY NoCompany ASC", "FindCabangReportTagihanPoli", 2)
     End Sub
 
     Private Sub butfindpaket_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -243,301 +87,371 @@ Public Class ReportTagihanPoli
         Find.Query("SELECT PaketID as ID,PaketNama,PaketKeterangan,PARSENAME(CONVERT(varchar,convert(money,PaketNilaiTotal),1),2) as PaketNilaiTotal,PaketStart,PaketEnd FROM MasterLabPaket WHERE GETDATE() between PaketStart and PaketEnd ", " ORDER BY PaketID DESC ", "FindPaketIDReportTagihanPoli", 2)
     End Sub
 
-    Private Sub buttambahpasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles buttambahpasien.Click
-        If dtprocessend.Value < dtprocess.Value Then
+    Private Sub buttambahpasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariTagihan.Click
+        If RadioButtonJenisReportDetail.Checked Then
+            ViewLaporanDetail()
+        ElseIf RadioButtonJenisReportSummary.Checked Then
+            ViewLaporanSummary()
+        End If
+    End Sub
+
+    Private Sub ViewLaporanSummary()
+        If DateTimeTglAkhirTransaksi.Value < DateTimeTglAwalTransaksi.Value Then
             MsgBox("Tanggal Akhir tidak boleh melebihi tanggal mulai.")
             Exit Sub
         End If
 
-        Dim Tquery As String = ""
-        Dim Tcompany As String = ""
-        Dim Tjenistransaksi As String = ""
-        Dim Tstatus As String = ""
-        Dim Tpemeriksaan As String = ""
-        Dim ConcatCompany As String = ""
-        Dim TgllabStart As Date = "12/31/9998"
-        Dim TgllabEnd As Date = "12/31/9998"
-
-        'Company
-        If txkodecabang.Text <> "" And cmbpembayaran.SelectedIndex = 0 Then
-            ConcatCompany = txcompanycode.Text + "-" + txkodecabang.Text
-            Tcompany = " and (c.NoJenisBayar = '" & txcompanycode.Text & "' or c.NoJenisBayar='" & ConcatCompany & "')"
+        ' Filter NoJenisBayar
+        Dim noJenisBayar As String = ""
+        If TextBoxNamaPerusahaan.Text <> "" Then
+            noJenisBayar = " AND NoJenisBayar='" & TextBoxNamaPerusahaan.Text & "'"
         End If
 
-        'Jenis Transaksi
-        If cmbpembayaran.SelectedIndex = 0 Then
-            Tjenistransaksi = " AND c.JenisBayar='TAGIHAN'"
-        ElseIf cmbpembayaran.SelectedIndex = 1 Then
-            Tjenistransaksi = " AND c.JenisBayar='DEBET'"
-        ElseIf cmbpembayaran.SelectedIndex = 2 Then
-            Tjenistransaksi = " AND c.JenisBayar='TUNAI'"
-        ElseIf cmbpembayaran.SelectedIndex = 3 Then
-            Tjenistransaksi = " AND c.JenisBayar='CARD'"
+        ' Tentukan tabel berdasarkan pilihan jenis transaksi
+        Dim tblTransaksi As String = ""
+        Dim tblBayar As String = ""
+        Dim tblBayarAwal As String = ""
+        Dim fldTanggal As String = ""
+        Dim fldTransaksiID As String = ""
+
+        If ComboBoxJenisTransaksi.Text = "POLI" Then
+            tblTransaksi = "TransaksiPoli"
+            tblBayar = "TransaksiPoliBayar"
+            tblBayarAwal = "TransaksiPoliBayarAwal"
+            fldTanggal = "TglPoli"
+            fldTransaksiID = "TransPoliID"
+        ElseIf ComboBoxJenisTransaksi.Text = "GIGI" Then
+            tblTransaksi = "TransaksiGigi"
+            tblBayar = "TransaksiGigiBayar"
+            tblBayarAwal = "TransaksiGigiBayarAwal"
+            fldTanggal = "TglGigi"   ' <-- sesuaikan nama kolom tanggal di TransaksiGigi
+            fldTransaksiID = "TransGigiID" ' <-- sesuaikan nama kolom ID di TransaksiGigi
+        Else
+            MsgBox("Pilih Jenis Transaksi terlebih dahulu.", MsgBoxStyle.Exclamation, "Warning!")
+            Exit Sub
         End If
 
-        'Status Bayar
-        If rdstatus1.Checked = True Then
-            Tstatus = " AND a.RekapID is not null"
-        ElseIf rdstatus2.Checked = True Then
-            Tstatus = " AND a.RekapID is null"
-        ElseIf rdstatus3.Checked = True Then
-            Tstatus = " "
-        End If
+        Dim queryString As String = _
+            "WITH FilteredTransaksi AS ( " & _
+            "    SELECT " & fldTransaksiID & ", RekapID " & _
+            "    FROM " & tblTransaksi & " " & _
+            "    WHERE (CONVERT(DATE, " & fldTanggal & ") BETWEEN '" & Format(DateTimeTglAwalTransaksi.Value, "yyyyMMdd") & "' AND '" & Format(DateTimeTglAkhirTransaksi.Value, "yyyyMMdd") & "') AND Deleted = 0 " & _
+            "), " & _
+            "DetailBayar AS ( " & _
+            "    SELECT " & _
+            "        tb.NoJenisBayar AS NoJenisBayar, " & _
+            "        tb.JumlahBayar - tb.Kembali AS TotalBayar, " & _
+            "        tb.NoInvoicePembayaran " & _
+            "    FROM " & tblBayar & " tb " & _
+            "    INNER JOIN FilteredTransaksi ft ON tb." & fldTransaksiID & " = ft." & fldTransaksiID & " " & _
+            "    WHERE tb.JumlahBayar > 0 AND tb.JenisBayar IN ('Tagihan') " & noJenisBayar & _
+            "    UNION ALL " & _
+            "    SELECT " & _
+            "        tba.NoJenisBayar AS NoJenisBayar, " & _
+            "        tba.JumlahBayar - tba.Kembali AS TotalBayar, " & _
+            "        tba.NoInvoicePembayaran " & _
+            "    FROM " & tblBayarAwal & " tba " & _
+            "    INNER JOIN FilteredTransaksi ft ON tba." & fldTransaksiID & " = ft." & fldTransaksiID & " " & _
+            "    WHERE tba.JumlahBayar > 0 AND tba.JenisBayar IN ('Tagihan') " & noJenisBayar & _
+            "), " & _
+            "Summary AS ( " & _
+            "    SELECT " & _
+            "        NoJenisBayar, " & _
+            "        CAST(COUNT(*) AS VARCHAR) + ' Transaksi' AS JumlahOrang, " & _
+            "        SUM(CASE WHEN NoInvoicePembayaran IS NOT NULL " & _
+            "                 THEN TotalBayar ELSE 0 END) AS Closed, " & _
+            "        SUM(CASE WHEN NoInvoicePembayaran IS NULL " & _
+            "                 THEN TotalBayar ELSE 0 END) AS Unclosed, " & _
+            "        SUM(TotalBayar) AS JumlahTagihan " & _
+            "    FROM DetailBayar " & _
+            "    GROUP BY NoJenisBayar " & _
+            IIf(RadioButtonStatusBayarClosed.Checked, "HAVING SUM(CASE WHEN NoInvoicePembayaran IS NOT NULL THEN TotalBayar ELSE 0 END) > 0 ", "") & _
+            IIf(RadioButtonStatusBayarUnClosed.Checked, "HAVING SUM(CASE WHEN NoInvoicePembayaran IS NULL THEN TotalBayar ELSE 0 END) > 0 ", "") & _
+            ") " & _
+            "SELECT " & _
+            "    ROW_NUMBER() OVER (ORDER BY NoJenisBayar) AS No, " & _
+            "    NoJenisBayar, " & _
+            "    JumlahOrang, " & _
+            "    Closed, " & _
+            "    Unclosed, " & _
+            "    JumlahTagihan " & _
+            "FROM Summary " & _
+            "ORDER BY No"
 
-        'Query Utama
-        If cmbjenistransaksi.SelectedIndex = 0 Then
-            Tquery = "SELECT CAST(t1.TglPoli AS DATE) as 'Tanggal Lab', t1.NoJenisBayar, SUM(t1.JumlahBayar)  as 'JumlahBayar', t1.RekapID, COUNT(t1.[Jumlah Transaksi]) as 'Jumlah Transaksi' FROM " & _
-                         "(SELECT TglPoli, c.NoJenisBayar, c.JumlahBayar as 'JumlahBayar', a.RekapID, NoUrut as 'Jumlah Transaksi' " & _
-                         "FROM TransaksiPoli a " & _
-                         "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
-                         "LEFT JOIN TransaksiPoliBayarAwal c on a.TransPoliID = c.TransPoliID " & _
-                         "WHERE a.deleted <> 1" & Tcompany & Tjenistransaksi & Tstatus & " and (CONVERT(date, a.TglPoli) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "') " & _
-                     "UNION ALL " & _
-                         "SELECT TglPoli, c.NoJenisBayar, c.JumlahBayar as 'JumlahBayar', a.RekapID, NoUrut as 'Jumlah Transaksi' " & _
-                         "FROM TransaksiPoli a " & _
-                         "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
-                         "LEFT JOIN TransaksiPoliBayar c on a.TransPoliID = c.TransPoliID " & _
-                         "WHERE a.deleted <> 1" & Tcompany & Tjenistransaksi & Tstatus & " and (CONVERT(date, a.TglPoli) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "')) as t1 " & _
-                     "GROUP BY NoJenisBayar, t1.TglPoli, RekapID " & _
-                     "ORDER BY NoJenisBayar, t1.TglPoli, RekapID"
-        ElseIf cmbjenistransaksi.SelectedIndex = 1 Then
-            Tquery = "SELECT CAST(t1.TglGigi AS DATE) as 'Tanggal Lab', t1.NoJenisBayar, SUM(t1.JumlahBayar)  as 'JumlahBayar', t1.RekapID, COUNT(t1.[Jumlah Transaksi]) as 'Jumlah Transaksi' FROM " & _
-                         "(SELECT TglGigi, c.NoJenisBayar, c.JumlahBayar as 'JumlahBayar', a.RekapID, NoUrut as 'Jumlah Transaksi' " & _
-                         "FROM TransaksiGigi a " & _
-                         "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
-                         "LEFT JOIN TransaksiGigiBayarAwal c on a.TransGigiID = c.TransGigiID " & _
-                         "WHERE a.deleted <> 1" & Tcompany & Tjenistransaksi & Tstatus & " and (CONVERT(date, a.TglGigi) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "') " & _
-                     "UNION ALL " & _
-                         "SELECT TglGigi, c.NoJenisBayar, c.JumlahBayar as 'JumlahBayar', a.RekapID, NoUrut as 'Jumlah Transaksi' " & _
-                         "FROM TransaksiGigi a " & _
-                         "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
-                         "LEFT JOIN TransaksiGigiBayar c on a.TransGigiID = c.TransGigiID " & _
-                         "WHERE a.deleted <> 1" & Tcompany & Tjenistransaksi & Tstatus & " and (CONVERT(date, a.TglGigi) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "')) as t1 " & _
-                     "GROUP BY NoJenisBayar, t1.TglGigi, RekapID " & _
-                     "ORDER BY NoJenisBayar, t1.TglGigi, RekapID"
-        ElseIf cmbjenistransaksi.SelectedIndex = 2 Then
-            Tquery = "SELECT CAST(TindakanTgl AS DATE) as 'Tanggal Lab', c.NoJenisBayar, sum(c.JumlahBayar) as 'JumlahBayar', a.RekapID, COUNT(a.TransAdminID) as 'Jumlah Transaksi' " & _
-                     "FROM TransaksiAdmin a " & _
-                     "LEFT JOIN MasterPasien b on a.idinternet=b.NoRekamMedis " & _
-                     "LEFT JOIN TransaksiAdminBayar c on a.TransAdminID=c.TransAdminID " & _
-                     "WHERE a.deleted <> 1" & Tcompany & Tjenistransaksi & Tstatus & " and (CONVERT(date, a.TindakanTgl) between '" & Format(dtprocess.Value, "MM-dd-yyyy") & "' and '" & Format(dtprocessend.Value, "MM-dd-yyyy") & "') GROUP BY NoJenisBayar, CAST(TindakanTgl AS DATE), RekapID ORDER BY NoJenisBayar, CAST(TindakanTgl AS DATE), RekapID"
-        End If
+        Dim tblTagihan As DataTable = ReadSQL(queryString)
+        Dim tblLaporan As DataTable = New DataTable
 
-        Dim Tbls As DataTable = ReadSQL(Tquery)
+        tblLaporan = CreateTable()
+        tblLaporan.Rows.Clear()
 
-        If Tbls.Rows.Count > 0 Then
-            Dim Tdata As DataTable = New DataTable
-            Dim TDetailPemeriksaan As DataTable = New DataTable
-            Dim DetailPemeriksaan As String = ""
-            Dim TtempDetailPemeriksaan As String = ""
+        If tblTagihan.Rows.Count > 0 Then
+            For Each rowTagihan As DataRow In tblTagihan.Rows
+                Dim rowLaporan As DataRow = tblLaporan.NewRow
+                rowLaporan("No") = rowTagihan("No").ToString()
+                rowLaporan("NoJenisBayar") = rowTagihan("NoJenisBayar").ToString()
+                rowLaporan("Jumlah Orang") = rowTagihan("JumlahOrang").ToString()
 
-            Tdata = CreateTable()
-            Tdata.Rows.Clear()
+                If RadioButtonStatusBayarClosed.Checked Then
+                    rowLaporan("Closed") = rowTagihan("Closed").ToString()
+                    rowLaporan("Unclosed") = "0"
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("Closed").ToString()
 
-            Dim temppt As String = ""
-            Dim temppt2 As String = ""
-            Dim number As Integer = 0
-            Dim totalclosed As Integer = 0
-            Dim totalunclosed As Integer = 0
-            Dim totaltagihan As Integer = 0
-            Dim tgltagihan As Date = "12/31/9998"
-            Dim nourut As Integer = 0
+                ElseIf RadioButtonStatusBayarUnClosed.Checked Then
+                    rowLaporan("Closed") = "0"
+                    rowLaporan("Unclosed") = rowTagihan("Unclosed").ToString()
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("Unclosed").ToString()
 
-            If Tbls.Rows.Count > 0 Then
-                For Each TrowData As DataRow In Tbls.Rows
-                    'Periode Tanggal
-                    If TgllabStart = "12/31/9998" And TgllabEnd = "12/31/9998" Then
-                        TgllabStart = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        TgllabEnd = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                    Else
-                        If Format(TrowData("Tanggal Lab"), "MM-dd-yyyy") < TgllabStart Then
-                            TgllabStart = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        ElseIf Format(TrowData("Tanggal Lab"), "MM-dd-yyyy") > TgllabEnd Then
-                            TgllabEnd = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        End If
-                    End If
-
-                    'Summary Reporting
-                    temppt2 = TrowData("NoJenisBayar")
-                    If temppt2.Contains("-") = True Then
-                        Dim Tsplit() As String = temppt2.Split("-")
-                        temppt2 = Tsplit(0).ToString.Trim.ToUpper
-                    Else
-                        temppt2 = temppt2.ToUpper
-                    End If
-
-                    If rdjenis1.Checked = True Then
-                        If temppt = "" Then
-                            number = number + TrowData("Jumlah Transaksi")
-                            nourut = nourut + 1
-                        ElseIf temppt = temppt2 Then
-                            number = number + TrowData("Jumlah Transaksi")
-                        Else
-                            Dim Tnew As DataRow = Tdata.NewRow
-                            Tnew("No") = nourut
-                            Tnew("Tanggal Lab") = TrowData("Tanggal Lab")
-                            Tnew("NoJenisBayar") = temppt.ToUpper
-                            Tnew("Jumlah Orang") = number & " Transaksi"
-                            Tnew("Closed") = totalclosed
-                            Tnew("Unclosed") = totalunclosed
-                            Tnew("Jumlah Tagihan") = totaltagihan
-                            Tdata.Rows.Add(Tnew)
-
-                            number = TrowData("Jumlah Transaksi")
-                            nourut = nourut + 1
-                            totalclosed = 0
-                            totalunclosed = 0
-                            totaltagihan = 0
-                        End If
-                    ElseIf rdjenis2.Checked = True Then
-                        If temppt = "" Then
-                            tgltagihan = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                            number = number + TrowData("Jumlah Transaksi")
-                            nourut = nourut + 1
-                        ElseIf temppt = temppt2 And Format(TrowData("Tanggal Lab"), "MM-dd-yyyy") = tgltagihan Then
-                            number = number + TrowData("Jumlah Transaksi")
-                        Else
-                            Dim Tnew As DataRow = Tdata.NewRow
-                            Tnew("No") = nourut
-                            Tnew("Tanggal Lab") = Format(tgltagihan, "MM-dd-yyyy")
-                            Tnew("NoJenisBayar") = temppt.ToUpper
-                            Tnew("Jumlah Orang") = number & " Transaksi"
-                            Tnew("Closed") = totalclosed
-                            Tnew("Unclosed") = totalunclosed
-                            Tnew("Jumlah Tagihan") = totaltagihan
-                            Tdata.Rows.Add(Tnew)
-
-                            If temppt = temppt2 Then
-                                nourut = nourut + 1
-                            Else
-                                nourut = 1
-                            End If
-
-                            number = TrowData("Jumlah Transaksi")
-                            totalclosed = 0
-                            totalunclosed = 0
-                            totaltagihan = 0
-                            tgltagihan = Format(TrowData("Tanggal Lab"), "MM-dd-yyyy")
-                        End If
-                    End If
-
-                    If IsDBNull(TrowData("RekapID")) = True Then
-                        totalunclosed = totalunclosed + TrowData("JumlahBayar")
-                        totaltagihan = totaltagihan + TrowData("JumlahBayar")
-                    ElseIf IsDBNull(TrowData("RekapID")) = False Then
-                        totalclosed = totalclosed + TrowData("JumlahBayar")
-                        totaltagihan = totaltagihan + TrowData("JumlahBayar")
-                    End If
-
-                    temppt = TrowData("NoJenisBayar")
-                    If temppt.Contains("-") = True Then
-                        Dim Tsplit() As String = temppt.Split("-")
-                        temppt = Tsplit(0).ToString.Trim.ToUpper
-                    Else
-                        temppt = temppt.ToUpper
-                    End If
-                Next
-
-                Dim Tlastnew As DataRow = Tdata.NewRow
-                Tlastnew("No") = nourut
-                Tlastnew("Tanggal Lab") = tgltagihan
-                Tlastnew("NoJenisBayar") = temppt.ToUpper
-                Tlastnew("Jumlah Orang") = number & " Transaksi"
-                Tlastnew("Closed") = totalclosed
-                Tlastnew("Unclosed") = totalunclosed
-                Tlastnew("Jumlah Tagihan") = totaltagihan
-                Tdata.Rows.Add(Tlastnew)
-
-                If TgllabStart = TgllabEnd Then
-                    txtgllab.Text = Format(TgllabStart, "dd") & " " & BulanIndonesia(Format(TgllabStart, "MM")) & " " & Format(TgllabStart, "yyyy")
-                Else
-                    txtgllab.Text = Format(TgllabStart, "dd") & " " & BulanIndonesia(Format(TgllabStart, "MM")) & " " & Format(TgllabStart, "yyyy") & " s/d " & Format(TgllabEnd, "dd") & " " & BulanIndonesia(Format(TgllabEnd, "MM")) & " " & Format(TgllabEnd, "yyyy")
+                Else ' All
+                    rowLaporan("Closed") = rowTagihan("Closed").ToString()
+                    rowLaporan("Unclosed") = rowTagihan("Unclosed").ToString()
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("JumlahTagihan").ToString()
                 End If
 
-                gridpasien.DataSource = Tdata
-                If rdjenis2.Checked = True Then
-                    GridView1.Columns("Tanggal Lab").Visible = True
-                Else
-                    GridView1.Columns("Tanggal Lab").Visible = False
-                End If
-                GridView1.Columns("No").Visible = False
+                tblLaporan.Rows.Add(rowLaporan)
+            Next
+
+            Dim tglAwal As Date = DateTimeTglAwalTransaksi.Value
+            Dim tglAkhir As Date = DateTimeTglAkhirTransaksi.Value
+
+            If tglAwal = tglAkhir Then
+                txtgllab.Text = Format(tglAwal, "dd") & " " & BulanIndonesia(Format(tglAwal, "MM")) & " " & Format(tglAwal, "yyyy")
+            Else
+                txtgllab.Text = Format(tglAwal, "dd") & " " & BulanIndonesia(Format(tglAwal, "MM")) & " " & Format(tglAwal, "yyyy") & _
+                                " s/d " & _
+                                Format(tglAkhir, "dd") & " " & BulanIndonesia(Format(tglAkhir, "MM")) & " " & Format(tglAkhir, "yyyy")
             End If
 
-            'disable rd status
-            If rdstatus1.Checked = True Then
-                rdstatus2.Enabled = False
-                rdstatus3.Enabled = False
-            ElseIf rdstatus2.Checked = True Then
-                rdstatus1.Enabled = False
-                rdstatus3.Enabled = False
-            ElseIf rdstatus3.Checked = True Then
-                rdstatus1.Enabled = False
-                rdstatus2.Enabled = False
+            GridControlTagihan.DataSource = tblLaporan
+
+            If RadioButtonJenisReportDetail.Checked = True Then
+                GridViewTagihan.Columns("Tanggal Lab").Visible = True
+            Else
+                GridViewTagihan.Columns("Tanggal Lab").Visible = False
             End If
 
-            'disable rd jenis
-            If rdjenis1.Checked = True Then
-                rdjenis2.Enabled = False
-            ElseIf rdjenis2.Checked = True Then
-                rdjenis1.Enabled = False
-            End If
+            GridViewTagihan.Columns("No").Visible = False
 
-            cmbjenistransaksi.Enabled = False
-            butfindcompany.Enabled = False
+            DisableAllButton()
         Else
             MsgBox("Tidak ada data yang ditampilkan.", MsgBoxStyle.Exclamation, "Warning!")
             Exit Sub
         End If
     End Sub
 
-    Private Sub exportexcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles exportexcel.Click
-        Dim Tbls As DataTable = gridpasien.DataSource
-        If Tbls.Rows.Count > 0 Then
-            Dim saveFileDialog1 As New SaveFileDialog
-            saveFileDialog1.Filter = "Excel File|*.xls"
-            saveFileDialog1.Title = "Save an Excel File"
-            saveFileDialog1.ShowDialog()
-            If saveFileDialog1.CheckPathExists = False Then
-                MsgBox("Path tidak ada. Check kembali")
-            Else
-                If saveFileDialog1.CheckFileExists = True Then
-                    MsgBox("Telah ada data dengan nama tersebut. Rubah nama save")
-                Else
-                    gridpasien.ExportToExcel(saveFileDialog1.FileName.ToString)
-                    MsgBox("File Saved")
-                End If
-            End If
+    Private Sub ViewLaporanDetail()
+        If DateTimeTglAkhirTransaksi.Value < DateTimeTglAwalTransaksi.Value Then
+            MsgBox("Tanggal Akhir tidak boleh melebihi tanggal mulai.")
+            Exit Sub
+        End If
+
+        ' Filter NoJenisBayar
+        Dim noJenisBayar As String = ""
+        If TextBoxNamaPerusahaan.Text <> "" Then
+            noJenisBayar = " AND NoJenisBayar='" & TextBoxNamaPerusahaan.Text & "'"
+        End If
+
+        ' Tentukan tabel berdasarkan pilihan jenis transaksi
+        Dim tblTransaksi As String = ""
+        Dim tblBayar As String = ""
+        Dim tblBayarAwal As String = ""
+        Dim fldTanggal As String = ""
+        Dim fldTransaksiID As String = ""
+
+        If ComboBoxJenisTransaksi.Text = "POLI" Then
+            tblTransaksi = "TransaksiPoli"
+            tblBayar = "TransaksiPoliBayar"
+            tblBayarAwal = "TransaksiPoliBayarAwal"
+            fldTanggal = "TglPoli"
+            fldTransaksiID = "TransPoliID"
+        ElseIf ComboBoxJenisTransaksi.Text = "GIGI" Then
+            tblTransaksi = "TransaksiGigi"
+            tblBayar = "TransaksiGigiBayar"
+            tblBayarAwal = "TransaksiGigiBayarAwal"
+            fldTanggal = "TglGigi"
+            fldTransaksiID = "TransGigiID"
         Else
-            MsgBox("Tidak ada data yg ditampilkan.")
+            MsgBox("Pilih Jenis Transaksi terlebih dahulu.", MsgBoxStyle.Exclamation, "Warning!")
+            Exit Sub
+        End If
+
+        Dim queryString As String = _
+            "WITH FilteredTransaksi AS ( " & _
+            "    SELECT " & fldTransaksiID & ", RekapID, CONVERT(DATE, " & fldTanggal & ") AS TglTransaksi " & _
+            "    FROM " & tblTransaksi & " " & _
+            "    WHERE (CONVERT(DATE, " & fldTanggal & ") BETWEEN '" & Format(DateTimeTglAwalTransaksi.Value, "yyyyMMdd") & "' AND '" & Format(DateTimeTglAkhirTransaksi.Value, "yyyyMMdd") & "') AND Deleted = 0 " & _
+            "), " & _
+            "DetailBayar AS ( " & _
+            "    SELECT " & _
+            "        ft.TglTransaksi, " & _
+            "        tb.NoJenisBayar AS NoJenisBayar, " & _
+            "        tb.JumlahBayar - tb.Kembali AS TotalBayar, " & _
+            "        tb.NoInvoicePembayaran " & _
+            "    FROM " & tblBayar & " tb " & _
+            "    INNER JOIN FilteredTransaksi ft ON tb." & fldTransaksiID & " = ft." & fldTransaksiID & " " & _
+            "    WHERE tb.JumlahBayar > 0 AND tb.JenisBayar IN ('Tagihan') " & noJenisBayar & _
+            "    UNION ALL " & _
+            "    SELECT " & _
+            "        ft.TglTransaksi, " & _
+            "        tba.NoJenisBayar AS NoJenisBayar, " & _
+            "        tba.JumlahBayar - tba.Kembali AS TotalBayar, " & _
+            "        tba.NoInvoicePembayaran " & _
+            "    FROM " & tblBayarAwal & " tba " & _
+            "    INNER JOIN FilteredTransaksi ft ON tba." & fldTransaksiID & " = ft." & fldTransaksiID & " " & _
+            "    WHERE tba.JumlahBayar > 0 AND tba.JenisBayar IN ('Tagihan') " & noJenisBayar & _
+            "), " & _
+            "Summary AS ( " & _
+            "    SELECT " & _
+            "        NoJenisBayar, " & _
+            "        TglTransaksi, " & _
+            "        CAST(COUNT(*) AS VARCHAR) + ' Transaksi' AS JumlahOrang, " & _
+            "        SUM(CASE WHEN NoInvoicePembayaran IS NOT NULL " & _
+            "                 THEN TotalBayar ELSE 0 END) AS Closed, " & _
+            "        SUM(CASE WHEN NoInvoicePembayaran IS NULL " & _
+            "                 THEN TotalBayar ELSE 0 END) AS Unclosed, " & _
+            "        SUM(TotalBayar) AS JumlahTagihan " & _
+            "    FROM DetailBayar " & _
+            "    GROUP BY NoJenisBayar, TglTransaksi " & _
+            IIf(RadioButtonStatusBayarClosed.Checked, "HAVING SUM(CASE WHEN NoInvoicePembayaran IS NOT NULL THEN TotalBayar ELSE 0 END) > 0 ", "") & _
+            IIf(RadioButtonStatusBayarUnClosed.Checked, "HAVING SUM(CASE WHEN NoInvoicePembayaran IS NULL THEN TotalBayar ELSE 0 END) > 0 ", "") & _
+            "), " & _
+            "Numbered AS ( " & _
+            "    SELECT " & _
+            "        ROW_NUMBER() OVER (PARTITION BY NoJenisBayar ORDER BY TglTransaksi) AS No, " & _
+            "        NoJenisBayar, " & _
+            "        TglTransaksi, " & _
+            "        JumlahOrang, " & _
+            "        Closed, " & _
+            "        Unclosed, " & _
+            "        JumlahTagihan " & _
+            "    FROM Summary " & _
+            ") " & _
+            "SELECT " & _
+            "    No, " & _
+            "    NoJenisBayar, " & _
+            "    CONVERT(VARCHAR, TglTransaksi, 103) AS TglTransaksi, " & _
+            "    JumlahOrang, " & _
+            "    Closed, " & _
+            "    Unclosed, " & _
+            "    JumlahTagihan " & _
+            "FROM Numbered " & _
+            "ORDER BY NoJenisBayar, CONVERT(DATE, TglTransaksi)"  ' <-- FIX: paksa cast DATE
+
+        Dim tblTagihan As DataTable = ReadSQL(queryString)
+        Dim tblLaporan As DataTable = New DataTable
+
+        tblLaporan = CreateTable()
+        tblLaporan.Rows.Clear()
+
+        If tblTagihan.Rows.Count > 0 Then
+            For Each rowTagihan As DataRow In tblTagihan.Rows
+                Dim rowLaporan As DataRow = tblLaporan.NewRow
+                rowLaporan("No") = rowTagihan("No").ToString()
+                rowLaporan("NoJenisBayar") = rowTagihan("NoJenisBayar").ToString()  ' sekarang sudah ada
+
+                Dim tglTransaksi As DateTime = DateTime.ParseExact(rowTagihan("TglTransaksi").ToString(), "dd/MM/yyyy", Nothing)
+                rowLaporan("Tanggal Lab") = tglTransaksi.ToString("MM-dd-yyyy")
+
+                rowLaporan("Jumlah Orang") = rowTagihan("JumlahOrang").ToString()
+
+                If RadioButtonStatusBayarClosed.Checked Then
+                    rowLaporan("Closed") = rowTagihan("Closed").ToString()
+                    rowLaporan("Unclosed") = "0"
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("Closed").ToString()
+                ElseIf RadioButtonStatusBayarUnClosed.Checked Then
+                    rowLaporan("Closed") = "0"
+                    rowLaporan("Unclosed") = rowTagihan("Unclosed").ToString()
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("Unclosed").ToString()
+                Else
+                    rowLaporan("Closed") = rowTagihan("Closed").ToString()
+                    rowLaporan("Unclosed") = rowTagihan("Unclosed").ToString()
+                    rowLaporan("Jumlah Tagihan") = rowTagihan("JumlahTagihan").ToString()
+                End If
+
+                tblLaporan.Rows.Add(rowLaporan)
+            Next
+
+            Dim tglAwal As Date = DateTimeTglAwalTransaksi.Value
+            Dim tglAkhir As Date = DateTimeTglAkhirTransaksi.Value
+
+            If tglAwal = tglAkhir Then
+                txtgllab.Text = Format(tglAwal, "dd") & " " & BulanIndonesia(Format(tglAwal, "MM")) & " " & Format(tglAwal, "yyyy")
+            Else
+                txtgllab.Text = Format(tglAwal, "dd") & " " & BulanIndonesia(Format(tglAwal, "MM")) & " " & Format(tglAwal, "yyyy") & _
+                                " s/d " & _
+                                Format(tglAkhir, "dd") & " " & BulanIndonesia(Format(tglAkhir, "MM")) & " " & Format(tglAkhir, "yyyy")
+            End If
+
+            GridControlTagihan.DataSource = tblLaporan
+
+            GridViewTagihan.Columns("No").Visible = False
+            GridViewTagihan.Columns("NoJenisBayar").Visible = False
+            GridViewTagihan.Columns("Tanggal Lab").Visible = True
+
+            DisableAllButton()
+        Else
+            MsgBox("Tidak ada data yang ditampilkan.", MsgBoxStyle.Exclamation, "Warning!")
+            Exit Sub
         End If
     End Sub
 
-    Private Sub clear_invoice()
-        txnorek.ResetText()
-        txnamarek.ResetText()
-        txtgljatuhtempo.ResetText()
-        txbankid.ResetText()
-        txnamabank.ResetText()
+    Private Sub DisableAllButton()
+        ' Status Bayar
+        RadioButtonStatusBayarClosed.Enabled = False
+        RadioButtonStatusBayarUnClosed.Enabled = False
+        RadioButtonStatusBayarAll.Enabled = False
+
+        ' Jenis Report
+        RadioButtonJenisReportSummary.Enabled = False
+        RadioButtonJenisReportDetail.Enabled = False
+
+        ' Jenis Transaksi
+        ComboBoxJenisTransaksi.Enabled = False
+
+        ' Search Company
+        ButtonCariPerusahaan.Enabled = False
+
+        ' Search Button
+        ButtonCariTagihan.Enabled = False
     End Sub
 
-    Private Sub exportpdf_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles exportpdf.Click
+    Private Sub EnableAllButton()
+        ' Status Bayar
+        RadioButtonStatusBayarClosed.Enabled = True
+        RadioButtonStatusBayarUnClosed.Enabled = True
+        RadioButtonStatusBayarAll.Enabled = True
 
-        Dim Tbls As DataTable = gridpasien.DataSource
+        ' Jenis Report
+        RadioButtonJenisReportSummary.Enabled = True
+        RadioButtonJenisReportDetail.Enabled = True
+
+        ' Jenis Transaksi
+        ComboBoxJenisTransaksi.Enabled = True
+
+        ' Search Company
+        ButtonCariPerusahaan.Enabled = True
+
+        ' Search Button
+        ButtonCariTagihan.Enabled = True
+    End Sub
+
+    Private Sub ButtonCetakLaporan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCetakLaporan.Click
+
+        Dim Tbls As DataTable = GridControlTagihan.DataSource
         Dim Tdata As DataTable = New DataTable
         If Tbls.Rows.Count > 0 Then
             Report = New XtraReport
 
-            If rdjenis1.Checked Then
+            If RadioButtonJenisReportSummary.Checked Then
                 Report = XtraReport.FromFile(Application.StartupPath + "\reports\Laboratorium\Laporan\LapRekapSummaryTagihanLab.repx", True)
-            ElseIf rdjenis2.Checked Then
+            ElseIf RadioButtonJenisReportDetail.Checked Then
                 Report = XtraReport.FromFile(Application.StartupPath + "\reports\Laboratorium\Laporan\LapRekapDetailTagihanLab.repx", True)
             End If
             Report.DataSource = Tbls
 
-            If rdjenis1.Checked = True Then
-                Report.Bands.Item(BandKind.ReportHeader).Controls("lbljenissetoran").Text = "LAPORAN SUMMARY POLI UMUM (" & cmbjenistransaksi.Text & ")"
-            ElseIf rdjenis2.Checked = True Then
-                Report.Bands.Item(BandKind.ReportHeader).Controls("lbljenissetoran").Text = "LAPORAN DETAIL POLI UMUM (" & cmbjenistransaksi.Text & ")"
+            If RadioButtonJenisReportSummary.Checked = True Then
+                Report.Bands.Item(BandKind.ReportHeader).Controls("lbljenissetoran").Text = "LAPORAN SUMMARY POLI UMUM (" & ComboBoxJenisTransaksi.Text & ")"
+            ElseIf RadioButtonJenisReportDetail.Checked = True Then
+                Report.Bands.Item(BandKind.ReportHeader).Controls("lbljenissetoran").Text = "LAPORAN DETAIL POLI UMUM (" & ComboBoxJenisTransaksi.Text & ")"
             End If
 
             Report.Bands.Item(BandKind.ReportHeader).Controls("lbltanggal").Text = txtgllab.Text

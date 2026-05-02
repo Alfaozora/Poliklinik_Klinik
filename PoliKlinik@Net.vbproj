@@ -169,6 +169,9 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms">
       <Private>True</Private>
@@ -371,6 +374,12 @@
     <Compile Include="Lab\ToolsTransaksiLab.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Lab\TransaksiLab.Designer.vb">
+      <DependentUpon>TransaksiLab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Lab\TransaksiLab.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\Poli\MasterTindakanKlinik.Designer.vb">
       <DependentUpon>MasterTindakanKlinik.vb</DependentUpon>
     </Compile>
@@ -431,6 +440,12 @@
       <DependentUpon>ReportPendapatanKlinik.vb</DependentUpon>
     </Compile>
     <Compile Include="Poli\Laporan\ReportPendapatanKlinik.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.Designer.vb">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Poli\Rekap\RekapFeeKaryawan.Designer.vb">
@@ -847,6 +862,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\FuzzyUtils.vb" />
+    <Compile Include="Prototype\ICDAsistenHelper.vb" />
     <Compile Include="Prototype\KYC.Designer.vb">
       <DependentUpon>KYC.vb</DependentUpon>
     </Compile>
@@ -1066,12 +1082,6 @@
     <Compile Include="Poli\Pendapatan\RekapPendapatanPoli.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.Designer.vb">
-      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Poli\Pendapatan\ReportTagihanPoli.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Poli\RujukLab.Designer.vb">
       <DependentUpon>RujukLab.vb</DependentUpon>
     </Compile>
@@ -1210,12 +1220,6 @@
       <DependentUpon>ResultMachine.vb</DependentUpon>
     </Compile>
     <Compile Include="Lab\ResultMachine.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lab\TransaksiLab.Designer.vb">
-      <DependentUpon>TransaksiLab.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Lab\TransaksiLab.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.vb">
@@ -1468,6 +1472,9 @@
     <EmbeddedResource Include="Lab\ToolsTransaksiLab.resx">
       <DependentUpon>ToolsTransaksiLab.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Lab\TransaksiLab.resx">
+      <DependentUpon>TransaksiLab.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="Master\Poli\MasterTindakanKlinik.resx">
       <DependentUpon>MasterTindakanKlinik.vb</DependentUpon>
@@ -1499,6 +1506,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Poli\Laporan\ReportPendapatanKlinik.resx">
       <DependentUpon>ReportPendapatanKlinik.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Poli\Pendapatan\ReportTagihanPoli.resx">
+      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Poli\Rekap\RekapFeeKaryawan.resx">
       <DependentUpon>RekapFeeKaryawan.vb</DependentUpon>
@@ -1839,9 +1849,6 @@
     <EmbeddedResource Include="Poli\Pendapatan\RekapPendapatanPoli.resx">
       <DependentUpon>RekapPendapatanPoli.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Poli\Pendapatan\ReportTagihanPoli.resx">
-      <DependentUpon>ReportTagihanPoli.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Poli\RujukLab.resx">
       <DependentUpon>RujukLab.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -1926,10 +1933,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Lab\ResultMachine.resx">
       <DependentUpon>ResultMachine.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Lab\TransaksiLab.resx">
-      <DependentUpon>TransaksiLab.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">

@@ -35,10 +35,14 @@ Partial Class LabAdminOnline
         Me.groupdetail = New System.Windows.Forms.GroupBox
         Me.drecg = New System.Windows.Forms.TabControl
         Me.TabLab = New System.Windows.Forms.TabPage
-        Me.butnilaikonversi = New System.Windows.Forms.Button
-        Me.butsaran = New System.Windows.Forms.Button
+        Me.SplitContainerTabLaboratorium = New System.Windows.Forms.SplitContainer
+        Me.Panel16 = New System.Windows.Forms.Panel
+        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel
         Me.butsavelab = New System.Windows.Forms.Button
         Me.butnormallab = New System.Windows.Forms.Button
+        Me.butsaran = New System.Windows.Forms.Button
+        Me.butnilaikonversi = New System.Windows.Forms.Button
+        Me.ButtonSetNilaiRujukan = New System.Windows.Forms.Button
         Me.gridlab = New DevExpress.XtraGrid.GridControl
         Me.GridViewTindakanLab = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.TabPage1 = New System.Windows.Forms.TabPage
@@ -407,14 +411,18 @@ Partial Class LabAdminOnline
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
-        Me.SplitContainerTabLaboratorium = New System.Windows.Forms.SplitContainer
-        Me.Panel16 = New System.Windows.Forms.Panel
-        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel
-        Me.ButtonSetNilaiRujukan = New System.Windows.Forms.Button
+        Me.GroupBox10 = New System.Windows.Forms.GroupBox
+        Me.ButtonCetakInBody = New System.Windows.Forms.Button
+        Me.ButtonInBodyPdf = New System.Windows.Forms.Button
         Me.MenuStrip1.SuspendLayout()
         Me.groupdetail.SuspendLayout()
         Me.drecg.SuspendLayout()
         Me.TabLab.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.Panel1.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.Panel2.SuspendLayout()
+        Me.SplitContainerTabLaboratorium.SuspendLayout()
+        Me.Panel16.SuspendLayout()
+        Me.FlowLayoutPanel2.SuspendLayout()
         CType(Me.gridlab, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridViewTindakanLab, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage1.SuspendLayout()
@@ -444,11 +452,7 @@ Partial Class LabAdminOnline
         Me.groupcustomer.SuspendLayout()
         Me.GroupBoxDL.SuspendLayout()
         CType(Me.QR_Code_Trans, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainerTabLaboratorium.Panel1.SuspendLayout()
-        Me.SplitContainerTabLaboratorium.Panel2.SuspendLayout()
-        Me.SplitContainerTabLaboratorium.SuspendLayout()
-        Me.Panel16.SuspendLayout()
-        Me.FlowLayoutPanel2.SuspendLayout()
+        Me.GroupBox10.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -457,7 +461,7 @@ Partial Class LabAdminOnline
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.DownloadHasilToolStripMenuItem, Me.ResendToMesinToolStripMenuItem, Me.CetakBarcodeToolStripMenuItem, Me.CetakLabelMenuStrip, Me.PreviewHasilLabToolStripMenuItem, Me.PrintSementaraToolStripMenuItem, Me.SendingWhatsappEmailToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1200, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1236, 24)
         Me.MenuStrip1.TabIndex = 4
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -476,7 +480,7 @@ Partial Class LabAdminOnline
         'ResendToMesinToolStripMenuItem
         '
         Me.ResendToMesinToolStripMenuItem.Name = "ResendToMesinToolStripMenuItem"
-        Me.ResendToMesinToolStripMenuItem.Size = New System.Drawing.Size(107, 20)
+        Me.ResendToMesinToolStripMenuItem.Size = New System.Drawing.Size(108, 20)
         Me.ResendToMesinToolStripMenuItem.Text = "Resend To Mesin"
         '
         'CetakBarcodeToolStripMenuItem
@@ -516,7 +520,7 @@ Partial Class LabAdminOnline
         Me.groupdetail.Dock = System.Windows.Forms.DockStyle.Fill
         Me.groupdetail.Location = New System.Drawing.Point(0, 142)
         Me.groupdetail.Name = "groupdetail"
-        Me.groupdetail.Size = New System.Drawing.Size(1200, 398)
+        Me.groupdetail.Size = New System.Drawing.Size(1236, 398)
         Me.groupdetail.TabIndex = 7
         Me.groupdetail.TabStop = False
         Me.groupdetail.Text = "Detail"
@@ -536,7 +540,7 @@ Partial Class LabAdminOnline
         Me.drecg.Location = New System.Drawing.Point(3, 16)
         Me.drecg.Name = "drecg"
         Me.drecg.SelectedIndex = 0
-        Me.drecg.Size = New System.Drawing.Size(1194, 313)
+        Me.drecg.Size = New System.Drawing.Size(1230, 313)
         Me.drecg.TabIndex = 67
         '
         'TabLab
@@ -545,36 +549,55 @@ Partial Class LabAdminOnline
         Me.TabLab.Location = New System.Drawing.Point(4, 22)
         Me.TabLab.Name = "TabLab"
         Me.TabLab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabLab.Size = New System.Drawing.Size(1186, 287)
+        Me.TabLab.Size = New System.Drawing.Size(1222, 287)
         Me.TabLab.TabIndex = 3
         Me.TabLab.Text = "Laboratorium"
         Me.TabLab.UseVisualStyleBackColor = True
         '
-        'butnilaikonversi
+        'SplitContainerTabLaboratorium
         '
-        Me.butnilaikonversi.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.butnilaikonversi.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butnilaikonversi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butnilaikonversi.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
-        Me.butnilaikonversi.Location = New System.Drawing.Point(321, 3)
-        Me.butnilaikonversi.Name = "butnilaikonversi"
-        Me.butnilaikonversi.Size = New System.Drawing.Size(100, 36)
-        Me.butnilaikonversi.TabIndex = 194
-        Me.butnilaikonversi.Text = "SET NILAI KONVERSI"
-        Me.butnilaikonversi.UseVisualStyleBackColor = True
+        Me.SplitContainerTabLaboratorium.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerTabLaboratorium.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerTabLaboratorium.IsSplitterFixed = True
+        Me.SplitContainerTabLaboratorium.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainerTabLaboratorium.Name = "SplitContainerTabLaboratorium"
+        Me.SplitContainerTabLaboratorium.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'butsaran
+        'SplitContainerTabLaboratorium.Panel1
         '
-        Me.butsaran.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.butsaran.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butsaran.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butsaran.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
-        Me.butsaran.Location = New System.Drawing.Point(215, 3)
-        Me.butsaran.Name = "butsaran"
-        Me.butsaran.Size = New System.Drawing.Size(100, 36)
-        Me.butsaran.TabIndex = 193
-        Me.butsaran.Text = "SET SARAN & KETERANGAN"
-        Me.butsaran.UseVisualStyleBackColor = True
+        Me.SplitContainerTabLaboratorium.Panel1.Controls.Add(Me.Panel16)
+        '
+        'SplitContainerTabLaboratorium.Panel2
+        '
+        Me.SplitContainerTabLaboratorium.Panel2.AutoScroll = True
+        Me.SplitContainerTabLaboratorium.Panel2.Controls.Add(Me.gridlab)
+        Me.SplitContainerTabLaboratorium.Size = New System.Drawing.Size(1216, 281)
+        Me.SplitContainerTabLaboratorium.SplitterDistance = 45
+        Me.SplitContainerTabLaboratorium.SplitterWidth = 5
+        Me.SplitContainerTabLaboratorium.TabIndex = 461
+        '
+        'Panel16
+        '
+        Me.Panel16.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
+        Me.Panel16.Controls.Add(Me.FlowLayoutPanel2)
+        Me.Panel16.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel16.Location = New System.Drawing.Point(0, 0)
+        Me.Panel16.Name = "Panel16"
+        Me.Panel16.Size = New System.Drawing.Size(1216, 45)
+        Me.Panel16.TabIndex = 453
+        '
+        'FlowLayoutPanel2
+        '
+        Me.FlowLayoutPanel2.Controls.Add(Me.butsavelab)
+        Me.FlowLayoutPanel2.Controls.Add(Me.butnormallab)
+        Me.FlowLayoutPanel2.Controls.Add(Me.butsaran)
+        Me.FlowLayoutPanel2.Controls.Add(Me.butnilaikonversi)
+        Me.FlowLayoutPanel2.Controls.Add(Me.ButtonSetNilaiRujukan)
+        Me.FlowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FlowLayoutPanel2.Location = New System.Drawing.Point(0, 0)
+        Me.FlowLayoutPanel2.Name = "FlowLayoutPanel2"
+        Me.FlowLayoutPanel2.Size = New System.Drawing.Size(1216, 45)
+        Me.FlowLayoutPanel2.TabIndex = 462
         '
         'butsavelab
         '
@@ -599,6 +622,45 @@ Partial Class LabAdminOnline
         Me.butnormallab.Text = "NILAI NORMAL"
         Me.butnormallab.UseVisualStyleBackColor = True
         '
+        'butsaran
+        '
+        Me.butsaran.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.butsaran.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.butsaran.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butsaran.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
+        Me.butsaran.Location = New System.Drawing.Point(215, 3)
+        Me.butsaran.Name = "butsaran"
+        Me.butsaran.Size = New System.Drawing.Size(100, 36)
+        Me.butsaran.TabIndex = 193
+        Me.butsaran.Text = "SET SARAN & KETERANGAN"
+        Me.butsaran.UseVisualStyleBackColor = True
+        '
+        'butnilaikonversi
+        '
+        Me.butnilaikonversi.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.butnilaikonversi.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.butnilaikonversi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butnilaikonversi.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
+        Me.butnilaikonversi.Location = New System.Drawing.Point(321, 3)
+        Me.butnilaikonversi.Name = "butnilaikonversi"
+        Me.butnilaikonversi.Size = New System.Drawing.Size(100, 36)
+        Me.butnilaikonversi.TabIndex = 194
+        Me.butnilaikonversi.Text = "SET NILAI KONVERSI"
+        Me.butnilaikonversi.UseVisualStyleBackColor = True
+        '
+        'ButtonSetNilaiRujukan
+        '
+        Me.ButtonSetNilaiRujukan.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonSetNilaiRujukan.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ButtonSetNilaiRujukan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonSetNilaiRujukan.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
+        Me.ButtonSetNilaiRujukan.Location = New System.Drawing.Point(427, 3)
+        Me.ButtonSetNilaiRujukan.Name = "ButtonSetNilaiRujukan"
+        Me.ButtonSetNilaiRujukan.Size = New System.Drawing.Size(100, 36)
+        Me.ButtonSetNilaiRujukan.TabIndex = 195
+        Me.ButtonSetNilaiRujukan.Text = "SET NILAI RUJUKAN"
+        Me.ButtonSetNilaiRujukan.UseVisualStyleBackColor = True
+        '
         'gridlab
         '
         Me.gridlab.Dock = System.Windows.Forms.DockStyle.Fill
@@ -606,7 +668,7 @@ Partial Class LabAdminOnline
         Me.gridlab.Location = New System.Drawing.Point(0, 0)
         Me.gridlab.MainView = Me.GridViewTindakanLab
         Me.gridlab.Name = "gridlab"
-        Me.gridlab.Size = New System.Drawing.Size(1180, 231)
+        Me.gridlab.Size = New System.Drawing.Size(1216, 231)
         Me.gridlab.TabIndex = 2
         Me.gridlab.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridViewTindakanLab})
         '
@@ -1468,7 +1530,7 @@ Partial Class LabAdminOnline
         Me.TabPage8.Controls.Add(Me.SplitContainerPemeriksaanFisik)
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(1186, 287)
+        Me.TabPage8.Size = New System.Drawing.Size(1222, 287)
         Me.TabPage8.TabIndex = 11
         Me.TabPage8.Text = "PEMERIKSAAN FISIK"
         Me.TabPage8.UseVisualStyleBackColor = True
@@ -1489,7 +1551,7 @@ Partial Class LabAdminOnline
         '
         Me.SplitContainerPemeriksaanFisik.Panel2.AutoScroll = True
         Me.SplitContainerPemeriksaanFisik.Panel2.Controls.Add(Me.PanelDetailPemeriksaanFisik)
-        Me.SplitContainerPemeriksaanFisik.Size = New System.Drawing.Size(1186, 287)
+        Me.SplitContainerPemeriksaanFisik.Size = New System.Drawing.Size(1222, 287)
         Me.SplitContainerPemeriksaanFisik.SplitterDistance = 105
         Me.SplitContainerPemeriksaanFisik.SplitterWidth = 5
         Me.SplitContainerPemeriksaanFisik.TabIndex = 179
@@ -1571,7 +1633,7 @@ Partial Class LabAdminOnline
         Me.PanelDetailPemeriksaanFisik.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDetailPemeriksaanFisik.Location = New System.Drawing.Point(0, 0)
         Me.PanelDetailPemeriksaanFisik.Name = "PanelDetailPemeriksaanFisik"
-        Me.PanelDetailPemeriksaanFisik.Size = New System.Drawing.Size(1076, 287)
+        Me.PanelDetailPemeriksaanFisik.Size = New System.Drawing.Size(1112, 287)
         Me.PanelDetailPemeriksaanFisik.TabIndex = 179
         '
         'GroupBox9
@@ -4490,7 +4552,7 @@ Partial Class LabAdminOnline
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.GroupBox3.Location = New System.Drawing.Point(3, 329)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(1194, 66)
+        Me.GroupBox3.Size = New System.Drawing.Size(1230, 66)
         Me.GroupBox3.TabIndex = 81
         Me.GroupBox3.TabStop = False
         '
@@ -4571,6 +4633,7 @@ Partial Class LabAdminOnline
         '
         'groupcustomer
         '
+        Me.groupcustomer.Controls.Add(Me.GroupBox10)
         Me.groupcustomer.Controls.Add(Me.GroupBoxDL)
         Me.groupcustomer.Controls.Add(Me.QR_Code_Trans)
         Me.groupcustomer.Controls.Add(Me.txcodepenagihan)
@@ -4601,7 +4664,7 @@ Partial Class LabAdminOnline
         Me.groupcustomer.Dock = System.Windows.Forms.DockStyle.Top
         Me.groupcustomer.Location = New System.Drawing.Point(0, 24)
         Me.groupcustomer.Name = "groupcustomer"
-        Me.groupcustomer.Size = New System.Drawing.Size(1200, 118)
+        Me.groupcustomer.Size = New System.Drawing.Size(1236, 118)
         Me.groupcustomer.TabIndex = 83
         Me.groupcustomer.TabStop = False
         Me.groupcustomer.Text = "Customer Detail"
@@ -4894,69 +4957,44 @@ Partial Class LabAdminOnline
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Transaksi ID"
         '
-        'SplitContainerTabLaboratorium
+        'GroupBox10
         '
-        Me.SplitContainerTabLaboratorium.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerTabLaboratorium.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerTabLaboratorium.IsSplitterFixed = True
-        Me.SplitContainerTabLaboratorium.Location = New System.Drawing.Point(3, 3)
-        Me.SplitContainerTabLaboratorium.Name = "SplitContainerTabLaboratorium"
-        Me.SplitContainerTabLaboratorium.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.GroupBox10.Controls.Add(Me.ButtonCetakInBody)
+        Me.GroupBox10.Controls.Add(Me.ButtonInBodyPdf)
+        Me.GroupBox10.Location = New System.Drawing.Point(1103, 15)
+        Me.GroupBox10.Name = "GroupBox10"
+        Me.GroupBox10.Size = New System.Drawing.Size(120, 92)
+        Me.GroupBox10.TabIndex = 236
+        Me.GroupBox10.TabStop = False
+        Me.GroupBox10.Text = "InBody"
         '
-        'SplitContainerTabLaboratorium.Panel1
+        'ButtonCetakInBody
         '
-        Me.SplitContainerTabLaboratorium.Panel1.Controls.Add(Me.Panel16)
+        Me.ButtonCetakInBody.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonCetakInBody.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ButtonCetakInBody.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_cetak
+        Me.ButtonCetakInBody.Location = New System.Drawing.Point(10, 48)
+        Me.ButtonCetakInBody.Name = "ButtonCetakInBody"
+        Me.ButtonCetakInBody.Size = New System.Drawing.Size(100, 32)
+        Me.ButtonCetakInBody.TabIndex = 236
+        Me.ButtonCetakInBody.UseVisualStyleBackColor = True
         '
-        'SplitContainerTabLaboratorium.Panel2
+        'ButtonInBodyPdf
         '
-        Me.SplitContainerTabLaboratorium.Panel2.AutoScroll = True
-        Me.SplitContainerTabLaboratorium.Panel2.Controls.Add(Me.gridlab)
-        Me.SplitContainerTabLaboratorium.Size = New System.Drawing.Size(1180, 281)
-        Me.SplitContainerTabLaboratorium.SplitterDistance = 45
-        Me.SplitContainerTabLaboratorium.SplitterWidth = 5
-        Me.SplitContainerTabLaboratorium.TabIndex = 461
-        '
-        'Panel16
-        '
-        Me.Panel16.BackColor = System.Drawing.Color.FromArgb(CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(240, Byte), Integer))
-        Me.Panel16.Controls.Add(Me.FlowLayoutPanel2)
-        Me.Panel16.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel16.Location = New System.Drawing.Point(0, 0)
-        Me.Panel16.Name = "Panel16"
-        Me.Panel16.Size = New System.Drawing.Size(1180, 45)
-        Me.Panel16.TabIndex = 453
-        '
-        'FlowLayoutPanel2
-        '
-        Me.FlowLayoutPanel2.Controls.Add(Me.butsavelab)
-        Me.FlowLayoutPanel2.Controls.Add(Me.butnormallab)
-        Me.FlowLayoutPanel2.Controls.Add(Me.butsaran)
-        Me.FlowLayoutPanel2.Controls.Add(Me.butnilaikonversi)
-        Me.FlowLayoutPanel2.Controls.Add(Me.ButtonSetNilaiRujukan)
-        Me.FlowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.FlowLayoutPanel2.Location = New System.Drawing.Point(0, 0)
-        Me.FlowLayoutPanel2.Name = "FlowLayoutPanel2"
-        Me.FlowLayoutPanel2.Size = New System.Drawing.Size(1180, 45)
-        Me.FlowLayoutPanel2.TabIndex = 462
-        '
-        'ButtonSetNilaiRujukan
-        '
-        Me.ButtonSetNilaiRujukan.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonSetNilaiRujukan.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ButtonSetNilaiRujukan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonSetNilaiRujukan.Image = Global.PoliKlinik_Net2.My.Resources.Resources.tombol_kosong
-        Me.ButtonSetNilaiRujukan.Location = New System.Drawing.Point(427, 3)
-        Me.ButtonSetNilaiRujukan.Name = "ButtonSetNilaiRujukan"
-        Me.ButtonSetNilaiRujukan.Size = New System.Drawing.Size(100, 36)
-        Me.ButtonSetNilaiRujukan.TabIndex = 195
-        Me.ButtonSetNilaiRujukan.Text = "SET NILAI RUJUKAN"
-        Me.ButtonSetNilaiRujukan.UseVisualStyleBackColor = True
+        Me.ButtonInBodyPdf.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonInBodyPdf.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.ButtonInBodyPdf.Image = Global.PoliKlinik_Net2.My.Resources.Resources.PDF
+        Me.ButtonInBodyPdf.Location = New System.Drawing.Point(10, 15)
+        Me.ButtonInBodyPdf.Name = "ButtonInBodyPdf"
+        Me.ButtonInBodyPdf.Size = New System.Drawing.Size(100, 27)
+        Me.ButtonInBodyPdf.TabIndex = 230
+        Me.ButtonInBodyPdf.UseVisualStyleBackColor = True
         '
         'LabAdminOnline
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1200, 540)
+        Me.ClientSize = New System.Drawing.Size(1236, 540)
         Me.Controls.Add(Me.groupdetail)
         Me.Controls.Add(Me.groupcustomer)
         Me.Controls.Add(Me.MenuStrip1)
@@ -4971,6 +5009,11 @@ Partial Class LabAdminOnline
         Me.groupdetail.ResumeLayout(False)
         Me.drecg.ResumeLayout(False)
         Me.TabLab.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.Panel1.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.Panel2.ResumeLayout(False)
+        Me.SplitContainerTabLaboratorium.ResumeLayout(False)
+        Me.Panel16.ResumeLayout(False)
+        Me.FlowLayoutPanel2.ResumeLayout(False)
         CType(Me.gridlab, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridViewTindakanLab, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage1.ResumeLayout(False)
@@ -5015,11 +5058,7 @@ Partial Class LabAdminOnline
         Me.groupcustomer.PerformLayout()
         Me.GroupBoxDL.ResumeLayout(False)
         CType(Me.QR_Code_Trans, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainerTabLaboratorium.Panel1.ResumeLayout(False)
-        Me.SplitContainerTabLaboratorium.Panel2.ResumeLayout(False)
-        Me.SplitContainerTabLaboratorium.ResumeLayout(False)
-        Me.Panel16.ResumeLayout(False)
-        Me.FlowLayoutPanel2.ResumeLayout(False)
+        Me.GroupBox10.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -5415,4 +5454,7 @@ Partial Class LabAdminOnline
     Friend WithEvents Panel16 As System.Windows.Forms.Panel
     Friend WithEvents FlowLayoutPanel2 As System.Windows.Forms.FlowLayoutPanel
     Friend WithEvents ButtonSetNilaiRujukan As System.Windows.Forms.Button
+    Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
+    Friend WithEvents ButtonCetakInBody As System.Windows.Forms.Button
+    Friend WithEvents ButtonInBodyPdf As System.Windows.Forms.Button
 End Class

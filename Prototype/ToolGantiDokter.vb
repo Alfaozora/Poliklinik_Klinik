@@ -6,18 +6,24 @@
         SetComboBoxDokter(False)
     End Sub
 
+    Private Sub TglTransaksi_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TglTransaksi.ValueChanged
+        SetComboBoxNoTransaksi(False)
+    End Sub
+
     Private Sub SetComboBoxNoTransaksi(ByVal poliSakit As Boolean)
-        Dim tblsNoTransaksi As DataTable = ReadSQL("SELECT " & _
-            "TP.NoUrut, " & _
-            "MP.Nama, " & _
+        Dim tgl As Date = TglTransaksi.Value.Date
+        Dim tglSql As String = Format(tgl, "yyyy-MM-dd")
+
+        Dim tblsNoTransaksi As DataTable = ReadSQL( _
+            "SELECT TP.NoUrut, MP.Nama, " & _
             "(TP.NoUrut + ' - ' + MP.Nama) AS DisplayText " & _
-        "FROM TransaksiPoli TP " & _
-        "INNER JOIN MasterPasien MP " & _
-            "ON TP.IDInternet = MP.NoRekamMedis " & _
-        "WHERE TP.CreatedDate >= CAST(GETDATE() AS DATE) " & _
-          "AND TP.CreatedDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE)) " & _
-          "AND TP.Deleted = 0 " & _
-        "ORDER BY TP.NoUrut")
+            "FROM TransaksiPoli TP " & _
+            "INNER JOIN MasterPasien MP ON TP.IDInternet = MP.NoRekamMedis " & _
+            "WHERE TP.CreatedDate >= '" & tglSql & "' " & _
+            "AND TP.CreatedDate < DATEADD(DAY, 1, '" & tglSql & "') " & _
+            "AND TP.Deleted = 0 " & _
+            "ORDER BY TP.NoUrut" _
+        )
 
         ComboBoxNoTransaksi.DataSource = tblsNoTransaksi
         ComboBoxNoTransaksi.DisplayMember = "DisplayText"
