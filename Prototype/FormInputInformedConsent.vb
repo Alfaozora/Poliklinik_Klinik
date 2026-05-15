@@ -262,7 +262,7 @@ Public Class FormInputInformedConsent
                 uri_message = urlWebService
 
                 Dim response As String = InsertDataAPI(parameter, uri_message)
-
+                'MsgBox(response)
                 Dim jsonArray As JArray = JArray.Parse(response)
 
                 Dim responseObj As JObject = jsonArray(0)("response")

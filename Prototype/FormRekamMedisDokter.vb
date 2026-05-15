@@ -6788,16 +6788,6 @@ Public Class FormRekamMedisDokter
                     SendToApiDiagnosa(idTransaksi, kodeDiagnosa, namaDiagnosa, jenisDiagnosa, kasusDiagnosa, "0")
                 End If
 
-                ' Update status transaksi menjadi > Sudah Diperiksa
-                If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
-                    WriteSQL("UPDATE TransaksiPoli SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
-                ElseIf jenisTransaksi = "GIGI" Then
-                    WriteSQL("UPDATE TransaksiGigi SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
-                End If
-
-                ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiDokter)
-                SetDetailWaktuTransaksi(idTransaksi, "WaktuSelesaiDokter", userInput)
-
                 ' Refresh Grid Diagnosa
                 LoadGridRiwayatDiagnosa()
 
@@ -7105,7 +7095,7 @@ Public Class FormRekamMedisDokter
             ' ===================== Update Status Pulang =====================
             WriteSQL("UPDATE TransaksiDetail SET StatusPulang = '" & statusPulang & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
 
-            'Update status antrian Hyu
+            ' ===================== Update status antrian Hyu ================
             Dim sql As String = "SELECT TD.NoAntreanHyu, MP.NoNIK " & _
                   "FROM TransaksiDetail TD " & _
                   "INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis " & _
@@ -7138,6 +7128,16 @@ Public Class FormRekamMedisDokter
             If statusBPJS AndAlso CheckBridgingPcareActive() Then
                 SaveKunjunganBPJS()
             End If
+
+            ' Update status transaksi menjadi > Sudah Diperiksa
+            If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
+                WriteSQL("UPDATE TransaksiPoli SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
+            ElseIf jenisTransaksi = "GIGI" Then
+                WriteSQL("UPDATE TransaksiGigi SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
+            End If
+
+            ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiDokter)
+            SetDetailWaktuTransaksi(idTransaksi, "WaktuSelesaiDokter", userInput)
 
             ' ===================== Notifikasi Sukses =====================
             If noKunjunganBPJS.Length > 0 Then

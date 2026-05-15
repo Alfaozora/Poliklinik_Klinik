@@ -387,6 +387,43 @@ Module Test
         End Try
     End Function
 
+    Public Function SendDataWhatsappHBD(ByVal parameter As String, ByVal uri As String) As Boolean
+        Try
+            Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
+
+            Dim webreq As HttpWebRequest = WebRequest.Create(uri)
+            webreq.Accept = "application/json"
+            webreq.Method = "POST"
+            webreq.ContentType = "application/json"
+            webreq.ContentLength = bytearr.Length
+
+            Dim dataStream As Stream = webreq.GetRequestStream()
+            dataStream.Write(bytearr, 0, bytearr.Length)
+            dataStream.Close()
+
+            Dim res As WebResponse = webreq.GetResponse()
+            Dim stream As Stream = res.GetResponseStream()
+            Dim streamReader As New StreamReader(stream)
+
+            Dim str As String = streamReader.ReadToEnd()
+            streamReader.Close()
+
+            ' 🔥 DEBUG penting
+            'MsgBox("Response API: " & str)
+
+            ' ====== LOGIC SUCCESS ======
+            If str.ToLower().Contains("success") OrElse str.ToLower().Contains("true") Then
+                Return True
+            End If
+
+            Return False
+
+        Catch ex As Exception
+            MsgBox("Error WA: " & ex.Message)
+            Return False
+        End Try
+    End Function
+
     Public Function SendDataWhatsapp(ByVal parameter As String, ByVal uri As String) As String
         Try
             Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)

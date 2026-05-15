@@ -1865,21 +1865,21 @@ Public Class FormMasterPasien
 
         If IsDBNull(dataRow("Nama")) = False Then TextBoxNamaLengkapIdentitas.Text = dataRow("Nama")
         If IsDBNull(dataRow("Nomor BPJS")) = False Then TextBoxNomorKIS.Text = dataRow("Nomor BPJS")
-        If IsDBNull(dataRow("Jenis Kelamin")) = False Then
-            If dataRow("Jenis Kelamin") = "L" Then
-                RadioButtonJenisKelaminLakiIdentitas.Checked = True
-            ElseIf dataRow("Jenis Kelamin") = "P" Then
-                RadioButtonJenisKelaminPerempuanIdentitas.Checked = True
-            End If
-        End If
+        'If IsDBNull(dataRow("Jenis Kelamin")) = False Then
+        '    If dataRow("Jenis Kelamin") = "L" Then
+        '        RadioButtonJenisKelaminLakiIdentitas.Checked = True
+        '    ElseIf dataRow("Jenis Kelamin") = "P" Then
+        '        RadioButtonJenisKelaminPerempuanIdentitas.Checked = True
+        '    End If
+        'End If
 
         ' Set Tanggal Lahir
-        If IsDBNull(dataRow("Tanggal Lahir")) = False Then
-            Dim tglLahir As Date = dataRow("Tanggal Lahir")
-            DateTimePickerTglLahir.Text = tglLahir
-        End If
+        'If IsDBNull(dataRow("Tanggal Lahir")) = False Then
+        '    Dim tglLahir As Date = dataRow("Tanggal Lahir")
+        '    DateTimePickerTglLahir.Text = tglLahir
+        'End If
 
-        If IsDBNull(dataRow("Alamat")) = False Then TextBoxAlamatDomisili.Text = dataRow("Alamat")
+        'If IsDBNull(dataRow("Alamat")) = False Then TextBoxAlamatDomisili.Text = dataRow("Alamat")
     End Sub
 
     Private Sub ButtonTambahAlergi_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTambahAlergi.Click
