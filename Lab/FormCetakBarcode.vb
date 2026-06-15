@@ -74,11 +74,11 @@ Public Class FormCetakBarcode
             ElseIf rdMCU.Checked = True Then
                 Dim TblsMCU As DataTable = gridlab.DataSource
                 NoUrut = ""
-                Dim Ttemp As String = "("
+                Dim TtempMCU As String = "("
                 For Each TrowMCU As DataRow In TblsMCU.Rows
-                    Ttemp = Ttemp & "'" & TrowMCU("TransLabID").ToString.Trim & "',"
+                    TtempMCU = TtempMCU & "'" & TrowMCU("TransLabID").ToString.Trim & "',"
                 Next
-                NoUrut = Strings.Left(Ttemp, Ttemp.Length - 1) & ")"
+                NoUrut = Strings.Left(TtempMCU, TtempMCU.Length - 1) & ")"
             End If
 
             Dim Tbls2 As DataTable = ReadSQL("SELECT a.NoUrut, a.TransLabID, c.Nama, CONVERT(varchar(11), c.TglLahir,106) as TglLahir, c.JenisKelamin, a.LabSamplingTime " & _
@@ -87,6 +87,8 @@ Public Class FormCetakBarcode
                                              "WHERE a.TransLabID in " & NoUrut & "")
             If Tbls2.Rows.Count > 0 Then
                 For Each TrowData As DataRow In Tbls2.Rows
+
+                    ' Cek Tabung
                     Dim Tgrouping As DataTable = ReadSQL("SELECT distinct Tabung,TabungRef FROM MasterLab WHERE TindakanID in (SELECT distinct TindakanID FROM TransaksiLabDetail WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "') and TabungRef is not null and Tabung like '%tabung%' order by Tabung ")
 
                     If Tgrouping.Rows.Count > 0 Then
@@ -95,19 +97,22 @@ Public Class FormCetakBarcode
                             Ttemp = Strings.Replace(TrowData("NoUrut").ToString.Trim, "L", "8")
                         ElseIf TrowData("NoUrut").ToString.Contains("M") = True Then
                             Ttemp = Strings.Replace(TrowData("NoUrut").ToString.Trim, "M", "9")
+                        Else
+                            Ttemp = TrowData("NoUrut").ToString.Trim
                         End If
 
-                        barcode = KodeBarcode & Strings.Right(Ttemp.ToString.Trim, Len(Ttemp.ToString.Trim) - 2)
+                        ' Pengaman agar Len - 2 tidak error
+                        If Ttemp.Length > 2 Then
+                            barcode = KodeBarcode & Strings.Right(Ttemp, Len(Ttemp) - 2)
+                        Else
+                            barcode = KodeBarcode & Ttemp
+                        End If
 
                         For Each Treply As DataRow In Tgrouping.Rows
-
-                            System.Threading.Thread.Sleep(500)
-
+                            ' Jangan pakai sleep di sini, hapus file dulu
                             If System.IO.File.Exists(Ttx) = True Then System.IO.File.Delete(Ttx)
 
-                            Dim objStreamWriter As StreamWriter
-                            objStreamWriter = New StreamWriter(Ttx)
-
+                            Dim objStreamWriter As StreamWriter = New StreamWriter(Ttx)
                             objStreamWriter.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
                             objStreamWriter.WriteLine("ZN")
                             objStreamWriter.WriteLine("q275")
@@ -140,46 +145,57 @@ Public Class FormCetakBarcode
                             objStreamWriter.WriteLine("P1")
                             objStreamWriter.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
                             objStreamWriter.Close()
+
+                            ' Eksekusi cetak tabung
                             Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
 
-                            ' Cetak Barcode Tambahan InBody
-                            If CheckBoxInbody.Checked = True Then
-                                Dim TtxInBody As String = Tpos & "OutputInBody.txt"
-                                Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
-
-                                Using writer As New StreamWriter(TtxInBody, False)
-                                    writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
-                                    writer.WriteLine("ZN")
-                                    writer.WriteLine("q275")
-                                    writer.WriteLine("S3")
-                                    writer.WriteLine("O")
-                                    writer.WriteLine("JF")
-                                    writer.WriteLine("D9")
-                                    writer.WriteLine("ZT")
-                                    writer.WriteLine("Q234,B24")
-                                    writer.WriteLine("KI80")
-                                    writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
-                                    writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
-                                    writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
-                                    writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-                                    writer.WriteLine("A290,30,2,2,1,1,N,""" & _
-                                                     TrowData("TglLahir").ToString.Trim & " / " & _
-                                                     TrowData("JenisKelamin").ToString.Trim & """")
-                                    writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
-                                    writer.WriteLine("P1")
-                                    writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
-                                End Using
-
-                                Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
-                            End If
-                            'END INBODY
+                            ' JEDA AMAN agar proses tabung masuk memori printer sebelum lanjut (PENTING!)
+                            System.Threading.Thread.Sleep(1000)
                         Next
+                    End If
 
-                        If IsDBNull(TrowData("LabSamplingTime")) = True Then
-                            WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
-                        Else
-                            WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK' WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
-                        End If
+                    ' =========================================================
+                    ' Cetak Barcode InBody
+                    ' =========================================================
+                    If CheckBoxInbody.Checked = True Then
+                        Dim TtxInBody As String = Tpos & "OutputInBody.txt"
+                        Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
+
+                        If System.IO.File.Exists(TtxInBody) Then System.IO.File.Delete(TtxInBody)
+
+                        Using writer As New StreamWriter(TtxInBody, False)
+                            writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+                            writer.WriteLine("ZN")
+                            writer.WriteLine("q275")
+                            writer.WriteLine("S3")
+                            writer.WriteLine("O")
+                            writer.WriteLine("JF")
+                            writer.WriteLine("D9")
+                            writer.WriteLine("ZT")
+                            writer.WriteLine("Q234,B24")
+                            writer.WriteLine("KI80")
+                            writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+                            writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
+                            writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
+                            writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+                            writer.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+                            writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
+                            writer.WriteLine("P1")
+                            writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+                        End Using
+
+                        ' Eksekusi cetak Inbody
+                        Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
+
+                        ' JEDA AMAN jika loop berlanjut ke pasien lain
+                        System.Threading.Thread.Sleep(1000)
+                    End If
+
+                    ' Update Status
+                    If IsDBNull(TrowData("LabSamplingTime")) = True Then
+                        WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
+                    Else
+                        WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK' WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
                     End If
                 Next
             End If
@@ -278,38 +294,6 @@ Public Class FormCetakBarcode
     '                        objStreamWriter.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
     '                        objStreamWriter.Close()
     '                        Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
-
-    '                        ' Cetak Barcode Tambahan InBody
-    '                        If CheckBoxInbody.Checked = True Then
-    '                            Dim TtxInBody As String = Tpos & "OutputInBody.txt"
-    '                            Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
-
-    '                            Using writer As New StreamWriter(TtxInBody, False)
-    '                                writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
-    '                                writer.WriteLine("ZN")
-    '                                writer.WriteLine("q275")
-    '                                writer.WriteLine("S3")
-    '                                writer.WriteLine("O")
-    '                                writer.WriteLine("JF")
-    '                                writer.WriteLine("D9")
-    '                                writer.WriteLine("ZT")
-    '                                writer.WriteLine("Q234,B24")
-    '                                writer.WriteLine("KI80")
-    '                                writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
-    '                                writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
-    '                                writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
-    '                                writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-    '                                writer.WriteLine("A290,30,2,2,1,1,N,""" & _
-    '                                                 TrowData("TglLahir").ToString.Trim & " / " & _
-    '                                                 TrowData("JenisKelamin").ToString.Trim & """")
-    '                                writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
-    '                                writer.WriteLine("P1")
-    '                                writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
-    '                            End Using
-
-    '                            Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
-    '                        End If
-    '                        'END INBODY
     '                    Next
 
     '                    If IsDBNull(TrowData("LabSamplingTime")) = True Then
@@ -443,59 +427,59 @@ Public Class FormCetakBarcode
                             End If
 
                             Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
-
-                            'Cetak Barcode InBody
-                            If CheckBoxInbody.Checked = True Then
-                                Dim TtxInBody As String = Tpos & "OutputInBody.txt"
-                                Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
-
-                                If System.IO.File.Exists(TtxInBody) Then
-                                    System.IO.File.Delete(TtxInBody)
-                                End If
-
-                                Using writer As New StreamWriter(TtxInBody, False)
-                                    writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
-                                    writer.WriteLine("ZN")
-                                    writer.WriteLine("q275")
-                                    writer.WriteLine("S3")
-                                    writer.WriteLine("O")
-                                    writer.WriteLine("JF")
-                                    writer.WriteLine("D9")
-                                    writer.WriteLine("ZT")
-                                    writer.WriteLine("Q234,B24")
-                                    writer.WriteLine("KI80")
-                                    writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
-
-                                    'Barcode menggunakan NoUrut asli
-                                    writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
-
-                                    'Label INBODY
-                                    writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
-
-                                    'Data Pasien
-                                    writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-                                    writer.WriteLine("A290,30,2,2,1,1,N,""" & _
-                                                     TrowData("TglLahir").ToString.Trim & " / " & _
-                                                     TrowData("JenisKelamin").ToString.Trim & """")
-
-                                    'Teks Barcode
-                                    writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
-
-                                    writer.WriteLine("P1")
-                                    writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
-                                End Using
-
-                                System.Threading.Thread.Sleep(500)
-                                Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
-                            End If
-
-                            'Flag
-                            If IsDBNull(TrowData("LabSamplingTime")) = True Then
-                                WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
-                            Else
-                                WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK' WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
-                            End If
                         Next
+
+                        'Cetak Barcode InBody
+                        If CheckBoxInbody.Checked = True Then
+                            Dim TtxInBody As String = Tpos & "OutputInBody.txt"
+                            Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
+
+                            If System.IO.File.Exists(TtxInBody) Then
+                                System.IO.File.Delete(TtxInBody)
+                            End If
+
+                            Using writer As New StreamWriter(TtxInBody, False)
+                                writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+                                writer.WriteLine("ZN")
+                                writer.WriteLine("q275")
+                                writer.WriteLine("S3")
+                                writer.WriteLine("O")
+                                writer.WriteLine("JF")
+                                writer.WriteLine("D9")
+                                writer.WriteLine("ZT")
+                                writer.WriteLine("Q234,B24")
+                                writer.WriteLine("KI80")
+                                writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+
+                                'Barcode menggunakan NoUrut asli
+                                writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
+
+                                'Label INBODY
+                                writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
+
+                                'Data Pasien
+                                writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+                                writer.WriteLine("A290,30,2,2,1,1,N,""" & _
+                                                 TrowData("TglLahir").ToString.Trim & " / " & _
+                                                 TrowData("JenisKelamin").ToString.Trim & """")
+
+                                'Teks Barcode
+                                writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
+
+                                writer.WriteLine("P1")
+                                writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+                            End Using
+
+                            System.Threading.Thread.Sleep(500)
+                            Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
+                        End If
+
+                        'Flag
+                        If IsDBNull(TrowData("LabSamplingTime")) = True Then
+                            WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
+                        Else
+                            WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK' WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
+                        End If
 
                         If tabung = True Then System.Threading.Thread.Sleep(3000)
                     Next

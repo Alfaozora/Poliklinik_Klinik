@@ -1,7 +1,9 @@
-Version : 2.0.0.59 (28 Maret 2026)
+Version : 2.0.0.59 (-)
 # [New Feature] Penambahan Fitur Validator Invoice
-# [New Feature] Pengintegrasian dengan Antrian Hyu
+# [New Feature] Pengintegrasian dengan Antrean HYU
 # [Usability Improvement] Penambahan Notifikasi Riwayat Diagnosa B16-B20 di Alert Alergi
+# [Usability Improvement] Mengubah Posisi Status Sudah Diperiksa pada Simpan Data di Status Pulang
+# [Usability Improvement] Membuat Pengecekan Kembali No Antrean HYU Ketika Gagal Menyimpan No Antrean HYU di Database
 # [Bug Fix] Memperbaiki Bug Pada Tools Upload Transaksi Lab Online
 # [Bug Fix] Laporan Closed/Unclosed Klinik tidak bisa ditarik
 

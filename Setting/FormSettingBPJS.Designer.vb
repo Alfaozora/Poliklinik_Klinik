@@ -76,6 +76,8 @@ Partial Class FormSettingBPJS
         Me.Panel7 = New System.Windows.Forms.Panel
         Me.RadioButtonEnvironmentProduction = New System.Windows.Forms.RadioButton
         Me.RadioButtonEnvironmentDevelopment = New System.Windows.Forms.RadioButton
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.TextBoxAPIKeyAntrian = New System.Windows.Forms.TextBox
         Me.PanelTop.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.SuspendLayout()
@@ -329,7 +331,7 @@ Partial Class FormSettingBPJS
         Me.ButtonSimpan.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonSimpan.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonSimpan.ForeColor = System.Drawing.Color.White
-        Me.ButtonSimpan.Location = New System.Drawing.Point(127, 416)
+        Me.ButtonSimpan.Location = New System.Drawing.Point(127, 447)
         Me.ButtonSimpan.Name = "ButtonSimpan"
         Me.ButtonSimpan.Size = New System.Drawing.Size(275, 30)
         Me.ButtonSimpan.TabIndex = 432
@@ -667,6 +669,25 @@ Partial Class FormSettingBPJS
         Me.RadioButtonEnvironmentDevelopment.Text = "Development"
         Me.RadioButtonEnvironmentDevelopment.UseVisualStyleBackColor = True
         '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.BackColor = System.Drawing.Color.Transparent
+        Me.Label22.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.Label22.Location = New System.Drawing.Point(18, 419)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(104, 17)
+        Me.Label22.TabIndex = 474
+        Me.Label22.Text = "API Key Antrian"
+        '
+        'TextBoxAPIKeyAntrian
+        '
+        Me.TextBoxAPIKeyAntrian.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.TextBoxAPIKeyAntrian.Location = New System.Drawing.Point(127, 416)
+        Me.TextBoxAPIKeyAntrian.Name = "TextBoxAPIKeyAntrian"
+        Me.TextBoxAPIKeyAntrian.Size = New System.Drawing.Size(275, 25)
+        Me.TextBoxAPIKeyAntrian.TabIndex = 473
+        '
         'FormSettingBPJS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -674,6 +695,8 @@ Partial Class FormSettingBPJS
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(918, 550)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.TextBoxAPIKeyAntrian)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.TextBoxNamaPPK)
@@ -791,4 +814,6 @@ Partial Class FormSettingBPJS
     Friend WithEvents Panel7 As System.Windows.Forms.Panel
     Friend WithEvents RadioButtonEnvironmentProduction As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonEnvironmentDevelopment As System.Windows.Forms.RadioButton
+    Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxAPIKeyAntrian As System.Windows.Forms.TextBox
 End Class

@@ -131,6 +131,39 @@ Public Class FormSettingBPJS
         End Try
     End Sub
 
+    Private Function GetNamaKlinik() As String
+        Try
+            Dim lokasiPoli As String = "SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'"
+            Dim lokasi As DataTable = ReadSQL(lokasiPoli)
+
+            If lokasi IsNot Nothing AndAlso lokasi.Rows.Count > 0 Then
+                Dim row As DataRow = lokasi.Rows(0)
+                Dim strValue As String = row("StrValue").ToString()
+
+                Select Case strValue
+                    Case "W001" : Return "SUCI"
+                    Case "W002" : Return "MANYAR"
+                    Case "W003" : Return "DRIYOREJO"
+                    Case "L001" : Return "DHARMAHUSADA"
+                    Case "L002" : Return "CDC DIPENOGORO"
+                    Case "L003" : Return "Lumiera Luzella"
+                    Case "L005" : Return "Inhouse Wings Surya"
+                    Case "A001" : Return "PAKEM"
+                    Case "A002" : Return "JATIUWUH"
+                    Case "AD01" : Return "BOYOLALI"
+                    Case "D002" : Return "RANCAEKEK"
+                    Case "T001" : Return "KARAWANG"
+                End Select
+            End If
+
+        Catch ex As Exception
+            ' Optional: log error atau berikan default
+            Return "Klinik Mitra Medicare"
+        End Try
+
+        Return "Klinik Mitra Medicare"
+    End Function
+
     'NEW
     Private Sub UpdateCredentialsAntrol()
         Try
@@ -139,6 +172,19 @@ Public Class FormSettingBPJS
             Dim _usernamePcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_username'")
             Dim _passwordPcare As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'pcare_password'")
             Dim _jenisBridging As String = "" ' DEV / PROD
+            Dim baseUrlRM As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            Dim apiKey As String = TextBoxAPIKeyAntrian.Text
+            Dim url As String = baseUrlRM & "api/klinik/store"
+
+            Dim parameterKlinik As String = "{" & _
+              """kode_klinik"" : """ & _loc & """," & _
+              """nama_klinik"" : """ & GetNamaKlinik() & """," & _
+              """api_key"": """ & apiKey & """" & _
+             "}"
+
+            Dim response As String = InsertDataAPIRM(parameterKlinik, url)
+
+            MsgBox(response)
 
             If RadioButtonEnvironmentProduction.Checked = True Then
                 _jenisBridging = "PROD"
