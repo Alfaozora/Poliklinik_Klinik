@@ -2,6 +2,7 @@
 Imports DevExpress.XtraGrid.Columns
 Imports System.IO
 Imports System.Text
+Imports Newtonsoft.Json.Linq
 
 Public Class FormCetakBarcode
 
@@ -11,6 +12,7 @@ Public Class FormCetakBarcode
         txtindakanid.ResetText()
         txNoMitra1.ResetText()
         txcustnama.ResetText()
+        TextBoxScanHyu.ResetText()
         dtcusttgllhr.Value = DateSerial("9998", "12", "31")
         txcustumur.ResetText()
         TextBoxJenisKelamin.ResetText()
@@ -57,6 +59,158 @@ Public Class FormCetakBarcode
     End Sub
 
     'After Update
+    'Private Sub CetakBarcodeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CetakBarcodeToolStripMenuItem.Click
+    '    CetakBarcodeToolStripMenuItem.Enabled = False
+    '    BarcodeTambahanToolStripMenuItem.Enabled = False
+
+    '    Dim Tpos As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='PathBarcode'")
+    '    Dim KodeBarcode As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='KodeBarcode'")
+    '    Dim Tpathprf As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName='Pathprf'")
+    '    Dim Ttx As String = Tpos & "Output.txt"
+    '    Dim barcode As String = ""
+
+    '    Try
+    '        Dim NoUrut As String = ""
+    '        If rdNonMCU.Checked = True Then
+    '            NoUrut = "(" & txTransLabID1.Text & ")"
+    '        ElseIf rdMCU.Checked = True Then
+    '            Dim TblsMCU As DataTable = gridlab.DataSource
+    '            NoUrut = ""
+    '            Dim TtempMCU As String = "("
+    '            For Each TrowMCU As DataRow In TblsMCU.Rows
+    '                TtempMCU = TtempMCU & "'" & TrowMCU("TransLabID").ToString.Trim & "',"
+    '            Next
+    '            NoUrut = Strings.Left(TtempMCU, TtempMCU.Length - 1) & ")"
+    '        End If
+
+    '        Dim Tbls2 As DataTable = ReadSQL("SELECT a.NoUrut, a.TransLabID, c.Nama, CONVERT(varchar(11), c.TglLahir,106) as TglLahir, c.JenisKelamin, a.LabSamplingTime " & _
+    '                                         "FROM TransaksiLab a " & _
+    '                                         "LEFT JOIN MasterPasien c on c.NoRekamMedis = a.IDInternet " & _
+    '                                         "WHERE a.TransLabID in " & NoUrut & "")
+    '        If Tbls2.Rows.Count > 0 Then
+    '            For Each TrowData As DataRow In Tbls2.Rows
+
+    '                ' Cek Tabung
+    '                Dim Tgrouping As DataTable = ReadSQL("SELECT distinct Tabung,TabungRef FROM MasterLab WHERE TindakanID in (SELECT distinct TindakanID FROM TransaksiLabDetail WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "') and TabungRef is not null and Tabung like '%tabung%' order by Tabung ")
+
+    '                If Tgrouping.Rows.Count > 0 Then
+    '                    Dim Ttemp As String = ""
+    '                    If TrowData("NoUrut").ToString.Contains("L") = True Then
+    '                        Ttemp = Strings.Replace(TrowData("NoUrut").ToString.Trim, "L", "8")
+    '                    ElseIf TrowData("NoUrut").ToString.Contains("M") = True Then
+    '                        Ttemp = Strings.Replace(TrowData("NoUrut").ToString.Trim, "M", "9")
+    '                    Else
+    '                        Ttemp = TrowData("NoUrut").ToString.Trim
+    '                    End If
+
+    '                    ' Pengaman agar Len - 2 tidak error
+    '                    If Ttemp.Length > 2 Then
+    '                        barcode = KodeBarcode & Strings.Right(Ttemp, Len(Ttemp) - 2)
+    '                    Else
+    '                        barcode = KodeBarcode & Ttemp
+    '                    End If
+
+    '                    For Each Treply As DataRow In Tgrouping.Rows
+    '                        ' Jangan pakai sleep di sini, hapus file dulu
+    '                        If System.IO.File.Exists(Ttx) = True Then System.IO.File.Delete(Ttx)
+
+    '                        Dim objStreamWriter As StreamWriter = New StreamWriter(Ttx)
+    '                        objStreamWriter.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+    '                        objStreamWriter.WriteLine("ZN")
+    '                        objStreamWriter.WriteLine("q275")
+    '                        objStreamWriter.WriteLine("S3")
+    '                        objStreamWriter.WriteLine("O")
+    '                        objStreamWriter.WriteLine("JF")
+    '                        objStreamWriter.WriteLine("D9")
+    '                        objStreamWriter.WriteLine("ZT")
+    '                        objStreamWriter.WriteLine("Q234,B24")
+    '                        objStreamWriter.WriteLine("KI80")
+    '                        objStreamWriter.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+
+    '                        If Treply("TabungRef").ToString <> "" Then
+    '                            objStreamWriter.WriteLine("B290,177,2,1,2,4,97,N,""" & barcode & Treply("TabungRef").ToString & """")
+    '                        Else
+    '                            objStreamWriter.WriteLine("B290,177,2,1,2,4,97,N,""" & barcode & """")
+    '                        End If
+
+    '                        objStreamWriter.WriteLine("A95,217,2,3,1,1,N,""""""")
+    '                        objStreamWriter.WriteLine("A95,30,2,3,1,1,N,""" & Treply("Tabung").ToString & """")
+    '                        objStreamWriter.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+    '                        objStreamWriter.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+
+    '                        If Treply("TabungRef").ToString <> "" Then
+    '                            objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & barcode & Treply("TabungRef").ToString & """")
+    '                        Else
+    '                            objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & barcode & """")
+    '                        End If
+
+    '                        objStreamWriter.WriteLine("P1")
+    '                        objStreamWriter.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+    '                        objStreamWriter.Close()
+
+    '                        ' Eksekusi cetak tabung
+    '                        Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
+
+    '                        ' JEDA AMAN agar proses tabung masuk memori printer sebelum lanjut (PENTING!)
+    '                        System.Threading.Thread.Sleep(1000)
+    '                    Next
+    '                End If
+
+    '                ' =========================================================
+    '                ' Cetak Barcode InBody
+    '                ' =========================================================
+    '                If CheckBoxInbody.Checked = True Then
+    '                    Dim TtxInBody As String = Tpos & "OutputInBody.txt"
+    '                    Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
+
+    '                    If System.IO.File.Exists(TtxInBody) Then System.IO.File.Delete(TtxInBody)
+
+    '                    Using writer As New StreamWriter(TtxInBody, False)
+    '                        writer.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+    '                        writer.WriteLine("ZN")
+    '                        writer.WriteLine("q275")
+    '                        writer.WriteLine("S3")
+    '                        writer.WriteLine("O")
+    '                        writer.WriteLine("JF")
+    '                        writer.WriteLine("D9")
+    '                        writer.WriteLine("ZT")
+    '                        writer.WriteLine("Q234,B24")
+    '                        writer.WriteLine("KI80")
+    '                        writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+    '                        writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
+    '                        writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
+    '                        writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+    '                        writer.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+    '                        writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
+    '                        writer.WriteLine("P1")
+    '                        writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+    '                    End Using
+
+    '                    ' Eksekusi cetak Inbody
+    '                    Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
+
+    '                    ' JEDA AMAN jika loop berlanjut ke pasien lain
+    '                    System.Threading.Thread.Sleep(1000)
+    '                End If
+
+    '                ' Update Status
+    '                If IsDBNull(TrowData("LabSamplingTime")) = True Then
+    '                    WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
+    '                Else
+    '                    WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK' WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
+    '                End If
+    '            Next
+    '        End If
+
+    '        CetakBarcodeToolStripMenuItem.Enabled = True
+    '        BarcodeTambahanToolStripMenuItem.Enabled = True
+    '    Catch ex As Exception
+    '        CetakBarcodeToolStripMenuItem.Enabled = True
+    '        BarcodeTambahanToolStripMenuItem.Enabled = True
+    '        MsgBox(ex.Message)
+    '    End Try
+    'End Sub
+
     Private Sub CetakBarcodeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CetakBarcodeToolStripMenuItem.Click
         CetakBarcodeToolStripMenuItem.Enabled = False
         BarcodeTambahanToolStripMenuItem.Enabled = False
@@ -81,14 +235,81 @@ Public Class FormCetakBarcode
                 NoUrut = Strings.Left(TtempMCU, TtempMCU.Length - 1) & ")"
             End If
 
-            Dim Tbls2 As DataTable = ReadSQL("SELECT a.NoUrut, a.TransLabID, c.Nama, CONVERT(varchar(11), c.TglLahir,106) as TglLahir, c.JenisKelamin, a.LabSamplingTime " & _
+            Dim Tbls2 As DataTable = ReadSQL("SELECT a.NoUrut, a.TransLabID, c.Nama, c.TglLahir, c.JenisKelamin, a.LabSamplingTime " & _
                                              "FROM TransaksiLab a " & _
                                              "LEFT JOIN MasterPasien c on c.NoRekamMedis = a.IDInternet " & _
                                              "WHERE a.TransLabID in " & NoUrut & "")
             If Tbls2.Rows.Count > 0 Then
                 For Each TrowData As DataRow In Tbls2.Rows
 
-                    ' Cek Tabung
+                    ' ===================================================================================
+                    ' 1. PROSES BERDIRI SENDIRI: CETAK 1 BUAH QR CODE AKTIVO (JIKA DICENTANG)
+                    ' ===================================================================================
+                    If CheckBoxAktivo.Checked = True Then
+                        ' Hitung Usia Pasien
+                        Dim usia As Integer = 0
+                        If Not IsDBNull(TrowData("TglLahir")) Then
+                            Dim tglLahir As Date = CDate(TrowData("TglLahir"))
+                            usia = DateTime.Now.Year - tglLahir.Year
+                            If DateTime.Now < tglLahir.AddYears(usia) Then usia -= 1
+                        End If
+
+                        ' Standarisasi Gender (Male / Female)
+                        Dim gender As String = TrowData("JenisKelamin").ToString.Trim.ToUpper()
+                        If gender.Contains("L") Or gender.Contains("PRIA") Or gender.Contains("MALE") Then
+                            gender = "Male"
+                        Else
+                            gender = "Female"
+                        End If
+
+                        ' Susun data string format Aktivo
+                        Dim qrContent As String = TrowData("NoUrut").ToString.Trim & "#" & _
+                                                  TrowData("Nama").ToString.Trim & "#" & _
+                                                  usia.ToString() & "#" & _
+                                                  gender
+
+                        Dim TtxAktivo As String = Tpos & "OutputAktivo.txt"
+                        If System.IO.File.Exists(TtxAktivo) = True Then System.IO.File.Delete(TtxAktivo)
+
+                        Dim writerAktivo As New StreamWriter(TtxAktivo)
+                        writerAktivo.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+                        writerAktivo.WriteLine("ZN")
+                        writerAktivo.WriteLine("q275")
+                        writerAktivo.WriteLine("S3")
+                        writerAktivo.WriteLine("O")
+                        writerAktivo.WriteLine("JF")
+                        writerAktivo.WriteLine("D9")
+                        writerAktivo.WriteLine("ZT")
+                        writerAktivo.WriteLine("Q234,B24")
+                        writerAktivo.WriteLine("KI80")
+                        writerAktivo.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+
+                        ' ===================================================================================
+                        ' ALTERNATIF JALUR PPLA: Sintaks QR Code murni Printer Argox PPLA 
+                        ' Format: 1W00[Variabel_Ukuran_Mulai_Dari_1_Sampai_9]000[Y_pos][X_pos][Data]
+                        ' ===================================================================================
+                        writerAktivo.WriteLine("W1A020030NM03," & qrContent)
+                        ' ===================================================================================
+
+                        writerAktivo.WriteLine("A95,217,2,3,1,1,N," & Chr(34) & Chr(34))
+                        writerAktivo.WriteLine("A95,30,2,3,1,1,N,""QR P.Fisik""")
+                        writerAktivo.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+
+                        Dim tglTampil As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
+                        writerAktivo.WriteLine("A290,30,2,2,1,1,N,""" & tglTampil & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+                        writerAktivo.WriteLine("A290,217,2,3,1,1,N,""" & TrowData("NoUrut").ToString.Trim & """")
+                        writerAktivo.WriteLine("P1")
+                        writerAktivo.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+                        writerAktivo.Close()
+
+                        ' Tembak ke printer khusus untuk file QR Aktivo (Hanya keluar 1 lembar)
+                        Process.Start(Tpathprf & "PrFile32.exe ", TtxAktivo)
+                        System.Threading.Thread.Sleep(1000)
+                    End If
+                    ' ===================================================================================
+
+
+                    ' 2. PROSES BAWAAN ASLI: CETAK BARCODE GARIS UNTUK SELURUH TABUNG LAB (TETAP JALAN)
                     Dim Tgrouping As DataTable = ReadSQL("SELECT distinct Tabung,TabungRef FROM MasterLab WHERE TindakanID in (SELECT distinct TindakanID FROM TransaksiLabDetail WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "') and TabungRef is not null and Tabung like '%tabung%' order by Tabung ")
 
                     If Tgrouping.Rows.Count > 0 Then
@@ -101,7 +322,6 @@ Public Class FormCetakBarcode
                             Ttemp = TrowData("NoUrut").ToString.Trim
                         End If
 
-                        ' Pengaman agar Len - 2 tidak error
                         If Ttemp.Length > 2 Then
                             barcode = KodeBarcode & Strings.Right(Ttemp, Len(Ttemp) - 2)
                         Else
@@ -109,7 +329,6 @@ Public Class FormCetakBarcode
                         End If
 
                         For Each Treply As DataRow In Tgrouping.Rows
-                            ' Jangan pakai sleep di sini, hapus file dulu
                             If System.IO.File.Exists(Ttx) = True Then System.IO.File.Delete(Ttx)
 
                             Dim objStreamWriter As StreamWriter = New StreamWriter(Ttx)
@@ -125,38 +344,31 @@ Public Class FormCetakBarcode
                             objStreamWriter.WriteLine("KI80")
                             objStreamWriter.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
 
+                            ' Kembali menggunakan Cetak Barcode Garis Bawaan Anda Semula
                             If Treply("TabungRef").ToString <> "" Then
                                 objStreamWriter.WriteLine("B290,177,2,1,2,4,97,N,""" & barcode & Treply("TabungRef").ToString & """")
                             Else
                                 objStreamWriter.WriteLine("B290,177,2,1,2,4,97,N,""" & barcode & """")
                             End If
 
-                            objStreamWriter.WriteLine("A95,217,2,3,1,1,N,""""""")
+                            objStreamWriter.WriteLine("A95,217,2,3,1,1,N," & Chr(34) & Chr(34))
                             objStreamWriter.WriteLine("A95,30,2,3,1,1,N,""" & Treply("Tabung").ToString & """")
                             objStreamWriter.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-                            objStreamWriter.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
 
-                            If Treply("TabungRef").ToString <> "" Then
-                                objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & barcode & Treply("TabungRef").ToString & """")
-                            Else
-                                objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & barcode & """")
-                            End If
+                            Dim tglTampil As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
+                            objStreamWriter.WriteLine("A290,30,2,2,1,1,N,""" & tglTampil & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+                            objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & TrowData("NoUrut").ToString.Trim & """")
 
                             objStreamWriter.WriteLine("P1")
                             objStreamWriter.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
                             objStreamWriter.Close()
 
-                            ' Eksekusi cetak tabung
                             Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
-
-                            ' JEDA AMAN agar proses tabung masuk memori printer sebelum lanjut (PENTING!)
                             System.Threading.Thread.Sleep(1000)
                         Next
                     End If
 
-                    ' =========================================================
-                    ' Cetak Barcode InBody
-                    ' =========================================================
+                    ' --- 3. Cetak Barcode InBody (Jika Dicentang) ---
                     If CheckBoxInbody.Checked = True Then
                         Dim TtxInBody As String = Tpos & "OutputInBody.txt"
                         Dim barcodeInBody As String = TrowData("NoUrut").ToString.Trim
@@ -176,7 +388,7 @@ Public Class FormCetakBarcode
                             writer.WriteLine("KI80")
                             writer.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
                             writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
-                            writer.WriteLine("A95,30,2,3,1,1,N,""InBody""")
+                            writer.WriteLine("A95,30,2,3,1,1,N,""" & "InBody" & """")
                             writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
                             writer.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
                             writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
@@ -184,14 +396,11 @@ Public Class FormCetakBarcode
                             writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
                         End Using
 
-                        ' Eksekusi cetak Inbody
                         Process.Start(Tpathprf & "PrFile32.exe ", TtxInBody)
-
-                        ' JEDA AMAN jika loop berlanjut ke pasien lain
                         System.Threading.Thread.Sleep(1000)
                     End If
 
-                    ' Update Status
+                    ' Update Status Database
                     If IsDBNull(TrowData("LabSamplingTime")) = True Then
                         WriteSQL("update TransaksiLab set SendKeu=1, [Status]='CHECK', LabSamplingTime=getdate() WHERE TransLabID='" & TrowData("TransLabID").ToString.Trim & "' ", 4)
                     Else
@@ -580,14 +789,25 @@ Public Class FormCetakBarcode
         End Try
     End Sub
 
+    'Private Sub buttambahpasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles buttambahpasien.Click
+    '    Dim Takhir As Date = DateSerial(DateAndTime.Now.Year, DateAndTime.Now.Month, DateAndTime.Now.Day).AddDays(30)
+    '    Dim Tawal As Date = DateAdd(DateInterval.Day, -90, Takhir.Date)
+    '    Find.Show()
+    '    Find.Query("SELECT a.TransLabID, a.NoUrut, a.IDInternet, b.Nama, b.TglLahir, a.TglLab, a.Status " & _
+    '               "FROM TransaksiLab a " & _
+    '               "LEFT JOIN MasterPasien  b on a.idinternet = b.NoRekamMedis " & _
+    '               "WHERE a.ClosedTransaksi=1 and Status in ('SAMPLE','CHECK') and CONVERT(date, Tgllab) between '" & Format(Tawal.Date, "MM/dd/yyyy") & "' and '" & Format(Takhir.Date, "MM/dd/yyyy") & "'  and a.deleted<>1 ", " order by a.NoUrut desc ", "FindTransaksiBarcode", 0)
+    'End Sub
+
     Private Sub buttambahpasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles buttambahpasien.Click
         Dim Takhir As Date = DateSerial(DateAndTime.Now.Year, DateAndTime.Now.Month, DateAndTime.Now.Day).AddDays(30)
         Dim Tawal As Date = DateAdd(DateInterval.Day, -90, Takhir.Date)
+
         Find.Show()
-        Find.Query("SELECT a.TransLabID, a.NoUrut, a.IDInternet, b.Nama, b.TglLahir, a.TglLab, a.Status " & _
+        Find.Query("SELECT a.TransLabID, a.NoUrut, a.IDInternet, b.Nama, b.TglLahir, b.NoNIK AS nik, a.TglLab, a.Status " & _
                    "FROM TransaksiLab a " & _
-                   "LEFT JOIN MasterPasien  b on a.idinternet = b.NoRekamMedis " & _
-                   "WHERE a.ClosedTransaksi=1 and Status in ('SAMPLE','CHECK') and CONVERT(date, Tgllab) between '" & Format(Tawal.Date, "MM/dd/yyyy") & "' and '" & Format(Takhir.Date, "MM/dd/yyyy") & "'  and a.deleted<>1 ", " order by a.NoUrut desc ", "FindTransaksiBarcode", 0)
+                   "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
+                   "WHERE a.ClosedTransaksi=1 and Status in ('SAMPLE','CHECK') and CONVERT(date, Tgllab) between '" & Format(Tawal.Date, "MM/dd/yyyy") & "' and '" & Format(Takhir.Date, "MM/dd/yyyy") & "' and a.deleted<>1 ", " order by a.NoUrut desc ", "FindTransaksiBarcode", 0)
     End Sub
 
     Private Sub rdNonMCU_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdNonMCU.CheckedChanged
@@ -834,6 +1054,73 @@ Public Class FormCetakBarcode
             Else
                 MsgBox("Ulangi proses ketika siap")
             End If
+        End Try
+    End Sub
+
+    Private Sub ScanHYUToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        FormScanHyu.Show()
+    End Sub
+
+    Private Sub ButtonCariPasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariPasien.Click
+        If String.IsNullOrEmpty(TextBoxScanHyu.Text.Trim()) Then
+            MessageBox.Show("Silakan scan atau masukkan QR Code terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            TextBoxScanHyu.Focus()
+            Exit Sub
+        End If
+
+        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+        Dim url As String = urlWebService & "api/mcu/check-in/decode"
+
+        Dim jsonParameter As String = "{""qr_code"": """ & TextBoxScanHyu.Text.Trim() & """}"
+
+        Try
+            Dim jsonResult As String = InsertDataAPIRM(jsonParameter, url)
+            Dim jObj As JObject = JObject.Parse(jsonResult)
+
+            If jObj("success") IsNot Nothing AndAlso CBool(jObj("success")) = True Then
+                Dim nik As String = jObj("data")("nik").ToString()
+
+                ' =========================================================
+                ' ALUR OTOMATISASI PENCARIAN BERDASARKAN NIK
+                ' =========================================================
+                Dim Takhir As Date = DateSerial(DateAndTime.Now.Year, DateAndTime.Now.Month, DateAndTime.Now.Day).AddDays(30)
+                Dim Tawal As Date = DateAdd(DateInterval.Day, -90, Takhir.Date)
+
+                ' 1. Susun string query SQL dengan tambahan filter NIK hasil decode
+                Dim querySQL As String = "SELECT a.TransLabID, a.NoUrut, a.IDInternet, b.Nama, b.TglLahir, b.NoNIK AS nik, a.TglLab, a.Status " & _
+                                         "FROM TransaksiLab a " & _
+                                         "LEFT JOIN MasterPasien b on a.idinternet = b.NoRekamMedis " & _
+                                         "WHERE a.ClosedTransaksi=1 and Status in ('SAMPLE','CHECK') " & _
+                                         "and CONVERT(date, Tgllab) between '" & Format(Tawal.Date, "MM/dd/yyyy") & "' and '" & Format(Takhir.Date, "MM/dd/yyyy") & "' " & _
+                                         "and a.deleted<>1 and b.NoNIK = '" & nik.Trim() & "' "
+
+                ' 2. Jalankan ReadSQL terlebih dahulu untuk memeriksa apakah transaksi pasien ini ada
+                Dim dtCheck As DataTable = ReadSQL(querySQL)
+
+                If dtCheck.Rows.Count > 0 Then
+                    ' Jika data ditemukan, buat DefaultView untuk dilempar ke fungsi LoadTransLab
+                    Dim rowView As DataRowView = dtCheck.DefaultView(0)
+
+                    ' Langsung load data pasien ke komponen input form utama
+                    LoadTransLab(rowView)
+                Else
+                    ' Jika tidak langsung ketemu otomatis, tetap tampilkan form Find manual dengan filter NIK tersebut
+                    Find.Show()
+                    Find.Query(querySQL, " order by a.NoUrut desc ", "FindTransaksiBarcode", 0)
+                    MessageBox.Show("Transaksi lab untuk NIK " & nik & " tidak ditemukan pada range tanggal ini.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                ' =========================================================
+
+            Else
+                Dim message As String = "Gagal memproses data."
+                If jObj("message") IsNot Nothing Then
+                    message = jObj("message").ToString()
+                End If
+                MessageBox.Show("Respon Server Gagal: " & message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan sistem atau format JSON tidak sesuai: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 End Class

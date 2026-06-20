@@ -1631,4 +1631,8 @@ Public Class PoliKlinik
         FormBirthdaySender.Show()
         FormBirthdaySender.Focus()
     End Sub
+
+    Private Sub TrackingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackingToolStripMenuItem.Click
+
+    End Sub
 End Class

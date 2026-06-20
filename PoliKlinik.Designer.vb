@@ -151,6 +151,7 @@ Partial Class PoliKlinik
         Me.MappingTindakanICD9CMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MappingObatKFAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WaBlastToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.BirthdaySenderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MasterPaketToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DesignReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -284,7 +285,7 @@ Partial Class PoliKlinik
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
         Me.TimerBirthday = New System.Windows.Forms.Timer(Me.components)
-        Me.BirthdaySenderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TrackingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -742,7 +743,7 @@ Partial Class PoliKlinik
         '
         'MonitorProsesToolStripMenuItem
         '
-        Me.MonitorProsesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiLokalToolStripMenuItem, Me.TransaksiOnlineToolStripMenuItem, Me.PrintToolStripMenuItem, Me.LogKirimWhatsappEmailToolStripMenuItem, Me.LogTransaksiCancelToolStripMenuItem})
+        Me.MonitorProsesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransaksiLokalToolStripMenuItem, Me.TransaksiOnlineToolStripMenuItem, Me.PrintToolStripMenuItem, Me.LogKirimWhatsappEmailToolStripMenuItem, Me.LogTransaksiCancelToolStripMenuItem, Me.TrackingToolStripMenuItem})
         Me.MonitorProsesToolStripMenuItem.Name = "MonitorProsesToolStripMenuItem"
         Me.MonitorProsesToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
         Me.MonitorProsesToolStripMenuItem.Tag = "0419"
@@ -1212,6 +1213,12 @@ Partial Class PoliKlinik
         Me.WaBlastToolStripMenuItem.Name = "WaBlastToolStripMenuItem"
         Me.WaBlastToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
         Me.WaBlastToolStripMenuItem.Text = "WaBlast"
+        '
+        'BirthdaySenderToolStripMenuItem
+        '
+        Me.BirthdaySenderToolStripMenuItem.Name = "BirthdaySenderToolStripMenuItem"
+        Me.BirthdaySenderToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
+        Me.BirthdaySenderToolStripMenuItem.Text = "Birthday Sender"
         '
         'MiscToolStripMenuItem
         '
@@ -2082,11 +2089,11 @@ Partial Class PoliKlinik
         '
         Me.TimerBirthday.Interval = 300000
         '
-        'BirthdaySenderToolStripMenuItem
+        'TrackingToolStripMenuItem
         '
-        Me.BirthdaySenderToolStripMenuItem.Name = "BirthdaySenderToolStripMenuItem"
-        Me.BirthdaySenderToolStripMenuItem.Size = New System.Drawing.Size(262, 22)
-        Me.BirthdaySenderToolStripMenuItem.Text = "Birthday Sender"
+        Me.TrackingToolStripMenuItem.Name = "TrackingToolStripMenuItem"
+        Me.TrackingToolStripMenuItem.Size = New System.Drawing.Size(338, 22)
+        Me.TrackingToolStripMenuItem.Text = "Tracking"
         '
         'PoliKlinik
         '
@@ -2374,4 +2381,5 @@ Partial Class PoliKlinik
     Friend WithEvents TimerBirthday As System.Windows.Forms.Timer
     Friend WithEvents WaBlastToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BirthdaySenderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TrackingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
