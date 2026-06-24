@@ -532,6 +532,12 @@
     <Compile Include="Prototype\FormBase64.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormBirthdaySender.Designer.vb">
+      <DependentUpon>FormBirthdaySender.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormBirthdaySender.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormInputInformedConsent.Designer.vb">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </Compile>
@@ -843,10 +849,22 @@
     <Compile Include="Prototype\FormRekamMedisDokter.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormScanHyu.Designer.vb">
+      <DependentUpon>FormScanHyu.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormScanHyu.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormSinkronPcare.Designer.vb">
       <DependentUpon>FormSinkronPcare.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\FormSinkronPcare.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormTrackingPosition.Designer.vb">
+      <DependentUpon>FormTrackingPosition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormTrackingPosition.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\FormValidasiFaskesPasien.Designer.vb">
@@ -859,6 +877,12 @@
       <DependentUpon>FormRiwayatKunjungan.vb</DependentUpon>
     </Compile>
     <Compile Include="Prototype\FormRiwayatKunjungan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prototype\FormWABlast.Designer.vb">
+      <DependentUpon>FormWABlast.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormWABlast.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Prototype\FuzzyUtils.vb" />
@@ -1552,6 +1576,9 @@
     <EmbeddedResource Include="Prototype\FormBase64.resx">
       <DependentUpon>FormBase64.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormBirthdaySender.resx">
+      <DependentUpon>FormBirthdaySender.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </EmbeddedResource>
@@ -1723,14 +1750,23 @@
     <EmbeddedResource Include="Prototype\FormRekamMedisDokter.resx">
       <DependentUpon>FormRekamMedisDokter.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormScanHyu.resx">
+      <DependentUpon>FormScanHyu.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormSinkronPcare.resx">
       <DependentUpon>FormSinkronPcare.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormTrackingPosition.resx">
+      <DependentUpon>FormTrackingPosition.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormValidasiFaskesPasien.resx">
       <DependentUpon>FormValidasiFaskesPasien.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormRiwayatKunjungan.resx">
       <DependentUpon>FormRiwayatKunjungan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormWABlast.resx">
+      <DependentUpon>FormWABlast.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\KYC.resx">
       <DependentUpon>KYC.vb</DependentUpon>

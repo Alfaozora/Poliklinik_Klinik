@@ -12,8 +12,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("21 Januari 2026")> 
 <Assembly: AssemblyCompany("PT. Jaya Bakti Mandiri")> 
 <Assembly: AssemblyProduct("PoliKlinik.NET")> 
-<Assembly: AssemblyCopyright("Copyright ©  2023-2025")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyCopyright("Copyright ©  2023-2026")> 
+<Assembly: AssemblyTrademark("Poliklinik Mitramedicare")> 
 
 <Assembly: ComVisible(False)>
 

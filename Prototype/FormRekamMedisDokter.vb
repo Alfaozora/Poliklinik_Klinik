@@ -6788,13 +6788,6 @@ Public Class FormRekamMedisDokter
                     SendToApiDiagnosa(idTransaksi, kodeDiagnosa, namaDiagnosa, jenisDiagnosa, kasusDiagnosa, "0")
                 End If
 
-                ' Update status transaksi menjadi > Sudah Diperiksa
-                If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
-                    WriteSQL("UPDATE TransaksiPoli SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
-                ElseIf jenisTransaksi = "GIGI" Then
-                    WriteSQL("UPDATE TransaksiGigi SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
-                End If
-
                 ' Insert / Update Detail Waktu Transaksi (WaktuSelesaiDokter)
                 SetDetailWaktuTransaksi(idTransaksi, "WaktuSelesaiDokter", userInput)
 
@@ -7105,7 +7098,7 @@ Public Class FormRekamMedisDokter
             ' ===================== Update Status Pulang =====================
             WriteSQL("UPDATE TransaksiDetail SET StatusPulang = '" & statusPulang & "' WHERE NoUrut = '" & idTransaksi & "'", 4)
 
-            'Update status antrian Hyu
+            ' ===================== Update status antrian Hyu ================
             Dim sql As String = "SELECT TD.NoAntreanHyu, MP.NoNIK " & _
                   "FROM TransaksiDetail TD " & _
                   "INNER JOIN MasterPasien MP ON TD.IDInternet = MP.NoRekamMedis " & _
@@ -7131,6 +7124,87 @@ Public Class FormRekamMedisDokter
                 End If
 
             Else
+                Dim sqlOffline As String = _
+                    "SELECT " & _
+                    "CONVERT(VARCHAR(10), TD.TanggalTransaksi, 23) AS TanggalTransaksi, " & _
+                    "MPT.KodeBPJS, " & _
+                    "MD.KodeBridgingPCare, " & _
+                    "MP.NoNIK " & _
+                    "FROM TransaksiDetail TD " & _
+                    "INNER JOIN MasterPoliTujuan MPT " & _
+                    "ON TD.JenisPoli = MPT.NamaPoli " & _
+                    "INNER JOIN TransaksiPoli TP " & _
+                    "ON TD.NoUrut = TP.NoUrut " & _
+                    "INNER JOIN MasterDokter MD " & _
+                    "ON TP.KodeDokter = MD.ID " & _
+                    "INNER JOIN MasterPasien MP " & _
+                    "ON TD.IDInternet = MP.NoRekamMedis " & _
+                    "WHERE TD.NoUrut = '" & idTransaksi & "'"
+
+                Dim tblOffline As DataTable = ReadSQL(sqlOffline)
+
+                If tblOffline.Rows.Count > 0 Then
+
+                    Dim tanggalTransaksi As String = tblOffline.Rows(0)("TanggalTransaksi").ToString()
+                    Dim kodeBPJS As String = tblOffline.Rows(0)("KodeBPJS").ToString()
+                    Dim kodeDokter As String = tblOffline.Rows(0)("KodeBridgingPCare").ToString()
+                    Dim nik As String = tblOffline.Rows(0)("NoNIK").ToString()
+
+                    'MsgBox("Tanggal : " & tanggalTransaksi)
+
+                    Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+                    Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+                    Dim url As String = urlWebService & _
+                     "api/antrian/pasien?kode_klinik=" & loc & _
+                     "&visit_date=" & tanggalTransaksi & _
+                     "&clinic_code=" & kodeBPJS & _
+                     "&doctor_code=" & kodeDokter & _
+                     "&patient_nik=" & nik
+
+                    Dim responseString As String = GetDataAPIRM(url)
+                    Dim jsonObj As JObject = JObject.Parse(responseString)
+
+                    Dim validHyu As Boolean = True
+                    Dim nomorAntreanHyu As String = ""
+
+                    If jsonObj("status") Is Nothing OrElse jsonObj("status").ToString() <> "success" Then
+                        MessageBox.Show("Gagal ambil data antrean HYU", "Error")
+                        validHyu = False
+                    ElseIf jsonObj("data") Is Nothing Then
+                        ' MessageBox.Show("Data kosong", "Info")
+                        validHyu = False
+                    Else
+                        Dim dataArray As JArray = CType(jsonObj("data"), JArray)
+
+                        If dataArray.Count = 0 Then
+                            MessageBox.Show("Antrean HYU tidak ditemukan", "Info")
+                            validHyu = False
+                        Else
+                            nomorAntreanHyu = dataArray(0)("nomor_antrean").ToString()
+
+                            If String.IsNullOrEmpty(nomorAntreanHyu) Then
+                                MessageBox.Show("Nomor antrean HYU kosong", "Info")
+                                validHyu = False
+                            End If
+                        End If
+                    End If
+
+                    If validHyu = True Then
+                        Dim sqlUpdate As String = _
+                            "UPDATE TransaksiDetail " & _
+                            "SET NoAntreanHyu = '" & nomorAntreanHyu & "' " & _
+                            "WHERE NoUrut = '" & idTransaksi & "'"
+
+                        WriteSQL(sqlUpdate, 4)
+
+                        If isExist Then
+                            If SendPCareDataV3(nomorNIK, nomorAntreanHyu, "menunggu_obat", "farmasi") = False Then Exit Sub
+                        Else
+                            If SendPCareDataV3(nomorNIK, nomorAntreanHyu, "selesai", "selesai") = False Then Exit Sub
+                        End If
+                    End If
+                End If
                 'MsgBox("Antrean OFFLINE, skip update status Hyu", MsgBoxStyle.Exclamation)
             End If
 
@@ -7144,6 +7218,13 @@ Public Class FormRekamMedisDokter
                 MsgBox("Data berhasil disimpan." & vbCrLf & "No kunjungan PCare: " & noKunjunganBPJS, MsgBoxStyle.Information, "Success!")
             Else
                 MsgBox("Data berhasil disimpan.", MsgBoxStyle.Information, "Success!")
+            End If
+
+            ' Update status transaksi menjadi > Sudah Diperiksa
+            If jenisTransaksi = "UMUM" Or jenisTransaksi = "POLI" Then
+                WriteSQL("UPDATE TransaksiPoli SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
+            ElseIf jenisTransaksi = "GIGI" Then
+                WriteSQL("UPDATE TransaksiGigi SET StatusTransaksi = 'finished', FinishedDate = GETDATE(), StatusKeterangan = 'Sudah Diperiksa' WHERE NoUrut = '" & idTransaksi & "' AND StatusKeterangan <> 'Sudah Diperiksa'", 4)
             End If
 
             ' Safety net: jika bukan rujukan, pastikan kolom rujukan kosong

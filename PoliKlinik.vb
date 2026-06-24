@@ -1621,4 +1621,18 @@ Public Class PoliKlinik
         WhatsAppSetting.Show()
         WhatsAppSetting.Focus()
     End Sub
+
+    Private Sub WaBlastToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WaBlastToolStripMenuItem.Click
+        FormWABlast.Show()
+        FormWABlast.Focus()
+    End Sub
+
+    Private Sub BirthdaySenderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BirthdaySenderToolStripMenuItem.Click
+        FormBirthdaySender.Show()
+        FormBirthdaySender.Focus()
+    End Sub
+
+    Private Sub TrackingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackingToolStripMenuItem.Click
+
+    End Sub
 End Class

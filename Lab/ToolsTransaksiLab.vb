@@ -179,7 +179,7 @@
 
                             WriteSQL("UPDATE TransaksiLab SET UploadMesin = 1, UploadMesinDate = GETDATE() WHERE TransLabID = '" & rowTransaksi("TransLabID") & "'", 4)
                         Else
-                            ' ###### UPDATE DATA ONLINE ######
+                            ' ###### UPDATE/UPSERT DATA ONLINE ######
 
                             ' Hanya Update Jika Status CETAK / TAKEIT
                             If rowTransaksi("Status").ToString.Trim = "CETAK" Or rowTransaksi("Status").ToString.Trim = "TAKEIT" Then
@@ -189,14 +189,61 @@
                                 ' Update Tabel TransaksiLab Online
                                 WriteThemysql("UPDATE transaksilab SET saran = '" & rowTransaksi("Saran") & "', kesimpulan = '" & rowTransaksi("Kesimpulan") & "', status = '" & rowTransaksi("Status").ToString.Trim & "', labstarttime = '" & LabStartTime & "', labendtime = '" & LabEndTime & "', tglinputhasil = '" & TglInputHasil & "' WHERE idlabinternet = '" & idTransaksiOnline & "'", DB_Poliklinik)
 
-                                ' Update Tabel TransaksiLabResult Online
-                                For Each rowResult As DataRow In tblLabResult.Rows
-                                    If Strings.LCase(rowResult("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("spirometri") Then
-                                        WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '-' WHERE idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
-                                    Else
-                                        WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '" & rowResult("Keterangan") & "', Saran = '" & rowResult("Saran") & "', Pria = '" & rowResult("Pria") & "' , Wanita = '" & rowResult("Wanita") & "', Flag = '" & rowResult("Flag") & "', Satuan = '" & rowResult("Satuan") & "', Urutan = '" & rowResult("Urutan") & "', acc1 = '" & rowResult("Acc1") & "', acc2 = '" & rowResult("Acc2") & "' where idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                'Sinkronisasi Tabel TransaksiLabDetail Online (Cek Kosong -> Insert)
+                                For Each rowDetail As DataRow In tblLabDetail.Rows
+                                    Dim cekDetail As Boolean = CheckThemysql("SELECT * FROM transaksilabdetail WHERE idlabinternet='" & idTransaksiOnline & "' AND translabiddetail='" & rowDetail("translabiddetail") & "'", DB_Poliklinik)
+
+                                    If cekDetail = False Then
+                                        Dim biaya As Double = 0
+                                        If Not IsDBNull(rowDetail("BiayaTindakan")) Then biaya = CDbl(rowDetail("BiayaTindakan"))
+                                        Dim tksTime As String = If(String.IsNullOrEmpty(rowDetail("transaksitime").ToString()), "1900-01-01", Format(rowDetail("transaksitime"), "yyyy-MM-dd HH:mm:ss"))
+
+                                        WriteThemysql("INSERT INTO transaksilabdetail(idlabinternet, translabiddetail, TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan, Mesin) " & _
+                                                      "VALUES('" & idTransaksiOnline & "','" & rowDetail("translabiddetail") & "','" & rowDetail("translabid") & "','" & rowDetail("TindakanID") & "','" & rowDetail("NamaTindakan") & "','" & rowDetail("JenisTindakan") & "'," & biaya & "," & CDbl(rowDetail("DiscTindakan")) & "," & CDbl(rowDetail("NettBayar")) & ",'" & UserLabAdmin & "','" & tksTime & "'," & CDbl(rowDetail("DiscPersenTindakan")) & ",'" & rowDetail("Mesin") & "')", DB_Poliklinik)
                                     End If
                                 Next
+
+                                'Sinkronisasi Tabel TransaksiLabResult Online (Cek Kosong -> Insert, Ada -> Update)
+                                For Each rowResult As DataRow In tblLabResult.Rows
+                                    Dim cekResult As Boolean = CheckThemysql("SELECT * FROM transaksilabresult WHERE idlabinternet='" & idTransaksiOnline & "' AND TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' AND TindakanID='" & rowResult("TindakanID") & "' AND GroupID='" & rowResult("GroupID") & "' AND NoUrut='" & rowResult("NoUrut") & "' AND DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+
+                                    If cekResult = False Then
+                                        ' --- JIKA DATA KOSONG LAKUKAN INSERT ---
+                                        Dim tksTime As String = If(String.IsNullOrEmpty(rowResult("transaksitime").ToString()), "19000101", Format(rowResult("transaksitime"), "yyyyMMdd"))
+
+                                        WriteThemysql("INSERT INTO transaksilabresult(idlabinternet, translabiddetail, tindakanid, groupid, nourut, detailket, pria, wanita, result, satuan, keterangan, acc1, acc2, acc3, admin, transaksitime, urutan, saran) " & _
+                                                      " VALUES('" & idTransaksiOnline & "','" & rowResult("translabiddetail") & "','" & rowResult("tindakanid") & "','" & rowResult("NamaTindakan") & "','" & rowResult("NoUrut") & "','" & rowResult("DetailKet") & "','" & rowResult("Pria") & "','" & _
+                                                      rowResult("Wanita") & "','" & rowResult("Result") & "','" & rowResult("Satuan") & "','" & rowResult("Keterangan") & "','" & rowResult("Acc1") & "','" & rowResult("Acc2") & "', '" & rowResult("Acc2") & "', '" & rowResult("admin") & "', '" & tksTime & "', '" & rowResult("urutan") & "', '" & rowResult("saran") & "')", DB_Poliklinik)
+                                    Else
+                                        ' --- JIKA DATA SUDAH ADA LAKUKAN UPDATE ---
+                                        If Strings.LCase(rowResult("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("spirometri") Then
+                                            WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '-' WHERE idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                        Else
+                                            WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '" & rowResult("Keterangan") & "', Saran = '" & rowResult("Saran") & "', Pria = '" & rowResult("Pria") & "' , Wanita = '" & rowResult("Wanita") & "', Flag = '" & rowResult("Flag") & "', Satuan = '" & rowResult("Satuan") & "', Urutan = '" & rowResult("Urutan") & "', acc1 = '" & rowResult("Acc1") & "', acc2 = '" & rowResult("Acc2") & "' where idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                        End If
+                                    End If
+                                Next
+
+                                'Sinkronisasi Tabel TransaksiLabBayar Online (Cek Kosong -> Insert)
+                                For Each rowBayar As DataRow In tblLabBayar.Rows
+                                    Dim cekBayar As Boolean = CheckThemysql("SELECT * FROM transaksilabbayar WHERE idlabinternet='" & idTransaksiOnline & "' AND translabidbayar='" & rowBayar("TransLabIDBayar") & "'", DB_Poliklinik)
+
+                                    If cekBayar = False Then
+                                        Dim tksTimeBayar As String = If(IsDBNull(rowBayar("transaksitime")), "1900-01-01", Format(rowBayar("transaksitime"), "yyyy-MM-dd HH:mm:ss"))
+
+                                        WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid,jenisbayar,nojenisbayar,jumlahbayar,admin,transaksitime,kembali,mesin,kartu) " & _
+                                                      "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & tksTimeBayar & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
+                                    End If
+                                Next
+
+                                ' Update Tabel TransaksiLabResult Online
+                                'For Each rowResult As DataRow In tblLabResult.Rows
+                                '    If Strings.LCase(rowResult("NamaTindakan").ToString).Contains("thorax") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("ecg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("audiometri") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("fisik") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("usg") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("treadmill") Or Strings.LCase(rowResult("NamaTindakan").ToString).Contains("spirometri") Then
+                                '        WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '-' WHERE idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                '    Else
+                                '        WriteThemysql("UPDATE transaksilabresult SET Result = '" & rowResult("Result") & "', Keterangan = '" & rowResult("Keterangan") & "', Saran = '" & rowResult("Saran") & "', Pria = '" & rowResult("Pria") & "' , Wanita = '" & rowResult("Wanita") & "', Flag = '" & rowResult("Flag") & "', Satuan = '" & rowResult("Satuan") & "', Urutan = '" & rowResult("Urutan") & "', acc1 = '" & rowResult("Acc1") & "', acc2 = '" & rowResult("Acc2") & "' where idlabinternet = '" & idTransaksiOnline & "' and TransLabIDDetail='" & rowResult("TransLabIDDetail") & "' and TindakanID='" & rowResult("TindakanID") & "' and GroupID='" & rowResult("GroupID") & "' and NoUrut='" & rowResult("NoUrut") & "' and DetailKet='" & rowResult("DetailKet") & "'", DB_Poliklinik)
+                                '    End If
+                                'Next
                             End If
                         End If
 
