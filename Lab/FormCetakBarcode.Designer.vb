@@ -29,6 +29,7 @@ Partial Class FormCetakBarcode
         Me.BarcodeTambahanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.CheckBoxAktivo = New System.Windows.Forms.CheckBox
         Me.CheckBoxInbody = New System.Windows.Forms.CheckBox
         Me.rdNonMCU = New System.Windows.Forms.RadioButton
         Me.rdMCU = New System.Windows.Forms.RadioButton
@@ -73,7 +74,6 @@ Partial Class FormCetakBarcode
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
-        Me.CheckBoxAktivo = New System.Windows.Forms.CheckBox
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -136,6 +136,17 @@ Partial Class FormCetakBarcode
         Me.GroupBox1.Size = New System.Drawing.Size(784, 73)
         Me.GroupBox1.TabIndex = 150
         Me.GroupBox1.TabStop = False
+        '
+        'CheckBoxAktivo
+        '
+        Me.CheckBoxAktivo.AutoSize = True
+        Me.CheckBoxAktivo.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxAktivo.Location = New System.Drawing.Point(321, 40)
+        Me.CheckBoxAktivo.Name = "CheckBoxAktivo"
+        Me.CheckBoxAktivo.Size = New System.Drawing.Size(125, 19)
+        Me.CheckBoxAktivo.TabIndex = 250
+        Me.CheckBoxAktivo.Text = "Medscape (Aktivo)"
+        Me.CheckBoxAktivo.UseVisualStyleBackColor = True
         '
         'CheckBoxInbody
         '
@@ -620,17 +631,6 @@ Partial Class FormCetakBarcode
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(784, 301)
         Me.TabControl1.TabIndex = 155
-        '
-        'CheckBoxAktivo
-        '
-        Me.CheckBoxAktivo.AutoSize = True
-        Me.CheckBoxAktivo.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBoxAktivo.Location = New System.Drawing.Point(321, 40)
-        Me.CheckBoxAktivo.Name = "CheckBoxAktivo"
-        Me.CheckBoxAktivo.Size = New System.Drawing.Size(125, 19)
-        Me.CheckBoxAktivo.TabIndex = 250
-        Me.CheckBoxAktivo.Text = "Medscape (Aktivo)"
-        Me.CheckBoxAktivo.UseVisualStyleBackColor = True
         '
         'FormCetakBarcode
         '
