@@ -282,13 +282,16 @@ Public Class FormCetakBarcode
                         writerAktivo.WriteLine("ZT")
                         writerAktivo.WriteLine("Q234,B24")
                         writerAktivo.WriteLine("KI80")
-                        writerAktivo.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+                        ' 1. Tutup halaman XML terlebih dahulu
+                        writerAktivo.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>")
+                        ' 2. WAJIB: Kirim perintah N secara mandiri untuk membersihkan buffer printer
+                        writerAktivo.WriteLine("N")
 
                         ' ===================================================================================
                         ' ALTERNATIF JALUR PPLA: Sintaks QR Code murni Printer Argox PPLA 
                         ' Format: 1W00[Variabel_Ukuran_Mulai_Dari_1_Sampai_9]000[Y_pos][X_pos][Data]
                         ' ===================================================================================
-                        writerAktivo.WriteLine("W1A020030NM03," & qrContent)
+                        writerAktivo.WriteLine("b100,80,Q,m2,g5,s3,""" & qrContent & """")
                         ' ===================================================================================
 
                         writerAktivo.WriteLine("A95,217,2,3,1,1,N," & Chr(34) & Chr(34))
@@ -298,6 +301,7 @@ Public Class FormCetakBarcode
                         Dim tglTampil As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
                         writerAktivo.WriteLine("A290,30,2,2,1,1,N,""" & tglTampil & " / " & TrowData("JenisKelamin").ToString.Trim & """")
                         writerAktivo.WriteLine("A290,217,2,3,1,1,N,""" & TrowData("NoUrut").ToString.Trim & """")
+
                         writerAktivo.WriteLine("P1")
                         writerAktivo.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
                         writerAktivo.Close()
@@ -390,7 +394,8 @@ Public Class FormCetakBarcode
                             writer.WriteLine("B290,177,2,1,2,4,97,N,""" & barcodeInBody & """")
                             writer.WriteLine("A95,30,2,3,1,1,N,""" & "InBody" & """")
                             writer.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-                            writer.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+                            Dim tglTampil As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
+                            writer.WriteLine("A290,30,2,2,1,1,N,""" & tglTampil & " / " & TrowData("JenisKelamin").ToString.Trim & """")
                             writer.WriteLine("A290,217,2,3,1,1,N,""" & barcodeInBody & """")
                             writer.WriteLine("P1")
                             writer.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
@@ -618,11 +623,14 @@ Public Class FormCetakBarcode
                             objStreamWriter.WriteLine("ZT")
                             objStreamWriter.WriteLine("Q234,B24")
                             objStreamWriter.WriteLine("KI80")
-                            objStreamWriter.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>N")
+                            objStreamWriter.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>")
+                            objStreamWriter.WriteLine("N")
                             objStreamWriter.WriteLine("B290,177,2,1,2,4,97,N,""" & barcode & """")
                             objStreamWriter.WriteLine("A95,217,2,3,1,1,N,""""""")
                             objStreamWriter.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
-                            objStreamWriter.WriteLine("A290,30,2,2,1,1,N,""" & TrowData("TglLahir").ToString.Trim & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+
+                            Dim tglTampil As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
+                            objStreamWriter.WriteLine("A290,30,2,2,1,1,N,""" & tglTampil & " / " & TrowData("JenisKelamin").ToString.Trim & """")
                             objStreamWriter.WriteLine("A290,217,2,3,1,1,N,""" & barcode & """")
                             objStreamWriter.WriteLine("P1")
                             objStreamWriter.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
@@ -637,6 +645,65 @@ Public Class FormCetakBarcode
 
                             Process.Start(Tpathprf & "PrFile32.exe ", Ttx)
                         Next
+
+                        'Cetak Aktivo
+                        If CheckBoxAktivo.Checked = True Then
+                            ' Hitung Usia Pasien
+                            Dim usia As Integer = 0
+                            If Not IsDBNull(TrowData("TglLahir")) Then
+                                Dim tglLahir As Date = CDate(TrowData("TglLahir"))
+                                usia = DateTime.Now.Year - tglLahir.Year
+                                If DateTime.Now < tglLahir.AddYears(usia) Then usia -= 1
+                            End If
+
+                            ' Standarisasi Gender (Male / Female)
+                            Dim gender As String = TrowData("JenisKelamin").ToString.Trim.ToUpper()
+                            If gender.Contains("L") Or gender.Contains("PRIA") Or gender.Contains("MALE") Then
+                                gender = "Male"
+                            Else
+                                gender = "Female"
+                            End If
+
+                            ' Susun data string format Aktivo
+                            Dim qrContent As String = TrowData("NoUrut").ToString.Trim & "#" & _
+                                                      TrowData("Nama").ToString.Trim & "#" & _
+                                                      usia.ToString() & "#" & _
+                                                      gender
+
+                            Dim TtxAktivo As String = Tpos & "OutputAktivo.txt"
+                            If System.IO.File.Exists(TtxAktivo) = True Then System.IO.File.Delete(TtxAktivo)
+
+                            Dim writerAktivo As New StreamWriter(TtxAktivo)
+                            writerAktivo.WriteLine("<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A")
+                            writerAktivo.WriteLine("ZN")
+                            writerAktivo.WriteLine("q275")
+                            writerAktivo.WriteLine("S3")
+                            writerAktivo.WriteLine("O")
+                            writerAktivo.WriteLine("JF")
+                            writerAktivo.WriteLine("D9")
+                            writerAktivo.WriteLine("ZT")
+                            writerAktivo.WriteLine("Q234,B24")
+                            writerAktivo.WriteLine("KI80")
+                            writerAktivo.WriteLine("<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>")
+                            writerAktivo.WriteLine("N")
+
+                            ' Menggunakan settingan koordinat yang sudah sesuai sebelumnya
+                            writerAktivo.WriteLine("b100,80,Q,m2,g5,s3,""" & qrContent & """")
+
+                            writerAktivo.WriteLine("A95,217,2,3,1,1,N," & Chr(34) & Chr(34))
+                            writerAktivo.WriteLine("A95,30,2,3,1,1,N,""QR P.Fisik""")
+                            writerAktivo.WriteLine("A290,54,2,2,1,1,N,""" & TrowData("Nama").ToString.Trim & """")
+
+                            Dim tglTampilQR As String = If(IsDBNull(TrowData("TglLahir")), "", CDate(TrowData("TglLahir")).ToString("dd MMM yyyy"))
+                            writerAktivo.WriteLine("A290,30,2,2,1,1,N,""" & tglTampilQR & " / " & TrowData("JenisKelamin").ToString.Trim & """")
+                            writerAktivo.WriteLine("A290,217,2,3,1,1,N,""" & TrowData("NoUrut").ToString.Trim & """")
+                            writerAktivo.WriteLine("P1")
+                            writerAktivo.WriteLine("<xpml></page></xpml><xpml><end/></xpml>")
+                            writerAktivo.Close()
+
+                            System.Threading.Thread.Sleep(500)
+                            Process.Start(Tpathprf & "PrFile32.exe ", TtxAktivo)
+                        End If
 
                         'Cetak Barcode InBody
                         If CheckBoxInbody.Checked = True Then
