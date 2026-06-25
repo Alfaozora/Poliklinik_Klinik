@@ -1,8 +1,9 @@
-Version : 2.0.0.60 ( Juni 2026)
+Version : 2.0.0.60 (- Juni 2026)
 # [Usability Improvement] Menambahkan otomatis kirim ke cloud saat simpan pada form upload pasien MCU
 # [Usability Improvement] Mengubah logika untuk kirim hasil lab ke online
 # [New Feature] Menambahkan fitur Medscape pada cetak barcode lab
 # [New Feature] Menambahkan fitur scan HYU! pada cetak barcode lab
+# [New Feature] Menambahkan fitur cetaik qr code aktivo pada cetak barcode lab
 
 Version : 2.0.0.59 (08 Mei 2026)
 # [New Feature] Penambahan Fitur Validator Invoice
