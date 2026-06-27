@@ -2953,6 +2953,102 @@ Public Class FormRekamMedisDokter
         End Try
     End Sub
 
+    Private Sub ButtonSetMedscape_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetMedscape.Click
+        Dim lokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+        Dim tanggalFormat As String = ""
+        Try
+            Dim stringTanggal As String = idTransaksi.Substring(0, 8)
+            Dim objTanggal As DateTime = DateTime.ParseExact(stringTanggal, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture)
+            tanggalFormat = objTanggal.ToString("yyyy-MM-dd")
+        Catch ex As Exception
+            tanggalFormat = DateTime.Now.ToString("yyyy-MM-dd")
+        End Try
+
+        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & idTransaksi & "/" & tanggalFormat
+
+        Try
+            Dim jsonString As String = GetDataAPIRM(url)
+            Dim jsonResult As JObject = JObject.Parse(jsonString)
+
+            If jsonResult("code") IsNot Nothing AndAlso jsonResult("code").ToString() = "1" Then
+                Dim dataObj As JObject = CType(jsonResult("data"), JObject)
+                Dim name As String = dataObj("name").ToString()
+                Dim examNo As String = dataObj("exam_no").ToString()
+
+                Dim sistole As String = ""
+                Dim diastole As String = ""
+                Dim detakNadi As String = ""
+                Dim nafas As String = ""
+                Dim suhu As String = ""
+                Dim saturasi As String = ""
+                Dim tinggiBadan As String = ""
+                Dim beratBadan As String = ""
+                Dim bmi As String = ""
+
+                Dim resultsArray As JArray = CType(dataObj("results"), JArray)
+
+                For Each result As JObject In resultsArray
+                    Dim parameter As String = result("parameter").ToString().ToLower()
+                    Dim value As String = result("value").ToString()
+
+                    Select Case parameter
+                        Case "high"
+                            sistole = value
+                        Case "low"
+                            diastole = value
+                        Case "rate"
+                            detakNadi = value
+                        Case "tiwen"
+                            suhu = value
+                        Case "sp"
+                            saturasi = value
+                        Case "pr"
+                            If detakNadi = "" Then detakNadi = value
+                        Case "height"
+                            tinggiBadan = value
+                        Case "weight"
+                            beratBadan = value
+                        Case "bmi"
+                            bmi = value
+                    End Select
+                Next
+
+                If Not String.IsNullOrEmpty(detakNadi) AndAlso IsNumeric(detakNadi) Then
+                    Dim nilaiNadi As Double = Convert.ToDouble(detakNadi)
+                    nafas = Math.Round(nilaiNadi / 4).ToString()
+                End If
+
+                TextBoxSistoleMedik.Text = sistole
+                TextBoxDiastoleMedik.Text = diastole
+                TextBoxDetakNadiMedik.Text = detakNadi
+                TextBoxSuhuMedik.Text = suhu
+                TextBoxSaturasiMedik.Text = saturasi
+                TextBoxTinggiBadanMedik.Text = tinggiBadan
+                TextBoxBeratBadanMedik.Text = beratBadan
+                TextBoxIndeksMedik.Text = bmi
+                TextBoxNafasMedik.Text = nafas
+
+                MessageBox.Show("Data TTV berhasil ditarik untuk pasien: " & name, "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Else
+                Dim errorMsg As String = "Gagal memuat data."
+
+                If jsonResult("msg") IsNot Nothing Then
+                    errorMsg = jsonResult("msg").ToString()
+                ElseIf jsonResult("message") IsNot Nothing Then
+                    errorMsg = jsonResult("message").ToString()
+                End If
+
+                MessageBox.Show(errorMsg, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan sistem: " & ex.Message, "Error Parsing", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     'NEW HYU
     Public Function SendPCareDataV3( _
             ByVal patient_nik As String, _
@@ -9980,16 +10076,7 @@ Public Class FormRekamMedisDokter
         End If
     End Sub
 
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        TextBoxSistoleMedik.Text = "120"
-        TextBoxDiastoleMedik.Text = "80"
-        TextBoxDetakNadiMedik.Text = "44"
-        TextBoxNafasMedik.Text = "44"
-        TextBoxSuhuMedik.Text = "36"
-        TextBoxTinggiBadanMedik.Text = "180"
-        TextBoxBeratBadanMedik.Text = "80"
-        TextBoxLingkarPerutMedik.Text = "44"
-    End Sub
+
 
     Private Sub WhatsappToApotek()
         Try
@@ -14788,4 +14875,101 @@ Public Class FormRekamMedisDokter
             Return "-"
         End Try
     End Function
+
+    
+    Private Sub ButtonSetMedscapeAwal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetMedscapeAwal.Click
+        Dim lokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+        Dim tanggalFormat As String = ""
+        Try
+            Dim stringTanggal As String = idTransaksi.Substring(0, 8)
+            Dim objTanggal As DateTime = DateTime.ParseExact(stringTanggal, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture)
+            tanggalFormat = objTanggal.ToString("yyyy-MM-dd")
+        Catch ex As Exception
+            tanggalFormat = DateTime.Now.ToString("yyyy-MM-dd")
+        End Try
+
+        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & idTransaksi & "/" & tanggalFormat
+
+        Try
+            Dim jsonString As String = GetDataAPIRM(url)
+            Dim jsonResult As JObject = JObject.Parse(jsonString)
+
+            If jsonResult("code") IsNot Nothing AndAlso jsonResult("code").ToString() = "1" Then
+                Dim dataObj As JObject = CType(jsonResult("data"), JObject)
+                Dim name As String = dataObj("name").ToString()
+                Dim examNo As String = dataObj("exam_no").ToString()
+
+                Dim sistole As String = ""
+                Dim diastole As String = ""
+                Dim detakNadi As String = ""
+                Dim nafas As String = ""
+                Dim suhu As String = ""
+                Dim saturasi As String = ""
+                Dim tinggiBadan As String = ""
+                Dim beratBadan As String = ""
+                Dim bmi As String = ""
+
+                Dim resultsArray As JArray = CType(dataObj("results"), JArray)
+
+                For Each result As JObject In resultsArray
+                    Dim parameter As String = result("parameter").ToString().ToLower()
+                    Dim value As String = result("value").ToString()
+
+                    Select Case parameter
+                        Case "high"
+                            sistole = value
+                        Case "low"
+                            diastole = value
+                        Case "rate"
+                            detakNadi = value
+                        Case "tiwen"
+                            suhu = value
+                        Case "sp"
+                            saturasi = value
+                        Case "pr"
+                            If detakNadi = "" Then detakNadi = value
+                        Case "height"
+                            tinggiBadan = value
+                        Case "weight"
+                            beratBadan = value
+                        Case "bmi"
+                            bmi = value
+                    End Select
+                Next
+
+                If Not String.IsNullOrEmpty(detakNadi) AndAlso IsNumeric(detakNadi) Then
+                    Dim nilaiNadi As Double = Convert.ToDouble(detakNadi)
+                    nafas = Math.Round(nilaiNadi / 4).ToString()
+                End If
+
+                TextBoxSistolePemeriksaanAwal.Text = sistole
+                TextBoxDiastolePemeriksaanAwal.Text = diastole
+                TextBoxDetakNadiPemeriksaanAwal.Text = detakNadi
+                TextBoxSuhuPemeriksaanAwal.Text = suhu
+                TextBoxSaturasiPemeriksaanAwal.Text = saturasi
+                TextBoxTinggiBadanPemeriksaanAwal.Text = tinggiBadan
+                TextBoxBeratBadanPemeriksaanAwal.Text = beratBadan
+                TextBoxIndeksPemeriksaanAwal.Text = bmi
+                TextBoxNafasPemeriksaanAwal.Text = nafas
+
+                MessageBox.Show("Data TTV berhasil ditarik untuk pasien: " & name, "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Else
+                Dim errorMsg As String = "Gagal memuat data."
+
+                If jsonResult("msg") IsNot Nothing Then
+                    errorMsg = jsonResult("msg").ToString()
+                ElseIf jsonResult("message") IsNot Nothing Then
+                    errorMsg = jsonResult("message").ToString()
+                End If
+
+                MessageBox.Show(errorMsg, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Terjadi kesalahan sistem: " & ex.Message, "Error Parsing", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 End Class
