@@ -781,7 +781,6 @@ Public Class UploadPasienMCU
             WriteSQL(sqlUpdateMesin, 4)
 
         Catch ex As Exception
-            ' Ganti sesuai mekanisme logging/handling aplikasi Anda
             MsgBox("Error UpdateTransLabDetail: " & ex.Message)
         End Try
     End Sub

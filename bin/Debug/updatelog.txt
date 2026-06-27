@@ -1,6 +1,15 @@
-Version : 2.0.0.59 (-)
+Version : 2.0.0.60 (- Juni 2026)
+# [Usability Improvement] Menambahkan otomatis kirim ke cloud saat simpan pada form upload pasien MCU
+# [Usability Improvement] Mengubah logika untuk kirim hasil lab ke online
+# [New Feature] Menambahkan fitur Medscape pada cetak barcode lab
+# [New Feature] Menambahkan fitur scan HYU! pada cetak barcode lab
+# [New Feature] Menambahkan fitur cetaik qr code aktivo pada cetak barcode lab
+# [New Feature] Integrasi data dari mesin Medscape(aktivo) ke TTV 
+
+Version : 2.0.0.59 (08 Mei 2026)
 # [New Feature] Penambahan Fitur Validator Invoice
 # [New Feature] Pengintegrasian dengan Antrean HYU
+# [New Feature] Menambahkan Fitur Inbody pada cetak barcode lab
 # [Usability Improvement] Penambahan Notifikasi Riwayat Diagnosa B16-B20 di Alert Alergi
 # [Usability Improvement] Mengubah Posisi Status Sudah Diperiksa pada Simpan Data di Status Pulang
 # [Usability Improvement] Membuat Pengecekan Kembali No Antrean HYU Ketika Gagal Menyimpan No Antrean HYU di Database
