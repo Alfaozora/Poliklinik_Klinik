@@ -2955,7 +2955,7 @@ Public Class FormRekamMedisDokter
 
     Private Sub ButtonSetMedscape_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetMedscape.Click
         Dim lokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-
+        Dim noAntreanHyu As String = ReadSQLNIK("SELECT NoAntreanHyu FROM TransaksiDetail WHERE NoUrut = '" & idTransaksi & "'")
         Dim tanggalFormat As String = ""
         Try
             Dim stringTanggal As String = idTransaksi.Substring(0, 8)
@@ -2966,7 +2966,7 @@ Public Class FormRekamMedisDokter
         End Try
 
         Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & idTransaksi & "/" & tanggalFormat
+        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & noAntreanHyu & "/" & tanggalFormat
 
         Try
             Dim jsonString As String = GetDataAPIRM(url)
@@ -14879,7 +14879,7 @@ Public Class FormRekamMedisDokter
     
     Private Sub ButtonSetMedscapeAwal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSetMedscapeAwal.Click
         Dim lokasi As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
-
+        Dim noAntreanHyu As String = ReadSQLNIK("SELECT NoAntreanHyu FROM TransaksiDetail WHERE NoUrut = '" & idTransaksi & "'")
         Dim tanggalFormat As String = ""
         Try
             Dim stringTanggal As String = idTransaksi.Substring(0, 8)
@@ -14890,7 +14890,7 @@ Public Class FormRekamMedisDokter
         End Try
 
         Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & idTransaksi & "/" & tanggalFormat
+        Dim url As String = urlWebService & "api/medscape-shck/ttv/" & lokasi & "/" & noAntreanHyu & "/" & tanggalFormat
 
         Try
             Dim jsonString As String = GetDataAPIRM(url)
