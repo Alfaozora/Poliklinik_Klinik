@@ -1633,6 +1633,7 @@ Public Class PoliKlinik
     End Sub
 
     Private Sub TrackingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackingToolStripMenuItem.Click
-
+        FormTrackingPosition.Show()
+        FormTrackingPosition.Focus()
     End Sub
 End Class
