@@ -1128,6 +1128,8 @@ Public Class FormCetakBarcode
         FormScanHyu.Show()
     End Sub
 
+    Private _nikPasienAktif As String = ""
+
     Private Sub ButtonCariPasien_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCariPasien.Click
         If String.IsNullOrEmpty(TextBoxScanHyu.Text.Trim()) Then
             MessageBox.Show("Silakan scan atau masukkan QR Code terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -1150,6 +1152,8 @@ Public Class FormCetakBarcode
                 ' =========================================================
                 ' ALUR OTOMATISASI PENCARIAN BERDASARKAN NIK
                 ' =========================================================
+                _nikPasienAktif = nik.Trim()
+
                 Dim Takhir As Date = DateSerial(DateAndTime.Now.Year, DateAndTime.Now.Month, DateAndTime.Now.Day).AddDays(30)
                 Dim Tawal As Date = DateAdd(DateInterval.Day, -90, Takhir.Date)
 
@@ -1190,4 +1194,104 @@ Public Class FormCetakBarcode
             MessageBox.Show("Terjadi kesalahan sistem atau format JSON tidak sesuai: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Public Function GetActiveSessionCode(ByVal kodeServer As String) As String
+        Dim sessionCode As String = ""
+
+        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+
+        If Not baseUrl.EndsWith("/") Then
+            baseUrl &= "/"
+        End If
+
+        Dim finalUrl As String = String.Format("{0}api/mcu/active-session?kode_server={1}", _
+                                 baseUrl, _
+                                 Uri.EscapeDataString(kodeServer))
+
+        Try
+            Dim jsonResponse As String = GetDataAPIRM(finalUrl)
+
+            Dim jsonObj As JObject = JObject.Parse(jsonResponse)
+
+            If jsonObj("success") IsNot Nothing AndAlso CType(jsonObj("success"), Boolean) = True Then
+                sessionCode = jsonObj("session_code").ToString()
+            End If
+
+        Catch ex As Exception
+            Dim errMsg As String = ex.Message
+        End Try
+
+        Return sessionCode
+    End Function
+
+    'Private Sub txTransLabID1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txTransLabID1.TextChanged
+    '    If Not String.IsNullOrEmpty(txTransLabID1.Text.Trim()) Then
+
+    '        ' 1. Pastikan data pasien aktif (_nikPasienAktif) sudah terisi dari pencarian sebelumnya
+    '        'If String.IsNullOrEmpty(_nikPasienAktif) Then
+    '        '    MessageBox.Show("Silahkan cari pasien menggunakan Nomor Urut terlebih dahulu!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        '    TextBoxScanHyu.Focus()
+    '        '    Exit Sub
+    '        'End If
+
+    '        ' 2. Kunci Post Key secara permanen ke "pendaftaran" sesuai instruksi
+    '        Dim postKey As String = "pendaftaran"
+
+    '        ' 3. Ambil Session Code otomatis
+    '        Dim kodeServerLokal As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+    '        Dim sessionCode As String = GetActiveSessionCode(kodeServerLokal)
+
+    '        If String.IsNullOrEmpty(sessionCode) Then
+    '            MessageBox.Show("Gagal mendapatkan Kode Sesi aktif untuk hari ini.", "Sesi Tidak Ditemukan", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '            Exit Sub
+    '        End If
+
+    '        ' 4. Ambil Base URL
+    '        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+    '        If Not baseUrl.EndsWith("/") Then
+    '            baseUrl &= "/"
+    '        End If
+
+    '        Dim finalUrl As String = String.Format("{0}api/mcu/check-in/{1}/post/{2}", baseUrl, sessionCode, postKey)
+
+    '        ' 5. Susun Payload JSON dengan status "processing"
+    '        Dim jsonPayload As String = String.Format("{{""identifier"":""{0}"",""identifier_type"":""nik"",""status"":""processing""}}", _nikPasienAktif)
+
+    '        Dim isProsesSukses As Boolean = False
+
+    '        Try
+    '            Me.Cursor = Cursors.WaitCursor
+
+    '            ' 6. Kirim data otomatis ke API
+    '            Dim jsonResponse As String = InsertDataAPIRM(jsonPayload, finalUrl)
+    '            Dim jsonObj As JObject = JObject.Parse(jsonResponse)
+
+    '            If jsonObj("success") IsNot Nothing AndAlso CType(jsonObj("success"), Boolean) = True Then
+    '                isProsesSukses = True
+
+    '                ' UX Pilihan: Anda bisa menghilangkan MessageBox ini agar proses terasa mulus/silent bagi petugas
+    '                MessageBox.Show("Otomatis memulai tracking untuk Pos Pendaftaran!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+    '            Else
+    '                Dim msg As String = If(jsonObj("message") IsNot Nothing, jsonObj("message").ToString(), "")
+
+    '                If msg.Contains("Duplicate entry") Or msg.Contains("1062") Then
+    '                Else
+    '                    MessageBox.Show(If(msg = "", "Gagal memproses tracking otomatis.", msg), "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '                End If
+    '            End If
+
+    '        Catch ex As Exception
+    '            MessageBox.Show("Terjadi kesalahan sistem otomatis: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        Finally
+    '            Me.Cursor = Cursors.Default
+    '        End Try
+    '    End If
+    'End Sub
+
+    'Private Sub txTransLabID1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txTransLabID1.KeyDown
+    '    If e.KeyCode = Keys.Enter Then
+    '        e.SuppressKeyPress = True ' Menghilangkan bunyi beep Windows
+    '    End If
+    'End Sub
 End Class

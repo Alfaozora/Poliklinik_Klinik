@@ -44,6 +44,7 @@ Partial Class FormTrackingPosition
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
+        Me.ButtonLewati = New System.Windows.Forms.Button
         Me.ButtonRefresh = New System.Windows.Forms.Button
         Me.ButtonSelesaiTracking = New System.Windows.Forms.Button
         Me.ButtonMulaiTracking = New System.Windows.Forms.Button
@@ -53,7 +54,6 @@ Partial Class FormTrackingPosition
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.DgvPasienSelanjutnya = New System.Windows.Forms.DataGridView
         Me.DgvPasienSelesai = New System.Windows.Forms.DataGridView
-        Me.ButtonLewati = New System.Windows.Forms.Button
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -326,6 +326,20 @@ Partial Class FormTrackingPosition
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Nama Pasien"
         '
+        'ButtonLewati
+        '
+        Me.ButtonLewati.BackColor = System.Drawing.Color.OrangeRed
+        Me.ButtonLewati.Enabled = False
+        Me.ButtonLewati.FlatAppearance.BorderSize = 0
+        Me.ButtonLewati.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonLewati.ForeColor = System.Drawing.Color.White
+        Me.ButtonLewati.Location = New System.Drawing.Point(479, 37)
+        Me.ButtonLewati.Name = "ButtonLewati"
+        Me.ButtonLewati.Size = New System.Drawing.Size(198, 78)
+        Me.ButtonLewati.TabIndex = 504
+        Me.ButtonLewati.Text = "LEWATI PEMERIKSAAN"
+        Me.ButtonLewati.UseVisualStyleBackColor = False
+        '
         'ButtonRefresh
         '
         Me.ButtonRefresh.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
@@ -400,7 +414,7 @@ Partial Class FormTrackingPosition
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(108, 6)
+        Me.Label12.Location = New System.Drawing.Point(121, 6)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(139, 13)
         Me.Label12.TabIndex = 0
@@ -444,20 +458,6 @@ Partial Class FormTrackingPosition
         Me.DgvPasienSelesai.Name = "DgvPasienSelesai"
         Me.DgvPasienSelesai.Size = New System.Drawing.Size(377, 216)
         Me.DgvPasienSelesai.TabIndex = 0
-        '
-        'ButtonLewati
-        '
-        Me.ButtonLewati.BackColor = System.Drawing.Color.OrangeRed
-        Me.ButtonLewati.Enabled = False
-        Me.ButtonLewati.FlatAppearance.BorderSize = 0
-        Me.ButtonLewati.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonLewati.ForeColor = System.Drawing.Color.White
-        Me.ButtonLewati.Location = New System.Drawing.Point(479, 37)
-        Me.ButtonLewati.Name = "ButtonLewati"
-        Me.ButtonLewati.Size = New System.Drawing.Size(198, 78)
-        Me.ButtonLewati.TabIndex = 504
-        Me.ButtonLewati.Text = "LEWATI PEMERIKSAAN"
-        Me.ButtonLewati.UseVisualStyleBackColor = False
         '
         'FormTrackingPosition
         '

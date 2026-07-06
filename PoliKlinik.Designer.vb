@@ -92,6 +92,7 @@ Partial Class PoliKlinik
         Me.PrintToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.LogKirimWhatsappEmailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.LogTransaksiCancelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TrackingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ReportLaboratoriumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.JumlahTransaksiPerTindakanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.LaporanRujukanSummaryDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -285,7 +286,6 @@ Partial Class PoliKlinik
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
         Me.TimerBirthday = New System.Windows.Forms.Timer(Me.components)
-        Me.TrackingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -783,6 +783,13 @@ Partial Class PoliKlinik
         Me.LogTransaksiCancelToolStripMenuItem.Size = New System.Drawing.Size(338, 22)
         Me.LogTransaksiCancelToolStripMenuItem.Tag = "041904"
         Me.LogTransaksiCancelToolStripMenuItem.Text = "Log Transaksi Cancel"
+        '
+        'TrackingToolStripMenuItem
+        '
+        Me.TrackingToolStripMenuItem.Name = "TrackingToolStripMenuItem"
+        Me.TrackingToolStripMenuItem.Size = New System.Drawing.Size(338, 22)
+        Me.TrackingToolStripMenuItem.Tag = "041905"
+        Me.TrackingToolStripMenuItem.Text = "Tracking Peserta MCU"
         '
         'ReportLaboratoriumToolStripMenuItem
         '
@@ -2088,12 +2095,6 @@ Partial Class PoliKlinik
         'TimerBirthday
         '
         Me.TimerBirthday.Interval = 300000
-        '
-        'TrackingToolStripMenuItem
-        '
-        Me.TrackingToolStripMenuItem.Name = "TrackingToolStripMenuItem"
-        Me.TrackingToolStripMenuItem.Size = New System.Drawing.Size(338, 22)
-        Me.TrackingToolStripMenuItem.Text = "Tracking"
         '
         'PoliKlinik
         '

@@ -139,6 +139,7 @@ Public Class FormTrackingPosition
         LabelTglLahir.Text = "-"
         LabelGender.Text = "-"
         ButtonMulaiTracking.Enabled = False
+        ButtonLewati.Enabled = False
     End Sub
 
     Public Function GetActiveSessionCode(ByVal kodeServer As String) As String
@@ -198,30 +199,30 @@ Public Class FormTrackingPosition
                 Dim jsonObj As JObject = JObject.Parse(jsonResponse)
 
                 Dim dtBelumSelesai As New DataTable()
-                dtBelumSelesai.Columns.Add("No. Urut", GetType(String))
-                dtBelumSelesai.Columns.Add("Nama Pasien", GetType(String))
-                dtBelumSelesai.Columns.Add("Jenis Kelamin", GetType(String))
+                dtBelumSelesai.Columns.Add("nourut", GetType(String))
+                dtBelumSelesai.Columns.Add("nama", GetType(String))
+                dtBelumSelesai.Columns.Add("jeniskelamin", GetType(String))
 
                 Dim dtSelesai As New DataTable()
-                dtSelesai.Columns.Add("No. Urut", GetType(String))
-                dtSelesai.Columns.Add("Nama Pasien", GetType(String))
-                dtSelesai.Columns.Add("Jenis Kelamin", GetType(String))
+                dtSelesai.Columns.Add("nourut", GetType(String))
+                dtSelesai.Columns.Add("nama", GetType(String))
+                dtSelesai.Columns.Add("jeniskelamin", GetType(String))
 
                 If jsonObj("success") IsNot Nothing AndAlso CType(jsonObj("success"), Boolean) = True Then
                     Dim dataToken As JToken = jsonObj("data")
 
                     Dim arrayBelum As JArray = CType(dataToken("belum_selesai"), JArray)
                     For Each participant As JObject In arrayBelum
-                        Dim nama As String = If(participant("nama") IsNot Nothing, participant("nama").ToString(), "")
                         Dim nourut As String = If(participant("nourut") IsNot Nothing, participant("nourut").ToString(), "")
+                        Dim nama As String = If(participant("nama") IsNot Nothing, participant("nama").ToString(), "")
                         Dim jkel As String = If(participant("jeniskelamin") IsNot Nothing, participant("jeniskelamin").ToString(), "")
                         dtBelumSelesai.Rows.Add(nourut, nama, jkel)
                     Next
 
                     Dim arraySelesai As JArray = CType(dataToken("sudahSelesai"), JArray)
                     For Each participant As JObject In arraySelesai
-                        Dim nama As String = If(participant("nama") IsNot Nothing, participant("nama").ToString(), "")
                         Dim nourut As String = If(participant("nourut") IsNot Nothing, participant("nourut").ToString(), "")
+                        Dim nama As String = If(participant("nama") IsNot Nothing, participant("nama").ToString(), "")
                         Dim jkel As String = If(participant("jeniskelamin") IsNot Nothing, participant("jeniskelamin").ToString(), "")
                         dtSelesai.Rows.Add(nourut, nama, jkel)
                     Next
@@ -229,6 +230,18 @@ Public Class FormTrackingPosition
 
                 DgvPasienSelanjutnya.DataSource = dtBelumSelesai
                 DgvPasienSelesai.DataSource = dtSelesai
+
+                If DgvPasienSelanjutnya.Columns.Count >= 3 Then
+                    DgvPasienSelanjutnya.Columns("nourut").HeaderText = "No. Urut"
+                    DgvPasienSelanjutnya.Columns("nama").HeaderText = "Nama Pasien"
+                    DgvPasienSelanjutnya.Columns("jeniskelamin").HeaderText = "Jenis Kelamin"
+                End If
+
+                If DgvPasienSelesai.Columns.Count >= 3 Then
+                    DgvPasienSelesai.Columns("nourut").HeaderText = "No. Urut"
+                    DgvPasienSelesai.Columns("nama").HeaderText = "Nama Pasien"
+                    DgvPasienSelesai.Columns("jeniskelamin").HeaderText = "Jenis Kelamin"
+                End If
 
                 DgvPasienSelanjutnya.AutoResizeColumns()
                 DgvPasienSelesai.AutoResizeColumns()
@@ -373,7 +386,6 @@ Public Class FormTrackingPosition
                 isProsesSukses = True
                 MessageBox.Show("Pemeriksaan POS ini telah selesai dicatat!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-
                 _nikPasienAktif = ""
                 ResetUIPasien()
 
@@ -385,6 +397,7 @@ Public Class FormTrackingPosition
 
                 ButtonMulaiTracking.Enabled = False
                 ButtonSelesaiTracking.Enabled = False
+                ButtonLewati.Enabled = False
 
                 If ButtonRefresh.Enabled Then
                     ButtonRefresh.PerformClick()
