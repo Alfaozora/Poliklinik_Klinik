@@ -398,12 +398,10 @@
                         If CheckThemysql("SELECT * FROM transaksilab WHERE nourut = '" & rowTransaksi("NoUrut") & "' AND idtempatlab = '" & kodePoli & "' AND idpasien = '" & rowTransaksi("IDInternet").ToString & "'", DB_Poliklinik) = False Then
                             ' ###### INSERT DATA ONLINE ######
                             WriteThemysql("INSERT INTO transaksilab (idlabinternet, translabid, idpasien, idtempatlab, dokterlab, dokterrequest, idpaket, tgllab, totaltagihan, totaldisc, pembulatan, nettbayar, totalbayar, pengembalian, closedbayar, closedinputhasil, userinputhasil, tglinputhasil, tglcetakhasil, usercetakhasil, labjenispembayaran, tglterimahasil, closedtransaksi, createdate, createby, changedate, changeby, labjenispasien, nourut, status, caraambil, labdaftar, labsamplingtime, labstarttime, labsendmail, labendtime, labcetak, upload, uploaddate, kesimpulan, uploadhasil, nama, tgllahir, saran, DetailPemeriksaan, SendingWhatsapp, SendingEmail) " & _
-                                          "VALUES('', '" & rowTransaksi("TransLabID") & "', '" & rowTransaksi("IDInternet").ToString & "', '" & kodePoli & "', '" & rowTransaksi("dokterlab") & "', '" & dokterPengirim & "','" & rowTransaksi("idpaket") & "', '" & Format(rowTransaksi("TglLab"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("totaltagihan") & "','" & rowTransaksi("totaldisc") & "','" & rowTransaksi("pembulatan") & "','" & rowTransaksi("nettbayar") & "','" & rowTransaksi("JumlahBayar") & "','" & rowTransaksi("pengembalian") & "', '" & closedbayar & "', '" & CInt(Int(rowTransaksi("closedinputhasil"))) & "','" & rowTransaksi("userinputhasil") & "', '" & TglInputHasil & "', '" & TglCetakHasil & "','" & rowTransaksi("usercetakhasil") & "','" & rowTransaksi("labjenispembayaran") & "', '" & TglTerimahasil & "', '" & rowTransaksi("closedtransaksi") & "', '" & Format(rowTransaksi("createdate"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("createby") & "', '" & ChangeDate & "', '" & rowTransaksi("changeby") & "','" & rowTransaksi("labjenispasien") & "','" & rowTransaksi("nourut") & "','" & rowTransaksi("status").ToString.Trim & "','" & rowTransaksi("caraambil") & "', '" & LabDaftar & "', '" & LabSamplingTime & "',  '" & LabStartTime & "', '" & LabSendMail & "', '" & LabEndTime & "', '" & LabCetak & "', '" & CInt(Int(rowTransaksi("upload"))) & "', '" & UploadDate & "', '" & rowTransaksi("kesimpulan") & "', '" & UploadHasil & "', '" & rowTransaksi("nama") & "', '" & Format(rowTransaksi("tgllahir"), "yyyyMMdd") & "', '" & rowTransaksi("saran") & "', '" & rowTransaksi("DetailPemeriksaan") & "', '" & rowTransaksi("SendingWhatsapp") & "', '" & rowTransaksi("SendingEmail") & "')", DB_Poliklinik)
+                                "VALUES('', '" & rowTransaksi("TransLabID") & "', '" & rowTransaksi("IDInternet").ToString & "', '" & kodePoli & "', '" & rowTransaksi("dokterlab") & "', '" & dokterPengirim & "','" & rowTransaksi("idpaket") & "', '" & Format(rowTransaksi("TglLab"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("totaltagihan") & "','" & rowTransaksi("totaldisc") & "','" & rowTransaksi("pembulatan") & "','" & rowTransaksi("nettbayar") & "','" & rowTransaksi("totalbayar") & "','" & rowTransaksi("pengembalian") & "', '" & closedbayar & "', '" & CInt(Int(rowTransaksi("closedinputhasil"))) & "','" & rowTransaksi("userinputhasil") & "', '" & TglInputHasil & "', '" & TglCetakHasil & "','" & rowTransaksi("usercetakhasil") & "','" & rowTransaksi("labjenispembayaran") & "', '" & TglTerimahasil & "', '" & rowTransaksi("closedtransaksi") & "', '" & Format(rowTransaksi("createdate"), "yyyy-MM-dd HH:mm:ss") & "', '" & rowTransaksi("createby") & "', '" & ChangeDate & "', '" & rowTransaksi("changeby") & "','" & rowTransaksi("labjenispasien") & "','" & rowTransaksi("nourut") & "','" & rowTransaksi("status").ToString.Trim & "','" & rowTransaksi("caraambil") & "', '" & LabDaftar & "', '" & LabSamplingTime & "',  '" & LabStartTime & "', '" & LabSendMail & "', '" & LabEndTime & "', '" & LabCetak & "', '" & CInt(Int(rowTransaksi("upload"))) & "', '" & UploadDate & "', '" & rowTransaksi("kesimpulan") & "', '" & UploadHasil & "', '" & rowTransaksi("nama") & "', '" & Format(rowTransaksi("tgllahir"), "yyyyMMdd") & "', '" & rowTransaksi("saran") & "', '" & rowTransaksi("DetailPemeriksaan") & "', '" & rowTransaksi("SendingWhatsapp") & "', '" & rowTransaksi("SendingEmail") & "')", DB_Poliklinik)
 
-                            ' Get idlabinternet Online
                             Dim idTransaksiOnline As String = ReadThemysqlNIK("SELECT idlabinternet FROM transaksilab WHERE idtempatlab='" & kodePoli & "' and idpasien='" & rowTransaksi("IDInternet").ToString & "' and translabid='" & rowTransaksi("TransLabID") & "'", DB_Poliklinik)
 
-                            ' Insert Tabel TransaksiLabResult Online
                             For Each rowResult As DataRow In tblLabResult.Rows
                                 If IsDBNull(rowResult("transaksitime")) OrElse String.IsNullOrEmpty(rowResult("transaksitime").ToString()) Then
                                     rowResult("transaksitime") = Convert.ToDateTime("1900-01-01")
@@ -414,7 +412,6 @@
                                               rowResult("Wanita") & "','" & rowResult("Result") & "','" & rowResult("Satuan") & "','" & rowResult("Keterangan") & "','" & rowResult("Acc1") & "','" & rowResult("Acc2") & "', '" & rowResult("Acc2") & "', '" & rowResult("admin") & "', '" & Format(rowResult("transaksitime"), "yyyyMMdd") & "', '" & rowResult("urutan") & "', '" & rowResult("saran") & "')", DB_Poliklinik)
                             Next
 
-                            ' Insert Tabel TransaksiLabDetail Online
                             For Each rowDetail As DataRow In tblLabDetail.Rows
                                 Dim biaya As Double = 0
                                 If Not IsDBNull(rowDetail("BiayaTindakan")) Then biaya = CDbl(rowDetail("BiayaTindakan"))
@@ -427,20 +424,34 @@
                                               "VALUES('" & idTransaksiOnline & "','" & rowDetail("translabiddetail") & "','" & rowDetail("translabid") & "','" & rowDetail("TindakanID") & "','" & rowDetail("NamaTindakan") & "','" & rowDetail("JenisTindakan") & "'," & biaya & "," & CDbl(rowDetail("DiscTindakan")) & "," & CDbl(rowDetail("NettBayar")) & ",'" & UserLabAdmin & "',now()," & CDbl(rowDetail("DiscPersenTindakan")) & ",'" & rowDetail("Mesin") & "')", DB_Poliklinik)
                             Next
 
-                            ' Insert Tabel TransaksiLabBayar Online
                             For Each rowBayar As DataRow In tblLabBayar.Rows
-                                If IsDBNull(rowBayar("transaksitime")) OrElse String.IsNullOrEmpty(rowBayar("transaksitime").ToString()) Then
-                                    rowBayar("transaksitime") = Convert.ToDateTime("1900-01-01")
+                                Dim cekBayar As Boolean = CheckThemysql("SELECT * FROM transaksilabbayar WHERE idlabinternet='" & idTransaksiOnline & "' AND translabidbayar='" & rowBayar("TransLabIDBayar") & "'", DB_Poliklinik)
+
+                                If cekBayar = False Then
+                                    Dim tksTimeBayar As String = If(IsDBNull(rowBayar("transaksitime")) OrElse String.IsNullOrEmpty(rowBayar("transaksitime").ToString()), "1900-01-01 00:00:00", Format(rowBayar("transaksitime"), "yyyy-MM-dd HH:mm:ss"))
+
+                                    WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid, jenisbayar, nojenisbayar, jumlahbayar, admin, transaksitime, kembali, mesin, kartu) " & _
+                                                  "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & tksTimeBayar & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
                                 End If
-                                WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid,jenisbayar,nojenisbayar,jumlahbayar,admin,transaksitime,kembali,mesin,kartu) " & _
-                                              "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & rowBayar("transaksitime") & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
                             Next
 
                             WriteSQL("UPDATE TransaksiLab SET UploadMesin = 1, UploadMesinDate = GETDATE() WHERE TransLabID = '" & rowTransaksi("TransLabID") & "'", 4)
                         Else
                             ' ###### UPDATE/UPSERT DATA ONLINE ######
+                            Dim idTransaksiOnline As String = ReadThemysqlNIK("SELECT idlabinternet FROM transaksilab WHERE idtempatlab='" & kodePoli & "' and idpasien='" & rowTransaksi("IDInternet").ToString & "' and translabid='" & rowTransaksi("TransLabID") & "'", DB_Poliklinik)
+
+                            For Each rowBayar As DataRow In tblLabBayar.Rows
+                                Dim cekBayar As Boolean = CheckThemysql("SELECT * FROM transaksilabbayar WHERE idlabinternet='" & idTransaksiOnline & "' AND translabidbayar='" & rowBayar("TransLabIDBayar") & "'", DB_Poliklinik)
+
+                                If cekBayar = False Then
+                                    Dim tksTimeBayar As String = If(IsDBNull(rowBayar("transaksitime")) OrElse String.IsNullOrEmpty(rowBayar("transaksitime").ToString()), "1900-01-01", Format(rowBayar("transaksitime"), "yyyy-MM-dd HH:mm:ss"))
+
+                                    WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid, jenisbayar, nojenisbayar, jumlahbayar, admin, transaksitime, kembali, mesin, kartu) " & _
+                                                  "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & tksTimeBayar & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
+                                End If
+                            Next
+
                             If rowTransaksi("Status").ToString.Trim = "CETAK" Or rowTransaksi("Status").ToString.Trim = "TAKEIT" Then
-                                Dim idTransaksiOnline As String = ReadThemysqlNIK("SELECT idlabinternet FROM transaksilab WHERE idtempatlab='" & kodePoli & "' and idpasien='" & rowTransaksi("IDInternet").ToString & "' and translabid='" & rowTransaksi("TransLabID") & "'", DB_Poliklinik)
 
                                 WriteThemysql("UPDATE transaksilab SET saran = '" & rowTransaksi("Saran") & "', kesimpulan = '" & rowTransaksi("Kesimpulan") & "', status = '" & rowTransaksi("Status").ToString.Trim & "', labstarttime = '" & LabStartTime & "', labendtime = '" & LabEndTime & "', tglinputhasil = '" & TglInputHasil & "' WHERE idlabinternet = '" & idTransaksiOnline & "'", DB_Poliklinik)
 
@@ -475,21 +486,8 @@
                                     End If
                                 Next
 
-                                For Each rowBayar As DataRow In tblLabBayar.Rows
-                                    Dim cekBayar As Boolean = CheckThemysql("SELECT * FROM transaksilabbayar WHERE idlabinternet='" & idTransaksiOnline & "' AND translabidbayar='" & rowBayar("TransLabIDBayar") & "'", DB_Poliklinik)
+                                WriteSQL("UPDATE TransaksiLab SET UploadHasilMesin = 1, UploadHasilDate = GETDATE() WHERE TransLabID = '" & rowTransaksi("TransLabID") & "'", 4)
 
-                                    If cekBayar = False Then
-                                        Dim tksTimeBayar As String = If(IsDBNull(rowBayar("transaksitime")) OrElse String.IsNullOrEmpty(rowBayar("transaksitime").ToString()), "1900-01-01", Format(rowBayar("transaksitime"), "yyyy-MM-dd HH:mm:ss"))
-
-                                        WriteThemysql("INSERT INTO transaksilabbayar(idlabinternet, translabidbayar, translabid,jenisbayar,nojenisbayar,jumlahbayar,admin,transaksitime,kembali,mesin,kartu) " & _
-                                                      "VALUES('" & idTransaksiOnline & "','" & rowBayar("TransLabIDBayar") & "','" & rowBayar("TransLabID") & "','" & rowBayar("JenisBayar") & "','" & rowBayar("NoJenisBayar") & "','" & CDbl(rowBayar("JumlahBayar")) & "','" & rowBayar("admin") & "','" & tksTimeBayar & "'," & CDbl(rowBayar("Kembali")) & ",'" & rowBayar("mesin") & "','" & rowBayar("kartu") & "')", DB_Poliklinik)
-                                    End If
-                                Next
-
-                                WriteSQL("UPDATE TransaksiLab " & _
-                                 "SET UploadHasilMesin = 1, " & _
-                                 "UploadHasilDate = GETDATE() " & _
-                                 "WHERE TransLabID = '" & rowTransaksi("TransLabID") & "'", 4)
                             End If
                         End If
 
