@@ -23,10 +23,10 @@ Partial Class FindTransaksi
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FindTransaksi))
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Me.PanelTop = New System.Windows.Forms.Panel
         Me.btnClose = New System.Windows.Forms.Button
         Me.Panel1 = New System.Windows.Forms.Panel
@@ -51,11 +51,11 @@ Partial Class FindTransaksi
         Me.dtend = New System.Windows.Forms.DateTimePicker
         Me.dtprocess = New System.Windows.Forms.DateTimePicker
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.DataGridViewKunjunganPasien = New System.Windows.Forms.DataGridView
         Me.SplitContainerFilterKunjungan = New System.Windows.Forms.SplitContainer
         Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel
         Me.Label5 = New System.Windows.Forms.Label
         Me.TextBoxSearchKunjungan = New System.Windows.Forms.TextBox
+        Me.DataGridViewKunjunganPasien = New System.Windows.Forms.DataGridView
         Me.PanelTop.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -63,11 +63,11 @@ Partial Class FindTransaksi
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.DataGridViewKunjunganPasien, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainerFilterKunjungan.Panel1.SuspendLayout()
         Me.SplitContainerFilterKunjungan.Panel2.SuspendLayout()
         Me.SplitContainerFilterKunjungan.SuspendLayout()
         Me.FlowLayoutPanel2.SuspendLayout()
+        CType(Me.DataGridViewKunjunganPasien, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PanelTop
@@ -300,7 +300,7 @@ Partial Class FindTransaksi
         Me.Label9.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(362, 7)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(52, 13)
+        Me.Label9.Size = New System.Drawing.Size(51, 13)
         Me.Label9.TabIndex = 453
         Me.Label9.Text = "Tgl Akhir"
         '
@@ -322,7 +322,7 @@ Partial Class FindTransaksi
         Me.Label7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(202, 7)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(50, 13)
+        Me.Label7.Size = New System.Drawing.Size(49, 13)
         Me.Label7.TabIndex = 451
         Me.Label7.Text = "Tgl Awal"
         '
@@ -382,58 +382,6 @@ Partial Class FindTransaksi
         Me.SplitContainer3.SplitterWidth = 5
         Me.SplitContainer3.TabIndex = 462
         '
-        'DataGridViewKunjunganPasien
-        '
-        Me.DataGridViewKunjunganPasien.AllowUserToAddRows = False
-        Me.DataGridViewKunjunganPasien.AllowUserToDeleteRows = False
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridViewKunjunganPasien.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle5
-        Me.DataGridViewKunjunganPasien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
-        Me.DataGridViewKunjunganPasien.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.DataGridViewKunjunganPasien.BackgroundColor = System.Drawing.Color.White
-        Me.DataGridViewKunjunganPasien.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.DataGridViewKunjunganPasien.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
-        Me.DataGridViewKunjunganPasien.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(CType(CType(37, Byte), Integer), CType(CType(160, Byte), Integer), CType(CType(218, Byte), Integer))
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        DataGridViewCellStyle6.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle6.Padding = New System.Windows.Forms.Padding(3)
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewKunjunganPasien.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
-        Me.DataGridViewKunjunganPasien.ColumnHeadersHeight = 40
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        DataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle7.Padding = New System.Windows.Forms.Padding(3)
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186, Byte), Integer), CType(CType(191, Byte), Integer), CType(CType(149, Byte), Integer))
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewKunjunganPasien.DefaultCellStyle = DataGridViewCellStyle7
-        Me.DataGridViewKunjunganPasien.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridViewKunjunganPasien.EnableHeadersVisualStyles = False
-        Me.DataGridViewKunjunganPasien.Location = New System.Drawing.Point(0, 0)
-        Me.DataGridViewKunjunganPasien.Name = "DataGridViewKunjunganPasien"
-        Me.DataGridViewKunjunganPasien.ReadOnly = True
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        DataGridViewCellStyle8.Padding = New System.Windows.Forms.Padding(3)
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridViewKunjunganPasien.RowHeadersDefaultCellStyle = DataGridViewCellStyle8
-        Me.DataGridViewKunjunganPasien.RowHeadersVisible = False
-        Me.DataGridViewKunjunganPasien.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
-        Me.DataGridViewKunjunganPasien.RowTemplate.Height = 35
-        Me.DataGridViewKunjunganPasien.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridViewKunjunganPasien.Size = New System.Drawing.Size(1000, 335)
-        Me.DataGridViewKunjunganPasien.TabIndex = 517
-        '
         'SplitContainerFilterKunjungan
         '
         Me.SplitContainerFilterKunjungan.Dock = System.Windows.Forms.DockStyle.Fill
@@ -485,6 +433,58 @@ Partial Class FindTransaksi
         Me.TextBoxSearchKunjungan.TabIndex = 495
         Me.TextBoxSearchKunjungan.Tag = ""
         '
+        'DataGridViewKunjunganPasien
+        '
+        Me.DataGridViewKunjunganPasien.AllowUserToAddRows = False
+        Me.DataGridViewKunjunganPasien.AllowUserToDeleteRows = False
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridViewKunjunganPasien.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        Me.DataGridViewKunjunganPasien.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridViewKunjunganPasien.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        Me.DataGridViewKunjunganPasien.BackgroundColor = System.Drawing.Color.White
+        Me.DataGridViewKunjunganPasien.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.DataGridViewKunjunganPasien.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
+        Me.DataGridViewKunjunganPasien.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(37, Byte), Integer), CType(CType(160, Byte), Integer), CType(CType(218, Byte), Integer))
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Padding = New System.Windows.Forms.Padding(3)
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewKunjunganPasien.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        Me.DataGridViewKunjunganPasien.ColumnHeadersHeight = 40
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.Padding = New System.Windows.Forms.Padding(3)
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186, Byte), Integer), CType(CType(191, Byte), Integer), CType(CType(149, Byte), Integer))
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewKunjunganPasien.DefaultCellStyle = DataGridViewCellStyle3
+        Me.DataGridViewKunjunganPasien.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridViewKunjunganPasien.EnableHeadersVisualStyles = False
+        Me.DataGridViewKunjunganPasien.Location = New System.Drawing.Point(0, 0)
+        Me.DataGridViewKunjunganPasien.Name = "DataGridViewKunjunganPasien"
+        Me.DataGridViewKunjunganPasien.ReadOnly = True
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        DataGridViewCellStyle4.Padding = New System.Windows.Forms.Padding(3)
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridViewKunjunganPasien.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
+        Me.DataGridViewKunjunganPasien.RowHeadersVisible = False
+        Me.DataGridViewKunjunganPasien.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
+        Me.DataGridViewKunjunganPasien.RowTemplate.Height = 35
+        Me.DataGridViewKunjunganPasien.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridViewKunjunganPasien.Size = New System.Drawing.Size(1000, 335)
+        Me.DataGridViewKunjunganPasien.TabIndex = 517
+        '
         'FindTransaksi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -511,12 +511,12 @@ Partial Class FindTransaksi
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.DataGridViewKunjunganPasien, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainerFilterKunjungan.Panel1.ResumeLayout(False)
         Me.SplitContainerFilterKunjungan.Panel2.ResumeLayout(False)
         Me.SplitContainerFilterKunjungan.ResumeLayout(False)
         Me.FlowLayoutPanel2.ResumeLayout(False)
         Me.FlowLayoutPanel2.PerformLayout()
+        CType(Me.DataGridViewKunjunganPasien, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

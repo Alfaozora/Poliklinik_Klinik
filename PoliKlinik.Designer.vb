@@ -286,6 +286,7 @@ Partial Class PoliKlinik
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
         Me.TimerBirthday = New System.Windows.Forms.Timer(Me.components)
+        Me.MappingPOSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -714,7 +715,7 @@ Partial Class PoliKlinik
         '
         'MenuToolsToolStripMenuItem
         '
-        Me.MenuToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PembatalanTransaksiToolStripMenuItem1, Me.KirimUlangKeMesinToolStripMenuItem1, Me.UploadTransaksiKeOnlineToolStripMenuItem})
+        Me.MenuToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PembatalanTransaksiToolStripMenuItem1, Me.KirimUlangKeMesinToolStripMenuItem1, Me.UploadTransaksiKeOnlineToolStripMenuItem, Me.MappingPOSToolStripMenuItem})
         Me.MenuToolsToolStripMenuItem.Name = "MenuToolsToolStripMenuItem"
         Me.MenuToolsToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
         Me.MenuToolsToolStripMenuItem.Tag = "0418"
@@ -2096,6 +2097,12 @@ Partial Class PoliKlinik
         '
         Me.TimerBirthday.Interval = 300000
         '
+        'MappingPOSToolStripMenuItem
+        '
+        Me.MappingPOSToolStripMenuItem.Name = "MappingPOSToolStripMenuItem"
+        Me.MappingPOSToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MappingPOSToolStripMenuItem.Text = "Mapping POS"
+        '
         'PoliKlinik
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2383,4 +2390,5 @@ Partial Class PoliKlinik
     Friend WithEvents WaBlastToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BirthdaySenderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TrackingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MappingPOSToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

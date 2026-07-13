@@ -675,7 +675,19 @@ Public Class UploadPasienMCU
                 ' Update DetailPemeriksaan di Tabel Transaksilab
                 WriteSQL("UPDATE Transaksilab SET DetailPemeriksaan = '" & DetailPemeriksaan & "', TotalTagihan = " & ttlbruto & " , TotalDisc=" & ttldisc & " ,  NettBayar = " & ttlnett & ", TotalBayar = " & ttlnett & " WHERE TransLabID = '" & idTransaksi & "'", 4)
 
+                Dim idBayarLokal As String = ReadSQLNIK("SELECT TransLabIDBayar FROM TransaksiLabBayar WHERE TransLabID = '" & idTransaksi & "'")
+
                 Try
+                    Dim dataBayar = New With { _
+                        .trans_lab_id_bayar = idBayarLokal, _
+                        .jenis_bayar = "TAGIHAN", _
+                        .no_jenis_bayar = company & "-" & Tdata("Company").ToString.Trim, _
+                        .jumlah_bayar = ttlnett, _
+                        .kembali = 0, _
+                        .mesin = "", _
+                        .kartu = "" _
+                    }
+
                     Dim payload = New With { _
                         .cabang = kodePoli, _
                         .pasien = New With { _
@@ -703,7 +715,8 @@ Public Class UploadPasienMCU
                             .total_disc = ttldisc, _
                             .nett_bayar = ttlnett, _
                             .total_bayar = ttlnett _
-                        } _
+                        }, _
+                        .pembayaran = dataBayar _
                     }
 
                     Dim jsonString As String = JsonConvert.SerializeObject(payload)

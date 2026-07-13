@@ -1636,4 +1636,9 @@ Public Class PoliKlinik
         FormTrackingPosition.Show()
         FormTrackingPosition.Focus()
     End Sub
+
+    Private Sub MappingPOSToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MappingPOSToolStripMenuItem.Click
+        FormMappingPOS.Show()
+        FormMappingPOS.Focus()
+    End Sub
 End Class

@@ -53,6 +53,10 @@ Partial Class FormCetakBarcode
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.RadioButtonFalse = New System.Windows.Forms.RadioButton
+        Me.RadioButtonHaid = New System.Windows.Forms.RadioButton
+        Me.RadioButtonHamil = New System.Windows.Forms.RadioButton
         Me.ButtonCariPasien = New System.Windows.Forms.Button
         Me.Label11 = New System.Windows.Forms.Label
         Me.TextBoxScanHyu = New System.Windows.Forms.TextBox
@@ -81,6 +85,7 @@ Partial Class FormCetakBarcode
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,7 +95,7 @@ Partial Class FormCetakBarcode
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.CetakBarcodeToolStripMenuItem, Me.BarcodeTambahanToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(784, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(872, 24)
         Me.MenuStrip1.TabIndex = 149
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -118,7 +123,7 @@ Partial Class FormCetakBarcode
         Me.GroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox2.Location = New System.Drawing.Point(0, 398)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(784, 10)
+        Me.GroupBox2.Size = New System.Drawing.Size(872, 10)
         Me.GroupBox2.TabIndex = 152
         Me.GroupBox2.TabStop = False
         '
@@ -133,7 +138,7 @@ Partial Class FormCetakBarcode
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox1.Location = New System.Drawing.Point(0, 24)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(784, 73)
+        Me.GroupBox1.Size = New System.Drawing.Size(872, 73)
         Me.GroupBox1.TabIndex = 150
         Me.GroupBox1.TabStop = False
         '
@@ -223,7 +228,7 @@ Partial Class FormCetakBarcode
         Me.TabPage2.Location = New System.Drawing.Point(4, 24)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(776, 273)
+        Me.TabPage2.Size = New System.Drawing.Size(864, 273)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "MCU (Multiple Barcode)"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -367,7 +372,7 @@ Partial Class FormCetakBarcode
         Me.gridlab.Location = New System.Drawing.Point(3, 123)
         Me.gridlab.MainView = Me.GridView1
         Me.gridlab.Name = "gridlab"
-        Me.gridlab.Size = New System.Drawing.Size(770, 147)
+        Me.gridlab.Size = New System.Drawing.Size(858, 147)
         Me.gridlab.TabIndex = 152
         Me.gridlab.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
         '
@@ -382,13 +387,14 @@ Partial Class FormCetakBarcode
         Me.TabPage1.Location = New System.Drawing.Point(4, 24)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(776, 273)
+        Me.TabPage1.Size = New System.Drawing.Size(864, 273)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Per Transaksi"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.GroupBox4)
         Me.GroupBox3.Controls.Add(Me.ButtonCariPasien)
         Me.GroupBox3.Controls.Add(Me.Label11)
         Me.GroupBox3.Controls.Add(Me.TextBoxScanHyu)
@@ -412,9 +418,54 @@ Partial Class FormCetakBarcode
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(770, 299)
+        Me.GroupBox3.Size = New System.Drawing.Size(858, 299)
         Me.GroupBox3.TabIndex = 154
         Me.GroupBox3.TabStop = False
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.RadioButtonFalse)
+        Me.GroupBox4.Controls.Add(Me.RadioButtonHaid)
+        Me.GroupBox4.Controls.Add(Me.RadioButtonHamil)
+        Me.GroupBox4.Location = New System.Drawing.Point(616, 91)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(221, 100)
+        Me.GroupBox4.TabIndex = 242
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Kondisi Pasien"
+        Me.GroupBox4.Visible = False
+        '
+        'RadioButtonFalse
+        '
+        Me.RadioButtonFalse.AutoSize = True
+        Me.RadioButtonFalse.Checked = True
+        Me.RadioButtonFalse.Location = New System.Drawing.Point(6, 17)
+        Me.RadioButtonFalse.Name = "RadioButtonFalse"
+        Me.RadioButtonFalse.Size = New System.Drawing.Size(113, 19)
+        Me.RadioButtonFalse.TabIndex = 2
+        Me.RadioButtonFalse.TabStop = True
+        Me.RadioButtonFalse.Text = "Tidak Keduanya"
+        Me.RadioButtonFalse.UseVisualStyleBackColor = True
+        '
+        'RadioButtonHaid
+        '
+        Me.RadioButtonHaid.AutoSize = True
+        Me.RadioButtonHaid.Location = New System.Drawing.Point(6, 67)
+        Me.RadioButtonHaid.Name = "RadioButtonHaid"
+        Me.RadioButtonHaid.Size = New System.Drawing.Size(132, 19)
+        Me.RadioButtonHaid.TabIndex = 1
+        Me.RadioButtonHaid.Text = "Sedang Menstruasi"
+        Me.RadioButtonHaid.UseVisualStyleBackColor = True
+        '
+        'RadioButtonHamil
+        '
+        Me.RadioButtonHamil.AutoSize = True
+        Me.RadioButtonHamil.Location = New System.Drawing.Point(6, 42)
+        Me.RadioButtonHamil.Name = "RadioButtonHamil"
+        Me.RadioButtonHamil.Size = New System.Drawing.Size(104, 19)
+        Me.RadioButtonHamil.TabIndex = 0
+        Me.RadioButtonHamil.Text = "Sedang Hamil"
+        Me.RadioButtonHamil.UseVisualStyleBackColor = True
         '
         'ButtonCariPasien
         '
@@ -629,22 +680,22 @@ Partial Class FormCetakBarcode
         Me.TabControl1.Location = New System.Drawing.Point(0, 97)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(784, 301)
+        Me.TabControl1.Size = New System.Drawing.Size(872, 301)
         Me.TabControl1.TabIndex = 155
         '
         'FormCetakBarcode
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 408)
+        Me.ClientSize = New System.Drawing.Size(872, 408)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(800, 447)
-        Me.MinimumSize = New System.Drawing.Size(800, 400)
+        Me.MaximumSize = New System.Drawing.Size(888, 447)
+        Me.MinimumSize = New System.Drawing.Size(888, 447)
         Me.Name = "FormCetakBarcode"
         Me.Text = "Form Cetak Barcode"
         Me.MenuStrip1.ResumeLayout(False)
@@ -658,6 +709,8 @@ Partial Class FormCetakBarcode
         Me.TabPage1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -714,4 +767,8 @@ Partial Class FormCetakBarcode
     Friend WithEvents TextBoxScanHyu As System.Windows.Forms.TextBox
     Friend WithEvents ButtonCariPasien As System.Windows.Forms.Button
     Friend WithEvents CheckBoxAktivo As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents RadioButtonFalse As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHaid As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHamil As System.Windows.Forms.RadioButton
 End Class
