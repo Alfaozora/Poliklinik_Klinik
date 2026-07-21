@@ -11,6 +11,7 @@
         posList.Add("visus", "PEMERIKSAAN FISIK: VISUS MATA")
         posList.Add("dokter", "PEMERIKSAAN FISIK: DOKTER")
         posList.Add("darah", "PENGAMBILAN DARAH")
+        posList.Add("urine", "PENGAMBILAN URINE")
         posList.Add("thorax", "THORAX")
         posList.Add("spiro", "SPIRO")
         posList.Add("audio", "AUDIO")
@@ -50,6 +51,7 @@
         posList.Add("visus", "Visus")
         posList.Add("dokter", "Dokter")
         posList.Add("darah", "Darah")
+        posList.Add("urine", "Urine")
         posList.Add("thorax", "Thorax")
         posList.Add("spiro", "Spiro")
         posList.Add("audio", "Audio")
@@ -94,7 +96,7 @@
         dgvTindakan.EndEdit()
 
         ' Definisikan ulang daftar kolom POS untuk keperluan looping salvaging
-        Dim posColumns As String() = {"tt_tb", "screening", "visus", "dokter", "darah", "thorax", "spiro", "audio", "ecg", "usg", "treadmill"}
+        Dim posColumns As String() = {"tt_tb", "screening", "visus", "dokter", "darah", "urine", "thorax", "spiro", "audio", "ecg", "usg", "treadmill"}
 
         Try
             For Each row As DataGridViewRow In dgvTindakan.Rows

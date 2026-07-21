@@ -2995,23 +2995,23 @@ Public Class FormRekamMedisDokter
 
                     Select Case parameter
                         Case "high"
-                            sistole = value
+                            sistole = BulatkanValue(value)
                         Case "low"
-                            diastole = value
+                            diastole = BulatkanValue(value)
                         Case "rate"
-                            detakNadi = value
+                            detakNadi = BulatkanValue(value)
                         Case "tiwen"
-                            suhu = value
+                            suhu = BulatkanValue(value)
                         Case "sp"
-                            saturasi = value
+                            saturasi = BulatkanValue(value)
                         Case "pr"
-                            If detakNadi = "" Then detakNadi = value
+                            If detakNadi = "" Then detakNadi = BulatkanValue(value)
                         Case "height"
-                            tinggiBadan = value
+                            tinggiBadan = BulatkanValue(value)
                         Case "weight"
-                            beratBadan = value
+                            beratBadan = BulatkanValue(value)
                         Case "bmi"
-                            bmi = value
+                            bmi = BulatkanValue(value)
                     End Select
                 Next
 
@@ -14919,23 +14919,23 @@ Public Class FormRekamMedisDokter
 
                     Select Case parameter
                         Case "high"
-                            sistole = value
+                            sistole = BulatkanValue(value)
                         Case "low"
-                            diastole = value
+                            diastole = BulatkanValue(value)
                         Case "rate"
-                            detakNadi = value
+                            detakNadi = BulatkanValue(value)
                         Case "tiwen"
-                            suhu = value
+                            suhu = BulatkanValue(value)
                         Case "sp"
-                            saturasi = value
+                            saturasi = BulatkanValue(value)
                         Case "pr"
-                            If detakNadi = "" Then detakNadi = value
+                            If detakNadi = "" Then detakNadi = BulatkanValue(value)
                         Case "height"
-                            tinggiBadan = value
+                            tinggiBadan = BulatkanValue(value)
                         Case "weight"
-                            beratBadan = value
+                            beratBadan = BulatkanValue(value)
                         Case "bmi"
-                            bmi = value
+                            bmi = BulatkanValue(value)
                     End Select
                 Next
 
@@ -14972,4 +14972,17 @@ Public Class FormRekamMedisDokter
             MessageBox.Show("Terjadi kesalahan sistem: " & ex.Message, "Error Parsing", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Function BulatkanValue(ByVal val As String) As String
+        If String.IsNullOrEmpty(val) Then Return ""
+
+        Dim cleanVal As String = val.Replace(",", ".")
+
+        Dim dblVal As Double
+        If Double.TryParse(cleanVal, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, dblVal) Then
+            Return Math.Round(dblVal).ToString()
+        End If
+
+        Return val
+    End Function
 End Class

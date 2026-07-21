@@ -15,7 +15,8 @@ Public Class FormCetakBarcode
         txtindakanid.ResetText()
         txNoMitra1.ResetText()
         txcustnama.ResetText()
-        TextBoxScanHyu.ResetText()
+        TextBoxScanHyu.Clear()
+        TextBoxScanHyu.Focus()
         dtcusttgllhr.Value = DateSerial("9998", "12", "31")
         txcustumur.ResetText()
         TextBoxJenisKelamin.ResetText()
@@ -430,11 +431,13 @@ Public Class FormCetakBarcode
                     End If
 
                     If rdNonMCU.Checked = True AndAlso Not String.IsNullOrEmpty(_sessionCodeAktif) Then
-                        Try
-                            Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-                            Dim urlCheckIn As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/pendaftaran"
 
-                            Dim jsonCheckIn As String = "{" & _
+                        Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+                        Dim urlCheckIn As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/pendaftaran"
+                        Dim jsonCheckIn As String = ""
+
+                        Try
+                            jsonCheckIn = "{" & _
                                 """identifier"":""" & _nikPasienAktif & """," & _
                                 """identifier_type"":""nik""," & _
                                 """status"":""completed""," & _
@@ -442,7 +445,6 @@ Public Class FormCetakBarcode
                                 "}"
 
                             Dim resCheckIn As String = InsertDataAPIRM(jsonCheckIn, urlCheckIn)
-
                             Dim jObjRes As JObject = JObject.Parse(resCheckIn)
                             Dim msgTampil As String = "Status Pendaftaran berhasil dikirim ke HYU!"
 
@@ -452,47 +454,64 @@ Public Class FormCetakBarcode
 
                             MsgBox(msgTampil, MsgBoxStyle.Information, "Sukses API")
 
+                            WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlCheckIn & "', '" & jsonCheckIn.Replace("'", "''") & "', '" & resCheckIn.Replace("'", "''") & "', 'SUCCESS', GETDATE())", 4)
+
                         Catch exAPI As Exception
                             MsgBox("Gagal mengirim data pendaftaran ke API: " & exAPI.Message, MsgBoxStyle.Critical, "Debug API")
+
+                            WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlCheckIn & "', '" & jsonCheckIn.Replace("'", "''") & "', '" & exAPI.Message.Replace("'", "''") & "', 'FAILED', GETDATE())", 4)
                         End Try
 
                         If RadioButtonHaid.Checked = True Then
-                            Try
-                                Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-                                Dim urlHaid As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/darah"
+                            Dim urlHaid As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/darah"
+                            Dim jsonHaid As String = ""
 
-                                Dim jsonHaid As String = "{" & _
+                            Try
+                                jsonHaid = "{" & _
                                     """identifier"":""" & _nikPasienAktif & """," & _
                                     """identifier_type"":""nik""," & _
                                     """status"":""skipped""," & _
                                     """notes"":""Sedang haid""" & _
                                     "}"
 
-                                InsertDataAPIRM(jsonHaid, urlHaid)
-                                MsgBox("Otomatisasi API: Status POS Darah berhasil di-skip karena Haid.", MsgBoxStyle.Information, "Sukses")
+                                Dim resHaid As String = InsertDataAPIRM(jsonHaid, urlHaid)
 
+                                MsgBox("Otomatisasi API: Status POS Urine berhasil di-skip karena Haid.", MsgBoxStyle.Information, "Sukses")
+
+                                WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                    "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlHaid & "', '" & jsonHaid.Replace("'", "''") & "', '" & resHaid.Replace("'", "''") & "', 'SUCCESS_HAID', GETDATE())", 4)
                             Catch exHaid As Exception
                                 MsgBox("Gagal otomatisasi skip POS Darah: " & exHaid.Message, MsgBoxStyle.Critical, "Debug API")
+
+                                WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                    "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlHaid & "', '" & jsonHaid.Replace("'", "''") & "', '" & exHaid.Message.Replace("'", "''") & "', 'FAILED_HAID', GETDATE())", 4)
                             End Try
                         End If
 
                         If RadioButtonHamil.Checked = True Then
+                            Dim urlHamil As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/thorax"
+                            Dim jsonHamil As String = ""
+
                             Try
-                                Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-                                Dim urlHamil As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/thorax"
+                                jsonHamil = "{" & _
+                                     """identifier"":""" & _nikPasienAktif & """," & _
+                                     """identifier_type"":""nik""," & _
+                                     """status"":""skipped""," & _
+                                     """notes"":""Sedang hamil""" & _
+                                     "}"
 
-                                Dim jsonHamil As String = "{" & _
-                                    """identifier"":""" & _nikPasienAktif & """," & _
-                                    """identifier_type"":""nik""," & _
-                                    """status"":""skipped""," & _
-                                    """notes"":""Sedang hamil""" & _
-                                    "}"
-
-                                InsertDataAPIRM(jsonHamil, urlHamil)
+                                Dim resHamil As String = InsertDataAPIRM(jsonHamil, urlHamil)
                                 MsgBox("Otomatisasi API: Status POS Thorax berhasil di-skip karena Hamil.", MsgBoxStyle.Information, "Sukses")
 
+                                WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                    "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlHamil & "', '" & jsonHamil.Replace("'", "''") & "', '" & resHamil.Replace("'", "''") & "', 'SUCCESS_HAMIL', GETDATE())", 4)
                             Catch exHamil As Exception
                                 MsgBox("Gagal otomatisasi skip POS Thorax: " & exHamil.Message, MsgBoxStyle.Critical, "Debug API")
+
+                                WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                    "VALUES ('" & txtindakanid.Text & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlHamil & "', '" & jsonHamil.Replace("'", "''") & "', '" & exHamil.Message.Replace("'", "''") & "', 'FAILED_HAMIL', GETDATE())", 4)
                             End Try
                         End If
                     End If
@@ -1327,38 +1346,68 @@ Public Class FormCetakBarcode
                     _nikPasienAktif = nik.Trim()
                     _sessionCodeAktif = sessionCode.Trim()
 
-                    Try
-                        Dim urlCheckIn As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/pendaftaran"
+                    Dim noUrutLog As String = rowView("NoUrut").ToString().Trim()
+                    Dim jsonCheckIn As String = ""
+                    Dim urlCheckIn As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/pendaftaran"
 
-                        Dim jsonCheckIn As String = "{" & _
-                            """identifier"":""" & _nikPasienAktif & """," & _
-                            """identifier_type"":""nik""," & _
-                            """status"":""processing""," & _
-                            """notes"":""-""" & _
-                            "}"
+                    ' =======================================================================
+                    ' ANTI-DOUBLE POST CHECK
+                    ' =======================================================================
+                    Dim queryCekLog As String = "SELECT COUNT(*) FROM log_api_checkin " & _
+                                                "WHERE no_urut = '" & noUrutLog & "' " & _
+                                                "AND nik = '" & _nikPasienAktif & "' " & _
+                                                "AND session_code = '" & _sessionCodeAktif & "' " & _
+                                                "AND status_log = 'SUCCESS' " & _
+                                                "AND response LIKE '%processing%'"
 
-                        Dim resCheckIn As String = InsertDataAPIRM(jsonCheckIn, urlCheckIn)
-                        Dim jObjRes As JObject = JObject.Parse(resCheckIn)
-                        Dim msgTampil As String = "Pendaftaran MCU berhasil diproses dan dikirim ke HYU!"
+                    Dim totalLogSukses As Integer = Val(ReadSQLNIK(queryCekLog))
 
-                        If jObjRes("message") IsNot Nothing Then
-                            msgTampil = jObjRes("message").ToString()
-                        End If
+                    If totalLogSukses > 0 Then
+                        MsgBox("Pasien sudah berhasil diproses (Status: Processing) sebelumnya!", MsgBoxStyle.Information, "Informasi")
+                    Else
+                        ' JALANKAN API JIKA BELUM PERNAH SUKSES
+                        Try
+                            jsonCheckIn = "{" & _
+                                """identifier"":""" & _nikPasienAktif & """," & _
+                                """identifier_type"":""nik""," & _
+                                """status"":""processing""," & _
+                                """notes"":""-""" & _
+                                "}"
 
-                        MsgBox(msgTampil, MsgBoxStyle.Information, "Sukses API")
+                            Dim resCheckIn As String = InsertDataAPIRM(jsonCheckIn, urlCheckIn)
+                            Dim jObjRes As JObject = JObject.Parse(resCheckIn)
+                            Dim msgTampil As String = "Pendaftaran MCU berhasil diproses dan dikirim ke HYU!"
 
-                        ' Opsional: Log/Debug response dari API lokal untuk memastikan berhasil terusan ke pusat
-                        'MsgBox("Berhasil kirim pendaftaran ke API: " & resCheckIn, MsgBoxStyle.Information, "Debug API")
+                            If jObjRes("message") IsNot Nothing Then
+                                msgTampil = jObjRes("message").ToString()
+                            End If
 
-                    Catch exCheckIn As Exception
-                        ' Logger error check-in tanpa memotong alur utama pendaftaran visual
-                        MsgBox("Gagal Berhasil kirim pendaftaran ke API: " & exCheckIn.Message, MsgBoxStyle.Critical, "Debug API")
-                    End Try
+                            MsgBox(msgTampil, MsgBoxStyle.Information, "Sukses API")
 
+                            Dim safePayload As String = jsonCheckIn.Replace("'", "''")
+                            Dim safeResponse As String = resCheckIn.Replace("'", "''")
+
+                            WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                     "VALUES ('" & noUrutLog & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlCheckIn & "', '" & safePayload & "', '" & safeResponse & "', 'SUCCESS', GETDATE())", 4)
+
+                        Catch exCheckIn As Exception
+                            MsgBox("Gagal Berhasil kirim pendaftaran ke API: " & exCheckIn.Message, MsgBoxStyle.Critical, "Debug API")
+
+                            Dim safePayloadErr As String = jsonCheckIn.Replace("'", "''")
+                            Dim safeException As String = exCheckIn.Message.Replace("'", "''")
+
+                            ' FIX: Menggunakan urlCheckIn agar terhindar dari variable undefined di context ini
+                            WriteSQL("INSERT INTO log_api_checkin (no_urut, nik, session_code, url_api, payload, response, status_log, created_date) " & _
+                                     "VALUES ('" & noUrutLog & "', '" & _nikPasienAktif & "', '" & _sessionCodeAktif & "', '" & urlCheckIn & "', '" & safePayloadErr & "', '" & safeException & "', 'FAILED', GETDATE())", 4)
+                        End Try
+                    End If ' [FIX STRUCT] Penutupan blok anti-double post di sini, tidak membungkus kebawah
+
+                    ' =======================================================================
+                    ' OTOMATISASI API EXCLUDE
+                    ' =======================================================================
                     Try
                         Dim idTransaksi As String = txTransLabID1.Text.Trim()
 
-                        ' Query EXCEPT untuk mencari POS yang tidak diambil oleh pasien
                         Dim queryExclude As String = _
                             "SELECT ALL_POS.KodePOS FROM (" & _
                             "  SELECT 'pendaftaran' AS KodePOS UNION SELECT 'tt_tb' UNION SELECT 'screening' " & _
@@ -1377,7 +1426,6 @@ Public Class FormCetakBarcode
                         For Each rowEx As DataRow In dtExclude.Rows
                             Dim posExclude As String = rowEx("KodePOS").ToString().Trim()
 
-                            ' Pendaftaran diabaikan karena sudah ditangani oleh API utama di atas
                             If posExclude <> "pendaftaran" Then
                                 Dim urlCheckInEx As String = urlWebService & "api/mcu/check-in/" & _sessionCodeAktif & "/post/" & posExclude
 
@@ -1389,60 +1437,49 @@ Public Class FormCetakBarcode
                                     "}"
 
                                 InsertDataAPIRM(jsonExclude, urlCheckInEx)
-                                'MsgBox("Otomatisasi API: POS " & posExclude & " berhasil di-exclude.")
                             End If
                         Next
 
                     Catch exExclude As Exception
-                        ' Log ke console agar tidak mengganggu alur pop-up pencarian visual
                         MsgBox("Gagal otomatisasi API Exclude: " & exExclude.Message)
                     End Try
+
+                    ' =======================================================================
+                    ' DETEKSI RUTE POS UNTUK VISUAL / DEBUG
+                    ' =======================================================================
+                    Try
+                        Dim idTransaksi As String = txTransLabID1.Text
+
+                        Dim queryPOS As String = "SELECT DISTINCT mp.KodePOS " & _
+                                                 "FROM TransaksiLabDetail td " & _
+                                                 "INNER JOIN mapping_pos mp ON td.TindakanID = mp.TindakanID " & _
+                                                 "WHERE td.TransLabID = '" & idTransaksi & "'"
+
+                        Dim dtPOS As DataTable = ReadSQL(queryPOS)
+
+                        If dtPOS.Rows.Count > 0 Then
+                            Dim ruteTeks As String = ""
+                            Dim nomor As Integer = 1
+
+                            For Each rowPOS As DataRow In dtPOS.Rows
+                                Dim namaPOS As String = rowPOS("KodePOS").ToString().Trim().ToUpper()
+                                ruteTeks &= nomor.ToString() & ". POS: " & namaPOS & vbCrLf
+                                nomor += 1
+                            Next
+                        End If
+
+                    Catch exDebug As Exception
+                        MsgBox("Gagal mendeteksi rute POS saat debug: " & exDebug.Message, MsgBoxStyle.Critical, "Error Debug")
+                    End Try
+
                 Else
-                    ' Jika tidak langsung ketemu otomatis, tetap tampilkan form Find manual dengan filter NIK tersebut
                     Find.Show()
                     Find.Query(querySQL, " order by a.NoUrut desc ", "FindTransaksiBarcode", 0)
                     MessageBox.Show("Transaksi lab untuk NIK " & nik & " tidak ditemukan pada range tanggal ini.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
-                ' =========================================================
-
-                Try
-                    Dim idTransaksi As String = txTransLabID1.Text
-
-                    ' Query mencari semua POS unik yang ter-mapping dengan tindakan pasien ini
-                    Dim queryPOS As String = "SELECT DISTINCT mp.KodePOS " & _
-                                             "FROM TransaksiLabDetail td " & _
-                                             "INNER JOIN mapping_pos mp ON td.TindakanID = mp.TindakanID " & _
-                                             "WHERE td.TransLabID = '" & idTransaksi & "'"
-
-                    Dim dtPOS As DataTable = ReadSQL(queryPOS)
-
-                    If dtPOS.Rows.Count > 0 Then
-                        Dim ruteTeks As String = ""
-                        Dim nomor As Integer = 1
-
-                        ' Looping hasil untuk menyusun teks ke bawah
-                        For Each rowPOS As DataRow In dtPOS.Rows
-                            Dim namaPOS As String = rowPOS("KodePOS").ToString().Trim().ToUpper()
-                            ruteTeks &= nomor.ToString() & ". POS: " & namaPOS & vbCrLf
-                            nomor += 1
-                        Next
-
-                        ' Tampilkan MsgBox Debug Rute
-                        'MsgBox("Data Pasien Berhasil Dimuat!" & vbCrLf & vbCrLf & _
-                        '       "Pasien atas nama [" & txcustnama.Text & "] akan diarahkan ke rute POS berikut:" & vbCrLf & _
-                        '       ruteTeks, MsgBoxStyle.Information, "Debug Rute POS MCU")
-                    Else
-                        ' Jika tindakan pasien belum di-mapping atau tipe Non-MCU
-                        'MsgBox("Pasien tidak memiliki rute POS MCU." & vbCrLf & _
-                        '       "Tindakan di TransaksiLabDetail belum di-mapping di tabel mapping_pos atau pasien reguler.", _
-                        '       MsgBoxStyle.Exclamation, "Debug Rute POS MCU")
-                    End If
-
-                Catch exDebug As Exception
-                    MsgBox("Gagal mendeteksi rute POS saat debug: " & exDebug.Message, MsgBoxStyle.Critical, "Error Debug")
-                End Try
 
             Else
+                ' Pasangan dari: If jObj("success") IsNot Nothing AndAlso CBool(jObj("success")) = True Then
                 Dim message As String = "Gagal memproses data."
                 If jObj("message") IsNot Nothing Then
                     message = jObj("message").ToString()
@@ -1483,6 +1520,17 @@ Public Class FormCetakBarcode
 
         Return sessionCode
     End Function
+
+    Private Sub TextBoxScanHyu_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextBoxScanHyu.KeyDown
+        ' Cek apakah tombol yang ditekan adalah Enter (Alat scan otomatis mengirim karakter Enter di akhir)
+        If e.KeyCode = Keys.Enter Then
+            ' Mencegah bunyi "beep" default dari Windows saat menekan Enter di TextBox
+            e.SuppressKeyPress = True
+
+            ' Jalankan langsung fungsi cari pasien
+            ButtonCariPasien_Click(ButtonCariPasien, EventArgs.Empty)
+        End If
+    End Sub
 
     'Private Sub txTransLabID1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txTransLabID1.TextChanged
     '    If Not String.IsNullOrEmpty(txTransLabID1.Text.Trim()) Then

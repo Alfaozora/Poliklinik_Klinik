@@ -1,4 +1,9 @@
-Version : 2.0.0.60 (- Juni 2026)
+Version : 2.0.0.61 (21 Juli 2026)
+# [New Feature] Bridging HYU! untuk mengubah status pendaftaran, exclude, dan Skipped pada MCU
+# [Bug Fix] Perbaikan kesalahan dalam pencetakan barcode yang memiliki referensi tabung
+# [Bug Fix] Menghilangkan bilangan decimal dalam pengambilan nilai alat aktivo
+
+Version : 2.0.0.60 (30 Juni 2026)
 # [Usability Improvement] Menambahkan otomatis kirim ke cloud saat simpan pada form upload pasien MCU
 # [Usability Improvement] Mengubah logika untuk kirim hasil lab ke online
 # [New Feature] Menambahkan fitur Medscape pada cetak barcode lab
