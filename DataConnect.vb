@@ -2205,6 +2205,42 @@ Module Test
         Return False
     End Function
 
+    Public Function GetDataAPIRMBearer(ByVal uri As String) As String
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+
+            webreq.Accept = "application/json"
+            webreq.Method = "GET"
+            webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+
+            webreq.Timeout = 300000
+            webreq.ReadWriteTimeout = 300000
+
+            Dim res As WebResponse = webreq.GetResponse()
+
+            Using stream As Stream = res.GetResponseStream()
+                Using reader As New StreamReader(stream)
+                    Return reader.ReadToEnd()
+                End Using
+            End Using
+
+        Catch ex As WebException
+
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Return reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                ' JSON error agar tetap bisa di-parse
+                Return "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+
+        End Try
+    End Function
+
     Public Function GetDataAPIRM(ByVal uri As String) As String
         Try
             Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)

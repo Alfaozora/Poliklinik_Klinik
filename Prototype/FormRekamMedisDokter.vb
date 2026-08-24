@@ -20,6 +20,7 @@ Imports PoliKlinik_Net2.ShapeDrawingFunctions
 Imports System.Text
 Imports System.Globalization
 Imports System.Text.RegularExpressions
+Imports System.Web
 
 Public Class FormRekamMedisDokter
 
@@ -3083,21 +3084,25 @@ Public Class FormRekamMedisDokter
                 Return False
             End If
 
+            Dim cleanNik As String = patient_nik.Trim()
+            Dim cleanQueueNum As String = queueNumber.Trim()
+            Dim cleanStatus As String = queueStatus.Trim()
+            Dim cleanStage As String = queueStage.Trim()
+            Dim cleanLoc As String = Loc.Trim()
+
             Dim url As String = urlWebService & "api/antrian/update-status"
 
             ' 🔥 Build form-urlencoded
             Dim postData As String = ""
+            postData &= "clinic_code=" & HttpUtility.UrlEncode(cleanLoc)
+            postData &= "&patient_nik=" & HttpUtility.UrlEncode(cleanNik)
+            postData &= "&queue_number=" & HttpUtility.UrlEncode(cleanQueueNum)
+            postData &= "&queue_status=" & HttpUtility.UrlEncode(cleanStatus)
 
-            postData &= "clinic_code=" & Uri.EscapeDataString(Loc.Trim())
-            postData &= "&patient_nik=" & Uri.EscapeDataString(patient_nik.Trim())
-            postData &= "&queue_number=" & Uri.EscapeDataString(queueNumber.Trim())
-            postData &= "&queue_status=" & Uri.EscapeDataString(queueStatus.Trim())
-
-            If Not String.IsNullOrEmpty(queueStage) Then
-                postData &= "&queue_stage=" & Uri.EscapeDataString(queueStage.Trim())
+            If Not String.IsNullOrEmpty(cleanStage) Then
+                postData &= "&queue_stage=" & HttpUtility.UrlEncode(cleanStage)
             End If
 
-            'MsgBox(postData)
 
             ' 🚀 Call API (error sudah ditangani di sini)
             Dim responseString As String = InsertDataAPIRMUrlEncode(postData, url)
@@ -7214,9 +7219,10 @@ Public Class FormRekamMedisDokter
             If Not nomorAntrean.ToUpper().Contains("OFF") Then
 
                 If isExist Then
-                    If SendPCareDataV3(nomorNIK, nomorAntrean, "menunggu_obat", "farmasi") = False Then Exit Sub
+                    ' Jika SendPCareDataV3 gagal, log/abaikan dan biarkan kode lanjut kebawah
+                    SendPCareDataV3(nomorNIK, nomorAntrean, "menunggu_obat", "farmasi")
                 Else
-                    If SendPCareDataV3(nomorNIK, nomorAntrean, "selesai", "selesai") = False Then Exit Sub
+                    SendPCareDataV3(nomorNIK, nomorAntrean, "selesai", "selesai")
                 End If
 
             Else
@@ -7246,8 +7252,6 @@ Public Class FormRekamMedisDokter
                     Dim kodeDokter As String = tblOffline.Rows(0)("KodeBridgingPCare").ToString()
                     Dim nik As String = tblOffline.Rows(0)("NoNIK").ToString()
 
-                    'MsgBox("Tanggal : " & tanggalTransaksi)
-
                     Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
                     Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
 
@@ -7268,7 +7272,6 @@ Public Class FormRekamMedisDokter
                         MessageBox.Show("Gagal ambil data antrean HYU", "Error")
                         validHyu = False
                     ElseIf jsonObj("data") Is Nothing Then
-                        ' MessageBox.Show("Data kosong", "Info")
                         validHyu = False
                     Else
                         Dim dataArray As JArray = CType(jsonObj("data"), JArray)
@@ -7294,14 +7297,14 @@ Public Class FormRekamMedisDokter
 
                         WriteSQL(sqlUpdate, 4)
 
+                        ' Panggilan SendPCareDataV3 tanpa Exit Sub
                         If isExist Then
-                            If SendPCareDataV3(nomorNIK, nomorAntreanHyu, "menunggu_obat", "farmasi") = False Then Exit Sub
+                            SendPCareDataV3(nomorNIK, nomorAntreanHyu, "menunggu_obat", "farmasi")
                         Else
-                            If SendPCareDataV3(nomorNIK, nomorAntreanHyu, "selesai", "selesai") = False Then Exit Sub
+                            SendPCareDataV3(nomorNIK, nomorAntreanHyu, "selesai", "selesai")
                         End If
                     End If
                 End If
-                'MsgBox("Antrean OFFLINE, skip update status Hyu", MsgBoxStyle.Exclamation)
             End If
 
             ' ===================== Kirim ke PCare Jika BPJS =====================
@@ -14985,4 +14988,17 @@ Public Class FormRekamMedisDokter
 
         Return val
     End Function
+
+    Private Sub ButtonHasilNormal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHasilNormal.Click
+        CheckBoxStatusGeneralisKepala.Checked = True
+        CheckBoxStatusGeneralisLeher.Checked = True
+        CheckBoxStatusGeneralisThorax.Checked = True
+        CheckBoxStatusGeneralisMata.Checked = True
+        CheckBoxStatusGeneralisAbdomen.Checked = True
+        CheckBoxStatusGeneralisHidung.Checked = True
+        CheckBoxStatusGeneralisEkstremitas.Checked = True
+        CheckBoxStatusGeneralisMulutFaring.Checked = True
+        CheckBoxStatusGeneralisTelinga.Checked = True
+        CheckBoxStatusGeneralisStatusLokalis.Checked = True
+    End Sub
 End Class

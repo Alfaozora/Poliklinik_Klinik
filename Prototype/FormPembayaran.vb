@@ -1086,7 +1086,7 @@ Public Class FormPembayaran
                 Dim Tawal As Date = Date.Now()
                 Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
 
-                Dim url As String = urlWebService & "api/antrian?kode_klinik=" & loc & _
+                Dim url As String = urlWebService & "api/antrian/v2?kode_klinik=" & loc & _
                    "&visit_date=" & Format(Tawal.Date, "yyyy-MM-dd") & _
                    "&patient_nik=" & _noNIK
 

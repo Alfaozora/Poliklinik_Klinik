@@ -145,7 +145,7 @@ Partial Class FormUploadDataOmset
         Me.LabelProgress.ForeColor = System.Drawing.Color.Black
         Me.LabelProgress.Location = New System.Drawing.Point(496, 25)
         Me.LabelProgress.Name = "LabelProgress"
-        Me.LabelProgress.Size = New System.Drawing.Size(248, 17)
+        Me.LabelProgress.Size = New System.Drawing.Size(429, 17)
         Me.LabelProgress.TabIndex = 546
         Me.LabelProgress.Text = "Progress"
         Me.LabelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleRight

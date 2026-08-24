@@ -413,6 +413,7 @@ Me.GroupBox13 = New System.Windows.Forms.GroupBox
 Me.TextBoxKeteranganMST = New System.Windows.Forms.TextBox
 Me.TabObjektifPemeriksaanGeneralis = New System.Windows.Forms.TabPage
 Me.SplitContainer10 = New System.Windows.Forms.SplitContainer
+Me.ButtonHasilNormal = New System.Windows.Forms.Button
 Me.ButtonSimpanPemeriksaanGeneralisObjektif = New System.Windows.Forms.Button
 Me.PanelObjektifPemeriksaanGeneralis = New System.Windows.Forms.Panel
 Me.Label241 = New System.Windows.Forms.Label
@@ -2119,7 +2120,7 @@ Me.ButtonHapusPemeriksaanGeneralisObjektif.FlatStyle = System.Windows.Forms.Flat
 Me.ButtonHapusPemeriksaanGeneralisObjektif.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Bold)
 Me.ButtonHapusPemeriksaanGeneralisObjektif.ForeColor = System.Drawing.Color.White
 Me.ButtonHapusPemeriksaanGeneralisObjektif.Image = Global.PoliKlinik_Net2.My.Resources.Resources.icons8_cancel_16
-Me.ButtonHapusPemeriksaanGeneralisObjektif.Location = New System.Drawing.Point(236, 5)
+Me.ButtonHapusPemeriksaanGeneralisObjektif.Location = New System.Drawing.Point(362, 5)
 Me.ButtonHapusPemeriksaanGeneralisObjektif.Name = "ButtonHapusPemeriksaanGeneralisObjektif"
 Me.ButtonHapusPemeriksaanGeneralisObjektif.RightToLeft = System.Windows.Forms.RightToLeft.No
 Me.ButtonHapusPemeriksaanGeneralisObjektif.Size = New System.Drawing.Size(150, 30)
@@ -6339,6 +6340,7 @@ Me.SplitContainer10.Orientation = System.Windows.Forms.Orientation.Horizontal
 'SplitContainer10.Panel1
 '
 Me.SplitContainer10.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(240,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(240,Byte),Integer))
+Me.SplitContainer10.Panel1.Controls.Add(Me.ButtonHasilNormal)
 Me.SplitContainer10.Panel1.Controls.Add(Me.ButtonHapusPemeriksaanGeneralisObjektif)
 Me.SplitContainer10.Panel1.Controls.Add(Me.ButtonSimpanPemeriksaanGeneralisObjektif)
 '
@@ -6350,6 +6352,24 @@ Me.SplitContainer10.Size = New System.Drawing.Size(833, 800)
 Me.SplitContainer10.SplitterDistance = 40
 Me.SplitContainer10.SplitterWidth = 5
 Me.SplitContainer10.TabIndex = 468
+'
+'ButtonHasilNormal
+'
+Me.ButtonHasilNormal.BackColor = System.Drawing.Color.White
+Me.ButtonHasilNormal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonHasilNormal.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonHasilNormal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonHasilNormal.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonHasilNormal.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81,Byte),Integer), CType(CType(168,Byte),Integer), CType(CType(255,Byte),Integer))
+Me.ButtonHasilNormal.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonHasilNormal.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonHasilNormal.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonHasilNormal.Location = New System.Drawing.Point(236, 5)
+Me.ButtonHasilNormal.Name = "ButtonHasilNormal"
+Me.ButtonHasilNormal.Size = New System.Drawing.Size(120, 30)
+Me.ButtonHasilNormal.TabIndex = 521
+Me.ButtonHasilNormal.Text = "Hasil Normal"
+Me.ButtonHasilNormal.UseVisualStyleBackColor = false
 '
 'ButtonSimpanPemeriksaanGeneralisObjektif
 '
@@ -19061,4 +19081,5 @@ End Sub
     Friend WithEvents TextBoxSaranDiagnosa As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox17 As System.Windows.Forms.GroupBox
     Friend WithEvents ButtonSetMedscapeAwal As System.Windows.Forms.Button
+    Friend WithEvents ButtonHasilNormal As System.Windows.Forms.Button
 End Class

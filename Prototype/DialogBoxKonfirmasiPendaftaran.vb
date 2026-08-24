@@ -612,7 +612,7 @@ Public Class DialogBoxKonfirmasiPendaftaran
         Dim noNIK As String = TextBoxNomorNIK.Text.Trim()
         Dim noKartuBPJS As String = TextBoxNomorKIS.Text.Trim()
         Dim namaPasien As String = TextBoxNamaPasien.Text.Trim()
-        Dim tglLahirPasien As String = Format(DateTimePickerTglLahir.Value, "dd/MM/yyyy")
+        Dim tglLahirPasien As String = DateTimePickerTglLahir.Value.ToString("yyyy-MM-dd")
         Dim jenisKelaminPasien As String = ""
 
         If TextBoxJenisKelamin.Text = "Laki-laki" Then

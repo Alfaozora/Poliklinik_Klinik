@@ -1,4 +1,7 @@
-﻿Public Class ToolsTransaksiLab
+﻿Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
+
+Public Class ToolsTransaksiLab
     Dim thread As System.Threading.Thread
     Private DB_Poliklinik As TLcon
 
@@ -485,6 +488,82 @@
                                 End If
                             Next
                         End If
+
+                        Try
+                            Dim stringQueryFisik As New System.Text.StringBuilder()
+                            stringQueryFisik.AppendLine("SELECT * FROM TransaksiLabFisik ")
+                            stringQueryFisik.AppendLine("WHERE NoUrut = '" & rowTransaksi("NoUrut") & "'")
+
+                            Dim tblFisik As DataTable = ReadSQL(stringQueryFisik.ToString())
+
+                            If tblFisik IsNot Nothing AndAlso tblFisik.Rows.Count > 0 Then
+                                Dim jsonRoot As New JObject()
+                                jsonRoot("table") = "transaksilabfisik"
+                                jsonRoot("nourut") = rowTransaksi("NoUrut").ToString().Trim()
+                                jsonRoot("idlabinternet") = Convert.ToInt32(Val(idTransaksiOnline))
+
+                                Dim jsonRows As New JArray()
+
+                                For Each rFisik As DataRow In tblFisik.Rows
+                                    Dim rowItem As New JObject()
+
+                                    Dim kapanVal As String = "1900-01-01 00:00:00"
+                                    If Not IsDBNull(rFisik("kapan")) AndAlso Not String.IsNullOrEmpty(rFisik("kapan").ToString()) Then
+                                        kapanVal = Format(CDate(rFisik("kapan")), "yyyy-MM-dd HH:mm:ss")
+                                    End If
+
+                                    rowItem("fisiknourut") = If(IsDBNull(rFisik("fisiknourut")), "0", rFisik("fisiknourut").ToString())
+                                    rowItem("fisikket") = If(IsDBNull(rFisik("fisikket")), "", rFisik("fisikket").ToString())
+                                    rowItem("result") = If(IsDBNull(rFisik("result")), "", rFisik("result").ToString())
+                                    rowItem("dimana") = If(IsDBNull(rFisik("dimana")), "", rFisik("dimana").ToString())
+                                    rowItem("kenapa") = If(IsDBNull(rFisik("kenapa")), "", rFisik("kenapa").ToString())
+                                    rowItem("jenis") = If(IsDBNull(rFisik("jenis")), "", rFisik("jenis").ToString())
+                                    rowItem("kapan") = kapanVal
+
+                                    rowItem("createby") = If(IsDBNull(rFisik("createby")) OrElse String.IsNullOrEmpty(rFisik("createby").ToString()), UserLabAdmin, rFisik("createby").ToString())
+                                    If IsDBNull(rFisik("updateby")) OrElse String.IsNullOrEmpty(rFisik("updateby").ToString()) Then
+                                        rowItem("updateby") = Nothing
+                                    Else
+                                        rowItem("updateby") = rFisik("updateby").ToString()
+                                    End If
+
+                                    jsonRows.Add(rowItem)
+                                Next
+
+                                jsonRoot("rows") = jsonRows
+
+                                Dim urlWebService As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'").ToString().TrimEnd("/"c)
+                                Dim urlApiFisik As String = urlWebService & "/api/lab/transaksiFisik"
+
+                                Dim responseApi As String = InsertDataAPIRM(jsonRoot.ToString(Formatting.None), urlApiFisik)
+
+                                If Not String.IsNullOrEmpty(responseApi) Then
+                                    Dim jsonRes As JObject = JObject.Parse(responseApi)
+
+                                    If jsonRes("code") IsNot Nothing AndAlso jsonRes("code").ToString() = "0" Then
+                                        Dim msgError As String = If(jsonRes("msg") IsNot Nothing, jsonRes("msg").ToString(), "Unknown error")
+
+                                        status.Text += "[!] API Fisik Gagal NoUrut " & rowTransaksi("NoUrut").ToString & ": " & msgError & vbCrLf
+
+                                        Try
+                                            Dim fileLogPath As String = Application.StartupPath & "\log_error_fisik.txt"
+                                            System.IO.File.AppendAllText(fileLogPath, "[" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "] NoUrut: " & rowTransaksi("NoUrut").ToString & " | API Error: " & msgError & vbCrLf)
+                                        Catch
+                                        End Try
+                                    End If
+                                End If
+
+                            End If
+
+                        Catch exFisik As Exception
+                            status.Text += "[!] Gagal Sync Fisik NoUrut " & rowTransaksi("NoUrut").ToString & ": " & exFisik.Message & vbCrLf
+                            Try
+                                Dim fileLogPath As String = Application.StartupPath & "\log_error_fisik.txt"
+                                System.IO.File.AppendAllText(fileLogPath, "[" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "] NoUrut: " & rowTransaksi("NoUrut").ToString & " | Exception: " & exFisik.Message & vbCrLf)
+                            Catch
+                                ' Abaikan jika file log lokal gagal ditulis
+                            End Try
+                        End Try
 
                         ' =======================================================================
                         ' UPDATE FLAG LOCAL SQL SERVER SECARA ADIL
