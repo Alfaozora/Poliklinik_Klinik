@@ -2281,7 +2281,7 @@ Module Test
     Public Function InsertDataAPIRM(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Try
-            Dim webreq As HttpWebRequest = WebRequest.Create(uri)
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
             webreq.Accept = "application/json"
             webreq.Method = "POST"
             webreq.ContentType = "application/json"

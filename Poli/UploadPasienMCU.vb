@@ -839,7 +839,8 @@ Public Class UploadPasienMCU
                             .total_tagihan = ttlbruto, _
                             .total_disc = ttldisc, _
                             .nett_bayar = ttlnett, _
-                            .total_bayar = ttlnett _
+                            .total_bayar = ttlnett, _
+                            .company_nama = company _
                         }, _
                         .pembayaran = dataBayar, _
                         .details = listDetailPayload _

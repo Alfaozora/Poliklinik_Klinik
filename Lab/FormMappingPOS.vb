@@ -18,6 +18,8 @@
         posList.Add("ecg", "ECG")
         posList.Add("usg", "USG")
         posList.Add("treadmill", "TREADMILL")
+        posList.Add("rectal_swab", "RECTAL SWAB")
+
 
         ' Binding ke ComboBox menggunakan BindingSource
         cmbPOS.DataSource = New BindingSource(posList, Nothing)
@@ -58,6 +60,7 @@
         posList.Add("ecg", "ECG")
         posList.Add("usg", "USG")
         posList.Add("treadmill", "Treadmill")
+        posList.Add("rectal_swab", "RectalSwab")
 
         ' 6. Buat kolom Checkbox untuk setiap POS
         For Each kvp As KeyValuePair(Of String, String) In posList
@@ -96,7 +99,7 @@
         dgvTindakan.EndEdit()
 
         ' Definisikan ulang daftar kolom POS untuk keperluan looping salvaging
-        Dim posColumns As String() = {"tt_tb", "screening", "visus", "dokter", "darah", "urine", "thorax", "spiro", "audio", "ecg", "usg", "treadmill"}
+        Dim posColumns As String() = {"tt_tb", "screening", "visus", "dokter", "darah", "urine", "thorax", "spiro", "audio", "ecg", "usg", "treadmill", "rectal_swab"}
 
         Try
             For Each row As DataGridViewRow In dgvTindakan.Rows
