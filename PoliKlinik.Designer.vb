@@ -86,6 +86,7 @@ Partial Class PoliKlinik
         Me.PembatalanTransaksiToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.KirimUlangKeMesinToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.UploadTransaksiKeOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MappingPOSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MonitorProsesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TransaksiLokalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TransaksiOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -286,7 +287,7 @@ Partial Class PoliKlinik
         Me.TimerShutdown = New System.Windows.Forms.Timer(Me.components)
         Me.TimerKirimReminderWA = New System.Windows.Forms.Timer(Me.components)
         Me.TimerBirthday = New System.Windows.Forms.Timer(Me.components)
-        Me.MappingPOSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CheckinHYUToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -715,7 +716,7 @@ Partial Class PoliKlinik
         '
         'MenuToolsToolStripMenuItem
         '
-        Me.MenuToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PembatalanTransaksiToolStripMenuItem1, Me.KirimUlangKeMesinToolStripMenuItem1, Me.UploadTransaksiKeOnlineToolStripMenuItem, Me.MappingPOSToolStripMenuItem})
+        Me.MenuToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PembatalanTransaksiToolStripMenuItem1, Me.KirimUlangKeMesinToolStripMenuItem1, Me.UploadTransaksiKeOnlineToolStripMenuItem, Me.MappingPOSToolStripMenuItem, Me.CheckinHYUToolStripMenuItem})
         Me.MenuToolsToolStripMenuItem.Name = "MenuToolsToolStripMenuItem"
         Me.MenuToolsToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
         Me.MenuToolsToolStripMenuItem.Tag = "0418"
@@ -741,6 +742,12 @@ Partial Class PoliKlinik
         Me.UploadTransaksiKeOnlineToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
         Me.UploadTransaksiKeOnlineToolStripMenuItem.Tag = "041803"
         Me.UploadTransaksiKeOnlineToolStripMenuItem.Text = "Upload Transaksi ke Online"
+        '
+        'MappingPOSToolStripMenuItem
+        '
+        Me.MappingPOSToolStripMenuItem.Name = "MappingPOSToolStripMenuItem"
+        Me.MappingPOSToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.MappingPOSToolStripMenuItem.Text = "Mapping POS"
         '
         'MonitorProsesToolStripMenuItem
         '
@@ -2097,11 +2104,11 @@ Partial Class PoliKlinik
         '
         Me.TimerBirthday.Interval = 300000
         '
-        'MappingPOSToolStripMenuItem
+        'CheckinHYUToolStripMenuItem
         '
-        Me.MappingPOSToolStripMenuItem.Name = "MappingPOSToolStripMenuItem"
-        Me.MappingPOSToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
-        Me.MappingPOSToolStripMenuItem.Text = "Mapping POS"
+        Me.CheckinHYUToolStripMenuItem.Name = "CheckinHYUToolStripMenuItem"
+        Me.CheckinHYUToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.CheckinHYUToolStripMenuItem.Text = "Checkin HYU!"
         '
         'PoliKlinik
         '
@@ -2391,4 +2398,5 @@ Partial Class PoliKlinik
     Friend WithEvents BirthdaySenderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TrackingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MappingPOSToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CheckinHYUToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

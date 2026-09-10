@@ -53,6 +53,8 @@ Partial Class FormCetakBarcode
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.CheckBoxNonAktif = New System.Windows.Forms.CheckBox
+        Me.lblStatusMCU = New System.Windows.Forms.Label
         Me.PanelThorax = New System.Windows.Forms.GroupBox
         Me.txtAlasanThorax = New System.Windows.Forms.TextBox
         Me.rdThoraxTolak = New System.Windows.Forms.RadioButton
@@ -82,7 +84,9 @@ Partial Class FormCetakBarcode
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
-        Me.lblStatusMCU = New System.Windows.Forms.Label
+        Me.txtPemeriksaanKhusus = New System.Windows.Forms.TextBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Label14 = New System.Windows.Forms.Label
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -400,6 +404,10 @@ Partial Class FormCetakBarcode
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Label14)
+        Me.GroupBox3.Controls.Add(Me.Label13)
+        Me.GroupBox3.Controls.Add(Me.txtPemeriksaanKhusus)
+        Me.GroupBox3.Controls.Add(Me.CheckBoxNonAktif)
         Me.GroupBox3.Controls.Add(Me.lblStatusMCU)
         Me.GroupBox3.Controls.Add(Me.PanelThorax)
         Me.GroupBox3.Controls.Add(Me.GroupBox4)
@@ -429,6 +437,26 @@ Partial Class FormCetakBarcode
         Me.GroupBox3.Size = New System.Drawing.Size(858, 323)
         Me.GroupBox3.TabIndex = 154
         Me.GroupBox3.TabStop = False
+        '
+        'CheckBoxNonAktif
+        '
+        Me.CheckBoxNonAktif.AutoSize = True
+        Me.CheckBoxNonAktif.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxNonAktif.Location = New System.Drawing.Point(131, 29)
+        Me.CheckBoxNonAktif.Name = "CheckBoxNonAktif"
+        Me.CheckBoxNonAktif.Size = New System.Drawing.Size(113, 20)
+        Me.CheckBoxNonAktif.TabIndex = 249
+        Me.CheckBoxNonAktif.Text = "Non Aktif HYU!"
+        Me.CheckBoxNonAktif.UseVisualStyleBackColor = True
+        '
+        'lblStatusMCU
+        '
+        Me.lblStatusMCU.AutoSize = True
+        Me.lblStatusMCU.Location = New System.Drawing.Point(358, 74)
+        Me.lblStatusMCU.Name = "lblStatusMCU"
+        Me.lblStatusMCU.Size = New System.Drawing.Size(11, 15)
+        Me.lblStatusMCU.TabIndex = 244
+        Me.lblStatusMCU.Text = "-"
         '
         'PanelThorax
         '
@@ -736,14 +764,37 @@ Partial Class FormCetakBarcode
         Me.TabControl1.Size = New System.Drawing.Size(872, 350)
         Me.TabControl1.TabIndex = 155
         '
-        'lblStatusMCU
+        'txtPemeriksaanKhusus
         '
-        Me.lblStatusMCU.AutoSize = True
-        Me.lblStatusMCU.Location = New System.Drawing.Point(358, 74)
-        Me.lblStatusMCU.Name = "lblStatusMCU"
-        Me.lblStatusMCU.Size = New System.Drawing.Size(11, 15)
-        Me.lblStatusMCU.TabIndex = 244
-        Me.lblStatusMCU.Text = "-"
+        Me.txtPemeriksaanKhusus.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.txtPemeriksaanKhusus.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPemeriksaanKhusus.Location = New System.Drawing.Point(125, 250)
+        Me.txtPemeriksaanKhusus.Multiline = True
+        Me.txtPemeriksaanKhusus.Name = "txtPemeriksaanKhusus"
+        Me.txtPemeriksaanKhusus.ReadOnly = True
+        Me.txtPemeriksaanKhusus.Size = New System.Drawing.Size(211, 55)
+        Me.txtPemeriksaanKhusus.TabIndex = 250
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(23, 253)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(91, 16)
+        Me.Label13.TabIndex = 251
+        Me.Label13.Text = "Pemeriksaan"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(36, 272)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(53, 16)
+        Me.Label14.TabIndex = 252
+        Me.Label14.Text = "Khusus"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FormCetakBarcode
         '
@@ -840,4 +891,8 @@ Partial Class FormCetakBarcode
     Friend WithEvents rdThoraxTolak As System.Windows.Forms.RadioButton
     Friend WithEvents rdThoraxSetuju As System.Windows.Forms.RadioButton
     Friend WithEvents lblStatusMCU As System.Windows.Forms.Label
+    Friend WithEvents CheckBoxNonAktif As System.Windows.Forms.CheckBox
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents txtPemeriksaanKhusus As System.Windows.Forms.TextBox
+    Friend WithEvents Label14 As System.Windows.Forms.Label
 End Class

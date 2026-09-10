@@ -544,6 +544,12 @@
     <Compile Include="Prototype\FormBirthdaySender.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormCheckinHYU.Designer.vb">
+      <DependentUpon>FormCheckinHYU.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormCheckinHYU.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormInputInformedConsent.Designer.vb">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </Compile>
@@ -1587,6 +1593,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormBirthdaySender.resx">
       <DependentUpon>FormBirthdaySender.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormCheckinHYU.resx">
+      <DependentUpon>FormCheckinHYU.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>

@@ -1,0 +1,20 @@
+<xpml><page quantity='0' pitch='29.3 mm'></xpml>I8,A
+ZN
+q275
+S3
+O
+JF
+D9
+ZT
+Q234,B24
+KI80
+<xpml></page></xpml><xpml><page quantity='1' pitch='29.3 mm'></xpml>
+N
+b100,80,Q,m2,g5,s3,"8YPATA8RZ4"
+A95,217,2,3,1,1,N,""
+A95,30,2,3,1,1,N,"TOKEN MCU"
+A290,54,2,2,1,1,N,"MUHAMMAD ZUBAIDI NURULLAH"
+A290,30,2,2,1,1,N," / P"
+A290,217,2,3,1,1,N,"8"
+P1
+<xpml></page></xpml><xpml><end/></xpml>

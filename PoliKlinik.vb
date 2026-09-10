@@ -1641,4 +1641,9 @@ Public Class PoliKlinik
         FormMappingPOS.Show()
         FormMappingPOS.Focus()
     End Sub
+
+    Private Sub CheckinHYUToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckinHYUToolStripMenuItem.Click
+        FormCheckinHYU.Show()
+        FormCheckinHYU.Focus()
+    End Sub
 End Class
