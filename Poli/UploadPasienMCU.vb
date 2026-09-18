@@ -343,6 +343,52 @@ Public Class UploadPasienMCU
         End Using
     End Function
 
+    Private Sub SendToApiInbodyBatchFromMCU(ByVal listBatchInbodyPayload As List(Of Object))
+        Try
+            Dim chunkSize As Integer = 50
+            Dim totalData As Integer = listBatchInbodyPayload.Count
+
+            Dim secretKey As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_payloadEnkrip'")
+            If String.IsNullOrEmpty(secretKey) Then
+                Throw New Exception("Gagal mengambil konfigurasi enkripsi (ws_payloadEnkrip).")
+            End If
+
+            Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+            If Trim(baseUrl) = "" Then
+                Throw New Exception("Base URL API tidak ditemukan di MsConfig (ws_RM)!")
+            End If
+
+            Dim urlWebService As String = baseUrl & "api/lumiera-luzelle/inbody/create-batch"
+
+            ' Loop Chunk per 50 Data (VB 2008 Compatible)
+            For i As Integer = 0 To totalData - 1 Step chunkSize
+                Dim chunkInbody As New List(Of Object)()
+
+                For j As Integer = i To Math.Min(i + chunkSize - 1, totalData - 1)
+                    chunkInbody.Add(listBatchInbodyPayload(j))
+                Next
+
+                ' Enkripsi per-chunk
+                Dim rawJsonPayload As String = JsonConvert.SerializeObject(chunkInbody)
+                Dim encrypted As String = EncryptAES(rawJsonPayload, secretKey)
+                Dim postData As String = "{""payload"":""" & encrypted & """}"
+
+                Dim response As String = InsertDataAPIRMEncrypt(postData, urlWebService)
+                If Trim(response) = "" Then
+                    Throw New Exception("Response dari API Batch InBody kosong.")
+                End If
+
+                Dim result As JObject = JObject.Parse(response)
+                If CBool(result("IsResult")) = False Then
+                    Throw New Exception("Validasi API Batch InBody Gagal: " & result("ErrorMsg").ToString())
+                End If
+            Next
+
+        Catch ex As Exception
+            Throw New Exception("InBody Batch Error: " & ex.Message)
+        End Try
+    End Sub
+
     'NEW
     Private Sub SendToApiInbodyFromMCU(ByVal noRM As String, _
                                    ByVal nama As String, _
@@ -578,6 +624,326 @@ Public Class UploadPasienMCU
     '    End Try
     'End Sub
 
+    'SEBELUM BATCH
+    'Private Sub SaveMultiple()
+    '    Dim tblPasien As DataTable = GridControlDataPasien.DataSource
+    '    tblPasien.AcceptChanges()
+
+    '    ButtonSimpanData.Enabled = False
+    '    ButtonUploadFile.Enabled = False
+
+    '    Dim procent As Integer = 0
+    '    Dim persen As Integer = 0
+
+    '    Dim totalSuksesAPI As Integer = 0
+    '    Dim totalGagalAPI As Integer = 0
+    '    Dim listGagalPasien As New List(Of String)()
+
+    '    If MsgBox(tblPasien.Rows.Count & " data pasien akan diproses. Yakin lanjut?", MsgBoxStyle.YesNo, "Verifikasi Akhir") = MsgBoxResult.Yes Then
+    '        ProgressBar1.Visible = True
+
+    '        Dim company As String = ""
+    '        Dim updatePasien As Boolean = False
+    '        Dim NomorRekamMedis As String = ""
+
+    '        Dim kodePoli As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName ='NoPoli'")
+    '        Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
+    '        Dim urlWebService As String = baseUrl & "api/lab/upload-mcu"
+
+    '        Dim kodeServer As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeBarcode'")
+    '        Dim kodeCabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
+
+    '        For Each Tdata As DataRow In tblPasien.Rows
+    '            persen = persen + 1
+    '            procent = persen * 100 / tblPasien.Rows.Count
+    '            ProgressBar1.Value = procent
+
+    '            updatePasien = False
+    '            Dim statusPasienAktif As Boolean = CekPasienAktif(Tdata)
+
+    '            If statusPasienAktif = False Then ' Pasien belum ada di Database
+    '                NomorRekamMedis = generateNomorRekamMedis()
+    '                WriteSQL("INSERT INTO MasterPasien (noRekamMedis, NoNIK, NoNIP, Nama, TglLahir, JenisKelamin, DomisiliAlamat, FromUpload, CreatedBy, CreatedDate) " & _
+    '                         "VALUES('" & NomorRekamMedis & "', '" & Tdata("PTNIK") & "', '" & Tdata("NIP") & "', '" & Tdata("Nama") & "', '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "','" & Tdata("Sex") & "', '" & Tdata("Alamat") & "', " & Convert.ToInt32(True) & ", '" & userUploadMCU & "', GETDATE())", 4)
+    '            ElseIf statusPasienAktif = True Then ' Pasien sudah ada di Database
+    '                NomorRekamMedis = ReadSQLNIK("SELECT noRekamMedis FROM MasterPasien WHERE Nama = '" & Tdata("Nama") & "' AND TglLahir = '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Tdata("PTNIK") & "'")
+    '                ' Update alamat di MasterPasien
+    '                WriteSQL("UPDATE MasterPasien SET DomisiliAlamat = '" & Tdata("Alamat") & "', NoNIP = '" & Tdata("NIP") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+    '                updatePasien = True
+    '            End If
+
+    '            ' Generate No Urut Transaksi
+    '            Dim nomorUrutTransaksi As String = generateNoTransaksi("M", "LABORATORIUM", Format(Tdata("TglTrans"), "yyyyMMdd"), True)
+
+    '            company = ReadSQLNIK("select CompanyNama from MasterCompany where NoCompany = '" & Tdata("Company").ToString.Trim & "'")
+
+    '            ' Set Cara Ambil
+    '            Dim CaraAmbilSoftcopy As String = ""
+    '            Dim CaraAmbilHardcopy As String = ""
+    '            Dim StatusSoftcopy As Integer = 0
+    '            Dim StatusHardcopy As Integer = 0
+    '            Dim CaraAmbil As String = ""
+
+    '            If Tdata("Email").ToString.Trim <> "-" And IsDBNull(Tdata("Email")) = False Then
+    '                CaraAmbilSoftcopy = "Email ke " & Tdata("Email").ToString
+    '                If updatePasien = True Then WriteSQL("UPDATE MasterPasien SET Email = '" & Tdata("Email") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+    '            ElseIf Tdata("Whatsapp").ToString.Trim <> "-" And IsDBNull(Tdata("Whatsapp")) = False Then
+    '                CaraAmbilSoftcopy = "Whatsapp ke " & Tdata("Whatsapp").ToString
+    '                If updatePasien = True Then WriteSQL("UPDATE MasterPasien SET NoHandphone = '" & Tdata("Whatsapp") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+    '            End If
+
+    '            If Tdata("Kirim").ToString <> "-" And IsDBNull(Tdata("Kirim")) = False Then
+    '                CaraAmbilHardcopy = "Kirim ke " & Tdata("Kirim").ToString
+    '            ElseIf Tdata("AmbilSendiri") = True Then
+    '                CaraAmbilHardcopy = "Ambil Sendiri"
+    '            End If
+
+    '            If CaraAmbilHardcopy = "" And CaraAmbilSoftcopy <> "" Then
+    '                CaraAmbil = CaraAmbilSoftcopy
+    '                StatusSoftcopy = 1
+    '            ElseIf CaraAmbilHardcopy <> "" And CaraAmbilSoftcopy = "" Then
+    '                CaraAmbil = CaraAmbilHardcopy
+    '                StatusHardcopy = 1
+    '            ElseIf CaraAmbilHardcopy <> "" And CaraAmbilSoftcopy <> "" Then
+    '                CaraAmbil = CaraAmbilHardcopy & " & " & CaraAmbilSoftcopy
+    '                StatusHardcopy = 1
+    '                StatusSoftcopy = 1
+    '            End If
+
+    '            ' Insert Tabel TransaksiLab
+    '            WriteSQL("INSERT INTO TransaksiLab (IDInternet, DokterRequest, DokterLab, TglLab, ClosedBayar,TotalTagihan,TotalDisc,Pembulatan,NettBayar,LabJenisPembayaran,ClosedTransaksi,CreateDate,CreateBy,LabJenisPasien,NoUrut,Status,LabDaftar,IDPaket,CaraAmbil, StatusSoftcopy, StatusHardcopy, SendingWhatsapp, SendingEmail) " & _
+    '                "VALUES('" & NomorRekamMedis & "','','','" & Format(Tdata("TglTrans"), "MM/dd/yyyy") & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "',0,0,0,0,'',1,'" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & userUploadMCU & "','','" & nomorUrutTransaksi & "','SAMPLE','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & Tdata("NoPaket") & "', '" & CaraAmbil & "'," & StatusSoftcopy & "," & StatusHardcopy & ", '" & Tdata("Whatsapp").ToString & "', '" & Tdata("Email").ToString & "')", 4)
+
+    '            ' Ambil ID Transaksi Lokal
+    '            Dim idTransaksi As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE IDInternet = '" & NomorRekamMedis & "' AND NoUrut = '" & nomorUrutTransaksi & "'")
+
+    '            ' Kirim Ke InBody & Upload pasien Online
+    '            Try
+    '                'MsgBox("Debug: Proses Kirim ke InBody dijalankan.", MsgBoxStyle.Information, "Debug InBody")
+
+    '                Dim nama As String = Tdata("Nama").ToString()
+    '                Dim jenisKelamin As String = Tdata("Sex").ToString()
+    '                Dim genderInbody As String = ""
+
+    '                Select Case jenisKelamin.ToUpper()
+    '                    Case "L"
+    '                        genderInbody = "M"
+    '                    Case "P"
+    '                        genderInbody = "F"
+    '                    Case Else
+    '                        genderInbody = ""
+    '                End Select
+
+    '                Dim tglLahir As Date = CDate(Tdata("TglLahir"))
+    '                Dim tglLahirStr As String = CDate(Tdata("TglLahir")).ToString("yyyyMMdd")
+    '                Dim umur As Integer = DateDiff(DateInterval.Year, tglLahir, Date.Now)
+    '                Dim orderDateStr As String = CDate(Tdata("TglTrans")).ToString("yyyyMMdd")
+
+    '                ' Tinggi badan dikosongkan sesuai permintaan
+    '                Dim tinggiUserInbody As String = ""
+
+    '                'MsgBox("Status WS InBody: " & statusInbody, MsgBoxStyle.Information, "Debug InBody")
+
+    '                'MsgBox("Debug: Mengirim data ke API InBody.", MsgBoxStyle.Information, "Debug InBody")
+
+    '                SendToApiInbodyFromMCU( _
+    '                    nomorUrutTransaksi, _
+    '                    nama, _
+    '                    genderInbody, _
+    '                    tglLahirStr, _
+    '                    umur, _
+    '                    tinggiUserInbody, _
+    '                    orderDateStr, _
+    '                    kodeServer, _
+    '                    kodeCabang)
+
+    '            Catch ex As Exception
+    '                totalGagalAPI += 1
+    '                listGagalPasien.Add(Tdata("Nama").ToString() & " (Error: " & ex.Message & ")")
+    '                'MsgBox("Gagal mengirim data ke InBody: " & ex.Message, _
+    '                '       MsgBoxStyle.Exclamation, "Warning")
+    '            End Try
+
+
+    '            ' Set Tabel Master Paket
+    '            Dim tblPaket As DataTable = ReadSQL("SELECT * FROM MasterLabPaket a LEFT JOIN MasterLabPaketDetail b on a.PaketID = b.PaketID  where a.PaketID = '" & Tdata("NoPaket") & "'")
+    '            tblPaket.AcceptChanges()
+
+    '            Dim ttlbruto As Double = 0
+    '            Dim ttldisc As Double = 0
+    '            Dim ttlbulat As Double = 0
+    '            Dim ttlnett As Double = 0
+    '            Dim DetailPemeriksaan As String = ""
+    '            Dim TtempDetailPemeriksaan As String = ""
+
+    '            Dim listDetailPayload As New List(Of Object)()
+
+    '            For Each Trow As DataRow In tblPaket.Rows
+    '                TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & Trow("NamaTindakan").ToString.Trim & ", "
+    '                Dim Disc As Double = CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett"))
+
+    '                ' Insert Tabel TransaksiLabDetail
+    '                WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan) " & _
+    '                    "VALUES('" & idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("NamaTindakan") & "','" & Trow("JenisTindakan") & "'," & CDbl(Trow("TindakanNilai")) & "," & Disc & "," & CDbl(Trow("TindakanNett")) & ",'" & userUploadMCU & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "'," & CDbl(Trow("TindakanDiscount")) & ")", 4)
+
+    '                Dim Tnomber As String = ReadSQLNIK("select TransLabIDDetail from TransaksiLabDetail where TransLabID='" & idTransaksi & "' and TindakanID='" & Trow("TindakanID") & "' and NamaTindakan='" & Trow("NamaTindakan") & "' and JenisTindakan='" & Trow("JenisTindakan") & "'")
+
+    '                ttlbruto = ttlbruto + CDbl(Trow("TindakanNilai"))
+    '                ttlnett = ttlnett + CDbl(Trow("TindakanNett"))
+    '                ttldisc = ttldisc + CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett"))
+
+    '                Dim listResultPayload As New List(Of Object)()
+    '                Dim Tbls2 As DataTable = ReadSQL("SELECT * FROM MasterLabDetail where TindakanID='" & Trow("TindakanID") & "' and deleted=0 order by groupid,nourut")
+    '                For Each Trow2 As DataRow In Tbls2.Rows
+    '                    ' Insert Tabel TransaksiLabResult
+    '                    WriteSQL("INSERT INTO TransaksiLabResult(TransLabIDDetail,TindakanID,GroupID,NoUrut,DetailKet,Pria,Wanita,Result,Keterangan,Satuan) " & _
+    '                             " values('" & Tnomber & "','" & Trow("TindakanID") & "','" & Trow2("GroupID") & "','" & Trow2("NoUrut") & "','" & Trow2("DetailKet") & "','" & Trow2("Pria") & "','" & Trow2("Wanita") & "','','" & Trow2("KeteranganHasil") & "','" & Trow2("DisplayHasil") & "') ", 4)
+
+    '                    Dim valPria As String = If(IsDBNull(Trow2("Pria")) OrElse String.IsNullOrEmpty(Trow2("Pria").ToString()), "-", Trow2("Pria").ToString().Trim())
+    '                    Dim valWanita As String = If(IsDBNull(Trow2("Wanita")) OrElse String.IsNullOrEmpty(Trow2("Wanita").ToString()), "-", Trow2("Wanita").ToString().Trim())
+
+    '                    listResultPayload.Add(New With { _
+    '                        .trans_lab_id_detail = Tnomber, _
+    '                        .tindakan_id = Trow("TindakanID").ToString(), _
+    '                        .group_id = Trow2("GroupID").ToString(), _
+    '                        .no_urut = Trow2("NoUrut").ToString(), _
+    '                        .detail_ket = Trow2("DetailKet").ToString(), _
+    '                        .pria = valPria, _
+    '                        .wanita = valWanita, _
+    '                        .result = "", _
+    '                        .keterangan = Trow2("KeteranganHasil").ToString(), _
+    '                        .satuan = Trow2("DisplayHasil").ToString() _
+    '                    })
+    '                Next
+
+    '                listDetailPayload.Add(New With { _
+    '                    .trans_lab_id_detail = Tnomber, _
+    '                    .trans_lab_id = idTransaksi, _
+    '                    .tindakan_id = Trow("TindakanID").ToString(), _
+    '                    .nama_tindakan = Trow("NamaTindakan").ToString(), _
+    '                    .jenis_tindakan = Trow("JenisTindakan").ToString(), _
+    '                    .biaya_tindakan = CDbl(Trow("TindakanNilai")), _
+    '                    .disc_tindakan = Disc, _
+    '                    .nett_bayar = CDbl(Trow("TindakanNett")), _
+    '                    .disc_persen_tindakan = CDbl(Trow("TindakanDiscount")), _
+    '                    .results = listResultPayload _
+    '                })
+    '            Next
+
+    '            ' Set Detail Pemeriksaan
+    '            DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
+
+    '            ' Update Nomor Urut dan Mesin di Tabel UpdateTransLabDetail
+    '            UpdateTransLabDetail(idTransaksi)
+
+    '            ' Insert Tabel TransaksiDetail
+    '            WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
+    '                     "VALUES(NULL, '" & idTransaksi & "', 'Kunjungan Sakit', 'Rawat Jalan', 'LAB', 'LABORATORIUM', GETDATE(), '-', '-', '" & NomorRekamMedis & "'," & Convert.ToInt32(False) & ", '" & nomorUrutTransaksi & "', " & Convert.ToInt32(False) & ", " & _
+    '                     "" & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", '" & userUploadMCU & "', GETDATE())", 4)
+
+    '            ' Insert Tabel TransaksiLabBayar
+    '            WriteSQL("INSERT INTO TransaksiLabBayar (TransLabID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu) values('" & idTransaksi & "','TAGIHAN','" & company & "-" & Tdata("Company").ToString.Trim & "'," & ttlnett & ",'" & userUploadMCU & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','','')", 4)
+
+    '            ' Update DetailPemeriksaan di Tabel Transaksilab
+    '            WriteSQL("UPDATE Transaksilab SET DetailPemeriksaan = '" & DetailPemeriksaan & "', TotalTagihan = " & ttlbruto & " , TotalDisc=" & ttldisc & " ,  NettBayar = " & ttlnett & ", TotalBayar = " & ttlnett & " WHERE TransLabID = '" & idTransaksi & "'", 4)
+
+    '            Dim idBayarLokal As String = ReadSQLNIK("SELECT TransLabIDBayar FROM TransaksiLabBayar WHERE TransLabID = '" & idTransaksi & "'")
+
+    '            Try
+    '                Dim dataBayar = New With { _
+    '                    .trans_lab_id_bayar = idBayarLokal, _
+    '                    .jenis_bayar = "TAGIHAN", _
+    '                    .no_jenis_bayar = company & "-" & Tdata("Company").ToString.Trim, _
+    '                    .jumlah_bayar = ttlnett, _
+    '                    .kembali = 0, _
+    '                    .mesin = "", _
+    '                    .kartu = "" _
+    '                }
+
+    '                Dim payload = New With { _
+    '                    .cabang = kodePoli, _
+    '                    .pasien = New With { _
+    '                        .no_rekam_medis = NomorRekamMedis, _
+    '                        .nokartu = "-", _
+    '                        .nama = Tdata("Nama").ToString(), _
+    '                        .alamat = Tdata("Alamat").ToString(), _
+    '                        .no_hp = Tdata("Whatsapp").ToString(), _
+    '                        .email = Tdata("Email").ToString(), _
+    '                        .tgl_lahir = Format(Tdata("TglLahir"), "yyyy-MM-dd"), _
+    '                        .jenis_kelamin = Tdata("Sex").ToString(), _
+    '                        .nik = Tdata("PTNIK").ToString(), _
+    '                        .nip = Tdata("NIP").ToString(), _
+    '                        .createby = userUploadMCU _
+    '                    }, _
+    '                    .transaksi = New With { _
+    '                        .trans_lab_id = idTransaksi, _
+    '                        .no_urut = nomorUrutTransaksi, _
+    '                        .id_paket = Tdata("NoPaket").ToString(), _
+    '                        .tgl_lab = Format(Tdata("TglTrans"), "yyyy-MM-dd HH:mm:ss"), _
+    '                        .status = "SAMPLE", _
+    '                        .createby = userUploadMCU, _
+    '                        .detail_pemeriksaan = DetailPemeriksaan, _
+    '                        .total_tagihan = ttlbruto, _
+    '                        .total_disc = ttldisc, _
+    '                        .nett_bayar = ttlnett, _
+    '                        .total_bayar = ttlnett, _
+    '                        .company_nama = company _
+    '                    }, _
+    '                    .pembayaran = dataBayar, _
+    '                    .details = listDetailPayload _
+    '                }
+
+    '                Dim jsonString As String = JsonConvert.SerializeObject(payload)
+    '                Dim responAPI As String = InsertDataAPIRM(jsonString, urlWebService)
+
+    '                If responAPI Is Nothing Then
+    '                    responAPI = "Koneksi terputus atau Server mengembalikan HTTP Error (429/500)."
+    '                End If
+
+    '                If responAPI.ToLower().Contains("""status"":""success""") Then
+    '                    ' Update flag sukses upload awal ke DB Pusat
+    '                    WriteSQL("UPDATE TransaksiLab SET UploadAwal = 1, UploadAwalDate = GETDATE() WHERE TransLabID = '" & idTransaksi & "'", 4)
+    '                    totalSuksesAPI += 1
+    '                Else
+    '                    totalGagalAPI += 1
+    '                    listGagalPasien.Add(Tdata("Nama").ToString() & " (Respon: " & responAPI & ")")
+    '                End If
+    '            Catch exAPI As Exception
+    '                totalGagalAPI += 1
+    '                listGagalPasien.Add(Tdata("Nama").ToString() & " (API Error: " & exAPI.Message & ")")
+    '            End Try
+
+    '            System.Threading.Thread.Sleep(300)
+    '        Next
+
+    '        Dim pesanAkhir As String = "Proses selesai diproses di lokal." & vbCrLf & _
+    '                                         "Detail Sinkronisasi API:" & vbCrLf & _
+    '                                         "- Sukses: " & totalSuksesAPI & " pasien" & vbCrLf & _
+    '                                         "- Gagal: " & totalGagalAPI & " pasien"
+    '        If totalGagalAPI > 0 Then
+    '            pesanAkhir &= vbCrLf & vbCrLf & "Daftar Pasien Gagal:" & vbCrLf
+    '            ' Ambil maksimal 5 data sampel gagal agar text tidak kepanjangan
+    '            For i As Integer = 0 To Math.Min(listGagalPasien.Count - 1, 4)
+    '                pesanAkhir &= "- " & listGagalPasien(i) & vbCrLf
+    '            Next
+    '            If listGagalPasien.Count > 5 Then
+    '                pesanAkhir &= "...dan " & (listGagalPasien.Count - 5) & " pasien lainnya."
+    '            End If
+
+    '            MsgBox(pesanAkhir, MsgBoxStyle.Exclamation, "Proses Selesai dengan Catatan")
+    '        Else
+    '            MsgBox(pesanAkhir, MsgBoxStyle.Information, "Proses Selesai Sempurna")
+    '        End If
+
+    '        MsgBox(tblPasien.Rows.Count & " data berhasil diupload ke sistem.", MsgBoxStyle.Information, "Success!")
+    '    Else
+    '        MsgBox("Canceled.", MsgBoxStyle.Exclamation, "Warning!")
+    '    End If
+
+    '    ButtonUploadFile.Enabled = True
+    '    ProgressBar1.Visible = False
+    'End Sub
+
     Private Sub SaveMultiple()
         Dim tblPasien As DataTable = GridControlDataPasien.DataSource
         tblPasien.AcceptChanges()
@@ -585,31 +951,34 @@ Public Class UploadPasienMCU
         ButtonSimpanData.Enabled = False
         ButtonUploadFile.Enabled = False
 
-        Dim procent As Integer = 0
-        Dim persen As Integer = 0
-
-        Dim totalSuksesAPI As Integer = 0
-        Dim totalGagalAPI As Integer = 0
-        Dim listGagalPasien As New List(Of String)()
-
-        If MsgBox(tblPasien.Rows.Count & " data pasien akan diproses. Yakin lanjut?", MsgBoxStyle.YesNo, "Verifikasi Akhir") = MsgBoxResult.Yes Then
+        If MsgBox(tblPasien.Rows.Count & " data pasien akan diproses di database lokal & disinkronkan. Yakin lanjut?", MsgBoxStyle.YesNo, "Verifikasi Akhir") = MsgBoxResult.Yes Then
             ProgressBar1.Visible = True
 
             Dim company As String = ""
             Dim updatePasien As Boolean = False
             Dim NomorRekamMedis As String = ""
 
+            ' Deklarasi URL & Config Utama (Cukup 1x di sini)
             Dim kodePoli As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName ='NoPoli'")
             Dim baseUrl As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'ws_RM'")
-            Dim urlWebService As String = baseUrl & "api/lab/upload-mcu"
+            Dim urlWebServiceMCU As String = baseUrl & "api/lab/upload-mcu-batch"
 
             Dim kodeServer As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'KodeBarcode'")
             Dim kodeCabang As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
 
+            ' Container List Batch Payload
+            Dim listBatchMCUPayload As New List(Of Object)()
+            Dim listBatchInbodyPayload As New List(Of Object)()
+            Dim listTransLabIDUploaded As New List(Of String)()
+
+            Dim persen As Integer = 0
+
+            ' =========================================================================
+            ' TAHAP 1: PEMROSESAN DATABASE LOKAL & PENYUSUNAN BATCH PAYLOAD
+            ' =========================================================================
             For Each Tdata As DataRow In tblPasien.Rows
-                persen = persen + 1
-                procent = persen * 100 / tblPasien.Rows.Count
-                ProgressBar1.Value = procent
+                persen += 1
+                ProgressBar1.Value = CInt(persen * 50 / tblPasien.Rows.Count) ' 0 - 50% Progress untuk DB Lokal
 
                 updatePasien = False
                 Dim statusPasienAktif As Boolean = CekPasienAktif(Tdata)
@@ -618,46 +987,43 @@ Public Class UploadPasienMCU
                     NomorRekamMedis = generateNomorRekamMedis()
                     WriteSQL("INSERT INTO MasterPasien (noRekamMedis, NoNIK, NoNIP, Nama, TglLahir, JenisKelamin, DomisiliAlamat, FromUpload, CreatedBy, CreatedDate) " & _
                              "VALUES('" & NomorRekamMedis & "', '" & Tdata("PTNIK") & "', '" & Tdata("NIP") & "', '" & Tdata("Nama") & "', '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "','" & Tdata("Sex") & "', '" & Tdata("Alamat") & "', " & Convert.ToInt32(True) & ", '" & userUploadMCU & "', GETDATE())", 4)
-                ElseIf statusPasienAktif = True Then ' Pasien sudah ada di Database
+                Else ' Pasien sudah ada
                     NomorRekamMedis = ReadSQLNIK("SELECT noRekamMedis FROM MasterPasien WHERE Nama = '" & Tdata("Nama") & "' AND TglLahir = '" & Format(Tdata("TglLahir"), "MM/dd/yyyy") & "' AND NoNIK = '" & Tdata("PTNIK") & "'")
-                    ' Update alamat di MasterPasien
                     WriteSQL("UPDATE MasterPasien SET DomisiliAlamat = '" & Tdata("Alamat") & "', NoNIP = '" & Tdata("NIP") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
                     updatePasien = True
                 End If
 
-                ' Generate No Urut Transaksi
                 Dim nomorUrutTransaksi As String = generateNoTransaksi("M", "LABORATORIUM", Format(Tdata("TglTrans"), "yyyyMMdd"), True)
-
                 company = ReadSQLNIK("select CompanyNama from MasterCompany where NoCompany = '" & Tdata("Company").ToString.Trim & "'")
 
-                ' Set Cara Ambil
+                ' --- Setting Cara Ambil ---
                 Dim CaraAmbilSoftcopy As String = ""
                 Dim CaraAmbilHardcopy As String = ""
                 Dim StatusSoftcopy As Integer = 0
                 Dim StatusHardcopy As Integer = 0
                 Dim CaraAmbil As String = ""
 
-                If Tdata("Email").ToString.Trim <> "-" And IsDBNull(Tdata("Email")) = False Then
+                If Tdata("Email").ToString.Trim <> "-" AndAlso IsDBNull(Tdata("Email")) = False Then
                     CaraAmbilSoftcopy = "Email ke " & Tdata("Email").ToString
-                    If updatePasien = True Then WriteSQL("UPDATE MasterPasien SET Email = '" & Tdata("Email") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
-                ElseIf Tdata("Whatsapp").ToString.Trim <> "-" And IsDBNull(Tdata("Whatsapp")) = False Then
+                    If updatePasien Then WriteSQL("UPDATE MasterPasien SET Email = '" & Tdata("Email") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+                ElseIf Tdata("Whatsapp").ToString.Trim <> "-" AndAlso IsDBNull(Tdata("Whatsapp")) = False Then
                     CaraAmbilSoftcopy = "Whatsapp ke " & Tdata("Whatsapp").ToString
-                    If updatePasien = True Then WriteSQL("UPDATE MasterPasien SET NoHandphone = '" & Tdata("Whatsapp") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
+                    If updatePasien Then WriteSQL("UPDATE MasterPasien SET NoHandphone = '" & Tdata("Whatsapp") & "', DomisiliAlamat = '" & Tdata("Alamat") & "' WHERE NoRekamMedis = '" & NomorRekamMedis & "'", 4)
                 End If
 
-                If Tdata("Kirim").ToString <> "-" And IsDBNull(Tdata("Kirim")) = False Then
+                If Tdata("Kirim").ToString <> "-" AndAlso IsDBNull(Tdata("Kirim")) = False Then
                     CaraAmbilHardcopy = "Kirim ke " & Tdata("Kirim").ToString
-                ElseIf Tdata("AmbilSendiri") = True Then
+                ElseIf CBool(Tdata("AmbilSendiri")) = True Then
                     CaraAmbilHardcopy = "Ambil Sendiri"
                 End If
 
-                If CaraAmbilHardcopy = "" And CaraAmbilSoftcopy <> "" Then
+                If CaraAmbilHardcopy = "" AndAlso CaraAmbilSoftcopy <> "" Then
                     CaraAmbil = CaraAmbilSoftcopy
                     StatusSoftcopy = 1
-                ElseIf CaraAmbilHardcopy <> "" And CaraAmbilSoftcopy = "" Then
+                ElseIf CaraAmbilHardcopy <> "" AndAlso CaraAmbilSoftcopy = "" Then
                     CaraAmbil = CaraAmbilHardcopy
                     StatusHardcopy = 1
-                ElseIf CaraAmbilHardcopy <> "" And CaraAmbilSoftcopy <> "" Then
+                ElseIf CaraAmbilHardcopy <> "" AndAlso CaraAmbilSoftcopy <> "" Then
                     CaraAmbil = CaraAmbilHardcopy & " & " & CaraAmbilSoftcopy
                     StatusHardcopy = 1
                     StatusSoftcopy = 1
@@ -665,90 +1031,55 @@ Public Class UploadPasienMCU
 
                 ' Insert Tabel TransaksiLab
                 WriteSQL("INSERT INTO TransaksiLab (IDInternet, DokterRequest, DokterLab, TglLab, ClosedBayar,TotalTagihan,TotalDisc,Pembulatan,NettBayar,LabJenisPembayaran,ClosedTransaksi,CreateDate,CreateBy,LabJenisPasien,NoUrut,Status,LabDaftar,IDPaket,CaraAmbil, StatusSoftcopy, StatusHardcopy, SendingWhatsapp, SendingEmail) " & _
-                    "VALUES('" & NomorRekamMedis & "','','','" & Format(Tdata("TglTrans"), "MM/dd/yyyy") & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "',0,0,0,0,'',1,'" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & userUploadMCU & "','','" & nomorUrutTransaksi & "','SAMPLE','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & Tdata("NoPaket") & "', '" & CaraAmbil & "'," & StatusSoftcopy & "," & StatusHardcopy & ", '" & Tdata("Whatsapp").ToString & "', '" & Tdata("Email").ToString & "')", 4)
+                        "VALUES('" & NomorRekamMedis & "','','','" & Format(Tdata("TglTrans"), "MM/dd/yyyy") & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "',0,0,0,0,'',1,'" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & userUploadMCU & "','','" & nomorUrutTransaksi & "','SAMPLE','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','" & Tdata("NoPaket") & "', '" & CaraAmbil & "'," & StatusSoftcopy & "," & StatusHardcopy & ", '" & Tdata("Whatsapp").ToString & "', '" & Tdata("Email").ToString & "')", 4)
 
-                ' Ambil ID Transaksi Lokal
                 Dim idTransaksi As String = ReadSQLNIK("SELECT TransLabID FROM TransaksiLab WHERE IDInternet = '" & NomorRekamMedis & "' AND NoUrut = '" & nomorUrutTransaksi & "'")
+                listTransLabIDUploaded.Add("'" & idTransaksi & "'")
 
-                ' Kirim Ke InBody & Upload pasien Online
-                Try
-                    'MsgBox("Debug: Proses Kirim ke InBody dijalankan.", MsgBoxStyle.Information, "Debug InBody")
+                ' --- Payload InBody ---
+                Dim namaClean As String = UCase(Trim(Tdata("Nama").ToString())).Replace("""", "\""")
+                Dim genderInbody As String = If(Tdata("Sex").ToString().ToUpper() = "L", "M", If(Tdata("Sex").ToString().ToUpper() = "P", "F", ""))
+                Dim tglLahir As Date = CDate(Tdata("TglLahir"))
+                Dim umur As Integer = DateDiff(DateInterval.Year, tglLahir, Date.Now)
 
-                    Dim nama As String = Tdata("Nama").ToString()
-                    Dim jenisKelamin As String = Tdata("Sex").ToString()
-                    Dim genderInbody As String = ""
+                listBatchInbodyPayload.Add(New With { _
+                    .USER_ID = nomorUrutTransaksi, _
+                    .USER_NAME = namaClean, _
+                    .USER_GENDER = genderInbody, _
+                    .USER_BIRTHDAY = tglLahir.ToString("yyyyMMdd"), _
+                    .USER_AGE = umur, _
+                    .USER_HEIGHT = "", _
+                    .ORDER_DATE = CDate(Tdata("TglTrans")).ToString("yyyyMMdd"), _
+                    .SERVER = kodeServer, _
+                    .CABANG = kodeCabang _
+                })
 
-                    Select Case jenisKelamin.ToUpper()
-                        Case "L"
-                            genderInbody = "M"
-                        Case "P"
-                            genderInbody = "F"
-                        Case Else
-                            genderInbody = ""
-                    End Select
-
-                    Dim tglLahir As Date = CDate(Tdata("TglLahir"))
-                    Dim tglLahirStr As String = CDate(Tdata("TglLahir")).ToString("yyyyMMdd")
-                    Dim umur As Integer = DateDiff(DateInterval.Year, tglLahir, Date.Now)
-                    Dim orderDateStr As String = CDate(Tdata("TglTrans")).ToString("yyyyMMdd")
-
-                    ' Tinggi badan dikosongkan sesuai permintaan
-                    Dim tinggiUserInbody As String = ""
-
-                    'MsgBox("Status WS InBody: " & statusInbody, MsgBoxStyle.Information, "Debug InBody")
-
-                    'MsgBox("Debug: Mengirim data ke API InBody.", MsgBoxStyle.Information, "Debug InBody")
-
-                    SendToApiInbodyFromMCU( _
-                        nomorUrutTransaksi, _
-                        nama, _
-                        genderInbody, _
-                        tglLahirStr, _
-                        umur, _
-                        tinggiUserInbody, _
-                        orderDateStr, _
-                        kodeServer, _
-                        kodeCabang)
-
-                Catch ex As Exception
-                    totalGagalAPI += 1
-                    listGagalPasien.Add(Tdata("Nama").ToString() & " (Error: " & ex.Message & ")")
-                    'MsgBox("Gagal mengirim data ke InBody: " & ex.Message, _
-                    '       MsgBoxStyle.Exclamation, "Warning")
-                End Try
-
-
-                ' Set Tabel Master Paket
-                Dim tblPaket As DataTable = ReadSQL("SELECT * FROM MasterLabPaket a LEFT JOIN MasterLabPaketDetail b on a.PaketID = b.PaketID  where a.PaketID = '" & Tdata("NoPaket") & "'")
+                ' --- Detail Paket & Item Result ---
+                Dim tblPaket As DataTable = ReadSQL("SELECT * FROM MasterLabPaket a LEFT JOIN MasterLabPaketDetail b on a.PaketID = b.PaketID where a.PaketID = '" & Tdata("NoPaket") & "'")
                 tblPaket.AcceptChanges()
 
                 Dim ttlbruto As Double = 0
                 Dim ttldisc As Double = 0
-                Dim ttlbulat As Double = 0
                 Dim ttlnett As Double = 0
-                Dim DetailPemeriksaan As String = ""
                 Dim TtempDetailPemeriksaan As String = ""
-
                 Dim listDetailPayload As New List(Of Object)()
 
                 For Each Trow As DataRow In tblPaket.Rows
-                    TtempDetailPemeriksaan = TtempDetailPemeriksaan & "" & Trow("NamaTindakan").ToString.Trim & ", "
+                    TtempDetailPemeriksaan &= Trow("NamaTindakan").ToString.Trim & ", "
                     Dim Disc As Double = CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett"))
 
-                    ' Insert Tabel TransaksiLabDetail
                     WriteSQL("INSERT INTO TransaksiLabDetail(TransLabID,TindakanID,NamaTindakan,JenisTindakan,BiayaTindakan,DiscTindakan,NettBayar,admin,transaksitime,DiscPersenTindakan) " & _
                         "VALUES('" & idTransaksi & "','" & Trow("TindakanID") & "','" & Trow("NamaTindakan") & "','" & Trow("JenisTindakan") & "'," & CDbl(Trow("TindakanNilai")) & "," & Disc & "," & CDbl(Trow("TindakanNett")) & ",'" & userUploadMCU & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "'," & CDbl(Trow("TindakanDiscount")) & ")", 4)
 
                     Dim Tnomber As String = ReadSQLNIK("select TransLabIDDetail from TransaksiLabDetail where TransLabID='" & idTransaksi & "' and TindakanID='" & Trow("TindakanID") & "' and NamaTindakan='" & Trow("NamaTindakan") & "' and JenisTindakan='" & Trow("JenisTindakan") & "'")
 
-                    ttlbruto = ttlbruto + CDbl(Trow("TindakanNilai"))
-                    ttlnett = ttlnett + CDbl(Trow("TindakanNett"))
-                    ttldisc = ttldisc + CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett"))
+                    ttlbruto += CDbl(Trow("TindakanNilai"))
+                    ttlnett += CDbl(Trow("TindakanNett"))
+                    ttldisc += (CDbl(Trow("TindakanNilai")) - CDbl(Trow("TindakanNett")))
 
                     Dim listResultPayload As New List(Of Object)()
                     Dim Tbls2 As DataTable = ReadSQL("SELECT * FROM MasterLabDetail where TindakanID='" & Trow("TindakanID") & "' and deleted=0 order by groupid,nourut")
                     For Each Trow2 As DataRow In Tbls2.Rows
-                        ' Insert Tabel TransaksiLabResult
                         WriteSQL("INSERT INTO TransaksiLabResult(TransLabIDDetail,TindakanID,GroupID,NoUrut,DetailKet,Pria,Wanita,Result,Keterangan,Satuan) " & _
                                  " values('" & Tnomber & "','" & Trow("TindakanID") & "','" & Trow2("GroupID") & "','" & Trow2("NoUrut") & "','" & Trow2("DetailKet") & "','" & Trow2("Pria") & "','" & Trow2("Wanita") & "','','" & Trow2("KeteranganHasil") & "','" & Trow2("DisplayHasil") & "') ", 4)
 
@@ -783,117 +1114,136 @@ Public Class UploadPasienMCU
                     })
                 Next
 
-                ' Set Detail Pemeriksaan
-                DetailPemeriksaan = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
-
-                ' Update Nomor Urut dan Mesin di Tabel UpdateTransLabDetail
+                Dim DetailPemeriksaan As String = Strings.Left(TtempDetailPemeriksaan, TtempDetailPemeriksaan.Length - 2)
                 UpdateTransLabDetail(idTransaksi)
 
-                ' Insert Tabel TransaksiDetail
                 WriteSQL("INSERT INTO TransaksiDetail(NoUrutBPJS, NoTransaksi, JenisKunjungan, JenisRawat, JenisTransaksi, JenisPoli, TanggalTransaksi, KeluhanUtama, KeluhanTambahan, IDInternet, StatusBPJS, NoUrut, StatusHandaya, StatusLansia, StatusDifabel, StatusGawatDarurat, CreatedBy, CreatedDate) " & _
                          "VALUES(NULL, '" & idTransaksi & "', 'Kunjungan Sakit', 'Rawat Jalan', 'LAB', 'LABORATORIUM', GETDATE(), '-', '-', '" & NomorRekamMedis & "'," & Convert.ToInt32(False) & ", '" & nomorUrutTransaksi & "', " & Convert.ToInt32(False) & ", " & _
                          "" & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", " & Convert.ToInt32(False) & ", '" & userUploadMCU & "', GETDATE())", 4)
 
-                ' Insert Tabel TransaksiLabBayar
                 WriteSQL("INSERT INTO TransaksiLabBayar (TransLabID,JenisBayar,NoJenisBayar,JumlahBayar,admin,transaksitime,mesin,kartu) values('" & idTransaksi & "','TAGIHAN','" & company & "-" & Tdata("Company").ToString.Trim & "'," & ttlnett & ",'" & userUploadMCU & "','" & Format(Tdata("TglTrans"), "MM/dd/yyyy HH:mm:ss") & "','','')", 4)
 
-                ' Update DetailPemeriksaan di Tabel Transaksilab
-                WriteSQL("UPDATE Transaksilab SET DetailPemeriksaan = '" & DetailPemeriksaan & "', TotalTagihan = " & ttlbruto & " , TotalDisc=" & ttldisc & " ,  NettBayar = " & ttlnett & ", TotalBayar = " & ttlnett & " WHERE TransLabID = '" & idTransaksi & "'", 4)
+                WriteSQL("UPDATE Transaksilab SET DetailPemeriksaan = '" & DetailPemeriksaan & "', TotalTagihan = " & ttlbruto & " , TotalDisc=" & ttldisc & " , NettBayar = " & ttlnett & ", TotalBayar = " & ttlnett & " WHERE TransLabID = '" & idTransaksi & "'", 4)
 
                 Dim idBayarLokal As String = ReadSQLNIK("SELECT TransLabIDBayar FROM TransaksiLabBayar WHERE TransLabID = '" & idTransaksi & "'")
 
-                Try
-                    Dim dataBayar = New With { _
+                ' --- Tambahkan ke Single Item Payload MCU ---
+                Dim singleMcuPayload = New With { _
+                    .cabang = kodePoli, _
+                    .pasien = New With { _
+                        .no_rekam_medis = NomorRekamMedis, _
+                        .nokartu = "-", _
+                        .nama = Tdata("Nama").ToString(), _
+                        .alamat = Tdata("Alamat").ToString(), _
+                        .no_hp = Tdata("Whatsapp").ToString(), _
+                        .email = Tdata("Email").ToString(), _
+                        .tgl_lahir = Format(Tdata("TglLahir"), "yyyy-MM-dd"), _
+                        .jenis_kelamin = Tdata("Sex").ToString(), _
+                        .nik = Tdata("PTNIK").ToString(), _
+                        .nip = Tdata("NIP").ToString(), _
+                    .createby = userUploadMCU _
+                    }, _
+                    .transaksi = New With { _
+                        .trans_lab_id = idTransaksi, _
+                        .no_urut = nomorUrutTransaksi, _
+                        .id_paket = Tdata("NoPaket").ToString(), _
+                        .tgl_lab = Format(Tdata("TglTrans"), "yyyy-MM-dd HH:mm:ss"), _
+                        .status = "SAMPLE", _
+                        .createby = userUploadMCU, _
+                        .detail_pemeriksaan = DetailPemeriksaan, _
+                        .total_tagihan = ttlbruto, _
+                        .total_disc = ttldisc, _
+                        .nett_bayar = ttlnett, _
+                    .total_bayar = ttlnett, _
+                    .company_nama = company _
+                    }, _
+                    .pembayaran = New With { _
                         .trans_lab_id_bayar = idBayarLokal, _
                         .jenis_bayar = "TAGIHAN", _
                         .no_jenis_bayar = company & "-" & Tdata("Company").ToString.Trim, _
                         .jumlah_bayar = ttlnett, _
                         .kembali = 0, _
                         .mesin = "", _
-                        .kartu = "" _
-                    }
+                    .kartu = "" _
+                    }, _
+                    .details = listDetailPayload _
+                }
 
-                    Dim payload = New With { _
-                        .cabang = kodePoli, _
-                        .pasien = New With { _
-                            .no_rekam_medis = NomorRekamMedis, _
-                            .nokartu = "-", _
-                            .nama = Tdata("Nama").ToString(), _
-                            .alamat = Tdata("Alamat").ToString(), _
-                            .no_hp = Tdata("Whatsapp").ToString(), _
-                            .email = Tdata("Email").ToString(), _
-                            .tgl_lahir = Format(Tdata("TglLahir"), "yyyy-MM-dd"), _
-                            .jenis_kelamin = Tdata("Sex").ToString(), _
-                            .nik = Tdata("PTNIK").ToString(), _
-                            .nip = Tdata("NIP").ToString(), _
-                            .createby = userUploadMCU _
-                        }, _
-                        .transaksi = New With { _
-                            .trans_lab_id = idTransaksi, _
-                            .no_urut = nomorUrutTransaksi, _
-                            .id_paket = Tdata("NoPaket").ToString(), _
-                            .tgl_lab = Format(Tdata("TglTrans"), "yyyy-MM-dd HH:mm:ss"), _
-                            .status = "SAMPLE", _
-                            .createby = userUploadMCU, _
-                            .detail_pemeriksaan = DetailPemeriksaan, _
-                            .total_tagihan = ttlbruto, _
-                            .total_disc = ttldisc, _
-                            .nett_bayar = ttlnett, _
-                            .total_bayar = ttlnett, _
-                            .company_nama = company _
-                        }, _
-                        .pembayaran = dataBayar, _
-                        .details = listDetailPayload _
-                    }
-
-                    Dim jsonString As String = JsonConvert.SerializeObject(payload)
-                    Dim responAPI As String = InsertDataAPIRM(jsonString, urlWebService)
-
-                    If responAPI Is Nothing Then
-                        responAPI = "Koneksi terputus atau Server mengembalikan HTTP Error (429/500)."
-                    End If
-
-                    If responAPI.ToLower().Contains("""status"":""success""") Then
-                        ' Update flag sukses upload awal ke DB Pusat
-                        WriteSQL("UPDATE TransaksiLab SET UploadAwal = 1, UploadAwalDate = GETDATE() WHERE TransLabID = '" & idTransaksi & "'", 4)
-                        totalSuksesAPI += 1
-                    Else
-                        totalGagalAPI += 1
-                        listGagalPasien.Add(Tdata("Nama").ToString() & " (Respon: " & responAPI & ")")
-                    End If
-                Catch exAPI As Exception
-                    totalGagalAPI += 1
-                    listGagalPasien.Add(Tdata("Nama").ToString() & " (API Error: " & exAPI.Message & ")")
-                End Try
-
-                System.Threading.Thread.Sleep(300)
+                listBatchMCUPayload.Add(singleMcuPayload)
             Next
 
-            Dim pesanAkhir As String = "Proses selesai diproses di lokal." & vbCrLf & _
-                                             "Detail Sinkronisasi API:" & vbCrLf & _
-                                             "- Sukses: " & totalSuksesAPI & " pasien" & vbCrLf & _
-                                             "- Gagal: " & totalGagalAPI & " pasien"
-            If totalGagalAPI > 0 Then
-                pesanAkhir &= vbCrLf & vbCrLf & "Daftar Pasien Gagal:" & vbCrLf
-                ' Ambil maksimal 5 data sampel gagal agar text tidak kepanjangan
-                For i As Integer = 0 To Math.Min(listGagalPasien.Count - 1, 4)
-                    pesanAkhir &= "- " & listGagalPasien(i) & vbCrLf
-                Next
-                If listGagalPasien.Count > 5 Then
-                    pesanAkhir &= "...dan " & (listGagalPasien.Count - 5) & " pasien lainnya."
+            ' =========================================================================
+            ' TAHAP 2: EKSEKUSI BATCH POST KE WEB API
+            ' =========================================================================
+
+            ' 1. POST BATCH MCU API
+            ProgressBar1.Value = 75
+
+            ' Set ukuran pecahan data (misal: 50 data per request HTTP)
+            Dim chunkSize As Integer = 50
+            Dim totalData As Integer = listBatchMCUPayload.Count
+            Dim totalSuksesChunk As Integer = 0
+
+            Try
+                If String.IsNullOrEmpty(urlWebServiceMCU) Then
+                    Throw New Exception("Base URL API tidak ditemukan di MsConfig (ws_RM)!")
                 End If
 
-                MsgBox(pesanAkhir, MsgBoxStyle.Exclamation, "Proses Selesai dengan Catatan")
-            Else
-                MsgBox(pesanAkhir, MsgBoxStyle.Information, "Proses Selesai Sempurna")
-            End If
+                ' Loop memecah array payload menjadi per 50 item (Kompatibel VB 2008)
+                For i As Integer = 0 To totalData - 1 Step chunkSize
 
-            MsgBox(tblPasien.Rows.Count & " data berhasil diupload ke sistem.", MsgBoxStyle.Information, "Success!")
+                    ' 1. Ambil 50 item manual untuk Payload MCU (Pengganti .Skip & .Take)
+                    Dim chunkMcu As New List(Of Object)()
+                    Dim chunkIDsList As New List(Of String)()
+
+                    For j As Integer = i To Math.Min(i + chunkSize - 1, totalData - 1)
+                        chunkMcu.Add(listBatchMCUPayload(j))
+                        chunkIDsList.Add(listTransLabIDUploaded(j))
+                    Next
+
+                    ' 2. Bungkus ke JSON Root "items"
+                    Dim batchMcuRoot = New With { _
+                        .items = chunkMcu _
+                    }
+                    Dim jsonBatchMcu As String = JsonConvert.SerializeObject(batchMcuRoot)
+
+                    ' 3. Kirim Chunk ke API Laravel
+                    Dim responAPI As String = InsertDataAPIRM(jsonBatchMcu, urlWebServiceMCU)
+
+                    ' 4. Evaluasi Respon Server
+                    If responAPI IsNot Nothing AndAlso responAPI.ToLower().Contains("""status"":""success""") Then
+                        ' Update status lokal per-chunk yang sukses
+                        If chunkIDsList.Count > 0 Then
+                            Dim joinedIDs As String = String.Join(",", chunkIDsList.ToArray())
+                            WriteSQL("UPDATE TransaksiLab SET UploadAwal = 1, UploadAwalDate = GETDATE() WHERE TransLabID IN (" & joinedIDs & ")", 4)
+                        End If
+                        totalSuksesChunk += chunkMcu.Count
+                    End If
+                Next
+
+                If totalSuksesChunk < totalData Then
+                    MsgBox("Beberapa chunk gagal terintegrasi. Sukses: " & totalSuksesChunk & "/" & totalData, MsgBoxStyle.Exclamation, "Warning MCU Chunk")
+                End If
+
+            Catch exMCU As Exception
+                MsgBox("Gagal Batch Post API MCU: " & exMCU.Message, MsgBoxStyle.Exclamation, "Warning MCU Batch")
+            End Try
+
+            ' 2. POST BATCH INBODY API
+            ProgressBar1.Value = 100
+            Try
+                SendToApiInbodyBatchFromMCU(listBatchInbodyPayload)
+            Catch exInbody As Exception
+                MsgBox("Gagal Batch Post API Inbody: " & exInbody.Message, MsgBoxStyle.Exclamation, "Warning Inbody Batch")
+            End Try
+
+            MsgBox("Proses Batch Selesai. " & tblPasien.Rows.Count & " data berhasil diproses.", MsgBoxStyle.Information, "Success!")
         Else
             MsgBox("Canceled.", MsgBoxStyle.Exclamation, "Warning!")
         End If
 
         ButtonUploadFile.Enabled = True
+        ButtonSimpanData.Enabled = True
         ProgressBar1.Visible = False
     End Sub
 

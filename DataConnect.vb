@@ -2349,6 +2349,43 @@ Module Test
         End Try
     End Function
 
+    Public Function InsertDataAPIRMIC(ByVal parameter As String, ByVal uri As String) As String
+        Dim result As String = ""
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+            webreq.Method = "POST"
+            webreq.ContentType = "application/json; charset=utf-8"
+            webreq.Accept = "application/json"
+            webreq.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+
+            Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
+            webreq.ContentLength = bytearr.Length
+
+            Using dataStream As Stream = webreq.GetRequestStream()
+                dataStream.Write(bytearr, 0, bytearr.Length)
+            End Using
+
+            Using res As WebResponse = webreq.GetResponse()
+                Using stream As Stream = res.GetResponseStream()
+                    Using streamReader As New StreamReader(stream)
+                        result = streamReader.ReadToEnd()
+                    End Using
+                End Using
+            End Using
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        result = reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                result = "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+        End Try
+        Return result
+    End Function
+
     Private Function GenerateSignature(ByVal data As String, ByVal apiKey As String) As String
         Dim raw As String = data & apiKey
         Dim bytes As Byte() = Encoding.UTF8.GetBytes(raw)
