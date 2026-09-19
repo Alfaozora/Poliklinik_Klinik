@@ -1646,4 +1646,9 @@ Public Class PoliKlinik
         FormCheckinHYU.Show()
         FormCheckinHYU.Focus()
     End Sub
+
+    Private Sub CameraToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CameraToolStripMenuItem.Click
+        FormCamera.Show()
+        FormCamera.Focus()
+    End Sub
 End Class
