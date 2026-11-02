@@ -905,6 +905,7 @@ Public Class FormRekamMedisDokter
 
                 ' Pemeriksaan Gigi
                 ButtonObjektifPemeriksaanGigi.Visible = True
+                ButtonObjektifPemeriksaanKia.Visible = False
             End If
 
             If Trow("StatusDifabel") = False Then
@@ -8113,7 +8114,7 @@ Public Class FormRekamMedisDokter
         End If
     End Sub
 
-    Private Sub ButtonObjektif_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonObjektifFisik.Click, ButtonObjektifPemeriksaanGeneralis.Click, ButtonObjektifPemeriksaanDiagnostik.Click, ButtonObjektifPemeriksaanGigi.Click, ButtonObjektifPemeriksaanLab.Click, ButtonObjektifUploadGambar.Click
+    Private Sub ButtonObjektif_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonObjektifFisik.Click, ButtonObjektifPemeriksaanGeneralis.Click, ButtonObjektifPemeriksaanDiagnostik.Click, ButtonObjektifPemeriksaanGigi.Click, ButtonObjektifPemeriksaanLab.Click, ButtonObjektifUploadGambar.Click, ButtonObjektifPemeriksaanKia.Click
         Try
             Dim myButton = DirectCast(sender, Button)
 
@@ -8124,6 +8125,7 @@ Public Class FormRekamMedisDokter
             ButtonObjektifPemeriksaanGigi.BackColor = Color.FromArgb(0, 100, 200)
             ButtonObjektifPemeriksaanLab.BackColor = Color.FromArgb(0, 100, 200)
             ButtonObjektifUploadGambar.BackColor = Color.FromArgb(0, 100, 200)
+            ButtonObjektifPemeriksaanKia.BackColor = Color.FromArgb(0, 100, 200)
 
             '# Buka TabPage 
             Select Case myButton.Name
@@ -8139,6 +8141,8 @@ Public Class FormRekamMedisDokter
                     TabControlObjektif.SelectedTab = TabObjektifPemeriksaanLab
                 Case "ButtonObjektifUploadGambar"
                     TabControlObjektif.SelectedTab = TabObjektifGambar
+                Case "ButtonObjektifPemeriksaanKia"
+                    TabControlObjektif.SelectedTab = TabObjektifKia
             End Select
 
             myButton.BackColor = Color.FromArgb(85, 99, 114) ' Ganti Warna Button
@@ -15000,5 +15004,32 @@ Public Class FormRekamMedisDokter
         CheckBoxStatusGeneralisMulutFaring.Checked = True
         CheckBoxStatusGeneralisTelinga.Checked = True
         CheckBoxStatusGeneralisStatusLokalis.Checked = True
+    End Sub
+
+    Private Sub ComboBoxTrimester_SelectedIndexChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTrimester.SelectedIndexChanged
+        ' Bersihkan item kunjungan sebelumnya dan reset teks
+        ComboBoxKunjungan.Items.Clear()
+        ComboBoxKunjungan.Text = ""
+
+        ' Dapatkan nilai trimester yang dipilih (di-trim untuk mengabaikan spasi berlebih)
+        Dim selectedTrimester As String = ComboBoxTrimester.SelectedItem.ToString().Trim()
+        Select Case selectedTrimester
+            Case "I", "Trimester I"
+                ComboBoxKunjungan.Items.Add("1")
+
+            Case "II", "Trimester II"
+                ComboBoxKunjungan.Items.Add("2")
+                ComboBoxKunjungan.Items.Add("3")
+
+            Case "III", "Trimester III"
+                ComboBoxKunjungan.Items.Add("4")
+                ComboBoxKunjungan.Items.Add("5")
+                ComboBoxKunjungan.Items.Add("6")
+        End Select
+
+        ' Otomatis pilih item pertama jika ada data yang ditambahkan
+        If ComboBoxKunjungan.Items.Count > 0 Then
+            ComboBoxKunjungan.SelectedIndex = 0
+        End If
     End Sub
 End Class
