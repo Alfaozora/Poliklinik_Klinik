@@ -15032,4 +15032,8 @@ Public Class FormRekamMedisDokter
             ComboBoxKunjungan.SelectedIndex = 0
         End If
     End Sub
+
+    Private Sub ButtonTampilUsgI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTampilUsgI.Click
+        FormHasilUsg.ShowDialog()
+    End Sub
 End Class

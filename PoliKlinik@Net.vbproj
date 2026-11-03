@@ -568,6 +568,12 @@
     <Compile Include="Prototype\FormCheckinHYU.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormHasilUsg.Designer.vb">
+      <DependentUpon>FormHasilUsg.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormHasilUsg.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormInputInformedConsent.Designer.vb">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
     </Compile>
@@ -1617,6 +1623,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormCheckinHYU.resx">
       <DependentUpon>FormCheckinHYU.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormHasilUsg.resx">
+      <DependentUpon>FormHasilUsg.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
