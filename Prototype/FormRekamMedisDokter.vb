@@ -15036,4 +15036,76 @@ Public Class FormRekamMedisDokter
     Private Sub ButtonTampilUsgI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTampilUsgI.Click
         FormHasilUsg.ShowDialog()
     End Sub
+
+    Private Sub OnSkriningPreeklampsiaChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _
+     CheckBoxSedang1.CheckedChanged, CheckBoxSedang2.CheckedChanged, CheckBoxSedang3.CheckedChanged, _
+     CheckBoxSedang4.CheckedChanged, CheckBoxSedang5.CheckedChanged, CheckBoxSedang6.CheckedChanged, _
+     CheckBoxSedang7.CheckedChanged, CheckBoxSedang8.CheckedChanged, _
+     CheckBoxTinggi1.CheckedChanged, CheckBoxTinggi2.CheckedChanged, CheckBoxTinggi3.CheckedChanged, _
+     CheckBoxTinggi4.CheckedChanged, CheckBoxTinggi5.CheckedChanged, CheckBoxTinggi6.CheckedChanged, _
+     CheckBoxTinggi7.CheckedChanged, CheckBoxTinggi8.CheckedChanged, _
+     TextBoxSisTriII.TextChanged, TextBoxDiasTriII.TextChanged
+
+        ' Setiap kali ada perubahan centang / angka, hitung ulang secara real-time
+        HitungSkriningPreeklampsia()
+    End Sub
+
+    Private Sub TabControl3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabControl3.SelectedIndexChanged
+        If TabControl3.SelectedTab Is TabPageTrimesterII Then
+            HitungSkriningPreeklampsia()
+        End If
+    End Sub
+
+    Private Sub HitungSkriningPreeklampsia()
+        Dim jmlRisikoSedang As Integer = 0
+        Dim jmlRisikoTinggi As Integer = 0
+
+        ' --- 1. HITUNG RISIKO SEDANG ---
+        If CheckBoxSedang1.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang2.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang3.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang4.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang5.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang6.Checked Then jmlRisikoSedang += 1
+        If CheckBoxSedang7.Checked Then jmlRisikoSedang += 1
+
+        ' --- HITUNG MAP TERUSAN DARI TEKANAN DARAH ---
+        Dim sistolik As Double = Val(TextBoxSisTriII.Text)
+        Dim diastolik As Double = Val(TextBoxDiasTriII.Text)
+        If sistolik > 0 AndAlso diastolik > 0 Then
+            Dim map As Double = ((2 * diastolik) + sistolik) / 3.0
+            TextBoxMap.Text = Math.Round(map, 1).ToString()
+
+            ' Gunakan RemoveHandler/AddHandler agar tidak memicu infinite loop saat merubah status CheckBox dari kode
+            RemoveHandler CheckBoxSedang8.CheckedChanged, AddressOf OnSkriningPreeklampsiaChanged
+            If map > 90.0 Then
+                CheckBoxSedang8.Checked = True
+                jmlRisikoSedang += 1
+            Else
+                CheckBoxSedang8.Checked = False
+            End If
+            AddHandler CheckBoxSedang8.CheckedChanged, AddressOf OnSkriningPreeklampsiaChanged
+        End If
+
+        ' --- 2. HITUNG RISIKO TINGGI ---
+        If CheckBoxTinggi1.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi2.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi3.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi4.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi5.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi6.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi7.Checked Then jmlRisikoTinggi += 1
+        If CheckBoxTinggi8.Checked Then jmlRisikoTinggi += 1
+
+        ' --- 3. KESIMPULAN KONDISI RUJUKAN ---
+        If jmlRisikoTinggi >= 1 OrElse jmlRisikoSedang >= 2 Then
+            TextBoxKeteranganTriII.Text = "BERISIKO PREEKLAMPSIA (PERLU RUJUKAN TERENCANA KE RUMAH SAKIT)"
+            TextBoxKeteranganTriII.BackColor = Color.MistyRose
+            TextBoxKeteranganTriII.ForeColor = Color.Red
+        Else
+            TextBoxKeteranganTriII.Text = "TIDAK BERISIKO PREEKLAMPSIA (PERAWATAN RUTIN FKTP)"
+            TextBoxKeteranganTriII.BackColor = Color.White
+            TextBoxKeteranganTriII.ForeColor = Color.Black
+        End If
+    End Sub
 End Class

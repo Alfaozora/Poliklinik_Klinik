@@ -671,6 +671,7 @@ Me.Label359 = New System.Windows.Forms.Label
 Me.SplitContainer19 = New System.Windows.Forms.SplitContainer
 Me.Label363 = New System.Windows.Forms.Label
 Me.GroupBox22 = New System.Windows.Forms.GroupBox
+Me.Label585 = New System.Windows.Forms.Label
 Me.GroupBox23 = New System.Windows.Forms.GroupBox
 Me.RadioButtonHepBReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonSifilisReaktif = New System.Windows.Forms.RadioButton
@@ -906,7 +907,232 @@ Me.TextBoxKeadaanUmum = New System.Windows.Forms.TextBox
 Me.Label416 = New System.Windows.Forms.Label
 Me.Label420 = New System.Windows.Forms.Label
 Me.TabPageTrimesterII = New System.Windows.Forms.TabPage
+Me.SplitContainer23 = New System.Windows.Forms.SplitContainer
+Me.Label470 = New System.Windows.Forms.Label
+Me.SplitContainer24 = New System.Windows.Forms.SplitContainer
+Me.SplitContainer25 = New System.Windows.Forms.SplitContainer
+Me.ButtonTrimesterII = New System.Windows.Forms.Button
+Me.GroupBox41 = New System.Windows.Forms.GroupBox
+Me.TextBoxKeteranganTriII = New System.Windows.Forms.TextBox
+Me.Label490 = New System.Windows.Forms.Label
+Me.Label491 = New System.Windows.Forms.Label
+Me.TextBoxStatusRujukan = New System.Windows.Forms.TextBox
+Me.Label492 = New System.Windows.Forms.Label
+Me.Label493 = New System.Windows.Forms.Label
+Me.GroupBox40 = New System.Windows.Forms.GroupBox
+Me.CheckBoxTinggi7 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi6 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi5 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi4 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi3 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi2 = New System.Windows.Forms.CheckBox
+Me.CheckBoxTinggi1 = New System.Windows.Forms.CheckBox
+Me.GroupBoxTri = New System.Windows.Forms.GroupBox
+Me.CheckBoxTinggi8 = New System.Windows.Forms.CheckBox
+Me.ComboBoxProteinuria = New System.Windows.Forms.ComboBox
+Me.CheckBoxSedang8 = New System.Windows.Forms.CheckBox
+Me.TextBox97 = New System.Windows.Forms.TextBox
+Me.TextBoxMap = New System.Windows.Forms.TextBox
+Me.Label489 = New System.Windows.Forms.Label
+Me.TextBox96 = New System.Windows.Forms.TextBox
+Me.TextBoxDiasTriII = New System.Windows.Forms.TextBox
+Me.TextBoxSisTriII = New System.Windows.Forms.TextBox
+Me.Label488 = New System.Windows.Forms.Label
+Me.Label487 = New System.Windows.Forms.Label
+Me.Label486 = New System.Windows.Forms.Label
+Me.Label485 = New System.Windows.Forms.Label
+Me.Label484 = New System.Windows.Forms.Label
+Me.Label473 = New System.Windows.Forms.Label
+Me.GroupBox39 = New System.Windows.Forms.GroupBox
+Me.CheckBoxSedang7 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang6 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang5 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang4 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang3 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang2 = New System.Windows.Forms.CheckBox
+Me.CheckBoxSedang1 = New System.Windows.Forms.CheckBox
 Me.TabPageTrimesterIII = New System.Windows.Forms.TabPage
+Me.SplitContainer26 = New System.Windows.Forms.SplitContainer
+Me.Label494 = New System.Windows.Forms.Label
+Me.SplitContainer27 = New System.Windows.Forms.SplitContainer
+Me.SplitContainer28 = New System.Windows.Forms.SplitContainer
+Me.ButtonSimpanTriIII = New System.Windows.Forms.Button
+Me.GroupBox50 = New System.Windows.Forms.GroupBox
+Me.RadioButtonFkrtlTriIII = New System.Windows.Forms.RadioButton
+Me.RadioButtonFktpTriIII = New System.Windows.Forms.RadioButton
+Me.Label584 = New System.Windows.Forms.Label
+Me.Label580 = New System.Windows.Forms.Label
+Me.Label581 = New System.Windows.Forms.Label
+Me.TextBoxPenjelasanTriIII = New System.Windows.Forms.TextBox
+Me.Label582 = New System.Windows.Forms.Label
+Me.Label583 = New System.Windows.Forms.Label
+Me.GroupBox46 = New System.Windows.Forms.GroupBox
+Me.ButtonUsgTriIII = New System.Windows.Forms.Button
+Me.GroupBox49 = New System.Windows.Forms.GroupBox
+Me.ComboBox11 = New System.Windows.Forms.ComboBox
+Me.ComboBox3 = New System.Windows.Forms.ComboBox
+Me.ComboBox9 = New System.Windows.Forms.ComboBox
+Me.ComboBox10 = New System.Windows.Forms.ComboBox
+Me.Label572 = New System.Windows.Forms.Label
+Me.Label573 = New System.Windows.Forms.Label
+Me.Label574 = New System.Windows.Forms.Label
+Me.Label575 = New System.Windows.Forms.Label
+Me.Label576 = New System.Windows.Forms.Label
+Me.Label577 = New System.Windows.Forms.Label
+Me.Label578 = New System.Windows.Forms.Label
+Me.Label579 = New System.Windows.Forms.Label
+Me.GroupBox48 = New System.Windows.Forms.GroupBox
+Me.ComboBoxRujukanTriIII = New System.Windows.Forms.ComboBox
+Me.ComboBoxTindaklanjutTriIII = New System.Windows.Forms.ComboBox
+Me.ComboBoxSkriningJiwaTriIII = New System.Windows.Forms.ComboBox
+Me.DateTimePickerSkriningJiwaTriIII = New System.Windows.Forms.DateTimePicker
+Me.Label556 = New System.Windows.Forms.Label
+Me.Label557 = New System.Windows.Forms.Label
+Me.Label558 = New System.Windows.Forms.Label
+Me.Label559 = New System.Windows.Forms.Label
+Me.Label560 = New System.Windows.Forms.Label
+Me.Label561 = New System.Windows.Forms.Label
+Me.Label570 = New System.Windows.Forms.Label
+Me.Label571 = New System.Windows.Forms.Label
+Me.GroupBox47 = New System.Windows.Forms.GroupBox
+Me.TextBoxUrinReduksi = New System.Windows.Forms.TextBox
+Me.TextBoxLanjutanUrin = New System.Windows.Forms.TextBox
+Me.ComboBoxUrinTriIII = New System.Windows.Forms.ComboBox
+Me.TextBox103 = New System.Windows.Forms.TextBox
+Me.Label562 = New System.Windows.Forms.Label
+Me.Label563 = New System.Windows.Forms.Label
+Me.TextBoxUrineTriIII = New System.Windows.Forms.TextBox
+Me.Label564 = New System.Windows.Forms.Label
+Me.Label565 = New System.Windows.Forms.Label
+Me.TextBoxLanjutanHb = New System.Windows.Forms.TextBox
+Me.TextBox109 = New System.Windows.Forms.TextBox
+Me.TextBoxHbTriIII = New System.Windows.Forms.TextBox
+Me.Label566 = New System.Windows.Forms.Label
+Me.Label567 = New System.Windows.Forms.Label
+Me.TextBoxTglPeriksaLabTriIII = New System.Windows.Forms.TextBox
+Me.Label568 = New System.Windows.Forms.Label
+Me.Label569 = New System.Windows.Forms.Label
+Me.GroupBox43 = New System.Windows.Forms.GroupBox
+Me.ComboBoxSelisihTriIII = New System.Windows.Forms.ComboBox
+Me.Label536 = New System.Windows.Forms.Label
+Me.Label535 = New System.Windows.Forms.Label
+Me.TextBox112 = New System.Windows.Forms.TextBox
+Me.TextBoxUkKehamilanTriIII = New System.Windows.Forms.TextBox
+Me.Label534 = New System.Windows.Forms.Label
+Me.Label533 = New System.Windows.Forms.Label
+Me.GroupBox44 = New System.Windows.Forms.GroupBox
+Me.GroupBox45 = New System.Windows.Forms.GroupBox
+Me.TextBoxAbnormalTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxAbnormalTriIII = New System.Windows.Forms.ComboBox
+Me.Label554 = New System.Windows.Forms.Label
+Me.Label555 = New System.Windows.Forms.Label
+Me.TextBox113 = New System.Windows.Forms.TextBox
+Me.TextBoxSesuaiEfw = New System.Windows.Forms.TextBox
+Me.TextBox115 = New System.Windows.Forms.TextBox
+Me.TextBoxSesuaiFl = New System.Windows.Forms.TextBox
+Me.TextBox117 = New System.Windows.Forms.TextBox
+Me.TextBoxSesuaiAc = New System.Windows.Forms.TextBox
+Me.TextBox119 = New System.Windows.Forms.TextBox
+Me.TextBoxSesuaiHc = New System.Windows.Forms.TextBox
+Me.TextBox121 = New System.Windows.Forms.TextBox
+Me.TextBoxSesuaiSdp = New System.Windows.Forms.TextBox
+Me.Label544 = New System.Windows.Forms.Label
+Me.Label545 = New System.Windows.Forms.Label
+Me.Label546 = New System.Windows.Forms.Label
+Me.Label547 = New System.Windows.Forms.Label
+Me.Label548 = New System.Windows.Forms.Label
+Me.Label549 = New System.Windows.Forms.Label
+Me.Label550 = New System.Windows.Forms.Label
+Me.Label551 = New System.Windows.Forms.Label
+Me.Label552 = New System.Windows.Forms.Label
+Me.Label553 = New System.Windows.Forms.Label
+Me.TextBox110 = New System.Windows.Forms.TextBox
+Me.TextBoxEfw = New System.Windows.Forms.TextBox
+Me.TextBox108 = New System.Windows.Forms.TextBox
+Me.TextBoxFl = New System.Windows.Forms.TextBox
+Me.TextBox106 = New System.Windows.Forms.TextBox
+Me.TextBoxAc = New System.Windows.Forms.TextBox
+Me.TextBox104 = New System.Windows.Forms.TextBox
+Me.TextBoxHc = New System.Windows.Forms.TextBox
+Me.TextBox100 = New System.Windows.Forms.TextBox
+Me.Label543 = New System.Windows.Forms.Label
+Me.TextBoxBpd = New System.Windows.Forms.TextBox
+Me.Label540 = New System.Windows.Forms.Label
+Me.Label541 = New System.Windows.Forms.Label
+Me.Label538 = New System.Windows.Forms.Label
+Me.Label537 = New System.Windows.Forms.Label
+Me.Label531 = New System.Windows.Forms.Label
+Me.Label532 = New System.Windows.Forms.Label
+Me.Label530 = New System.Windows.Forms.Label
+Me.Label529 = New System.Windows.Forms.Label
+Me.Label527 = New System.Windows.Forms.Label
+Me.ComboBoxKetuban = New System.Windows.Forms.ComboBox
+Me.TextBox98 = New System.Windows.Forms.TextBox
+Me.TextBoxSdp = New System.Windows.Forms.TextBox
+Me.Label528 = New System.Windows.Forms.Label
+Me.Label515 = New System.Windows.Forms.Label
+Me.Label516 = New System.Windows.Forms.Label
+Me.ComboBox8 = New System.Windows.Forms.ComboBox
+Me.ComboBox7 = New System.Windows.Forms.ComboBox
+Me.Label523 = New System.Windows.Forms.Label
+Me.Label524 = New System.Windows.Forms.Label
+Me.ComboBox5 = New System.Windows.Forms.ComboBox
+Me.Label519 = New System.Windows.Forms.Label
+Me.Label520 = New System.Windows.Forms.Label
+Me.ComboBox4 = New System.Windows.Forms.ComboBox
+Me.Label517 = New System.Windows.Forms.Label
+Me.Label518 = New System.Windows.Forms.Label
+Me.TextBox101 = New System.Windows.Forms.TextBox
+Me.TextBox102 = New System.Windows.Forms.TextBox
+Me.Label521 = New System.Windows.Forms.Label
+Me.Label522 = New System.Windows.Forms.Label
+Me.ComboBox6 = New System.Windows.Forms.ComboBox
+Me.Label525 = New System.Windows.Forms.Label
+Me.Label526 = New System.Windows.Forms.Label
+Me.ComboBoxUsgTriIII = New System.Windows.Forms.ComboBox
+Me.Label539 = New System.Windows.Forms.Label
+Me.Label542 = New System.Windows.Forms.Label
+Me.GroupBox42 = New System.Windows.Forms.GroupBox
+Me.Panel32 = New System.Windows.Forms.Panel
+Me.TextBoxTungkaiTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxTungkaiTriIII = New System.Windows.Forms.ComboBox
+Me.Label495 = New System.Windows.Forms.Label
+Me.Label496 = New System.Windows.Forms.Label
+Me.TextBoxParuTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxParuTriIII = New System.Windows.Forms.ComboBox
+Me.Label497 = New System.Windows.Forms.Label
+Me.Label498 = New System.Windows.Forms.Label
+Me.TextBoxDadaTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxDadaTriIII = New System.Windows.Forms.ComboBox
+Me.Label499 = New System.Windows.Forms.Label
+Me.Label500 = New System.Windows.Forms.Label
+Me.TextBoxThtTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxThtTriIII = New System.Windows.Forms.ComboBox
+Me.Label501 = New System.Windows.Forms.Label
+Me.Label502 = New System.Windows.Forms.Label
+Me.TextBoxGigiTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxGigiTriIII = New System.Windows.Forms.ComboBox
+Me.Label503 = New System.Windows.Forms.Label
+Me.Label504 = New System.Windows.Forms.Label
+Me.TextBoxLeherTriIII = New System.Windows.Forms.TextBox
+Me.TextBoxKulitTriIII = New System.Windows.Forms.TextBox
+Me.TextBoxSkleraTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxLeherTriIII = New System.Windows.Forms.ComboBox
+Me.ComboBoxKulitTriIII = New System.Windows.Forms.ComboBox
+Me.Label505 = New System.Windows.Forms.Label
+Me.Label506 = New System.Windows.Forms.Label
+Me.Label507 = New System.Windows.Forms.Label
+Me.Label508 = New System.Windows.Forms.Label
+Me.ComboBoxSkleraTriIII = New System.Windows.Forms.ComboBox
+Me.Label509 = New System.Windows.Forms.Label
+Me.Label510 = New System.Windows.Forms.Label
+Me.TextBoxKonjungtivaTriIII = New System.Windows.Forms.TextBox
+Me.ComboBoxKonjungtivaTriIII = New System.Windows.Forms.ComboBox
+Me.Label511 = New System.Windows.Forms.Label
+Me.Label512 = New System.Windows.Forms.Label
+Me.TextBoxKeadaanUmumTriIII = New System.Windows.Forms.TextBox
+Me.Label513 = New System.Windows.Forms.Label
+Me.Label514 = New System.Windows.Forms.Label
 Me.TabAsesmen = New System.Windows.Forms.TabPage
 Me.SplitContainerMedikAsesmen = New System.Windows.Forms.SplitContainer
 Me.PanelAsesmen = New System.Windows.Forms.Panel
@@ -1709,6 +1935,40 @@ Me.GroupBox26.SuspendLayout
 Me.GroupBox28.SuspendLayout
 Me.GroupBox24.SuspendLayout
 Me.Panel30.SuspendLayout
+Me.TabPageTrimesterII.SuspendLayout
+Me.SplitContainer23.Panel1.SuspendLayout
+Me.SplitContainer23.Panel2.SuspendLayout
+Me.SplitContainer23.SuspendLayout
+Me.SplitContainer24.Panel1.SuspendLayout
+Me.SplitContainer24.Panel2.SuspendLayout
+Me.SplitContainer24.SuspendLayout
+Me.SplitContainer25.Panel1.SuspendLayout
+Me.SplitContainer25.Panel2.SuspendLayout
+Me.SplitContainer25.SuspendLayout
+Me.GroupBox41.SuspendLayout
+Me.GroupBox40.SuspendLayout
+Me.GroupBoxTri.SuspendLayout
+Me.GroupBox39.SuspendLayout
+Me.TabPageTrimesterIII.SuspendLayout
+Me.SplitContainer26.Panel1.SuspendLayout
+Me.SplitContainer26.Panel2.SuspendLayout
+Me.SplitContainer26.SuspendLayout
+Me.SplitContainer27.Panel1.SuspendLayout
+Me.SplitContainer27.Panel2.SuspendLayout
+Me.SplitContainer27.SuspendLayout
+Me.SplitContainer28.Panel1.SuspendLayout
+Me.SplitContainer28.Panel2.SuspendLayout
+Me.SplitContainer28.SuspendLayout
+Me.GroupBox50.SuspendLayout
+Me.GroupBox46.SuspendLayout
+Me.GroupBox49.SuspendLayout
+Me.GroupBox48.SuspendLayout
+Me.GroupBox47.SuspendLayout
+Me.GroupBox43.SuspendLayout
+Me.GroupBox44.SuspendLayout
+Me.GroupBox45.SuspendLayout
+Me.GroupBox42.SuspendLayout
+Me.Panel32.SuspendLayout
 Me.TabAsesmen.SuspendLayout
 Me.SplitContainerMedikAsesmen.Panel1.SuspendLayout
 Me.SplitContainerMedikAsesmen.Panel2.SuspendLayout
@@ -9605,6 +9865,7 @@ Me.SplitContainer17.Name = "SplitContainer17"
 '
 'SplitContainer17.Panel1
 '
+Me.SplitContainer17.Panel1.AutoScroll = true
 Me.SplitContainer17.Panel1.BackColor = System.Drawing.Color.White
 Me.SplitContainer17.Panel1.Controls.Add(Me.SplitContainer18)
 '
@@ -9618,9 +9879,11 @@ Me.SplitContainer17.TabIndex = 0
 '
 'SplitContainer18
 '
+Me.SplitContainer18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer18.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer18.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
 Me.SplitContainer18.IsSplitterFixed = true
 Me.SplitContainer18.Location = New System.Drawing.Point(0, 0)
-Me.SplitContainer18.MinimumSize = New System.Drawing.Size(280, 334)
 Me.SplitContainer18.Name = "SplitContainer18"
 Me.SplitContainer18.Orientation = System.Windows.Forms.Orientation.Horizontal
 '
@@ -9717,6 +9980,7 @@ Me.GroupBox18.Text = "HPHT dan Kunjungan"
 '
 'ComboBoxKunjungan
 '
+Me.ComboBoxKunjungan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxKunjungan.FormattingEnabled = true
 Me.ComboBoxKunjungan.Location = New System.Drawing.Point(82, 61)
 Me.ComboBoxKunjungan.Name = "ComboBoxKunjungan"
@@ -9725,6 +9989,7 @@ Me.ComboBoxKunjungan.TabIndex = 3
 '
 'ComboBoxTrimester
 '
+Me.ComboBoxTrimester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxTrimester.FormattingEnabled = true
 Me.ComboBoxTrimester.Items.AddRange(New Object() {"I", "II", "III"})
 Me.ComboBoxTrimester.Location = New System.Drawing.Point(82, 25)
@@ -9791,6 +10056,7 @@ Me.Label363.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 'GroupBox22
 '
 Me.GroupBox22.AutoSize = true
+Me.GroupBox22.Controls.Add(Me.Label585)
 Me.GroupBox22.Controls.Add(Me.GroupBox23)
 Me.GroupBox22.Controls.Add(Me.TextBoxUsg)
 Me.GroupBox22.Controls.Add(Me.Label399)
@@ -9822,6 +10088,16 @@ Me.GroupBox22.Size = New System.Drawing.Size(533, 231)
 Me.GroupBox22.TabIndex = 4
 Me.GroupBox22.TabStop = false
 Me.GroupBox22.Text = "Laboratorium, USG, dan Tata Laksana"
+'
+'Label585
+'
+Me.Label585.AutoSize = true
+Me.Label585.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label585.Location = New System.Drawing.Point(354, 23)
+Me.Label585.Name = "Label585"
+Me.Label585.Size = New System.Drawing.Size(11, 17)
+Me.Label585.TabIndex = 441
+Me.Label585.Text = ":"
 '
 'GroupBox23
 '
@@ -9986,7 +10262,7 @@ Me.Label400.Text = "HIV"
 'TextBoxUsg
 '
 Me.TextBoxUsg.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxUsg.Location = New System.Drawing.Point(399, 20)
+Me.TextBoxUsg.Location = New System.Drawing.Point(371, 20)
 Me.TextBoxUsg.Name = "TextBoxUsg"
 Me.TextBoxUsg.Size = New System.Drawing.Size(140, 25)
 Me.TextBoxUsg.TabIndex = 435
@@ -10276,6 +10552,7 @@ Me.Label385.Text = "Tablet Tambah Darah"
 '
 'ComboBoxSkriningDokter
 '
+Me.ComboBoxSkriningDokter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxSkriningDokter.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxSkriningDokter.FormattingEnabled = true
 Me.ComboBoxSkriningDokter.Items.AddRange(New Object() {"Sesuai Standar", "Perlu Rujukan", "Risiko Tinggi"})
@@ -10286,6 +10563,7 @@ Me.ComboBoxSkriningDokter.TabIndex = 17
 '
 'ComboBoxImunisasiTT
 '
+Me.ComboBoxImunisasiTT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxImunisasiTT.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxImunisasiTT.FormattingEnabled = true
 Me.ComboBoxImunisasiTT.Items.AddRange(New Object() {"TT1", "TT2", "TT3", "TT4", "TT5", "T+"})
@@ -10722,6 +11000,7 @@ Me.SplitContainer20.Orientation = System.Windows.Forms.Orientation.Horizontal
 '
 'SplitContainer20.Panel1
 '
+Me.SplitContainer20.Panel1.BackColor = System.Drawing.Color.White
 Me.SplitContainer20.Panel1.Controls.Add(Me.Label405)
 '
 'SplitContainer20.Panel2
@@ -10754,6 +11033,7 @@ Me.SplitContainer21.Name = "SplitContainer21"
 '
 'SplitContainer21.Panel1
 '
+Me.SplitContainer21.Panel1.AutoScroll = true
 Me.SplitContainer21.Panel1.Controls.Add(Me.SplitContainer22)
 '
 'SplitContainer21.Panel2
@@ -10770,11 +11050,11 @@ Me.SplitContainer21.TabIndex = 0
 '
 'SplitContainer22
 '
+Me.SplitContainer22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 Me.SplitContainer22.Dock = System.Windows.Forms.DockStyle.Fill
 Me.SplitContainer22.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
 Me.SplitContainer22.IsSplitterFixed = true
 Me.SplitContainer22.Location = New System.Drawing.Point(0, 0)
-Me.SplitContainer22.MaximumSize = New System.Drawing.Size(280, 298)
 Me.SplitContainer22.Name = "SplitContainer22"
 Me.SplitContainer22.Orientation = System.Windows.Forms.Orientation.Horizontal
 '
@@ -10789,7 +11069,7 @@ Me.SplitContainer22.Panel2.AutoScroll = true
 Me.SplitContainer22.Panel2.BackColor = System.Drawing.Color.White
 Me.SplitContainer22.Panel2.Controls.Add(Me.GroupBox38)
 Me.SplitContainer22.Panel2.Controls.Add(Me.GroupBox37)
-Me.SplitContainer22.Size = New System.Drawing.Size(278, 298)
+Me.SplitContainer22.Size = New System.Drawing.Size(280, 300)
 Me.SplitContainer22.TabIndex = 0
 '
 'ButtonTrimesterI
@@ -10814,9 +11094,9 @@ Me.ButtonTrimesterI.UseVisualStyleBackColor = false
 '
 Me.GroupBox38.Controls.Add(Me.ButtonTampilUsgI)
 Me.GroupBox38.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox38.Location = New System.Drawing.Point(0, 9)
+Me.GroupBox38.Location = New System.Drawing.Point(15, 11)
 Me.GroupBox38.Name = "GroupBox38"
-Me.GroupBox38.Size = New System.Drawing.Size(257, 98)
+Me.GroupBox38.Size = New System.Drawing.Size(234, 98)
 Me.GroupBox38.TabIndex = 450
 Me.GroupBox38.TabStop = false
 Me.GroupBox38.Text = "Hasil USG"
@@ -10832,7 +11112,7 @@ Me.ButtonTampilUsgI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Fro
 Me.ButtonTampilUsgI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 Me.ButtonTampilUsgI.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ButtonTampilUsgI.ForeColor = System.Drawing.Color.White
-Me.ButtonTampilUsgI.Location = New System.Drawing.Point(38, 36)
+Me.ButtonTampilUsgI.Location = New System.Drawing.Point(27, 36)
 Me.ButtonTampilUsgI.Name = "ButtonTampilUsgI"
 Me.ButtonTampilUsgI.Size = New System.Drawing.Size(181, 30)
 Me.ButtonTampilUsgI.TabIndex = 454
@@ -10847,9 +11127,9 @@ Me.GroupBox37.Controls.Add(Me.Label472)
 Me.GroupBox37.Controls.Add(Me.TextBoxKesimpulanTriI)
 Me.GroupBox37.Controls.Add(Me.Label469)
 Me.GroupBox37.Controls.Add(Me.Label468)
-Me.GroupBox37.Location = New System.Drawing.Point(0, 113)
+Me.GroupBox37.Location = New System.Drawing.Point(15, 121)
 Me.GroupBox37.Name = "GroupBox37"
-Me.GroupBox37.Size = New System.Drawing.Size(257, 205)
+Me.GroupBox37.Size = New System.Drawing.Size(234, 205)
 Me.GroupBox37.TabIndex = 0
 Me.GroupBox37.TabStop = false
 Me.GroupBox37.Text = "Kesimpulan Trimester I"
@@ -10857,10 +11137,11 @@ Me.GroupBox37.Text = "Kesimpulan Trimester I"
 'TextBoxRekomTriI
 '
 Me.TextBoxRekomTriI.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxRekomTriI.Location = New System.Drawing.Point(9, 143)
+Me.TextBoxRekomTriI.Location = New System.Drawing.Point(9, 139)
 Me.TextBoxRekomTriI.Multiline = true
 Me.TextBoxRekomTriI.Name = "TextBoxRekomTriI"
-Me.TextBoxRekomTriI.Size = New System.Drawing.Size(242, 51)
+Me.TextBoxRekomTriI.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxRekomTriI.Size = New System.Drawing.Size(205, 51)
 Me.TextBoxRekomTriI.TabIndex = 445
 '
 'Label471
@@ -10889,7 +11170,8 @@ Me.TextBoxKesimpulanTriI.Font = New System.Drawing.Font("Segoe UI", 9.75!, Syste
 Me.TextBoxKesimpulanTriI.Location = New System.Drawing.Point(9, 51)
 Me.TextBoxKesimpulanTriI.Multiline = true
 Me.TextBoxKesimpulanTriI.Name = "TextBoxKesimpulanTriI"
-Me.TextBoxKesimpulanTriI.Size = New System.Drawing.Size(242, 51)
+Me.TextBoxKesimpulanTriI.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxKesimpulanTriI.Size = New System.Drawing.Size(205, 51)
 Me.TextBoxKesimpulanTriI.TabIndex = 442
 '
 'Label469
@@ -10928,10 +11210,10 @@ Me.GroupBoxRujukan.Controls.Add(Me.Label481)
 Me.GroupBoxRujukan.Controls.Add(Me.Label482)
 Me.GroupBoxRujukan.Controls.Add(Me.Label483)
 Me.GroupBoxRujukan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBoxRujukan.Location = New System.Drawing.Point(513, 492)
+Me.GroupBoxRujukan.Location = New System.Drawing.Point(513, 486)
 Me.GroupBoxRujukan.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBoxRujukan.Name = "GroupBoxRujukan"
-Me.GroupBoxRujukan.Size = New System.Drawing.Size(503, 162)
+Me.GroupBoxRujukan.Size = New System.Drawing.Size(576, 162)
 Me.GroupBoxRujukan.TabIndex = 13
 Me.GroupBoxRujukan.TabStop = false
 Me.GroupBoxRujukan.Text = "Skrining Kesehatan Jiwa"
@@ -11521,7 +11803,7 @@ Me.ComboBoxPulsasi.FormattingEnabled = true
 Me.ComboBoxPulsasi.Items.AddRange(New Object() {"Tampak", "Tidak Tampak"})
 Me.ComboBoxPulsasi.Location = New System.Drawing.Point(138, 171)
 Me.ComboBoxPulsasi.Name = "ComboBoxPulsasi"
-Me.ComboBoxPulsasi.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxPulsasi.Size = New System.Drawing.Size(158, 25)
 Me.ComboBoxPulsasi.TabIndex = 489
 '
 'Label452
@@ -11552,7 +11834,7 @@ Me.ComboBoxLetakHamil.FormattingEnabled = true
 Me.ComboBoxLetakHamil.Items.AddRange(New Object() {"Intrauterin", "Extrauterin", "Tidak Dapat Ditentukan"})
 Me.ComboBoxLetakHamil.Location = New System.Drawing.Point(138, 140)
 Me.ComboBoxLetakHamil.Name = "ComboBoxLetakHamil"
-Me.ComboBoxLetakHamil.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxLetakHamil.Size = New System.Drawing.Size(158, 25)
 Me.ComboBoxLetakHamil.TabIndex = 486
 '
 'Label451
@@ -12065,7 +12347,7 @@ Me.GroupBox24.Controls.Add(Me.TextBoxKeadaanUmum)
 Me.GroupBox24.Controls.Add(Me.Label416)
 Me.GroupBox24.Controls.Add(Me.Label420)
 Me.GroupBox24.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox24.Location = New System.Drawing.Point(0, 0)
+Me.GroupBox24.Location = New System.Drawing.Point(4, 0)
 Me.GroupBox24.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox24.Name = "GroupBox24"
 Me.GroupBox24.Size = New System.Drawing.Size(503, 376)
@@ -12497,23 +12779,2636 @@ Me.Label420.Text = "Keadaan Umum"
 '
 'TabPageTrimesterII
 '
+Me.TabPageTrimesterII.BackColor = System.Drawing.Color.White
+Me.TabPageTrimesterII.Controls.Add(Me.SplitContainer23)
 Me.TabPageTrimesterII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TabPageTrimesterII.Location = New System.Drawing.Point(4, 26)
 Me.TabPageTrimesterII.Name = "TabPageTrimesterII"
 Me.TabPageTrimesterII.Size = New System.Drawing.Size(842, 340)
 Me.TabPageTrimesterII.TabIndex = 2
 Me.TabPageTrimesterII.Text = "Trimester II"
-Me.TabPageTrimesterII.UseVisualStyleBackColor = true
+'
+'SplitContainer23
+'
+Me.SplitContainer23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer23.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer23.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer23.IsSplitterFixed = true
+Me.SplitContainer23.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer23.Name = "SplitContainer23"
+Me.SplitContainer23.Orientation = System.Windows.Forms.Orientation.Horizontal
+'
+'SplitContainer23.Panel1
+'
+Me.SplitContainer23.Panel1.Controls.Add(Me.Label470)
+'
+'SplitContainer23.Panel2
+'
+Me.SplitContainer23.Panel2.Controls.Add(Me.SplitContainer24)
+Me.SplitContainer23.Size = New System.Drawing.Size(842, 340)
+Me.SplitContainer23.SplitterDistance = 30
+Me.SplitContainer23.TabIndex = 0
+'
+'Label470
+'
+Me.Label470.Anchor = System.Windows.Forms.AnchorStyles.None
+Me.Label470.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label470.Location = New System.Drawing.Point(272, 6)
+Me.Label470.Name = "Label470"
+Me.Label470.Size = New System.Drawing.Size(297, 17)
+Me.Label470.TabIndex = 2
+Me.Label470.Text = "SKRINING PREEKLAMPSIA"
+Me.Label470.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+'
+'SplitContainer24
+'
+Me.SplitContainer24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer24.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer24.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer24.IsSplitterFixed = true
+Me.SplitContainer24.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer24.Name = "SplitContainer24"
+'
+'SplitContainer24.Panel1
+'
+Me.SplitContainer24.Panel1.AutoScroll = true
+Me.SplitContainer24.Panel1.Controls.Add(Me.SplitContainer25)
+'
+'SplitContainer24.Panel2
+'
+Me.SplitContainer24.Panel2.AutoScroll = true
+Me.SplitContainer24.Panel2.Controls.Add(Me.GroupBox40)
+Me.SplitContainer24.Panel2.Controls.Add(Me.GroupBoxTri)
+Me.SplitContainer24.Panel2.Controls.Add(Me.GroupBox39)
+Me.SplitContainer24.Size = New System.Drawing.Size(842, 306)
+Me.SplitContainer24.SplitterDistance = 280
+Me.SplitContainer24.TabIndex = 0
+'
+'SplitContainer25
+'
+Me.SplitContainer25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer25.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer25.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer25.IsSplitterFixed = true
+Me.SplitContainer25.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer25.Name = "SplitContainer25"
+Me.SplitContainer25.Orientation = System.Windows.Forms.Orientation.Horizontal
+'
+'SplitContainer25.Panel1
+'
+Me.SplitContainer25.Panel1.BackColor = System.Drawing.SystemColors.ControlLight
+Me.SplitContainer25.Panel1.Controls.Add(Me.ButtonTrimesterII)
+'
+'SplitContainer25.Panel2
+'
+Me.SplitContainer25.Panel2.Controls.Add(Me.GroupBox41)
+Me.SplitContainer25.Size = New System.Drawing.Size(280, 306)
+Me.SplitContainer25.TabIndex = 0
+'
+'ButtonTrimesterII
+'
+Me.ButtonTrimesterII.BackColor = System.Drawing.Color.White
+Me.ButtonTrimesterII.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonTrimesterII.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonTrimesterII.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonTrimesterII.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonTrimesterII.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81,Byte),Integer), CType(CType(168,Byte),Integer), CType(CType(255,Byte),Integer))
+Me.ButtonTrimesterII.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonTrimesterII.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonTrimesterII.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonTrimesterII.Location = New System.Drawing.Point(12, 10)
+Me.ButtonTrimesterII.Name = "ButtonTrimesterII"
+Me.ButtonTrimesterII.Size = New System.Drawing.Size(257, 30)
+Me.ButtonTrimesterII.TabIndex = 454
+Me.ButtonTrimesterII.Text = " Simpan Data"
+Me.ButtonTrimesterII.UseVisualStyleBackColor = false
+'
+'GroupBox41
+'
+Me.GroupBox41.Controls.Add(Me.TextBoxKeteranganTriII)
+Me.GroupBox41.Controls.Add(Me.Label490)
+Me.GroupBox41.Controls.Add(Me.Label491)
+Me.GroupBox41.Controls.Add(Me.TextBoxStatusRujukan)
+Me.GroupBox41.Controls.Add(Me.Label492)
+Me.GroupBox41.Controls.Add(Me.Label493)
+Me.GroupBox41.Location = New System.Drawing.Point(10, 15)
+Me.GroupBox41.Name = "GroupBox41"
+Me.GroupBox41.Size = New System.Drawing.Size(257, 205)
+Me.GroupBox41.TabIndex = 1
+Me.GroupBox41.TabStop = false
+Me.GroupBox41.Text = "Kesimpulan Trimester II"
+'
+'TextBoxKeteranganTriII
+'
+Me.TextBoxKeteranganTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKeteranganTriII.Location = New System.Drawing.Point(9, 143)
+Me.TextBoxKeteranganTriII.Multiline = true
+Me.TextBoxKeteranganTriII.Name = "TextBoxKeteranganTriII"
+Me.TextBoxKeteranganTriII.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxKeteranganTriII.Size = New System.Drawing.Size(242, 51)
+Me.TextBoxKeteranganTriII.TabIndex = 445
+'
+'Label490
+'
+Me.Label490.AutoSize = true
+Me.Label490.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label490.Location = New System.Drawing.Point(90, 118)
+Me.Label490.Name = "Label490"
+Me.Label490.Size = New System.Drawing.Size(11, 17)
+Me.Label490.TabIndex = 444
+Me.Label490.Text = ":"
+'
+'Label491
+'
+Me.Label491.AutoSize = true
+Me.Label491.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label491.Location = New System.Drawing.Point(6, 118)
+Me.Label491.Name = "Label491"
+Me.Label491.Size = New System.Drawing.Size(78, 17)
+Me.Label491.TabIndex = 443
+Me.Label491.Text = "Keterangan"
+'
+'TextBoxStatusRujukan
+'
+Me.TextBoxStatusRujukan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxStatusRujukan.Location = New System.Drawing.Point(9, 51)
+Me.TextBoxStatusRujukan.Multiline = true
+Me.TextBoxStatusRujukan.Name = "TextBoxStatusRujukan"
+Me.TextBoxStatusRujukan.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxStatusRujukan.Size = New System.Drawing.Size(242, 51)
+Me.TextBoxStatusRujukan.TabIndex = 442
+'
+'Label492
+'
+Me.Label492.AutoSize = true
+Me.Label492.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label492.Location = New System.Drawing.Point(105, 26)
+Me.Label492.Name = "Label492"
+Me.Label492.Size = New System.Drawing.Size(11, 17)
+Me.Label492.TabIndex = 441
+Me.Label492.Text = ":"
+'
+'Label493
+'
+Me.Label493.AutoSize = true
+Me.Label493.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label493.Location = New System.Drawing.Point(6, 26)
+Me.Label493.Name = "Label493"
+Me.Label493.Size = New System.Drawing.Size(99, 17)
+Me.Label493.TabIndex = 438
+Me.Label493.Text = "Status Rujukan"
+'
+'GroupBox40
+'
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi7)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi6)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi5)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi4)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi3)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi2)
+Me.GroupBox40.Controls.Add(Me.CheckBoxTinggi1)
+Me.GroupBox40.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox40.Location = New System.Drawing.Point(596, 10)
+Me.GroupBox40.Name = "GroupBox40"
+Me.GroupBox40.Size = New System.Drawing.Size(465, 219)
+Me.GroupBox40.TabIndex = 1
+Me.GroupBox40.TabStop = false
+Me.GroupBox40.Text = "Anamnesis - Resiko Tinggi"
+'
+'CheckBoxTinggi7
+'
+Me.CheckBoxTinggi7.AutoSize = true
+Me.CheckBoxTinggi7.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi7.Location = New System.Drawing.Point(7, 187)
+Me.CheckBoxTinggi7.Name = "CheckBoxTinggi7"
+Me.CheckBoxTinggi7.Size = New System.Drawing.Size(201, 21)
+Me.CheckBoxTinggi7.TabIndex = 6
+Me.CheckBoxTinggi7.Text = "Anti Phospholipid Syndrome"
+Me.CheckBoxTinggi7.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi6
+'
+Me.CheckBoxTinggi6.AutoSize = true
+Me.CheckBoxTinggi6.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi6.Location = New System.Drawing.Point(6, 160)
+Me.CheckBoxTinggi6.Name = "CheckBoxTinggi6"
+Me.CheckBoxTinggi6.Size = New System.Drawing.Size(171, 21)
+Me.CheckBoxTinggi6.TabIndex = 5
+Me.CheckBoxTinggi6.Text = "Penyakit Autoimun, SLE"
+Me.CheckBoxTinggi6.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi5
+'
+Me.CheckBoxTinggi5.AutoSize = true
+Me.CheckBoxTinggi5.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi5.Location = New System.Drawing.Point(6, 133)
+Me.CheckBoxTinggi5.Name = "CheckBoxTinggi5"
+Me.CheckBoxTinggi5.Size = New System.Drawing.Size(116, 21)
+Me.CheckBoxTinggi5.TabIndex = 4
+Me.CheckBoxTinggi5.Text = "Penyakit Ginjal"
+Me.CheckBoxTinggi5.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi4
+'
+Me.CheckBoxTinggi4.AutoSize = true
+Me.CheckBoxTinggi4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi4.Location = New System.Drawing.Point(7, 106)
+Me.CheckBoxTinggi4.Name = "CheckBoxTinggi4"
+Me.CheckBoxTinggi4.Size = New System.Drawing.Size(132, 21)
+Me.CheckBoxTinggi4.TabIndex = 3
+Me.CheckBoxTinggi4.Text = "Hipertensi Kronik"
+Me.CheckBoxTinggi4.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi3
+'
+Me.CheckBoxTinggi3.AutoSize = true
+Me.CheckBoxTinggi3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi3.Location = New System.Drawing.Point(6, 79)
+Me.CheckBoxTinggi3.Name = "CheckBoxTinggi3"
+Me.CheckBoxTinggi3.Size = New System.Drawing.Size(187, 21)
+Me.CheckBoxTinggi3.TabIndex = 2
+Me.CheckBoxTinggi3.Text = "Diabetes dalam Kehamilan"
+Me.CheckBoxTinggi3.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi2
+'
+Me.CheckBoxTinggi2.AutoSize = true
+Me.CheckBoxTinggi2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi2.Location = New System.Drawing.Point(6, 52)
+Me.CheckBoxTinggi2.Name = "CheckBoxTinggi2"
+Me.CheckBoxTinggi2.Size = New System.Drawing.Size(202, 21)
+Me.CheckBoxTinggi2.TabIndex = 1
+Me.CheckBoxTinggi2.Text = "Kehamilan Multipel (Kembar)"
+Me.CheckBoxTinggi2.UseVisualStyleBackColor = true
+'
+'CheckBoxTinggi1
+'
+Me.CheckBoxTinggi1.AutoSize = true
+Me.CheckBoxTinggi1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi1.Location = New System.Drawing.Point(7, 25)
+Me.CheckBoxTinggi1.Name = "CheckBoxTinggi1"
+Me.CheckBoxTinggi1.Size = New System.Drawing.Size(349, 21)
+Me.CheckBoxTinggi1.TabIndex = 0
+Me.CheckBoxTinggi1.Text = "Multipara Dengan Riwayat Preeklampsia Sebelumnya"
+Me.CheckBoxTinggi1.UseVisualStyleBackColor = true
+'
+'GroupBoxTri
+'
+Me.GroupBoxTri.Controls.Add(Me.CheckBoxTinggi8)
+Me.GroupBoxTri.Controls.Add(Me.ComboBoxProteinuria)
+Me.GroupBoxTri.Controls.Add(Me.CheckBoxSedang8)
+Me.GroupBoxTri.Controls.Add(Me.TextBox97)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxMap)
+Me.GroupBoxTri.Controls.Add(Me.Label489)
+Me.GroupBoxTri.Controls.Add(Me.TextBox96)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxDiasTriII)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxSisTriII)
+Me.GroupBoxTri.Controls.Add(Me.Label488)
+Me.GroupBoxTri.Controls.Add(Me.Label487)
+Me.GroupBoxTri.Controls.Add(Me.Label486)
+Me.GroupBoxTri.Controls.Add(Me.Label485)
+Me.GroupBoxTri.Controls.Add(Me.Label484)
+Me.GroupBoxTri.Controls.Add(Me.Label473)
+Me.GroupBoxTri.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBoxTri.Location = New System.Drawing.Point(11, 235)
+Me.GroupBoxTri.Name = "GroupBoxTri"
+Me.GroupBoxTri.Size = New System.Drawing.Size(579, 127)
+Me.GroupBoxTri.TabIndex = 7
+Me.GroupBoxTri.TabStop = false
+Me.GroupBoxTri.Text = "Pemeriksaan Fisik dan Lab"
+'
+'CheckBoxTinggi8
+'
+Me.CheckBoxTinggi8.AutoSize = true
+Me.CheckBoxTinggi8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxTinggi8.Location = New System.Drawing.Point(287, 91)
+Me.CheckBoxTinggi8.Name = "CheckBoxTinggi8"
+Me.CheckBoxTinggi8.Size = New System.Drawing.Size(125, 21)
+Me.CheckBoxTinggi8.TabIndex = 432
+Me.CheckBoxTinggi8.Text = "Proteinuria > +1"
+Me.CheckBoxTinggi8.UseVisualStyleBackColor = true
+'
+'ComboBoxProteinuria
+'
+Me.ComboBoxProteinuria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxProteinuria.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxProteinuria.FormattingEnabled = true
+Me.ComboBoxProteinuria.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "Kuantitatif 300mg"})
+Me.ComboBoxProteinuria.Location = New System.Drawing.Point(128, 89)
+Me.ComboBoxProteinuria.Name = "ComboBoxProteinuria"
+Me.ComboBoxProteinuria.Size = New System.Drawing.Size(153, 25)
+Me.ComboBoxProteinuria.TabIndex = 431
+'
+'CheckBoxSedang8
+'
+Me.CheckBoxSedang8.AutoSize = true
+Me.CheckBoxSedang8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang8.Location = New System.Drawing.Point(287, 60)
+Me.CheckBoxSedang8.Name = "CheckBoxSedang8"
+Me.CheckBoxSedang8.Size = New System.Drawing.Size(133, 21)
+Me.CheckBoxSedang8.TabIndex = 430
+Me.CheckBoxSedang8.Text = "MAP > 90 mmHg"
+Me.CheckBoxSedang8.UseVisualStyleBackColor = true
+'
+'TextBox97
+'
+Me.TextBox97.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox97.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox97.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox97.Location = New System.Drawing.Point(199, 58)
+Me.TextBox97.Name = "TextBox97"
+Me.TextBox97.ReadOnly = true
+Me.TextBox97.Size = New System.Drawing.Size(60, 25)
+Me.TextBox97.TabIndex = 429
+Me.TextBox97.TabStop = false
+Me.TextBox97.Text = "mmHg"
+Me.TextBox97.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxMap
+'
+Me.TextBoxMap.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxMap.Location = New System.Drawing.Point(128, 58)
+Me.TextBoxMap.Name = "TextBoxMap"
+Me.TextBoxMap.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxMap.TabIndex = 428
+'
+'Label489
+'
+Me.Label489.AutoSize = true
+Me.Label489.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label489.Location = New System.Drawing.Point(197, 28)
+Me.Label489.Name = "Label489"
+Me.Label489.Size = New System.Drawing.Size(13, 17)
+Me.Label489.TabIndex = 427
+Me.Label489.Text = "/"
+'
+'TextBox96
+'
+Me.TextBox96.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox96.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox96.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox96.Location = New System.Drawing.Point(287, 23)
+Me.TextBox96.Name = "TextBox96"
+Me.TextBox96.ReadOnly = true
+Me.TextBox96.Size = New System.Drawing.Size(60, 25)
+Me.TextBox96.TabIndex = 426
+Me.TextBox96.TabStop = false
+Me.TextBox96.Text = "mmHg"
+Me.TextBox96.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxDiasTriII
+'
+Me.TextBoxDiasTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxDiasTriII.Location = New System.Drawing.Point(216, 23)
+Me.TextBoxDiasTriII.Name = "TextBoxDiasTriII"
+Me.TextBoxDiasTriII.ReadOnly = true
+Me.TextBoxDiasTriII.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxDiasTriII.TabIndex = 425
+'
+'TextBoxSisTriII
+'
+Me.TextBoxSisTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSisTriII.Location = New System.Drawing.Point(128, 22)
+Me.TextBoxSisTriII.Name = "TextBoxSisTriII"
+Me.TextBoxSisTriII.ReadOnly = true
+Me.TextBoxSisTriII.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxSisTriII.TabIndex = 424
+'
+'Label488
+'
+Me.Label488.AutoSize = true
+Me.Label488.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label488.Location = New System.Drawing.Point(111, 92)
+Me.Label488.Name = "Label488"
+Me.Label488.Size = New System.Drawing.Size(11, 17)
+Me.Label488.TabIndex = 5
+Me.Label488.Text = ":"
+'
+'Label487
+'
+Me.Label487.AutoSize = true
+Me.Label487.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label487.Location = New System.Drawing.Point(111, 58)
+Me.Label487.Name = "Label487"
+Me.Label487.Size = New System.Drawing.Size(11, 17)
+Me.Label487.TabIndex = 4
+Me.Label487.Text = ":"
+'
+'Label486
+'
+Me.Label486.AutoSize = true
+Me.Label486.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label486.Location = New System.Drawing.Point(111, 25)
+Me.Label486.Name = "Label486"
+Me.Label486.Size = New System.Drawing.Size(11, 17)
+Me.Label486.TabIndex = 3
+Me.Label486.Text = ":"
+'
+'Label485
+'
+Me.Label485.AutoSize = true
+Me.Label485.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label485.Location = New System.Drawing.Point(10, 95)
+Me.Label485.Name = "Label485"
+Me.Label485.Size = New System.Drawing.Size(75, 17)
+Me.Label485.TabIndex = 2
+Me.Label485.Text = "Proteinuria"
+'
+'Label484
+'
+Me.Label484.AutoSize = true
+Me.Label484.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label484.Location = New System.Drawing.Point(10, 58)
+Me.Label484.Name = "Label484"
+Me.Label484.Size = New System.Drawing.Size(37, 17)
+Me.Label484.TabIndex = 1
+Me.Label484.Text = "MAP"
+'
+'Label473
+'
+Me.Label473.AutoSize = true
+Me.Label473.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label473.Location = New System.Drawing.Point(7, 25)
+Me.Label473.Name = "Label473"
+Me.Label473.Size = New System.Drawing.Size(98, 17)
+Me.Label473.TabIndex = 0
+Me.Label473.Text = "Tekanan Darah"
+'
+'GroupBox39
+'
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang7)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang6)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang5)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang4)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang3)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang2)
+Me.GroupBox39.Controls.Add(Me.CheckBoxSedang1)
+Me.GroupBox39.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox39.Location = New System.Drawing.Point(11, 10)
+Me.GroupBox39.Name = "GroupBox39"
+Me.GroupBox39.Size = New System.Drawing.Size(579, 219)
+Me.GroupBox39.TabIndex = 0
+Me.GroupBox39.TabStop = false
+Me.GroupBox39.Text = "Anamnesis - Resiko Sedang"
+'
+'CheckBoxSedang7
+'
+Me.CheckBoxSedang7.AutoSize = true
+Me.CheckBoxSedang7.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang7.Location = New System.Drawing.Point(7, 187)
+Me.CheckBoxSedang7.Name = "CheckBoxSedang7"
+Me.CheckBoxSedang7.Size = New System.Drawing.Size(283, 21)
+Me.CheckBoxSedang7.TabIndex = 6
+Me.CheckBoxSedang7.Text = "Obesitas Sebelum Hamil (IMT > 30 kg/m2)"
+Me.CheckBoxSedang7.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang6
+'
+Me.CheckBoxSedang6.AutoSize = true
+Me.CheckBoxSedang6.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang6.Location = New System.Drawing.Point(6, 160)
+Me.CheckBoxSedang6.Name = "CheckBoxSedang6"
+Me.CheckBoxSedang6.Size = New System.Drawing.Size(374, 21)
+Me.CheckBoxSedang6.TabIndex = 5
+Me.CheckBoxSedang6.Text = "Riwayat Preeklampsia pada Ibu atau Saudara Perempuan"
+Me.CheckBoxSedang6.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang5
+'
+Me.CheckBoxSedang5.AutoSize = true
+Me.CheckBoxSedang5.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang5.Location = New System.Drawing.Point(6, 133)
+Me.CheckBoxSedang5.Name = "CheckBoxSedang5"
+Me.CheckBoxSedang5.Size = New System.Drawing.Size(385, 21)
+Me.CheckBoxSedang5.TabIndex = 4
+Me.CheckBoxSedang5.Text = "Multipara dengan Jarak Kehamilan Sebelumnya > 10 Tahun"
+Me.CheckBoxSedang5.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang4
+'
+Me.CheckBoxSedang4.AutoSize = true
+Me.CheckBoxSedang4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang4.Location = New System.Drawing.Point(7, 106)
+Me.CheckBoxSedang4.Name = "CheckBoxSedang4"
+Me.CheckBoxSedang4.Size = New System.Drawing.Size(208, 21)
+Me.CheckBoxSedang4.TabIndex = 3
+Me.CheckBoxSedang4.Text = "Nulipara (Kehamilan Pertama)"
+Me.CheckBoxSedang4.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang3
+'
+Me.CheckBoxSedang3.AutoSize = true
+Me.CheckBoxSedang3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang3.Location = New System.Drawing.Point(6, 79)
+Me.CheckBoxSedang3.Name = "CheckBoxSedang3"
+Me.CheckBoxSedang3.Size = New System.Drawing.Size(142, 21)
+Me.CheckBoxSedang3.TabIndex = 2
+Me.CheckBoxSedang3.Text = "Umur >= 35 Tahun"
+Me.CheckBoxSedang3.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang2
+'
+Me.CheckBoxSedang2.AutoSize = true
+Me.CheckBoxSedang2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang2.Location = New System.Drawing.Point(6, 52)
+Me.CheckBoxSedang2.Name = "CheckBoxSedang2"
+Me.CheckBoxSedang2.Size = New System.Drawing.Size(553, 21)
+Me.CheckBoxSedang2.TabIndex = 1
+Me.CheckBoxSedang2.Text = "Kehamilan dengan Teknologi Reproduksi Berbantu (Bayi Tabung, Obat Induksi Ovulasi"& _ 
+    ")"
+Me.CheckBoxSedang2.UseVisualStyleBackColor = true
+'
+'CheckBoxSedang1
+'
+Me.CheckBoxSedang1.AutoSize = true
+Me.CheckBoxSedang1.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.CheckBoxSedang1.Location = New System.Drawing.Point(7, 25)
+Me.CheckBoxSedang1.Name = "CheckBoxSedang1"
+Me.CheckBoxSedang1.Size = New System.Drawing.Size(328, 21)
+Me.CheckBoxSedang1.TabIndex = 0
+Me.CheckBoxSedang1.Text = "Multipara Dengan Kehamilan oleh Pasangan Baru"
+Me.CheckBoxSedang1.UseVisualStyleBackColor = true
 '
 'TabPageTrimesterIII
 '
+Me.TabPageTrimesterIII.BackColor = System.Drawing.Color.White
+Me.TabPageTrimesterIII.Controls.Add(Me.SplitContainer26)
 Me.TabPageTrimesterIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TabPageTrimesterIII.Location = New System.Drawing.Point(4, 26)
 Me.TabPageTrimesterIII.Name = "TabPageTrimesterIII"
 Me.TabPageTrimesterIII.Size = New System.Drawing.Size(842, 340)
 Me.TabPageTrimesterIII.TabIndex = 3
 Me.TabPageTrimesterIII.Text = "Trimester III"
-Me.TabPageTrimesterIII.UseVisualStyleBackColor = true
+'
+'SplitContainer26
+'
+Me.SplitContainer26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer26.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer26.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer26.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer26.Name = "SplitContainer26"
+Me.SplitContainer26.Orientation = System.Windows.Forms.Orientation.Horizontal
+'
+'SplitContainer26.Panel1
+'
+Me.SplitContainer26.Panel1.Controls.Add(Me.Label494)
+'
+'SplitContainer26.Panel2
+'
+Me.SplitContainer26.Panel2.Controls.Add(Me.SplitContainer27)
+Me.SplitContainer26.Size = New System.Drawing.Size(842, 340)
+Me.SplitContainer26.SplitterDistance = 30
+Me.SplitContainer26.TabIndex = 0
+'
+'Label494
+'
+Me.Label494.Anchor = System.Windows.Forms.AnchorStyles.None
+Me.Label494.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label494.Location = New System.Drawing.Point(272, 6)
+Me.Label494.Name = "Label494"
+Me.Label494.Size = New System.Drawing.Size(297, 17)
+Me.Label494.TabIndex = 2
+Me.Label494.Text = "PEMERIKSAAN DOKTER TRIMESTER III"
+Me.Label494.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+'
+'SplitContainer27
+'
+Me.SplitContainer27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer27.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer27.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer27.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer27.Name = "SplitContainer27"
+'
+'SplitContainer27.Panel1
+'
+Me.SplitContainer27.Panel1.AutoScroll = true
+Me.SplitContainer27.Panel1.Controls.Add(Me.SplitContainer28)
+'
+'SplitContainer27.Panel2
+'
+Me.SplitContainer27.Panel2.AutoScroll = true
+Me.SplitContainer27.Panel2.Controls.Add(Me.GroupBox49)
+Me.SplitContainer27.Panel2.Controls.Add(Me.GroupBox48)
+Me.SplitContainer27.Panel2.Controls.Add(Me.GroupBox47)
+Me.SplitContainer27.Panel2.Controls.Add(Me.GroupBox43)
+Me.SplitContainer27.Panel2.Controls.Add(Me.GroupBox42)
+Me.SplitContainer27.Size = New System.Drawing.Size(842, 306)
+Me.SplitContainer27.SplitterDistance = 280
+Me.SplitContainer27.TabIndex = 0
+'
+'SplitContainer28
+'
+Me.SplitContainer28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.SplitContainer28.Dock = System.Windows.Forms.DockStyle.Fill
+Me.SplitContainer28.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+Me.SplitContainer28.Location = New System.Drawing.Point(0, 0)
+Me.SplitContainer28.Name = "SplitContainer28"
+Me.SplitContainer28.Orientation = System.Windows.Forms.Orientation.Horizontal
+'
+'SplitContainer28.Panel1
+'
+Me.SplitContainer28.Panel1.BackColor = System.Drawing.SystemColors.ControlLight
+Me.SplitContainer28.Panel1.Controls.Add(Me.ButtonSimpanTriIII)
+'
+'SplitContainer28.Panel2
+'
+Me.SplitContainer28.Panel2.AutoScroll = true
+Me.SplitContainer28.Panel2.Controls.Add(Me.GroupBox50)
+Me.SplitContainer28.Panel2.Controls.Add(Me.GroupBox46)
+Me.SplitContainer28.Size = New System.Drawing.Size(280, 306)
+Me.SplitContainer28.TabIndex = 0
+'
+'ButtonSimpanTriIII
+'
+Me.ButtonSimpanTriIII.BackColor = System.Drawing.Color.White
+Me.ButtonSimpanTriIII.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonSimpanTriIII.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonSimpanTriIII.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonSimpanTriIII.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonSimpanTriIII.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81,Byte),Integer), CType(CType(168,Byte),Integer), CType(CType(255,Byte),Integer))
+Me.ButtonSimpanTriIII.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonSimpanTriIII.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonSimpanTriIII.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonSimpanTriIII.Location = New System.Drawing.Point(12, 10)
+Me.ButtonSimpanTriIII.Name = "ButtonSimpanTriIII"
+Me.ButtonSimpanTriIII.Size = New System.Drawing.Size(257, 30)
+Me.ButtonSimpanTriIII.TabIndex = 455
+Me.ButtonSimpanTriIII.Text = " Simpan Data"
+Me.ButtonSimpanTriIII.UseVisualStyleBackColor = false
+'
+'GroupBox50
+'
+Me.GroupBox50.Controls.Add(Me.RadioButtonFkrtlTriIII)
+Me.GroupBox50.Controls.Add(Me.RadioButtonFktpTriIII)
+Me.GroupBox50.Controls.Add(Me.Label584)
+Me.GroupBox50.Controls.Add(Me.Label580)
+Me.GroupBox50.Controls.Add(Me.Label581)
+Me.GroupBox50.Controls.Add(Me.TextBoxPenjelasanTriIII)
+Me.GroupBox50.Controls.Add(Me.Label582)
+Me.GroupBox50.Controls.Add(Me.Label583)
+Me.GroupBox50.Location = New System.Drawing.Point(12, 124)
+Me.GroupBox50.Name = "GroupBox50"
+Me.GroupBox50.Size = New System.Drawing.Size(237, 205)
+Me.GroupBox50.TabIndex = 510
+Me.GroupBox50.TabStop = false
+Me.GroupBox50.Text = "Penjelasan"
+'
+'RadioButtonFkrtlTriIII
+'
+Me.RadioButtonFkrtlTriIII.AutoSize = true
+Me.RadioButtonFkrtlTriIII.Location = New System.Drawing.Point(69, 178)
+Me.RadioButtonFkrtlTriIII.Name = "RadioButtonFkrtlTriIII"
+Me.RadioButtonFkrtlTriIII.Size = New System.Drawing.Size(60, 21)
+Me.RadioButtonFkrtlTriIII.TabIndex = 447
+Me.RadioButtonFkrtlTriIII.TabStop = true
+Me.RadioButtonFkrtlTriIII.Text = "FKRTL"
+Me.RadioButtonFkrtlTriIII.UseVisualStyleBackColor = true
+'
+'RadioButtonFktpTriIII
+'
+Me.RadioButtonFktpTriIII.AutoSize = true
+Me.RadioButtonFktpTriIII.Location = New System.Drawing.Point(9, 178)
+Me.RadioButtonFktpTriIII.Name = "RadioButtonFktpTriIII"
+Me.RadioButtonFktpTriIII.Size = New System.Drawing.Size(54, 21)
+Me.RadioButtonFktpTriIII.TabIndex = 446
+Me.RadioButtonFktpTriIII.TabStop = true
+Me.RadioButtonFktpTriIII.Text = "FKTP"
+Me.RadioButtonFktpTriIII.UseVisualStyleBackColor = true
+'
+'Label584
+'
+Me.Label584.AutoSize = true
+Me.Label584.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label584.Location = New System.Drawing.Point(6, 139)
+Me.Label584.Name = "Label584"
+Me.Label584.Size = New System.Drawing.Size(138, 34)
+Me.Label584.TabIndex = 445
+Me.Label584.Text = "Rekomendasi Tempat"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Proses Melahirkan"
+'
+'Label580
+'
+Me.Label580.AutoSize = true
+Me.Label580.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label580.Location = New System.Drawing.Point(79, 118)
+Me.Label580.Name = "Label580"
+Me.Label580.Size = New System.Drawing.Size(11, 17)
+Me.Label580.TabIndex = 444
+Me.Label580.Text = ":"
+'
+'Label581
+'
+Me.Label581.AutoSize = true
+Me.Label581.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label581.Location = New System.Drawing.Point(6, 118)
+Me.Label581.Name = "Label581"
+Me.Label581.Size = New System.Drawing.Size(78, 17)
+Me.Label581.TabIndex = 443
+Me.Label581.Text = "Kesimpulan"
+'
+'TextBoxPenjelasanTriIII
+'
+Me.TextBoxPenjelasanTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxPenjelasanTriIII.Location = New System.Drawing.Point(9, 51)
+Me.TextBoxPenjelasanTriIII.Multiline = true
+Me.TextBoxPenjelasanTriIII.Name = "TextBoxPenjelasanTriIII"
+Me.TextBoxPenjelasanTriIII.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxPenjelasanTriIII.Size = New System.Drawing.Size(210, 51)
+Me.TextBoxPenjelasanTriIII.TabIndex = 442
+'
+'Label582
+'
+Me.Label582.AutoSize = true
+Me.Label582.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label582.Location = New System.Drawing.Point(79, 26)
+Me.Label582.Name = "Label582"
+Me.Label582.Size = New System.Drawing.Size(11, 17)
+Me.Label582.TabIndex = 441
+Me.Label582.Text = ":"
+'
+'Label583
+'
+Me.Label583.AutoSize = true
+Me.Label583.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label583.Location = New System.Drawing.Point(6, 26)
+Me.Label583.Name = "Label583"
+Me.Label583.Size = New System.Drawing.Size(72, 17)
+Me.Label583.TabIndex = 438
+Me.Label583.Text = "Penjelasan"
+'
+'GroupBox46
+'
+Me.GroupBox46.Controls.Add(Me.ButtonUsgTriIII)
+Me.GroupBox46.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox46.Location = New System.Drawing.Point(12, 19)
+Me.GroupBox46.Name = "GroupBox46"
+Me.GroupBox46.Size = New System.Drawing.Size(237, 98)
+Me.GroupBox46.TabIndex = 509
+Me.GroupBox46.TabStop = false
+Me.GroupBox46.Text = "Hasil USG"
+'
+'ButtonUsgTriIII
+'
+Me.ButtonUsgTriIII.BackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUsgTriIII.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+Me.ButtonUsgTriIII.Cursor = System.Windows.Forms.Cursors.Hand
+Me.ButtonUsgTriIII.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUsgTriIII.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0,Byte),Integer), CType(CType(100,Byte),Integer), CType(CType(200,Byte),Integer))
+Me.ButtonUsgTriIII.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81,Byte),Integer), CType(CType(168,Byte),Integer), CType(CType(255,Byte),Integer))
+Me.ButtonUsgTriIII.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+Me.ButtonUsgTriIII.Font = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ButtonUsgTriIII.ForeColor = System.Drawing.Color.White
+Me.ButtonUsgTriIII.Location = New System.Drawing.Point(26, 39)
+Me.ButtonUsgTriIII.Name = "ButtonUsgTriIII"
+Me.ButtonUsgTriIII.Size = New System.Drawing.Size(181, 30)
+Me.ButtonUsgTriIII.TabIndex = 454
+Me.ButtonUsgTriIII.Text = "Tampilkan Gambar"
+Me.ButtonUsgTriIII.UseVisualStyleBackColor = false
+'
+'GroupBox49
+'
+Me.GroupBox49.AutoSize = true
+Me.GroupBox49.Controls.Add(Me.ComboBox11)
+Me.GroupBox49.Controls.Add(Me.ComboBox3)
+Me.GroupBox49.Controls.Add(Me.ComboBox9)
+Me.GroupBox49.Controls.Add(Me.ComboBox10)
+Me.GroupBox49.Controls.Add(Me.Label572)
+Me.GroupBox49.Controls.Add(Me.Label573)
+Me.GroupBox49.Controls.Add(Me.Label574)
+Me.GroupBox49.Controls.Add(Me.Label575)
+Me.GroupBox49.Controls.Add(Me.Label576)
+Me.GroupBox49.Controls.Add(Me.Label577)
+Me.GroupBox49.Controls.Add(Me.Label578)
+Me.GroupBox49.Controls.Add(Me.Label579)
+Me.GroupBox49.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox49.Location = New System.Drawing.Point(519, 565)
+Me.GroupBox49.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
+Me.GroupBox49.Name = "GroupBox49"
+Me.GroupBox49.Size = New System.Drawing.Size(633, 162)
+Me.GroupBox49.TabIndex = 475
+Me.GroupBox49.TabStop = false
+Me.GroupBox49.Text = "Rencana"
+'
+'ComboBox11
+'
+Me.ComboBox11.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox11.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox11.FormattingEnabled = true
+Me.ComboBox11.Items.AddRange(New Object() {"Gizi", "Kebidanan", "Anak", "Penyakit Dalam", "Neurologi", "THT", "Psikiatri", "Lain-Lain"})
+Me.ComboBox11.Location = New System.Drawing.Point(216, 19)
+Me.ComboBox11.Name = "ComboBox11"
+Me.ComboBox11.Size = New System.Drawing.Size(179, 25)
+Me.ComboBox11.TabIndex = 496
+'
+'ComboBox3
+'
+Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox3.FormattingEnabled = true
+Me.ComboBox3.Items.AddRange(New Object() {"Ya", "Tidak"})
+Me.ComboBox3.Location = New System.Drawing.Point(216, 113)
+Me.ComboBox3.Name = "ComboBox3"
+Me.ComboBox3.Size = New System.Drawing.Size(179, 25)
+Me.ComboBox3.TabIndex = 495
+'
+'ComboBox9
+'
+Me.ComboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox9.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox9.FormattingEnabled = true
+Me.ComboBox9.Items.AddRange(New Object() {"AKDR", "Suntik", "Pil", "Steril", "MAL", "Implan", "Belum Memilih"})
+Me.ComboBox9.Location = New System.Drawing.Point(216, 82)
+Me.ComboBox9.Name = "ComboBox9"
+Me.ComboBox9.Size = New System.Drawing.Size(179, 25)
+Me.ComboBox9.TabIndex = 494
+'
+'ComboBox10
+'
+Me.ComboBox10.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox10.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox10.FormattingEnabled = true
+Me.ComboBox10.Items.AddRange(New Object() {"Normal", "Pervaginam berbantu", "Sectio caesaria"})
+Me.ComboBox10.Location = New System.Drawing.Point(216, 50)
+Me.ComboBox10.Name = "ComboBox10"
+Me.ComboBox10.Size = New System.Drawing.Size(179, 25)
+Me.ComboBox10.TabIndex = 493
+'
+'Label572
+'
+Me.Label572.AutoSize = true
+Me.Label572.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label572.Location = New System.Drawing.Point(199, 116)
+Me.Label572.Name = "Label572"
+Me.Label572.Size = New System.Drawing.Size(11, 17)
+Me.Label572.TabIndex = 430
+Me.Label572.Text = ":"
+'
+'Label573
+'
+Me.Label573.AutoSize = true
+Me.Label573.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label573.Location = New System.Drawing.Point(6, 113)
+Me.Label573.Name = "Label573"
+Me.Label573.Size = New System.Drawing.Size(138, 17)
+Me.Label573.TabIndex = 429
+Me.Label573.Text = "Kebutuhan Konseling"
+'
+'Label574
+'
+Me.Label574.AutoSize = true
+Me.Label574.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label574.Location = New System.Drawing.Point(199, 84)
+Me.Label574.Name = "Label574"
+Me.Label574.Size = New System.Drawing.Size(11, 17)
+Me.Label574.TabIndex = 426
+Me.Label574.Text = ":"
+'
+'Label575
+'
+Me.Label575.AutoSize = true
+Me.Label575.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label575.Location = New System.Drawing.Point(6, 82)
+Me.Label575.Name = "Label575"
+Me.Label575.Size = New System.Drawing.Size(163, 17)
+Me.Label575.TabIndex = 425
+Me.Label575.Text = "Pilih Rencana Kontrasepsi"
+'
+'Label576
+'
+Me.Label576.AutoSize = true
+Me.Label576.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label576.Location = New System.Drawing.Point(199, 53)
+Me.Label576.Name = "Label576"
+Me.Label576.Size = New System.Drawing.Size(11, 17)
+Me.Label576.TabIndex = 10
+Me.Label576.Text = ":"
+'
+'Label577
+'
+Me.Label577.AutoSize = true
+Me.Label577.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label577.Location = New System.Drawing.Point(6, 52)
+Me.Label577.Name = "Label577"
+Me.Label577.Size = New System.Drawing.Size(174, 17)
+Me.Label577.TabIndex = 9
+Me.Label577.Text = "Rencana Proses Melahirkan"
+'
+'Label578
+'
+Me.Label578.AutoSize = true
+Me.Label578.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label578.Location = New System.Drawing.Point(199, 22)
+Me.Label578.Name = "Label578"
+Me.Label578.Size = New System.Drawing.Size(11, 17)
+Me.Label578.TabIndex = 4
+Me.Label578.Text = ":"
+'
+'Label579
+'
+Me.Label579.AutoSize = true
+Me.Label579.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label579.Location = New System.Drawing.Point(6, 22)
+Me.Label579.Name = "Label579"
+Me.Label579.Size = New System.Drawing.Size(193, 17)
+Me.Label579.TabIndex = 0
+Me.Label579.Text = "Perencanaan Konsultasi Lanjut"
+'
+'GroupBox48
+'
+Me.GroupBox48.AutoSize = true
+Me.GroupBox48.Controls.Add(Me.ComboBoxRujukanTriIII)
+Me.GroupBox48.Controls.Add(Me.ComboBoxTindaklanjutTriIII)
+Me.GroupBox48.Controls.Add(Me.ComboBoxSkriningJiwaTriIII)
+Me.GroupBox48.Controls.Add(Me.DateTimePickerSkriningJiwaTriIII)
+Me.GroupBox48.Controls.Add(Me.Label556)
+Me.GroupBox48.Controls.Add(Me.Label557)
+Me.GroupBox48.Controls.Add(Me.Label558)
+Me.GroupBox48.Controls.Add(Me.Label559)
+Me.GroupBox48.Controls.Add(Me.Label560)
+Me.GroupBox48.Controls.Add(Me.Label561)
+Me.GroupBox48.Controls.Add(Me.Label570)
+Me.GroupBox48.Controls.Add(Me.Label571)
+Me.GroupBox48.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox48.Location = New System.Drawing.Point(8, 565)
+Me.GroupBox48.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
+Me.GroupBox48.Name = "GroupBox48"
+Me.GroupBox48.Size = New System.Drawing.Size(503, 162)
+Me.GroupBox48.TabIndex = 474
+Me.GroupBox48.TabStop = false
+Me.GroupBox48.Text = "Skrining Kesehatan Jiwa"
+'
+'ComboBoxRujukanTriIII
+'
+Me.ComboBoxRujukanTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRujukanTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRujukanTriIII.FormattingEnabled = true
+Me.ComboBoxRujukanTriIII.Items.AddRange(New Object() {"Tidak", "Ya"})
+Me.ComboBoxRujukanTriIII.Location = New System.Drawing.Point(175, 113)
+Me.ComboBoxRujukanTriIII.Name = "ComboBoxRujukanTriIII"
+Me.ComboBoxRujukanTriIII.Size = New System.Drawing.Size(121, 25)
+Me.ComboBoxRujukanTriIII.TabIndex = 495
+'
+'ComboBoxTindaklanjutTriIII
+'
+Me.ComboBoxTindaklanjutTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxTindaklanjutTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxTindaklanjutTriIII.FormattingEnabled = true
+Me.ComboBoxTindaklanjutTriIII.Items.AddRange(New Object() {"Edukasi", "Konseling"})
+Me.ComboBoxTindaklanjutTriIII.Location = New System.Drawing.Point(176, 81)
+Me.ComboBoxTindaklanjutTriIII.Name = "ComboBoxTindaklanjutTriIII"
+Me.ComboBoxTindaklanjutTriIII.Size = New System.Drawing.Size(121, 25)
+Me.ComboBoxTindaklanjutTriIII.TabIndex = 494
+'
+'ComboBoxSkriningJiwaTriIII
+'
+Me.ComboBoxSkriningJiwaTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxSkriningJiwaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxSkriningJiwaTriIII.FormattingEnabled = true
+Me.ComboBoxSkriningJiwaTriIII.Items.AddRange(New Object() {"Ya", "Tidak"})
+Me.ComboBoxSkriningJiwaTriIII.Location = New System.Drawing.Point(175, 50)
+Me.ComboBoxSkriningJiwaTriIII.Name = "ComboBoxSkriningJiwaTriIII"
+Me.ComboBoxSkriningJiwaTriIII.Size = New System.Drawing.Size(123, 25)
+Me.ComboBoxSkriningJiwaTriIII.TabIndex = 493
+'
+'DateTimePickerSkriningJiwaTriIII
+'
+Me.DateTimePickerSkriningJiwaTriIII.CalendarFont = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DateTimePickerSkriningJiwaTriIII.CustomFormat = "dd-MMM-yyyy"
+Me.DateTimePickerSkriningJiwaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DateTimePickerSkriningJiwaTriIII.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+Me.DateTimePickerSkriningJiwaTriIII.Location = New System.Drawing.Point(175, 19)
+Me.DateTimePickerSkriningJiwaTriIII.Name = "DateTimePickerSkriningJiwaTriIII"
+Me.DateTimePickerSkriningJiwaTriIII.Size = New System.Drawing.Size(122, 25)
+Me.DateTimePickerSkriningJiwaTriIII.TabIndex = 454
+'
+'Label556
+'
+Me.Label556.AutoSize = true
+Me.Label556.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label556.Location = New System.Drawing.Point(158, 113)
+Me.Label556.Name = "Label556"
+Me.Label556.Size = New System.Drawing.Size(11, 17)
+Me.Label556.TabIndex = 430
+Me.Label556.Text = ":"
+'
+'Label557
+'
+Me.Label557.AutoSize = true
+Me.Label557.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label557.Location = New System.Drawing.Point(6, 113)
+Me.Label557.Name = "Label557"
+Me.Label557.Size = New System.Drawing.Size(92, 17)
+Me.Label557.TabIndex = 429
+Me.Label557.Text = "Perlu Rujukan"
+'
+'Label558
+'
+Me.Label558.AutoSize = true
+Me.Label558.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label558.Location = New System.Drawing.Point(158, 82)
+Me.Label558.Name = "Label558"
+Me.Label558.Size = New System.Drawing.Size(11, 17)
+Me.Label558.TabIndex = 426
+Me.Label558.Text = ":"
+'
+'Label559
+'
+Me.Label559.AutoSize = true
+Me.Label559.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label559.Location = New System.Drawing.Point(6, 82)
+Me.Label559.Name = "Label559"
+Me.Label559.Size = New System.Drawing.Size(89, 17)
+Me.Label559.TabIndex = 425
+Me.Label559.Text = "Tindak Lanjut"
+'
+'Label560
+'
+Me.Label560.AutoSize = true
+Me.Label560.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label560.Location = New System.Drawing.Point(159, 52)
+Me.Label560.Name = "Label560"
+Me.Label560.Size = New System.Drawing.Size(11, 17)
+Me.Label560.TabIndex = 10
+Me.Label560.Text = ":"
+'
+'Label561
+'
+Me.Label561.AutoSize = true
+Me.Label561.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label561.Location = New System.Drawing.Point(6, 52)
+Me.Label561.Name = "Label561"
+Me.Label561.Size = New System.Drawing.Size(153, 17)
+Me.Label561.TabIndex = 9
+Me.Label561.Text = "Skrining Kesehatan Jiwa"
+'
+'Label570
+'
+Me.Label570.AutoSize = true
+Me.Label570.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label570.Location = New System.Drawing.Point(158, 22)
+Me.Label570.Name = "Label570"
+Me.Label570.Size = New System.Drawing.Size(11, 17)
+Me.Label570.TabIndex = 4
+Me.Label570.Text = ":"
+'
+'Label571
+'
+Me.Label571.AutoSize = true
+Me.Label571.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label571.Location = New System.Drawing.Point(6, 22)
+Me.Label571.Name = "Label571"
+Me.Label571.Size = New System.Drawing.Size(72, 17)
+Me.Label571.TabIndex = 0
+Me.Label571.Text = "Tgl Periksa"
+'
+'GroupBox47
+'
+Me.GroupBox47.AutoSize = true
+Me.GroupBox47.Controls.Add(Me.TextBoxUrinReduksi)
+Me.GroupBox47.Controls.Add(Me.TextBoxLanjutanUrin)
+Me.GroupBox47.Controls.Add(Me.ComboBoxUrinTriIII)
+Me.GroupBox47.Controls.Add(Me.TextBox103)
+Me.GroupBox47.Controls.Add(Me.Label562)
+Me.GroupBox47.Controls.Add(Me.Label563)
+Me.GroupBox47.Controls.Add(Me.TextBoxUrineTriIII)
+Me.GroupBox47.Controls.Add(Me.Label564)
+Me.GroupBox47.Controls.Add(Me.Label565)
+Me.GroupBox47.Controls.Add(Me.TextBoxLanjutanHb)
+Me.GroupBox47.Controls.Add(Me.TextBox109)
+Me.GroupBox47.Controls.Add(Me.TextBoxHbTriIII)
+Me.GroupBox47.Controls.Add(Me.Label566)
+Me.GroupBox47.Controls.Add(Me.Label567)
+Me.GroupBox47.Controls.Add(Me.TextBoxTglPeriksaLabTriIII)
+Me.GroupBox47.Controls.Add(Me.Label568)
+Me.GroupBox47.Controls.Add(Me.Label569)
+Me.GroupBox47.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox47.Location = New System.Drawing.Point(8, 393)
+Me.GroupBox47.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
+Me.GroupBox47.Name = "GroupBox47"
+Me.GroupBox47.Size = New System.Drawing.Size(503, 162)
+Me.GroupBox47.TabIndex = 13
+Me.GroupBox47.TabStop = false
+Me.GroupBox47.Text = "Pemeriksaan Lab"
+'
+'TextBoxUrinReduksi
+'
+Me.TextBoxUrinReduksi.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxUrinReduksi.Location = New System.Drawing.Point(286, 110)
+Me.TextBoxUrinReduksi.Name = "TextBoxUrinReduksi"
+Me.TextBoxUrinReduksi.Size = New System.Drawing.Size(185, 25)
+Me.TextBoxUrinReduksi.TabIndex = 445
+'
+'TextBoxLanjutanUrin
+'
+Me.TextBoxLanjutanUrin.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxLanjutanUrin.Location = New System.Drawing.Point(286, 79)
+Me.TextBoxLanjutanUrin.Name = "TextBoxLanjutanUrin"
+Me.TextBoxLanjutanUrin.Size = New System.Drawing.Size(185, 25)
+Me.TextBoxLanjutanUrin.TabIndex = 444
+'
+'ComboBoxUrinTriIII
+'
+Me.ComboBoxUrinTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxUrinTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxUrinTriIII.FormattingEnabled = true
+Me.ComboBoxUrinTriIII.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "Kuantitatif 300mg"})
+Me.ComboBoxUrinTriIII.Location = New System.Drawing.Point(134, 113)
+Me.ComboBoxUrinTriIII.Name = "ComboBoxUrinTriIII"
+Me.ComboBoxUrinTriIII.Size = New System.Drawing.Size(146, 25)
+Me.ComboBoxUrinTriIII.TabIndex = 443
+'
+'TextBox103
+'
+Me.TextBox103.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox103.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox103.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox103.Location = New System.Drawing.Point(220, 79)
+Me.TextBox103.Name = "TextBox103"
+Me.TextBox103.ReadOnly = true
+Me.TextBox103.Size = New System.Drawing.Size(60, 25)
+Me.TextBox103.TabIndex = 442
+Me.TextBox103.TabStop = false
+Me.TextBox103.Text = "mg/dL"
+Me.TextBox103.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'Label562
+'
+Me.Label562.AutoSize = true
+Me.Label562.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label562.Location = New System.Drawing.Point(117, 113)
+Me.Label562.Name = "Label562"
+Me.Label562.Size = New System.Drawing.Size(11, 17)
+Me.Label562.TabIndex = 430
+Me.Label562.Text = ":"
+'
+'Label563
+'
+Me.Label563.AutoSize = true
+Me.Label563.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label563.Location = New System.Drawing.Point(6, 113)
+Me.Label563.Name = "Label563"
+Me.Label563.Size = New System.Drawing.Size(84, 17)
+Me.Label563.TabIndex = 429
+Me.Label563.Text = "Urin Reduksi"
+'
+'TextBoxUrineTriIII
+'
+Me.TextBoxUrineTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxUrineTriIII.Location = New System.Drawing.Point(134, 79)
+Me.TextBoxUrineTriIII.Name = "TextBoxUrineTriIII"
+Me.TextBoxUrineTriIII.ReadOnly = true
+Me.TextBoxUrineTriIII.Size = New System.Drawing.Size(80, 25)
+Me.TextBoxUrineTriIII.TabIndex = 427
+'
+'Label564
+'
+Me.Label564.AutoSize = true
+Me.Label564.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label564.Location = New System.Drawing.Point(117, 82)
+Me.Label564.Name = "Label564"
+Me.Label564.Size = New System.Drawing.Size(11, 17)
+Me.Label564.TabIndex = 426
+Me.Label564.Text = ":"
+'
+'Label565
+'
+Me.Label565.AutoSize = true
+Me.Label565.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label565.Location = New System.Drawing.Point(6, 82)
+Me.Label565.Name = "Label565"
+Me.Label565.Size = New System.Drawing.Size(81, 17)
+Me.Label565.TabIndex = 425
+Me.Label565.Text = "Protein Urin"
+'
+'TextBoxLanjutanHb
+'
+Me.TextBoxLanjutanHb.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxLanjutanHb.Location = New System.Drawing.Point(286, 48)
+Me.TextBoxLanjutanHb.Name = "TextBoxLanjutanHb"
+Me.TextBoxLanjutanHb.Size = New System.Drawing.Size(185, 25)
+Me.TextBoxLanjutanHb.TabIndex = 424
+'
+'TextBox109
+'
+Me.TextBox109.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox109.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox109.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox109.Location = New System.Drawing.Point(220, 49)
+Me.TextBox109.Name = "TextBox109"
+Me.TextBox109.ReadOnly = true
+Me.TextBox109.Size = New System.Drawing.Size(60, 25)
+Me.TextBox109.TabIndex = 423
+Me.TextBox109.TabStop = false
+Me.TextBox109.Text = "mg/dL"
+Me.TextBox109.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxHbTriIII
+'
+Me.TextBoxHbTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxHbTriIII.Location = New System.Drawing.Point(134, 49)
+Me.TextBoxHbTriIII.Name = "TextBoxHbTriIII"
+Me.TextBoxHbTriIII.ReadOnly = true
+Me.TextBoxHbTriIII.Size = New System.Drawing.Size(80, 25)
+Me.TextBoxHbTriIII.TabIndex = 11
+'
+'Label566
+'
+Me.Label566.AutoSize = true
+Me.Label566.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label566.Location = New System.Drawing.Point(117, 52)
+Me.Label566.Name = "Label566"
+Me.Label566.Size = New System.Drawing.Size(11, 17)
+Me.Label566.TabIndex = 10
+Me.Label566.Text = ":"
+'
+'Label567
+'
+Me.Label567.AutoSize = true
+Me.Label567.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label567.Location = New System.Drawing.Point(6, 52)
+Me.Label567.Name = "Label567"
+Me.Label567.Size = New System.Drawing.Size(113, 17)
+Me.Label567.TabIndex = 9
+Me.Label567.Text = "Hemoglobin (Hb)"
+'
+'TextBoxTglPeriksaLabTriIII
+'
+Me.TextBoxTglPeriksaLabTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxTglPeriksaLabTriIII.Location = New System.Drawing.Point(134, 18)
+Me.TextBoxTglPeriksaLabTriIII.Name = "TextBoxTglPeriksaLabTriIII"
+Me.TextBoxTglPeriksaLabTriIII.ReadOnly = true
+Me.TextBoxTglPeriksaLabTriIII.Size = New System.Drawing.Size(146, 25)
+Me.TextBoxTglPeriksaLabTriIII.TabIndex = 8
+'
+'Label568
+'
+Me.Label568.AutoSize = true
+Me.Label568.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label568.Location = New System.Drawing.Point(117, 21)
+Me.Label568.Name = "Label568"
+Me.Label568.Size = New System.Drawing.Size(11, 17)
+Me.Label568.TabIndex = 4
+Me.Label568.Text = ":"
+'
+'Label569
+'
+Me.Label569.AutoSize = true
+Me.Label569.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label569.Location = New System.Drawing.Point(6, 22)
+Me.Label569.Name = "Label569"
+Me.Label569.Size = New System.Drawing.Size(72, 17)
+Me.Label569.TabIndex = 0
+Me.Label569.Text = "Tgl Periksa"
+'
+'GroupBox43
+'
+Me.GroupBox43.AutoSize = true
+Me.GroupBox43.Controls.Add(Me.ComboBoxSelisihTriIII)
+Me.GroupBox43.Controls.Add(Me.Label536)
+Me.GroupBox43.Controls.Add(Me.Label535)
+Me.GroupBox43.Controls.Add(Me.TextBox112)
+Me.GroupBox43.Controls.Add(Me.TextBoxUkKehamilanTriIII)
+Me.GroupBox43.Controls.Add(Me.Label534)
+Me.GroupBox43.Controls.Add(Me.Label533)
+Me.GroupBox43.Controls.Add(Me.GroupBox44)
+Me.GroupBox43.Controls.Add(Me.ComboBoxUsgTriIII)
+Me.GroupBox43.Controls.Add(Me.Label539)
+Me.GroupBox43.Controls.Add(Me.Label542)
+Me.GroupBox43.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox43.Location = New System.Drawing.Point(519, 9)
+Me.GroupBox43.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
+Me.GroupBox43.Name = "GroupBox43"
+Me.GroupBox43.Size = New System.Drawing.Size(633, 570)
+Me.GroupBox43.TabIndex = 12
+Me.GroupBox43.TabStop = false
+Me.GroupBox43.Text = "USG Trimester III"
+'
+'ComboBoxSelisihTriIII
+'
+Me.ComboBoxSelisihTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxSelisihTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxSelisihTriIII.FormattingEnabled = true
+Me.ComboBoxSelisihTriIII.Items.AddRange(New Object() {"Ya", "Tidak"})
+Me.ComboBoxSelisihTriIII.Location = New System.Drawing.Point(202, 86)
+Me.ComboBoxSelisihTriIII.Name = "ComboBoxSelisihTriIII"
+Me.ComboBoxSelisihTriIII.Size = New System.Drawing.Size(63, 25)
+Me.ComboBoxSelisihTriIII.TabIndex = 472
+'
+'Label536
+'
+Me.Label536.AutoSize = true
+Me.Label536.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label536.Location = New System.Drawing.Point(186, 89)
+Me.Label536.Name = "Label536"
+Me.Label536.Size = New System.Drawing.Size(11, 17)
+Me.Label536.TabIndex = 471
+Me.Label536.Text = ":"
+'
+'Label535
+'
+Me.Label535.AutoSize = true
+Me.Label535.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label535.Location = New System.Drawing.Point(9, 89)
+Me.Label535.Name = "Label535"
+Me.Label535.Size = New System.Drawing.Size(171, 17)
+Me.Label535.TabIndex = 470
+Me.Label535.Text = "Selisih Lebih Dari 3 Minggu"
+'
+'TextBox112
+'
+Me.TextBox112.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox112.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox112.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox112.Location = New System.Drawing.Point(363, 51)
+Me.TextBox112.Name = "TextBox112"
+Me.TextBox112.ReadOnly = true
+Me.TextBox112.Size = New System.Drawing.Size(60, 25)
+Me.TextBox112.TabIndex = 469
+Me.TextBox112.TabStop = false
+Me.TextBox112.Text = "Minggu"
+Me.TextBox112.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxUkKehamilanTriIII
+'
+Me.TextBoxUkKehamilanTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxUkKehamilanTriIII.Location = New System.Drawing.Point(301, 51)
+Me.TextBoxUkKehamilanTriIII.Name = "TextBoxUkKehamilanTriIII"
+Me.TextBoxUkKehamilanTriIII.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxUkKehamilanTriIII.TabIndex = 459
+'
+'Label534
+'
+Me.Label534.AutoSize = true
+Me.Label534.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label534.Location = New System.Drawing.Point(284, 54)
+Me.Label534.Name = "Label534"
+Me.Label534.Size = New System.Drawing.Size(11, 17)
+Me.Label534.TabIndex = 458
+Me.Label534.Text = ":"
+'
+'Label533
+'
+Me.Label533.AutoSize = true
+Me.Label533.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label533.Location = New System.Drawing.Point(9, 54)
+Me.Label533.Name = "Label533"
+Me.Label533.Size = New System.Drawing.Size(269, 17)
+Me.Label533.TabIndex = 457
+Me.Label533.Text = "Ukuran Kehamilan (USG Tri 1 / HPHT / Tri 3)"
+'
+'GroupBox44
+'
+Me.GroupBox44.Controls.Add(Me.GroupBox45)
+Me.GroupBox44.Controls.Add(Me.ComboBoxKetuban)
+Me.GroupBox44.Controls.Add(Me.TextBox98)
+Me.GroupBox44.Controls.Add(Me.TextBoxSdp)
+Me.GroupBox44.Controls.Add(Me.Label528)
+Me.GroupBox44.Controls.Add(Me.Label515)
+Me.GroupBox44.Controls.Add(Me.Label516)
+Me.GroupBox44.Controls.Add(Me.ComboBox8)
+Me.GroupBox44.Controls.Add(Me.ComboBox7)
+Me.GroupBox44.Controls.Add(Me.Label523)
+Me.GroupBox44.Controls.Add(Me.Label524)
+Me.GroupBox44.Controls.Add(Me.ComboBox5)
+Me.GroupBox44.Controls.Add(Me.Label519)
+Me.GroupBox44.Controls.Add(Me.Label520)
+Me.GroupBox44.Controls.Add(Me.ComboBox4)
+Me.GroupBox44.Controls.Add(Me.Label517)
+Me.GroupBox44.Controls.Add(Me.Label518)
+Me.GroupBox44.Controls.Add(Me.TextBox101)
+Me.GroupBox44.Controls.Add(Me.TextBox102)
+Me.GroupBox44.Controls.Add(Me.Label521)
+Me.GroupBox44.Controls.Add(Me.Label522)
+Me.GroupBox44.Controls.Add(Me.ComboBox6)
+Me.GroupBox44.Controls.Add(Me.Label525)
+Me.GroupBox44.Controls.Add(Me.Label526)
+Me.GroupBox44.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox44.Location = New System.Drawing.Point(12, 120)
+Me.GroupBox44.Name = "GroupBox44"
+Me.GroupBox44.Size = New System.Drawing.Size(615, 426)
+Me.GroupBox44.TabIndex = 456
+Me.GroupBox44.TabStop = false
+Me.GroupBox44.Text = "Detail Pengukuran USG dan Biometri"
+'
+'GroupBox45
+'
+Me.GroupBox45.Controls.Add(Me.TextBoxAbnormalTriIII)
+Me.GroupBox45.Controls.Add(Me.ComboBoxAbnormalTriIII)
+Me.GroupBox45.Controls.Add(Me.Label554)
+Me.GroupBox45.Controls.Add(Me.Label555)
+Me.GroupBox45.Controls.Add(Me.TextBox113)
+Me.GroupBox45.Controls.Add(Me.TextBoxSesuaiEfw)
+Me.GroupBox45.Controls.Add(Me.TextBox115)
+Me.GroupBox45.Controls.Add(Me.TextBoxSesuaiFl)
+Me.GroupBox45.Controls.Add(Me.TextBox117)
+Me.GroupBox45.Controls.Add(Me.TextBoxSesuaiAc)
+Me.GroupBox45.Controls.Add(Me.TextBox119)
+Me.GroupBox45.Controls.Add(Me.TextBoxSesuaiHc)
+Me.GroupBox45.Controls.Add(Me.TextBox121)
+Me.GroupBox45.Controls.Add(Me.TextBoxSesuaiSdp)
+Me.GroupBox45.Controls.Add(Me.Label544)
+Me.GroupBox45.Controls.Add(Me.Label545)
+Me.GroupBox45.Controls.Add(Me.Label546)
+Me.GroupBox45.Controls.Add(Me.Label547)
+Me.GroupBox45.Controls.Add(Me.Label548)
+Me.GroupBox45.Controls.Add(Me.Label549)
+Me.GroupBox45.Controls.Add(Me.Label550)
+Me.GroupBox45.Controls.Add(Me.Label551)
+Me.GroupBox45.Controls.Add(Me.Label552)
+Me.GroupBox45.Controls.Add(Me.Label553)
+Me.GroupBox45.Controls.Add(Me.TextBox110)
+Me.GroupBox45.Controls.Add(Me.TextBoxEfw)
+Me.GroupBox45.Controls.Add(Me.TextBox108)
+Me.GroupBox45.Controls.Add(Me.TextBoxFl)
+Me.GroupBox45.Controls.Add(Me.TextBox106)
+Me.GroupBox45.Controls.Add(Me.TextBoxAc)
+Me.GroupBox45.Controls.Add(Me.TextBox104)
+Me.GroupBox45.Controls.Add(Me.TextBoxHc)
+Me.GroupBox45.Controls.Add(Me.TextBox100)
+Me.GroupBox45.Controls.Add(Me.Label543)
+Me.GroupBox45.Controls.Add(Me.TextBoxBpd)
+Me.GroupBox45.Controls.Add(Me.Label540)
+Me.GroupBox45.Controls.Add(Me.Label541)
+Me.GroupBox45.Controls.Add(Me.Label538)
+Me.GroupBox45.Controls.Add(Me.Label537)
+Me.GroupBox45.Controls.Add(Me.Label531)
+Me.GroupBox45.Controls.Add(Me.Label532)
+Me.GroupBox45.Controls.Add(Me.Label530)
+Me.GroupBox45.Controls.Add(Me.Label529)
+Me.GroupBox45.Controls.Add(Me.Label527)
+Me.GroupBox45.Location = New System.Drawing.Point(11, 187)
+Me.GroupBox45.Name = "GroupBox45"
+Me.GroupBox45.Size = New System.Drawing.Size(450, 214)
+Me.GroupBox45.TabIndex = 508
+Me.GroupBox45.TabStop = false
+Me.GroupBox45.Text = "Biometri Bayi"
+'
+'TextBoxAbnormalTriIII
+'
+Me.TextBoxAbnormalTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxAbnormalTriIII.Location = New System.Drawing.Point(214, 179)
+Me.TextBoxAbnormalTriIII.Name = "TextBoxAbnormalTriIII"
+Me.TextBoxAbnormalTriIII.Size = New System.Drawing.Size(182, 25)
+Me.TextBoxAbnormalTriIII.TabIndex = 541
+'
+'ComboBoxAbnormalTriIII
+'
+Me.ComboBoxAbnormalTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxAbnormalTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxAbnormalTriIII.FormattingEnabled = true
+Me.ComboBoxAbnormalTriIII.Items.AddRange(New Object() {"Tidak", "Ya"})
+Me.ComboBoxAbnormalTriIII.Location = New System.Drawing.Point(149, 180)
+Me.ComboBoxAbnormalTriIII.Name = "ComboBoxAbnormalTriIII"
+Me.ComboBoxAbnormalTriIII.Size = New System.Drawing.Size(60, 25)
+Me.ComboBoxAbnormalTriIII.TabIndex = 509
+'
+'Label554
+'
+Me.Label554.AutoSize = true
+Me.Label554.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label554.Location = New System.Drawing.Point(129, 182)
+Me.Label554.Name = "Label554"
+Me.Label554.Size = New System.Drawing.Size(11, 17)
+Me.Label554.TabIndex = 540
+Me.Label554.Text = ":"
+'
+'Label555
+'
+Me.Label555.AutoSize = true
+Me.Label555.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label555.Location = New System.Drawing.Point(13, 182)
+Me.Label555.Name = "Label555"
+Me.Label555.Size = New System.Drawing.Size(114, 17)
+Me.Label555.TabIndex = 539
+Me.Label555.Text = "Temuan Abnormal"
+'
+'TextBox113
+'
+Me.TextBox113.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox113.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox113.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox113.Location = New System.Drawing.Point(336, 142)
+Me.TextBox113.Name = "TextBox113"
+Me.TextBox113.ReadOnly = true
+Me.TextBox113.Size = New System.Drawing.Size(60, 25)
+Me.TextBox113.TabIndex = 538
+Me.TextBox113.TabStop = false
+Me.TextBox113.Text = "Minggu"
+Me.TextBox113.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSesuaiEfw
+'
+Me.TextBoxSesuaiEfw.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSesuaiEfw.Location = New System.Drawing.Point(276, 141)
+Me.TextBoxSesuaiEfw.Name = "TextBoxSesuaiEfw"
+Me.TextBoxSesuaiEfw.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSesuaiEfw.TabIndex = 537
+'
+'TextBox115
+'
+Me.TextBox115.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox115.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox115.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox115.Location = New System.Drawing.Point(336, 111)
+Me.TextBox115.Name = "TextBox115"
+Me.TextBox115.ReadOnly = true
+Me.TextBox115.Size = New System.Drawing.Size(60, 25)
+Me.TextBox115.TabIndex = 536
+Me.TextBox115.TabStop = false
+Me.TextBox115.Text = "Minggu"
+Me.TextBox115.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSesuaiFl
+'
+Me.TextBoxSesuaiFl.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSesuaiFl.Location = New System.Drawing.Point(276, 110)
+Me.TextBoxSesuaiFl.Name = "TextBoxSesuaiFl"
+Me.TextBoxSesuaiFl.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSesuaiFl.TabIndex = 535
+'
+'TextBox117
+'
+Me.TextBox117.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox117.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox117.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox117.Location = New System.Drawing.Point(336, 80)
+Me.TextBox117.Name = "TextBox117"
+Me.TextBox117.ReadOnly = true
+Me.TextBox117.Size = New System.Drawing.Size(60, 25)
+Me.TextBox117.TabIndex = 534
+Me.TextBox117.TabStop = false
+Me.TextBox117.Text = "Minggu"
+Me.TextBox117.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSesuaiAc
+'
+Me.TextBoxSesuaiAc.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSesuaiAc.Location = New System.Drawing.Point(276, 79)
+Me.TextBoxSesuaiAc.Name = "TextBoxSesuaiAc"
+Me.TextBoxSesuaiAc.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSesuaiAc.TabIndex = 533
+'
+'TextBox119
+'
+Me.TextBox119.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox119.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox119.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox119.Location = New System.Drawing.Point(336, 49)
+Me.TextBox119.Name = "TextBox119"
+Me.TextBox119.ReadOnly = true
+Me.TextBox119.Size = New System.Drawing.Size(60, 25)
+Me.TextBox119.TabIndex = 532
+Me.TextBox119.TabStop = false
+Me.TextBox119.Text = "Minggu"
+Me.TextBox119.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSesuaiHc
+'
+Me.TextBoxSesuaiHc.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSesuaiHc.Location = New System.Drawing.Point(276, 48)
+Me.TextBoxSesuaiHc.Name = "TextBoxSesuaiHc"
+Me.TextBoxSesuaiHc.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSesuaiHc.TabIndex = 531
+'
+'TextBox121
+'
+Me.TextBox121.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox121.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox121.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox121.Location = New System.Drawing.Point(336, 20)
+Me.TextBox121.Name = "TextBox121"
+Me.TextBox121.ReadOnly = true
+Me.TextBox121.Size = New System.Drawing.Size(60, 25)
+Me.TextBox121.TabIndex = 530
+Me.TextBox121.TabStop = false
+Me.TextBox121.Text = "Minggu"
+Me.TextBox121.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSesuaiSdp
+'
+Me.TextBoxSesuaiSdp.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSesuaiSdp.Location = New System.Drawing.Point(276, 19)
+Me.TextBoxSesuaiSdp.Name = "TextBoxSesuaiSdp"
+Me.TextBoxSesuaiSdp.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSesuaiSdp.TabIndex = 529
+'
+'Label544
+'
+Me.Label544.AutoSize = true
+Me.Label544.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label544.Location = New System.Drawing.Point(259, 21)
+Me.Label544.Name = "Label544"
+Me.Label544.Size = New System.Drawing.Size(11, 17)
+Me.Label544.TabIndex = 528
+Me.Label544.Text = ":"
+'
+'Label545
+'
+Me.Label545.AutoSize = true
+Me.Label545.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label545.Location = New System.Drawing.Point(259, 50)
+Me.Label545.Name = "Label545"
+Me.Label545.Size = New System.Drawing.Size(11, 17)
+Me.Label545.TabIndex = 527
+Me.Label545.Text = ":"
+'
+'Label546
+'
+Me.Label546.AutoSize = true
+Me.Label546.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label546.Location = New System.Drawing.Point(259, 81)
+Me.Label546.Name = "Label546"
+Me.Label546.Size = New System.Drawing.Size(11, 17)
+Me.Label546.TabIndex = 526
+Me.Label546.Text = ":"
+'
+'Label547
+'
+Me.Label547.AutoSize = true
+Me.Label547.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label547.Location = New System.Drawing.Point(259, 106)
+Me.Label547.Name = "Label547"
+Me.Label547.Size = New System.Drawing.Size(11, 17)
+Me.Label547.TabIndex = 525
+Me.Label547.Text = ":"
+'
+'Label548
+'
+Me.Label548.AutoSize = true
+Me.Label548.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label548.Location = New System.Drawing.Point(259, 140)
+Me.Label548.Name = "Label548"
+Me.Label548.Size = New System.Drawing.Size(11, 17)
+Me.Label548.TabIndex = 524
+Me.Label548.Text = ":"
+'
+'Label549
+'
+Me.Label549.AutoSize = true
+Me.Label549.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label549.Location = New System.Drawing.Point(215, 140)
+Me.Label549.Name = "Label549"
+Me.Label549.Size = New System.Drawing.Size(45, 17)
+Me.Label549.TabIndex = 523
+Me.Label549.Text = "Sesuai"
+'
+'Label550
+'
+Me.Label550.AutoSize = true
+Me.Label550.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label550.Location = New System.Drawing.Point(215, 109)
+Me.Label550.Name = "Label550"
+Me.Label550.Size = New System.Drawing.Size(45, 17)
+Me.Label550.TabIndex = 522
+Me.Label550.Text = "Sesuai"
+'
+'Label551
+'
+Me.Label551.AutoSize = true
+Me.Label551.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label551.Location = New System.Drawing.Point(215, 81)
+Me.Label551.Name = "Label551"
+Me.Label551.Size = New System.Drawing.Size(45, 17)
+Me.Label551.TabIndex = 521
+Me.Label551.Text = "Sesuai"
+'
+'Label552
+'
+Me.Label552.AutoSize = true
+Me.Label552.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label552.Location = New System.Drawing.Point(215, 50)
+Me.Label552.Name = "Label552"
+Me.Label552.Size = New System.Drawing.Size(45, 17)
+Me.Label552.TabIndex = 520
+Me.Label552.Text = "Sesuai"
+'
+'Label553
+'
+Me.Label553.AutoSize = true
+Me.Label553.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label553.Location = New System.Drawing.Point(215, 21)
+Me.Label553.Name = "Label553"
+Me.Label553.Size = New System.Drawing.Size(45, 17)
+Me.Label553.TabIndex = 519
+Me.Label553.Text = "Sesuai"
+'
+'TextBox110
+'
+Me.TextBox110.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox110.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox110.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox110.Location = New System.Drawing.Point(149, 141)
+Me.TextBox110.Name = "TextBox110"
+Me.TextBox110.ReadOnly = true
+Me.TextBox110.Size = New System.Drawing.Size(60, 25)
+Me.TextBox110.TabIndex = 518
+Me.TextBox110.TabStop = false
+Me.TextBox110.Text = "gram"
+Me.TextBox110.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxEfw
+'
+Me.TextBoxEfw.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxEfw.Location = New System.Drawing.Point(89, 140)
+Me.TextBoxEfw.Name = "TextBoxEfw"
+Me.TextBoxEfw.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxEfw.TabIndex = 517
+'
+'TextBox108
+'
+Me.TextBox108.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox108.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox108.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox108.Location = New System.Drawing.Point(149, 110)
+Me.TextBox108.Name = "TextBox108"
+Me.TextBox108.ReadOnly = true
+Me.TextBox108.Size = New System.Drawing.Size(60, 25)
+Me.TextBox108.TabIndex = 516
+Me.TextBox108.TabStop = false
+Me.TextBox108.Text = "cm"
+Me.TextBox108.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxFl
+'
+Me.TextBoxFl.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxFl.Location = New System.Drawing.Point(89, 109)
+Me.TextBoxFl.Name = "TextBoxFl"
+Me.TextBoxFl.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxFl.TabIndex = 515
+'
+'TextBox106
+'
+Me.TextBox106.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox106.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox106.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox106.Location = New System.Drawing.Point(149, 79)
+Me.TextBox106.Name = "TextBox106"
+Me.TextBox106.ReadOnly = true
+Me.TextBox106.Size = New System.Drawing.Size(60, 25)
+Me.TextBox106.TabIndex = 514
+Me.TextBox106.TabStop = false
+Me.TextBox106.Text = "cm"
+Me.TextBox106.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxAc
+'
+Me.TextBoxAc.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxAc.Location = New System.Drawing.Point(89, 78)
+Me.TextBoxAc.Name = "TextBoxAc"
+Me.TextBoxAc.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxAc.TabIndex = 513
+'
+'TextBox104
+'
+Me.TextBox104.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox104.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox104.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox104.Location = New System.Drawing.Point(149, 48)
+Me.TextBox104.Name = "TextBox104"
+Me.TextBox104.ReadOnly = true
+Me.TextBox104.Size = New System.Drawing.Size(60, 25)
+Me.TextBox104.TabIndex = 512
+Me.TextBox104.TabStop = false
+Me.TextBox104.Text = "cm"
+Me.TextBox104.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxHc
+'
+Me.TextBoxHc.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxHc.Location = New System.Drawing.Point(89, 47)
+Me.TextBoxHc.Name = "TextBoxHc"
+Me.TextBoxHc.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxHc.TabIndex = 511
+'
+'TextBox100
+'
+Me.TextBox100.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox100.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox100.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox100.Location = New System.Drawing.Point(149, 19)
+Me.TextBox100.Name = "TextBox100"
+Me.TextBox100.ReadOnly = true
+Me.TextBox100.Size = New System.Drawing.Size(60, 25)
+Me.TextBox100.TabIndex = 510
+Me.TextBox100.TabStop = false
+Me.TextBox100.Text = "cm"
+Me.TextBox100.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'Label543
+'
+Me.Label543.AutoSize = true
+Me.Label543.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label543.Location = New System.Drawing.Point(72, 21)
+Me.Label543.Name = "Label543"
+Me.Label543.Size = New System.Drawing.Size(11, 17)
+Me.Label543.TabIndex = 507
+Me.Label543.Text = ":"
+'
+'TextBoxBpd
+'
+Me.TextBoxBpd.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxBpd.Location = New System.Drawing.Point(89, 18)
+Me.TextBoxBpd.Name = "TextBoxBpd"
+Me.TextBoxBpd.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxBpd.TabIndex = 509
+'
+'Label540
+'
+Me.Label540.AutoSize = true
+Me.Label540.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label540.Location = New System.Drawing.Point(72, 50)
+Me.Label540.Name = "Label540"
+Me.Label540.Size = New System.Drawing.Size(11, 17)
+Me.Label540.TabIndex = 506
+Me.Label540.Text = ":"
+'
+'Label541
+'
+Me.Label541.AutoSize = true
+Me.Label541.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label541.Location = New System.Drawing.Point(72, 81)
+Me.Label541.Name = "Label541"
+Me.Label541.Size = New System.Drawing.Size(11, 17)
+Me.Label541.TabIndex = 505
+Me.Label541.Text = ":"
+'
+'Label538
+'
+Me.Label538.AutoSize = true
+Me.Label538.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label538.Location = New System.Drawing.Point(72, 106)
+Me.Label538.Name = "Label538"
+Me.Label538.Size = New System.Drawing.Size(11, 17)
+Me.Label538.TabIndex = 504
+Me.Label538.Text = ":"
+'
+'Label537
+'
+Me.Label537.AutoSize = true
+Me.Label537.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label537.Location = New System.Drawing.Point(72, 140)
+Me.Label537.Name = "Label537"
+Me.Label537.Size = New System.Drawing.Size(11, 17)
+Me.Label537.TabIndex = 503
+Me.Label537.Text = ":"
+'
+'Label531
+'
+Me.Label531.AutoSize = true
+Me.Label531.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label531.Location = New System.Drawing.Point(13, 140)
+Me.Label531.Name = "Label531"
+Me.Label531.Size = New System.Drawing.Size(57, 17)
+Me.Label531.TabIndex = 502
+Me.Label531.Text = "EFW/TBJ"
+'
+'Label532
+'
+Me.Label532.AutoSize = true
+Me.Label532.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label532.Location = New System.Drawing.Point(13, 106)
+Me.Label532.Name = "Label532"
+Me.Label532.Size = New System.Drawing.Size(20, 17)
+Me.Label532.TabIndex = 501
+Me.Label532.Text = "FL"
+'
+'Label530
+'
+Me.Label530.AutoSize = true
+Me.Label530.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label530.Location = New System.Drawing.Point(13, 81)
+Me.Label530.Name = "Label530"
+Me.Label530.Size = New System.Drawing.Size(24, 17)
+Me.Label530.TabIndex = 500
+Me.Label530.Text = "AC"
+'
+'Label529
+'
+Me.Label529.AutoSize = true
+Me.Label529.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label529.Location = New System.Drawing.Point(13, 50)
+Me.Label529.Name = "Label529"
+Me.Label529.Size = New System.Drawing.Size(25, 17)
+Me.Label529.TabIndex = 499
+Me.Label529.Text = "HC"
+'
+'Label527
+'
+Me.Label527.AutoSize = true
+Me.Label527.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label527.Location = New System.Drawing.Point(13, 21)
+Me.Label527.Name = "Label527"
+Me.Label527.Size = New System.Drawing.Size(31, 17)
+Me.Label527.TabIndex = 498
+Me.Label527.Text = "BPD"
+'
+'ComboBoxKetuban
+'
+Me.ComboBoxKetuban.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKetuban.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKetuban.FormattingEnabled = true
+Me.ComboBoxKetuban.Items.AddRange(New Object() {"Cukup", "Kurang", "Berlebih"})
+Me.ComboBoxKetuban.Location = New System.Drawing.Point(328, 148)
+Me.ComboBoxKetuban.Name = "ComboBoxKetuban"
+Me.ComboBoxKetuban.Size = New System.Drawing.Size(133, 25)
+Me.ComboBoxKetuban.TabIndex = 507
+'
+'TextBox98
+'
+Me.TextBox98.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox98.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox98.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox98.Location = New System.Drawing.Point(264, 148)
+Me.TextBox98.Name = "TextBox98"
+Me.TextBox98.ReadOnly = true
+Me.TextBox98.Size = New System.Drawing.Size(60, 25)
+Me.TextBox98.TabIndex = 506
+Me.TextBox98.TabStop = false
+Me.TextBox98.Text = "cm"
+Me.TextBox98.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxSdp
+'
+Me.TextBoxSdp.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSdp.Location = New System.Drawing.Point(204, 147)
+Me.TextBoxSdp.Name = "TextBoxSdp"
+Me.TextBoxSdp.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxSdp.TabIndex = 505
+'
+'Label528
+'
+Me.Label528.AutoSize = true
+Me.Label528.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label528.Location = New System.Drawing.Point(169, 150)
+Me.Label528.Name = "Label528"
+Me.Label528.Size = New System.Drawing.Size(31, 17)
+Me.Label528.TabIndex = 503
+Me.Label528.Text = "SDP"
+'
+'Label515
+'
+Me.Label515.AutoSize = true
+Me.Label515.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label515.Location = New System.Drawing.Point(155, 150)
+Me.Label515.Name = "Label515"
+Me.Label515.Size = New System.Drawing.Size(11, 17)
+Me.Label515.TabIndex = 502
+Me.Label515.Text = ":"
+'
+'Label516
+'
+Me.Label516.AutoSize = true
+Me.Label516.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label516.Location = New System.Drawing.Point(8, 150)
+Me.Label516.Name = "Label516"
+Me.Label516.Size = New System.Drawing.Size(141, 17)
+Me.Label516.TabIndex = 501
+Me.Label516.Text = "Jumlah Cairan Ketuban"
+'
+'ComboBox8
+'
+Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox8.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox8.FormattingEnabled = true
+Me.ComboBox8.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBox8.Location = New System.Drawing.Point(465, 118)
+Me.ComboBox8.Name = "ComboBox8"
+Me.ComboBox8.Size = New System.Drawing.Size(118, 25)
+Me.ComboBox8.TabIndex = 500
+'
+'ComboBox7
+'
+Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox7.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox7.FormattingEnabled = true
+Me.ComboBox7.Items.AddRange(New Object() {"Hidup", "Meninggal"})
+Me.ComboBox7.Location = New System.Drawing.Point(174, 116)
+Me.ComboBox7.Name = "ComboBox7"
+Me.ComboBox7.Size = New System.Drawing.Size(118, 25)
+Me.ComboBox7.TabIndex = 499
+'
+'Label523
+'
+Me.Label523.AutoSize = true
+Me.Label523.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label523.Location = New System.Drawing.Point(155, 118)
+Me.Label523.Name = "Label523"
+Me.Label523.Size = New System.Drawing.Size(11, 17)
+Me.Label523.TabIndex = 498
+Me.Label523.Text = ":"
+'
+'Label524
+'
+Me.Label524.AutoSize = true
+Me.Label524.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label524.Location = New System.Drawing.Point(8, 121)
+Me.Label524.Name = "Label524"
+Me.Label524.Size = New System.Drawing.Size(86, 17)
+Me.Label524.TabIndex = 497
+Me.Label524.Text = "Keadaan Bayi"
+'
+'ComboBox5
+'
+Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox5.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox5.FormattingEnabled = true
+Me.ComboBox5.Items.AddRange(New Object() {"Intrauterin", "Extrauterin", "Tidak Dapat Ditentukan"})
+Me.ComboBox5.Location = New System.Drawing.Point(174, 55)
+Me.ComboBox5.Name = "ComboBox5"
+Me.ComboBox5.Size = New System.Drawing.Size(118, 25)
+Me.ComboBox5.TabIndex = 496
+'
+'Label519
+'
+Me.Label519.AutoSize = true
+Me.Label519.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label519.Location = New System.Drawing.Point(155, 54)
+Me.Label519.Name = "Label519"
+Me.Label519.Size = New System.Drawing.Size(11, 17)
+Me.Label519.TabIndex = 495
+Me.Label519.Text = ":"
+'
+'Label520
+'
+Me.Label520.AutoSize = true
+Me.Label520.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label520.Location = New System.Drawing.Point(8, 56)
+Me.Label520.Name = "Label520"
+Me.Label520.Size = New System.Drawing.Size(102, 17)
+Me.Label520.TabIndex = 494
+Me.Label520.Text = "Letak Kehamilan"
+'
+'ComboBox4
+'
+Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox4.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox4.FormattingEnabled = true
+Me.ComboBox4.Items.AddRange(New Object() {"Kepala", "Bokong", "Letak Lintang"})
+Me.ComboBox4.Location = New System.Drawing.Point(174, 85)
+Me.ComboBox4.Name = "ComboBox4"
+Me.ComboBox4.Size = New System.Drawing.Size(118, 25)
+Me.ComboBox4.TabIndex = 489
+'
+'Label517
+'
+Me.Label517.AutoSize = true
+Me.Label517.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label517.Location = New System.Drawing.Point(155, 87)
+Me.Label517.Name = "Label517"
+Me.Label517.Size = New System.Drawing.Size(11, 17)
+Me.Label517.TabIndex = 488
+Me.Label517.Text = ":"
+'
+'Label518
+'
+Me.Label518.AutoSize = true
+Me.Label518.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label518.Location = New System.Drawing.Point(8, 90)
+Me.Label518.Name = "Label518"
+Me.Label518.Size = New System.Drawing.Size(94, 17)
+Me.Label518.TabIndex = 487
+Me.Label518.Text = "Presentasi Bayi"
+'
+'TextBox101
+'
+Me.TextBox101.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox101.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox101.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox101.Location = New System.Drawing.Point(401, 118)
+Me.TextBox101.Name = "TextBox101"
+Me.TextBox101.ReadOnly = true
+Me.TextBox101.Size = New System.Drawing.Size(60, 25)
+Me.TextBox101.TabIndex = 481
+Me.TextBox101.TabStop = false
+Me.TextBox101.Text = "X/m"
+Me.TextBox101.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBox102
+'
+Me.TextBox102.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBox102.Location = New System.Drawing.Point(342, 117)
+Me.TextBox102.Name = "TextBox102"
+Me.TextBox102.Size = New System.Drawing.Size(56, 25)
+Me.TextBox102.TabIndex = 480
+'
+'Label521
+'
+Me.Label521.AutoSize = true
+Me.Label521.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label521.Location = New System.Drawing.Point(325, 120)
+Me.Label521.Name = "Label521"
+Me.Label521.Size = New System.Drawing.Size(11, 17)
+Me.Label521.TabIndex = 479
+Me.Label521.Text = ":"
+'
+'Label522
+'
+Me.Label522.AutoSize = true
+Me.Label522.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label522.Location = New System.Drawing.Point(298, 120)
+Me.Label522.Name = "Label522"
+Me.Label522.Size = New System.Drawing.Size(26, 17)
+Me.Label522.TabIndex = 478
+Me.Label522.Text = "DJJ"
+'
+'ComboBox6
+'
+Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBox6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBox6.FormattingEnabled = true
+Me.ComboBox6.Items.AddRange(New Object() {"Tunggal", "Kembar"})
+Me.ComboBox6.Location = New System.Drawing.Point(174, 24)
+Me.ComboBox6.Name = "ComboBox6"
+Me.ComboBox6.Size = New System.Drawing.Size(118, 25)
+Me.ComboBox6.TabIndex = 475
+'
+'Label525
+'
+Me.Label525.AutoSize = true
+Me.Label525.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label525.Location = New System.Drawing.Point(155, 24)
+Me.Label525.Name = "Label525"
+Me.Label525.Size = New System.Drawing.Size(11, 17)
+Me.Label525.TabIndex = 472
+Me.Label525.Text = ":"
+'
+'Label526
+'
+Me.Label526.AutoSize = true
+Me.Label526.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label526.Location = New System.Drawing.Point(8, 24)
+Me.Label526.Name = "Label526"
+Me.Label526.Size = New System.Drawing.Size(75, 17)
+Me.Label526.TabIndex = 471
+Me.Label526.Text = "Jumlah Bayi"
+'
+'ComboBoxUsgTriIII
+'
+Me.ComboBoxUsgTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxUsgTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxUsgTriIII.FormattingEnabled = true
+Me.ComboBoxUsgTriIII.Items.AddRange(New Object() {"Ya", "Tidak"})
+Me.ComboBoxUsgTriIII.Location = New System.Drawing.Point(163, 20)
+Me.ComboBoxUsgTriIII.Name = "ComboBoxUsgTriIII"
+Me.ComboBoxUsgTriIII.Size = New System.Drawing.Size(63, 25)
+Me.ComboBoxUsgTriIII.TabIndex = 450
+'
+'Label539
+'
+Me.Label539.AutoSize = true
+Me.Label539.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label539.Location = New System.Drawing.Point(146, 24)
+Me.Label539.Name = "Label539"
+Me.Label539.Size = New System.Drawing.Size(11, 17)
+Me.Label539.TabIndex = 8
+Me.Label539.Text = ":"
+'
+'Label542
+'
+Me.Label542.AutoSize = true
+Me.Label542.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label542.Location = New System.Drawing.Point(9, 24)
+Me.Label542.Name = "Label542"
+Me.Label542.Size = New System.Drawing.Size(138, 17)
+Me.Label542.TabIndex = 5
+Me.Label542.Text = "Status USG Dilakukan"
+'
+'GroupBox42
+'
+Me.GroupBox42.AutoSize = true
+Me.GroupBox42.Controls.Add(Me.Panel32)
+Me.GroupBox42.Controls.Add(Me.TextBoxKeadaanUmumTriIII)
+Me.GroupBox42.Controls.Add(Me.Label513)
+Me.GroupBox42.Controls.Add(Me.Label514)
+Me.GroupBox42.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.GroupBox42.Location = New System.Drawing.Point(8, 10)
+Me.GroupBox42.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
+Me.GroupBox42.Name = "GroupBox42"
+Me.GroupBox42.Size = New System.Drawing.Size(503, 376)
+Me.GroupBox42.TabIndex = 2
+Me.GroupBox42.TabStop = false
+Me.GroupBox42.Text = "Pemeriksaan Fisik"
+'
+'Panel32
+'
+Me.Panel32.Controls.Add(Me.TextBoxTungkaiTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxTungkaiTriIII)
+Me.Panel32.Controls.Add(Me.Label495)
+Me.Panel32.Controls.Add(Me.Label496)
+Me.Panel32.Controls.Add(Me.TextBoxParuTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxParuTriIII)
+Me.Panel32.Controls.Add(Me.Label497)
+Me.Panel32.Controls.Add(Me.Label498)
+Me.Panel32.Controls.Add(Me.TextBoxDadaTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxDadaTriIII)
+Me.Panel32.Controls.Add(Me.Label499)
+Me.Panel32.Controls.Add(Me.Label500)
+Me.Panel32.Controls.Add(Me.TextBoxThtTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxThtTriIII)
+Me.Panel32.Controls.Add(Me.Label501)
+Me.Panel32.Controls.Add(Me.Label502)
+Me.Panel32.Controls.Add(Me.TextBoxGigiTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxGigiTriIII)
+Me.Panel32.Controls.Add(Me.Label503)
+Me.Panel32.Controls.Add(Me.Label504)
+Me.Panel32.Controls.Add(Me.TextBoxLeherTriIII)
+Me.Panel32.Controls.Add(Me.TextBoxKulitTriIII)
+Me.Panel32.Controls.Add(Me.TextBoxSkleraTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxLeherTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxKulitTriIII)
+Me.Panel32.Controls.Add(Me.Label505)
+Me.Panel32.Controls.Add(Me.Label506)
+Me.Panel32.Controls.Add(Me.Label507)
+Me.Panel32.Controls.Add(Me.Label508)
+Me.Panel32.Controls.Add(Me.ComboBoxSkleraTriIII)
+Me.Panel32.Controls.Add(Me.Label509)
+Me.Panel32.Controls.Add(Me.Label510)
+Me.Panel32.Controls.Add(Me.TextBoxKonjungtivaTriIII)
+Me.Panel32.Controls.Add(Me.ComboBoxKonjungtivaTriIII)
+Me.Panel32.Controls.Add(Me.Label511)
+Me.Panel32.Controls.Add(Me.Label512)
+Me.Panel32.Location = New System.Drawing.Point(4, 50)
+Me.Panel32.Name = "Panel32"
+Me.Panel32.Size = New System.Drawing.Size(485, 302)
+Me.Panel32.TabIndex = 9
+'
+'TextBoxTungkaiTriIII
+'
+Me.TextBoxTungkaiTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxTungkaiTriIII.Location = New System.Drawing.Point(286, 256)
+Me.TextBoxTungkaiTriIII.Name = "TextBoxTungkaiTriIII"
+Me.TextBoxTungkaiTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxTungkaiTriIII.TabIndex = 466
+'
+'ComboBoxTungkaiTriIII
+'
+Me.ComboBoxTungkaiTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxTungkaiTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxTungkaiTriIII.FormattingEnabled = true
+Me.ComboBoxTungkaiTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxTungkaiTriIII.Location = New System.Drawing.Point(124, 256)
+Me.ComboBoxTungkaiTriIII.Name = "ComboBoxTungkaiTriIII"
+Me.ComboBoxTungkaiTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxTungkaiTriIII.TabIndex = 465
+'
+'Label495
+'
+Me.Label495.AutoSize = true
+Me.Label495.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label495.Location = New System.Drawing.Point(107, 260)
+Me.Label495.Name = "Label495"
+Me.Label495.Size = New System.Drawing.Size(11, 17)
+Me.Label495.TabIndex = 464
+Me.Label495.Text = ":"
+'
+'Label496
+'
+Me.Label496.AutoSize = true
+Me.Label496.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label496.Location = New System.Drawing.Point(2, 260)
+Me.Label496.Name = "Label496"
+Me.Label496.Size = New System.Drawing.Size(55, 17)
+Me.Label496.TabIndex = 463
+Me.Label496.Text = "Tungkai"
+'
+'TextBoxParuTriIII
+'
+Me.TextBoxParuTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxParuTriIII.Location = New System.Drawing.Point(286, 225)
+Me.TextBoxParuTriIII.Name = "TextBoxParuTriIII"
+Me.TextBoxParuTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxParuTriIII.TabIndex = 462
+'
+'ComboBoxParuTriIII
+'
+Me.ComboBoxParuTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxParuTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxParuTriIII.FormattingEnabled = true
+Me.ComboBoxParuTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxParuTriIII.Location = New System.Drawing.Point(124, 225)
+Me.ComboBoxParuTriIII.Name = "ComboBoxParuTriIII"
+Me.ComboBoxParuTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxParuTriIII.TabIndex = 461
+'
+'Label497
+'
+Me.Label497.AutoSize = true
+Me.Label497.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label497.Location = New System.Drawing.Point(107, 229)
+Me.Label497.Name = "Label497"
+Me.Label497.Size = New System.Drawing.Size(11, 17)
+Me.Label497.TabIndex = 460
+Me.Label497.Text = ":"
+'
+'Label498
+'
+Me.Label498.AutoSize = true
+Me.Label498.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label498.Location = New System.Drawing.Point(2, 229)
+Me.Label498.Name = "Label498"
+Me.Label498.Size = New System.Drawing.Size(36, 17)
+Me.Label498.TabIndex = 459
+Me.Label498.Text = "Paru"
+'
+'TextBoxDadaTriIII
+'
+Me.TextBoxDadaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxDadaTriIII.Location = New System.Drawing.Point(286, 194)
+Me.TextBoxDadaTriIII.Name = "TextBoxDadaTriIII"
+Me.TextBoxDadaTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxDadaTriIII.TabIndex = 458
+'
+'ComboBoxDadaTriIII
+'
+Me.ComboBoxDadaTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxDadaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxDadaTriIII.FormattingEnabled = true
+Me.ComboBoxDadaTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxDadaTriIII.Location = New System.Drawing.Point(124, 194)
+Me.ComboBoxDadaTriIII.Name = "ComboBoxDadaTriIII"
+Me.ComboBoxDadaTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxDadaTriIII.TabIndex = 457
+'
+'Label499
+'
+Me.Label499.AutoSize = true
+Me.Label499.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label499.Location = New System.Drawing.Point(107, 198)
+Me.Label499.Name = "Label499"
+Me.Label499.Size = New System.Drawing.Size(11, 17)
+Me.Label499.TabIndex = 456
+Me.Label499.Text = ":"
+'
+'Label500
+'
+Me.Label500.AutoSize = true
+Me.Label500.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label500.Location = New System.Drawing.Point(2, 198)
+Me.Label500.Name = "Label500"
+Me.Label500.Size = New System.Drawing.Size(93, 17)
+Me.Label500.TabIndex = 455
+Me.Label500.Text = "Dada_Jantung"
+'
+'TextBoxThtTriIII
+'
+Me.TextBoxThtTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxThtTriIII.Location = New System.Drawing.Point(286, 163)
+Me.TextBoxThtTriIII.Name = "TextBoxThtTriIII"
+Me.TextBoxThtTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxThtTriIII.TabIndex = 454
+'
+'ComboBoxThtTriIII
+'
+Me.ComboBoxThtTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxThtTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxThtTriIII.FormattingEnabled = true
+Me.ComboBoxThtTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxThtTriIII.Location = New System.Drawing.Point(124, 163)
+Me.ComboBoxThtTriIII.Name = "ComboBoxThtTriIII"
+Me.ComboBoxThtTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxThtTriIII.TabIndex = 453
+'
+'Label501
+'
+Me.Label501.AutoSize = true
+Me.Label501.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label501.Location = New System.Drawing.Point(107, 167)
+Me.Label501.Name = "Label501"
+Me.Label501.Size = New System.Drawing.Size(11, 17)
+Me.Label501.TabIndex = 452
+Me.Label501.Text = ":"
+'
+'Label502
+'
+Me.Label502.AutoSize = true
+Me.Label502.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label502.Location = New System.Drawing.Point(2, 167)
+Me.Label502.Name = "Label502"
+Me.Label502.Size = New System.Drawing.Size(32, 17)
+Me.Label502.TabIndex = 451
+Me.Label502.Text = "THT"
+'
+'TextBoxGigiTriIII
+'
+Me.TextBoxGigiTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGigiTriIII.Location = New System.Drawing.Point(286, 132)
+Me.TextBoxGigiTriIII.Name = "TextBoxGigiTriIII"
+Me.TextBoxGigiTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxGigiTriIII.TabIndex = 450
+'
+'ComboBoxGigiTriIII
+'
+Me.ComboBoxGigiTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxGigiTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxGigiTriIII.FormattingEnabled = true
+Me.ComboBoxGigiTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxGigiTriIII.Location = New System.Drawing.Point(124, 132)
+Me.ComboBoxGigiTriIII.Name = "ComboBoxGigiTriIII"
+Me.ComboBoxGigiTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxGigiTriIII.TabIndex = 449
+'
+'Label503
+'
+Me.Label503.AutoSize = true
+Me.Label503.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label503.Location = New System.Drawing.Point(107, 136)
+Me.Label503.Name = "Label503"
+Me.Label503.Size = New System.Drawing.Size(11, 17)
+Me.Label503.TabIndex = 448
+Me.Label503.Text = ":"
+'
+'Label504
+'
+Me.Label504.AutoSize = true
+Me.Label504.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label504.Location = New System.Drawing.Point(2, 136)
+Me.Label504.Name = "Label504"
+Me.Label504.Size = New System.Drawing.Size(71, 17)
+Me.Label504.TabIndex = 447
+Me.Label504.Text = "Gigi Mulut"
+'
+'TextBoxLeherTriIII
+'
+Me.TextBoxLeherTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxLeherTriIII.Location = New System.Drawing.Point(286, 101)
+Me.TextBoxLeherTriIII.Name = "TextBoxLeherTriIII"
+Me.TextBoxLeherTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxLeherTriIII.TabIndex = 446
+'
+'TextBoxKulitTriIII
+'
+Me.TextBoxKulitTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKulitTriIII.Location = New System.Drawing.Point(286, 71)
+Me.TextBoxKulitTriIII.Name = "TextBoxKulitTriIII"
+Me.TextBoxKulitTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxKulitTriIII.TabIndex = 445
+'
+'TextBoxSkleraTriIII
+'
+Me.TextBoxSkleraTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxSkleraTriIII.Location = New System.Drawing.Point(286, 38)
+Me.TextBoxSkleraTriIII.Name = "TextBoxSkleraTriIII"
+Me.TextBoxSkleraTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxSkleraTriIII.TabIndex = 444
+'
+'ComboBoxLeherTriIII
+'
+Me.ComboBoxLeherTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxLeherTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxLeherTriIII.FormattingEnabled = true
+Me.ComboBoxLeherTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxLeherTriIII.Location = New System.Drawing.Point(124, 101)
+Me.ComboBoxLeherTriIII.Name = "ComboBoxLeherTriIII"
+Me.ComboBoxLeherTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxLeherTriIII.TabIndex = 443
+'
+'ComboBoxKulitTriIII
+'
+Me.ComboBoxKulitTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKulitTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKulitTriIII.FormattingEnabled = true
+Me.ComboBoxKulitTriIII.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxKulitTriIII.Location = New System.Drawing.Point(124, 70)
+Me.ComboBoxKulitTriIII.Name = "ComboBoxKulitTriIII"
+Me.ComboBoxKulitTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxKulitTriIII.TabIndex = 442
+'
+'Label505
+'
+Me.Label505.AutoSize = true
+Me.Label505.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label505.Location = New System.Drawing.Point(107, 105)
+Me.Label505.Name = "Label505"
+Me.Label505.Size = New System.Drawing.Size(11, 17)
+Me.Label505.TabIndex = 441
+Me.Label505.Text = ":"
+'
+'Label506
+'
+Me.Label506.AutoSize = true
+Me.Label506.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label506.Location = New System.Drawing.Point(107, 74)
+Me.Label506.Name = "Label506"
+Me.Label506.Size = New System.Drawing.Size(11, 17)
+Me.Label506.TabIndex = 440
+Me.Label506.Text = ":"
+'
+'Label507
+'
+Me.Label507.AutoSize = true
+Me.Label507.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label507.Location = New System.Drawing.Point(2, 105)
+Me.Label507.Name = "Label507"
+Me.Label507.Size = New System.Drawing.Size(41, 17)
+Me.Label507.TabIndex = 439
+Me.Label507.Text = "Leher"
+'
+'Label508
+'
+Me.Label508.AutoSize = true
+Me.Label508.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label508.Location = New System.Drawing.Point(3, 74)
+Me.Label508.Name = "Label508"
+Me.Label508.Size = New System.Drawing.Size(35, 17)
+Me.Label508.TabIndex = 438
+Me.Label508.Text = "Kulit"
+'
+'ComboBoxSkleraTriIII
+'
+Me.ComboBoxSkleraTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxSkleraTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxSkleraTriIII.FormattingEnabled = true
+Me.ComboBoxSkleraTriIII.Items.AddRange(New Object() {"Iketrik", "Tidak Iketrik"})
+Me.ComboBoxSkleraTriIII.Location = New System.Drawing.Point(124, 39)
+Me.ComboBoxSkleraTriIII.Name = "ComboBoxSkleraTriIII"
+Me.ComboBoxSkleraTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxSkleraTriIII.TabIndex = 437
+'
+'Label509
+'
+Me.Label509.AutoSize = true
+Me.Label509.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label509.Location = New System.Drawing.Point(107, 42)
+Me.Label509.Name = "Label509"
+Me.Label509.Size = New System.Drawing.Size(11, 17)
+Me.Label509.TabIndex = 436
+Me.Label509.Text = ":"
+'
+'Label510
+'
+Me.Label510.AutoSize = true
+Me.Label510.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label510.Location = New System.Drawing.Point(3, 42)
+Me.Label510.Name = "Label510"
+Me.Label510.Size = New System.Drawing.Size(44, 17)
+Me.Label510.TabIndex = 435
+Me.Label510.Text = "Sklera"
+'
+'TextBoxKonjungtivaTriIII
+'
+Me.TextBoxKonjungtivaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKonjungtivaTriIII.Location = New System.Drawing.Point(286, 7)
+Me.TextBoxKonjungtivaTriIII.Name = "TextBoxKonjungtivaTriIII"
+Me.TextBoxKonjungtivaTriIII.Size = New System.Drawing.Size(196, 25)
+Me.TextBoxKonjungtivaTriIII.TabIndex = 434
+'
+'ComboBoxKonjungtivaTriIII
+'
+Me.ComboBoxKonjungtivaTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKonjungtivaTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKonjungtivaTriIII.FormattingEnabled = true
+Me.ComboBoxKonjungtivaTriIII.Items.AddRange(New Object() {"Anemia", "Tidak Anemia"})
+Me.ComboBoxKonjungtivaTriIII.Location = New System.Drawing.Point(124, 7)
+Me.ComboBoxKonjungtivaTriIII.Name = "ComboBoxKonjungtivaTriIII"
+Me.ComboBoxKonjungtivaTriIII.Size = New System.Drawing.Size(156, 25)
+Me.ComboBoxKonjungtivaTriIII.TabIndex = 6
+'
+'Label511
+'
+Me.Label511.AutoSize = true
+Me.Label511.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label511.Location = New System.Drawing.Point(107, 10)
+Me.Label511.Name = "Label511"
+Me.Label511.Size = New System.Drawing.Size(11, 17)
+Me.Label511.TabIndex = 5
+Me.Label511.Text = ":"
+'
+'Label512
+'
+Me.Label512.AutoSize = true
+Me.Label512.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label512.Location = New System.Drawing.Point(3, 10)
+Me.Label512.Name = "Label512"
+Me.Label512.Size = New System.Drawing.Size(81, 17)
+Me.Label512.TabIndex = 1
+Me.Label512.Text = "Konjungtiva"
+'
+'TextBoxKeadaanUmumTriIII
+'
+Me.TextBoxKeadaanUmumTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKeadaanUmumTriIII.Location = New System.Drawing.Point(128, 19)
+Me.TextBoxKeadaanUmumTriIII.Name = "TextBoxKeadaanUmumTriIII"
+Me.TextBoxKeadaanUmumTriIII.Size = New System.Drawing.Size(361, 25)
+Me.TextBoxKeadaanUmumTriIII.TabIndex = 8
+'
+'Label513
+'
+Me.Label513.AutoSize = true
+Me.Label513.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label513.Location = New System.Drawing.Point(111, 22)
+Me.Label513.Name = "Label513"
+Me.Label513.Size = New System.Drawing.Size(11, 17)
+Me.Label513.TabIndex = 4
+Me.Label513.Text = ":"
+'
+'Label514
+'
+Me.Label514.AutoSize = true
+Me.Label514.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label514.Location = New System.Drawing.Point(6, 22)
+Me.Label514.Name = "Label514"
+Me.Label514.Size = New System.Drawing.Size(105, 17)
+Me.Label514.TabIndex = 0
+Me.Label514.Text = "Keadaan Umum"
 '
 'TabAsesmen
 '
@@ -20948,6 +23843,54 @@ Me.GroupBox24.ResumeLayout(false)
 Me.GroupBox24.PerformLayout
 Me.Panel30.ResumeLayout(false)
 Me.Panel30.PerformLayout
+Me.TabPageTrimesterII.ResumeLayout(false)
+Me.SplitContainer23.Panel1.ResumeLayout(false)
+Me.SplitContainer23.Panel2.ResumeLayout(false)
+Me.SplitContainer23.ResumeLayout(false)
+Me.SplitContainer24.Panel1.ResumeLayout(false)
+Me.SplitContainer24.Panel2.ResumeLayout(false)
+Me.SplitContainer24.ResumeLayout(false)
+Me.SplitContainer25.Panel1.ResumeLayout(false)
+Me.SplitContainer25.Panel2.ResumeLayout(false)
+Me.SplitContainer25.ResumeLayout(false)
+Me.GroupBox41.ResumeLayout(false)
+Me.GroupBox41.PerformLayout
+Me.GroupBox40.ResumeLayout(false)
+Me.GroupBox40.PerformLayout
+Me.GroupBoxTri.ResumeLayout(false)
+Me.GroupBoxTri.PerformLayout
+Me.GroupBox39.ResumeLayout(false)
+Me.GroupBox39.PerformLayout
+Me.TabPageTrimesterIII.ResumeLayout(false)
+Me.SplitContainer26.Panel1.ResumeLayout(false)
+Me.SplitContainer26.Panel2.ResumeLayout(false)
+Me.SplitContainer26.ResumeLayout(false)
+Me.SplitContainer27.Panel1.ResumeLayout(false)
+Me.SplitContainer27.Panel2.ResumeLayout(false)
+Me.SplitContainer27.Panel2.PerformLayout
+Me.SplitContainer27.ResumeLayout(false)
+Me.SplitContainer28.Panel1.ResumeLayout(false)
+Me.SplitContainer28.Panel2.ResumeLayout(false)
+Me.SplitContainer28.ResumeLayout(false)
+Me.GroupBox50.ResumeLayout(false)
+Me.GroupBox50.PerformLayout
+Me.GroupBox46.ResumeLayout(false)
+Me.GroupBox49.ResumeLayout(false)
+Me.GroupBox49.PerformLayout
+Me.GroupBox48.ResumeLayout(false)
+Me.GroupBox48.PerformLayout
+Me.GroupBox47.ResumeLayout(false)
+Me.GroupBox47.PerformLayout
+Me.GroupBox43.ResumeLayout(false)
+Me.GroupBox43.PerformLayout
+Me.GroupBox44.ResumeLayout(false)
+Me.GroupBox44.PerformLayout
+Me.GroupBox45.ResumeLayout(false)
+Me.GroupBox45.PerformLayout
+Me.GroupBox42.ResumeLayout(false)
+Me.GroupBox42.PerformLayout
+Me.Panel32.ResumeLayout(false)
+Me.Panel32.PerformLayout
 Me.TabAsesmen.ResumeLayout(false)
 Me.SplitContainerMedikAsesmen.Panel1.ResumeLayout(false)
 Me.SplitContainerMedikAsesmen.Panel1.PerformLayout
@@ -22661,4 +25604,230 @@ End Sub
     Friend WithEvents Label468 As System.Windows.Forms.Label
     Friend WithEvents GroupBox38 As System.Windows.Forms.GroupBox
     Friend WithEvents ButtonTampilUsgI As System.Windows.Forms.Button
+    Friend WithEvents SplitContainer23 As System.Windows.Forms.SplitContainer
+    Friend WithEvents Label470 As System.Windows.Forms.Label
+    Friend WithEvents SplitContainer24 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer25 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ButtonTrimesterII As System.Windows.Forms.Button
+    Friend WithEvents GroupBox39 As System.Windows.Forms.GroupBox
+    Friend WithEvents CheckBoxSedang7 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang6 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang5 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang4 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang3 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang2 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang1 As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox40 As System.Windows.Forms.GroupBox
+    Friend WithEvents CheckBoxTinggi7 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi6 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi5 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi4 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi3 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi2 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxTinggi1 As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBoxTri As System.Windows.Forms.GroupBox
+    Friend WithEvents CheckBoxSedang8 As System.Windows.Forms.CheckBox
+    Friend WithEvents TextBox97 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxMap As System.Windows.Forms.TextBox
+    Friend WithEvents Label489 As System.Windows.Forms.Label
+    Friend WithEvents TextBox96 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxDiasTriII As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSisTriII As System.Windows.Forms.TextBox
+    Friend WithEvents Label488 As System.Windows.Forms.Label
+    Friend WithEvents Label487 As System.Windows.Forms.Label
+    Friend WithEvents Label486 As System.Windows.Forms.Label
+    Friend WithEvents Label485 As System.Windows.Forms.Label
+    Friend WithEvents Label484 As System.Windows.Forms.Label
+    Friend WithEvents Label473 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxProteinuria As System.Windows.Forms.ComboBox
+    Friend WithEvents GroupBox41 As System.Windows.Forms.GroupBox
+    Friend WithEvents TextBoxKeteranganTriII As System.Windows.Forms.TextBox
+    Friend WithEvents Label490 As System.Windows.Forms.Label
+    Friend WithEvents Label491 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxStatusRujukan As System.Windows.Forms.TextBox
+    Friend WithEvents Label492 As System.Windows.Forms.Label
+    Friend WithEvents Label493 As System.Windows.Forms.Label
+    Friend WithEvents CheckBoxTinggi8 As System.Windows.Forms.CheckBox
+    Friend WithEvents SplitContainer26 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer27 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer28 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ButtonSimpanTriIII As System.Windows.Forms.Button
+    Friend WithEvents Label494 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox42 As System.Windows.Forms.GroupBox
+    Friend WithEvents Panel32 As System.Windows.Forms.Panel
+    Friend WithEvents TextBoxTungkaiTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxTungkaiTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label495 As System.Windows.Forms.Label
+    Friend WithEvents Label496 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxParuTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxParuTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label497 As System.Windows.Forms.Label
+    Friend WithEvents Label498 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxDadaTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxDadaTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label499 As System.Windows.Forms.Label
+    Friend WithEvents Label500 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxThtTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxThtTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label501 As System.Windows.Forms.Label
+    Friend WithEvents Label502 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxGigiTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxGigiTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label503 As System.Windows.Forms.Label
+    Friend WithEvents Label504 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxLeherTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxKulitTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSkleraTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxLeherTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxKulitTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label505 As System.Windows.Forms.Label
+    Friend WithEvents Label506 As System.Windows.Forms.Label
+    Friend WithEvents Label507 As System.Windows.Forms.Label
+    Friend WithEvents Label508 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxSkleraTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label509 As System.Windows.Forms.Label
+    Friend WithEvents Label510 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxKonjungtivaTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxKonjungtivaTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label511 As System.Windows.Forms.Label
+    Friend WithEvents Label512 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxKeadaanUmumTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label513 As System.Windows.Forms.Label
+    Friend WithEvents Label514 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox44 As System.Windows.Forms.GroupBox
+    Friend WithEvents ComboBox4 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label517 As System.Windows.Forms.Label
+    Friend WithEvents Label518 As System.Windows.Forms.Label
+    Friend WithEvents TextBox101 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox102 As System.Windows.Forms.TextBox
+    Friend WithEvents Label521 As System.Windows.Forms.Label
+    Friend WithEvents Label522 As System.Windows.Forms.Label
+    Friend WithEvents ComboBox6 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label525 As System.Windows.Forms.Label
+    Friend WithEvents Label526 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxUsgTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label539 As System.Windows.Forms.Label
+    Friend WithEvents Label542 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxSelisihTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label536 As System.Windows.Forms.Label
+    Friend WithEvents Label535 As System.Windows.Forms.Label
+    Friend WithEvents TextBox112 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxUkKehamilanTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label534 As System.Windows.Forms.Label
+    Friend WithEvents Label533 As System.Windows.Forms.Label
+    Friend WithEvents ComboBox5 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label519 As System.Windows.Forms.Label
+    Friend WithEvents Label520 As System.Windows.Forms.Label
+    Friend WithEvents Label515 As System.Windows.Forms.Label
+    Friend WithEvents Label516 As System.Windows.Forms.Label
+    Friend WithEvents ComboBox8 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBox7 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label523 As System.Windows.Forms.Label
+    Friend WithEvents Label524 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label543 As System.Windows.Forms.Label
+    Friend WithEvents Label540 As System.Windows.Forms.Label
+    Friend WithEvents Label541 As System.Windows.Forms.Label
+    Friend WithEvents Label538 As System.Windows.Forms.Label
+    Friend WithEvents Label537 As System.Windows.Forms.Label
+    Friend WithEvents Label531 As System.Windows.Forms.Label
+    Friend WithEvents Label532 As System.Windows.Forms.Label
+    Friend WithEvents Label530 As System.Windows.Forms.Label
+    Friend WithEvents Label529 As System.Windows.Forms.Label
+    Friend WithEvents Label527 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxKetuban As System.Windows.Forms.ComboBox
+    Friend WithEvents TextBox98 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSdp As System.Windows.Forms.TextBox
+    Friend WithEvents Label528 As System.Windows.Forms.Label
+    Friend WithEvents TextBox113 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSesuaiEfw As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox115 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSesuaiFl As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox117 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSesuaiAc As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox119 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSesuaiHc As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox121 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxSesuaiSdp As System.Windows.Forms.TextBox
+    Friend WithEvents Label544 As System.Windows.Forms.Label
+    Friend WithEvents Label545 As System.Windows.Forms.Label
+    Friend WithEvents Label546 As System.Windows.Forms.Label
+    Friend WithEvents Label547 As System.Windows.Forms.Label
+    Friend WithEvents Label548 As System.Windows.Forms.Label
+    Friend WithEvents Label549 As System.Windows.Forms.Label
+    Friend WithEvents Label550 As System.Windows.Forms.Label
+    Friend WithEvents Label551 As System.Windows.Forms.Label
+    Friend WithEvents Label552 As System.Windows.Forms.Label
+    Friend WithEvents Label553 As System.Windows.Forms.Label
+    Friend WithEvents TextBox110 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxEfw As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox108 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxFl As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox106 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxAc As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox104 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxHc As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox100 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxBpd As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxAbnormalTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxAbnormalTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents Label554 As System.Windows.Forms.Label
+    Friend WithEvents Label555 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox46 As System.Windows.Forms.GroupBox
+    Friend WithEvents ButtonUsgTriIII As System.Windows.Forms.Button
+    Friend WithEvents GroupBox47 As System.Windows.Forms.GroupBox
+    Friend WithEvents TextBox103 As System.Windows.Forms.TextBox
+    Friend WithEvents Label562 As System.Windows.Forms.Label
+    Friend WithEvents Label563 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxUrineTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label564 As System.Windows.Forms.Label
+    Friend WithEvents Label565 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxLanjutanHb As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox109 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxHbTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label566 As System.Windows.Forms.Label
+    Friend WithEvents Label567 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxTglPeriksaLabTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label568 As System.Windows.Forms.Label
+    Friend WithEvents Label569 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxUrinReduksi As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxLanjutanUrin As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxUrinTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents GroupBox48 As System.Windows.Forms.GroupBox
+    Friend WithEvents ComboBoxRujukanTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxTindaklanjutTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxSkriningJiwaTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents DateTimePickerSkriningJiwaTriIII As System.Windows.Forms.DateTimePicker
+    Friend WithEvents Label556 As System.Windows.Forms.Label
+    Friend WithEvents Label557 As System.Windows.Forms.Label
+    Friend WithEvents Label558 As System.Windows.Forms.Label
+    Friend WithEvents Label559 As System.Windows.Forms.Label
+    Friend WithEvents Label560 As System.Windows.Forms.Label
+    Friend WithEvents Label561 As System.Windows.Forms.Label
+    Friend WithEvents Label570 As System.Windows.Forms.Label
+    Friend WithEvents Label571 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox49 As System.Windows.Forms.GroupBox
+    Friend WithEvents ComboBox11 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBox9 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBox10 As System.Windows.Forms.ComboBox
+    Friend WithEvents Label572 As System.Windows.Forms.Label
+    Friend WithEvents Label573 As System.Windows.Forms.Label
+    Friend WithEvents Label574 As System.Windows.Forms.Label
+    Friend WithEvents Label575 As System.Windows.Forms.Label
+    Friend WithEvents Label576 As System.Windows.Forms.Label
+    Friend WithEvents Label577 As System.Windows.Forms.Label
+    Friend WithEvents Label578 As System.Windows.Forms.Label
+    Friend WithEvents Label579 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox50 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label580 As System.Windows.Forms.Label
+    Friend WithEvents Label581 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxPenjelasanTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents Label582 As System.Windows.Forms.Label
+    Friend WithEvents Label583 As System.Windows.Forms.Label
+    Friend WithEvents RadioButtonFkrtlTriIII As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonFktpTriIII As System.Windows.Forms.RadioButton
+    Friend WithEvents Label584 As System.Windows.Forms.Label
+    Friend WithEvents Label585 As System.Windows.Forms.Label
 End Class
