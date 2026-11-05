@@ -24,34 +24,34 @@ Partial Class FormRekamMedisDokter
     Private Sub InitializeComponent()
 Me.components = New System.ComponentModel.Container
 Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormRekamMedisDokter))
-Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle29 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle30 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle31 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle32 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle33 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle34 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle35 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle36 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle37 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle38 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle39 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle40 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle41 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle42 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle43 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle44 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle45 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle46 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle47 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle48 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle49 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle50 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle51 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle52 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle53 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle54 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle55 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
+Dim DataGridViewCellStyle56 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
 Me.PanelTop = New System.Windows.Forms.Panel
 Me.ButtonCekRiwayatBPJS = New System.Windows.Forms.Button
 Me.btnClose = New System.Windows.Forms.Button
@@ -690,7 +690,7 @@ Me.Label399 = New System.Windows.Forms.Label
 Me.Label397 = New System.Windows.Forms.Label
 Me.TextBox89 = New System.Windows.Forms.TextBox
 Me.TextBox88 = New System.Windows.Forms.TextBox
-Me.TextBox87 = New System.Windows.Forms.TextBox
+Me.TextBoxTataLaksana = New System.Windows.Forms.TextBox
 Me.TextBox85 = New System.Windows.Forms.TextBox
 Me.TextBoxProteinUrine = New System.Windows.Forms.TextBox
 Me.TextBoxRhesus = New System.Windows.Forms.TextBox
@@ -766,7 +766,7 @@ Me.TextBoxKesimpulanTriI = New System.Windows.Forms.TextBox
 Me.Label469 = New System.Windows.Forms.Label
 Me.Label468 = New System.Windows.Forms.Label
 Me.GroupBoxRujukan = New System.Windows.Forms.GroupBox
-Me.ComboBox2 = New System.Windows.Forms.ComboBox
+Me.ComboBoxSkriningJiwaPerluRujukan = New System.Windows.Forms.ComboBox
 Me.ComboBoxTindakLanjut = New System.Windows.Forms.ComboBox
 Me.ComboBoxSkriningJiwa = New System.Windows.Forms.ComboBox
 Me.DateTimePickerSkriningJiwa = New System.Windows.Forms.DateTimePicker
@@ -851,7 +851,7 @@ Me.DateTimePickerHpl = New System.Windows.Forms.DateTimePicker
 Me.DateTimePickerHplUsg = New System.Windows.Forms.DateTimePicker
 Me.TextBox76 = New System.Windows.Forms.TextBox
 Me.ComboBoxHaid = New System.Windows.Forms.ComboBox
-Me.dtHpht = New System.Windows.Forms.DateTimePicker
+Me.DateTimePickerHPHT = New System.Windows.Forms.DateTimePicker
 Me.TextBoxUsiaKehamilan = New System.Windows.Forms.TextBox
 Me.Label435 = New System.Windows.Forms.Label
 Me.Label434 = New System.Windows.Forms.Label
@@ -1072,7 +1072,7 @@ Me.TextBoxSdp = New System.Windows.Forms.TextBox
 Me.Label528 = New System.Windows.Forms.Label
 Me.Label515 = New System.Windows.Forms.Label
 Me.Label516 = New System.Windows.Forms.Label
-Me.ComboBox8 = New System.Windows.Forms.ComboBox
+Me.ComboBoxKeteranganDjj = New System.Windows.Forms.ComboBox
 Me.ComboBox7 = New System.Windows.Forms.ComboBox
 Me.Label523 = New System.Windows.Forms.Label
 Me.Label524 = New System.Windows.Forms.Label
@@ -9377,52 +9377,52 @@ Me.Label68.Text = "RIWAYAT ODONTOGRAM"
 '
 Me.DataGridViewRiwayatGigi.AllowUserToAddRows = false
 Me.DataGridViewRiwayatGigi.AllowUserToDeleteRows = false
-DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle1.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatGigi.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+DataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle29.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle29.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle29.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle29.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatGigi.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle29
 Me.DataGridViewRiwayatGigi.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewRiwayatGigi.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewRiwayatGigi.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewRiwayatGigi.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewRiwayatGigi.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewRiwayatGigi.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle2.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatGigi.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+DataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle30.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle30.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle30.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle30.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle30.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle30.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatGigi.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle30
 Me.DataGridViewRiwayatGigi.ColumnHeadersHeight = 40
-DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle3.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle3.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(229,Byte),Integer), CType(CType(226,Byte),Integer), CType(CType(244,Byte),Integer))
-DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatGigi.DefaultCellStyle = DataGridViewCellStyle3
+DataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle31.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle31.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle31.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle31.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle31.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(229,Byte),Integer), CType(CType(226,Byte),Integer), CType(CType(244,Byte),Integer))
+DataGridViewCellStyle31.SelectionForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatGigi.DefaultCellStyle = DataGridViewCellStyle31
 Me.DataGridViewRiwayatGigi.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewRiwayatGigi.EnableHeadersVisualStyles = false
 Me.DataGridViewRiwayatGigi.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewRiwayatGigi.Name = "DataGridViewRiwayatGigi"
 Me.DataGridViewRiwayatGigi.ReadOnly = true
-DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle4.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatGigi.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
+DataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle32.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle32.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle32.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatGigi.RowHeadersDefaultCellStyle = DataGridViewCellStyle32
 Me.DataGridViewRiwayatGigi.RowHeadersVisible = false
 Me.DataGridViewRiwayatGigi.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewRiwayatGigi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -9926,7 +9926,7 @@ Me.GroupBox19.Controls.Add(Me.Label362)
 Me.GroupBox19.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.GroupBox19.Location = New System.Drawing.Point(11, 126)
 Me.GroupBox19.Name = "GroupBox19"
-Me.GroupBox19.Size = New System.Drawing.Size(259, 98)
+Me.GroupBox19.Size = New System.Drawing.Size(259, 130)
 Me.GroupBox19.TabIndex = 450
 Me.GroupBox19.TabStop = false
 Me.GroupBox19.Text = "Tanggal dan Tempat"
@@ -9934,8 +9934,9 @@ Me.GroupBox19.Text = "Tanggal dan Tempat"
 'TextBoxTempatPeriksa
 '
 Me.TextBoxTempatPeriksa.Location = New System.Drawing.Point(110, 57)
+Me.TextBoxTempatPeriksa.Multiline = true
 Me.TextBoxTempatPeriksa.Name = "TextBoxTempatPeriksa"
-Me.TextBoxTempatPeriksa.Size = New System.Drawing.Size(124, 25)
+Me.TextBoxTempatPeriksa.Size = New System.Drawing.Size(124, 64)
 Me.TextBoxTempatPeriksa.TabIndex = 3
 '
 'TextBoxTanggalPeriksa
@@ -10063,7 +10064,7 @@ Me.GroupBox22.Controls.Add(Me.Label399)
 Me.GroupBox22.Controls.Add(Me.Label397)
 Me.GroupBox22.Controls.Add(Me.TextBox89)
 Me.GroupBox22.Controls.Add(Me.TextBox88)
-Me.GroupBox22.Controls.Add(Me.TextBox87)
+Me.GroupBox22.Controls.Add(Me.TextBoxTataLaksana)
 Me.GroupBox22.Controls.Add(Me.TextBox85)
 Me.GroupBox22.Controls.Add(Me.TextBoxProteinUrine)
 Me.GroupBox22.Controls.Add(Me.TextBoxRhesus)
@@ -10079,12 +10080,11 @@ Me.GroupBox22.Controls.Add(Me.Label389)
 Me.GroupBox22.Controls.Add(Me.Label390)
 Me.GroupBox22.Controls.Add(Me.Label388)
 Me.GroupBox22.Controls.Add(Me.Label387)
-Me.GroupBox22.Dock = System.Windows.Forms.DockStyle.Top
 Me.GroupBox22.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox22.Location = New System.Drawing.Point(0, 336)
+Me.GroupBox22.Location = New System.Drawing.Point(8, 350)
 Me.GroupBox22.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox22.Name = "GroupBox22"
-Me.GroupBox22.Size = New System.Drawing.Size(533, 231)
+Me.GroupBox22.Size = New System.Drawing.Size(625, 231)
 Me.GroupBox22.TabIndex = 4
 Me.GroupBox22.TabStop = false
 Me.GroupBox22.Text = "Laboratorium, USG, dan Tata Laksana"
@@ -10315,15 +10315,15 @@ Me.TextBox88.TabStop = false
 Me.TextBox88.Text = "g/dL"
 Me.TextBox88.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
-'TextBox87
+'TextBoxTataLaksana
 '
-Me.TextBox87.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBox87.Location = New System.Drawing.Point(167, 150)
-Me.TextBox87.Multiline = true
-Me.TextBox87.Name = "TextBox87"
-Me.TextBox87.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-Me.TextBox87.Size = New System.Drawing.Size(300, 57)
-Me.TextBox87.TabIndex = 429
+Me.TextBoxTataLaksana.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxTataLaksana.Location = New System.Drawing.Point(167, 150)
+Me.TextBoxTataLaksana.Multiline = true
+Me.TextBoxTataLaksana.Name = "TextBoxTataLaksana"
+Me.TextBoxTataLaksana.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+Me.TextBoxTataLaksana.Size = New System.Drawing.Size(300, 57)
+Me.TextBoxTataLaksana.TabIndex = 429
 '
 'TextBox85
 '
@@ -10488,12 +10488,11 @@ Me.GroupBox21.Controls.Add(Me.Label382)
 Me.GroupBox21.Controls.Add(Me.Label381)
 Me.GroupBox21.Controls.Add(Me.Label379)
 Me.GroupBox21.Controls.Add(Me.Label380)
-Me.GroupBox21.Dock = System.Windows.Forms.DockStyle.Top
 Me.GroupBox21.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox21.Location = New System.Drawing.Point(0, 168)
+Me.GroupBox21.Location = New System.Drawing.Point(8, 179)
 Me.GroupBox21.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox21.Name = "GroupBox21"
-Me.GroupBox21.Size = New System.Drawing.Size(533, 168)
+Me.GroupBox21.Size = New System.Drawing.Size(625, 168)
 Me.GroupBox21.TabIndex = 1
 Me.GroupBox21.TabStop = false
 Me.GroupBox21.Text = "Skrining, Imunisasi dan Suplementasi"
@@ -10556,7 +10555,7 @@ Me.ComboBoxSkriningDokter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Dro
 Me.ComboBoxSkriningDokter.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxSkriningDokter.FormattingEnabled = true
 Me.ComboBoxSkriningDokter.Items.AddRange(New Object() {"Sesuai Standar", "Perlu Rujukan", "Risiko Tinggi"})
-Me.ComboBoxSkriningDokter.Location = New System.Drawing.Point(168, 52)
+Me.ComboBoxSkriningDokter.Location = New System.Drawing.Point(168, 54)
 Me.ComboBoxSkriningDokter.Name = "ComboBoxSkriningDokter"
 Me.ComboBoxSkriningDokter.Size = New System.Drawing.Size(140, 25)
 Me.ComboBoxSkriningDokter.TabIndex = 17
@@ -10664,12 +10663,11 @@ Me.GroupBox20.Controls.Add(Me.Label367)
 Me.GroupBox20.Controls.Add(Me.Label366)
 Me.GroupBox20.Controls.Add(Me.Label365)
 Me.GroupBox20.Controls.Add(Me.Label364)
-Me.GroupBox20.Dock = System.Windows.Forms.DockStyle.Top
 Me.GroupBox20.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox20.Location = New System.Drawing.Point(0, 0)
+Me.GroupBox20.Location = New System.Drawing.Point(8, 5)
 Me.GroupBox20.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox20.Name = "GroupBox20"
-Me.GroupBox20.Size = New System.Drawing.Size(533, 168)
+Me.GroupBox20.Size = New System.Drawing.Size(625, 168)
 Me.GroupBox20.TabIndex = 0
 Me.GroupBox20.TabStop = false
 Me.GroupBox20.Text = "Pemeriksaan Fisik dan Kebidanan"
@@ -11197,7 +11195,7 @@ Me.Label468.Text = "Kesimpulan"
 'GroupBoxRujukan
 '
 Me.GroupBoxRujukan.AutoSize = true
-Me.GroupBoxRujukan.Controls.Add(Me.ComboBox2)
+Me.GroupBoxRujukan.Controls.Add(Me.ComboBoxSkriningJiwaPerluRujukan)
 Me.GroupBoxRujukan.Controls.Add(Me.ComboBoxTindakLanjut)
 Me.GroupBoxRujukan.Controls.Add(Me.ComboBoxSkriningJiwa)
 Me.GroupBoxRujukan.Controls.Add(Me.DateTimePickerSkriningJiwa)
@@ -11218,16 +11216,16 @@ Me.GroupBoxRujukan.TabIndex = 13
 Me.GroupBoxRujukan.TabStop = false
 Me.GroupBoxRujukan.Text = "Skrining Kesehatan Jiwa"
 '
-'ComboBox2
+'ComboBoxSkriningJiwaPerluRujukan
 '
-Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox2.FormattingEnabled = true
-Me.ComboBox2.Items.AddRange(New Object() {"Tidak", "Ya"})
-Me.ComboBox2.Location = New System.Drawing.Point(175, 113)
-Me.ComboBox2.Name = "ComboBox2"
-Me.ComboBox2.Size = New System.Drawing.Size(121, 25)
-Me.ComboBox2.TabIndex = 495
+Me.ComboBoxSkriningJiwaPerluRujukan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxSkriningJiwaPerluRujukan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxSkriningJiwaPerluRujukan.FormattingEnabled = true
+Me.ComboBoxSkriningJiwaPerluRujukan.Items.AddRange(New Object() {"Tidak", "Ya"})
+Me.ComboBoxSkriningJiwaPerluRujukan.Location = New System.Drawing.Point(175, 113)
+Me.ComboBoxSkriningJiwaPerluRujukan.Name = "ComboBoxSkriningJiwaPerluRujukan"
+Me.ComboBoxSkriningJiwaPerluRujukan.Size = New System.Drawing.Size(121, 25)
+Me.ComboBoxSkriningJiwaPerluRujukan.TabIndex = 495
 '
 'ComboBoxTindakLanjut
 '
@@ -11687,7 +11685,7 @@ Me.GroupBox26.Controls.Add(Me.DateTimePickerHpl)
 Me.GroupBox26.Controls.Add(Me.DateTimePickerHplUsg)
 Me.GroupBox26.Controls.Add(Me.TextBox76)
 Me.GroupBox26.Controls.Add(Me.ComboBoxHaid)
-Me.GroupBox26.Controls.Add(Me.dtHpht)
+Me.GroupBox26.Controls.Add(Me.DateTimePickerHPHT)
 Me.GroupBox26.Controls.Add(Me.TextBoxUsiaKehamilan)
 Me.GroupBox26.Controls.Add(Me.Label435)
 Me.GroupBox26.Controls.Add(Me.Label434)
@@ -12200,16 +12198,16 @@ Me.ComboBoxHaid.Name = "ComboBoxHaid"
 Me.ComboBoxHaid.Size = New System.Drawing.Size(122, 25)
 Me.ComboBoxHaid.TabIndex = 450
 '
-'dtHpht
+'DateTimePickerHPHT
 '
-Me.dtHpht.CalendarFont = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.dtHpht.CustomFormat = "dd-MMM-yyyy"
-Me.dtHpht.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.dtHpht.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-Me.dtHpht.Location = New System.Drawing.Point(176, 17)
-Me.dtHpht.Name = "dtHpht"
-Me.dtHpht.Size = New System.Drawing.Size(122, 25)
-Me.dtHpht.TabIndex = 449
+Me.DateTimePickerHPHT.CalendarFont = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DateTimePickerHPHT.CustomFormat = "dd-MMM-yyyy"
+Me.DateTimePickerHPHT.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DateTimePickerHPHT.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+Me.DateTimePickerHPHT.Location = New System.Drawing.Point(176, 17)
+Me.DateTimePickerHPHT.Name = "DateTimePickerHPHT"
+Me.DateTimePickerHPHT.Size = New System.Drawing.Size(122, 25)
+Me.DateTimePickerHPHT.TabIndex = 449
 '
 'TextBoxUsiaKehamilan
 '
@@ -13580,7 +13578,7 @@ Me.GroupBox49.Controls.Add(Me.Label577)
 Me.GroupBox49.Controls.Add(Me.Label578)
 Me.GroupBox49.Controls.Add(Me.Label579)
 Me.GroupBox49.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox49.Location = New System.Drawing.Point(519, 565)
+Me.GroupBox49.Location = New System.Drawing.Point(519, 582)
 Me.GroupBox49.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox49.Name = "GroupBox49"
 Me.GroupBox49.Size = New System.Drawing.Size(633, 162)
@@ -14164,7 +14162,7 @@ Me.GroupBox44.Controls.Add(Me.TextBoxSdp)
 Me.GroupBox44.Controls.Add(Me.Label528)
 Me.GroupBox44.Controls.Add(Me.Label515)
 Me.GroupBox44.Controls.Add(Me.Label516)
-Me.GroupBox44.Controls.Add(Me.ComboBox8)
+Me.GroupBox44.Controls.Add(Me.ComboBoxKeteranganDjj)
 Me.GroupBox44.Controls.Add(Me.ComboBox7)
 Me.GroupBox44.Controls.Add(Me.Label523)
 Me.GroupBox44.Controls.Add(Me.Label524)
@@ -14665,7 +14663,7 @@ Me.Label531.Text = "EFW/TBJ"
 '
 Me.Label532.AutoSize = true
 Me.Label532.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label532.Location = New System.Drawing.Point(13, 106)
+Me.Label532.Location = New System.Drawing.Point(13, 107)
 Me.Label532.Name = "Label532"
 Me.Label532.Size = New System.Drawing.Size(20, 17)
 Me.Label532.TabIndex = 501
@@ -14675,7 +14673,7 @@ Me.Label532.Text = "FL"
 '
 Me.Label530.AutoSize = true
 Me.Label530.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label530.Location = New System.Drawing.Point(13, 81)
+Me.Label530.Location = New System.Drawing.Point(13, 78)
 Me.Label530.Name = "Label530"
 Me.Label530.Size = New System.Drawing.Size(24, 17)
 Me.Label530.TabIndex = 500
@@ -14764,16 +14762,16 @@ Me.Label516.Size = New System.Drawing.Size(141, 17)
 Me.Label516.TabIndex = 501
 Me.Label516.Text = "Jumlah Cairan Ketuban"
 '
-'ComboBox8
+'ComboBoxKeteranganDjj
 '
-Me.ComboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox8.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox8.FormattingEnabled = true
-Me.ComboBox8.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
-Me.ComboBox8.Location = New System.Drawing.Point(465, 118)
-Me.ComboBox8.Name = "ComboBox8"
-Me.ComboBox8.Size = New System.Drawing.Size(118, 25)
-Me.ComboBox8.TabIndex = 500
+Me.ComboBoxKeteranganDjj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKeteranganDjj.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKeteranganDjj.FormattingEnabled = true
+Me.ComboBoxKeteranganDjj.Items.AddRange(New Object() {"Normal", "Tidak Normal"})
+Me.ComboBoxKeteranganDjj.Location = New System.Drawing.Point(465, 118)
+Me.ComboBoxKeteranganDjj.Name = "ComboBoxKeteranganDjj"
+Me.ComboBoxKeteranganDjj.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxKeteranganDjj.TabIndex = 500
 '
 'ComboBox7
 '
@@ -15780,52 +15778,52 @@ Me.TextBoxKodeDiagnosa.TextAlign = System.Windows.Forms.HorizontalAlignment.Cent
 '
 Me.DataGridViewDiagnosa.AllowUserToAddRows = false
 Me.DataGridViewDiagnosa.AllowUserToDeleteRows = false
-DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle5.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewDiagnosa.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle5
+DataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle33.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle33.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle33.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle33.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewDiagnosa.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle33
 Me.DataGridViewDiagnosa.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewDiagnosa.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewDiagnosa.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewDiagnosa.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewDiagnosa.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewDiagnosa.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle6.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle6.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewDiagnosa.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+DataGridViewCellStyle34.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle34.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle34.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle34.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle34.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle34.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle34.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewDiagnosa.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle34
 Me.DataGridViewDiagnosa.ColumnHeadersHeight = 30
-DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle7.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle7.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewDiagnosa.DefaultCellStyle = DataGridViewCellStyle7
+DataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle35.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle35.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle35.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle35.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle35.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle35.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewDiagnosa.DefaultCellStyle = DataGridViewCellStyle35
 Me.DataGridViewDiagnosa.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewDiagnosa.EnableHeadersVisualStyles = false
 Me.DataGridViewDiagnosa.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewDiagnosa.Name = "DataGridViewDiagnosa"
 Me.DataGridViewDiagnosa.ReadOnly = true
-DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle8.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewDiagnosa.RowHeadersDefaultCellStyle = DataGridViewCellStyle8
+DataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle36.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle36.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle36.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle36.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewDiagnosa.RowHeadersDefaultCellStyle = DataGridViewCellStyle36
 Me.DataGridViewDiagnosa.RowHeadersVisible = false
 Me.DataGridViewDiagnosa.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewDiagnosa.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -16722,52 +16720,52 @@ Me.TextBoxKeteranganCatatanObat.TabIndex = 505
 '
 Me.DataGridViewObat.AllowUserToAddRows = false
 Me.DataGridViewObat.AllowUserToDeleteRows = false
-DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle9.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle9.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewObat.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle9
+DataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle37.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle37.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle37.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle37.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewObat.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle37
 Me.DataGridViewObat.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewObat.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewObat.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewObat.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewObat.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewObat.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle10.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle10.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle10.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewObat.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
+DataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle38.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle38.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle38.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle38.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle38.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle38.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewObat.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle38
 Me.DataGridViewObat.ColumnHeadersHeight = 30
-DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle11.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle11.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle11.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewObat.DefaultCellStyle = DataGridViewCellStyle11
+DataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle39.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle39.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle39.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle39.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewObat.DefaultCellStyle = DataGridViewCellStyle39
 Me.DataGridViewObat.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewObat.EnableHeadersVisualStyles = false
 Me.DataGridViewObat.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewObat.Name = "DataGridViewObat"
 Me.DataGridViewObat.ReadOnly = true
-DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle12.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle12.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle12.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewObat.RowHeadersDefaultCellStyle = DataGridViewCellStyle12
+DataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle40.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle40.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle40.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle40.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle40.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle40.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle40.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewObat.RowHeadersDefaultCellStyle = DataGridViewCellStyle40
 Me.DataGridViewObat.RowHeadersVisible = false
 Me.DataGridViewObat.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewObat.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -17236,52 +17234,52 @@ Me.Label245.Text = "TINDAKAN"
 '
 Me.DataGridViewTindakan.AllowUserToAddRows = false
 Me.DataGridViewTindakan.AllowUserToDeleteRows = false
-DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle13.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle13.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewTindakan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle13
+DataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle41.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle41.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle41.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle41.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewTindakan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle41
 Me.DataGridViewTindakan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewTindakan.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewTindakan.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewTindakan.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewTindakan.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewTindakan.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle14.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle14.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle14.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewTindakan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle14
+DataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle42.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle42.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle42.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle42.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle42.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle42.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle42.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewTindakan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle42
 Me.DataGridViewTindakan.ColumnHeadersHeight = 30
-DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle15.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle15.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle15.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle15.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewTindakan.DefaultCellStyle = DataGridViewCellStyle15
+DataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle43.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle43.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle43.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle43.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle43.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle43.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewTindakan.DefaultCellStyle = DataGridViewCellStyle43
 Me.DataGridViewTindakan.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewTindakan.EnableHeadersVisualStyles = false
 Me.DataGridViewTindakan.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewTindakan.Name = "DataGridViewTindakan"
 Me.DataGridViewTindakan.ReadOnly = true
-DataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle16.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle16.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle16.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewTindakan.RowHeadersDefaultCellStyle = DataGridViewCellStyle16
+DataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle44.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle44.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle44.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewTindakan.RowHeadersDefaultCellStyle = DataGridViewCellStyle44
 Me.DataGridViewTindakan.RowHeadersVisible = false
 Me.DataGridViewTindakan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewTindakan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -17385,52 +17383,52 @@ Me.Label254.Text = "PEM. PENUNJANG"
 '
 Me.DataGridViewPemeriksaanPenunjang.AllowUserToAddRows = false
 Me.DataGridViewPemeriksaanPenunjang.AllowUserToDeleteRows = false
-DataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle17.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle17.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle17.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewPemeriksaanPenunjang.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle17
+DataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle45.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle45.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle45.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle45.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle45.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewPemeriksaanPenunjang.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle45
 Me.DataGridViewPemeriksaanPenunjang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewPemeriksaanPenunjang.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewPemeriksaanPenunjang.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewPemeriksaanPenunjang.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewPemeriksaanPenunjang.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewPemeriksaanPenunjang.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle18.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle18.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle18.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle18.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewPemeriksaanPenunjang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle18
+DataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle46.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle46.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle46.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle46.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewPemeriksaanPenunjang.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle46
 Me.DataGridViewPemeriksaanPenunjang.ColumnHeadersHeight = 30
-DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle19.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle19.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle19.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewPemeriksaanPenunjang.DefaultCellStyle = DataGridViewCellStyle19
+DataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle47.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle47.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle47.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle47.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle47.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle47.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewPemeriksaanPenunjang.DefaultCellStyle = DataGridViewCellStyle47
 Me.DataGridViewPemeriksaanPenunjang.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewPemeriksaanPenunjang.EnableHeadersVisualStyles = false
 Me.DataGridViewPemeriksaanPenunjang.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewPemeriksaanPenunjang.Name = "DataGridViewPemeriksaanPenunjang"
 Me.DataGridViewPemeriksaanPenunjang.ReadOnly = true
-DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle20.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle20.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle20.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewPemeriksaanPenunjang.RowHeadersDefaultCellStyle = DataGridViewCellStyle20
+DataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle48.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle48.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle48.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle48.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle48.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle48.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle48.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewPemeriksaanPenunjang.RowHeadersDefaultCellStyle = DataGridViewCellStyle48
 Me.DataGridViewPemeriksaanPenunjang.RowHeadersVisible = false
 Me.DataGridViewPemeriksaanPenunjang.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewPemeriksaanPenunjang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -22534,52 +22532,52 @@ Me.Label13.Text = "RIWAYAT KUNJUNGAN"
 '
 Me.DataGridViewRiwayatKunjungan.AllowUserToAddRows = false
 Me.DataGridViewRiwayatKunjungan.AllowUserToDeleteRows = false
-DataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle21.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle21.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle21.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle21.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatKunjungan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle21
+DataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle49.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle49.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle49.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle49.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle49.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatKunjungan.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle49
 Me.DataGridViewRiwayatKunjungan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
 Me.DataGridViewRiwayatKunjungan.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewRiwayatKunjungan.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewRiwayatKunjungan.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewRiwayatKunjungan.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewRiwayatKunjungan.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle22.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle22.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle22.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle22.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatKunjungan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle22
+DataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle50.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle50.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle50.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle50.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatKunjungan.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle50
 Me.DataGridViewRiwayatKunjungan.ColumnHeadersHeight = 40
-DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle23.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle23.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle23.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle23.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatKunjungan.DefaultCellStyle = DataGridViewCellStyle23
+DataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle51.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle51.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle51.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle51.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle51.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle51.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatKunjungan.DefaultCellStyle = DataGridViewCellStyle51
 Me.DataGridViewRiwayatKunjungan.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewRiwayatKunjungan.EnableHeadersVisualStyles = false
 Me.DataGridViewRiwayatKunjungan.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewRiwayatKunjungan.Name = "DataGridViewRiwayatKunjungan"
 Me.DataGridViewRiwayatKunjungan.ReadOnly = true
-DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle24.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle24.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle24.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatKunjungan.RowHeadersDefaultCellStyle = DataGridViewCellStyle24
+DataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle52.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle52.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle52.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle52.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle52.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle52.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle52.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatKunjungan.RowHeadersDefaultCellStyle = DataGridViewCellStyle52
 Me.DataGridViewRiwayatKunjungan.RowHeadersVisible = false
 Me.DataGridViewRiwayatKunjungan.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewRiwayatKunjungan.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -22889,52 +22887,52 @@ Me.ButtonSearchDataGridViewRiwayatLaboratorium.UseVisualStyleBackColor = false
 '
 Me.DataGridViewRiwayatLaboratorium.AllowUserToAddRows = false
 Me.DataGridViewRiwayatLaboratorium.AllowUserToDeleteRows = false
-DataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle25.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
-DataGridViewCellStyle25.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle25.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle25.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatLaboratorium.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle25
+DataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle53.BackColor = System.Drawing.Color.FromArgb(CType(CType(225,Byte),Integer), CType(CType(247,Byte),Integer), CType(CType(231,Byte),Integer))
+DataGridViewCellStyle53.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle53.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle53.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle53.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatLaboratorium.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle53
 Me.DataGridViewRiwayatLaboratorium.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
 Me.DataGridViewRiwayatLaboratorium.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
 Me.DataGridViewRiwayatLaboratorium.BackgroundColor = System.Drawing.Color.White
 Me.DataGridViewRiwayatLaboratorium.BorderStyle = System.Windows.Forms.BorderStyle.None
 Me.DataGridViewRiwayatLaboratorium.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 Me.DataGridViewRiwayatLaboratorium.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-DataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle26.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
-DataGridViewCellStyle26.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle26.ForeColor = System.Drawing.Color.White
-DataGridViewCellStyle26.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle26.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle26.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatLaboratorium.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle26
+DataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle54.BackColor = System.Drawing.Color.FromArgb(CType(CType(37,Byte),Integer), CType(CType(160,Byte),Integer), CType(CType(218,Byte),Integer))
+DataGridViewCellStyle54.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle54.ForeColor = System.Drawing.Color.White
+DataGridViewCellStyle54.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle54.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle54.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle54.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatLaboratorium.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle54
 Me.DataGridViewRiwayatLaboratorium.ColumnHeadersHeight = 40
-DataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle27.BackColor = System.Drawing.Color.White
-DataGridViewCellStyle27.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle27.ForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle27.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
-DataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.Black
-DataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatLaboratorium.DefaultCellStyle = DataGridViewCellStyle27
+DataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle55.BackColor = System.Drawing.Color.White
+DataGridViewCellStyle55.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle55.ForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle55.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle55.SelectionBackColor = System.Drawing.Color.FromArgb(CType(CType(186,Byte),Integer), CType(CType(191,Byte),Integer), CType(CType(149,Byte),Integer))
+DataGridViewCellStyle55.SelectionForeColor = System.Drawing.Color.Black
+DataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatLaboratorium.DefaultCellStyle = DataGridViewCellStyle55
 Me.DataGridViewRiwayatLaboratorium.Dock = System.Windows.Forms.DockStyle.Fill
 Me.DataGridViewRiwayatLaboratorium.EnableHeadersVisualStyles = false
 Me.DataGridViewRiwayatLaboratorium.Location = New System.Drawing.Point(0, 0)
 Me.DataGridViewRiwayatLaboratorium.Name = "DataGridViewRiwayatLaboratorium"
 Me.DataGridViewRiwayatLaboratorium.ReadOnly = true
-DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-DataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control
-DataGridViewCellStyle28.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-DataGridViewCellStyle28.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
-DataGridViewCellStyle28.Padding = New System.Windows.Forms.Padding(3)
-DataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight
-DataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-Me.DataGridViewRiwayatLaboratorium.RowHeadersDefaultCellStyle = DataGridViewCellStyle28
+DataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+DataGridViewCellStyle56.BackColor = System.Drawing.SystemColors.Control
+DataGridViewCellStyle56.Font = New System.Drawing.Font("Segoe UI", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+DataGridViewCellStyle56.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer), CType(CType(64,Byte),Integer))
+DataGridViewCellStyle56.Padding = New System.Windows.Forms.Padding(3)
+DataGridViewCellStyle56.SelectionBackColor = System.Drawing.SystemColors.Highlight
+DataGridViewCellStyle56.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+DataGridViewCellStyle56.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+Me.DataGridViewRiwayatLaboratorium.RowHeadersDefaultCellStyle = DataGridViewCellStyle56
 Me.DataGridViewRiwayatLaboratorium.RowHeadersVisible = false
 Me.DataGridViewRiwayatLaboratorium.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders
 Me.DataGridViewRiwayatLaboratorium.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -25422,7 +25420,7 @@ End Sub
     Friend WithEvents Label397 As System.Windows.Forms.Label
     Friend WithEvents TextBox89 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox88 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox87 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxTataLaksana As System.Windows.Forms.TextBox
     Friend WithEvents TextBox85 As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxProteinUrine As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxRhesus As System.Windows.Forms.TextBox
@@ -25509,7 +25507,7 @@ End Sub
     Friend WithEvents Label428 As System.Windows.Forms.Label
     Friend WithEvents Label427 As System.Windows.Forms.Label
     Friend WithEvents Label426 As System.Windows.Forms.Label
-    Friend WithEvents dtHpht As System.Windows.Forms.DateTimePicker
+    Friend WithEvents DateTimePickerHPHT As System.Windows.Forms.DateTimePicker
     Friend WithEvents ComboBoxHaid As System.Windows.Forms.ComboBox
     Friend WithEvents TextBox77 As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxUsiaKehamilanUsg As System.Windows.Forms.TextBox
@@ -25594,7 +25592,7 @@ End Sub
     Friend WithEvents Label481 As System.Windows.Forms.Label
     Friend WithEvents Label482 As System.Windows.Forms.Label
     Friend WithEvents Label483 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxSkriningJiwaPerluRujukan As System.Windows.Forms.ComboBox
     Friend WithEvents GroupBox37 As System.Windows.Forms.GroupBox
     Friend WithEvents TextBoxRekomTriI As System.Windows.Forms.TextBox
     Friend WithEvents Label471 As System.Windows.Forms.Label
@@ -25721,7 +25719,7 @@ End Sub
     Friend WithEvents Label520 As System.Windows.Forms.Label
     Friend WithEvents Label515 As System.Windows.Forms.Label
     Friend WithEvents Label516 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox8 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxKeteranganDjj As System.Windows.Forms.ComboBox
     Friend WithEvents ComboBox7 As System.Windows.Forms.ComboBox
     Friend WithEvents Label523 As System.Windows.Forms.Label
     Friend WithEvents Label524 As System.Windows.Forms.Label
