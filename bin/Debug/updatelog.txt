@@ -1,10 +1,24 @@
-Version : 2.0.0.60 (- Juni 2026)
+Version : 2.0.0.62 (19 September 2026)
+# [New Feature] Ambil gambar langsung dari kamera pada menu Form Master Pasien
+# [New Feature] Menu Checkin HYU! dan terhubung dengan printer barcode
+# [Usability Improvement] Menggunakan Batch Upload dan Chunk untuk mempersingkat Waktu upload peserta MCU ke DB Online
+# [Usability Improvement] Mempercepat proses Cetak Barcode MCU Ketika terhubungan dengan HYU! Baik Otomatis maupun Manual 
+# [Usability Improvement] Menambahkan Box Pemeriksaan Khusus pada Form Cetak Barcode MCU 
+# [Nerf] Menghilangkan fitur Mapping Pos yang kekirim langsung ke HYU! Ketika Cetak Barcode
+
+Version : 2.0.0.61 (21 Juli 2026)
+# [New Feature] Bridging HYU! untuk mengubah status pendaftaran, exclude, dan Skipped pada MCU
+# [Bug Fix] Perbaikan kesalahan dalam pencetakan barcode yang memiliki referensi tabung
+# [Bug Fix] Menghilangkan bilangan decimal dalam pengambilan nilai alat aktivo
+
+Version : 2.0.0.60 (30 Juni 2026)
 # [Usability Improvement] Menambahkan otomatis kirim ke cloud saat simpan pada form upload pasien MCU
 # [Usability Improvement] Mengubah logika untuk kirim hasil lab ke online
 # [New Feature] Menambahkan fitur Medscape pada cetak barcode lab
 # [New Feature] Menambahkan fitur scan HYU! pada cetak barcode lab
 # [New Feature] Menambahkan fitur cetaik qr code aktivo pada cetak barcode lab
 # [New Feature] Integrasi data dari mesin Medscape(aktivo) ke TTV 
+# [Bug Fix] Perbaikan kesalahan dalam QR Code Invoice
 
 Version : 2.0.0.59 (08 Mei 2026)
 # [New Feature] Penambahan Fitur Validator Invoice

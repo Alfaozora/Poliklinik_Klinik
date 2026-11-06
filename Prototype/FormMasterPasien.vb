@@ -1954,4 +1954,13 @@ Public Class FormMasterPasien
             PictureBoxFotoPasien.SizeMode = PictureBoxSizeMode.Zoom
         End If
     End Sub
+
+    Private Sub ButtonAmbilGambar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAmbilGambar.Click
+        Try
+            Dim frmCam As New FormCamera()
+            frmCam.ShowDialog(Me)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error Open Camera")
+        End Try
+    End Sub
 End Class

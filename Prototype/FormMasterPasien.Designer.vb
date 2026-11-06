@@ -225,6 +225,7 @@ Partial Class FormMasterPasien
         Me.ButtonScanQR = New System.Windows.Forms.Button
         Me.ButtonSimpanMenu1 = New System.Windows.Forms.Button
         Me.SplitContainer9 = New System.Windows.Forms.SplitContainer
+        Me.ButtonAmbilGambar = New System.Windows.Forms.Button
         Me.PanelTop.SuspendLayout()
         Me.PanelSide.SuspendLayout()
         Me.TabControlMenu.SuspendLayout()
@@ -502,12 +503,12 @@ Partial Class FormMasterPasien
         Me.ButtonUploadFoto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonUploadFoto.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
         Me.ButtonUploadFoto.ForeColor = System.Drawing.Color.White
-        Me.ButtonUploadFoto.Location = New System.Drawing.Point(30, 231)
+        Me.ButtonUploadFoto.Location = New System.Drawing.Point(16, 231)
         Me.ButtonUploadFoto.Name = "ButtonUploadFoto"
         Me.ButtonUploadFoto.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ButtonUploadFoto.Size = New System.Drawing.Size(150, 25)
+        Me.ButtonUploadFoto.Size = New System.Drawing.Size(68, 25)
         Me.ButtonUploadFoto.TabIndex = 422
-        Me.ButtonUploadFoto.Text = "Upload Foto"
+        Me.ButtonUploadFoto.Text = "Upload"
         Me.ButtonUploadFoto.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ToolTipBtnMenu.SetToolTip(Me.ButtonUploadFoto, "Cek BPJS")
         Me.ButtonUploadFoto.UseVisualStyleBackColor = False
@@ -574,6 +575,7 @@ Partial Class FormMasterPasien
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.ButtonAmbilGambar)
         Me.GroupBox2.Controls.Add(Me.ButtonUploadFoto)
         Me.GroupBox2.Controls.Add(Me.PictureBoxFotoPasien)
         Me.GroupBox2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2699,6 +2701,27 @@ Partial Class FormMasterPasien
         Me.SplitContainer9.SplitterWidth = 5
         Me.SplitContainer9.TabIndex = 461
         '
+        'ButtonAmbilGambar
+        '
+        Me.ButtonAmbilGambar.BackColor = System.Drawing.Color.FromArgb(CType(CType(25, Byte), Integer), CType(CType(135, Byte), Integer), CType(CType(84, Byte), Integer))
+        Me.ButtonAmbilGambar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.ButtonAmbilGambar.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonAmbilGambar.FlatAppearance.BorderSize = 0
+        Me.ButtonAmbilGambar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ButtonAmbilGambar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(81, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.ButtonAmbilGambar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonAmbilGambar.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ButtonAmbilGambar.ForeColor = System.Drawing.Color.White
+        Me.ButtonAmbilGambar.Location = New System.Drawing.Point(90, 231)
+        Me.ButtonAmbilGambar.Name = "ButtonAmbilGambar"
+        Me.ButtonAmbilGambar.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.ButtonAmbilGambar.Size = New System.Drawing.Size(104, 25)
+        Me.ButtonAmbilGambar.TabIndex = 423
+        Me.ButtonAmbilGambar.Text = "Ambil Gambar"
+        Me.ButtonAmbilGambar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.ToolTipBtnMenu.SetToolTip(Me.ButtonAmbilGambar, "Cek BPJS")
+        Me.ButtonAmbilGambar.UseVisualStyleBackColor = False
+        '
         'FormMasterPasien
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -2970,4 +2993,5 @@ Partial Class FormMasterPasien
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents PictureBoxFotoPasien As System.Windows.Forms.PictureBox
     Friend WithEvents ButtonUploadFoto As System.Windows.Forms.Button
+    Friend WithEvents ButtonAmbilGambar As System.Windows.Forms.Button
 End Class

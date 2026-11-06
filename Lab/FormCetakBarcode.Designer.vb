@@ -53,6 +53,16 @@ Partial Class FormCetakBarcode
         Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.CheckBoxNonAktif = New System.Windows.Forms.CheckBox
+        Me.lblStatusMCU = New System.Windows.Forms.Label
+        Me.PanelThorax = New System.Windows.Forms.GroupBox
+        Me.txtAlasanThorax = New System.Windows.Forms.TextBox
+        Me.rdThoraxTolak = New System.Windows.Forms.RadioButton
+        Me.rdThoraxSetuju = New System.Windows.Forms.RadioButton
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.RadioButtonFalse = New System.Windows.Forms.RadioButton
+        Me.RadioButtonHaid = New System.Windows.Forms.RadioButton
+        Me.RadioButtonHamil = New System.Windows.Forms.RadioButton
         Me.ButtonCariPasien = New System.Windows.Forms.Button
         Me.Label11 = New System.Windows.Forms.Label
         Me.TextBoxScanHyu = New System.Windows.Forms.TextBox
@@ -74,6 +84,9 @@ Partial Class FormCetakBarcode
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.txtPemeriksaanKhusus = New System.Windows.Forms.TextBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Label14 = New System.Windows.Forms.Label
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -81,6 +94,8 @@ Partial Class FormCetakBarcode
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.PanelThorax.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,7 +105,7 @@ Partial Class FormCetakBarcode
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.CetakBarcodeToolStripMenuItem, Me.BarcodeTambahanToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(784, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(872, 24)
         Me.MenuStrip1.TabIndex = 149
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -116,9 +131,9 @@ Partial Class FormCetakBarcode
         '
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.GroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.GroupBox2.Location = New System.Drawing.Point(0, 398)
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 447)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(784, 10)
+        Me.GroupBox2.Size = New System.Drawing.Size(872, 10)
         Me.GroupBox2.TabIndex = 152
         Me.GroupBox2.TabStop = False
         '
@@ -133,7 +148,7 @@ Partial Class FormCetakBarcode
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox1.Location = New System.Drawing.Point(0, 24)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(784, 73)
+        Me.GroupBox1.Size = New System.Drawing.Size(872, 73)
         Me.GroupBox1.TabIndex = 150
         Me.GroupBox1.TabStop = False
         '
@@ -223,7 +238,7 @@ Partial Class FormCetakBarcode
         Me.TabPage2.Location = New System.Drawing.Point(4, 24)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(776, 273)
+        Me.TabPage2.Size = New System.Drawing.Size(864, 322)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "MCU (Multiple Barcode)"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -364,10 +379,10 @@ Partial Class FormCetakBarcode
         '
         Me.gridlab.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.gridlab.EmbeddedNavigator.Name = ""
-        Me.gridlab.Location = New System.Drawing.Point(3, 123)
+        Me.gridlab.Location = New System.Drawing.Point(3, 172)
         Me.gridlab.MainView = Me.GridView1
         Me.gridlab.Name = "gridlab"
-        Me.gridlab.Size = New System.Drawing.Size(770, 147)
+        Me.gridlab.Size = New System.Drawing.Size(858, 147)
         Me.gridlab.TabIndex = 152
         Me.gridlab.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridView1})
         '
@@ -382,13 +397,20 @@ Partial Class FormCetakBarcode
         Me.TabPage1.Location = New System.Drawing.Point(4, 24)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(776, 273)
+        Me.TabPage1.Size = New System.Drawing.Size(864, 322)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Per Transaksi"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Label14)
+        Me.GroupBox3.Controls.Add(Me.Label13)
+        Me.GroupBox3.Controls.Add(Me.txtPemeriksaanKhusus)
+        Me.GroupBox3.Controls.Add(Me.CheckBoxNonAktif)
+        Me.GroupBox3.Controls.Add(Me.lblStatusMCU)
+        Me.GroupBox3.Controls.Add(Me.PanelThorax)
+        Me.GroupBox3.Controls.Add(Me.GroupBox4)
         Me.GroupBox3.Controls.Add(Me.ButtonCariPasien)
         Me.GroupBox3.Controls.Add(Me.Label11)
         Me.GroupBox3.Controls.Add(Me.TextBoxScanHyu)
@@ -412,9 +434,119 @@ Partial Class FormCetakBarcode
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Top
         Me.GroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(770, 299)
+        Me.GroupBox3.Size = New System.Drawing.Size(858, 323)
         Me.GroupBox3.TabIndex = 154
         Me.GroupBox3.TabStop = False
+        '
+        'CheckBoxNonAktif
+        '
+        Me.CheckBoxNonAktif.AutoSize = True
+        Me.CheckBoxNonAktif.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBoxNonAktif.Location = New System.Drawing.Point(131, 29)
+        Me.CheckBoxNonAktif.Name = "CheckBoxNonAktif"
+        Me.CheckBoxNonAktif.Size = New System.Drawing.Size(113, 20)
+        Me.CheckBoxNonAktif.TabIndex = 249
+        Me.CheckBoxNonAktif.Text = "Non Aktif HYU!"
+        Me.CheckBoxNonAktif.UseVisualStyleBackColor = True
+        '
+        'lblStatusMCU
+        '
+        Me.lblStatusMCU.AutoSize = True
+        Me.lblStatusMCU.Location = New System.Drawing.Point(358, 74)
+        Me.lblStatusMCU.Name = "lblStatusMCU"
+        Me.lblStatusMCU.Size = New System.Drawing.Size(11, 15)
+        Me.lblStatusMCU.TabIndex = 244
+        Me.lblStatusMCU.Text = "-"
+        '
+        'PanelThorax
+        '
+        Me.PanelThorax.Controls.Add(Me.txtAlasanThorax)
+        Me.PanelThorax.Controls.Add(Me.rdThoraxTolak)
+        Me.PanelThorax.Controls.Add(Me.rdThoraxSetuju)
+        Me.PanelThorax.Location = New System.Drawing.Point(616, 198)
+        Me.PanelThorax.Name = "PanelThorax"
+        Me.PanelThorax.Size = New System.Drawing.Size(221, 103)
+        Me.PanelThorax.TabIndex = 243
+        Me.PanelThorax.TabStop = False
+        Me.PanelThorax.Text = "Persetujuan Tindakan Thorax"
+        Me.PanelThorax.Visible = False
+        '
+        'txtAlasanThorax
+        '
+        Me.txtAlasanThorax.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.txtAlasanThorax.Enabled = False
+        Me.txtAlasanThorax.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAlasanThorax.Location = New System.Drawing.Point(7, 71)
+        Me.txtAlasanThorax.Name = "txtAlasanThorax"
+        Me.txtAlasanThorax.Size = New System.Drawing.Size(208, 22)
+        Me.txtAlasanThorax.TabIndex = 240
+        '
+        'rdThoraxTolak
+        '
+        Me.rdThoraxTolak.AutoSize = True
+        Me.rdThoraxTolak.Location = New System.Drawing.Point(6, 46)
+        Me.rdThoraxTolak.Name = "rdThoraxTolak"
+        Me.rdThoraxTolak.Size = New System.Drawing.Size(93, 19)
+        Me.rdThoraxTolak.TabIndex = 1
+        Me.rdThoraxTolak.Text = "Tidak Setuju"
+        Me.rdThoraxTolak.UseVisualStyleBackColor = True
+        '
+        'rdThoraxSetuju
+        '
+        Me.rdThoraxSetuju.AutoSize = True
+        Me.rdThoraxSetuju.Checked = True
+        Me.rdThoraxSetuju.Location = New System.Drawing.Point(7, 21)
+        Me.rdThoraxSetuju.Name = "rdThoraxSetuju"
+        Me.rdThoraxSetuju.Size = New System.Drawing.Size(60, 19)
+        Me.rdThoraxSetuju.TabIndex = 0
+        Me.rdThoraxSetuju.TabStop = True
+        Me.rdThoraxSetuju.Text = "Setuju"
+        Me.rdThoraxSetuju.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.RadioButtonFalse)
+        Me.GroupBox4.Controls.Add(Me.RadioButtonHaid)
+        Me.GroupBox4.Controls.Add(Me.RadioButtonHamil)
+        Me.GroupBox4.Location = New System.Drawing.Point(616, 91)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(221, 100)
+        Me.GroupBox4.TabIndex = 242
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Kondisi Pasien"
+        Me.GroupBox4.Visible = False
+        '
+        'RadioButtonFalse
+        '
+        Me.RadioButtonFalse.AutoSize = True
+        Me.RadioButtonFalse.Checked = True
+        Me.RadioButtonFalse.Location = New System.Drawing.Point(6, 17)
+        Me.RadioButtonFalse.Name = "RadioButtonFalse"
+        Me.RadioButtonFalse.Size = New System.Drawing.Size(113, 19)
+        Me.RadioButtonFalse.TabIndex = 2
+        Me.RadioButtonFalse.TabStop = True
+        Me.RadioButtonFalse.Text = "Tidak Keduanya"
+        Me.RadioButtonFalse.UseVisualStyleBackColor = True
+        '
+        'RadioButtonHaid
+        '
+        Me.RadioButtonHaid.AutoSize = True
+        Me.RadioButtonHaid.Location = New System.Drawing.Point(6, 67)
+        Me.RadioButtonHaid.Name = "RadioButtonHaid"
+        Me.RadioButtonHaid.Size = New System.Drawing.Size(132, 19)
+        Me.RadioButtonHaid.TabIndex = 1
+        Me.RadioButtonHaid.Text = "Sedang Menstruasi"
+        Me.RadioButtonHaid.UseVisualStyleBackColor = True
+        '
+        'RadioButtonHamil
+        '
+        Me.RadioButtonHamil.AutoSize = True
+        Me.RadioButtonHamil.Location = New System.Drawing.Point(6, 42)
+        Me.RadioButtonHamil.Name = "RadioButtonHamil"
+        Me.RadioButtonHamil.Size = New System.Drawing.Size(104, 19)
+        Me.RadioButtonHamil.TabIndex = 0
+        Me.RadioButtonHamil.Text = "Sedang Hamil"
+        Me.RadioButtonHamil.UseVisualStyleBackColor = True
         '
         'ButtonCariPasien
         '
@@ -629,22 +761,54 @@ Partial Class FormCetakBarcode
         Me.TabControl1.Location = New System.Drawing.Point(0, 97)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(784, 301)
+        Me.TabControl1.Size = New System.Drawing.Size(872, 350)
         Me.TabControl1.TabIndex = 155
+        '
+        'txtPemeriksaanKhusus
+        '
+        Me.txtPemeriksaanKhusus.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.txtPemeriksaanKhusus.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPemeriksaanKhusus.Location = New System.Drawing.Point(125, 250)
+        Me.txtPemeriksaanKhusus.Multiline = True
+        Me.txtPemeriksaanKhusus.Name = "txtPemeriksaanKhusus"
+        Me.txtPemeriksaanKhusus.ReadOnly = True
+        Me.txtPemeriksaanKhusus.Size = New System.Drawing.Size(211, 55)
+        Me.txtPemeriksaanKhusus.TabIndex = 250
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(23, 253)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(91, 16)
+        Me.Label13.TabIndex = 251
+        Me.Label13.Text = "Pemeriksaan"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(36, 272)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(53, 16)
+        Me.Label14.TabIndex = 252
+        Me.Label14.Text = "Khusus"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FormCetakBarcode
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 408)
+        Me.ClientSize = New System.Drawing.Size(872, 457)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(800, 447)
-        Me.MinimumSize = New System.Drawing.Size(800, 400)
+        Me.MaximumSize = New System.Drawing.Size(888, 496)
+        Me.MinimumSize = New System.Drawing.Size(888, 496)
         Me.Name = "FormCetakBarcode"
         Me.Text = "Form Cetak Barcode"
         Me.MenuStrip1.ResumeLayout(False)
@@ -658,6 +822,10 @@ Partial Class FormCetakBarcode
         Me.TabPage1.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.PanelThorax.ResumeLayout(False)
+        Me.PanelThorax.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -714,4 +882,17 @@ Partial Class FormCetakBarcode
     Friend WithEvents TextBoxScanHyu As System.Windows.Forms.TextBox
     Friend WithEvents ButtonCariPasien As System.Windows.Forms.Button
     Friend WithEvents CheckBoxAktivo As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents RadioButtonFalse As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHaid As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHamil As System.Windows.Forms.RadioButton
+    Friend WithEvents PanelThorax As System.Windows.Forms.GroupBox
+    Friend WithEvents txtAlasanThorax As System.Windows.Forms.TextBox
+    Friend WithEvents rdThoraxTolak As System.Windows.Forms.RadioButton
+    Friend WithEvents rdThoraxSetuju As System.Windows.Forms.RadioButton
+    Friend WithEvents lblStatusMCU As System.Windows.Forms.Label
+    Friend WithEvents CheckBoxNonAktif As System.Windows.Forms.CheckBox
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents txtPemeriksaanKhusus As System.Windows.Forms.TextBox
+    Friend WithEvents Label14 As System.Windows.Forms.Label
 End Class

@@ -1772,14 +1772,16 @@ Public Class FormPendaftaranAwal
             Dim Tawal As Date = TglAwalAntrean.Value
             Dim loc As String = ReadSQLNIK("SELECT StrValue FROM MsConfig WHERE ConfigName = 'NoPoli'")
 
-            Dim url As String = urlWebService & "api/antrian?kode_klinik=" & loc & "&visit_date=" & Format(Tawal.Date, "yyyy-MM-dd")
-
+            Dim url As String = urlWebService & "api/antrian/v2?kode_klinik=" & loc & "&visit_date=" & Format(Tawal.Date, "yyyy-MM-dd")
+            'MsgBox(url)
             Dim responseString As String = GetDataAPIRM(url)
 
             ' 🔍 Debug
             'MessageBox.Show(responseString)
 
             Dim jsonObj As JObject = JObject.Parse(responseString)
+
+            'MessageBox.Show(jsonObj)
 
             If jsonObj("status") Is Nothing OrElse jsonObj("status").ToString() <> "success" Then
                 MessageBox.Show("Gagal ambil data", "Error")

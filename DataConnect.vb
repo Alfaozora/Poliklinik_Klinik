@@ -674,6 +674,41 @@ Module Test
 
     End Sub
 
+    Public Function PutDataAPIRM(ByVal parameter As String, ByVal uri As String) As String
+        Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+            webreq.Accept = "application/json"
+            webreq.Method = "PUT" ' <--- METHOD PUT
+            webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            webreq.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+            webreq.ContentLength = bytearr.Length
+
+            Using dataStream As Stream = webreq.GetRequestStream()
+                dataStream.Write(bytearr, 0, bytearr.Length)
+            End Using
+
+            Dim res As WebResponse = webreq.GetResponse()
+            Using stream As Stream = res.GetResponseStream()
+                Using streamReader As New StreamReader(stream)
+                    Return streamReader.ReadToEnd()
+                End Using
+            End Using
+
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Return reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                Return "{""success"":false,""message"":""" & ex.Message.Replace("""", "\""") & """}"
+            End If
+        End Try
+    End Function
+
     Function CheckOLE(ByVal txt As String) As Boolean
         Dim Dttable As New DataTable
         Dim Dbsql As New DBOLEConn
@@ -2205,6 +2240,42 @@ Module Test
         Return False
     End Function
 
+    Public Function GetDataAPIRMBearer(ByVal uri As String) As String
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+
+            webreq.Accept = "application/json"
+            webreq.Method = "GET"
+            webreq.ContentType = "application/json"
+            webreq.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+
+            webreq.Timeout = 300000
+            webreq.ReadWriteTimeout = 300000
+
+            Dim res As WebResponse = webreq.GetResponse()
+
+            Using stream As Stream = res.GetResponseStream()
+                Using reader As New StreamReader(stream)
+                    Return reader.ReadToEnd()
+                End Using
+            End Using
+
+        Catch ex As WebException
+
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Return reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                ' JSON error agar tetap bisa di-parse
+                Return "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+
+        End Try
+    End Function
+
     Public Function GetDataAPIRM(ByVal uri As String) As String
         Try
             Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
@@ -2245,7 +2316,7 @@ Module Test
     Public Function InsertDataAPIRM(ByVal parameter As String, ByVal uri As String) As String
         Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
         Try
-            Dim webreq As HttpWebRequest = WebRequest.Create(uri)
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
             webreq.Accept = "application/json"
             webreq.Method = "POST"
             webreq.ContentType = "application/json"
@@ -2276,6 +2347,43 @@ Module Test
                 Return "{""status"":""error"",""message"":""" & ex.Message & """}"
             End If
         End Try
+    End Function
+
+    Public Function InsertDataAPIRMIC(ByVal parameter As String, ByVal uri As String) As String
+        Dim result As String = ""
+        Try
+            Dim webreq As HttpWebRequest = CType(WebRequest.Create(uri), HttpWebRequest)
+            webreq.Method = "POST"
+            webreq.ContentType = "application/json; charset=utf-8"
+            webreq.Accept = "application/json"
+            webreq.Headers.Add("X-API-KEY", "M1tR4M3D1c@rECaH4Y42025")
+
+            Dim bytearr() As Byte = Encoding.UTF8.GetBytes(parameter)
+            webreq.ContentLength = bytearr.Length
+
+            Using dataStream As Stream = webreq.GetRequestStream()
+                dataStream.Write(bytearr, 0, bytearr.Length)
+            End Using
+
+            Using res As WebResponse = webreq.GetResponse()
+                Using stream As Stream = res.GetResponseStream()
+                    Using streamReader As New StreamReader(stream)
+                        result = streamReader.ReadToEnd()
+                    End Using
+                End Using
+            End Using
+        Catch ex As WebException
+            If ex.Response IsNot Nothing Then
+                Using responseStream As Stream = ex.Response.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        result = reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                result = "{""status"":""error"",""message"":""" & ex.Message & """}"
+            End If
+        End Try
+        Return result
     End Function
 
     Private Function GenerateSignature(ByVal data As String, ByVal apiKey As String) As String

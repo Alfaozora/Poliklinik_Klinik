@@ -49,6 +49,7 @@ Public Class FindTransaksi
         DataGridViewKunjunganPasien.Columns.Add("ColumnNamaPoli", "Layanan")
         DataGridViewKunjunganPasien.Columns.Add("ColumnJenisPoli", "JenisPoli")
         DataGridViewKunjunganPasien.Columns.Add("ColumnDokter", "Dokter")
+        DataGridViewKunjunganPasien.Columns.Add("ColumnDokter", "Perawat")
         DataGridViewKunjunganPasien.Columns.Add("ColumnPenagihan", "Tagihan")
         DataGridViewKunjunganPasien.Columns.Add("ColumnStatus", "Status")
         DataGridViewKunjunganPasien.Columns.Add("ColumnNoBPJS", "Nomor BPJS")
@@ -126,19 +127,19 @@ Public Class FindTransaksi
 
             If ComboBoxPoliTujuan.Text = "SEMUA TRANSAKSI" Then
                 Tquery = "SELECT * FROM( " & _
-                             "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiPoli.NoUrut, MasterPasien.NoRekamMedis, TransaksiPoli.TglPoli AS 'TglTransaksi', MasterPasien.Nama, TransaksiPoli.DokterPoli AS 'NamaDokter', TransaksiPoli.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
-                             "FROM TransaksiPoli " & _
-                             "LEFT JOIN TransaksiDetail ON TransaksiPoli.NoUrut=TransaksiDetail.NoUrut " & _
-                             "LEFT JOIN MasterPasien ON TransaksiPoli.IDInternet=MasterPasien.NoRekamMedis " & _
-                             "WHERE TransaksiPoli.deleted = 0 AND (CONVERT(date, TransaksiDetail.TanggalTransaksi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.TransaksiPaket = 0 " & TquerySearch & _
-                             "UNION ALL " & _
-                             "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiGigi.NoUrut, MasterPasien.NoRekamMedis, TransaksiGigi.TglGigi AS 'TglTransaksi', MasterPasien.Nama, TransaksiGigi.DokterGigi AS 'NamaDokter', TransaksiGigi.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
-                             "FROM TransaksiGigi " & _
-                             "LEFT JOIN TransaksiDetail ON TransaksiGigi.NoUrut=TransaksiDetail.NoUrut " & _
-                             "LEFT JOIN MasterPasien ON TransaksiGigi.IDInternet=MasterPasien.NoRekamMedis " & _
-                             "WHERE TransaksiGigi.deleted = 0 AND (CONVERT(date, TransaksiDetail.TanggalTransaksi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.TransaksiPaket = 0 " & TquerySearch & _
-                         ") AS CombinedResults " & _
-                         "ORDER BY TglTransaksi, NoUrut"
+                         "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiPoli.NoUrut, MasterPasien.NoRekamMedis, TransaksiPoli.TglPoli AS 'TglTransaksi', MasterPasien.Nama, TransaksiPoli.DokterPoli AS 'NamaDokter', TransaksiPoli.PerawatPoli AS 'NamaPerawat', TransaksiPoli.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
+                         "FROM TransaksiPoli " & _
+                         "LEFT JOIN TransaksiDetail ON TransaksiPoli.NoUrut=TransaksiDetail.NoUrut " & _
+                         "LEFT JOIN MasterPasien ON TransaksiPoli.IDInternet=MasterPasien.NoRekamMedis " & _
+                         "WHERE TransaksiPoli.deleted = 0 AND (CONVERT(date, TransaksiDetail.TanggalTransaksi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.TransaksiPaket = 0 " & TquerySearch & _
+                         "UNION ALL " & _
+                         "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiGigi.NoUrut, MasterPasien.NoRekamMedis, TransaksiGigi.TglGigi AS 'TglTransaksi', MasterPasien.Nama, TransaksiGigi.DokterGigi AS 'NamaDokter', TransaksiGigi.PerawatGigi AS 'NamaPerawat', TransaksiGigi.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
+                         "FROM TransaksiGigi " & _
+                         "LEFT JOIN TransaksiDetail ON TransaksiGigi.NoUrut=TransaksiDetail.NoUrut " & _
+                         "LEFT JOIN MasterPasien ON TransaksiGigi.IDInternet=MasterPasien.NoRekamMedis " & _
+                         "WHERE TransaksiGigi.deleted = 0 AND (CONVERT(date, TransaksiDetail.TanggalTransaksi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.TransaksiPaket = 0 " & TquerySearch & _
+                     ") AS CombinedResults " & _
+                     "ORDER BY TglTransaksi, NoUrut"
             Else
                 ' Get Data Master Poli
                 Dim tblPoli As DataTable = ReadSQL("SELECT * FROM MasterPoliTujuan WHERE NamaPoli = '" & ComboBoxPoliTujuan.Text & "'")
@@ -146,17 +147,17 @@ Public Class FindTransaksi
 
                 Select Case TrowPoli("JenisPoli")
                     Case "UMUM"
-                        Tquery = "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiPoli.NoUrut, MasterPasien.NoRekamMedis, TransaksiPoli.TglPoli AS 'TglTransaksi', MasterPasien.Nama, TransaksiPoli.DokterPoli AS 'NamaDokter', TransaksiPoli.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
-                                 "FROM TransaksiPoli " & _
-                                 "LEFT JOIN TransaksiDetail ON TransaksiPoli.NoUrut = TransaksiDetail.NoUrut " & _
-                                 "LEFT JOIN MasterPasien ON TransaksiPoli.IDInternet = MasterPasien.NoRekamMedis " & _
-                                 "WHERE TransaksiPoli.deleted = 0 AND (CONVERT(DATE, TransaksiPoli.TglPoli) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.JenisPoli = '" & TrowPoli("NamaPoli") & "' AND TransaksiDetail.TransaksiPaket = 0" & TquerySearch
+                        Tquery = "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiPoli.NoUrut, MasterPasien.NoRekamMedis, TransaksiPoli.TglPoli AS 'TglTransaksi', MasterPasien.Nama, TransaksiPoli.DokterPoli AS 'NamaDokter', TransaksiPoli.PerawatPoli AS 'NamaPerawat', TransaksiPoli.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
+                             "FROM TransaksiPoli " & _
+                             "LEFT JOIN TransaksiDetail ON TransaksiPoli.NoUrut = TransaksiDetail.NoUrut " & _
+                             "LEFT JOIN MasterPasien ON TransaksiPoli.IDInternet = MasterPasien.NoRekamMedis " & _
+                             "WHERE TransaksiPoli.deleted = 0 AND (CONVERT(DATE, TransaksiPoli.TglPoli) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.JenisPoli = '" & TrowPoli("NamaPoli") & "' AND TransaksiDetail.TransaksiPaket = 0" & TquerySearch
                     Case "GIGI"
-                        Tquery = "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiGigi.NoUrut, MasterPasien.NoRekamMedis, TransaksiGigi.TglGigi AS 'TglTransaksi', MasterPasien.Nama, TransaksiGigi.DokterGigi AS 'NamaDokter', TransaksiGigi.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
-                                 "FROM TransaksiGigi " & _
-                                 "LEFT JOIN TransaksiDetail ON TransaksiGigi.NoUrut = TransaksiDetail.NoUrut " & _
-                                 "LEFT JOIN MasterPasien ON TransaksiGigi.IDInternet = MasterPasien.NoRekamMedis " & _
-                                 "WHERE TransaksiGigi.deleted = 0 AND (CONVERT(DATE, TransaksiGigi.TglGigi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.JenisPoli = '" & TrowPoli("NamaPoli") & "' AND TransaksiDetail.TransaksiPaket = 0" & TquerySearch
+                        Tquery = "SELECT TransaksiDetail.JenisPenagihan, TransaksiDetail.JenisTransaksi, TransaksiDetail.JenisPoli, TransaksiGigi.NoUrut, MasterPasien.NoRekamMedis, TransaksiGigi.TglGigi AS 'TglTransaksi', MasterPasien.Nama, TransaksiGigi.DokterGigi AS 'NamaDokter', TransaksiGigi.PerawatGigi AS 'NamaPerawat', TransaksiGigi.StatusKeterangan AS 'Status', MasterPasien.NoKartuBPJS, MasterPasien.NoNIK, TransaksiDetail.KeluhanUtama, TransaksiDetail.JenisRawat " & _
+                             "FROM TransaksiGigi " & _
+                             "LEFT JOIN TransaksiDetail ON TransaksiGigi.NoUrut = TransaksiDetail.NoUrut " & _
+                             "LEFT JOIN MasterPasien ON TransaksiGigi.IDInternet = MasterPasien.NoRekamMedis " & _
+                             "WHERE TransaksiGigi.deleted = 0 AND (CONVERT(DATE, TransaksiGigi.TglGigi) BETWEEN '" & Format(Tnow.Date, "MM/dd/yyyy") & "' AND '" & Format(Tend.Date, "MM/dd/yyyy") & "') AND TransaksiDetail.JenisPoli = '" & TrowPoli("NamaPoli") & "' AND TransaksiDetail.TransaksiPaket = 0" & TquerySearch
                     Case "LABORATORIUM"
 
                 End Select
@@ -175,7 +176,7 @@ Public Class FindTransaksi
                         jenisPenagihan = GetJenisPembayaran(Trow("JenisTransaksi"), Trow("NoUrut"))
                     End If
 
-                    DataGridViewKunjunganPasien.Rows.Add(New String() {"-", "" & Trow("NoUrut") & "", "" & Trow("NoRekamMedis") & "", "" & Format(Trow("TglTransaksi"), "yyyy-MM-dd HH:mm:ss") & "", "" & Trow("Nama") & "", "" & Trow("JenisPoli") & "", "" & Trow("JenisTransaksi") & "", "" & Trow("NamaDokter") & "", "" & jenisPenagihan & "", "" & Trow("Status") & "", "" & Trow("NoKartuBPJS") & "", "" & Trow("KeluhanUtama") & "", "" & Trow("NoNIK") & "", "" & Trow("JenisRawat") & ""})
+                    DataGridViewKunjunganPasien.Rows.Add(New String() {"-", "" & Trow("NoUrut") & "", "" & Trow("NoRekamMedis") & "", "" & Format(Trow("TglTransaksi"), "yyyy-MM-dd HH:mm:ss") & "", "" & Trow("Nama") & "", "" & Trow("JenisPoli") & "", "" & Trow("JenisTransaksi") & "", "" & Trow("NamaDokter") & "", "" & Trow("NamaPerawat") & "", "" & jenisPenagihan & "", "" & Trow("Status") & "", "" & Trow("NoKartuBPJS") & "", "" & Trow("KeluhanUtama") & "", "" & Trow("NoNIK") & "", "" & Trow("JenisRawat") & ""})
                 Next
 
                 DataGridViewKunjunganPasien.CurrentCell = Nothing
