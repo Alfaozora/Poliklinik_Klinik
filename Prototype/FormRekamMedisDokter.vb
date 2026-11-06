@@ -15058,6 +15058,9 @@ Public Class FormRekamMedisDokter
         ' Otomatis pilih item pertama jika ada data yang ditambahkan
         If ComboBoxKunjungan.Items.Count > 0 Then
             ComboBoxKunjungan.SelectedIndex = 0
+        Else
+            ' Jika tidak ada opsi kunjungan, panggil load pencatatan untuk mereset/cek data
+            LoadPencatatanByTrimesterAndKunjungan()
         End If
     End Sub
 
@@ -15085,13 +15088,16 @@ Public Class FormRekamMedisDokter
     End Sub
 
     Private Sub TabControl3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabControl3.SelectedIndexChanged
-        If TabControl3.SelectedTab Is TabPageTrimesterII Then
-            HitungSkriningPreeklampsia()
-        ElseIf TabControl3.SelectedTab Is TabPagePencatatan Then
+        If TabControl3.SelectedTab Is TabPagePencatatan Then
             LoadDataPencatatanKIA()
             LoadTempatPeriksa()
         ElseIf TabControl3.SelectedTab Is TabPageTrimesterI Then
             LoadDataTrimesterI()
+        ElseIf TabControl3.SelectedTab Is TabPageTrimesterII Then
+            HitungSkriningPreeklampsia()
+            LoadDataTrimesterII()
+        ElseIf TabControl3.SelectedTab Is TabPageTrimesterIII Then
+            LoadDataTrimesterIII()
         End If
     End Sub
 
@@ -15293,6 +15299,14 @@ Public Class FormRekamMedisDokter
         AllowOnlyDecimal(sender, e)
     End Sub
 
+    Private Sub TextBoxCrl_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxCrl.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxDiaGs_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxDiaGs.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
     Private Sub TextBoxTFU_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxTFU.KeyPress
         AllowOnlyDecimal(sender, e)
     End Sub
@@ -15319,6 +15333,57 @@ Public Class FormRekamMedisDokter
 
     Private Sub TextBoxUsiaKehamilanUsg_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxUsiaKehamilanUsg.KeyPress
         AllowOnlyNumber(e)
+    End Sub
+
+    ' Helper untuk mengosongkan seluruh input khusus ANC saat data tidak ditemukan
+    Private Sub ClearFormANCInput()
+        ' 1. Kosongkan TextBox Isian ANC
+        TextBoxLetakJanin.Clear()
+        TextBoxKonseling.Clear()
+        TextBoxTabletDarah.Clear()
+        TextBoxUsg.Clear()
+        TextBoxTataLaksana.Clear()
+        TextBoxLiLA.Clear()
+        TextBoxTFU.Clear()
+        TextBoxDJJ.Clear()
+
+        ' 2. Reset ComboBox Isian ANC
+        ComboBoxImunisasiTT.SelectedIndex = -1
+        ComboBoxImunisasiTT.Text = ""
+
+        ComboBoxSkriningDokter.SelectedIndex = -1
+        ComboBoxSkriningDokter.Text = ""
+
+        ' 3. Jika ada CheckBox pada tab/form ini (misal Skrining/Preeklampsia), uncheck semuanya
+        UncheckAllCheckBoxes()
+    End Sub
+
+    ' Helper tambahan untuk reset CheckBox (jika ada)
+    Private Sub UncheckAllCheckBoxes()
+        ' Contoh reset CheckBox Skrining Preeklampsia (Trimester II)
+        CheckBoxSedang1.Checked = False
+        CheckBoxSedang2.Checked = False
+        CheckBoxSedang3.Checked = False
+        CheckBoxSedang4.Checked = False
+        CheckBoxSedang5.Checked = False
+        CheckBoxSedang6.Checked = False
+        CheckBoxSedang7.Checked = False
+        CheckBoxSedang8.Checked = False
+
+        CheckBoxTinggi1.Checked = False
+        CheckBoxTinggi2.Checked = False
+        CheckBoxTinggi3.Checked = False
+        CheckBoxTinggi4.Checked = False
+        CheckBoxTinggi5.Checked = False
+        CheckBoxTinggi6.Checked = False
+        CheckBoxTinggi7.Checked = False
+        CheckBoxTinggi8.Checked = False
+
+        ' Reset keterangan rujukan
+        TextBoxKeteranganTriII.Clear()
+        TextBoxKeteranganTriII.BackColor = Color.White
+        TextBoxKeteranganTriII.ForeColor = Color.Black
+        TextBoxMap.Clear()
     End Sub
 
     Private Sub ButtonSimpanPencatatan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSimpanPencatatan.Click
@@ -15477,20 +15542,45 @@ Public Class FormRekamMedisDokter
     End Structure
 
     Private Sub ButtonTrimesterI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTrimesterI.Click
-        If String.IsNullOrEmpty(idTransaksi) Then
-            MsgBox("No Transaksi tidak ditemukan!", MsgBoxStyle.Critical, "Peringatan")
+        If String.IsNullOrEmpty(idPasien) Then
+            MsgBox("No Rekam Medis pasien tidak ditemukan!", MsgBoxStyle.Critical, "Peringatan")
             Exit Sub
         End If
 
         Try
-            ' 1. Cek keberadaan data di anc_trimester1 berdasarkan no_transaksi
-            Dim isExistTri1 As Boolean = CheckSQL("SELECT * FROM anc_trimester1 WHERE no_transaksi = '" & idTransaksi & "'")
+            ' 1. Cek keberadaan data di anc_trimester1 berdasarkan no_rekam_medis (Tracking Per Pasien)
+            Dim isExistTri1 As Boolean = CheckSQL("SELECT * FROM anc_trimester1 WHERE no_rekam_medis = '" & idPasien & "'")
 
-            ' 2. Ambil id_kunjungan dari anc_kunjungan (jika ada relasi ke id_kunjungan)
+            ' User login aktif
+            Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
+
+            ' 2. Ambil id_kunjungan dari anc_kunjungan (Auto-Create dasar jika transaksi aktif belum ada)
             Dim idKunjungan As Integer = 0
             Dim dtKunjungan As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+
             If dtKunjungan IsNot Nothing AndAlso dtKunjungan.Rows.Count > 0 Then
                 idKunjungan = Convert.ToInt32(dtKunjungan.Rows(0)("id_kunjungan"))
+            Else
+                ' Jika belum ada record anc_kunjungan untuk transaksi ini, buat record dasar agar FK tidak bentrok
+                Dim queryInsertKunjunganBase As String = _
+                    "INSERT INTO anc_kunjungan (no_rekam_medis, no_transaksi, tgl_periksa, trimester, kunjungan_ke, created_at, created_by) " & _
+                    "VALUES ('" & idPasien & "', '" & idTransaksi & "', GETDATE(), '1', 1, GETDATE(), '" & currentUser & "')"
+
+                WriteSQL(queryInsertKunjunganBase, 4)
+
+                ' Ambil id_kunjungan yang baru saja dibuat
+                Dim dtKunjunganNew As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+                If dtKunjunganNew IsNot Nothing AndAlso dtKunjunganNew.Rows.Count > 0 Then
+                    idKunjungan = Convert.ToInt32(dtKunjunganNew.Rows(0)("id_kunjungan"))
+                End If
+            End If
+
+            ' Tentukan parameter FK aman (jika idKunjungan 0, kirim DBNull)
+            Dim paramIdKunjungan As Object
+            If idKunjungan > 0 Then
+                paramIdKunjungan = idKunjungan
+            Else
+                paramIdKunjungan = DBNull.Value
             End If
 
             ' 3. Deklarasi & Inisialisasi Variabel Input Form anc_trimester1
@@ -15559,11 +15649,8 @@ Public Class FormRekamMedisDokter
             Dim kesimpulanDokter As String = TextBoxKesimpulanTriI.Text.Trim()
             Dim rekomendasiDokter As String = TextBoxRekomTriI.Text.Trim()
 
-            ' User login aktif
-            Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
-
             ' =========================================================================
-            ' 4. SIMPAN KEDALAM TABEL anc_trimester1 (CREATE / UPDATE)
+            ' 4. SIMPAN KEDALAM TABEL anc_trimester1 (CREATE / UPDATE BY REKAM MEDIS)
             ' =========================================================================
             If Not isExistTri1 Then
                 Dim queryInsertTri1 As String = _
@@ -15581,7 +15668,7 @@ Public Class FormRekamMedisDokter
                     "@kesimpulanDokter, @rekomendasiDokter, GETDATE(), @createdBy)"
 
                 WriteParameterizedLokalSQL(queryInsertTri1, 4, _
-                    New SqlParameter("@idKunjungan", idKunjungan), _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
                     New SqlParameter("@noRekamMedis", noRekamMedis), _
                     New SqlParameter("@noTransaksi", noTransaksi), _
                     New SqlParameter("@hpht", hphtVal), _
@@ -15614,6 +15701,7 @@ Public Class FormRekamMedisDokter
                 Dim queryUpdateTri1 As String = _
                     "UPDATE anc_trimester1 SET " & _
                     "id_kunjungan = @idKunjungan, " & _
+                    "no_transaksi = @noTransaksi, " & _
                     "hpht = @hpht, " & _
                     "hpl_hpht = @hplHpht, " & _
                     "keterangan_haid = @ketHaid, " & _
@@ -15641,10 +15729,11 @@ Public Class FormRekamMedisDokter
                     "rekomendasi_dokter = @rekomendasiDokter, " & _
                     "updated_at = GETDATE(), " & _
                     "updated_by = @updatedBy " & _
-                    "WHERE no_transaksi = @noTransaksi"
+                    "WHERE no_rekam_medis = @noRekamMedis"
 
                 WriteParameterizedLokalSQL(queryUpdateTri1, 4, _
-                    New SqlParameter("@idKunjungan", idKunjungan), _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noRekamMedis", noRekamMedis), _
                     New SqlParameter("@noTransaksi", noTransaksi), _
                     New SqlParameter("@hpht", hphtVal), _
                     New SqlParameter("@hplHpht", hplHphtVal), _
@@ -15675,7 +15764,7 @@ Public Class FormRekamMedisDokter
             End If
 
             ' =========================================================================
-            ' 5. SIMPAN KEDALAM TABEL anc_pemeriksaan_fisik (TRIMESTER 1)
+            ' 5. SIMPAN KEDALAM TABEL anc_pemeriksaan_fisik (KOMPATIBEL VB.NET 2008)
             ' =========================================================================
             Dim listFisik() As ItemFisik = { _
                 New ItemFisik("Keadaan Umum", "", TextBoxKeadaanUmum.Text.Trim()), _
@@ -15694,7 +15783,6 @@ Public Class FormRekamMedisDokter
                 Dim organ As String = item.Organ
                 Dim kondisi As String = item.Status
 
-                ' Penanganan DBNull yang kompatibel dengan VB.NET 2008
                 Dim catatan As Object
                 If String.IsNullOrEmpty(item.Catatan) Then
                     catatan = DBNull.Value
@@ -15702,7 +15790,6 @@ Public Class FormRekamMedisDokter
                     catatan = item.Catatan
                 End If
 
-                ' Simpan jika salah satu dari Status atau Catatan diisi
                 If Not String.IsNullOrEmpty(kondisi) OrElse Not String.IsNullOrEmpty(item.Catatan) Then
                     Dim isExistOrgan As Boolean = CheckSQL("SELECT * FROM anc_pemeriksaan_fisik WHERE id_kunjungan = " & idKunjungan & " AND organ_pemeriksaan = '" & organ & "'")
 
@@ -15737,7 +15824,10 @@ Public Class FormRekamMedisDokter
                 End If
             Next
 
-            MsgBox("Berhasil menyimpan data Pelayanan Trimester 1 dan Pemeriksaan Fisik!", MsgBoxStyle.Information, "Success!")
+            MsgBox("Berhasil menyimpan data Pelayanan Trimester 1 dan Pemeriksaan Fisik Pasien!", MsgBoxStyle.Information, "Success!")
+
+            ' Re-load data agar form selalu tersinkronisasi
+            LoadDataTrimesterI()
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Simpan Trimester 1")
@@ -15745,19 +15835,20 @@ Public Class FormRekamMedisDokter
     End Sub
 
     Private Sub LoadDataTrimesterI()
-        If String.IsNullOrEmpty(idTransaksi) Then Exit Sub
+        If String.IsNullOrEmpty(idPasien) Then Exit Sub
 
         Try
-            ' 1. Load Data dari Tabel anc_trimester1
+            ' 1. Load Data dari Tabel anc_trimester1 berdasarkan no_rekam_medis terbaru
             Dim queryTri1 As String = _
-                "SELECT " & _
+                "SELECT TOP 1 " & _
                 "    hpht, hpl_hpht, keterangan_haid, uk_hpht_minggu, uk_usg_minggu, " & _
                 "    hpl_usg, usg_jumlah_gs, usg_jumlah_bayi, usg_diameter_gs_cm, usg_gs_usia_minggu, usg_gs_usia_hari, " & _
                 "    usg_crl_cm, usg_crl_usia_minggu, usg_crl_usia_hari, usg_letak_produk, usg_pulsasi_jantung, " & _
                 "    usg_temuan_abnormal, usg_keterangan_temuan, skrining_jiwa, skrining_jiwa_tgl, " & _
                 "    skrining_jiwa_tindak_lanjut, skrining_jiwa_perlu_rujukan, kesimpulan_dokter, rekomendasi_dokter " & _
                 "FROM anc_trimester1 " & _
-                "WHERE no_transaksi = '" & idTransaksi & "'"
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "ORDER BY id_tri1 DESC"
 
             Dim dtTri1 As DataTable = ReadSQL(queryTri1)
 
@@ -15836,12 +15927,12 @@ Public Class FormRekamMedisDokter
                 TextBoxRekomTriI.Text = row("rekomendasi_dokter").ToString()
             End If
 
-            ' 2. Load Data dari Tabel anc_pemeriksaan_fisik berdasarkan organ
+            ' 2. Load Data dari Tabel anc_pemeriksaan_fisik Khusus Trimester I
             Dim queryFisik As String = _
                 "SELECT organ_pemeriksaan, status_kondisi, catatan_keterangan " & _
                 "FROM anc_pemeriksaan_fisik " & _
-                "WHERE id_kunjungan = (" & _
-                "    SELECT TOP 1 id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'" & _
+                "WHERE id_kunjungan IN (" & _
+                "    SELECT id_kunjungan FROM anc_kunjungan WHERE no_rekam_medis = '" & idPasien & "' AND (trimester = '1' OR trimester = 'I')" & _
                 ")"
 
             Dim dtFisik As DataTable = ReadSQL(queryFisik)
@@ -15888,6 +15979,808 @@ Public Class FormRekamMedisDokter
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Trimester 1")
+        End Try
+    End Sub
+
+    Private Sub LoadPencatatanByTrimesterAndKunjungan()
+        If String.IsNullOrEmpty(idPasien) Then Exit Sub
+
+        Dim trimesterVal As String = ComboBoxTrimester.Text.Trim()
+        Dim kunjunganVal As String = ComboBoxKunjungan.Text.Trim()
+
+        ' Hanya eksekusi jika kedua ComboBox sudah dipilih
+        If String.IsNullOrEmpty(trimesterVal) OrElse String.IsNullOrEmpty(kunjunganVal) Then
+            ClearFormANCInput()
+            Exit Sub
+        End If
+
+        Dim kunjunganKe As Integer = 0
+        Integer.TryParse(kunjunganVal, kunjunganKe)
+
+        Try
+            Dim query As String = _
+                "SELECT TOP 1 " & _
+                "    tempat_periksa, lila_cm, tfu_cm, letak_janin, djj, " & _
+                "    imunisasi_tt, skrining_dokter, konseling, tablet_tambah_darah, " & _
+                "    usg_status, tata_laksana " & _
+                "FROM anc_kunjungan " & _
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "  AND trimester = '" & trimesterVal & "' " & _
+                "  AND kunjungan_ke = " & kunjunganKe & " " & _
+                "ORDER BY id_kunjungan DESC"
+
+            Dim dtANC As DataTable = ReadSQL(query)
+
+            If dtANC IsNot Nothing AndAlso dtANC.Rows.Count > 0 Then
+                Dim row As DataRow = dtANC.Rows(0)
+
+                TextBoxTempatPeriksa.Text = row("tempat_periksa").ToString()
+                TextBoxLetakJanin.Text = row("letak_janin").ToString()
+                ComboBoxImunisasiTT.Text = row("imunisasi_tt").ToString()
+                ComboBoxSkriningDokter.Text = row("skrining_dokter").ToString()
+                TextBoxKonseling.Text = row("konseling").ToString()
+                TextBoxUsg.Text = row("usg_status").ToString()
+                TextBoxTataLaksana.Text = row("tata_laksana").ToString()
+
+                If Not IsDBNull(row("lila_cm")) Then
+                    TextBoxLiLA.Text = Convert.ToDecimal(row("lila_cm")).ToString("0.##")
+                Else
+                    TextBoxLiLA.Clear()
+                End If
+
+                If Not IsDBNull(row("tfu_cm")) Then
+                    TextBoxTFU.Text = Convert.ToDecimal(row("tfu_cm")).ToString("0.##")
+                Else
+                    TextBoxTFU.Clear()
+                End If
+
+                If Not IsDBNull(row("djj")) Then
+                    TextBoxDJJ.Text = row("djj").ToString()
+                Else
+                    TextBoxDJJ.Clear()
+                End If
+
+                If Not IsDBNull(row("tablet_tambah_darah")) Then
+                    TextBoxTabletDarah.Text = row("tablet_tambah_darah").ToString()
+                Else
+                    TextBoxTabletDarah.Clear()
+                End If
+            Else
+                ' PENTING: Bersihkan seluruh isian form jika data kunjungan ini belum ada
+                ClearFormANCInput()
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Kunjungan ANC")
+        End Try
+    End Sub
+
+    Private Sub ComboBoxKunjungan_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxKunjungan.SelectedIndexChanged
+        LoadPencatatanByTrimesterAndKunjungan()
+    End Sub
+
+    Private Structure ItemPeCheck
+        Public ControlCheck As CheckBox
+        Public ColumnName As String
+
+        Public Sub New(ByVal pCheck As CheckBox, ByVal pColumn As String)
+            Me.ControlCheck = pCheck
+            Me.ColumnName = pColumn
+        End Sub
+    End Structure
+
+    Private Sub LoadDataTrimesterII()
+        If String.IsNullOrEmpty(idPasien) Then Exit Sub
+
+        Try
+            Dim queryTri2 As String = _
+                "SELECT TOP 1 " & _
+                "    is_multipara_pasangan_baru, is_bayi_tabung, is_usia_ge_35, is_nulipara, is_jarak_hamil_gt_10thn, " & _
+                "    is_riwayat_keluarga_pe, is_obesitas_imt_gt_30, is_riwayat_pe_sendiri, is_hamil_kembar, is_dm_kehamilan, " & _
+                "    is_hipertensi_kronik, is_penyakit_ginjal, is_autoimun_sle, is_aps, map_mmHg, status_rujukan_pe, kesimpulan_dmg " & _
+                "FROM anc_trimester2 " & _
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "ORDER BY id_tri2 DESC"
+
+            Dim dtTri2 As DataTable = ReadSQL(queryTri2)
+
+            If dtTri2 IsNot Nothing AndAlso dtTri2.Rows.Count > 0 Then
+                Dim row As DataRow = dtTri2.Rows(0)
+
+                ' Load CheckBox Risiko Sedang
+                CheckBoxSedang1.Checked = Convert.ToBoolean(If(IsDBNull(row("is_multipara_pasangan_baru")), False, row("is_multipara_pasangan_baru")))
+                CheckBoxSedang2.Checked = Convert.ToBoolean(If(IsDBNull(row("is_bayi_tabung")), False, row("is_bayi_tabung")))
+                CheckBoxSedang3.Checked = Convert.ToBoolean(If(IsDBNull(row("is_usia_ge_35")), False, row("is_usia_ge_35")))
+                CheckBoxSedang4.Checked = Convert.ToBoolean(If(IsDBNull(row("is_nulipara")), False, row("is_nulipara")))
+                CheckBoxSedang5.Checked = Convert.ToBoolean(If(IsDBNull(row("is_jarak_hamil_gt_10thn")), False, row("is_jarak_hamil_gt_10thn")))
+                CheckBoxSedang6.Checked = Convert.ToBoolean(If(IsDBNull(row("is_riwayat_keluarga_pe")), False, row("is_riwayat_keluarga_pe")))
+                CheckBoxSedang7.Checked = Convert.ToBoolean(If(IsDBNull(row("is_obesitas_imt_gt_30")), False, row("is_obesitas_imt_gt_30")))
+
+                ' Load CheckBox Risiko Tinggi
+                CheckBoxTinggi1.Checked = Convert.ToBoolean(If(IsDBNull(row("is_riwayat_pe_sendiri")), False, row("is_riwayat_pe_sendiri")))
+                CheckBoxTinggi2.Checked = Convert.ToBoolean(If(IsDBNull(row("is_hamil_kembar")), False, row("is_hamil_kembar")))
+                CheckBoxTinggi3.Checked = Convert.ToBoolean(If(IsDBNull(row("is_dm_kehamilan")), False, row("is_dm_kehamilan")))
+                CheckBoxTinggi4.Checked = Convert.ToBoolean(If(IsDBNull(row("is_hipertensi_kronik")), False, row("is_hipertensi_kronik")))
+                CheckBoxTinggi5.Checked = Convert.ToBoolean(If(IsDBNull(row("is_penyakit_ginjal")), False, row("is_penyakit_ginjal")))
+                CheckBoxTinggi6.Checked = Convert.ToBoolean(If(IsDBNull(row("is_autoimun_sle")), False, row("is_autoimun_sle")))
+                CheckBoxTinggi7.Checked = Convert.ToBoolean(If(IsDBNull(row("is_aps")), False, row("is_aps")))
+
+                If Not IsDBNull(row("map_mmHg")) Then
+                    TextBoxMap.Text = Convert.ToDecimal(row("map_mmHg")).ToString("0.##")
+                Else
+                    TextBoxMap.Clear()
+                End If
+
+                TextBoxKeteranganTriII.Text = row("status_rujukan_pe").ToString()
+                TextBoxStatusRujukan.Text = row("kesimpulan_dmg").ToString()
+
+                ' Hitung ulang indikator visual Preeklampsia
+                HitungSkriningPreeklampsia()
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Trimester 2")
+        End Try
+    End Sub
+
+    Private Sub ButtonTrimesterII_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTrimesterII.Click
+        If String.IsNullOrEmpty(idPasien) Then
+            MsgBox("No Rekam Medis pasien tidak ditemukan!", MsgBoxStyle.Critical, "Peringatan")
+            Exit Sub
+        End If
+
+        Try
+            ' 1. Cek keberadaan data Trimester II berdasarkan no_rekam_medis (Tracking Per Pasien)
+            Dim isExistTri2 As Boolean = CheckSQL("SELECT * FROM anc_trimester2 WHERE no_rekam_medis = '" & idPasien & "'")
+
+            Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
+
+            ' 2. Ambil id_kunjungan dari anc_kunjungan (Auto-Create dasar jika transaksi aktif belum ada)
+            Dim idKunjungan As Integer = 0
+            Dim dtKunjungan As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+
+            If dtKunjungan IsNot Nothing AndAlso dtKunjungan.Rows.Count > 0 Then
+                idKunjungan = Convert.ToInt32(dtKunjungan.Rows(0)("id_kunjungan"))
+            Else
+                Dim queryInsertKunjunganBase As String = _
+                    "INSERT INTO anc_kunjungan (no_rekam_medis, no_transaksi, tgl_periksa, trimester, kunjungan_ke, created_at, created_by) " & _
+                    "VALUES ('" & idPasien & "', '" & idTransaksi & "', GETDATE(), '2', 2, GETDATE(), '" & currentUser & "')"
+
+                WriteSQL(queryInsertKunjunganBase, 4)
+
+                Dim dtKunjunganNew As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+                If dtKunjunganNew IsNot Nothing AndAlso dtKunjunganNew.Rows.Count > 0 Then
+                    idKunjungan = Convert.ToInt32(dtKunjunganNew.Rows(0)("id_kunjungan"))
+                End If
+            End If
+
+            Dim paramIdKunjungan As Object
+            If idKunjungan > 0 Then
+                paramIdKunjungan = idKunjungan
+            Else
+                paramIdKunjungan = DBNull.Value
+            End If
+
+            ' 3. Deklarasi & Hitung Nilai Preeklampsia & MAP
+            Dim jmlSedang As Integer = 0
+            If CheckBoxSedang1.Checked Then jmlSedang += 1
+            If CheckBoxSedang2.Checked Then jmlSedang += 1
+            If CheckBoxSedang3.Checked Then jmlSedang += 1
+            If CheckBoxSedang4.Checked Then jmlSedang += 1
+            If CheckBoxSedang5.Checked Then jmlSedang += 1
+            If CheckBoxSedang6.Checked Then jmlSedang += 1
+            If CheckBoxSedang7.Checked Then jmlSedang += 1
+            If CheckBoxSedang8.Checked Then jmlSedang += 1
+
+            Dim jmlTinggi As Integer = 0
+            If CheckBoxTinggi1.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi2.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi3.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi4.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi5.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi6.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi7.Checked Then jmlTinggi += 1
+            If CheckBoxTinggi8.Checked Then jmlTinggi += 1
+
+            Dim mapMmHg As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxMap.Text) Then
+                mapMmHg = Convert.ToDecimal(TextBoxMap.Text.Trim().Replace(",", "."))
+            End If
+
+            Dim kesimpulan As String = TextBoxKeteranganTriII.Text.Trim()
+            Dim statusRujukan As String = TextBoxStatusRujukan.Text.Trim()
+
+            ' 4. Eksekusi SQL Parameterized (CREATE / UPDATE)
+            If Not isExistTri2 Then
+                Dim queryInsertTri2 As String = _
+                    "INSERT INTO anc_trimester2 (" & _
+                    "id_kunjungan, no_rekam_medis, no_transaksi, " & _
+                    "is_multipara_pasangan_baru, is_bayi_tabung, is_usia_ge_35, is_nulipara, is_jarak_hamil_gt_10thn, " & _
+                    "is_riwayat_keluarga_pe, is_obesitas_imt_gt_30, is_riwayat_pe_sendiri, is_hamil_kembar, is_dm_kehamilan, " & _
+                    "is_hipertensi_kronik, is_penyakit_ginjal, is_autoimun_sle, is_aps, pe_risiko_sedang_count, pe_risiko_tinggi_count, " & _
+                    "map_mmHg, status_rujukan_pe, kesimpulan_dmg, created_at, created_by) " & _
+                    "VALUES (" & _
+                    "@idKunjungan, @noRekamMedis, @noTransaksi, " & _
+                    "@isMultipara, @isBayiTabung, @isUsiaGe35, @isNulipara, @isJarakHamil, " & _
+                    "@isRiwKeluarga, @isObesitas, @isRiwPeSendiri, @isHamilKembar, @isDmKehamilan, " & _
+                    "@isHipertensi, @isGinjal, @isAutoimun, @isAps, @sedangCount, @tinggiCount, " & _
+                    "@mapMmHg, @statusRujukan, @kesimpulanDmg, GETDATE(), @createdBy)"
+
+                WriteParameterizedLokalSQL(queryInsertTri2, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noRekamMedis", idPasien), _
+                    New SqlParameter("@noTransaksi", idTransaksi), _
+                    New SqlParameter("@isMultipara", CheckBoxSedang1.Checked), _
+                    New SqlParameter("@isBayiTabung", CheckBoxSedang2.Checked), _
+                    New SqlParameter("@isUsiaGe35", CheckBoxSedang3.Checked), _
+                    New SqlParameter("@isNulipara", CheckBoxSedang4.Checked), _
+                    New SqlParameter("@isJarakHamil", CheckBoxSedang5.Checked), _
+                    New SqlParameter("@isRiwKeluarga", CheckBoxSedang6.Checked), _
+                    New SqlParameter("@isObesitas", CheckBoxSedang7.Checked), _
+                    New SqlParameter("@isRiwPeSendiri", CheckBoxTinggi1.Checked), _
+                    New SqlParameter("@isHamilKembar", CheckBoxTinggi2.Checked), _
+                    New SqlParameter("@isDmKehamilan", CheckBoxTinggi3.Checked), _
+                    New SqlParameter("@isHipertensi", CheckBoxTinggi4.Checked), _
+                    New SqlParameter("@isGinjal", CheckBoxTinggi5.Checked), _
+                    New SqlParameter("@isAutoimun", CheckBoxTinggi6.Checked), _
+                    New SqlParameter("@isAps", CheckBoxTinggi7.Checked), _
+                    New SqlParameter("@sedangCount", jmlSedang), _
+                    New SqlParameter("@tinggiCount", jmlTinggi), _
+                    New SqlParameter("@mapMmHg", mapMmHg), _
+                    New SqlParameter("@statusRujukan", kesimpulan), _
+                    New SqlParameter("@kesimpulanDmg", statusRujukan), _
+                    New SqlParameter("@createdBy", currentUser))
+
+                MsgBox("Berhasil menyimpan data Pemeriksaan Trimester 2 baru.", MsgBoxStyle.Information, "Success!")
+            Else
+                Dim queryUpdateTri2 As String = _
+                    "UPDATE anc_trimester2 SET " & _
+                    "id_kunjungan = @idKunjungan, " & _
+                    "no_transaksi = @noTransaksi, " & _
+                    "is_multipara_pasangan_baru = @isMultipara, " & _
+                    "is_bayi_tabung = @isBayiTabung, " & _
+                    "is_usia_ge_35 = @isUsiaGe35, " & _
+                    "is_nulipara = @isNulipara, " & _
+                    "is_jarak_hamil_gt_10thn = @isJarakHamil, " & _
+                    "is_riwayat_keluarga_pe = @isRiwKeluarga, " & _
+                    "is_obesitas_imt_gt_30 = @isObesitas, " & _
+                    "is_riwayat_pe_sendiri = @isRiwPeSendiri, " & _
+                    "is_hamil_kembar = @isHamilKembar, " & _
+                    "is_dm_kehamilan = @isDmKehamilan, " & _
+                    "is_hipertensi_kronik = @isHipertensi, " & _
+                    "is_penyakit_ginjal = @isGinjal, " & _
+                    "is_autoimun_sle = @isAutoimun, " & _
+                    "is_aps = @isAps, " & _
+                    "pe_risiko_sedang_count = @sedangCount, " & _
+                    "pe_risiko_tinggi_count = @tinggiCount, " & _
+                    "map_mmHg = @mapMmHg, " & _
+                    "status_rujukan_pe = @statusRujukan, " & _
+                    "kesimpulan_dmg = @kesimpulanDmg, " & _
+                    "updated_at = GETDATE(), " & _
+                    "updated_by = @updatedBy " & _
+                    "WHERE no_rekam_medis = @noRekamMedis"
+
+                WriteParameterizedLokalSQL(queryUpdateTri2, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noRekamMedis", idPasien), _
+                    New SqlParameter("@noTransaksi", idTransaksi), _
+                    New SqlParameter("@isMultipara", CheckBoxSedang1.Checked), _
+                    New SqlParameter("@isBayiTabung", CheckBoxSedang2.Checked), _
+                    New SqlParameter("@isUsiaGe35", CheckBoxSedang3.Checked), _
+                    New SqlParameter("@isNulipara", CheckBoxSedang4.Checked), _
+                    New SqlParameter("@isJarakHamil", CheckBoxSedang5.Checked), _
+                    New SqlParameter("@isRiwKeluarga", CheckBoxSedang6.Checked), _
+                    New SqlParameter("@isObesitas", CheckBoxSedang7.Checked), _
+                    New SqlParameter("@isRiwPeSendiri", CheckBoxTinggi1.Checked), _
+                    New SqlParameter("@isHamilKembar", CheckBoxTinggi2.Checked), _
+                    New SqlParameter("@isDmKehamilan", CheckBoxTinggi3.Checked), _
+                    New SqlParameter("@isHipertensi", CheckBoxTinggi4.Checked), _
+                    New SqlParameter("@isGinjal", CheckBoxTinggi5.Checked), _
+                    New SqlParameter("@isAutoimun", CheckBoxTinggi6.Checked), _
+                    New SqlParameter("@isAps", CheckBoxTinggi7.Checked), _
+                    New SqlParameter("@sedangCount", jmlSedang), _
+                    New SqlParameter("@tinggiCount", jmlTinggi), _
+                    New SqlParameter("@mapMmHg", mapMmHg), _
+                    New SqlParameter("@statusRujukan", kesimpulan), _
+                    New SqlParameter("@kesimpulanDmg", statusRujukan), _
+                    New SqlParameter("@updatedBy", currentUser))
+
+                MsgBox("Berhasil mengubah data Pemeriksaan Trimester 2.", MsgBoxStyle.Information, "Success!")
+            End If
+
+            ' Re-load data agar form sinkron
+            LoadDataTrimesterII()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Simpan Trimester 2")
+        End Try
+    End Sub
+
+    Private Sub ButtonSimpanTriIII_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSimpanTriIII.Click
+        If String.IsNullOrEmpty(idPasien) Then
+            MsgBox("No Rekam Medis pasien tidak ditemukan!", MsgBoxStyle.Critical, "Peringatan")
+            Exit Sub
+        End If
+
+        Try
+            ' 1. Cek keberadaan data Trimester III berdasarkan no_rekam_medis (Tracking Per Pasien)
+            Dim isExistTri3 As Boolean = CheckSQL("SELECT * FROM anc_trimester3 WHERE no_rekam_medis = '" & idPasien & "'")
+
+            Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
+
+            ' 2. Ambil id_kunjungan dari anc_kunjungan (Auto-Create dasar jika transaksi aktif belum ada)
+            Dim idKunjungan As Integer = 0
+            Dim dtKunjungan As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+
+            If dtKunjungan IsNot Nothing AndAlso dtKunjungan.Rows.Count > 0 Then
+                idKunjungan = Convert.ToInt32(dtKunjungan.Rows(0)("id_kunjungan"))
+            Else
+                Dim queryInsertKunjunganBase As String = _
+                    "INSERT INTO anc_kunjungan (no_rekam_medis, no_transaksi, tgl_periksa, trimester, kunjungan_ke, created_at, created_by) " & _
+                    "VALUES ('" & idPasien & "', '" & idTransaksi & "', GETDATE(), '3', 4, GETDATE(), '" & currentUser & "')"
+
+                WriteSQL(queryInsertKunjunganBase, 4)
+
+                Dim dtKunjunganNew As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
+                If dtKunjunganNew IsNot Nothing AndAlso dtKunjunganNew.Rows.Count > 0 Then
+                    idKunjungan = Convert.ToInt32(dtKunjunganNew.Rows(0)("id_kunjungan"))
+                End If
+            End If
+
+            Dim paramIdKunjungan As Object
+            If idKunjungan > 0 Then
+                paramIdKunjungan = idKunjungan
+            Else
+                paramIdKunjungan = DBNull.Value
+            End If
+
+            ' 3. Deklarasi & Inisialisasi Variabel Input Form anc_trimester3
+            Dim noRekamMedis As String = idPasien
+            Dim noTransaksi As String = idTransaksi
+
+            ' Parameter USG & Kehamilan
+            Dim usgDilakukan As String = ComboBoxUsgTriIII.Text.Trim()
+
+            Dim ukUsgMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxUkKehamilanTriIII.Text) Then ukUsgMinggu = Convert.ToInt32(TextBoxUkKehamilanTriIII.Text.Trim())
+
+            Dim selisihGt3Minggu As String = ComboBoxSelisihTriIII.Text.Trim()
+            Dim usgJumlahBayi As String = ComboBoxJmlBayiTri3.Text.Trim()
+            Dim usgLetakKehamilan As String = ComboBoxLetakHamilTri3.Text.Trim()
+            Dim usgPresentasiBayi As String = ComboBoxPresentasiBayiTri3.Text.Trim()
+            Dim usgKeadaanBayi As String = ComboBoxKeadaanBayiTri3.Text.Trim()
+
+            Dim usgDjj As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxUsgDjjTri3.Text) Then usgDjj = Convert.ToInt32(TextBoxUsgDjjTri3.Text.Trim())
+
+            Dim usgDjjKet As String = ComboBoxKeteranganDjj.Text.Trim()
+
+            Dim usgCairanKetubanSdpCm As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSdp.Text) Then usgCairanKetubanSdpCm = Convert.ToDecimal(TextBoxSdp.Text.Trim().Replace(",", "."))
+
+            Dim usgCairanKetubanKet As String = ComboBoxKetuban.Text.Trim()
+
+            ' Biometri Janin
+            Dim bioBpdCm As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxBpd.Text) Then bioBpdCm = Convert.ToDecimal(TextBoxBpd.Text.Trim().Replace(",", "."))
+
+            Dim bioBpdMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSesuaiSdp.Text) Then bioBpdMinggu = Convert.ToInt32(TextBoxSesuaiSdp.Text.Trim())
+
+            Dim bioHcCm As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxHc.Text) Then bioHcCm = Convert.ToDecimal(TextBoxHc.Text.Trim().Replace(",", "."))
+
+            Dim bioHcMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSesuaiHc.Text) Then bioHcMinggu = Convert.ToInt32(TextBoxSesuaiHc.Text.Trim())
+
+            Dim bioAcCm As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxAc.Text) Then bioAcCm = Convert.ToDecimal(TextBoxAc.Text.Trim().Replace(",", "."))
+
+            Dim bioAcMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSesuaiAc.Text) Then bioAcMinggu = Convert.ToInt32(TextBoxSesuaiAc.Text.Trim())
+
+            Dim bioFlCm As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxFl.Text) Then bioFlCm = Convert.ToDecimal(TextBoxFl.Text.Trim().Replace(",", "."))
+
+            Dim bioFlMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSesuaiFl.Text) Then bioFlMinggu = Convert.ToInt32(TextBoxSesuaiFl.Text.Trim())
+
+            Dim bioEfwTbjGram As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxEfw.Text) Then bioEfwTbjGram = Convert.ToInt32(TextBoxEfw.Text.Trim())
+
+            Dim bioEfwTbjMinggu As Object = DBNull.Value
+            If Not String.IsNullOrEmpty(TextBoxSesuaiEfw.Text) Then bioEfwTbjMinggu = Convert.ToInt32(TextBoxSesuaiEfw.Text.Trim())
+
+            ' Temuan Abnormal & Foto
+            Dim isTemuanAbnormal As String = ComboBoxAbnormalTriIII.Text.Trim()
+            Dim catatanAbnormal As String = TextBoxAbnormalTriIII.Text.Trim()
+            Dim pathFotoUsg As String = ""
+
+            ' Skrining Jiwa
+            Dim skriningJiwa As String = ComboBoxSkriningJiwaTriIII.Text.Trim()
+
+            Dim skriningJiwaTglVal As Object = DBNull.Value
+            If DateTimePickerSkriningJiwaTriIII.Checked Then skriningJiwaTglVal = DateTimePickerSkriningJiwaTriIII.Value.ToString("yyyy-MM-dd")
+
+            Dim skriningJiwaTindakLanjut As String = ComboBoxTindaklanjutTriIII.Text.Trim()
+            Dim skriningJiwaPerluRujukan As String = ComboBoxRujukanTriIII.Text.Trim()
+
+            ' Rencana Persalinan & KB
+            Dim rencanaKonsultasi As String = ComboBoxRencanaKonsultasiTri3.Text.Trim()
+            Dim rencanaProsesLahir As String = ComboBoxRencanaProsesLahirTri3.Text.Trim()
+            Dim rencanaKontrasepsi As String = ComboBoxRencanaKontrasepsiTri3.Text.Trim()
+            Dim kebutuhanKonselingKb As String = ComboBoxKonselingKbTri3.Text.Trim()
+            Dim rekomendasiTempatLahir As String = ComboBoxRekomTempatLahirTri3.Text.Trim()
+            Dim catatanPenjelasan As String = TextBoxPenjelasanTriIII.Text.Trim()
+
+            ' 4. Eksekusi SQL Parameterized (CREATE / UPDATE anc_trimester3)
+            If Not isExistTri3 Then
+                Dim queryInsertTri3 As String = _
+                    "INSERT INTO anc_trimester3 (" & _
+                    "id_kunjungan, no_rekam_medis, no_transaksi, usg_dilakukan, uk_usg_minggu, selisih_gt_3minggu, usg_jumlah_bayi, " & _
+                    "usg_letak_kehamilan, usg_presentasi_bayi, usg_keadaan_bayi, usg_djj, usg_djj_ket, " & _
+                    "usg_cairan_ketuban_sdp_cm, usg_cairan_ketuban_ket, bio_bpd_cm, bio_bpd_minggu, bio_hc_cm, bio_hc_minggu, " & _
+                    "bio_ac_cm, bio_ac_minggu, bio_fl_cm, bio_fl_minggu, bio_efw_tbj_gram, bio_efw_tbj_minggu, is_temuan_abnormal, " & _
+                    "catatan_abnormal, path_foto_usg, skrining_jiwa, skrining_jiwa_tgl, skrining_jiwa_tindak_lanjut, skrining_jiwa_perlu_rujukan, " & _
+                    "rencana_konsultasi, rencana_proses_lahir, rencana_kontrasepsi, kebutuhan_konseling_kb, rekomendasi_tempat_lahir, " & _
+                    "catatan_penjelasan, created_at, created_by) " & _
+                    "VALUES (" & _
+                    "@idKunjungan, @noRekamMedis, @noTransaksi, @usgDilakukan, @ukUsgMinggu, @selisihGt3Minggu, @usgJumlahBayi, " & _
+                    "@usgLetakKehamilan, @usgPresentasiBayi, @usgKeadaanBayi, @usgDjj, @usgDjjKet, " & _
+                    "@usgCairanKetubanSdpCm, @usgCairanKetubanKet, @bioBpdCm, @bioBpdMinggu, @bioHcCm, @bioHcMinggu, " & _
+                    "@bioAcCm, @bioAcMinggu, @bioFlCm, @bioFlMinggu, @bioEfwTbjGram, @bioEfwTbjMinggu, @isTemuanAbnormal, " & _
+                    "@catatanAbnormal, @pathFotoUsg, @skriningJiwa, @skriningJiwaTgl, @skriningJiwaTindakLanjut, @skriningJiwaPerluRujukan, " & _
+                    "@rencanaKonsultasi, @rencanaProsesLahir, @rencanaKontrasepsi, @kebutuhanKonselingKb, @rekomendasiTempatLahir, " & _
+                    "@catatanPenjelasan, GETDATE(), @createdBy)"
+
+                WriteParameterizedLokalSQL(queryInsertTri3, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noRekamMedis", noRekamMedis), _
+                    New SqlParameter("@noTransaksi", noTransaksi), _
+                    New SqlParameter("@usgDilakukan", usgDilakukan), _
+                    New SqlParameter("@ukUsgMinggu", ukUsgMinggu), _
+                    New SqlParameter("@selisihGt3Minggu", selisihGt3Minggu), _
+                    New SqlParameter("@usgJumlahBayi", usgJumlahBayi), _
+                    New SqlParameter("@usgLetakKehamilan", usgLetakKehamilan), _
+                    New SqlParameter("@usgPresentasiBayi", usgPresentasiBayi), _
+                    New SqlParameter("@usgKeadaanBayi", usgKeadaanBayi), _
+                    New SqlParameter("@usgDjj", usgDjj), _
+                    New SqlParameter("@usgDjjKet", usgDjjKet), _
+                    New SqlParameter("@usgCairanKetubanSdpCm", usgCairanKetubanSdpCm), _
+                    New SqlParameter("@usgCairanKetubanKet", usgCairanKetubanKet), _
+                    New SqlParameter("@bioBpdCm", bioBpdCm), _
+                    New SqlParameter("@bioBpdMinggu", bioBpdMinggu), _
+                    New SqlParameter("@bioHcCm", bioHcCm), _
+                    New SqlParameter("@bioHcMinggu", bioHcMinggu), _
+                    New SqlParameter("@bioAcCm", bioAcCm), _
+                    New SqlParameter("@bioAcMinggu", bioAcMinggu), _
+                    New SqlParameter("@bioFlCm", bioFlCm), _
+                    New SqlParameter("@bioFlMinggu", bioFlMinggu), _
+                    New SqlParameter("@bioEfwTbjGram", bioEfwTbjGram), _
+                    New SqlParameter("@bioEfwTbjMinggu", bioEfwTbjMinggu), _
+                    New SqlParameter("@isTemuanAbnormal", isTemuanAbnormal), _
+                    New SqlParameter("@catatanAbnormal", catatanAbnormal), _
+                    New SqlParameter("@pathFotoUsg", pathFotoUsg), _
+                    New SqlParameter("@skriningJiwa", skriningJiwa), _
+                    New SqlParameter("@skriningJiwaTgl", skriningJiwaTglVal), _
+                    New SqlParameter("@skriningJiwaTindakLanjut", skriningJiwaTindakLanjut), _
+                    New SqlParameter("@skriningJiwaPerluRujukan", skriningJiwaPerluRujukan), _
+                    New SqlParameter("@rencanaKonsultasi", rencanaKonsultasi), _
+                    New SqlParameter("@rencanaProsesLahir", rencanaProsesLahir), _
+                    New SqlParameter("@rencanaKontrasepsi", rencanaKontrasepsi), _
+                    New SqlParameter("@kebutuhanKonselingKb", kebutuhanKonselingKb), _
+                    New SqlParameter("@rekomendasiTempatLahir", rekomendasiTempatLahir), _
+                    New SqlParameter("@catatanPenjelasan", catatanPenjelasan), _
+                    New SqlParameter("@createdBy", currentUser))
+
+                MsgBox("Berhasil menyimpan data Pemeriksaan Trimester 3 baru.", MsgBoxStyle.Information, "Success!")
+            Else
+                Dim queryUpdateTri3 As String = _
+                    "UPDATE anc_trimester3 SET " & _
+                    "id_kunjungan = @idKunjungan, " & _
+                    "no_transaksi = @noTransaksi, " & _
+                    "usg_dilakukan = @usgDilakukan, " & _
+                    "uk_usg_minggu = @ukUsgMinggu, " & _
+                    "selisih_gt_3minggu = @selisihGt3Minggu, " & _
+                    "usg_jumlah_bayi = @usgJumlahBayi, " & _
+                    "usg_letak_kehamilan = @usgLetakKehamilan, " & _
+                    "usg_presentasi_bayi = @usgPresentasiBayi, " & _
+                    "usg_keadaan_bayi = @usgKeadaanBayi, " & _
+                    "usg_djj = @usgDjj, " & _
+                    "usg_djj_ket = @usgDjjKet, " & _
+                    "usg_cairan_ketuban_sdp_cm = @usgCairanKetubanSdpCm, " & _
+                    "usg_cairan_ketuban_ket = @usgCairanKetubanKet, " & _
+                    "bio_bpd_cm = @bioBpdCm, " & _
+                    "bio_bpd_minggu = @bioBpdMinggu, " & _
+                    "bio_hc_cm = @bioHcCm, " & _
+                    "bio_hc_minggu = @bioHcMinggu, " & _
+                    "bio_ac_cm = @bioAcCm, " & _
+                    "bio_ac_minggu = @bioAcMinggu, " & _
+                    "bio_fl_cm = @bioFlCm, " & _
+                    "bio_fl_minggu = @bioFlMinggu, " & _
+                    "bio_efw_tbj_gram = @bioEfwTbjGram, " & _
+                    "bio_efw_tbj_minggu = @bioEfwTbjMinggu, " & _
+                    "is_temuan_abnormal = @isTemuanAbnormal, " & _
+                    "catatan_abnormal = @catatanAbnormal, " & _
+                    "path_foto_usg = @pathFotoUsg, " & _
+                    "skrining_jiwa = @skriningJiwa, " & _
+                    "skrining_jiwa_tgl = @skriningJiwaTgl, " & _
+                    "skrining_jiwa_tindak_lanjut = @skriningJiwaTindakLanjut, " & _
+                    "skrining_jiwa_perlu_rujukan = @skriningJiwaPerluRujukan, " & _
+                    "rencana_konsultasi = @rencanaKonsultasi, " & _
+                    "rencana_proses_lahir = @rencanaProsesLahir, " & _
+                    "rencana_kontrasepsi = @rencanaKontrasepsi, " & _
+                    "kebutuhan_konseling_kb = @kebutuhanKonselingKb, " & _
+                    "rekomendasi_tempat_lahir = @rekomendasiTempatLahir, " & _
+                    "catatan_penjelasan = @catatanPenjelasan, " & _
+                    "updated_at = GETDATE(), " & _
+                    "updated_by = @updatedBy " & _
+                    "WHERE no_rekam_medis = @noRekamMedis"
+
+                WriteParameterizedLokalSQL(queryUpdateTri3, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noRekamMedis", noRekamMedis), _
+                    New SqlParameter("@noTransaksi", noTransaksi), _
+                    New SqlParameter("@usgDilakukan", usgDilakukan), _
+                    New SqlParameter("@ukUsgMinggu", ukUsgMinggu), _
+                    New SqlParameter("@selisihGt3Minggu", selisihGt3Minggu), _
+                    New SqlParameter("@usgJumlahBayi", usgJumlahBayi), _
+                    New SqlParameter("@usgLetakKehamilan", usgLetakKehamilan), _
+                    New SqlParameter("@usgPresentasiBayi", usgPresentasiBayi), _
+                    New SqlParameter("@usgKeadaanBayi", usgKeadaanBayi), _
+                    New SqlParameter("@usgDjj", usgDjj), _
+                    New SqlParameter("@usgDjjKet", usgDjjKet), _
+                    New SqlParameter("@usgCairanKetubanSdpCm", usgCairanKetubanSdpCm), _
+                    New SqlParameter("@usgCairanKetubanKet", usgCairanKetubanKet), _
+                    New SqlParameter("@bioBpdCm", bioBpdCm), _
+                    New SqlParameter("@bioBpdMinggu", bioBpdMinggu), _
+                    New SqlParameter("@bioHcCm", bioHcCm), _
+                    New SqlParameter("@bioHcMinggu", bioHcMinggu), _
+                    New SqlParameter("@bioAcCm", bioAcCm), _
+                    New SqlParameter("@bioAcMinggu", bioAcMinggu), _
+                    New SqlParameter("@bioFlCm", bioFlCm), _
+                    New SqlParameter("@bioFlMinggu", bioFlMinggu), _
+                    New SqlParameter("@bioEfwTbjGram", bioEfwTbjGram), _
+                    New SqlParameter("@bioEfwTbjMinggu", bioEfwTbjMinggu), _
+                    New SqlParameter("@isTemuanAbnormal", isTemuanAbnormal), _
+                    New SqlParameter("@catatanAbnormal", catatanAbnormal), _
+                    New SqlParameter("@pathFotoUsg", pathFotoUsg), _
+                    New SqlParameter("@skriningJiwa", skriningJiwa), _
+                    New SqlParameter("@skriningJiwaTgl", skriningJiwaTglVal), _
+                    New SqlParameter("@skriningJiwaTindakLanjut", skriningJiwaTindakLanjut), _
+                    New SqlParameter("@skriningJiwaPerluRujukan", skriningJiwaPerluRujukan), _
+                    New SqlParameter("@rencanaKonsultasi", rencanaKonsultasi), _
+                    New SqlParameter("@rencanaProsesLahir", rencanaProsesLahir), _
+                    New SqlParameter("@rencanaKontrasepsi", rencanaKontrasepsi), _
+                    New SqlParameter("@kebutuhanKonselingKb", kebutuhanKonselingKb), _
+                    New SqlParameter("@rekomendasiTempatLahir", rekomendasiTempatLahir), _
+                    New SqlParameter("@catatanPenjelasan", catatanPenjelasan), _
+                    New SqlParameter("@updatedBy", currentUser))
+
+                MsgBox("Berhasil mengubah data Pemeriksaan Trimester 3.", MsgBoxStyle.Information, "Success!")
+            End If
+
+            ' 5. Simpan Pemeriksaan Fisik (anc_pemeriksaan_fisik)
+            Dim listFisik() As ItemFisik = { _
+                New ItemFisik("Keadaan Umum", "", TextBoxKeadaanUmumTriIII.Text.Trim()), _
+                New ItemFisik("Konjungtiva", ComboBoxKonjungtivaTriIII.Text.Trim(), TextBoxKonjungtivaTriIII.Text.Trim()), _
+                New ItemFisik("Sklera", ComboBoxSkleraTriIII.Text.Trim(), TextBoxSkleraTriIII.Text.Trim()), _
+                New ItemFisik("Kulit", ComboBoxKulitTriIII.Text.Trim(), TextBoxKulitTriIII.Text.Trim()), _
+                New ItemFisik("Leher", ComboBoxLeherTriIII.Text.Trim(), TextBoxLeherTriIII.Text.Trim()), _
+                New ItemFisik("Gigi & Mulut", ComboBoxGigiTriIII.Text.Trim(), TextBoxGigiTriIII.Text.Trim()), _
+                New ItemFisik("THT", ComboBoxThtTriIII.Text.Trim(), TextBoxThtTriIII.Text.Trim()), _
+                New ItemFisik("Dada", ComboBoxDadaTriIII.Text.Trim(), TextBoxDadaTriIII.Text.Trim()), _
+                New ItemFisik("Paru", ComboBoxParuTriIII.Text.Trim(), TextBoxParuTriIII.Text.Trim()), _
+                New ItemFisik("Tungkai", ComboBoxTungkaiTriIII.Text.Trim(), TextBoxTungkaiTriIII.Text.Trim()) _
+            }
+
+            For Each item As ItemFisik In listFisik
+                Dim organ As String = item.Organ
+                Dim kondisi As String = item.Status
+
+                Dim catatan As Object
+                If String.IsNullOrEmpty(item.Catatan) Then
+                    catatan = DBNull.Value
+                Else
+                    catatan = item.Catatan
+                End If
+
+                If Not String.IsNullOrEmpty(kondisi) OrElse Not String.IsNullOrEmpty(item.Catatan) Then
+                    Dim isExistOrgan As Boolean = CheckSQL("SELECT * FROM anc_pemeriksaan_fisik WHERE id_kunjungan = " & idKunjungan & " AND organ_pemeriksaan = '" & organ & "'")
+
+                    If Not isExistOrgan Then
+                        Dim queryInsertOrgan As String = _
+                            "INSERT INTO anc_pemeriksaan_fisik (" & _
+                            "id_kunjungan, organ_pemeriksaan, status_kondisi, catatan_keterangan, created_at, created_by) " & _
+                            "VALUES (@idKunjungan, @organ, @kondisi, @catatan, GETDATE(), @createdBy)"
+
+                        WriteParameterizedLokalSQL(queryInsertOrgan, 4, _
+                            New SqlParameter("@idKunjungan", idKunjungan), _
+                            New SqlParameter("@organ", organ), _
+                            New SqlParameter("@kondisi", kondisi), _
+                            New SqlParameter("@catatan", catatan), _
+                            New SqlParameter("@createdBy", currentUser))
+                    Else
+                        Dim queryUpdateOrgan As String = _
+                            "UPDATE anc_pemeriksaan_fisik SET " & _
+                            "status_kondisi = @kondisi, " & _
+                            "catatan_keterangan = @catatan, " & _
+                            "updated_at = GETDATE(), " & _
+                            "updated_by = @updatedBy " & _
+                            "WHERE id_kunjungan = @idKunjungan AND organ_pemeriksaan = @organ"
+
+                        WriteParameterizedLokalSQL(queryUpdateOrgan, 4, _
+                            New SqlParameter("@idKunjungan", idKunjungan), _
+                            New SqlParameter("@organ", organ), _
+                            New SqlParameter("@kondisi", kondisi), _
+                            New SqlParameter("@catatan", catatan), _
+                            New SqlParameter("@updatedBy", currentUser))
+                    End If
+                End If
+            Next
+
+            MsgBox("Berhasil menyimpan data Pelayanan Trimester 3 dan Pemeriksaan Fisik Pasien!", MsgBoxStyle.Information, "Success!")
+
+            ' Refresh tampilan form
+            LoadDataTrimesterIII()
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Simpan Trimester 3")
+        End Try
+    End Sub
+
+    Private Sub LoadDataTrimesterIII()
+        If String.IsNullOrEmpty(idPasien) Then Exit Sub
+
+        Try
+            ' 1. Load Data dari Tabel anc_trimester3 berdasarkan no_rekam_medis terbaru
+            Dim queryTri3 As String = _
+                "SELECT TOP 1 " & _
+                "    usg_dilakukan, uk_usg_minggu, selisih_gt_3minggu, usg_jumlah_bayi, usg_letak_kehamilan, " & _
+                "    usg_presentasi_bayi, usg_keadaan_bayi, usg_djj, usg_djj_ket, " & _
+                "    usg_cairan_ketuban_sdp_cm, usg_cairan_ketuban_ket, bio_bpd_cm, bio_bpd_minggu, bio_hc_cm, " & _
+                "    bio_hc_minggu, bio_ac_cm, bio_ac_minggu, bio_fl_cm, bio_fl_minggu, bio_efw_tbj_gram, " & _
+                "    bio_efw_tbj_minggu, is_temuan_abnormal, catatan_abnormal, skrining_jiwa, skrining_jiwa_tgl, " & _
+                "    skrining_jiwa_tindak_lanjut, skrining_jiwa_perlu_rujukan, rencana_konsultasi, rencana_proses_lahir, " & _
+                "    rencana_kontrasepsi, kebutuhan_konseling_kb, rekomendasi_tempat_lahir, catatan_penjelasan " & _
+                "FROM anc_trimester3 " & _
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "ORDER BY id_tri3 DESC"
+
+            Dim dtTri3 As DataTable = ReadSQL(queryTri3)
+
+            If dtTri3 IsNot Nothing AndAlso dtTri3.Rows.Count > 0 Then
+                Dim row As DataRow = dtTri3.Rows(0)
+
+                ' USG & Kehamilan
+                ComboBoxUsgTriIII.Text = row("usg_dilakukan").ToString()
+                TextBoxUkKehamilanTriIII.Text = row("uk_usg_minggu").ToString()
+                ComboBoxSelisihTriIII.Text = row("selisih_gt_3minggu").ToString()
+                ComboBoxJmlBayiTri3.Text = row("usg_jumlah_bayi").ToString()
+                ComboBoxLetakHamilTri3.Text = row("usg_letak_kehamilan").ToString()
+                ComboBoxPresentasiBayiTri3.Text = row("usg_presentasi_bayi").ToString()
+                ComboBoxKeadaanBayiTri3.Text = row("usg_keadaan_bayi").ToString()
+                TextBoxUsgDjjTri3.Text = row("usg_djj").ToString()
+                ComboBoxKeteranganDjj.Text = row("usg_djj_ket").ToString()
+
+                If Not IsDBNull(row("usg_cairan_ketuban_sdp_cm")) Then
+                    TextBoxSdp.Text = Convert.ToDecimal(row("usg_cairan_ketuban_sdp_cm")).ToString("0.##")
+                Else
+                    TextBoxSdp.Clear()
+                End If
+
+                ComboBoxKetuban.Text = row("usg_cairan_ketuban_ket").ToString()
+
+                ' Load Biometri Janin
+                If Not IsDBNull(row("bio_bpd_cm")) Then
+                    TextBoxBpd.Text = Convert.ToDecimal(row("bio_bpd_cm")).ToString("0.##")
+                Else
+                    TextBoxBpd.Clear()
+                End If
+                TextBoxSesuaiSdp.Text = row("bio_bpd_minggu").ToString()
+
+                If Not IsDBNull(row("bio_hc_cm")) Then
+                    TextBoxHc.Text = Convert.ToDecimal(row("bio_hc_cm")).ToString("0.##")
+                Else
+                    TextBoxHc.Clear()
+                End If
+                TextBoxSesuaiHc.Text = row("bio_hc_minggu").ToString()
+
+                If Not IsDBNull(row("bio_ac_cm")) Then
+                    TextBoxAc.Text = Convert.ToDecimal(row("bio_ac_cm")).ToString("0.##")
+                Else
+                    TextBoxAc.Clear()
+                End If
+                TextBoxSesuaiAc.Text = row("bio_ac_minggu").ToString()
+
+                If Not IsDBNull(row("bio_fl_cm")) Then
+                    TextBoxFl.Text = Convert.ToDecimal(row("bio_fl_cm")).ToString("0.##")
+                Else
+                    TextBoxFl.Clear()
+                End If
+                TextBoxSesuaiFl.Text = row("bio_fl_minggu").ToString()
+
+                TextBoxEfw.Text = row("bio_efw_tbj_gram").ToString()
+                TextBoxSesuaiEfw.Text = row("bio_efw_tbj_minggu").ToString()
+
+                ' Temuan Abnormal
+                ComboBoxAbnormalTriIII.Text = row("is_temuan_abnormal").ToString()
+                TextBoxAbnormalTriIII.Text = row("catatan_abnormal").ToString()
+
+                ' Skrining Jiwa
+                ComboBoxSkriningJiwaTriIII.Text = row("skrining_jiwa").ToString()
+
+                If Not IsDBNull(row("skrining_jiwa_tgl")) Then
+                    DateTimePickerSkriningJiwaTriIII.Value = Convert.ToDateTime(row("skrining_jiwa_tgl"))
+                    DateTimePickerSkriningJiwaTriIII.Checked = True
+                Else
+                    DateTimePickerSkriningJiwaTriIII.Checked = False
+                End If
+
+                ComboBoxTindaklanjutTriIII.Text = row("skrining_jiwa_tindak_lanjut").ToString()
+                ComboBoxRujukanTriIII.Text = row("skrining_jiwa_perlu_rujukan").ToString()
+
+                ' Rencana Persalinan & KB
+                ComboBoxRencanaKonsultasiTri3.Text = row("rencana_konsultasi").ToString()
+                ComboBoxRencanaProsesLahirTri3.Text = row("rencana_proses_lahir").ToString()
+                ComboBoxRencanaKontrasepsiTri3.Text = row("rencana_kontrasepsi").ToString()
+                ComboBoxKonselingKbTri3.Text = row("kebutuhan_konseling_kb").ToString()
+                ComboBoxRekomTempatLahirTri3.Text = row("rekomendasi_tempat_lahir").ToString()
+                TextBoxPenjelasanTriIII.Text = row("catatan_penjelasan").ToString()
+            End If
+
+            ' 2. Load Data dari Tabel anc_pemeriksaan_fisik Khusus Trimester III
+            Dim queryFisik As String = _
+                "SELECT organ_pemeriksaan, status_kondisi, catatan_keterangan " & _
+                "FROM anc_pemeriksaan_fisik " & _
+                "WHERE id_kunjungan IN (" & _
+                "    SELECT id_kunjungan FROM anc_kunjungan WHERE no_rekam_medis = '" & idPasien & "' AND (trimester = '3' OR trimester = 'III')" & _
+                ")"
+
+            Dim dtFisik As DataTable = ReadSQL(queryFisik)
+
+            If dtFisik IsNot Nothing AndAlso dtFisik.Rows.Count > 0 Then
+                For Each rowFisik As DataRow In dtFisik.Rows
+                    Dim organ As String = rowFisik("organ_pemeriksaan").ToString()
+                    Dim status As String = rowFisik("status_kondisi").ToString()
+                    Dim catatan As String = rowFisik("catatan_keterangan").ToString()
+
+                    Select Case organ.Trim()
+                        Case "Konjungtiva"
+                            ComboBoxKonjungtivaTriIII.Text = status
+                            TextBoxKonjungtivaTriIII.Text = catatan
+                        Case "Sklera"
+                            ComboBoxSkleraTriIII.Text = status
+                            TextBoxSkleraTriIII.Text = catatan
+                        Case "Kulit"
+                            ComboBoxKulitTriIII.Text = status
+                            TextBoxKulitTriIII.Text = catatan
+                        Case "Leher"
+                            ComboBoxLeherTriIII.Text = status
+                            TextBoxLeherTriIII.Text = catatan
+                        Case "Gigi & Mulut"
+                            ComboBoxGigiTriIII.Text = status
+                            TextBoxGigiTriIII.Text = catatan
+                        Case "THT"
+                            ComboBoxThtTriIII.Text = status
+                            TextBoxThtTriIII.Text = catatan
+                        Case "Dada"
+                            ComboBoxDadaTriIII.Text = status
+                            TextBoxDadaTriIII.Text = catatan
+                        Case "Paru"
+                            ComboBoxParuTriIII.Text = status
+                            TextBoxParuTriIII.Text = catatan
+                        Case "Tungkai"
+                            ComboBoxTungkaiTriIII.Text = status
+                            TextBoxTungkaiTriIII.Text = catatan
+                        Case "Keadaan Umum"
+                            TextBoxKeadaanUmumTriIII.Text = catatan
+                    End Select
+                Next
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Trimester 3")
         End Try
     End Sub
 End Class

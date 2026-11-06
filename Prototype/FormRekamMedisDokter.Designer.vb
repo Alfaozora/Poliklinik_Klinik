@@ -958,8 +958,6 @@ Me.SplitContainer27 = New System.Windows.Forms.SplitContainer
 Me.SplitContainer28 = New System.Windows.Forms.SplitContainer
 Me.ButtonSimpanTriIII = New System.Windows.Forms.Button
 Me.GroupBox50 = New System.Windows.Forms.GroupBox
-Me.RadioButtonFkrtlTriIII = New System.Windows.Forms.RadioButton
-Me.RadioButtonFktpTriIII = New System.Windows.Forms.RadioButton
 Me.Label584 = New System.Windows.Forms.Label
 Me.Label580 = New System.Windows.Forms.Label
 Me.Label581 = New System.Windows.Forms.Label
@@ -969,10 +967,10 @@ Me.Label583 = New System.Windows.Forms.Label
 Me.GroupBox46 = New System.Windows.Forms.GroupBox
 Me.ButtonUsgTriIII = New System.Windows.Forms.Button
 Me.GroupBox49 = New System.Windows.Forms.GroupBox
-Me.ComboBox11 = New System.Windows.Forms.ComboBox
-Me.ComboBox3 = New System.Windows.Forms.ComboBox
-Me.ComboBox9 = New System.Windows.Forms.ComboBox
-Me.ComboBox10 = New System.Windows.Forms.ComboBox
+Me.ComboBoxRencanaKonsultasiTri3 = New System.Windows.Forms.ComboBox
+Me.ComboBoxKonselingKbTri3 = New System.Windows.Forms.ComboBox
+Me.ComboBoxRencanaKontrasepsiTri3 = New System.Windows.Forms.ComboBox
+Me.ComboBoxRencanaProsesLahirTri3 = New System.Windows.Forms.ComboBox
 Me.Label572 = New System.Windows.Forms.Label
 Me.Label573 = New System.Windows.Forms.Label
 Me.Label574 = New System.Windows.Forms.Label
@@ -1073,20 +1071,20 @@ Me.Label528 = New System.Windows.Forms.Label
 Me.Label515 = New System.Windows.Forms.Label
 Me.Label516 = New System.Windows.Forms.Label
 Me.ComboBoxKeteranganDjj = New System.Windows.Forms.ComboBox
-Me.ComboBox7 = New System.Windows.Forms.ComboBox
+Me.ComboBoxKeadaanBayiTri3 = New System.Windows.Forms.ComboBox
 Me.Label523 = New System.Windows.Forms.Label
 Me.Label524 = New System.Windows.Forms.Label
-Me.ComboBox5 = New System.Windows.Forms.ComboBox
+Me.ComboBoxLetakHamilTri3 = New System.Windows.Forms.ComboBox
 Me.Label519 = New System.Windows.Forms.Label
 Me.Label520 = New System.Windows.Forms.Label
-Me.ComboBox4 = New System.Windows.Forms.ComboBox
+Me.ComboBoxPresentasiBayiTri3 = New System.Windows.Forms.ComboBox
 Me.Label517 = New System.Windows.Forms.Label
 Me.Label518 = New System.Windows.Forms.Label
 Me.TextBox101 = New System.Windows.Forms.TextBox
-Me.TextBox102 = New System.Windows.Forms.TextBox
+Me.TextBoxUsgDjjTri3 = New System.Windows.Forms.TextBox
 Me.Label521 = New System.Windows.Forms.Label
 Me.Label522 = New System.Windows.Forms.Label
-Me.ComboBox6 = New System.Windows.Forms.ComboBox
+Me.ComboBoxJmlBayiTri3 = New System.Windows.Forms.ComboBox
 Me.Label525 = New System.Windows.Forms.Label
 Me.Label526 = New System.Windows.Forms.Label
 Me.ComboBoxUsgTriIII = New System.Windows.Forms.ComboBox
@@ -1767,6 +1765,7 @@ Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+Me.ComboBoxRekomTempatLahirTri3 = New System.Windows.Forms.ComboBox
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -11114,7 +11113,7 @@ Me.ButtonTampilUsgI.Location = New System.Drawing.Point(27, 36)
 Me.ButtonTampilUsgI.Name = "ButtonTampilUsgI"
 Me.ButtonTampilUsgI.Size = New System.Drawing.Size(181, 30)
 Me.ButtonTampilUsgI.TabIndex = 454
-Me.ButtonTampilUsgI.Text = "Tampilkan Gambar"
+Me.ButtonTampilUsgI.Text = "Tampilkan Hasil"
 Me.ButtonTampilUsgI.UseVisualStyleBackColor = false
 '
 'GroupBox37
@@ -13436,8 +13435,7 @@ Me.ButtonSimpanTriIII.UseVisualStyleBackColor = false
 '
 'GroupBox50
 '
-Me.GroupBox50.Controls.Add(Me.RadioButtonFkrtlTriIII)
-Me.GroupBox50.Controls.Add(Me.RadioButtonFktpTriIII)
+Me.GroupBox50.Controls.Add(Me.ComboBoxRekomTempatLahirTri3)
 Me.GroupBox50.Controls.Add(Me.Label584)
 Me.GroupBox50.Controls.Add(Me.Label580)
 Me.GroupBox50.Controls.Add(Me.Label581)
@@ -13450,28 +13448,6 @@ Me.GroupBox50.Size = New System.Drawing.Size(237, 205)
 Me.GroupBox50.TabIndex = 510
 Me.GroupBox50.TabStop = false
 Me.GroupBox50.Text = "Penjelasan"
-'
-'RadioButtonFkrtlTriIII
-'
-Me.RadioButtonFkrtlTriIII.AutoSize = true
-Me.RadioButtonFkrtlTriIII.Location = New System.Drawing.Point(69, 178)
-Me.RadioButtonFkrtlTriIII.Name = "RadioButtonFkrtlTriIII"
-Me.RadioButtonFkrtlTriIII.Size = New System.Drawing.Size(60, 21)
-Me.RadioButtonFkrtlTriIII.TabIndex = 447
-Me.RadioButtonFkrtlTriIII.TabStop = true
-Me.RadioButtonFkrtlTriIII.Text = "FKRTL"
-Me.RadioButtonFkrtlTriIII.UseVisualStyleBackColor = true
-'
-'RadioButtonFktpTriIII
-'
-Me.RadioButtonFktpTriIII.AutoSize = true
-Me.RadioButtonFktpTriIII.Location = New System.Drawing.Point(9, 178)
-Me.RadioButtonFktpTriIII.Name = "RadioButtonFktpTriIII"
-Me.RadioButtonFktpTriIII.Size = New System.Drawing.Size(54, 21)
-Me.RadioButtonFktpTriIII.TabIndex = 446
-Me.RadioButtonFktpTriIII.TabStop = true
-Me.RadioButtonFktpTriIII.Text = "FKTP"
-Me.RadioButtonFktpTriIII.UseVisualStyleBackColor = true
 '
 'Label584
 '
@@ -13559,16 +13535,16 @@ Me.ButtonUsgTriIII.Location = New System.Drawing.Point(26, 39)
 Me.ButtonUsgTriIII.Name = "ButtonUsgTriIII"
 Me.ButtonUsgTriIII.Size = New System.Drawing.Size(181, 30)
 Me.ButtonUsgTriIII.TabIndex = 454
-Me.ButtonUsgTriIII.Text = "Tampilkan Gambar"
+Me.ButtonUsgTriIII.Text = "Tampilkan Hasil"
 Me.ButtonUsgTriIII.UseVisualStyleBackColor = false
 '
 'GroupBox49
 '
 Me.GroupBox49.AutoSize = true
-Me.GroupBox49.Controls.Add(Me.ComboBox11)
-Me.GroupBox49.Controls.Add(Me.ComboBox3)
-Me.GroupBox49.Controls.Add(Me.ComboBox9)
-Me.GroupBox49.Controls.Add(Me.ComboBox10)
+Me.GroupBox49.Controls.Add(Me.ComboBoxRencanaKonsultasiTri3)
+Me.GroupBox49.Controls.Add(Me.ComboBoxKonselingKbTri3)
+Me.GroupBox49.Controls.Add(Me.ComboBoxRencanaKontrasepsiTri3)
+Me.GroupBox49.Controls.Add(Me.ComboBoxRencanaProsesLahirTri3)
 Me.GroupBox49.Controls.Add(Me.Label572)
 Me.GroupBox49.Controls.Add(Me.Label573)
 Me.GroupBox49.Controls.Add(Me.Label574)
@@ -13586,49 +13562,49 @@ Me.GroupBox49.TabIndex = 475
 Me.GroupBox49.TabStop = false
 Me.GroupBox49.Text = "Rencana"
 '
-'ComboBox11
+'ComboBoxRencanaKonsultasiTri3
 '
-Me.ComboBox11.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox11.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox11.FormattingEnabled = true
-Me.ComboBox11.Items.AddRange(New Object() {"Gizi", "Kebidanan", "Anak", "Penyakit Dalam", "Neurologi", "THT", "Psikiatri", "Lain-Lain"})
-Me.ComboBox11.Location = New System.Drawing.Point(216, 19)
-Me.ComboBox11.Name = "ComboBox11"
-Me.ComboBox11.Size = New System.Drawing.Size(179, 25)
-Me.ComboBox11.TabIndex = 496
+Me.ComboBoxRencanaKonsultasiTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRencanaKonsultasiTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRencanaKonsultasiTri3.FormattingEnabled = true
+Me.ComboBoxRencanaKonsultasiTri3.Items.AddRange(New Object() {"Gizi", "Kebidanan", "Anak", "Penyakit Dalam", "Neurologi", "THT", "Psikiatri", "Lain-Lain"})
+Me.ComboBoxRencanaKonsultasiTri3.Location = New System.Drawing.Point(216, 19)
+Me.ComboBoxRencanaKonsultasiTri3.Name = "ComboBoxRencanaKonsultasiTri3"
+Me.ComboBoxRencanaKonsultasiTri3.Size = New System.Drawing.Size(179, 25)
+Me.ComboBoxRencanaKonsultasiTri3.TabIndex = 496
 '
-'ComboBox3
+'ComboBoxKonselingKbTri3
 '
-Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox3.FormattingEnabled = true
-Me.ComboBox3.Items.AddRange(New Object() {"Ya", "Tidak"})
-Me.ComboBox3.Location = New System.Drawing.Point(216, 113)
-Me.ComboBox3.Name = "ComboBox3"
-Me.ComboBox3.Size = New System.Drawing.Size(179, 25)
-Me.ComboBox3.TabIndex = 495
+Me.ComboBoxKonselingKbTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKonselingKbTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKonselingKbTri3.FormattingEnabled = true
+Me.ComboBoxKonselingKbTri3.Items.AddRange(New Object() {"Ya", "Tidak"})
+Me.ComboBoxKonselingKbTri3.Location = New System.Drawing.Point(216, 113)
+Me.ComboBoxKonselingKbTri3.Name = "ComboBoxKonselingKbTri3"
+Me.ComboBoxKonselingKbTri3.Size = New System.Drawing.Size(179, 25)
+Me.ComboBoxKonselingKbTri3.TabIndex = 495
 '
-'ComboBox9
+'ComboBoxRencanaKontrasepsiTri3
 '
-Me.ComboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox9.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox9.FormattingEnabled = true
-Me.ComboBox9.Items.AddRange(New Object() {"AKDR", "Suntik", "Pil", "Steril", "MAL", "Implan", "Belum Memilih"})
-Me.ComboBox9.Location = New System.Drawing.Point(216, 82)
-Me.ComboBox9.Name = "ComboBox9"
-Me.ComboBox9.Size = New System.Drawing.Size(179, 25)
-Me.ComboBox9.TabIndex = 494
+Me.ComboBoxRencanaKontrasepsiTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRencanaKontrasepsiTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRencanaKontrasepsiTri3.FormattingEnabled = true
+Me.ComboBoxRencanaKontrasepsiTri3.Items.AddRange(New Object() {"AKDR", "Suntik", "Pil", "Steril", "MAL", "Implan", "Belum Memilih"})
+Me.ComboBoxRencanaKontrasepsiTri3.Location = New System.Drawing.Point(216, 82)
+Me.ComboBoxRencanaKontrasepsiTri3.Name = "ComboBoxRencanaKontrasepsiTri3"
+Me.ComboBoxRencanaKontrasepsiTri3.Size = New System.Drawing.Size(179, 25)
+Me.ComboBoxRencanaKontrasepsiTri3.TabIndex = 494
 '
-'ComboBox10
+'ComboBoxRencanaProsesLahirTri3
 '
-Me.ComboBox10.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox10.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox10.FormattingEnabled = true
-Me.ComboBox10.Items.AddRange(New Object() {"Normal", "Pervaginam berbantu", "Sectio caesaria"})
-Me.ComboBox10.Location = New System.Drawing.Point(216, 50)
-Me.ComboBox10.Name = "ComboBox10"
-Me.ComboBox10.Size = New System.Drawing.Size(179, 25)
-Me.ComboBox10.TabIndex = 493
+Me.ComboBoxRencanaProsesLahirTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRencanaProsesLahirTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRencanaProsesLahirTri3.FormattingEnabled = true
+Me.ComboBoxRencanaProsesLahirTri3.Items.AddRange(New Object() {"Normal", "Pervaginam berbantu", "Sectio caesaria"})
+Me.ComboBoxRencanaProsesLahirTri3.Location = New System.Drawing.Point(216, 50)
+Me.ComboBoxRencanaProsesLahirTri3.Name = "ComboBoxRencanaProsesLahirTri3"
+Me.ComboBoxRencanaProsesLahirTri3.Size = New System.Drawing.Size(179, 25)
+Me.ComboBoxRencanaProsesLahirTri3.TabIndex = 493
 '
 'Label572
 '
@@ -14163,20 +14139,20 @@ Me.GroupBox44.Controls.Add(Me.Label528)
 Me.GroupBox44.Controls.Add(Me.Label515)
 Me.GroupBox44.Controls.Add(Me.Label516)
 Me.GroupBox44.Controls.Add(Me.ComboBoxKeteranganDjj)
-Me.GroupBox44.Controls.Add(Me.ComboBox7)
+Me.GroupBox44.Controls.Add(Me.ComboBoxKeadaanBayiTri3)
 Me.GroupBox44.Controls.Add(Me.Label523)
 Me.GroupBox44.Controls.Add(Me.Label524)
-Me.GroupBox44.Controls.Add(Me.ComboBox5)
+Me.GroupBox44.Controls.Add(Me.ComboBoxLetakHamilTri3)
 Me.GroupBox44.Controls.Add(Me.Label519)
 Me.GroupBox44.Controls.Add(Me.Label520)
-Me.GroupBox44.Controls.Add(Me.ComboBox4)
+Me.GroupBox44.Controls.Add(Me.ComboBoxPresentasiBayiTri3)
 Me.GroupBox44.Controls.Add(Me.Label517)
 Me.GroupBox44.Controls.Add(Me.Label518)
 Me.GroupBox44.Controls.Add(Me.TextBox101)
-Me.GroupBox44.Controls.Add(Me.TextBox102)
+Me.GroupBox44.Controls.Add(Me.TextBoxUsgDjjTri3)
 Me.GroupBox44.Controls.Add(Me.Label521)
 Me.GroupBox44.Controls.Add(Me.Label522)
-Me.GroupBox44.Controls.Add(Me.ComboBox6)
+Me.GroupBox44.Controls.Add(Me.ComboBoxJmlBayiTri3)
 Me.GroupBox44.Controls.Add(Me.Label525)
 Me.GroupBox44.Controls.Add(Me.Label526)
 Me.GroupBox44.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
@@ -14773,16 +14749,16 @@ Me.ComboBoxKeteranganDjj.Name = "ComboBoxKeteranganDjj"
 Me.ComboBoxKeteranganDjj.Size = New System.Drawing.Size(118, 25)
 Me.ComboBoxKeteranganDjj.TabIndex = 500
 '
-'ComboBox7
+'ComboBoxKeadaanBayiTri3
 '
-Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox7.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox7.FormattingEnabled = true
-Me.ComboBox7.Items.AddRange(New Object() {"Hidup", "Meninggal"})
-Me.ComboBox7.Location = New System.Drawing.Point(174, 116)
-Me.ComboBox7.Name = "ComboBox7"
-Me.ComboBox7.Size = New System.Drawing.Size(118, 25)
-Me.ComboBox7.TabIndex = 499
+Me.ComboBoxKeadaanBayiTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxKeadaanBayiTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxKeadaanBayiTri3.FormattingEnabled = true
+Me.ComboBoxKeadaanBayiTri3.Items.AddRange(New Object() {"Hidup", "Meninggal"})
+Me.ComboBoxKeadaanBayiTri3.Location = New System.Drawing.Point(174, 116)
+Me.ComboBoxKeadaanBayiTri3.Name = "ComboBoxKeadaanBayiTri3"
+Me.ComboBoxKeadaanBayiTri3.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxKeadaanBayiTri3.TabIndex = 499
 '
 'Label523
 '
@@ -14804,16 +14780,16 @@ Me.Label524.Size = New System.Drawing.Size(86, 17)
 Me.Label524.TabIndex = 497
 Me.Label524.Text = "Keadaan Bayi"
 '
-'ComboBox5
+'ComboBoxLetakHamilTri3
 '
-Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox5.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox5.FormattingEnabled = true
-Me.ComboBox5.Items.AddRange(New Object() {"Intrauterin", "Extrauterin", "Tidak Dapat Ditentukan"})
-Me.ComboBox5.Location = New System.Drawing.Point(174, 55)
-Me.ComboBox5.Name = "ComboBox5"
-Me.ComboBox5.Size = New System.Drawing.Size(118, 25)
-Me.ComboBox5.TabIndex = 496
+Me.ComboBoxLetakHamilTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxLetakHamilTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxLetakHamilTri3.FormattingEnabled = true
+Me.ComboBoxLetakHamilTri3.Items.AddRange(New Object() {"Intrauterin", "Extrauterin", "Tidak Dapat Ditentukan"})
+Me.ComboBoxLetakHamilTri3.Location = New System.Drawing.Point(174, 55)
+Me.ComboBoxLetakHamilTri3.Name = "ComboBoxLetakHamilTri3"
+Me.ComboBoxLetakHamilTri3.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxLetakHamilTri3.TabIndex = 496
 '
 'Label519
 '
@@ -14835,16 +14811,16 @@ Me.Label520.Size = New System.Drawing.Size(102, 17)
 Me.Label520.TabIndex = 494
 Me.Label520.Text = "Letak Kehamilan"
 '
-'ComboBox4
+'ComboBoxPresentasiBayiTri3
 '
-Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox4.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox4.FormattingEnabled = true
-Me.ComboBox4.Items.AddRange(New Object() {"Kepala", "Bokong", "Letak Lintang"})
-Me.ComboBox4.Location = New System.Drawing.Point(174, 85)
-Me.ComboBox4.Name = "ComboBox4"
-Me.ComboBox4.Size = New System.Drawing.Size(118, 25)
-Me.ComboBox4.TabIndex = 489
+Me.ComboBoxPresentasiBayiTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxPresentasiBayiTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxPresentasiBayiTri3.FormattingEnabled = true
+Me.ComboBoxPresentasiBayiTri3.Items.AddRange(New Object() {"Kepala", "Bokong", "Letak Lintang"})
+Me.ComboBoxPresentasiBayiTri3.Location = New System.Drawing.Point(174, 85)
+Me.ComboBoxPresentasiBayiTri3.Name = "ComboBoxPresentasiBayiTri3"
+Me.ComboBoxPresentasiBayiTri3.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxPresentasiBayiTri3.TabIndex = 489
 '
 'Label517
 '
@@ -14877,16 +14853,16 @@ Me.TextBox101.ReadOnly = true
 Me.TextBox101.Size = New System.Drawing.Size(60, 25)
 Me.TextBox101.TabIndex = 481
 Me.TextBox101.TabStop = false
-Me.TextBox101.Text = "X/m"
+Me.TextBox101.Text = "x /m"
 Me.TextBox101.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
-'TextBox102
+'TextBoxUsgDjjTri3
 '
-Me.TextBox102.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBox102.Location = New System.Drawing.Point(342, 117)
-Me.TextBox102.Name = "TextBox102"
-Me.TextBox102.Size = New System.Drawing.Size(56, 25)
-Me.TextBox102.TabIndex = 480
+Me.TextBoxUsgDjjTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxUsgDjjTri3.Location = New System.Drawing.Point(342, 117)
+Me.TextBoxUsgDjjTri3.Name = "TextBoxUsgDjjTri3"
+Me.TextBoxUsgDjjTri3.Size = New System.Drawing.Size(56, 25)
+Me.TextBoxUsgDjjTri3.TabIndex = 480
 '
 'Label521
 '
@@ -14908,16 +14884,16 @@ Me.Label522.Size = New System.Drawing.Size(26, 17)
 Me.Label522.TabIndex = 478
 Me.Label522.Text = "DJJ"
 '
-'ComboBox6
+'ComboBoxJmlBayiTri3
 '
-Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBox6.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBox6.FormattingEnabled = true
-Me.ComboBox6.Items.AddRange(New Object() {"Tunggal", "Kembar"})
-Me.ComboBox6.Location = New System.Drawing.Point(174, 24)
-Me.ComboBox6.Name = "ComboBox6"
-Me.ComboBox6.Size = New System.Drawing.Size(118, 25)
-Me.ComboBox6.TabIndex = 475
+Me.ComboBoxJmlBayiTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxJmlBayiTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxJmlBayiTri3.FormattingEnabled = true
+Me.ComboBoxJmlBayiTri3.Items.AddRange(New Object() {"Tunggal", "Kembar"})
+Me.ComboBoxJmlBayiTri3.Location = New System.Drawing.Point(174, 24)
+Me.ComboBoxJmlBayiTri3.Name = "ComboBoxJmlBayiTri3"
+Me.ComboBoxJmlBayiTri3.Size = New System.Drawing.Size(118, 25)
+Me.ComboBoxJmlBayiTri3.TabIndex = 475
 '
 'Label525
 '
@@ -23586,6 +23562,17 @@ Me.TimerAPI.Interval = 60000
 '
 Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
+'ComboBoxRekomTempatLahirTri3
+'
+Me.ComboBoxRekomTempatLahirTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRekomTempatLahirTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRekomTempatLahirTri3.FormattingEnabled = true
+Me.ComboBoxRekomTempatLahirTri3.Items.AddRange(New Object() {"FKTP", "FKRTL"})
+Me.ComboBoxRekomTempatLahirTri3.Location = New System.Drawing.Point(9, 176)
+Me.ComboBoxRekomTempatLahirTri3.Name = "ComboBoxRekomTempatLahirTri3"
+Me.ComboBoxRekomTempatLahirTri3.Size = New System.Drawing.Size(210, 25)
+Me.ComboBoxRekomTempatLahirTri3.TabIndex = 496
+'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -25694,14 +25681,14 @@ End Sub
     Friend WithEvents Label514 As System.Windows.Forms.Label
     Friend WithEvents GroupBox43 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox44 As System.Windows.Forms.GroupBox
-    Friend WithEvents ComboBox4 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxPresentasiBayiTri3 As System.Windows.Forms.ComboBox
     Friend WithEvents Label517 As System.Windows.Forms.Label
     Friend WithEvents Label518 As System.Windows.Forms.Label
     Friend WithEvents TextBox101 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox102 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxUsgDjjTri3 As System.Windows.Forms.TextBox
     Friend WithEvents Label521 As System.Windows.Forms.Label
     Friend WithEvents Label522 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox6 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxJmlBayiTri3 As System.Windows.Forms.ComboBox
     Friend WithEvents Label525 As System.Windows.Forms.Label
     Friend WithEvents Label526 As System.Windows.Forms.Label
     Friend WithEvents ComboBoxUsgTriIII As System.Windows.Forms.ComboBox
@@ -25714,13 +25701,13 @@ End Sub
     Friend WithEvents TextBoxUkKehamilanTriIII As System.Windows.Forms.TextBox
     Friend WithEvents Label534 As System.Windows.Forms.Label
     Friend WithEvents Label533 As System.Windows.Forms.Label
-    Friend WithEvents ComboBox5 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxLetakHamilTri3 As System.Windows.Forms.ComboBox
     Friend WithEvents Label519 As System.Windows.Forms.Label
     Friend WithEvents Label520 As System.Windows.Forms.Label
     Friend WithEvents Label515 As System.Windows.Forms.Label
     Friend WithEvents Label516 As System.Windows.Forms.Label
     Friend WithEvents ComboBoxKeteranganDjj As System.Windows.Forms.ComboBox
-    Friend WithEvents ComboBox7 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxKeadaanBayiTri3 As System.Windows.Forms.ComboBox
     Friend WithEvents Label523 As System.Windows.Forms.Label
     Friend WithEvents Label524 As System.Windows.Forms.Label
     Friend WithEvents GroupBox45 As System.Windows.Forms.GroupBox
@@ -25806,10 +25793,10 @@ End Sub
     Friend WithEvents Label570 As System.Windows.Forms.Label
     Friend WithEvents Label571 As System.Windows.Forms.Label
     Friend WithEvents GroupBox49 As System.Windows.Forms.GroupBox
-    Friend WithEvents ComboBox11 As System.Windows.Forms.ComboBox
-    Friend WithEvents ComboBox3 As System.Windows.Forms.ComboBox
-    Friend WithEvents ComboBox9 As System.Windows.Forms.ComboBox
-    Friend WithEvents ComboBox10 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxRencanaKonsultasiTri3 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxKonselingKbTri3 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxRencanaKontrasepsiTri3 As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxRencanaProsesLahirTri3 As System.Windows.Forms.ComboBox
     Friend WithEvents Label572 As System.Windows.Forms.Label
     Friend WithEvents Label573 As System.Windows.Forms.Label
     Friend WithEvents Label574 As System.Windows.Forms.Label
@@ -25824,8 +25811,7 @@ End Sub
     Friend WithEvents TextBoxPenjelasanTriIII As System.Windows.Forms.TextBox
     Friend WithEvents Label582 As System.Windows.Forms.Label
     Friend WithEvents Label583 As System.Windows.Forms.Label
-    Friend WithEvents RadioButtonFkrtlTriIII As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonFktpTriIII As System.Windows.Forms.RadioButton
     Friend WithEvents Label584 As System.Windows.Forms.Label
     Friend WithEvents Label585 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxRekomTempatLahirTri3 As System.Windows.Forms.ComboBox
 End Class
