@@ -15064,10 +15064,6 @@ Public Class FormRekamMedisDokter
         End If
     End Sub
 
-    Private Sub ButtonTampilUsgI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTampilUsgI.Click
-        FormHasilUsg.ShowDialog()
-    End Sub
-
     Private Sub OnSkriningPreeklampsiaChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _
      CheckBoxSedang1.CheckedChanged, CheckBoxSedang2.CheckedChanged, CheckBoxSedang3.CheckedChanged, _
      CheckBoxSedang4.CheckedChanged, CheckBoxSedang5.CheckedChanged, CheckBoxSedang6.CheckedChanged, _
@@ -16783,4 +16779,112 @@ Public Class FormRekamMedisDokter
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Trimester 3")
         End Try
     End Sub
+
+    ' =========================================================================
+    ' 1. PEMANGGILAN USG DARI TAB TRIMESTER I
+    ' =========================================================================
+    Private Sub ButtonTampilUsgI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonTampilUsgI.Click
+        Try
+            Dim frmHasil As New FormHasilUsg()
+
+            Dim pathFoto As String = GetPathFotoUsgByTrimester("1")
+            Dim pathVideo As String = GetPathVideoUsgByTrimester("1")
+
+            ' Passing Data Gambar (Reset ke Nothing jika file tidak ditemukan)
+            If Not String.IsNullOrEmpty(pathFoto) AndAlso System.IO.File.Exists(pathFoto) Then
+                frmHasil.GambarUSG = Image.FromFile(pathFoto)
+            Else
+                frmHasil.GambarUSG = Nothing
+            End If
+
+            ' Passing Data Video (Reset ke Nothing jika file tidak ditemukan)
+            If Not String.IsNullOrEmpty(pathVideo) AndAlso System.IO.File.Exists(pathVideo) Then
+                frmHasil.PathVideoUSG = pathVideo
+            Else
+                frmHasil.PathVideoUSG = String.Empty
+            End If
+
+            frmHasil.ShowDialog()
+
+        Catch ex As Exception
+            MsgBox("Gagal menampilkan Form Hasil USG: " & ex.Message, MsgBoxStyle.Exclamation, "Error")
+        End Try
+    End Sub
+
+    ' =========================================================================
+    ' 2. PEMANGGILAN USG DARI TAB TRIMESTER III
+    ' =========================================================================
+    Private Sub ButtonUsgTriIII_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUsgTriIII.Click
+        Try
+            Dim frmHasil As New FormHasilUsg()
+
+            Dim pathFoto As String = GetPathFotoUsgByTrimester("3")
+            Dim pathVideo As String = GetPathVideoUsgByTrimester("3")
+
+            ' Passing Data Gambar (Reset ke Nothing jika file tidak ditemukan)
+            If Not String.IsNullOrEmpty(pathFoto) AndAlso System.IO.File.Exists(pathFoto) Then
+                frmHasil.GambarUSG = Image.FromFile(pathFoto)
+            Else
+                frmHasil.GambarUSG = Nothing
+            End If
+
+            ' Passing Data Video (Reset ke Nothing jika file tidak ditemukan)
+            If Not String.IsNullOrEmpty(pathVideo) AndAlso System.IO.File.Exists(pathVideo) Then
+                frmHasil.PathVideoUSG = pathVideo
+            Else
+                frmHasil.PathVideoUSG = String.Empty
+            End If
+
+            frmHasil.ShowDialog()
+
+        Catch ex As Exception
+            MsgBox("Gagal menampilkan Form Hasil USG: " & ex.Message, MsgBoxStyle.Exclamation, "Error")
+        End Try
+    End Sub
+
+    Private Function GetPathFotoUsgByTrimester(ByVal triVal As String) As String
+        If String.IsNullOrEmpty(idPasien) Then Return ""
+
+        Dim tableName As String = If(triVal = "1", "anc_trimester1", "anc_trimester3")
+        Dim idCol As String = If(triVal = "1", "id_tri1", "id_tri3")
+
+        Dim query As String = _
+            "SELECT TOP 1 path_foto_usg FROM " & tableName & " " & _
+            "WHERE no_rekam_medis = '" & idPasien & "' AND path_foto_usg IS NOT NULL AND path_foto_usg <> '' " & _
+            "ORDER BY " & idCol & " DESC"
+
+        Dim dt As DataTable = ReadSQL(query)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim dbPath As String = dt.Rows(0)("path_foto_usg").ToString().Trim()
+            If System.IO.File.Exists(dbPath) Then Return dbPath
+
+            Dim localPath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Samples\" & dbPath)
+            If System.IO.File.Exists(localPath) Then Return localPath
+        End If
+
+        Return ""
+    End Function
+
+    Private Function GetPathVideoUsgByTrimester(ByVal triVal As String) As String
+        If String.IsNullOrEmpty(idPasien) Then Return ""
+
+        Dim tableName As String = If(triVal = "1", "anc_trimester1", "anc_trimester3")
+        Dim idCol As String = If(triVal = "1", "id_tri1", "id_tri3")
+
+        Dim query As String = _
+            "SELECT TOP 1 path_video_usg FROM " & tableName & " " & _
+            "WHERE no_rekam_medis = '" & idPasien & "' AND path_video_usg IS NOT NULL AND path_video_usg <> '' " & _
+            "ORDER BY " & idCol & " DESC"
+
+        Dim dt As DataTable = ReadSQL(query)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim dbPath As String = dt.Rows(0)("path_video_usg").ToString().Trim()
+            If System.IO.File.Exists(dbPath) Then Return dbPath
+
+            Dim localPath As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Samples\" & dbPath)
+            If System.IO.File.Exists(localPath) Then Return localPath
+        End If
+
+        Return ""
+    End Function
 End Class
