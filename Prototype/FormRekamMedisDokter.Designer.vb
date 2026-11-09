@@ -671,13 +671,29 @@ Me.Label359 = New System.Windows.Forms.Label
 Me.SplitContainer19 = New System.Windows.Forms.SplitContainer
 Me.Label363 = New System.Windows.Forms.Label
 Me.GroupBox22 = New System.Windows.Forms.GroupBox
+Me.ComboBoxProteinUrine = New System.Windows.Forms.ComboBox
+Me.Label594 = New System.Windows.Forms.Label
+Me.Label595 = New System.Windows.Forms.Label
+Me.TextBox111 = New System.Windows.Forms.TextBox
+Me.TextBoxGDPP2 = New System.Windows.Forms.TextBox
+Me.Label592 = New System.Windows.Forms.Label
+Me.Label593 = New System.Windows.Forms.Label
+Me.TextBox105 = New System.Windows.Forms.TextBox
+Me.TextBoxGDP = New System.Windows.Forms.TextBox
+Me.Label590 = New System.Windows.Forms.Label
+Me.Label591 = New System.Windows.Forms.Label
+Me.ComboBoxUrinReduksi = New System.Windows.Forms.ComboBox
+Me.ComboBoxRhesus = New System.Windows.Forms.ComboBox
 Me.Label585 = New System.Windows.Forms.Label
 Me.GroupBox23 = New System.Windows.Forms.GroupBox
+Me.Panel35 = New System.Windows.Forms.Panel
 Me.RadioButtonHepBReaktif = New System.Windows.Forms.RadioButton
-Me.RadioButtonSifilisReaktif = New System.Windows.Forms.RadioButton
-Me.RadioButtonHivReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonHepBNon = New System.Windows.Forms.RadioButton
+Me.Panel34 = New System.Windows.Forms.Panel
+Me.RadioButtonSifilisReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonSifilisNon = New System.Windows.Forms.RadioButton
+Me.Panel33 = New System.Windows.Forms.Panel
+Me.RadioButtonHivReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonHivNon = New System.Windows.Forms.RadioButton
 Me.Label404 = New System.Windows.Forms.Label
 Me.Label403 = New System.Windows.Forms.Label
@@ -691,9 +707,7 @@ Me.Label397 = New System.Windows.Forms.Label
 Me.TextBox89 = New System.Windows.Forms.TextBox
 Me.TextBox88 = New System.Windows.Forms.TextBox
 Me.TextBoxTataLaksana = New System.Windows.Forms.TextBox
-Me.TextBox85 = New System.Windows.Forms.TextBox
-Me.TextBoxProteinUrine = New System.Windows.Forms.TextBox
-Me.TextBoxRhesus = New System.Windows.Forms.TextBox
+Me.TextBoxGDSPelayanan = New System.Windows.Forms.TextBox
 Me.TextBoxGoldar = New System.Windows.Forms.TextBox
 Me.TextBoxHb = New System.Windows.Forms.TextBox
 Me.Label395 = New System.Windows.Forms.Label
@@ -779,12 +793,16 @@ Me.Label481 = New System.Windows.Forms.Label
 Me.Label482 = New System.Windows.Forms.Label
 Me.Label483 = New System.Windows.Forms.Label
 Me.GroupBox29 = New System.Windows.Forms.GroupBox
+Me.TextBox99 = New System.Windows.Forms.TextBox
 Me.GroupBox30 = New System.Windows.Forms.GroupBox
+Me.Panel38 = New System.Windows.Forms.Panel
 Me.RadioButtonHepBTriIReaktif = New System.Windows.Forms.RadioButton
-Me.RadioButtonSifilisTriIReaktif = New System.Windows.Forms.RadioButton
-Me.RadioButtonHivTriReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonHepBTriINon = New System.Windows.Forms.RadioButton
+Me.Panel37 = New System.Windows.Forms.Panel
+Me.RadioButtonSifilisTriIReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonSifilisTriINon = New System.Windows.Forms.RadioButton
+Me.Panel36 = New System.Windows.Forms.Panel
+Me.RadioButtonHivTriReaktif = New System.Windows.Forms.RadioButton
 Me.RadioButtonHivTriINon = New System.Windows.Forms.RadioButton
 Me.Label462 = New System.Windows.Forms.Label
 Me.Label463 = New System.Windows.Forms.Label
@@ -792,10 +810,10 @@ Me.Label464 = New System.Windows.Forms.Label
 Me.Label465 = New System.Windows.Forms.Label
 Me.Label466 = New System.Windows.Forms.Label
 Me.Label467 = New System.Windows.Forms.Label
-Me.TextBox94 = New System.Windows.Forms.TextBox
+Me.TextBoxGDS = New System.Windows.Forms.TextBox
 Me.Label460 = New System.Windows.Forms.Label
 Me.Label461 = New System.Windows.Forms.Label
-Me.TextBoRh = New System.Windows.Forms.TextBox
+Me.TextBoxRh = New System.Windows.Forms.TextBox
 Me.TextBoxGoldarRh = New System.Windows.Forms.TextBox
 Me.Label458 = New System.Windows.Forms.Label
 Me.Label459 = New System.Windows.Forms.Label
@@ -928,6 +946,16 @@ Me.CheckBoxTinggi3 = New System.Windows.Forms.CheckBox
 Me.CheckBoxTinggi2 = New System.Windows.Forms.CheckBox
 Me.CheckBoxTinggi1 = New System.Windows.Forms.CheckBox
 Me.GroupBoxTri = New System.Windows.Forms.GroupBox
+Me.TextBoxKeteranganGdPP = New System.Windows.Forms.TextBox
+Me.TextBoxKeteranganGDTriII = New System.Windows.Forms.TextBox
+Me.TextBox102 = New System.Windows.Forms.TextBox
+Me.TextBoxGdPP = New System.Windows.Forms.TextBox
+Me.Label589 = New System.Windows.Forms.Label
+Me.Label588 = New System.Windows.Forms.Label
+Me.TextBox87 = New System.Windows.Forms.TextBox
+Me.TextBoxGdTriII = New System.Windows.Forms.TextBox
+Me.Label586 = New System.Windows.Forms.Label
+Me.Label587 = New System.Windows.Forms.Label
 Me.CheckBoxTinggi8 = New System.Windows.Forms.CheckBox
 Me.ComboBoxProteinuria = New System.Windows.Forms.ComboBox
 Me.CheckBoxSedang8 = New System.Windows.Forms.CheckBox
@@ -958,6 +986,7 @@ Me.SplitContainer27 = New System.Windows.Forms.SplitContainer
 Me.SplitContainer28 = New System.Windows.Forms.SplitContainer
 Me.ButtonSimpanTriIII = New System.Windows.Forms.Button
 Me.GroupBox50 = New System.Windows.Forms.GroupBox
+Me.ComboBoxRekomTempatLahirTri3 = New System.Windows.Forms.ComboBox
 Me.Label584 = New System.Windows.Forms.Label
 Me.Label580 = New System.Windows.Forms.Label
 Me.Label581 = New System.Windows.Forms.Label
@@ -1765,7 +1794,6 @@ Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-Me.ComboBoxRekomTempatLahirTri3 = New System.Windows.Forms.ComboBox
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -1913,6 +1941,9 @@ Me.SplitContainer19.Panel2.SuspendLayout
 Me.SplitContainer19.SuspendLayout
 Me.GroupBox22.SuspendLayout
 Me.GroupBox23.SuspendLayout
+Me.Panel35.SuspendLayout
+Me.Panel34.SuspendLayout
+Me.Panel33.SuspendLayout
 Me.GroupBox21.SuspendLayout
 Me.GroupBox20.SuspendLayout
 Me.TabPageTrimesterI.SuspendLayout
@@ -1930,6 +1961,9 @@ Me.GroupBox37.SuspendLayout
 Me.GroupBoxRujukan.SuspendLayout
 Me.GroupBox29.SuspendLayout
 Me.GroupBox30.SuspendLayout
+Me.Panel38.SuspendLayout
+Me.Panel37.SuspendLayout
+Me.Panel36.SuspendLayout
 Me.GroupBox26.SuspendLayout
 Me.GroupBox28.SuspendLayout
 Me.GroupBox24.SuspendLayout
@@ -10056,6 +10090,19 @@ Me.Label363.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
 'GroupBox22
 '
 Me.GroupBox22.AutoSize = true
+Me.GroupBox22.Controls.Add(Me.ComboBoxProteinUrine)
+Me.GroupBox22.Controls.Add(Me.Label594)
+Me.GroupBox22.Controls.Add(Me.Label595)
+Me.GroupBox22.Controls.Add(Me.TextBox111)
+Me.GroupBox22.Controls.Add(Me.TextBoxGDPP2)
+Me.GroupBox22.Controls.Add(Me.Label592)
+Me.GroupBox22.Controls.Add(Me.Label593)
+Me.GroupBox22.Controls.Add(Me.TextBox105)
+Me.GroupBox22.Controls.Add(Me.TextBoxGDP)
+Me.GroupBox22.Controls.Add(Me.Label590)
+Me.GroupBox22.Controls.Add(Me.Label591)
+Me.GroupBox22.Controls.Add(Me.ComboBoxUrinReduksi)
+Me.GroupBox22.Controls.Add(Me.ComboBoxRhesus)
 Me.GroupBox22.Controls.Add(Me.Label585)
 Me.GroupBox22.Controls.Add(Me.GroupBox23)
 Me.GroupBox22.Controls.Add(Me.TextBoxUsg)
@@ -10064,9 +10111,7 @@ Me.GroupBox22.Controls.Add(Me.Label397)
 Me.GroupBox22.Controls.Add(Me.TextBox89)
 Me.GroupBox22.Controls.Add(Me.TextBox88)
 Me.GroupBox22.Controls.Add(Me.TextBoxTataLaksana)
-Me.GroupBox22.Controls.Add(Me.TextBox85)
-Me.GroupBox22.Controls.Add(Me.TextBoxProteinUrine)
-Me.GroupBox22.Controls.Add(Me.TextBoxRhesus)
+Me.GroupBox22.Controls.Add(Me.TextBoxGDSPelayanan)
 Me.GroupBox22.Controls.Add(Me.TextBoxGoldar)
 Me.GroupBox22.Controls.Add(Me.TextBoxHb)
 Me.GroupBox22.Controls.Add(Me.Label395)
@@ -10083,10 +10128,146 @@ Me.GroupBox22.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.F
 Me.GroupBox22.Location = New System.Drawing.Point(8, 350)
 Me.GroupBox22.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox22.Name = "GroupBox22"
-Me.GroupBox22.Size = New System.Drawing.Size(625, 231)
+Me.GroupBox22.Size = New System.Drawing.Size(625, 336)
 Me.GroupBox22.TabIndex = 4
 Me.GroupBox22.TabStop = false
 Me.GroupBox22.Text = "Laboratorium, USG, dan Tata Laksana"
+'
+'ComboBoxProteinUrine
+'
+Me.ComboBoxProteinUrine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxProteinUrine.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxProteinUrine.FormattingEnabled = true
+Me.ComboBoxProteinUrine.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "+3", "+4"})
+Me.ComboBoxProteinUrine.Location = New System.Drawing.Point(168, 117)
+Me.ComboBoxProteinUrine.Name = "ComboBoxProteinUrine"
+Me.ComboBoxProteinUrine.Size = New System.Drawing.Size(132, 25)
+Me.ComboBoxProteinUrine.TabIndex = 461
+'
+'Label594
+'
+Me.Label594.AutoSize = true
+Me.Label594.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label594.Location = New System.Drawing.Point(150, 120)
+Me.Label594.Name = "Label594"
+Me.Label594.Size = New System.Drawing.Size(11, 17)
+Me.Label594.TabIndex = 460
+Me.Label594.Text = ":"
+'
+'Label595
+'
+Me.Label595.AutoSize = true
+Me.Label595.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label595.Location = New System.Drawing.Point(7, 120)
+Me.Label595.Name = "Label595"
+Me.Label595.Size = New System.Drawing.Size(81, 17)
+Me.Label595.TabIndex = 459
+Me.Label595.Text = "Protein Urin"
+'
+'TextBox111
+'
+Me.TextBox111.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox111.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox111.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox111.Location = New System.Drawing.Point(240, 214)
+Me.TextBox111.Name = "TextBox111"
+Me.TextBox111.ReadOnly = true
+Me.TextBox111.Size = New System.Drawing.Size(60, 25)
+Me.TextBox111.TabIndex = 458
+Me.TextBox111.TabStop = false
+Me.TextBox111.Text = "mg/dL"
+Me.TextBox111.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxGDPP2
+'
+Me.TextBoxGDPP2.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGDPP2.Location = New System.Drawing.Point(168, 214)
+Me.TextBoxGDPP2.Name = "TextBoxGDPP2"
+Me.TextBoxGDPP2.Size = New System.Drawing.Size(66, 25)
+Me.TextBoxGDPP2.TabIndex = 457
+'
+'Label592
+'
+Me.Label592.AutoSize = true
+Me.Label592.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label592.Location = New System.Drawing.Point(151, 217)
+Me.Label592.Name = "Label592"
+Me.Label592.Size = New System.Drawing.Size(11, 17)
+Me.Label592.TabIndex = 456
+Me.Label592.Text = ":"
+'
+'Label593
+'
+Me.Label593.AutoSize = true
+Me.Label593.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label593.Location = New System.Drawing.Point(8, 217)
+Me.Label593.Name = "Label593"
+Me.Label593.Size = New System.Drawing.Size(81, 17)
+Me.Label593.TabIndex = 455
+Me.Label593.Text = "GDPP 2 Jam"
+'
+'TextBox105
+'
+Me.TextBox105.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox105.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox105.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox105.Location = New System.Drawing.Point(239, 183)
+Me.TextBox105.Name = "TextBox105"
+Me.TextBox105.ReadOnly = true
+Me.TextBox105.Size = New System.Drawing.Size(60, 25)
+Me.TextBox105.TabIndex = 454
+Me.TextBox105.TabStop = false
+Me.TextBox105.Text = "mg/dL"
+Me.TextBox105.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxGDP
+'
+Me.TextBoxGDP.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGDP.Location = New System.Drawing.Point(168, 183)
+Me.TextBoxGDP.Name = "TextBoxGDP"
+Me.TextBoxGDP.Size = New System.Drawing.Size(66, 25)
+Me.TextBoxGDP.TabIndex = 453
+'
+'Label590
+'
+Me.Label590.AutoSize = true
+Me.Label590.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label590.Location = New System.Drawing.Point(151, 186)
+Me.Label590.Name = "Label590"
+Me.Label590.Size = New System.Drawing.Size(11, 17)
+Me.Label590.TabIndex = 452
+Me.Label590.Text = ":"
+'
+'Label591
+'
+Me.Label591.AutoSize = true
+Me.Label591.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label591.Location = New System.Drawing.Point(8, 185)
+Me.Label591.Name = "Label591"
+Me.Label591.Size = New System.Drawing.Size(34, 17)
+Me.Label591.TabIndex = 451
+Me.Label591.Text = "GDP"
+'
+'ComboBoxUrinReduksi
+'
+Me.ComboBoxUrinReduksi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxUrinReduksi.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxUrinReduksi.FormattingEnabled = true
+Me.ComboBoxUrinReduksi.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "+3", "+4"})
+Me.ComboBoxUrinReduksi.Location = New System.Drawing.Point(168, 84)
+Me.ComboBoxUrinReduksi.Name = "ComboBoxUrinReduksi"
+Me.ComboBoxUrinReduksi.Size = New System.Drawing.Size(132, 25)
+Me.ComboBoxUrinReduksi.TabIndex = 443
+'
+'ComboBoxRhesus
+'
+Me.ComboBoxRhesus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRhesus.FormattingEnabled = true
+Me.ComboBoxRhesus.Items.AddRange(New Object() {"+", "-"})
+Me.ComboBoxRhesus.Location = New System.Drawing.Point(238, 50)
+Me.ComboBoxRhesus.Name = "ComboBoxRhesus"
+Me.ComboBoxRhesus.Size = New System.Drawing.Size(62, 25)
+Me.ComboBoxRhesus.TabIndex = 442
 '
 'Label585
 '
@@ -10100,12 +10281,9 @@ Me.Label585.Text = ":"
 '
 'GroupBox23
 '
-Me.GroupBox23.Controls.Add(Me.RadioButtonHepBReaktif)
-Me.GroupBox23.Controls.Add(Me.RadioButtonSifilisReaktif)
-Me.GroupBox23.Controls.Add(Me.RadioButtonHivReaktif)
-Me.GroupBox23.Controls.Add(Me.RadioButtonHepBNon)
-Me.GroupBox23.Controls.Add(Me.RadioButtonSifilisNon)
-Me.GroupBox23.Controls.Add(Me.RadioButtonHivNon)
+Me.GroupBox23.Controls.Add(Me.Panel35)
+Me.GroupBox23.Controls.Add(Me.Panel34)
+Me.GroupBox23.Controls.Add(Me.Panel33)
 Me.GroupBox23.Controls.Add(Me.Label404)
 Me.GroupBox23.Controls.Add(Me.Label403)
 Me.GroupBox23.Controls.Add(Me.Label402)
@@ -10113,87 +10291,108 @@ Me.GroupBox23.Controls.Add(Me.Label401)
 Me.GroupBox23.Controls.Add(Me.Label398)
 Me.GroupBox23.Controls.Add(Me.Label400)
 Me.GroupBox23.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox23.Location = New System.Drawing.Point(318, 46)
+Me.GroupBox23.Location = New System.Drawing.Point(318, 54)
 Me.GroupBox23.Name = "GroupBox23"
-Me.GroupBox23.Size = New System.Drawing.Size(301, 97)
+Me.GroupBox23.Size = New System.Drawing.Size(301, 118)
 Me.GroupBox23.TabIndex = 440
 Me.GroupBox23.TabStop = false
 Me.GroupBox23.Text = "Triple Eliminasi"
 '
+'Panel35
+'
+Me.Panel35.Controls.Add(Me.RadioButtonHepBReaktif)
+Me.Panel35.Controls.Add(Me.RadioButtonHepBNon)
+Me.Panel35.Location = New System.Drawing.Point(92, 82)
+Me.Panel35.Name = "Panel35"
+Me.Panel35.Size = New System.Drawing.Size(175, 27)
+Me.Panel35.TabIndex = 464
+'
 'RadioButtonHepBReaktif
 '
 Me.RadioButtonHepBReaktif.AutoSize = true
-Me.RadioButtonHepBReaktif.Enabled = false
 Me.RadioButtonHepBReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHepBReaktif.Location = New System.Drawing.Point(193, 66)
+Me.RadioButtonHepBReaktif.Location = New System.Drawing.Point(107, 3)
 Me.RadioButtonHepBReaktif.Name = "RadioButtonHepBReaktif"
 Me.RadioButtonHepBReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonHepBReaktif.TabIndex = 448
+Me.RadioButtonHepBReaktif.TabIndex = 450
 Me.RadioButtonHepBReaktif.TabStop = true
 Me.RadioButtonHepBReaktif.Text = "Reaktif"
 Me.RadioButtonHepBReaktif.UseVisualStyleBackColor = true
 '
-'RadioButtonSifilisReaktif
-'
-Me.RadioButtonSifilisReaktif.AutoSize = true
-Me.RadioButtonSifilisReaktif.Enabled = false
-Me.RadioButtonSifilisReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonSifilisReaktif.Location = New System.Drawing.Point(193, 42)
-Me.RadioButtonSifilisReaktif.Name = "RadioButtonSifilisReaktif"
-Me.RadioButtonSifilisReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonSifilisReaktif.TabIndex = 447
-Me.RadioButtonSifilisReaktif.TabStop = true
-Me.RadioButtonSifilisReaktif.Text = "Reaktif"
-Me.RadioButtonSifilisReaktif.UseVisualStyleBackColor = true
-'
-'RadioButtonHivReaktif
-'
-Me.RadioButtonHivReaktif.AutoSize = true
-Me.RadioButtonHivReaktif.Enabled = false
-Me.RadioButtonHivReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHivReaktif.Location = New System.Drawing.Point(193, 20)
-Me.RadioButtonHivReaktif.Name = "RadioButtonHivReaktif"
-Me.RadioButtonHivReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonHivReaktif.TabIndex = 446
-Me.RadioButtonHivReaktif.TabStop = true
-Me.RadioButtonHivReaktif.Text = "Reaktif"
-Me.RadioButtonHivReaktif.UseVisualStyleBackColor = true
-'
 'RadioButtonHepBNon
 '
 Me.RadioButtonHepBNon.AutoSize = true
-Me.RadioButtonHepBNon.Enabled = false
 Me.RadioButtonHepBNon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHepBNon.Location = New System.Drawing.Point(95, 66)
+Me.RadioButtonHepBNon.Location = New System.Drawing.Point(3, 3)
 Me.RadioButtonHepBNon.Name = "RadioButtonHepBNon"
 Me.RadioButtonHepBNon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonHepBNon.TabIndex = 445
+Me.RadioButtonHepBNon.TabIndex = 449
 Me.RadioButtonHepBNon.TabStop = true
 Me.RadioButtonHepBNon.Text = "Non-Reaktif"
 Me.RadioButtonHepBNon.UseVisualStyleBackColor = true
 '
+'Panel34
+'
+Me.Panel34.Controls.Add(Me.RadioButtonSifilisReaktif)
+Me.Panel34.Controls.Add(Me.RadioButtonSifilisNon)
+Me.Panel34.Location = New System.Drawing.Point(92, 49)
+Me.Panel34.Name = "Panel34"
+Me.Panel34.Size = New System.Drawing.Size(175, 27)
+Me.Panel34.TabIndex = 463
+'
+'RadioButtonSifilisReaktif
+'
+Me.RadioButtonSifilisReaktif.AutoSize = true
+Me.RadioButtonSifilisReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.RadioButtonSifilisReaktif.Location = New System.Drawing.Point(107, 2)
+Me.RadioButtonSifilisReaktif.Name = "RadioButtonSifilisReaktif"
+Me.RadioButtonSifilisReaktif.Size = New System.Drawing.Size(65, 21)
+Me.RadioButtonSifilisReaktif.TabIndex = 449
+Me.RadioButtonSifilisReaktif.TabStop = true
+Me.RadioButtonSifilisReaktif.Text = "Reaktif"
+Me.RadioButtonSifilisReaktif.UseVisualStyleBackColor = true
+'
 'RadioButtonSifilisNon
 '
 Me.RadioButtonSifilisNon.AutoSize = true
-Me.RadioButtonSifilisNon.Enabled = false
 Me.RadioButtonSifilisNon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonSifilisNon.Location = New System.Drawing.Point(95, 44)
+Me.RadioButtonSifilisNon.Location = New System.Drawing.Point(3, 4)
 Me.RadioButtonSifilisNon.Name = "RadioButtonSifilisNon"
 Me.RadioButtonSifilisNon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonSifilisNon.TabIndex = 444
+Me.RadioButtonSifilisNon.TabIndex = 448
 Me.RadioButtonSifilisNon.TabStop = true
 Me.RadioButtonSifilisNon.Text = "Non-Reaktif"
 Me.RadioButtonSifilisNon.UseVisualStyleBackColor = true
 '
+'Panel33
+'
+Me.Panel33.Controls.Add(Me.RadioButtonHivReaktif)
+Me.Panel33.Controls.Add(Me.RadioButtonHivNon)
+Me.Panel33.Location = New System.Drawing.Point(92, 18)
+Me.Panel33.Name = "Panel33"
+Me.Panel33.Size = New System.Drawing.Size(175, 27)
+Me.Panel33.TabIndex = 462
+'
+'RadioButtonHivReaktif
+'
+Me.RadioButtonHivReaktif.AutoSize = true
+Me.RadioButtonHivReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.RadioButtonHivReaktif.Location = New System.Drawing.Point(107, 1)
+Me.RadioButtonHivReaktif.Name = "RadioButtonHivReaktif"
+Me.RadioButtonHivReaktif.Size = New System.Drawing.Size(65, 21)
+Me.RadioButtonHivReaktif.TabIndex = 448
+Me.RadioButtonHivReaktif.TabStop = true
+Me.RadioButtonHivReaktif.Text = "Reaktif"
+Me.RadioButtonHivReaktif.UseVisualStyleBackColor = true
+'
 'RadioButtonHivNon
 '
 Me.RadioButtonHivNon.AutoSize = true
-Me.RadioButtonHivNon.Enabled = false
 Me.RadioButtonHivNon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHivNon.Location = New System.Drawing.Point(96, 21)
+Me.RadioButtonHivNon.Location = New System.Drawing.Point(3, 2)
 Me.RadioButtonHivNon.Name = "RadioButtonHivNon"
 Me.RadioButtonHivNon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonHivNon.TabIndex = 443
+Me.RadioButtonHivNon.TabIndex = 447
 Me.RadioButtonHivNon.TabStop = true
 Me.RadioButtonHivNon.Text = "Non-Reaktif"
 Me.RadioButtonHivNon.UseVisualStyleBackColor = true
@@ -10202,7 +10401,7 @@ Me.RadioButtonHivNon.UseVisualStyleBackColor = true
 '
 Me.Label404.AutoSize = true
 Me.Label404.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label404.Location = New System.Drawing.Point(78, 70)
+Me.Label404.Location = New System.Drawing.Point(78, 88)
 Me.Label404.Name = "Label404"
 Me.Label404.Size = New System.Drawing.Size(11, 17)
 Me.Label404.TabIndex = 442
@@ -10212,7 +10411,7 @@ Me.Label404.Text = ":"
 '
 Me.Label403.AutoSize = true
 Me.Label403.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label403.Location = New System.Drawing.Point(78, 44)
+Me.Label403.Location = New System.Drawing.Point(78, 54)
 Me.Label403.Name = "Label403"
 Me.Label403.Size = New System.Drawing.Size(11, 17)
 Me.Label403.TabIndex = 441
@@ -10232,7 +10431,7 @@ Me.Label402.Text = ":"
 '
 Me.Label401.AutoSize = true
 Me.Label401.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label401.Location = New System.Drawing.Point(6, 71)
+Me.Label401.Location = New System.Drawing.Point(6, 89)
 Me.Label401.Name = "Label401"
 Me.Label401.Size = New System.Drawing.Size(74, 17)
 Me.Label401.TabIndex = 439
@@ -10242,7 +10441,7 @@ Me.Label401.Text = "Hepatitis B"
 '
 Me.Label398.AutoSize = true
 Me.Label398.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label398.Location = New System.Drawing.Point(6, 46)
+Me.Label398.Location = New System.Drawing.Point(6, 56)
 Me.Label398.Name = "Label398"
 Me.Label398.Size = New System.Drawing.Size(37, 17)
 Me.Label398.TabIndex = 438
@@ -10291,7 +10490,7 @@ Me.Label397.Text = "USG"
 Me.TextBox89.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
 Me.TextBox89.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 Me.TextBox89.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-Me.TextBox89.Location = New System.Drawing.Point(238, 115)
+Me.TextBox89.Location = New System.Drawing.Point(239, 152)
 Me.TextBox89.Name = "TextBox89"
 Me.TextBox89.ReadOnly = true
 Me.TextBox89.Size = New System.Drawing.Size(60, 25)
@@ -10317,46 +10516,26 @@ Me.TextBox88.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 'TextBoxTataLaksana
 '
 Me.TextBoxTataLaksana.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxTataLaksana.Location = New System.Drawing.Point(167, 150)
+Me.TextBoxTataLaksana.Location = New System.Drawing.Point(168, 250)
 Me.TextBoxTataLaksana.Multiline = true
 Me.TextBoxTataLaksana.Name = "TextBoxTataLaksana"
 Me.TextBoxTataLaksana.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
 Me.TextBoxTataLaksana.Size = New System.Drawing.Size(300, 57)
 Me.TextBoxTataLaksana.TabIndex = 429
 '
-'TextBox85
+'TextBoxGDSPelayanan
 '
-Me.TextBox85.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBox85.Location = New System.Drawing.Point(167, 115)
-Me.TextBox85.Name = "TextBox85"
-Me.TextBox85.ReadOnly = true
-Me.TextBox85.Size = New System.Drawing.Size(65, 25)
-Me.TextBox85.TabIndex = 428
-'
-'TextBoxProteinUrine
-'
-Me.TextBoxProteinUrine.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxProteinUrine.Location = New System.Drawing.Point(167, 82)
-Me.TextBoxProteinUrine.Name = "TextBoxProteinUrine"
-Me.TextBoxProteinUrine.ReadOnly = true
-Me.TextBoxProteinUrine.Size = New System.Drawing.Size(93, 25)
-Me.TextBoxProteinUrine.TabIndex = 427
-'
-'TextBoxRhesus
-'
-Me.TextBoxRhesus.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxRhesus.Location = New System.Drawing.Point(239, 51)
-Me.TextBoxRhesus.Name = "TextBoxRhesus"
-Me.TextBoxRhesus.ReadOnly = true
-Me.TextBoxRhesus.Size = New System.Drawing.Size(21, 25)
-Me.TextBoxRhesus.TabIndex = 426
+Me.TextBoxGDSPelayanan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGDSPelayanan.Location = New System.Drawing.Point(168, 152)
+Me.TextBoxGDSPelayanan.Name = "TextBoxGDSPelayanan"
+Me.TextBoxGDSPelayanan.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxGDSPelayanan.TabIndex = 428
 '
 'TextBoxGoldar
 '
 Me.TextBoxGoldar.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxGoldar.Location = New System.Drawing.Point(168, 51)
 Me.TextBoxGoldar.Name = "TextBoxGoldar"
-Me.TextBoxGoldar.ReadOnly = true
 Me.TextBoxGoldar.Size = New System.Drawing.Size(65, 25)
 Me.TextBoxGoldar.TabIndex = 425
 '
@@ -10365,7 +10544,6 @@ Me.TextBoxGoldar.TabIndex = 425
 Me.TextBoxHb.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxHb.Location = New System.Drawing.Point(168, 20)
 Me.TextBoxHb.Name = "TextBoxHb"
-Me.TextBoxHb.ReadOnly = true
 Me.TextBoxHb.Size = New System.Drawing.Size(65, 25)
 Me.TextBoxHb.TabIndex = 424
 '
@@ -10373,7 +10551,7 @@ Me.TextBoxHb.TabIndex = 424
 '
 Me.Label395.AutoSize = true
 Me.Label395.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label395.Location = New System.Drawing.Point(150, 154)
+Me.Label395.Location = New System.Drawing.Point(151, 254)
 Me.Label395.Name = "Label395"
 Me.Label395.Size = New System.Drawing.Size(11, 17)
 Me.Label395.TabIndex = 24
@@ -10383,7 +10561,7 @@ Me.Label395.Text = ":"
 '
 Me.Label396.AutoSize = true
 Me.Label396.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label396.Location = New System.Drawing.Point(6, 154)
+Me.Label396.Location = New System.Drawing.Point(7, 254)
 Me.Label396.Name = "Label396"
 Me.Label396.RightToLeft = System.Windows.Forms.RightToLeft.No
 Me.Label396.Size = New System.Drawing.Size(124, 17)
@@ -10394,7 +10572,7 @@ Me.Label396.Text = "Tata Laksana Kasus"
 '
 Me.Label393.AutoSize = true
 Me.Label393.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label393.Location = New System.Drawing.Point(150, 118)
+Me.Label393.Location = New System.Drawing.Point(151, 155)
 Me.Label393.Name = "Label393"
 Me.Label393.Size = New System.Drawing.Size(11, 17)
 Me.Label393.TabIndex = 22
@@ -10404,12 +10582,12 @@ Me.Label393.Text = ":"
 '
 Me.Label394.AutoSize = true
 Me.Label394.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label394.Location = New System.Drawing.Point(7, 118)
+Me.Label394.Location = New System.Drawing.Point(8, 155)
 Me.Label394.Name = "Label394"
 Me.Label394.RightToLeft = System.Windows.Forms.RightToLeft.No
-Me.Label394.Size = New System.Drawing.Size(75, 17)
+Me.Label394.Size = New System.Drawing.Size(33, 17)
 Me.Label394.TabIndex = 21
-Me.Label394.Text = "Gula Darah"
+Me.Label394.Text = "GDS"
 '
 'Label391
 '
@@ -10427,9 +10605,9 @@ Me.Label392.AutoSize = true
 Me.Label392.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.Label392.Location = New System.Drawing.Point(7, 87)
 Me.Label392.Name = "Label392"
-Me.Label392.Size = New System.Drawing.Size(88, 17)
+Me.Label392.Size = New System.Drawing.Size(84, 17)
 Me.Label392.TabIndex = 19
-Me.Label392.Text = "Protein Urine"
+Me.Label392.Text = "Urin Reduksi"
 '
 'Label389
 '
@@ -11342,11 +11520,12 @@ Me.Label483.Text = "Tgl Periksa"
 'GroupBox29
 '
 Me.GroupBox29.AutoSize = true
+Me.GroupBox29.Controls.Add(Me.TextBox99)
 Me.GroupBox29.Controls.Add(Me.GroupBox30)
-Me.GroupBox29.Controls.Add(Me.TextBox94)
+Me.GroupBox29.Controls.Add(Me.TextBoxGDS)
 Me.GroupBox29.Controls.Add(Me.Label460)
 Me.GroupBox29.Controls.Add(Me.Label461)
-Me.GroupBox29.Controls.Add(Me.TextBoRh)
+Me.GroupBox29.Controls.Add(Me.TextBoxRh)
 Me.GroupBox29.Controls.Add(Me.TextBoxGoldarRh)
 Me.GroupBox29.Controls.Add(Me.Label458)
 Me.GroupBox29.Controls.Add(Me.Label459)
@@ -11362,19 +11541,30 @@ Me.GroupBox29.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.F
 Me.GroupBox29.Location = New System.Drawing.Point(4, 384)
 Me.GroupBox29.Margin = New System.Windows.Forms.Padding(10, 5, 10, 5)
 Me.GroupBox29.Name = "GroupBox29"
-Me.GroupBox29.Size = New System.Drawing.Size(503, 262)
+Me.GroupBox29.Size = New System.Drawing.Size(503, 276)
 Me.GroupBox29.TabIndex = 12
 Me.GroupBox29.TabStop = false
 Me.GroupBox29.Text = "Pemeriksaan Lab"
 '
+'TextBox99
+'
+Me.TextBox99.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox99.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox99.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox99.Location = New System.Drawing.Point(220, 110)
+Me.TextBox99.Name = "TextBox99"
+Me.TextBox99.ReadOnly = true
+Me.TextBox99.Size = New System.Drawing.Size(60, 25)
+Me.TextBox99.TabIndex = 442
+Me.TextBox99.TabStop = false
+Me.TextBox99.Text = "mg/dL"
+Me.TextBox99.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
 'GroupBox30
 '
-Me.GroupBox30.Controls.Add(Me.RadioButtonHepBTriIReaktif)
-Me.GroupBox30.Controls.Add(Me.RadioButtonSifilisTriIReaktif)
-Me.GroupBox30.Controls.Add(Me.RadioButtonHivTriReaktif)
-Me.GroupBox30.Controls.Add(Me.RadioButtonHepBTriINon)
-Me.GroupBox30.Controls.Add(Me.RadioButtonSifilisTriINon)
-Me.GroupBox30.Controls.Add(Me.RadioButtonHivTriINon)
+Me.GroupBox30.Controls.Add(Me.Panel38)
+Me.GroupBox30.Controls.Add(Me.Panel37)
+Me.GroupBox30.Controls.Add(Me.Panel36)
 Me.GroupBox30.Controls.Add(Me.Label462)
 Me.GroupBox30.Controls.Add(Me.Label463)
 Me.GroupBox30.Controls.Add(Me.Label464)
@@ -11382,88 +11572,103 @@ Me.GroupBox30.Controls.Add(Me.Label465)
 Me.GroupBox30.Controls.Add(Me.Label466)
 Me.GroupBox30.Controls.Add(Me.Label467)
 Me.GroupBox30.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.GroupBox30.Location = New System.Drawing.Point(9, 141)
+Me.GroupBox30.Location = New System.Drawing.Point(10, 143)
 Me.GroupBox30.Name = "GroupBox30"
-Me.GroupBox30.Size = New System.Drawing.Size(301, 97)
+Me.GroupBox30.Size = New System.Drawing.Size(301, 109)
 Me.GroupBox30.TabIndex = 441
 Me.GroupBox30.TabStop = false
 Me.GroupBox30.Text = "Triple Eliminasi"
 '
+'Panel38
+'
+Me.Panel38.Controls.Add(Me.RadioButtonHepBTriIReaktif)
+Me.Panel38.Controls.Add(Me.RadioButtonHepBTriINon)
+Me.Panel38.Location = New System.Drawing.Point(92, 70)
+Me.Panel38.Name = "Panel38"
+Me.Panel38.Size = New System.Drawing.Size(178, 25)
+Me.Panel38.TabIndex = 445
+'
 'RadioButtonHepBTriIReaktif
 '
 Me.RadioButtonHepBTriIReaktif.AutoSize = true
-Me.RadioButtonHepBTriIReaktif.Enabled = false
 Me.RadioButtonHepBTriIReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHepBTriIReaktif.Location = New System.Drawing.Point(193, 66)
+Me.RadioButtonHepBTriIReaktif.Location = New System.Drawing.Point(110, 2)
 Me.RadioButtonHepBTriIReaktif.Name = "RadioButtonHepBTriIReaktif"
 Me.RadioButtonHepBTriIReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonHepBTriIReaktif.TabIndex = 448
-Me.RadioButtonHepBTriIReaktif.TabStop = true
+Me.RadioButtonHepBTriIReaktif.TabIndex = 450
 Me.RadioButtonHepBTriIReaktif.Text = "Reaktif"
 Me.RadioButtonHepBTriIReaktif.UseVisualStyleBackColor = true
-'
-'RadioButtonSifilisTriIReaktif
-'
-Me.RadioButtonSifilisTriIReaktif.AutoSize = true
-Me.RadioButtonSifilisTriIReaktif.Enabled = false
-Me.RadioButtonSifilisTriIReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonSifilisTriIReaktif.Location = New System.Drawing.Point(193, 42)
-Me.RadioButtonSifilisTriIReaktif.Name = "RadioButtonSifilisTriIReaktif"
-Me.RadioButtonSifilisTriIReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonSifilisTriIReaktif.TabIndex = 447
-Me.RadioButtonSifilisTriIReaktif.TabStop = true
-Me.RadioButtonSifilisTriIReaktif.Text = "Reaktif"
-Me.RadioButtonSifilisTriIReaktif.UseVisualStyleBackColor = true
-'
-'RadioButtonHivTriReaktif
-'
-Me.RadioButtonHivTriReaktif.AutoSize = true
-Me.RadioButtonHivTriReaktif.Enabled = false
-Me.RadioButtonHivTriReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHivTriReaktif.Location = New System.Drawing.Point(193, 20)
-Me.RadioButtonHivTriReaktif.Name = "RadioButtonHivTriReaktif"
-Me.RadioButtonHivTriReaktif.Size = New System.Drawing.Size(65, 21)
-Me.RadioButtonHivTriReaktif.TabIndex = 446
-Me.RadioButtonHivTriReaktif.TabStop = true
-Me.RadioButtonHivTriReaktif.Text = "Reaktif"
-Me.RadioButtonHivTriReaktif.UseVisualStyleBackColor = true
 '
 'RadioButtonHepBTriINon
 '
 Me.RadioButtonHepBTriINon.AutoSize = true
-Me.RadioButtonHepBTriINon.Enabled = false
 Me.RadioButtonHepBTriINon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHepBTriINon.Location = New System.Drawing.Point(95, 66)
+Me.RadioButtonHepBTriINon.Location = New System.Drawing.Point(4, 2)
 Me.RadioButtonHepBTriINon.Name = "RadioButtonHepBTriINon"
 Me.RadioButtonHepBTriINon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonHepBTriINon.TabIndex = 445
-Me.RadioButtonHepBTriINon.TabStop = true
+Me.RadioButtonHepBTriINon.TabIndex = 449
 Me.RadioButtonHepBTriINon.Text = "Non-Reaktif"
 Me.RadioButtonHepBTriINon.UseVisualStyleBackColor = true
+'
+'Panel37
+'
+Me.Panel37.Controls.Add(Me.RadioButtonSifilisTriIReaktif)
+Me.Panel37.Controls.Add(Me.RadioButtonSifilisTriINon)
+Me.Panel37.Location = New System.Drawing.Point(92, 42)
+Me.Panel37.Name = "Panel37"
+Me.Panel37.Size = New System.Drawing.Size(178, 25)
+Me.Panel37.TabIndex = 444
+'
+'RadioButtonSifilisTriIReaktif
+'
+Me.RadioButtonSifilisTriIReaktif.AutoSize = true
+Me.RadioButtonSifilisTriIReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.RadioButtonSifilisTriIReaktif.Location = New System.Drawing.Point(110, 1)
+Me.RadioButtonSifilisTriIReaktif.Name = "RadioButtonSifilisTriIReaktif"
+Me.RadioButtonSifilisTriIReaktif.Size = New System.Drawing.Size(65, 21)
+Me.RadioButtonSifilisTriIReaktif.TabIndex = 449
+Me.RadioButtonSifilisTriIReaktif.Text = "Reaktif"
+Me.RadioButtonSifilisTriIReaktif.UseVisualStyleBackColor = true
 '
 'RadioButtonSifilisTriINon
 '
 Me.RadioButtonSifilisTriINon.AutoSize = true
-Me.RadioButtonSifilisTriINon.Enabled = false
 Me.RadioButtonSifilisTriINon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonSifilisTriINon.Location = New System.Drawing.Point(95, 44)
+Me.RadioButtonSifilisTriINon.Location = New System.Drawing.Point(3, 2)
 Me.RadioButtonSifilisTriINon.Name = "RadioButtonSifilisTriINon"
 Me.RadioButtonSifilisTriINon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonSifilisTriINon.TabIndex = 444
-Me.RadioButtonSifilisTriINon.TabStop = true
+Me.RadioButtonSifilisTriINon.TabIndex = 448
 Me.RadioButtonSifilisTriINon.Text = "Non-Reaktif"
 Me.RadioButtonSifilisTriINon.UseVisualStyleBackColor = true
+'
+'Panel36
+'
+Me.Panel36.Controls.Add(Me.RadioButtonHivTriReaktif)
+Me.Panel36.Controls.Add(Me.RadioButtonHivTriINon)
+Me.Panel36.Location = New System.Drawing.Point(92, 14)
+Me.Panel36.Name = "Panel36"
+Me.Panel36.Size = New System.Drawing.Size(178, 25)
+Me.Panel36.TabIndex = 443
+'
+'RadioButtonHivTriReaktif
+'
+Me.RadioButtonHivTriReaktif.AutoSize = true
+Me.RadioButtonHivTriReaktif.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.RadioButtonHivTriReaktif.Location = New System.Drawing.Point(109, 2)
+Me.RadioButtonHivTriReaktif.Name = "RadioButtonHivTriReaktif"
+Me.RadioButtonHivTriReaktif.Size = New System.Drawing.Size(65, 21)
+Me.RadioButtonHivTriReaktif.TabIndex = 448
+Me.RadioButtonHivTriReaktif.Text = "Reaktif"
+Me.RadioButtonHivTriReaktif.UseVisualStyleBackColor = true
 '
 'RadioButtonHivTriINon
 '
 Me.RadioButtonHivTriINon.AutoSize = true
-Me.RadioButtonHivTriINon.Enabled = false
 Me.RadioButtonHivTriINon.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.RadioButtonHivTriINon.Location = New System.Drawing.Point(96, 21)
+Me.RadioButtonHivTriINon.Location = New System.Drawing.Point(4, 2)
 Me.RadioButtonHivTriINon.Name = "RadioButtonHivTriINon"
 Me.RadioButtonHivTriINon.Size = New System.Drawing.Size(95, 21)
-Me.RadioButtonHivTriINon.TabIndex = 443
-Me.RadioButtonHivTriINon.TabStop = true
+Me.RadioButtonHivTriINon.TabIndex = 447
 Me.RadioButtonHivTriINon.Text = "Non-Reaktif"
 Me.RadioButtonHivTriINon.UseVisualStyleBackColor = true
 '
@@ -11527,14 +11732,13 @@ Me.Label467.Size = New System.Drawing.Size(30, 17)
 Me.Label467.TabIndex = 437
 Me.Label467.Text = "HIV"
 '
-'TextBox94
+'TextBoxGDS
 '
-Me.TextBox94.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBox94.Location = New System.Drawing.Point(134, 110)
-Me.TextBox94.Name = "TextBox94"
-Me.TextBox94.ReadOnly = true
-Me.TextBox94.Size = New System.Drawing.Size(80, 25)
-Me.TextBox94.TabIndex = 431
+Me.TextBoxGDS.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGDS.Location = New System.Drawing.Point(134, 110)
+Me.TextBoxGDS.Name = "TextBoxGDS"
+Me.TextBoxGDS.Size = New System.Drawing.Size(80, 25)
+Me.TextBoxGDS.TabIndex = 431
 '
 'Label460
 '
@@ -11556,21 +11760,19 @@ Me.Label461.Size = New System.Drawing.Size(33, 17)
 Me.Label461.TabIndex = 429
 Me.Label461.Text = "GDS"
 '
-'TextBoRh
+'TextBoxRh
 '
-Me.TextBoRh.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoRh.Location = New System.Drawing.Point(220, 80)
-Me.TextBoRh.Name = "TextBoRh"
-Me.TextBoRh.ReadOnly = true
-Me.TextBoRh.Size = New System.Drawing.Size(60, 25)
-Me.TextBoRh.TabIndex = 428
+Me.TextBoxRh.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxRh.Location = New System.Drawing.Point(220, 80)
+Me.TextBoxRh.Name = "TextBoxRh"
+Me.TextBoxRh.Size = New System.Drawing.Size(60, 25)
+Me.TextBoxRh.TabIndex = 428
 '
 'TextBoxGoldarRh
 '
 Me.TextBoxGoldarRh.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxGoldarRh.Location = New System.Drawing.Point(134, 79)
 Me.TextBoxGoldarRh.Name = "TextBoxGoldarRh"
-Me.TextBoxGoldarRh.ReadOnly = true
 Me.TextBoxGoldarRh.Size = New System.Drawing.Size(80, 25)
 Me.TextBoxGoldarRh.TabIndex = 427
 '
@@ -11621,7 +11823,6 @@ Me.TextBox90.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 Me.TextBoxHbTriI.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxHbTriI.Location = New System.Drawing.Point(134, 49)
 Me.TextBoxHbTriI.Name = "TextBoxHbTriI"
-Me.TextBoxHbTriI.ReadOnly = true
 Me.TextBoxHbTriI.Size = New System.Drawing.Size(80, 25)
 Me.TextBoxHbTriI.TabIndex = 11
 '
@@ -11650,7 +11851,6 @@ Me.Label457.Text = "Hemoglobin (Hb)"
 Me.TextBoxTglPeriksa.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxTglPeriksa.Location = New System.Drawing.Point(134, 18)
 Me.TextBoxTglPeriksa.Name = "TextBoxTglPeriksa"
-Me.TextBoxTglPeriksa.ReadOnly = true
 Me.TextBoxTglPeriksa.Size = New System.Drawing.Size(146, 25)
 Me.TextBoxTglPeriksa.TabIndex = 8
 '
@@ -13051,6 +13251,16 @@ Me.CheckBoxTinggi1.UseVisualStyleBackColor = true
 '
 'GroupBoxTri
 '
+Me.GroupBoxTri.Controls.Add(Me.TextBoxKeteranganGdPP)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxKeteranganGDTriII)
+Me.GroupBoxTri.Controls.Add(Me.TextBox102)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxGdPP)
+Me.GroupBoxTri.Controls.Add(Me.Label589)
+Me.GroupBoxTri.Controls.Add(Me.Label588)
+Me.GroupBoxTri.Controls.Add(Me.TextBox87)
+Me.GroupBoxTri.Controls.Add(Me.TextBoxGdTriII)
+Me.GroupBoxTri.Controls.Add(Me.Label586)
+Me.GroupBoxTri.Controls.Add(Me.Label587)
 Me.GroupBoxTri.Controls.Add(Me.CheckBoxTinggi8)
 Me.GroupBoxTri.Controls.Add(Me.ComboBoxProteinuria)
 Me.GroupBoxTri.Controls.Add(Me.CheckBoxSedang8)
@@ -13069,16 +13279,116 @@ Me.GroupBoxTri.Controls.Add(Me.Label473)
 Me.GroupBoxTri.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.GroupBoxTri.Location = New System.Drawing.Point(11, 235)
 Me.GroupBoxTri.Name = "GroupBoxTri"
-Me.GroupBoxTri.Size = New System.Drawing.Size(579, 127)
+Me.GroupBoxTri.Size = New System.Drawing.Size(579, 203)
 Me.GroupBoxTri.TabIndex = 7
 Me.GroupBoxTri.TabStop = false
 Me.GroupBoxTri.Text = "Pemeriksaan Fisik dan Lab"
+'
+'TextBoxKeteranganGdPP
+'
+Me.TextBoxKeteranganGdPP.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKeteranganGdPP.Location = New System.Drawing.Point(372, 149)
+Me.TextBoxKeteranganGdPP.Name = "TextBoxKeteranganGdPP"
+Me.TextBoxKeteranganGdPP.Size = New System.Drawing.Size(147, 25)
+Me.TextBoxKeteranganGdPP.TabIndex = 442
+'
+'TextBoxKeteranganGDTriII
+'
+Me.TextBoxKeteranganGDTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxKeteranganGDTriII.Location = New System.Drawing.Point(372, 118)
+Me.TextBoxKeteranganGDTriII.Name = "TextBoxKeteranganGDTriII"
+Me.TextBoxKeteranganGDTriII.Size = New System.Drawing.Size(147, 25)
+Me.TextBoxKeteranganGDTriII.TabIndex = 441
+'
+'TextBox102
+'
+Me.TextBox102.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox102.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox102.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox102.Location = New System.Drawing.Point(306, 152)
+Me.TextBox102.Name = "TextBox102"
+Me.TextBox102.ReadOnly = true
+Me.TextBox102.Size = New System.Drawing.Size(60, 25)
+Me.TextBox102.TabIndex = 440
+Me.TextBox102.TabStop = false
+Me.TextBox102.Text = "g/dL"
+Me.TextBox102.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxGdPP
+'
+Me.TextBoxGdPP.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGdPP.Location = New System.Drawing.Point(235, 152)
+Me.TextBoxGdPP.Name = "TextBoxGdPP"
+Me.TextBoxGdPP.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxGdPP.TabIndex = 439
+'
+'Label589
+'
+Me.Label589.AutoSize = true
+Me.Label589.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label589.Location = New System.Drawing.Point(218, 156)
+Me.Label589.Name = "Label589"
+Me.Label589.Size = New System.Drawing.Size(11, 17)
+Me.Label589.TabIndex = 438
+Me.Label589.Text = ":"
+'
+'Label588
+'
+Me.Label588.AutoSize = true
+Me.Label588.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label588.Location = New System.Drawing.Point(10, 156)
+Me.Label588.Name = "Label588"
+Me.Label588.Size = New System.Drawing.Size(198, 17)
+Me.Label588.TabIndex = 437
+Me.Label588.Text = "Gula Darah 2 Jam Post Prandial"
+'
+'TextBox87
+'
+Me.TextBox87.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
+Me.TextBox87.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+Me.TextBox87.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
+Me.TextBox87.Location = New System.Drawing.Point(306, 118)
+Me.TextBox87.Name = "TextBox87"
+Me.TextBox87.ReadOnly = true
+Me.TextBox87.Size = New System.Drawing.Size(60, 25)
+Me.TextBox87.TabIndex = 436
+Me.TextBox87.TabStop = false
+Me.TextBox87.Text = "g/dL"
+Me.TextBox87.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+'
+'TextBoxGdTriII
+'
+Me.TextBoxGdTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.TextBoxGdTriII.Location = New System.Drawing.Point(235, 118)
+Me.TextBoxGdTriII.Name = "TextBoxGdTriII"
+Me.TextBoxGdTriII.Size = New System.Drawing.Size(65, 25)
+Me.TextBoxGdTriII.TabIndex = 435
+'
+'Label586
+'
+Me.Label586.AutoSize = true
+Me.Label586.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label586.Location = New System.Drawing.Point(218, 122)
+Me.Label586.Name = "Label586"
+Me.Label586.Size = New System.Drawing.Size(11, 17)
+Me.Label586.TabIndex = 434
+Me.Label586.Text = ":"
+'
+'Label587
+'
+Me.Label587.AutoSize = true
+Me.Label587.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.Label587.Location = New System.Drawing.Point(10, 124)
+Me.Label587.Name = "Label587"
+Me.Label587.Size = New System.Drawing.Size(115, 17)
+Me.Label587.TabIndex = 433
+Me.Label587.Text = "Gula Darah Puasa"
 '
 'CheckBoxTinggi8
 '
 Me.CheckBoxTinggi8.AutoSize = true
 Me.CheckBoxTinggi8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.CheckBoxTinggi8.Location = New System.Drawing.Point(287, 91)
+Me.CheckBoxTinggi8.Location = New System.Drawing.Point(394, 89)
 Me.CheckBoxTinggi8.Name = "CheckBoxTinggi8"
 Me.CheckBoxTinggi8.Size = New System.Drawing.Size(125, 21)
 Me.CheckBoxTinggi8.TabIndex = 432
@@ -13091,7 +13401,7 @@ Me.ComboBoxProteinuria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDo
 Me.ComboBoxProteinuria.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxProteinuria.FormattingEnabled = true
 Me.ComboBoxProteinuria.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "Kuantitatif 300mg"})
-Me.ComboBoxProteinuria.Location = New System.Drawing.Point(128, 89)
+Me.ComboBoxProteinuria.Location = New System.Drawing.Point(235, 87)
 Me.ComboBoxProteinuria.Name = "ComboBoxProteinuria"
 Me.ComboBoxProteinuria.Size = New System.Drawing.Size(153, 25)
 Me.ComboBoxProteinuria.TabIndex = 431
@@ -13100,7 +13410,7 @@ Me.ComboBoxProteinuria.TabIndex = 431
 '
 Me.CheckBoxSedang8.AutoSize = true
 Me.CheckBoxSedang8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.CheckBoxSedang8.Location = New System.Drawing.Point(287, 60)
+Me.CheckBoxSedang8.Location = New System.Drawing.Point(394, 58)
 Me.CheckBoxSedang8.Name = "CheckBoxSedang8"
 Me.CheckBoxSedang8.Size = New System.Drawing.Size(133, 21)
 Me.CheckBoxSedang8.TabIndex = 430
@@ -13112,7 +13422,7 @@ Me.CheckBoxSedang8.UseVisualStyleBackColor = true
 Me.TextBox97.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
 Me.TextBox97.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 Me.TextBox97.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-Me.TextBox97.Location = New System.Drawing.Point(199, 58)
+Me.TextBox97.Location = New System.Drawing.Point(306, 56)
 Me.TextBox97.Name = "TextBox97"
 Me.TextBox97.ReadOnly = true
 Me.TextBox97.Size = New System.Drawing.Size(60, 25)
@@ -13124,7 +13434,7 @@ Me.TextBox97.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 'TextBoxMap
 '
 Me.TextBoxMap.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxMap.Location = New System.Drawing.Point(128, 58)
+Me.TextBoxMap.Location = New System.Drawing.Point(235, 56)
 Me.TextBoxMap.Name = "TextBoxMap"
 Me.TextBoxMap.Size = New System.Drawing.Size(65, 25)
 Me.TextBoxMap.TabIndex = 428
@@ -13133,7 +13443,7 @@ Me.TextBoxMap.TabIndex = 428
 '
 Me.Label489.AutoSize = true
 Me.Label489.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label489.Location = New System.Drawing.Point(197, 28)
+Me.Label489.Location = New System.Drawing.Point(304, 26)
 Me.Label489.Name = "Label489"
 Me.Label489.Size = New System.Drawing.Size(13, 17)
 Me.Label489.TabIndex = 427
@@ -13144,7 +13454,7 @@ Me.Label489.Text = "/"
 Me.TextBox96.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
 Me.TextBox96.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
 Me.TextBox96.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-Me.TextBox96.Location = New System.Drawing.Point(287, 23)
+Me.TextBox96.Location = New System.Drawing.Point(394, 21)
 Me.TextBox96.Name = "TextBox96"
 Me.TextBox96.ReadOnly = true
 Me.TextBox96.Size = New System.Drawing.Size(60, 25)
@@ -13156,7 +13466,7 @@ Me.TextBox96.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 'TextBoxDiasTriII
 '
 Me.TextBoxDiasTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxDiasTriII.Location = New System.Drawing.Point(216, 23)
+Me.TextBoxDiasTriII.Location = New System.Drawing.Point(323, 21)
 Me.TextBoxDiasTriII.Name = "TextBoxDiasTriII"
 Me.TextBoxDiasTriII.ReadOnly = true
 Me.TextBoxDiasTriII.Size = New System.Drawing.Size(65, 25)
@@ -13165,7 +13475,7 @@ Me.TextBoxDiasTriII.TabIndex = 425
 'TextBoxSisTriII
 '
 Me.TextBoxSisTriII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxSisTriII.Location = New System.Drawing.Point(128, 22)
+Me.TextBoxSisTriII.Location = New System.Drawing.Point(235, 20)
 Me.TextBoxSisTriII.Name = "TextBoxSisTriII"
 Me.TextBoxSisTriII.ReadOnly = true
 Me.TextBoxSisTriII.Size = New System.Drawing.Size(65, 25)
@@ -13175,7 +13485,7 @@ Me.TextBoxSisTriII.TabIndex = 424
 '
 Me.Label488.AutoSize = true
 Me.Label488.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label488.Location = New System.Drawing.Point(111, 92)
+Me.Label488.Location = New System.Drawing.Point(218, 90)
 Me.Label488.Name = "Label488"
 Me.Label488.Size = New System.Drawing.Size(11, 17)
 Me.Label488.TabIndex = 5
@@ -13185,7 +13495,7 @@ Me.Label488.Text = ":"
 '
 Me.Label487.AutoSize = true
 Me.Label487.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label487.Location = New System.Drawing.Point(111, 58)
+Me.Label487.Location = New System.Drawing.Point(218, 56)
 Me.Label487.Name = "Label487"
 Me.Label487.Size = New System.Drawing.Size(11, 17)
 Me.Label487.TabIndex = 4
@@ -13195,7 +13505,7 @@ Me.Label487.Text = ":"
 '
 Me.Label486.AutoSize = true
 Me.Label486.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label486.Location = New System.Drawing.Point(111, 25)
+Me.Label486.Location = New System.Drawing.Point(218, 23)
 Me.Label486.Name = "Label486"
 Me.Label486.Size = New System.Drawing.Size(11, 17)
 Me.Label486.TabIndex = 3
@@ -13448,6 +13758,17 @@ Me.GroupBox50.Size = New System.Drawing.Size(237, 205)
 Me.GroupBox50.TabIndex = 510
 Me.GroupBox50.TabStop = false
 Me.GroupBox50.Text = "Penjelasan"
+'
+'ComboBoxRekomTempatLahirTri3
+'
+Me.ComboBoxRekomTempatLahirTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxRekomTempatLahirTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxRekomTempatLahirTri3.FormattingEnabled = true
+Me.ComboBoxRekomTempatLahirTri3.Items.AddRange(New Object() {"FKTP", "FKRTL"})
+Me.ComboBoxRekomTempatLahirTri3.Location = New System.Drawing.Point(9, 176)
+Me.ComboBoxRekomTempatLahirTri3.Name = "ComboBoxRekomTempatLahirTri3"
+Me.ComboBoxRekomTempatLahirTri3.Size = New System.Drawing.Size(210, 25)
+Me.ComboBoxRekomTempatLahirTri3.TabIndex = 496
 '
 'Label584
 '
@@ -13884,7 +14205,7 @@ Me.TextBoxLanjutanUrin.TabIndex = 444
 Me.ComboBoxUrinTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxUrinTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxUrinTriIII.FormattingEnabled = true
-Me.ComboBoxUrinTriIII.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "Kuantitatif 300mg"})
+Me.ComboBoxUrinTriIII.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "+3", "+4"})
 Me.ComboBoxUrinTriIII.Location = New System.Drawing.Point(134, 113)
 Me.ComboBoxUrinTriIII.Name = "ComboBoxUrinTriIII"
 Me.ComboBoxUrinTriIII.Size = New System.Drawing.Size(146, 25)
@@ -13929,7 +14250,6 @@ Me.Label563.Text = "Urin Reduksi"
 Me.TextBoxUrineTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxUrineTriIII.Location = New System.Drawing.Point(134, 79)
 Me.TextBoxUrineTriIII.Name = "TextBoxUrineTriIII"
-Me.TextBoxUrineTriIII.ReadOnly = true
 Me.TextBoxUrineTriIII.Size = New System.Drawing.Size(80, 25)
 Me.TextBoxUrineTriIII.TabIndex = 427
 '
@@ -13980,7 +14300,6 @@ Me.TextBox109.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 Me.TextBoxHbTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxHbTriIII.Location = New System.Drawing.Point(134, 49)
 Me.TextBoxHbTriIII.Name = "TextBoxHbTriIII"
-Me.TextBoxHbTriIII.ReadOnly = true
 Me.TextBoxHbTriIII.Size = New System.Drawing.Size(80, 25)
 Me.TextBoxHbTriIII.TabIndex = 11
 '
@@ -14009,7 +14328,6 @@ Me.Label567.Text = "Hemoglobin (Hb)"
 Me.TextBoxTglPeriksaLabTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.TextBoxTglPeriksaLabTriIII.Location = New System.Drawing.Point(134, 18)
 Me.TextBoxTglPeriksaLabTriIII.Name = "TextBoxTglPeriksaLabTriIII"
-Me.TextBoxTglPeriksaLabTriIII.ReadOnly = true
 Me.TextBoxTglPeriksaLabTriIII.Size = New System.Drawing.Size(146, 25)
 Me.TextBoxTglPeriksaLabTriIII.TabIndex = 8
 '
@@ -23562,17 +23880,6 @@ Me.TimerAPI.Interval = 60000
 '
 Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
-'ComboBoxRekomTempatLahirTri3
-'
-Me.ComboBoxRekomTempatLahirTri3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-Me.ComboBoxRekomTempatLahirTri3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.ComboBoxRekomTempatLahirTri3.FormattingEnabled = true
-Me.ComboBoxRekomTempatLahirTri3.Items.AddRange(New Object() {"FKTP", "FKRTL"})
-Me.ComboBoxRekomTempatLahirTri3.Location = New System.Drawing.Point(9, 176)
-Me.ComboBoxRekomTempatLahirTri3.Name = "ComboBoxRekomTempatLahirTri3"
-Me.ComboBoxRekomTempatLahirTri3.Size = New System.Drawing.Size(210, 25)
-Me.ComboBoxRekomTempatLahirTri3.TabIndex = 496
-'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -23796,6 +24103,12 @@ Me.GroupBox22.ResumeLayout(false)
 Me.GroupBox22.PerformLayout
 Me.GroupBox23.ResumeLayout(false)
 Me.GroupBox23.PerformLayout
+Me.Panel35.ResumeLayout(false)
+Me.Panel35.PerformLayout
+Me.Panel34.ResumeLayout(false)
+Me.Panel34.PerformLayout
+Me.Panel33.ResumeLayout(false)
+Me.Panel33.PerformLayout
 Me.GroupBox21.ResumeLayout(false)
 Me.GroupBox21.PerformLayout
 Me.GroupBox20.ResumeLayout(false)
@@ -23820,6 +24133,12 @@ Me.GroupBox29.ResumeLayout(false)
 Me.GroupBox29.PerformLayout
 Me.GroupBox30.ResumeLayout(false)
 Me.GroupBox30.PerformLayout
+Me.Panel38.ResumeLayout(false)
+Me.Panel38.PerformLayout
+Me.Panel37.ResumeLayout(false)
+Me.Panel37.PerformLayout
+Me.Panel36.ResumeLayout(false)
+Me.Panel36.PerformLayout
 Me.GroupBox26.ResumeLayout(false)
 Me.GroupBox26.PerformLayout
 Me.GroupBox28.ResumeLayout(false)
@@ -25408,9 +25727,7 @@ End Sub
     Friend WithEvents TextBox89 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox88 As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxTataLaksana As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox85 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBoxProteinUrine As System.Windows.Forms.TextBox
-    Friend WithEvents TextBoxRhesus As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGDSPelayanan As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxGoldar As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxHb As System.Windows.Forms.TextBox
     Friend WithEvents Label395 As System.Windows.Forms.Label
@@ -25423,17 +25740,11 @@ End Sub
     Friend WithEvents Label390 As System.Windows.Forms.Label
     Friend WithEvents Label388 As System.Windows.Forms.Label
     Friend WithEvents Label387 As System.Windows.Forms.Label
-    Friend WithEvents RadioButtonHivNon As System.Windows.Forms.RadioButton
     Friend WithEvents Label404 As System.Windows.Forms.Label
     Friend WithEvents Label403 As System.Windows.Forms.Label
     Friend WithEvents Label402 As System.Windows.Forms.Label
     Friend WithEvents Label401 As System.Windows.Forms.Label
     Friend WithEvents Label398 As System.Windows.Forms.Label
-    Friend WithEvents RadioButtonHepBReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonSifilisReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonHivReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonHepBNon As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonSifilisNon As System.Windows.Forms.RadioButton
     Friend WithEvents SplitContainer20 As System.Windows.Forms.SplitContainer
     Friend WithEvents Label405 As System.Windows.Forms.Label
     Friend WithEvents SplitContainer21 As System.Windows.Forms.SplitContainer
@@ -25551,22 +25862,16 @@ End Sub
     Friend WithEvents TextBoxTindakLanjutHb As System.Windows.Forms.TextBox
     Friend WithEvents TextBox90 As System.Windows.Forms.TextBox
     Friend WithEvents GroupBox30 As System.Windows.Forms.GroupBox
-    Friend WithEvents RadioButtonHepBTriIReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonSifilisTriIReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonHivTriReaktif As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonHepBTriINon As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonSifilisTriINon As System.Windows.Forms.RadioButton
-    Friend WithEvents RadioButtonHivTriINon As System.Windows.Forms.RadioButton
     Friend WithEvents Label462 As System.Windows.Forms.Label
     Friend WithEvents Label463 As System.Windows.Forms.Label
     Friend WithEvents Label464 As System.Windows.Forms.Label
     Friend WithEvents Label465 As System.Windows.Forms.Label
     Friend WithEvents Label466 As System.Windows.Forms.Label
     Friend WithEvents Label467 As System.Windows.Forms.Label
-    Friend WithEvents TextBox94 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGDS As System.Windows.Forms.TextBox
     Friend WithEvents Label460 As System.Windows.Forms.Label
     Friend WithEvents Label461 As System.Windows.Forms.Label
-    Friend WithEvents TextBoRh As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxRh As System.Windows.Forms.TextBox
     Friend WithEvents GroupBoxRujukan As System.Windows.Forms.GroupBox
     Friend WithEvents ComboBoxTindakLanjut As System.Windows.Forms.ComboBox
     Friend WithEvents ComboBoxSkriningJiwa As System.Windows.Forms.ComboBox
@@ -25765,7 +26070,6 @@ End Sub
     Friend WithEvents TextBox103 As System.Windows.Forms.TextBox
     Friend WithEvents Label562 As System.Windows.Forms.Label
     Friend WithEvents Label563 As System.Windows.Forms.Label
-    Friend WithEvents TextBoxUrineTriIII As System.Windows.Forms.TextBox
     Friend WithEvents Label564 As System.Windows.Forms.Label
     Friend WithEvents Label565 As System.Windows.Forms.Label
     Friend WithEvents TextBoxLanjutanHb As System.Windows.Forms.TextBox
@@ -25814,4 +26118,47 @@ End Sub
     Friend WithEvents Label584 As System.Windows.Forms.Label
     Friend WithEvents Label585 As System.Windows.Forms.Label
     Friend WithEvents ComboBoxRekomTempatLahirTri3 As System.Windows.Forms.ComboBox
+    Friend WithEvents TextBox102 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGdPP As System.Windows.Forms.TextBox
+    Friend WithEvents Label589 As System.Windows.Forms.Label
+    Friend WithEvents Label588 As System.Windows.Forms.Label
+    Friend WithEvents TextBox87 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGdTriII As System.Windows.Forms.TextBox
+    Friend WithEvents Label586 As System.Windows.Forms.Label
+    Friend WithEvents Label587 As System.Windows.Forms.Label
+    Friend WithEvents TextBoxKeteranganGdPP As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxKeteranganGDTriII As System.Windows.Forms.TextBox
+    Friend WithEvents ComboBoxRhesus As System.Windows.Forms.ComboBox
+    Friend WithEvents ComboBoxUrinReduksi As System.Windows.Forms.ComboBox
+    Friend WithEvents TextBoxUrineTriIII As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox99 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox111 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGDPP2 As System.Windows.Forms.TextBox
+    Friend WithEvents Label592 As System.Windows.Forms.Label
+    Friend WithEvents Label593 As System.Windows.Forms.Label
+    Friend WithEvents TextBox105 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxGDP As System.Windows.Forms.TextBox
+    Friend WithEvents Label590 As System.Windows.Forms.Label
+    Friend WithEvents Label591 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxProteinUrine As System.Windows.Forms.ComboBox
+    Friend WithEvents Label594 As System.Windows.Forms.Label
+    Friend WithEvents Label595 As System.Windows.Forms.Label
+    Friend WithEvents Panel34 As System.Windows.Forms.Panel
+    Friend WithEvents Panel33 As System.Windows.Forms.Panel
+    Friend WithEvents RadioButtonHivReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHivNon As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel35 As System.Windows.Forms.Panel
+    Friend WithEvents RadioButtonHepBReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHepBNon As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonSifilisReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonSifilisNon As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel38 As System.Windows.Forms.Panel
+    Friend WithEvents RadioButtonHepBTriIReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHepBTriINon As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel37 As System.Windows.Forms.Panel
+    Friend WithEvents RadioButtonSifilisTriIReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonSifilisTriINon As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel36 As System.Windows.Forms.Panel
+    Friend WithEvents RadioButtonHivTriReaktif As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonHivTriINon As System.Windows.Forms.RadioButton
 End Class
