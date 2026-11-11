@@ -15067,11 +15067,11 @@ Public Class FormRekamMedisDokter
     Private Sub OnSkriningPreeklampsiaChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _
      CheckBoxSedang1.CheckedChanged, CheckBoxSedang2.CheckedChanged, CheckBoxSedang3.CheckedChanged, _
      CheckBoxSedang4.CheckedChanged, CheckBoxSedang5.CheckedChanged, CheckBoxSedang6.CheckedChanged, _
-     CheckBoxSedang7.CheckedChanged, CheckBoxSedang8.CheckedChanged, _
+     CheckBoxSedang7.CheckedChanged, _
      CheckBoxTinggi1.CheckedChanged, CheckBoxTinggi2.CheckedChanged, CheckBoxTinggi3.CheckedChanged, _
      CheckBoxTinggi4.CheckedChanged, CheckBoxTinggi5.CheckedChanged, CheckBoxTinggi6.CheckedChanged, _
-     CheckBoxTinggi7.CheckedChanged, CheckBoxTinggi8.CheckedChanged, _
-     TextBoxSisTriII.TextChanged, TextBoxDiasTriII.TextChanged
+     CheckBoxTinggi7.CheckedChanged, _
+     TextBoxSisTriII.TextChanged, TextBoxDiasTriII.TextChanged, CheckBoxTinggi8.CheckedChanged, CheckBoxSedang8.CheckedChanged
 
         ' Setiap kali ada perubahan centang / angka, hitung ulang secara real-time
         HitungSkriningPreeklampsia()
@@ -15138,7 +15138,7 @@ Public Class FormRekamMedisDokter
                 "LEFT JOIN anc_detail_lab LAB ON TD.NoUrut = LAB.no_transaksi " & _
                 "WHERE TD.IDInternet = '" & idPasien & "' AND TD.NoUrut = '" & idTransaksi & "'"
 
-            Dim dtPencatatanKIA As DataTable = ReadSQL(query)
+            Dim dtPencatatanKIA As DataTable = ReadSQL(Query)
 
             If dtPencatatanKIA IsNot Nothing AndAlso dtPencatatanKIA.Rows.Count > 0 Then
                 Dim row As DataRow = dtPencatatanKIA.Rows(0)
@@ -15366,27 +15366,90 @@ Public Class FormRekamMedisDokter
         AllowOnlyNumber(e)
     End Sub
 
+    Private Sub TextBoxSesuaiEfw_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSesuaiEfw.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxSesuaiFl_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSesuaiFl.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxSesuaiAc_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSesuaiAc.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxSesuaiHc_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSesuaiHc.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxSesuaiSdp_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSesuaiSdp.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxEfw_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxEfw.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxFl_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxFl.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxAc_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxAc.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxHc_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxHc.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxHbTriIII_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxHbTriIII.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxSdp_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxSdp.KeyPress
+        AllowOnlyDecimal(sender, e)
+    End Sub
+
+    Private Sub TextBoxUsgDjjTri3_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxUsgDjjTri3.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
+    Private Sub TextBoxUkKehamilanTriIII_KeyPress(ByVal sender As Object, ByVal e As KeyPressEventArgs) Handles TextBoxUkKehamilanTriIII.KeyPress
+        AllowOnlyNumber(e)
+    End Sub
+
     ' Helper untuk mengosongkan seluruh input khusus ANC saat data tidak ditemukan
     Private Sub ClearFormANCInput()
-        ' 1. Kosongkan TextBox Isian ANC
+        ' Reset ANC
+        TextBoxTempatPeriksa.Clear()
+        TextBoxLiLA.Clear()
+        TextBoxTFU.Clear()
         TextBoxLetakJanin.Clear()
+        TextBoxDJJ.Clear()
+        ComboBoxImunisasiTT.SelectedIndex = -1
+        ComboBoxSkriningDokter.SelectedIndex = -1
         TextBoxKonseling.Clear()
         TextBoxTabletDarah.Clear()
         TextBoxUsg.Clear()
         TextBoxTataLaksana.Clear()
-        TextBoxLiLA.Clear()
-        TextBoxTFU.Clear()
-        TextBoxDJJ.Clear()
 
-        ' 2. Reset ComboBox Isian ANC
-        ComboBoxImunisasiTT.SelectedIndex = -1
-        ComboBoxImunisasiTT.Text = ""
+        ' Reset Fisik & Lab
+        TextBoxSistole.Clear()
+        TextBoxDiastole.Clear()
+        TextBoxHb.Clear()
+        TextBoxGoldar.Clear()
+        ComboBoxProteinUrine.SelectedIndex = -1
+        ComboBoxUrinReduksi.SelectedIndex = -1
+        TextBoxGDSPelayanan.Clear()
+        TextBoxGDP.Clear()
+        TextBoxGDPP2.Clear()
 
-        ComboBoxSkriningDokter.SelectedIndex = -1
-        ComboBoxSkriningDokter.Text = ""
-
-        ' 3. Jika ada CheckBox pada tab/form ini (misal Skrining/Preeklampsia), uncheck semuanya
-        UncheckAllCheckBoxes()
+        RadioButtonHivReaktif.Checked = False
+        RadioButtonHivNon.Checked = False
+        RadioButtonSifilisReaktif.Checked = False
+        RadioButtonSifilisNon.Checked = False
+        RadioButtonHepBReaktif.Checked = False
+        RadioButtonHepBNon.Checked = False
     End Sub
 
     ' Helper tambahan untuk reset CheckBox (jika ada)
@@ -15460,27 +15523,7 @@ Public Class FormRekamMedisDokter
             ' Variabel user aktif
             Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
 
-            ' =========================================================================
-            ' DEBUG MSGBOX - CEK PANJANG STRING & NILAI SETIAP KOLOM SEBELUM EXECUTE
-            ' =========================================================================
-            Dim debugText As String = ""
-            debugText &= "tempat_periksa (max 100): " & tempatPeriksa & " (Len: " & tempatPeriksa.Length & ")" & vbCrLf
-            debugText &= "trimester (max 5): " & trimester & " (Len: " & trimester.Length & ")" & vbCrLf
-            debugText &= "kunjungan_ke (int): " & kunjunganKe.ToString() & vbCrLf
-            debugText &= "lila_cm (decimal): " & If(lila Is DBNull.Value, "NULL", lila.ToString()) & vbCrLf
-            debugText &= "tfu_cm (decimal): " & If(tfu Is DBNull.Value, "NULL", tfu.ToString()) & vbCrLf
-            debugText &= "letak_janin (max 50): " & letakJanin & " (Len: " & letakJanin.Length & ")" & vbCrLf
-            debugText &= "djj (int): " & If(djj Is DBNull.Value, "NULL", djj.ToString()) & vbCrLf
-            debugText &= "imunisasi_tt (max 10): " & imunisasiTT & " (Len: " & imunisasiTT.Length & ")" & vbCrLf
-            debugText &= "skrining_dokter (max 50): " & skriningDokter & " (Len: " & skriningDokter.Length & ")" & vbCrLf
-            debugText &= "tablet_tambah_darah (int): " & If(ttd Is DBNull.Value, "NULL", ttd.ToString()) & vbCrLf
-            debugText &= "usg_status (max 20): " & usgStatus & " (Len: " & usgStatus.Length & ")" & vbCrLf
-            debugText &= "created_by/updated_by (max 50): " & currentUser & " (Len: " & currentUser.Length & ")"
-
-            'MsgBox(debugText, MsgBoxStyle.Information, "DEBUG PARAMETER INPUT")
-            ' =========================================================================
-
-            ' 3. Eksekusi Create atau Update
+            ' 3. Eksekusi Create atau Update anc_kunjungan
             If Not isExist Then
                 ' --- CREATE / INSERT ---
                 Dim queryInsert As String = _
@@ -15510,9 +15553,6 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@usgStatus", usgStatus), _
                     New SqlParameter("@tataLaksana", tataLaksana), _
                     New SqlParameter("@createdBy", currentUser))
-
-                MsgBox("Berhasil menyimpan data pencatatan ANC baru.", MsgBoxStyle.Information, "Success!")
-
             Else
                 ' --- UPDATE ---
                 Dim queryUpdate As String = _
@@ -15551,8 +15591,15 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@usgStatus", usgStatus), _
                     New SqlParameter("@tataLaksana", tataLaksana), _
                     New SqlParameter("@updatedBy", currentUser))
+            End If
 
-                MsgBox("Berhasil mengubah data pencatatan ANC.", MsgBoxStyle.Information, "Success!")
+            ' =========================================================================
+            ' AMBIL ID_KUNJUNGAN DARI TABEL ANC_KUNJUNGAN
+            ' =========================================================================
+            Dim idKunjunganVal As Object = DBNull.Value
+            Dim dtGetKunjungan As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & noTransaksi & "'")
+            If dtGetKunjungan IsNot Nothing AndAlso dtGetKunjungan.Rows.Count > 0 Then
+                idKunjunganVal = dtGetKunjungan.Rows(0)("id_kunjungan")
             End If
 
             ' =========================================================================
@@ -15563,8 +15610,8 @@ Public Class FormRekamMedisDokter
             Dim goldarVal As String = TextBoxGoldar.Text.Trim()
             Dim proteinUrineVal As String = ComboBoxProteinUrine.Text.Trim()
             Dim urinReduksiVal As String = ComboBoxUrinReduksi.Text.Trim()
-            ' --- TRIPLE ELIMINASI MENGGUNAKAN RADIOBUTTON ---
-            ' 1. HIV
+
+            ' Triple Eliminasi RadioButton
             Dim hivVal As String = ""
             If RadioButtonHivReaktif.Checked Then
                 hivVal = "Reaktif"
@@ -15572,7 +15619,6 @@ Public Class FormRekamMedisDokter
                 hivVal = "Non Reaktif"
             End If
 
-            ' 2. Sifilis
             Dim sifilisVal As String = ""
             If RadioButtonSifilisReaktif.Checked Then
                 sifilisVal = "Reaktif"
@@ -15580,7 +15626,6 @@ Public Class FormRekamMedisDokter
                 sifilisVal = "Non Reaktif"
             End If
 
-            ' 3. Hepatitis B (HBsAg)
             Dim hepBVal As String = ""
             If RadioButtonHepBReaktif.Checked Then
                 hepBVal = "Reaktif"
@@ -15594,14 +15639,11 @@ Public Class FormRekamMedisDokter
             Dim gd2ppVal As String = ""
 
             If (trimester = "I" OrElse trimester = "1 (Satu)" OrElse trimester.Contains("1")) AndAlso kunjunganKe = 1 Then
-                ' Trimester 1 & Kunjungan 1 -> Menggunakan Gula Darah Sewaktu (GDS)
                 gdsVal = TextBoxGDSPelayanan.Text.Trim()
             ElseIf trimester = "II" OrElse trimester = "III" OrElse trimester.Contains("2") OrElse trimester.Contains("3") Then
-                ' Trimester 2 sampai 3 -> Menggunakan GDP & GD2PP
                 gdpVal = TextBoxGDP.Text.Trim()
                 gd2ppVal = TextBoxGDPP2.Text.Trim()
             Else
-                ' Fallback jika user memasukkan nilai di form tanpa filter ketat
                 gdsVal = TextBoxGDS.Text.Trim()
                 gdpVal = TextBoxGDP.Text.Trim()
                 gd2ppVal = TextBoxGDPP2.Text.Trim()
@@ -15611,16 +15653,17 @@ Public Class FormRekamMedisDokter
             Dim isLabExist As Boolean = CheckSQL("SELECT * FROM anc_detail_lab WHERE no_transaksi = '" & noTransaksi & "'")
 
             If Not isLabExist Then
-                ' --- INSERT ANC_DETAIL_LAB ---
+                ' --- INSERT ANC_DETAIL_LAB (DENGAN ID_KUNJUNGAN) ---
                 Dim queryInsertLab As String = _
                     "INSERT INTO anc_detail_lab (" & _
-                    "no_transaksi, no_rekam_medis, trimester, hb_g_dl, protein_urine, goldar_rhesus, " & _
+                    "id_kunjungan, no_transaksi, no_rekam_medis, trimester, hb_g_dl, protein_urine, goldar_rhesus, " & _
                     "gds_mg_dl, gdp_mg_dl, gd2pp_mg_dl, urin_reduksi, triple_hiv, triple_sifilis, triple_hepb, created_at) " & _
                     "VALUES (" & _
-                    "@noTransaksi, @noRekamMedis, @trimester, @hb, @proteinUrine, @goldar, " & _
+                    "@idKunjungan, @noTransaksi, @noRekamMedis, @trimester, @hb, @proteinUrine, @goldar, " & _
                     "@gds, @gdp, @gd2pp, @urinReduksi, @hiv, @sifilis, @hepB, GETDATE())"
 
                 WriteParameterizedLokalSQL(queryInsertLab, 4, _
+                    New SqlParameter("@idKunjungan", idKunjunganVal), _
                     New SqlParameter("@noTransaksi", noTransaksi), _
                     New SqlParameter("@noRekamMedis", noRekamMedis), _
                     New SqlParameter("@trimester", trimester), _
@@ -15635,9 +15678,10 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@sifilis", If(String.IsNullOrEmpty(sifilisVal), DBNull.Value, CObj(sifilisVal))), _
                     New SqlParameter("@hepB", If(String.IsNullOrEmpty(hepBVal), DBNull.Value, CObj(hepBVal))))
             Else
-                ' --- UPDATE ANC_DETAIL_LAB ---
+                ' --- UPDATE ANC_DETAIL_LAB (DENGAN ID_KUNJUNGAN) ---
                 Dim queryUpdateLab As String = _
                     "UPDATE anc_detail_lab SET " & _
+                    "id_kunjungan = @idKunjungan, " & _
                     "trimester = @trimester, " & _
                     "hb_g_dl = @hb, " & _
                     "protein_urine = @proteinUrine, " & _
@@ -15652,6 +15696,7 @@ Public Class FormRekamMedisDokter
                     "WHERE no_transaksi = @noTransaksi"
 
                 WriteParameterizedLokalSQL(queryUpdateLab, 4, _
+                    New SqlParameter("@idKunjungan", idKunjunganVal), _
                     New SqlParameter("@noTransaksi", noTransaksi), _
                     New SqlParameter("@trimester", trimester), _
                     New SqlParameter("@hb", If(String.IsNullOrEmpty(hbVal), DBNull.Value, CObj(hbVal))), _
@@ -16222,22 +16267,30 @@ Public Class FormRekamMedisDokter
         Integer.TryParse(kunjunganVal, kunjunganKe)
 
         Try
+            ' Query gabungan anc_kunjungan, anc_detail_lab, dan TransaksiDetailFisik
             Dim query As String = _
                 "SELECT TOP 1 " & _
-                "    tempat_periksa, lila_cm, tfu_cm, letak_janin, djj, " & _
-                "    imunisasi_tt, skrining_dokter, konseling, tablet_tambah_darah, " & _
-                "    usg_status, tata_laksana " & _
-                "FROM anc_kunjungan " & _
-                "WHERE no_rekam_medis = '" & idPasien & "' " & _
-                "  AND trimester = '" & trimesterVal & "' " & _
-                "  AND kunjungan_ke = " & kunjunganKe & " " & _
-                "ORDER BY id_kunjungan DESC"
+                "    ANC.tempat_periksa, ANC.lila_cm, ANC.tfu_cm, ANC.letak_janin, ANC.djj, " & _
+                "    ANC.imunisasi_tt, ANC.skrining_dokter, ANC.konseling, ANC.tablet_tambah_darah, " & _
+                "    ANC.usg_status, ANC.tata_laksana, " & _
+                "    TDF.Sistole, TDF.Diastole, " & _
+                "    LAB.hb_g_dl, LAB.protein_urine, LAB.goldar_rhesus, " & _
+                "    LAB.gds_mg_dl, LAB.gdp_mg_dl, LAB.gd2pp_mg_dl, LAB.urin_reduksi, " & _
+                "    LAB.triple_hiv, LAB.triple_sifilis, LAB.triple_hepb " & _
+                "FROM anc_kunjungan ANC " & _
+                "LEFT JOIN anc_detail_lab LAB ON (ANC.id_kunjungan = LAB.id_kunjungan OR ANC.no_transaksi = LAB.no_transaksi) " & _
+                "LEFT JOIN TransaksiDetailFisik TDF ON ANC.no_transaksi = TDF.NoTransaksi " & _
+                "WHERE ANC.no_rekam_medis = '" & idPasien & "' " & _
+                "  AND ANC.trimester = '" & trimesterVal & "' " & _
+                "  AND ANC.kunjungan_ke = " & kunjunganKe & " " & _
+                "ORDER BY ANC.id_kunjungan DESC"
 
             Dim dtANC As DataTable = ReadSQL(query)
 
             If dtANC IsNot Nothing AndAlso dtANC.Rows.Count > 0 Then
                 Dim row As DataRow = dtANC.Rows(0)
 
+                ' 1. Load Data ANC Kunjungan
                 TextBoxTempatPeriksa.Text = row("tempat_periksa").ToString()
                 TextBoxLetakJanin.Text = row("letak_janin").ToString()
                 ComboBoxImunisasiTT.Text = row("imunisasi_tt").ToString()
@@ -16269,8 +16322,38 @@ Public Class FormRekamMedisDokter
                 Else
                     TextBoxTabletDarah.Clear()
                 End If
+
+                ' 2. Load Vital Sign (Sistole & Diastole)
+                TextBoxSistole.Text = row("Sistole").ToString()
+                TextBoxDiastole.Text = row("Diastole").ToString()
+
+                ' 3. Load Data Laboratorium (anc_detail_lab)
+                TextBoxHb.Text = row("hb_g_dl").ToString()
+                TextBoxGoldar.Text = row("goldar_rhesus").ToString()
+                ComboBoxProteinUrine.Text = row("protein_urine").ToString()
+                ComboBoxUrinReduksi.Text = row("urin_reduksi").ToString()
+
+                TextBoxGDSPelayanan.Text = row("gds_mg_dl").ToString()
+                TextBoxGDP.Text = row("gdp_mg_dl").ToString()
+                TextBoxGDPP2.Text = row("gd2pp_mg_dl").ToString()
+
+                ' Load RadioButton Triple Eliminasi - HIV
+                Dim hivVal As String = row("triple_hiv").ToString().Trim()
+                RadioButtonHivReaktif.Checked = (hivVal = "Reaktif")
+                RadioButtonHivNon.Checked = (hivVal = "Non Reaktif")
+
+                ' Load RadioButton Triple Eliminasi - Sifilis
+                Dim sifilisVal As String = row("triple_sifilis").ToString().Trim()
+                RadioButtonSifilisReaktif.Checked = (sifilisVal = "Reaktif")
+                RadioButtonSifilisNon.Checked = (sifilisVal = "Non Reaktif")
+
+                ' Load RadioButton Triple Eliminasi - Hepatitis B (HBsAg)
+                Dim hepBVal As String = row("triple_hepb").ToString().Trim()
+                RadioButtonHepBReaktif.Checked = (hepBVal = "Reaktif")
+                RadioButtonHepBNon.Checked = (hepBVal = "Non Reaktif")
+
             Else
-                ' PENTING: Bersihkan seluruh isian form jika data kunjungan ini belum ada
+                ' PENTING: Bersihkan seluruh isian form (termasuk kontrol Lab) jika data kunjungan ini belum ada
                 ClearFormANCInput()
             End If
 
@@ -16372,6 +16455,31 @@ Public Class FormRekamMedisDokter
                 HitungSkriningPreeklampsia()
             End If
 
+            ' =========================================================================
+            ' STEP 3: LOAD DATA HASIL LAB (TABEL anc_detail_lab KHUSUS TRIMESTER 2)
+            ' =========================================================================
+            Dim queryLabTri2 As String = _
+                "SELECT TOP 1 " & _
+                "    protein_urine, gdp_mg_dl, gd2pp_mg_dl " & _
+                "FROM anc_detail_lab " & _
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "  AND (trimester = 'II' OR trimester LIKE '%II%') " & _
+                "ORDER BY id_detail_lab DESC"
+
+            Dim dtLabTri2 As DataTable = ReadSQL(queryLabTri2)
+
+            If dtLabTri2 IsNot Nothing AndAlso dtLabTri2.Rows.Count > 0 Then
+                Dim rowLab As DataRow = dtLabTri2.Rows(0)
+
+                ComboBoxProteinuria.Text = rowLab("protein_urine").ToString()
+                TextBoxGdTriII.Text = rowLab("gdp_mg_dl").ToString()
+                TextBoxGdPP.Text = rowLab("gd2pp_mg_dl").ToString()
+            Else
+                ComboBoxProteinuria.SelectedIndex = -1
+                TextBoxGdTriII.Clear()
+                TextBoxGdPP.Clear()
+            End If
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Error Load Data Trimester 2")
         End Try
@@ -16444,7 +16552,7 @@ Public Class FormRekamMedisDokter
             Dim kesimpulan As String = TextBoxKeteranganTriII.Text.Trim()
             Dim statusRujukan As String = TextBoxStatusRujukan.Text.Trim()
 
-            ' 4. Eksekusi SQL Parameterized (CREATE / UPDATE)
+            ' 4. Eksekusi SQL Parameterized anc_trimester2 (CREATE / UPDATE)
             If Not isExistTri2 Then
                 Dim queryInsertTri2 As String = _
                     "INSERT INTO anc_trimester2 (" & _
@@ -16485,7 +16593,6 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@kesimpulanDmg", statusRujukan), _
                     New SqlParameter("@createdBy", currentUser))
 
-                MsgBox("Berhasil menyimpan data Pemeriksaan Trimester 2 baru.", MsgBoxStyle.Information, "Success!")
             Else
                 Dim queryUpdateTri2 As String = _
                     "UPDATE anc_trimester2 SET " & _
@@ -16538,9 +16645,51 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@statusRujukan", kesimpulan), _
                     New SqlParameter("@kesimpulanDmg", statusRujukan), _
                     New SqlParameter("@updatedBy", currentUser))
-
-                MsgBox("Berhasil mengubah data Pemeriksaan Trimester 2.", MsgBoxStyle.Information, "Success!")
             End If
+
+            ' =========================================================================
+            ' 5. EKSEKUSI UPSERT DATA LAB (anc_detail_lab) UNTUK GDP & GD2PP
+            ' =========================================================================
+            Dim gdpVal As String = TextBoxGdTriII.Text.Trim()
+            Dim gd2ppVal As String = TextBoxGdPP.Text.Trim()
+            Dim proteinuria As String = ComboBoxProteinuria.Text.Trim()
+
+            ' Cek apakah record lab sudah ada berdasarkan no_transaksi
+            Dim isLabExist As Boolean = CheckSQL("SELECT * FROM anc_detail_lab WHERE no_transaksi = '" & idTransaksi & "'")
+
+            If Not isLabExist Then
+                Dim queryInsertLab As String = _
+                    "INSERT INTO anc_detail_lab (" & _
+                    "id_kunjungan, no_transaksi, no_rekam_medis, trimester, protein_urine, gdp_mg_dl, gd2pp_mg_dl, created_at) " & _
+                    "VALUES (" & _
+                    "@idKunjungan, @noTransaksi, @noRekamMedis, 'II', @proteinuria, @gdp, @gd2pp, GETDATE())"
+
+                WriteParameterizedLokalSQL(queryInsertLab, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noTransaksi", idTransaksi), _
+                    New SqlParameter("@noRekamMedis", idPasien), _
+                    New SqlParameter("@proteinuria", If(String.IsNullOrEmpty(proteinuria), DBNull.Value, CObj(proteinuria))), _
+                    New SqlParameter("@gdp", If(String.IsNullOrEmpty(gdpVal), DBNull.Value, CObj(gdpVal))), _
+                    New SqlParameter("@gd2pp", If(String.IsNullOrEmpty(gd2ppVal), DBNull.Value, CObj(gd2ppVal))))
+            Else
+                Dim queryUpdateLab As String = _
+                    "UPDATE anc_detail_lab SET " & _
+                    "id_kunjungan = @idKunjungan, " & _
+                    "trimester = 'II', " & _
+                    "protein_urine = @proteinuria, " & _
+                    "gdp_mg_dl = @gdp, " & _
+                    "gd2pp_mg_dl = @gd2pp " & _
+                    "WHERE no_transaksi = @noTransaksi"
+
+                WriteParameterizedLokalSQL(queryUpdateLab, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noTransaksi", idTransaksi), _
+                    New SqlParameter("@proteinuria", If(String.IsNullOrEmpty(proteinuria), DBNull.Value, CObj(proteinuria))), _
+                    New SqlParameter("@gdp", If(String.IsNullOrEmpty(gdpVal), DBNull.Value, CObj(gdpVal))), _
+                    New SqlParameter("@gd2pp", If(String.IsNullOrEmpty(gd2ppVal), DBNull.Value, CObj(gd2ppVal))))
+            End If
+
+            MsgBox("Berhasil menyimpan data Pemeriksaan Trimester 2 & Hasil Gula Darah Lab.", MsgBoxStyle.Information, "Success!")
 
             ' Re-load data agar form sinkron
             LoadDataTrimesterII()
@@ -16562,7 +16711,7 @@ Public Class FormRekamMedisDokter
 
             Dim currentUser As String = If(String.IsNullOrEmpty(userInput), "System", userInput)
 
-            ' 2. Ambil id_kunjungan dari anc_kunjungan (Auto-Create dasar jika transaksi aktif belum ada)
+            ' 2. Ambil id_kunjungan dari anc_kunjungan (Auto-Create dasar jika transaksi aktif belum ada dengan tgl_periksa default Now/GETDATE)
             Dim idKunjungan As Integer = 0
             Dim dtKunjungan As DataTable = ReadSQL("SELECT id_kunjungan FROM anc_kunjungan WHERE no_transaksi = '" & idTransaksi & "'")
 
@@ -16727,7 +16876,6 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@catatanPenjelasan", catatanPenjelasan), _
                     New SqlParameter("@createdBy", currentUser))
 
-                MsgBox("Berhasil menyimpan data Pemeriksaan Trimester 3 baru.", MsgBoxStyle.Information, "Success!")
             Else
                 Dim queryUpdateTri3 As String = _
                     "UPDATE anc_trimester3 SET " & _
@@ -16810,11 +16958,50 @@ Public Class FormRekamMedisDokter
                     New SqlParameter("@rekomendasiTempatLahir", rekomendasiTempatLahir), _
                     New SqlParameter("@catatanPenjelasan", catatanPenjelasan), _
                     New SqlParameter("@updatedBy", currentUser))
-
-                MsgBox("Berhasil mengubah data Pemeriksaan Trimester 3.", MsgBoxStyle.Information, "Success!")
             End If
 
-            ' 5. Simpan Pemeriksaan Fisik (anc_pemeriksaan_fisik)
+            ' =========================================================================
+            ' 5. EKSEKUSI UPSERT DATA LAB (anc_detail_lab) UNTUK TRIMESTER III
+            ' =========================================================================
+            Dim hbVal As String = TextBoxHbTriIII.Text.Trim()
+            Dim proteinUrineVal As String = ComboBoxProteinUrineTriIII.Text.Trim()
+            Dim urinReduksiVal As String = ComboBoxUrinTriIII.Text.Trim()
+
+            Dim isLabExist As Boolean = CheckSQL("SELECT * FROM anc_detail_lab WHERE no_transaksi = '" & noTransaksi & "'")
+
+            If Not isLabExist Then
+                Dim queryInsertLab As String = _
+                    "INSERT INTO anc_detail_lab (" & _
+                    "id_kunjungan, no_transaksi, no_rekam_medis, trimester, hb_g_dl, protein_urine, urin_reduksi, created_at) " & _
+                    "VALUES (" & _
+                    "@idKunjungan, @noTransaksi, @noRekamMedis, 'III', @hb, @proteinUrine, @urinReduksi, GETDATE())"
+
+                WriteParameterizedLokalSQL(queryInsertLab, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noTransaksi", noTransaksi), _
+                    New SqlParameter("@noRekamMedis", noRekamMedis), _
+                    New SqlParameter("@hb", If(String.IsNullOrEmpty(hbVal), DBNull.Value, CObj(hbVal))), _
+                    New SqlParameter("@proteinUrine", If(String.IsNullOrEmpty(proteinUrineVal), DBNull.Value, CObj(proteinUrineVal))), _
+                    New SqlParameter("@urinReduksi", If(String.IsNullOrEmpty(urinReduksiVal), DBNull.Value, CObj(urinReduksiVal))))
+            Else
+                Dim queryUpdateLab As String = _
+                    "UPDATE anc_detail_lab SET " & _
+                    "id_kunjungan = @idKunjungan, " & _
+                    "trimester = 'III', " & _
+                    "hb_g_dl = @hb, " & _
+                    "protein_urine = @proteinUrine, " & _
+                    "urin_reduksi = @urinReduksi " & _
+                    "WHERE no_transaksi = @noTransaksi"
+
+                WriteParameterizedLokalSQL(queryUpdateLab, 4, _
+                    New SqlParameter("@idKunjungan", paramIdKunjungan), _
+                    New SqlParameter("@noTransaksi", noTransaksi), _
+                    New SqlParameter("@hb", If(String.IsNullOrEmpty(hbVal), DBNull.Value, CObj(hbVal))), _
+                    New SqlParameter("@proteinUrine", If(String.IsNullOrEmpty(proteinUrineVal), DBNull.Value, CObj(proteinUrineVal))), _
+                    New SqlParameter("@urinReduksi", If(String.IsNullOrEmpty(urinReduksiVal), DBNull.Value, CObj(urinReduksiVal))))
+            End If
+
+            ' 6. Simpan Pemeriksaan Fisik (anc_pemeriksaan_fisik)
             Dim listFisik() As ItemFisik = { _
                 New ItemFisik("Keadaan Umum", "", TextBoxKeadaanUmumTriIII.Text.Trim()), _
                 New ItemFisik("Konjungtiva", ComboBoxKonjungtivaTriIII.Text.Trim(), TextBoxKonjungtivaTriIII.Text.Trim()), _
@@ -16873,7 +17060,7 @@ Public Class FormRekamMedisDokter
                 End If
             Next
 
-            MsgBox("Berhasil menyimpan data Pelayanan Trimester 3 dan Pemeriksaan Fisik Pasien!", MsgBoxStyle.Information, "Success!")
+            MsgBox("Berhasil menyimpan data Pelayanan Trimester 3, Pemeriksaan Lab, dan Fisik Pasien!", MsgBoxStyle.Information, "Success!")
 
             ' Refresh tampilan form
             LoadDataTrimesterIII()
@@ -16887,7 +17074,34 @@ Public Class FormRekamMedisDokter
         If String.IsNullOrEmpty(idPasien) Then Exit Sub
 
         Try
-            ' 1. Load Data dari Tabel anc_trimester3 berdasarkan no_rekam_medis terbaru
+            Dim currentNoTransaksi As String = idTransaksi
+
+            ' =========================================================================
+            ' STEP 1: LOAD DATA SISTOLE & DIASTOLE (MENGGUNAKAN IDTRANSAKSI AKTIF)
+            ' =========================================================================
+            'If Not String.IsNullOrEmpty(currentNoTransaksi) Then
+            '    Dim queryFisikDasar As String = _
+            '        "SELECT TOP 1 Sistole, Diastole " & _
+            '        "FROM TransaksiDetailFisik " & _
+            '        "WHERE NoTransaksi = '" & currentNoTransaksi & "'"
+
+            '    Dim dtFisikDasar As DataTable = ReadSQL(queryFisikDasar)
+
+            '    If dtFisikDasar IsNot Nothing AndAlso dtFisikDasar.Rows.Count > 0 Then
+            '        TextBoxSistoleTriIII.Text = dtFisikDasar.Rows(0)("Sistole").ToString()
+            '        TextBoxDiastoleTriIII.Text = dtFisikDasar.Rows(0)("Diastole").ToString()
+            '    Else
+            '        TextBoxSistoleTriIII.Clear()
+            '        TextBoxDiastoleTriIII.Clear()
+            '    End If
+            'Else
+            '    TextBoxSistoleTriIII.Clear()
+            '    TextBoxDiastoleTriIII.Clear()
+            'End If
+
+            ' =========================================================================
+            ' STEP 2: LOAD DATA USG & BIOMETRI (TABEL anc_trimester3)
+            ' =========================================================================
             Dim queryTri3 As String = _
                 "SELECT TOP 1 " & _
                 "    usg_dilakukan, uk_usg_minggu, selisih_gt_3minggu, usg_jumlah_bayi, usg_letak_kehamilan, " & _
@@ -16983,7 +17197,9 @@ Public Class FormRekamMedisDokter
                 TextBoxPenjelasanTriIII.Text = row("catatan_penjelasan").ToString()
             End If
 
-            ' 2. Load Data dari Tabel anc_pemeriksaan_fisik Khusus Trimester III
+            ' =========================================================================
+            ' STEP 3: LOAD DATA PEMERIKSAAN FISIK ORGAN (TABEL anc_pemeriksaan_fisik)
+            ' =========================================================================
             Dim queryFisik As String = _
                 "SELECT organ_pemeriksaan, status_kondisi, catatan_keterangan " & _
                 "FROM anc_pemeriksaan_fisik " & _
@@ -17031,6 +17247,49 @@ Public Class FormRekamMedisDokter
                             TextBoxKeadaanUmumTriIII.Text = catatan
                     End Select
                 Next
+            End If
+
+            ' =========================================================================
+            ' STEP 4: LOAD DATA HASIL LAB (TABEL anc_detail_lab KHUSUS TRIMESTER 3)
+            ' =========================================================================
+            Dim queryLabTri3 As String = _
+                "SELECT TOP 1 " & _
+                "    hb_g_dl, protein_urine, urin_reduksi, created_at " & _
+                "FROM anc_detail_lab " & _
+                "WHERE no_rekam_medis = '" & idPasien & "' " & _
+                "  AND (trimester = 'III') " & _
+                "ORDER BY id_detail_lab DESC"
+
+            Dim dtLabTri3 As DataTable = ReadSQL(queryLabTri3)
+
+            If dtLabTri3 IsNot Nothing AndAlso dtLabTri3.Rows.Count > 0 Then
+                Dim rowLab As DataRow = dtLabTri3.Rows(0)
+
+                ' 1. Load Data Hasil Lab
+                TextBoxHbTriIII.Text = rowLab("hb_g_dl").ToString()
+                ComboBoxProteinUrineTriIII.Text = rowLab("protein_urine").ToString()
+                ComboBoxUrinTriIII.Text = rowLab("urin_reduksi").ToString()
+
+                ' 2. Load Tgl Periksa / Tanggal Buat (created_at) ke DtTrimesterIII
+                If Not IsDBNull(rowLab("created_at")) Then
+                    DtTrimesterIII.Value = Convert.ToDateTime(rowLab("created_at"))
+                    DtTrimesterIII.Checked = True
+
+                    ' ATAU jika DtTrimesterIII berupa TextBox / MaskedTextBox:
+                    ' DtTrimesterIII.Text = Convert.ToDateTime(rowLab("created_at")).ToString("dd/MM/yyyy")
+                Else
+                    ' Reset jika nilainya NULL
+                    DtTrimesterIII.Checked = False
+                    ' DtTrimesterIII.Clear() ' (Gunakan ini jika DtTrimesterIII berupa TextBox)
+                End If
+            Else
+                ' Reset Form Lab Trimester III jika belum ada data
+                TextBoxHbTriIII.Clear()
+                ComboBoxProteinUrineTriIII.SelectedIndex = -1
+                ComboBoxUrinTriIII.SelectedIndex = -1
+
+                DtTrimesterIII.Checked = False
+                ' DtTrimesterIII.Clear() ' (Gunakan ini jika DtTrimesterIII berupa TextBox)
             End If
 
         Catch ex As Exception

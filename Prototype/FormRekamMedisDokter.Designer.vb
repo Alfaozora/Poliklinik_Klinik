@@ -1022,13 +1022,12 @@ Me.Label561 = New System.Windows.Forms.Label
 Me.Label570 = New System.Windows.Forms.Label
 Me.Label571 = New System.Windows.Forms.Label
 Me.GroupBox47 = New System.Windows.Forms.GroupBox
+Me.ComboBoxProteinUrineTriIII = New System.Windows.Forms.ComboBox
 Me.TextBoxUrinReduksi = New System.Windows.Forms.TextBox
 Me.TextBoxLanjutanUrin = New System.Windows.Forms.TextBox
 Me.ComboBoxUrinTriIII = New System.Windows.Forms.ComboBox
-Me.TextBox103 = New System.Windows.Forms.TextBox
 Me.Label562 = New System.Windows.Forms.Label
 Me.Label563 = New System.Windows.Forms.Label
-Me.TextBoxUrineTriIII = New System.Windows.Forms.TextBox
 Me.Label564 = New System.Windows.Forms.Label
 Me.Label565 = New System.Windows.Forms.Label
 Me.TextBoxLanjutanHb = New System.Windows.Forms.TextBox
@@ -1036,7 +1035,6 @@ Me.TextBox109 = New System.Windows.Forms.TextBox
 Me.TextBoxHbTriIII = New System.Windows.Forms.TextBox
 Me.Label566 = New System.Windows.Forms.Label
 Me.Label567 = New System.Windows.Forms.Label
-Me.TextBoxTglPeriksaLabTriIII = New System.Windows.Forms.TextBox
 Me.Label568 = New System.Windows.Forms.Label
 Me.Label569 = New System.Windows.Forms.Label
 Me.GroupBox43 = New System.Windows.Forms.GroupBox
@@ -1794,6 +1792,7 @@ Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+Me.DtTrimesterIII = New System.Windows.Forms.DateTimePicker
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -13311,7 +13310,7 @@ Me.TextBox102.ReadOnly = true
 Me.TextBox102.Size = New System.Drawing.Size(60, 25)
 Me.TextBox102.TabIndex = 440
 Me.TextBox102.TabStop = false
-Me.TextBox102.Text = "g/dL"
+Me.TextBox102.Text = "mg/dL"
 Me.TextBox102.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
 'TextBoxGdPP
@@ -13353,7 +13352,7 @@ Me.TextBox87.ReadOnly = true
 Me.TextBox87.Size = New System.Drawing.Size(60, 25)
 Me.TextBox87.TabIndex = 436
 Me.TextBox87.TabStop = false
-Me.TextBox87.Text = "g/dL"
+Me.TextBox87.Text = "mg/dL"
 Me.TextBox87.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
 'TextBoxGdTriII
@@ -13400,7 +13399,7 @@ Me.CheckBoxTinggi8.UseVisualStyleBackColor = true
 Me.ComboBoxProteinuria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 Me.ComboBoxProteinuria.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
 Me.ComboBoxProteinuria.FormattingEnabled = true
-Me.ComboBoxProteinuria.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "Kuantitatif 300mg"})
+Me.ComboBoxProteinuria.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "+3", "+4"})
 Me.ComboBoxProteinuria.Location = New System.Drawing.Point(235, 87)
 Me.ComboBoxProteinuria.Name = "ComboBoxProteinuria"
 Me.ComboBoxProteinuria.Size = New System.Drawing.Size(153, 25)
@@ -13515,7 +13514,7 @@ Me.Label486.Text = ":"
 '
 Me.Label485.AutoSize = true
 Me.Label485.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.Label485.Location = New System.Drawing.Point(10, 95)
+Me.Label485.Location = New System.Drawing.Point(10, 91)
 Me.Label485.Name = "Label485"
 Me.Label485.Size = New System.Drawing.Size(75, 17)
 Me.Label485.TabIndex = 2
@@ -14158,13 +14157,13 @@ Me.Label571.Text = "Tgl Periksa"
 'GroupBox47
 '
 Me.GroupBox47.AutoSize = true
+Me.GroupBox47.Controls.Add(Me.DtTrimesterIII)
+Me.GroupBox47.Controls.Add(Me.ComboBoxProteinUrineTriIII)
 Me.GroupBox47.Controls.Add(Me.TextBoxUrinReduksi)
 Me.GroupBox47.Controls.Add(Me.TextBoxLanjutanUrin)
 Me.GroupBox47.Controls.Add(Me.ComboBoxUrinTriIII)
-Me.GroupBox47.Controls.Add(Me.TextBox103)
 Me.GroupBox47.Controls.Add(Me.Label562)
 Me.GroupBox47.Controls.Add(Me.Label563)
-Me.GroupBox47.Controls.Add(Me.TextBoxUrineTriIII)
 Me.GroupBox47.Controls.Add(Me.Label564)
 Me.GroupBox47.Controls.Add(Me.Label565)
 Me.GroupBox47.Controls.Add(Me.TextBoxLanjutanHb)
@@ -14172,7 +14171,6 @@ Me.GroupBox47.Controls.Add(Me.TextBox109)
 Me.GroupBox47.Controls.Add(Me.TextBoxHbTriIII)
 Me.GroupBox47.Controls.Add(Me.Label566)
 Me.GroupBox47.Controls.Add(Me.Label567)
-Me.GroupBox47.Controls.Add(Me.TextBoxTglPeriksaLabTriIII)
 Me.GroupBox47.Controls.Add(Me.Label568)
 Me.GroupBox47.Controls.Add(Me.Label569)
 Me.GroupBox47.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
@@ -14183,6 +14181,17 @@ Me.GroupBox47.Size = New System.Drawing.Size(503, 162)
 Me.GroupBox47.TabIndex = 13
 Me.GroupBox47.TabStop = false
 Me.GroupBox47.Text = "Pemeriksaan Lab"
+'
+'ComboBoxProteinUrineTriIII
+'
+Me.ComboBoxProteinUrineTriIII.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+Me.ComboBoxProteinUrineTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.ComboBoxProteinUrineTriIII.FormattingEnabled = true
+Me.ComboBoxProteinUrineTriIII.Items.AddRange(New Object() {"Negatif (-)", "+1", "+2", "+3", "+4"})
+Me.ComboBoxProteinUrineTriIII.Location = New System.Drawing.Point(134, 80)
+Me.ComboBoxProteinUrineTriIII.Name = "ComboBoxProteinUrineTriIII"
+Me.ComboBoxProteinUrineTriIII.Size = New System.Drawing.Size(146, 25)
+Me.ComboBoxProteinUrineTriIII.TabIndex = 446
 '
 'TextBoxUrinReduksi
 '
@@ -14211,20 +14220,6 @@ Me.ComboBoxUrinTriIII.Name = "ComboBoxUrinTriIII"
 Me.ComboBoxUrinTriIII.Size = New System.Drawing.Size(146, 25)
 Me.ComboBoxUrinTriIII.TabIndex = 443
 '
-'TextBox103
-'
-Me.TextBox103.BackColor = System.Drawing.Color.FromArgb(CType(CType(223,Byte),Integer), CType(CType(240,Byte),Integer), CType(CType(216,Byte),Integer))
-Me.TextBox103.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-Me.TextBox103.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold)
-Me.TextBox103.Location = New System.Drawing.Point(220, 79)
-Me.TextBox103.Name = "TextBox103"
-Me.TextBox103.ReadOnly = true
-Me.TextBox103.Size = New System.Drawing.Size(60, 25)
-Me.TextBox103.TabIndex = 442
-Me.TextBox103.TabStop = false
-Me.TextBox103.Text = "mg/dL"
-Me.TextBox103.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-'
 'Label562
 '
 Me.Label562.AutoSize = true
@@ -14244,14 +14239,6 @@ Me.Label563.Name = "Label563"
 Me.Label563.Size = New System.Drawing.Size(84, 17)
 Me.Label563.TabIndex = 429
 Me.Label563.Text = "Urin Reduksi"
-'
-'TextBoxUrineTriIII
-'
-Me.TextBoxUrineTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxUrineTriIII.Location = New System.Drawing.Point(134, 79)
-Me.TextBoxUrineTriIII.Name = "TextBoxUrineTriIII"
-Me.TextBoxUrineTriIII.Size = New System.Drawing.Size(80, 25)
-Me.TextBoxUrineTriIII.TabIndex = 427
 '
 'Label564
 '
@@ -14292,7 +14279,7 @@ Me.TextBox109.ReadOnly = true
 Me.TextBox109.Size = New System.Drawing.Size(60, 25)
 Me.TextBox109.TabIndex = 423
 Me.TextBox109.TabStop = false
-Me.TextBox109.Text = "mg/dL"
+Me.TextBox109.Text = "g/dL"
 Me.TextBox109.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
 '
 'TextBoxHbTriIII
@@ -14322,14 +14309,6 @@ Me.Label567.Name = "Label567"
 Me.Label567.Size = New System.Drawing.Size(113, 17)
 Me.Label567.TabIndex = 9
 Me.Label567.Text = "Hemoglobin (Hb)"
-'
-'TextBoxTglPeriksaLabTriIII
-'
-Me.TextBoxTglPeriksaLabTriIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-Me.TextBoxTglPeriksaLabTriIII.Location = New System.Drawing.Point(134, 18)
-Me.TextBoxTglPeriksaLabTriIII.Name = "TextBoxTglPeriksaLabTriIII"
-Me.TextBoxTglPeriksaLabTriIII.Size = New System.Drawing.Size(146, 25)
-Me.TextBoxTglPeriksaLabTriIII.TabIndex = 8
 '
 'Label568
 '
@@ -23880,6 +23859,17 @@ Me.TimerAPI.Interval = 60000
 '
 Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
+'DtTrimesterIII
+'
+Me.DtTrimesterIII.CalendarFont = New System.Drawing.Font("Arial", 9!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DtTrimesterIII.CustomFormat = "dd-MMM-yyyy"
+Me.DtTrimesterIII.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+Me.DtTrimesterIII.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+Me.DtTrimesterIII.Location = New System.Drawing.Point(134, 20)
+Me.DtTrimesterIII.Name = "DtTrimesterIII"
+Me.DtTrimesterIII.Size = New System.Drawing.Size(146, 25)
+Me.DtTrimesterIII.TabIndex = 455
+'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -25916,7 +25906,6 @@ End Sub
     Friend WithEvents CheckBoxTinggi2 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBoxTinggi1 As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBoxTri As System.Windows.Forms.GroupBox
-    Friend WithEvents CheckBoxSedang8 As System.Windows.Forms.CheckBox
     Friend WithEvents TextBox97 As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxMap As System.Windows.Forms.TextBox
     Friend WithEvents Label489 As System.Windows.Forms.Label
@@ -25937,7 +25926,6 @@ End Sub
     Friend WithEvents TextBoxStatusRujukan As System.Windows.Forms.TextBox
     Friend WithEvents Label492 As System.Windows.Forms.Label
     Friend WithEvents Label493 As System.Windows.Forms.Label
-    Friend WithEvents CheckBoxTinggi8 As System.Windows.Forms.CheckBox
     Friend WithEvents SplitContainer26 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer27 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer28 As System.Windows.Forms.SplitContainer
@@ -26067,7 +26055,6 @@ End Sub
     Friend WithEvents GroupBox46 As System.Windows.Forms.GroupBox
     Friend WithEvents ButtonUsgTriIII As System.Windows.Forms.Button
     Friend WithEvents GroupBox47 As System.Windows.Forms.GroupBox
-    Friend WithEvents TextBox103 As System.Windows.Forms.TextBox
     Friend WithEvents Label562 As System.Windows.Forms.Label
     Friend WithEvents Label563 As System.Windows.Forms.Label
     Friend WithEvents Label564 As System.Windows.Forms.Label
@@ -26077,7 +26064,6 @@ End Sub
     Friend WithEvents TextBoxHbTriIII As System.Windows.Forms.TextBox
     Friend WithEvents Label566 As System.Windows.Forms.Label
     Friend WithEvents Label567 As System.Windows.Forms.Label
-    Friend WithEvents TextBoxTglPeriksaLabTriIII As System.Windows.Forms.TextBox
     Friend WithEvents Label568 As System.Windows.Forms.Label
     Friend WithEvents Label569 As System.Windows.Forms.Label
     Friend WithEvents TextBoxUrinReduksi As System.Windows.Forms.TextBox
@@ -26130,7 +26116,6 @@ End Sub
     Friend WithEvents TextBoxKeteranganGDTriII As System.Windows.Forms.TextBox
     Friend WithEvents ComboBoxRhesus As System.Windows.Forms.ComboBox
     Friend WithEvents ComboBoxUrinReduksi As System.Windows.Forms.ComboBox
-    Friend WithEvents TextBoxUrineTriIII As System.Windows.Forms.TextBox
     Friend WithEvents TextBox99 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox111 As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxGDPP2 As System.Windows.Forms.TextBox
@@ -26161,4 +26146,8 @@ End Sub
     Friend WithEvents Panel36 As System.Windows.Forms.Panel
     Friend WithEvents RadioButtonHivTriReaktif As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonHivTriINon As System.Windows.Forms.RadioButton
+    Friend WithEvents CheckBoxTinggi8 As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckBoxSedang8 As System.Windows.Forms.CheckBox
+    Friend WithEvents ComboBoxProteinUrineTriIII As System.Windows.Forms.ComboBox
+    Friend WithEvents DtTrimesterIII As System.Windows.Forms.DateTimePicker
 End Class
