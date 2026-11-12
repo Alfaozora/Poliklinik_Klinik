@@ -3484,3 +3484,4 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\Interop.WMPLib.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\AxInterop.WMPLib.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\Interop.WMPLib.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormThoraxViewer.resources

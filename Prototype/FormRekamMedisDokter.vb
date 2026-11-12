@@ -9324,6 +9324,20 @@ Public Class FormRekamMedisDokter
                 Else
                     MsgBox("Hasil Tidak Ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
                 End If
+
+            ElseIf RadioButton4.Checked = True Then
+                Dim nikPasien As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
+                Dim namaPasien As String = ReadSQLNIK("SELECT Nama FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
+
+                If String.IsNullOrEmpty(nikPasien) OrElse nikPasien = "-" Then
+                    MsgBox("No. NIK pasien tidak ditemukan di Master Pasien.", MsgBoxStyle.Exclamation, "Warning!")
+                    Exit Sub
+                End If
+
+                Dim frmThorax As New FormThoraxViewer()
+                frmThorax.NikPasien = nikPasien.Trim()
+                frmThorax.NamaPasien = namaPasien.Trim()
+                frmThorax.Show()
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")

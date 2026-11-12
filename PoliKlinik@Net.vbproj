@@ -961,6 +961,12 @@
     <Compile Include="Prototype\SendingUlangPendaftaran.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\ThoraxViewer.Designer.vb">
+      <DependentUpon>ThoraxViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\ThoraxViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\ToggleSwitch.Designer.vb">
       <DependentUpon>ToggleSwitch.vb</DependentUpon>
     </Compile>
@@ -1833,6 +1839,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\SendingUlangPendaftaran.resx">
       <DependentUpon>SendingUlangPendaftaran.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\ThoraxViewer.resx">
+      <DependentUpon>ThoraxViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\ToggleSwitch.resx">
       <DependentUpon>ToggleSwitch.vb</DependentUpon>
