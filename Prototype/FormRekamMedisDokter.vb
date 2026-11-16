@@ -9325,7 +9325,7 @@ Public Class FormRekamMedisDokter
                     MsgBox("Hasil Tidak Ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
                 End If
 
-            ElseIf RadioButton4.Checked = True Then
+            ElseIf RadioButton4.Checked = True OrElse RadioButtonECG.Checked = True Then ' Ganti RadioButton5 sesuai nama RadioButton ECG Anda
                 Dim nikPasien As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
                 Dim namaPasien As String = ReadSQLNIK("SELECT Nama FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
 
@@ -9334,10 +9334,18 @@ Public Class FormRekamMedisDokter
                     Exit Sub
                 End If
 
-                Dim frmThorax As New FormThoraxViewer()
-                frmThorax.NikPasien = nikPasien.Trim()
-                frmThorax.NamaPasien = namaPasien.Trim()
-                frmThorax.Show()
+                If RadioButton4.Checked = True Then
+                    Dim frmThorax As New FormThoraxViewer()
+                    frmThorax.NikPasien = nikPasien.Trim()
+                    frmThorax.NamaPasien = namaPasien.Trim()
+                    frmThorax.Show()
+
+                ElseIf RadioButtonECG.Checked = True Then
+                    Dim frmEcg As New FormEcgViewer()
+                    frmEcg.NikPasien = nikPasien.Trim()
+                    frmEcg.NamaPasien = namaPasien.Trim()
+                    frmEcg.Show()
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Warning!")

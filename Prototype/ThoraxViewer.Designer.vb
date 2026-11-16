@@ -25,7 +25,6 @@ Partial Class FormThoraxViewer
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormThoraxViewer))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.btnResetView = New System.Windows.Forms.Button
         Me.chkSyncZoom = New System.Windows.Forms.CheckBox
         Me.txtNik = New System.Windows.Forms.TextBox
         Me.lblNik = New System.Windows.Forms.Label
@@ -37,20 +36,21 @@ Partial Class FormThoraxViewer
         Me.txtHasilKanan = New System.Windows.Forms.TextBox
         Me.lblStatusKanan = New System.Windows.Forms.Label
         Me.btnLoadKanan = New System.Windows.Forms.Button
-        Me.picBoxKanan = New System.Windows.Forms.PictureBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.cmbTglKiri = New System.Windows.Forms.ComboBox
         Me.txtHasilKiri = New System.Windows.Forms.TextBox
         Me.lblStatusKiri = New System.Windows.Forms.Label
         Me.btnLoadKiri = New System.Windows.Forms.Button
-        Me.picBoxKiri = New System.Windows.Forms.PictureBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnResetView = New System.Windows.Forms.Button
+        Me.picBoxKanan = New System.Windows.Forms.PictureBox
+        Me.picBoxKiri = New System.Windows.Forms.PictureBox
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        CType(Me.picBoxKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.picBoxKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picBoxKiri, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -82,21 +82,6 @@ Partial Class FormThoraxViewer
         Me.SplitContainer1.SplitterDistance = 70
         Me.SplitContainer1.TabIndex = 0
         '
-        'btnResetView
-        '
-        Me.btnResetView.BackColor = System.Drawing.Color.SlateGray
-        Me.btnResetView.FlatAppearance.BorderSize = 0
-        Me.btnResetView.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnResetView.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnResetView.ForeColor = System.Drawing.Color.White
-        Me.btnResetView.Image = CType(resources.GetObject("btnResetView.Image"), System.Drawing.Image)
-        Me.btnResetView.Location = New System.Drawing.Point(1128, 33)
-        Me.btnResetView.Name = "btnResetView"
-        Me.btnResetView.Size = New System.Drawing.Size(41, 25)
-        Me.btnResetView.TabIndex = 458
-        Me.ToolTip1.SetToolTip(Me.btnResetView, "Reset")
-        Me.btnResetView.UseVisualStyleBackColor = False
-        '
         'chkSyncZoom
         '
         Me.chkSyncZoom.AutoSize = True
@@ -127,7 +112,7 @@ Partial Class FormThoraxViewer
         '
         Me.lblNik.AutoSize = True
         Me.lblNik.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNik.ForeColor = System.Drawing.Color.White
+        Me.lblNik.ForeColor = System.Drawing.Color.FromArgb(CType(CType(148, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(184, Byte), Integer))
         Me.lblNik.Location = New System.Drawing.Point(723, 35)
         Me.lblNik.Name = "lblNik"
         Me.lblNik.Size = New System.Drawing.Size(86, 21)
@@ -138,7 +123,7 @@ Partial Class FormThoraxViewer
         '
         Me.lblNamaPasien.AutoSize = True
         Me.lblNamaPasien.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNamaPasien.ForeColor = System.Drawing.Color.White
+        Me.lblNamaPasien.ForeColor = System.Drawing.Color.FromArgb(CType(CType(148, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(184, Byte), Integer))
         Me.lblNamaPasien.Location = New System.Drawing.Point(65, 37)
         Me.lblNamaPasien.Name = "lblNamaPasien"
         Me.lblNamaPasien.Size = New System.Drawing.Size(16, 21)
@@ -149,7 +134,7 @@ Partial Class FormThoraxViewer
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(148, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(184, Byte), Integer))
         Me.Label2.Location = New System.Drawing.Point(6, 37)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(64, 21)
@@ -191,7 +176,7 @@ Partial Class FormThoraxViewer
         Me.cmbTglKanan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbTglKanan.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmbTglKanan.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbTglKanan.ForeColor = System.Drawing.Color.FromArgb(CType(CType(248, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(252, Byte), Integer))
+        Me.cmbTglKanan.ForeColor = System.Drawing.Color.White
         Me.cmbTglKanan.FormattingEnabled = True
         Me.cmbTglKanan.Location = New System.Drawing.Point(8, 24)
         Me.cmbTglKanan.Name = "cmbTglKanan"
@@ -235,15 +220,6 @@ Partial Class FormThoraxViewer
         Me.btnLoadKanan.Text = "Muat Gambar"
         Me.btnLoadKanan.UseVisualStyleBackColor = False
         '
-        'picBoxKanan
-        '
-        Me.picBoxKanan.BackColor = System.Drawing.Color.Black
-        Me.picBoxKanan.Location = New System.Drawing.Point(7, 56)
-        Me.picBoxKanan.Name = "picBoxKanan"
-        Me.picBoxKanan.Size = New System.Drawing.Size(605, 352)
-        Me.picBoxKanan.TabIndex = 1
-        Me.picBoxKanan.TabStop = False
-        '
         'GroupBox1
         '
         Me.GroupBox1.AutoSize = True
@@ -268,7 +244,7 @@ Partial Class FormThoraxViewer
         Me.cmbTglKiri.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbTglKiri.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cmbTglKiri.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbTglKiri.ForeColor = System.Drawing.Color.FromArgb(CType(CType(248, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(252, Byte), Integer))
+        Me.cmbTglKiri.ForeColor = System.Drawing.Color.White
         Me.cmbTglKiri.FormattingEnabled = True
         Me.cmbTglKiri.ItemHeight = 20
         Me.cmbTglKiri.Location = New System.Drawing.Point(8, 24)
@@ -313,6 +289,30 @@ Partial Class FormThoraxViewer
         Me.btnLoadKiri.Text = "Muat Gambar"
         Me.btnLoadKiri.UseVisualStyleBackColor = False
         '
+        'btnResetView
+        '
+        Me.btnResetView.BackColor = System.Drawing.Color.SlateGray
+        Me.btnResetView.FlatAppearance.BorderSize = 0
+        Me.btnResetView.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnResetView.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnResetView.ForeColor = System.Drawing.Color.White
+        Me.btnResetView.Image = CType(resources.GetObject("btnResetView.Image"), System.Drawing.Image)
+        Me.btnResetView.Location = New System.Drawing.Point(1128, 33)
+        Me.btnResetView.Name = "btnResetView"
+        Me.btnResetView.Size = New System.Drawing.Size(41, 25)
+        Me.btnResetView.TabIndex = 458
+        Me.ToolTip1.SetToolTip(Me.btnResetView, "Reset")
+        Me.btnResetView.UseVisualStyleBackColor = False
+        '
+        'picBoxKanan
+        '
+        Me.picBoxKanan.BackColor = System.Drawing.Color.Black
+        Me.picBoxKanan.Location = New System.Drawing.Point(7, 56)
+        Me.picBoxKanan.Name = "picBoxKanan"
+        Me.picBoxKanan.Size = New System.Drawing.Size(605, 352)
+        Me.picBoxKanan.TabIndex = 1
+        Me.picBoxKanan.TabStop = False
+        '
         'picBoxKiri
         '
         Me.picBoxKiri.BackColor = System.Drawing.Color.Black
@@ -340,9 +340,9 @@ Partial Class FormThoraxViewer
         Me.SplitContainer1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        CType(Me.picBoxKanan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.picBoxKanan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picBoxKiri, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

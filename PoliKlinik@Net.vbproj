@@ -568,6 +568,12 @@
     <Compile Include="Prototype\FormCheckinHYU.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormEcgViewer.Designer.vb">
+      <DependentUpon>FormEcgViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormEcgViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormHasilUsg.Designer.vb">
       <DependentUpon>FormHasilUsg.vb</DependentUpon>
     </Compile>
@@ -1629,6 +1635,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormCheckinHYU.resx">
       <DependentUpon>FormCheckinHYU.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormEcgViewer.resx">
+      <DependentUpon>FormEcgViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormHasilUsg.resx">
       <DependentUpon>FormHasilUsg.vb</DependentUpon>
