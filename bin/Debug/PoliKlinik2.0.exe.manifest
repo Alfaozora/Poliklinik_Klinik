@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly manifestVersion="1.0" xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1">
-  <asmv1:assemblyIdentity version="1.0.0.2" name="PoliKlinik2.0.exe" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity version="1.0.0.2" name="PoliKlinik2.0.exe" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="favicon_mmc_circle.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="x86" />
     <commandLine file="PoliKlinik2.0.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -532,14 +532,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17677824">
-      <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PdfiumViewer.dll" size="115712">
+      <assemblyIdentity name="PdfiumViewer" version="2.13.0.0" publicKeyToken="91E4789CFB0609E0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>WjHONi5O8wkivzyaFNnFOwosrlI=</dsig:DigestValue>
+        <dsig:DigestValue>LEEU1SoVHvansQToCLz5oVZMaxw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="nl\PdfiumViewer.resources.dll" size="4608">
+      <assemblyIdentity name="PdfiumViewer.resources" version="2.13.0.0" publicKeyToken="91E4789CFB0609E0" language="nl" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>uFvsjGq8tP7KuhAqUwkc/VaoYgU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17684992">
+      <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>lEirOSIbJaYaFW9gfbz8uXvCLj4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -30,25 +30,26 @@ Partial Class FormEcgViewer
         Me.Label2 = New System.Windows.Forms.Label
         Me.label1 = New System.Windows.Forms.Label
         Me.grpKanan = New System.Windows.Forms.GroupBox
-        Me.WebBrowser1 = New System.Windows.Forms.WebBrowser
         Me.lblStatusKanan = New System.Windows.Forms.Label
         Me.btnEksternalKanan = New System.Windows.Forms.Button
-        Me.webKanan = New System.Windows.Forms.WebBrowser
         Me.cmbTglKanan = New System.Windows.Forms.ComboBox
         Me.txtHasilKanan = New System.Windows.Forms.TextBox
         Me.btnLoadKanan = New System.Windows.Forms.Button
         Me.grpKiri = New System.Windows.Forms.GroupBox
-        Me.webKiri = New System.Windows.Forms.WebBrowser
         Me.lblStatusKiri = New System.Windows.Forms.Label
         Me.btnEksternalKiri = New System.Windows.Forms.Button
         Me.cmbTglKiri = New System.Windows.Forms.ComboBox
         Me.txtHasilKiri = New System.Windows.Forms.TextBox
         Me.btnLoadKiri = New System.Windows.Forms.Button
+        Me.picKiri = New System.Windows.Forms.PictureBox
+        Me.picKanan = New System.Windows.Forms.PictureBox
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.grpKanan.SuspendLayout()
         Me.grpKiri.SuspendLayout()
+        CType(Me.picKiri, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -150,10 +151,9 @@ Partial Class FormEcgViewer
         'grpKanan
         '
         Me.grpKanan.AutoSize = True
-        Me.grpKanan.Controls.Add(Me.WebBrowser1)
+        Me.grpKanan.Controls.Add(Me.picKanan)
         Me.grpKanan.Controls.Add(Me.lblStatusKanan)
         Me.grpKanan.Controls.Add(Me.btnEksternalKanan)
-        Me.grpKanan.Controls.Add(Me.webKanan)
         Me.grpKanan.Controls.Add(Me.cmbTglKanan)
         Me.grpKanan.Controls.Add(Me.txtHasilKanan)
         Me.grpKanan.Controls.Add(Me.btnLoadKanan)
@@ -165,15 +165,6 @@ Partial Class FormEcgViewer
         Me.grpKanan.TabIndex = 3
         Me.grpKanan.TabStop = False
         Me.grpKanan.Text = "PEMERIKSAAN TERBARU"
-        '
-        'WebBrowser1
-        '
-        Me.WebBrowser1.Location = New System.Drawing.Point(6, 55)
-        Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.ScriptErrorsSuppressed = True
-        Me.WebBrowser1.Size = New System.Drawing.Size(603, 352)
-        Me.WebBrowser1.TabIndex = 466
         '
         'lblStatusKanan
         '
@@ -199,15 +190,6 @@ Partial Class FormEcgViewer
         Me.btnEksternalKanan.TabIndex = 464
         Me.btnEksternalKanan.Text = "Buka PDF"
         Me.btnEksternalKanan.UseVisualStyleBackColor = False
-        '
-        'webKanan
-        '
-        Me.webKanan.Location = New System.Drawing.Point(6, 56)
-        Me.webKanan.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.webKanan.Name = "webKanan"
-        Me.webKanan.ScriptErrorsSuppressed = True
-        Me.webKanan.Size = New System.Drawing.Size(603, 352)
-        Me.webKanan.TabIndex = 463
         '
         'cmbTglKanan
         '
@@ -252,7 +234,7 @@ Partial Class FormEcgViewer
         'grpKiri
         '
         Me.grpKiri.AutoSize = True
-        Me.grpKiri.Controls.Add(Me.webKiri)
+        Me.grpKiri.Controls.Add(Me.picKiri)
         Me.grpKiri.Controls.Add(Me.lblStatusKiri)
         Me.grpKiri.Controls.Add(Me.btnEksternalKiri)
         Me.grpKiri.Controls.Add(Me.cmbTglKiri)
@@ -266,15 +248,6 @@ Partial Class FormEcgViewer
         Me.grpKiri.TabIndex = 2
         Me.grpKiri.TabStop = False
         Me.grpKiri.Text = "PEMBANDING (SEBELUMNYA)"
-        '
-        'webKiri
-        '
-        Me.webKiri.Location = New System.Drawing.Point(8, 56)
-        Me.webKiri.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.webKiri.Name = "webKiri"
-        Me.webKiri.ScriptErrorsSuppressed = True
-        Me.webKiri.Size = New System.Drawing.Size(603, 352)
-        Me.webKiri.TabIndex = 462
         '
         'lblStatusKiri
         '
@@ -342,6 +315,24 @@ Partial Class FormEcgViewer
         Me.btnLoadKiri.Text = "Muat ECG"
         Me.btnLoadKiri.UseVisualStyleBackColor = False
         '
+        'picKiri
+        '
+        Me.picKiri.BackColor = System.Drawing.Color.Black
+        Me.picKiri.Location = New System.Drawing.Point(6, 56)
+        Me.picKiri.Name = "picKiri"
+        Me.picKiri.Size = New System.Drawing.Size(605, 352)
+        Me.picKiri.TabIndex = 462
+        Me.picKiri.TabStop = False
+        '
+        'picKanan
+        '
+        Me.picKanan.BackColor = System.Drawing.Color.Black
+        Me.picKanan.Location = New System.Drawing.Point(6, 56)
+        Me.picKanan.Name = "picKanan"
+        Me.picKanan.Size = New System.Drawing.Size(605, 352)
+        Me.picKanan.TabIndex = 466
+        Me.picKanan.TabStop = False
+        '
         'FormEcgViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -361,6 +352,8 @@ Partial Class FormEcgViewer
         Me.grpKanan.PerformLayout()
         Me.grpKiri.ResumeLayout(False)
         Me.grpKiri.PerformLayout()
+        CType(Me.picKiri, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -381,9 +374,8 @@ Partial Class FormEcgViewer
     Friend WithEvents txtHasilKiri As System.Windows.Forms.TextBox
     Friend WithEvents btnLoadKiri As System.Windows.Forms.Button
     Friend WithEvents btnCariNik As System.Windows.Forms.Button
-    Friend WithEvents WebBrowser1 As System.Windows.Forms.WebBrowser
     Friend WithEvents lblStatusKanan As System.Windows.Forms.Label
     Friend WithEvents btnEksternalKanan As System.Windows.Forms.Button
-    Friend WithEvents webKanan As System.Windows.Forms.WebBrowser
-    Friend WithEvents webKiri As System.Windows.Forms.WebBrowser
+    Friend WithEvents picKanan As System.Windows.Forms.PictureBox
+    Friend WithEvents picKiri As System.Windows.Forms.PictureBox
 End Class
