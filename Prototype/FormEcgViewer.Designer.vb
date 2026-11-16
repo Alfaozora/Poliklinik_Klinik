@@ -30,31 +30,32 @@ Partial Class FormEcgViewer
         Me.Label2 = New System.Windows.Forms.Label
         Me.label1 = New System.Windows.Forms.Label
         Me.grpKanan = New System.Windows.Forms.GroupBox
+        Me.picKanan = New System.Windows.Forms.PictureBox
         Me.lblStatusKanan = New System.Windows.Forms.Label
         Me.btnEksternalKanan = New System.Windows.Forms.Button
         Me.cmbTglKanan = New System.Windows.Forms.ComboBox
         Me.txtHasilKanan = New System.Windows.Forms.TextBox
         Me.btnLoadKanan = New System.Windows.Forms.Button
         Me.grpKiri = New System.Windows.Forms.GroupBox
+        Me.picKiri = New System.Windows.Forms.PictureBox
         Me.lblStatusKiri = New System.Windows.Forms.Label
         Me.btnEksternalKiri = New System.Windows.Forms.Button
         Me.cmbTglKiri = New System.Windows.Forms.ComboBox
         Me.txtHasilKiri = New System.Windows.Forms.TextBox
         Me.btnLoadKiri = New System.Windows.Forms.Button
-        Me.picKiri = New System.Windows.Forms.PictureBox
-        Me.picKanan = New System.Windows.Forms.PictureBox
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.grpKanan.SuspendLayout()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpKiri.SuspendLayout()
         CType(Me.picKiri, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -166,6 +167,15 @@ Partial Class FormEcgViewer
         Me.grpKanan.TabStop = False
         Me.grpKanan.Text = "PEMERIKSAAN TERBARU"
         '
+        'picKanan
+        '
+        Me.picKanan.BackColor = System.Drawing.Color.Black
+        Me.picKanan.Location = New System.Drawing.Point(6, 56)
+        Me.picKanan.Name = "picKanan"
+        Me.picKanan.Size = New System.Drawing.Size(605, 352)
+        Me.picKanan.TabIndex = 466
+        Me.picKanan.TabStop = False
+        '
         'lblStatusKanan
         '
         Me.lblStatusKanan.AutoSize = True
@@ -249,6 +259,15 @@ Partial Class FormEcgViewer
         Me.grpKiri.TabStop = False
         Me.grpKiri.Text = "PEMBANDING (SEBELUMNYA)"
         '
+        'picKiri
+        '
+        Me.picKiri.BackColor = System.Drawing.Color.Black
+        Me.picKiri.Location = New System.Drawing.Point(6, 56)
+        Me.picKiri.Name = "picKiri"
+        Me.picKiri.Size = New System.Drawing.Size(605, 352)
+        Me.picKiri.TabIndex = 462
+        Me.picKiri.TabStop = False
+        '
         'lblStatusKiri
         '
         Me.lblStatusKiri.AutoSize = True
@@ -315,24 +334,6 @@ Partial Class FormEcgViewer
         Me.btnLoadKiri.Text = "Muat ECG"
         Me.btnLoadKiri.UseVisualStyleBackColor = False
         '
-        'picKiri
-        '
-        Me.picKiri.BackColor = System.Drawing.Color.Black
-        Me.picKiri.Location = New System.Drawing.Point(6, 56)
-        Me.picKiri.Name = "picKiri"
-        Me.picKiri.Size = New System.Drawing.Size(605, 352)
-        Me.picKiri.TabIndex = 462
-        Me.picKiri.TabStop = False
-        '
-        'picKanan
-        '
-        Me.picKanan.BackColor = System.Drawing.Color.Black
-        Me.picKanan.Location = New System.Drawing.Point(6, 56)
-        Me.picKanan.Name = "picKanan"
-        Me.picKanan.Size = New System.Drawing.Size(605, 352)
-        Me.picKanan.TabIndex = 466
-        Me.picKanan.TabStop = False
-        '
         'FormEcgViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -342,7 +343,8 @@ Partial Class FormEcgViewer
         Me.Controls.Add(Me.SplitContainer1)
         Me.MinimumSize = New System.Drawing.Size(1024, 650)
         Me.Name = "FormEcgViewer"
-        Me.Text = "FormEcgViewer"
+        Me.Text = "Electrocardiogram Diagnostic Viewer - Perbandingan Riwayat Pemeriksaan"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -350,10 +352,10 @@ Partial Class FormEcgViewer
         Me.SplitContainer1.ResumeLayout(False)
         Me.grpKanan.ResumeLayout(False)
         Me.grpKanan.PerformLayout()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpKiri.ResumeLayout(False)
         Me.grpKiri.PerformLayout()
         CType(Me.picKiri, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

@@ -331,7 +331,7 @@ Partial Class FormThoraxViewer
         Me.Controls.Add(Me.SplitContainer1)
         Me.MinimumSize = New System.Drawing.Size(1024, 650)
         Me.Name = "FormThoraxViewer"
-        Me.Text = "FormThoraxViewer"
+        Me.Text = "Thorax Diagnostic Viewer - Perbandingan Riwayat Pemeriksaan"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()

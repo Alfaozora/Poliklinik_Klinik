@@ -66,6 +66,7 @@ Public Class FormThoraxViewer
         Public tanggal As String
         Public idlabinternet As String
         Public namatindakan As String
+        Public nama As String
     End Class
 
     Private Sub FormThoraxViewer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -198,22 +199,20 @@ Public Class FormThoraxViewer
             Dim res As TanggalThoraxResponse = serializer.Deserialize(Of TanggalThoraxResponse)(jsonRaw)
 
             If res IsNot Nothing AndAlso res.status AndAlso res.data IsNot Nothing AndAlso res.data.Count > 0 Then
+                ' Otomatis tampilkan nama pasien dari hasil query API
+                If Not String.IsNullOrEmpty(res.data(0).nama) Then
+                    _namaPasien = res.data(0).nama.Trim()
+                    lblNamaPasien.Text = _namaPasien.ToUpper()
+                End If
+
                 For Each item As TanggalThoraxItem In res.data
                     cmbTglKiri.Items.Add(item.tanggal)
                     cmbTglKanan.Items.Add(item.tanggal)
                 Next
 
-                ' Pilih otomatis tanggal terbaru di kanan (index 0)
                 cmbTglKanan.SelectedIndex = 0
+                cmbTglKiri.SelectedIndex = If(cmbTglKiri.Items.Count > 1, 1, 0)
 
-                ' Jika ada >= 2 riwayat, pilih otomatis tanggal sebelumnya di kiri (index 1)
-                If cmbTglKiri.Items.Count > 1 Then
-                    cmbTglKiri.SelectedIndex = 1
-                Else
-                    cmbTglKiri.SelectedIndex = 0
-                End If
-
-                ' Opsional: Langsung muat gambar kanan & kiri otomatis begitu form terbuka
                 btnLoadKanan.PerformClick()
                 If cmbTglKiri.Items.Count > 1 Then btnLoadKiri.PerformClick()
             Else

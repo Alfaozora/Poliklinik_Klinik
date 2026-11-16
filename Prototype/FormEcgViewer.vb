@@ -404,6 +404,12 @@ Public Class FormEcgViewer
             Dim res As TanggalEcgResponse = serializer.Deserialize(Of TanggalEcgResponse)(jsonRaw)
 
             If res IsNot Nothing AndAlso res.status AndAlso res.data IsNot Nothing AndAlso res.data.Count > 0 Then
+                ' Otomatis tampilkan nama pasien dari hasil query API
+                If Not String.IsNullOrEmpty(res.data(0).nama) Then
+                    _namaPasien = res.data(0).nama.Trim()
+                    lblPatientInfo.Text = _namaPasien.ToUpper()
+                End If
+
                 For Each item As TanggalEcgItem In res.data
                     cmbTglKiri.Items.Add(item.tanggal)
                     cmbTglKanan.Items.Add(item.tanggal)
@@ -694,6 +700,7 @@ Public Class TanggalEcgItem
     Public tanggal As String
     Public idlabinternet As String
     Public namatindakan As String
+    Public nama As String
 End Class
 
 Public Class BacaanEcgResponse
