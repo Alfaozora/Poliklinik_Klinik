@@ -634,8 +634,9 @@ Me.TextBoxNamaPDF = New System.Windows.Forms.TextBox
 Me.Label357 = New System.Windows.Forms.Label
 Me.Label139 = New System.Windows.Forms.Label
 Me.Panel13 = New System.Windows.Forms.Panel
+Me.RadioButtonAudio = New System.Windows.Forms.RadioButton
 Me.RadioButtonECG = New System.Windows.Forms.RadioButton
-Me.RadioButton1 = New System.Windows.Forms.RadioButton
+Me.RadioButtonFisik = New System.Windows.Forms.RadioButton
 Me.RadioButtonLaboratorium = New System.Windows.Forms.RadioButton
 Me.RadioButton4 = New System.Windows.Forms.RadioButton
 Me.ButtonPreviewHasilLab = New System.Windows.Forms.Button
@@ -1794,7 +1795,6 @@ Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-Me.RadioButtonAudio = New System.Windows.Forms.RadioButton
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -9616,7 +9616,7 @@ Me.Label139.Text = "Jenis Pemeriksaan"
 Me.Panel13.BackColor = System.Drawing.Color.Transparent
 Me.Panel13.Controls.Add(Me.RadioButtonAudio)
 Me.Panel13.Controls.Add(Me.RadioButtonECG)
-Me.Panel13.Controls.Add(Me.RadioButton1)
+Me.Panel13.Controls.Add(Me.RadioButtonFisik)
 Me.Panel13.Controls.Add(Me.RadioButtonLaboratorium)
 Me.Panel13.Controls.Add(Me.RadioButton4)
 Me.Panel13.Font = New System.Drawing.Font("Segoe UI", 9.75!)
@@ -9624,6 +9624,17 @@ Me.Panel13.Location = New System.Drawing.Point(138, 30)
 Me.Panel13.Name = "Panel13"
 Me.Panel13.Size = New System.Drawing.Size(528, 25)
 Me.Panel13.TabIndex = 521
+'
+'RadioButtonAudio
+'
+Me.RadioButtonAudio.AutoSize = true
+Me.RadioButtonAudio.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+Me.RadioButtonAudio.Location = New System.Drawing.Point(376, 3)
+Me.RadioButtonAudio.Name = "RadioButtonAudio"
+Me.RadioButtonAudio.Size = New System.Drawing.Size(90, 21)
+Me.RadioButtonAudio.TabIndex = 442
+Me.RadioButtonAudio.Text = "Audiometri"
+Me.RadioButtonAudio.UseVisualStyleBackColor = true
 '
 'RadioButtonECG
 '
@@ -9636,16 +9647,16 @@ Me.RadioButtonECG.TabIndex = 441
 Me.RadioButtonECG.Text = "ECG"
 Me.RadioButtonECG.UseVisualStyleBackColor = true
 '
-'RadioButton1
+'RadioButtonFisik
 '
-Me.RadioButton1.AutoSize = true
-Me.RadioButton1.Font = New System.Drawing.Font("Segoe UI", 9.75!)
-Me.RadioButton1.Location = New System.Drawing.Point(187, 3)
-Me.RadioButton1.Name = "RadioButton1"
-Me.RadioButton1.Size = New System.Drawing.Size(127, 21)
-Me.RadioButton1.TabIndex = 440
-Me.RadioButton1.Text = "Pemeriksaan Fisik"
-Me.RadioButton1.UseVisualStyleBackColor = true
+Me.RadioButtonFisik.AutoSize = true
+Me.RadioButtonFisik.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+Me.RadioButtonFisik.Location = New System.Drawing.Point(187, 3)
+Me.RadioButtonFisik.Name = "RadioButtonFisik"
+Me.RadioButtonFisik.Size = New System.Drawing.Size(127, 21)
+Me.RadioButtonFisik.TabIndex = 440
+Me.RadioButtonFisik.Text = "Pemeriksaan Fisik"
+Me.RadioButtonFisik.UseVisualStyleBackColor = true
 '
 'RadioButtonLaboratorium
 '
@@ -23885,17 +23896,6 @@ Me.TimerAPI.Interval = 60000
 '
 Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
-'RadioButtonAudio
-'
-Me.RadioButtonAudio.AutoSize = true
-Me.RadioButtonAudio.Font = New System.Drawing.Font("Segoe UI", 9.75!)
-Me.RadioButtonAudio.Location = New System.Drawing.Point(376, 3)
-Me.RadioButtonAudio.Name = "RadioButtonAudio"
-Me.RadioButtonAudio.Size = New System.Drawing.Size(90, 21)
-Me.RadioButtonAudio.TabIndex = 442
-Me.RadioButtonAudio.Text = "Audiometri"
-Me.RadioButtonAudio.UseVisualStyleBackColor = true
-'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -25283,7 +25283,7 @@ End Sub
     Friend WithEvents Label118 As System.Windows.Forms.Label
     Friend WithEvents Label139 As System.Windows.Forms.Label
     Friend WithEvents Panel13 As System.Windows.Forms.Panel
-    Friend WithEvents RadioButton1 As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonFisik As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonLaboratorium As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButton4 As System.Windows.Forms.RadioButton
     Friend WithEvents SplitContainerRiwayatLaboratorium As System.Windows.Forms.SplitContainer

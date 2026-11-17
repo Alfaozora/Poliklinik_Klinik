@@ -585,6 +585,12 @@
     <Compile Include="Prototype\FormEcgViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormFisikViewer.Designer.vb">
+      <DependentUpon>FormFisikViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormFisikViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormHasilUsg.Designer.vb">
       <DependentUpon>FormHasilUsg.vb</DependentUpon>
     </Compile>
@@ -1652,6 +1658,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormEcgViewer.resx">
       <DependentUpon>FormEcgViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormFisikViewer.resx">
+      <DependentUpon>FormFisikViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormHasilUsg.resx">
       <DependentUpon>FormHasilUsg.vb</DependentUpon>
