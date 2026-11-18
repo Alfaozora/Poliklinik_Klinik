@@ -3491,3 +3491,4 @@ C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\PdfiumViewer.xml
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\bin\Debug\nl\PdfiumViewer.resources.dll
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormAudiometriViewer.resources
 C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormFisikViewer.resources
+C:\Users\admin\Documents\GitHub\Poliklinik_Klinik\obj\Debug\PoliKlinik_Net2.FormLabViewer.resources

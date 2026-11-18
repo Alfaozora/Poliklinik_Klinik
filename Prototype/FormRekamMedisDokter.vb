@@ -9313,19 +9313,7 @@ Public Class FormRekamMedisDokter
         Try
             Dim noTransaksiLab As String = ""
 
-            If RadioButtonLaboratorium.Checked = True Then
-                noTransaksiLab = ReadSQLNIK("SELECT TransaksiLab.NoUrut " & _
-                                            "FROM TransaksiLab " & _
-                                            "LEFT JOIN TransaksiDetail ON TransaksiDetail.NoTransaksiLab = TransaksiLab.NoUrut " & _
-                                            "WHERE TransaksiDetail.NoUrut = '" & idTransaksi & "' AND TransaksiLab.Status IN ('CETAK', 'TAKEIT')")
-
-                If noTransaksiLab <> "" And noTransaksiLab <> "-" Then
-                    PreviewHasilLab("Preview", "Yes", noTransaksiLab)
-                Else
-                    MsgBox("Hasil Tidak Ditemukan.", MsgBoxStyle.Exclamation, "Warning!")
-                End If
-
-            ElseIf RadioButton4.Checked = True OrElse RadioButtonECG.Checked = True OrElse RadioButtonAudio.Checked = True OrElse RadioButtonFisik.Checked Then
+           If RadioButton4.Checked = True OrElse RadioButtonECG.Checked = True OrElse RadioButtonAudio.Checked = True OrElse RadioButtonLaboratorium.Checked = True OrElse RadioButtonFisik.Checked Then
                 Dim nikPasien As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
                 Dim namaPasien As String = ReadSQLNIK("SELECT Nama FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
 
@@ -9339,13 +9327,11 @@ Public Class FormRekamMedisDokter
                     frmThorax.NikPasien = nikPasien.Trim()
                     frmThorax.NamaPasien = namaPasien.Trim()
                     frmThorax.Show()
-
                 ElseIf RadioButtonECG.Checked = True Then
                     Dim frmEcg As New FormEcgViewer()
                     frmEcg.NikPasien = nikPasien.Trim()
                     frmEcg.NamaPasien = namaPasien.Trim()
                     frmEcg.Show()
-
                 ElseIf RadioButtonAudio.Checked = True Then
                     Dim frmAudio As New FormAudiometriViewer()
                     frmAudio.NikPasien = nikPasien.Trim()
@@ -9356,6 +9342,11 @@ Public Class FormRekamMedisDokter
                     frmFisik.NikPasien = nikPasien.Trim()
                     frmFisik.NamaPasien = namaPasien.Trim()
                     frmFisik.Show()
+                ElseIf RadioButtonLaboratorium.Checked = True Then
+                    Dim frmLab As New FormLabViewer()
+                    frmLab.NikPasien = nikPasien.Trim()
+                    frmLab.NamaPasien = namaPasien.Trim()
+                    frmLab.Show()
                 End If
             End If
         Catch ex As Exception

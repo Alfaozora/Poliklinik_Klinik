@@ -603,6 +603,12 @@
     <Compile Include="Prototype\FormInputInformedConsent.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Prototype\FormLabViewer.Designer.vb">
+      <DependentUpon>FormLabViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prototype\FormLabViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Prototype\FormMasterDokter.Designer.vb">
       <DependentUpon>FormMasterDokter.vb</DependentUpon>
     </Compile>
@@ -1667,6 +1673,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormInputInformedConsent.resx">
       <DependentUpon>FormInputInformedConsent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prototype\FormLabViewer.resx">
+      <DependentUpon>FormLabViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prototype\FormMasterDokter.resx">
       <DependentUpon>FormMasterDokter.vb</DependentUpon>

@@ -23,33 +23,33 @@ Partial Class FormFisikViewer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.rbOnline = New System.Windows.Forms.RadioButton
+        Me.rbOffline = New System.Windows.Forms.RadioButton
         Me.btnCariNik = New System.Windows.Forms.Button
         Me.txtNik = New System.Windows.Forms.TextBox
         Me.lblNikCaption = New System.Windows.Forms.Label
         Me.lblPatientInfo = New System.Windows.Forms.Label
         Me.label1 = New System.Windows.Forms.Label
         Me.grpKanan = New System.Windows.Forms.GroupBox
-        Me.picKanan = New System.Windows.Forms.PictureBox
         Me.lblStatusKanan = New System.Windows.Forms.Label
         Me.btnEksternalKanan = New System.Windows.Forms.Button
         Me.cmbTglKanan = New System.Windows.Forms.ComboBox
         Me.txtHasilKanan = New System.Windows.Forms.TextBox
         Me.btnLoadKanan = New System.Windows.Forms.Button
         Me.grpKiri = New System.Windows.Forms.GroupBox
-        Me.picKiri = New System.Windows.Forms.PictureBox
         Me.lblStatusKiri = New System.Windows.Forms.Label
         Me.btnEksternalKiri = New System.Windows.Forms.Button
         Me.cmbTglKiri = New System.Windows.Forms.ComboBox
         Me.txtHasilKiri = New System.Windows.Forms.TextBox
         Me.btnLoadKiri = New System.Windows.Forms.Button
-        Me.rbOnline = New System.Windows.Forms.RadioButton
-        Me.rbOffline = New System.Windows.Forms.RadioButton
+        Me.picKanan = New System.Windows.Forms.PictureBox
+        Me.picKiri = New System.Windows.Forms.PictureBox
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.grpKanan.SuspendLayout()
-        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpKiri.SuspendLayout()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.picKiri, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -77,6 +77,30 @@ Partial Class FormFisikViewer
         Me.SplitContainer1.Size = New System.Drawing.Size(1264, 681)
         Me.SplitContainer1.SplitterDistance = 70
         Me.SplitContainer1.TabIndex = 0
+        '
+        'rbOnline
+        '
+        Me.rbOnline.AutoSize = True
+        Me.rbOnline.Checked = True
+        Me.rbOnline.ForeColor = System.Drawing.Color.LightGray
+        Me.rbOnline.Location = New System.Drawing.Point(834, 35)
+        Me.rbOnline.Name = "rbOnline"
+        Me.rbOnline.Size = New System.Drawing.Size(55, 17)
+        Me.rbOnline.TabIndex = 463
+        Me.rbOnline.TabStop = True
+        Me.rbOnline.Text = "Online"
+        Me.rbOnline.UseVisualStyleBackColor = True
+        '
+        'rbOffline
+        '
+        Me.rbOffline.AutoSize = True
+        Me.rbOffline.ForeColor = System.Drawing.Color.LightGray
+        Me.rbOffline.Location = New System.Drawing.Point(763, 35)
+        Me.rbOffline.Name = "rbOffline"
+        Me.rbOffline.Size = New System.Drawing.Size(55, 17)
+        Me.rbOffline.TabIndex = 462
+        Me.rbOffline.Text = "Offline"
+        Me.rbOffline.UseVisualStyleBackColor = True
         '
         'btnCariNik
         '
@@ -154,15 +178,6 @@ Partial Class FormFisikViewer
         Me.grpKanan.TabIndex = 5
         Me.grpKanan.TabStop = False
         Me.grpKanan.Text = "PEMERIKSAAN TERBARU"
-        '
-        'picKanan
-        '
-        Me.picKanan.BackColor = System.Drawing.Color.Black
-        Me.picKanan.Location = New System.Drawing.Point(6, 56)
-        Me.picKanan.Name = "picKanan"
-        Me.picKanan.Size = New System.Drawing.Size(605, 352)
-        Me.picKanan.TabIndex = 466
-        Me.picKanan.TabStop = False
         '
         'lblStatusKanan
         '
@@ -247,15 +262,6 @@ Partial Class FormFisikViewer
         Me.grpKiri.TabStop = False
         Me.grpKiri.Text = "PEMBANDING (SEBELUMNYA)"
         '
-        'picKiri
-        '
-        Me.picKiri.BackColor = System.Drawing.Color.Black
-        Me.picKiri.Location = New System.Drawing.Point(6, 56)
-        Me.picKiri.Name = "picKiri"
-        Me.picKiri.Size = New System.Drawing.Size(605, 352)
-        Me.picKiri.TabIndex = 462
-        Me.picKiri.TabStop = False
-        '
         'lblStatusKiri
         '
         Me.lblStatusKiri.AutoSize = True
@@ -322,29 +328,23 @@ Partial Class FormFisikViewer
         Me.btnLoadKiri.Text = "Muat Fisik"
         Me.btnLoadKiri.UseVisualStyleBackColor = False
         '
-        'rbOnline
+        'picKanan
         '
-        Me.rbOnline.AutoSize = True
-        Me.rbOnline.ForeColor = System.Drawing.Color.LightGray
-        Me.rbOnline.Location = New System.Drawing.Point(834, 35)
-        Me.rbOnline.Name = "rbOnline"
-        Me.rbOnline.Size = New System.Drawing.Size(55, 17)
-        Me.rbOnline.TabIndex = 463
-        Me.rbOnline.TabStop = True
-        Me.rbOnline.Text = "Online"
-        Me.rbOnline.UseVisualStyleBackColor = True
+        Me.picKanan.BackColor = System.Drawing.Color.Black
+        Me.picKanan.Location = New System.Drawing.Point(6, 56)
+        Me.picKanan.Name = "picKanan"
+        Me.picKanan.Size = New System.Drawing.Size(605, 352)
+        Me.picKanan.TabIndex = 466
+        Me.picKanan.TabStop = False
         '
-        'rbOffline
+        'picKiri
         '
-        Me.rbOffline.AutoSize = True
-        Me.rbOffline.ForeColor = System.Drawing.Color.LightGray
-        Me.rbOffline.Location = New System.Drawing.Point(763, 35)
-        Me.rbOffline.Name = "rbOffline"
-        Me.rbOffline.Size = New System.Drawing.Size(55, 17)
-        Me.rbOffline.TabIndex = 462
-        Me.rbOffline.TabStop = True
-        Me.rbOffline.Text = "Offline"
-        Me.rbOffline.UseVisualStyleBackColor = True
+        Me.picKiri.BackColor = System.Drawing.Color.Black
+        Me.picKiri.Location = New System.Drawing.Point(6, 56)
+        Me.picKiri.Name = "picKiri"
+        Me.picKiri.Size = New System.Drawing.Size(605, 352)
+        Me.picKiri.TabIndex = 462
+        Me.picKiri.TabStop = False
         '
         'FormFisikViewer
         '
@@ -364,9 +364,9 @@ Partial Class FormFisikViewer
         Me.SplitContainer1.ResumeLayout(False)
         Me.grpKanan.ResumeLayout(False)
         Me.grpKanan.PerformLayout()
-        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpKiri.ResumeLayout(False)
         Me.grpKiri.PerformLayout()
+        CType(Me.picKanan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.picKiri, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

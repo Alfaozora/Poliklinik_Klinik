@@ -556,14 +556,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17740800">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PoliKlinik2.0.exe" size="17766912">
       <assemblyIdentity name="PoliKlinik2.0" version="2.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Ag55RvqtwTSji6gzD9R4krqtiKI=</dsig:DigestValue>
+        <dsig:DigestValue>8hJnrQGrRYpVmK10gI2q4Ioyu9M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
