@@ -9313,7 +9313,7 @@ Public Class FormRekamMedisDokter
         Try
             Dim noTransaksiLab As String = ""
 
-           If RadioButton4.Checked = True OrElse RadioButtonECG.Checked = True OrElse RadioButtonAudio.Checked = True OrElse RadioButtonLaboratorium.Checked = True OrElse RadioButtonFisik.Checked Then
+            If RadioButton4.Checked = True OrElse RadioButtonECG.Checked = True OrElse RadioButtonAudio.Checked = True OrElse RadioButtonLaboratorium.Checked = True OrElse RadioButtonUsg.Checked = True OrElse RadioButtonFisik.Checked Then
                 Dim nikPasien As String = ReadSQLNIK("SELECT NoNIK FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
                 Dim namaPasien As String = ReadSQLNIK("SELECT Nama FROM MasterPasien WHERE NoRekamMedis = '" & idPasien & "'")
 
@@ -9347,6 +9347,11 @@ Public Class FormRekamMedisDokter
                     frmLab.NikPasien = nikPasien.Trim()
                     frmLab.NamaPasien = namaPasien.Trim()
                     frmLab.Show()
+                ElseIf RadioButtonUsg.Checked = True Then
+                    Dim frmUsg As New FormUsgViewer()
+                    frmUsg.NikPasien = nikPasien.Trim()
+                    frmUsg.NamaPasien = namaPasien.Trim()
+                    frmUsg.Show()
                 End If
             End If
         Catch ex As Exception

@@ -1795,6 +1795,7 @@ Me.TextBox74 = New System.Windows.Forms.TextBox
 Me.Label334 = New System.Windows.Forms.Label
 Me.TimerAPI = New System.Windows.Forms.Timer(Me.components)
 Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+Me.RadioButtonUsg = New System.Windows.Forms.RadioButton
 Me.PanelTop.SuspendLayout
 Me.PanelSide.SuspendLayout
 Me.TabControlMenuUtama.SuspendLayout
@@ -9614,6 +9615,7 @@ Me.Label139.Text = "Jenis Pemeriksaan"
 'Panel13
 '
 Me.Panel13.BackColor = System.Drawing.Color.Transparent
+Me.Panel13.Controls.Add(Me.RadioButtonUsg)
 Me.Panel13.Controls.Add(Me.RadioButtonAudio)
 Me.Panel13.Controls.Add(Me.RadioButtonECG)
 Me.Panel13.Controls.Add(Me.RadioButtonFisik)
@@ -9622,7 +9624,7 @@ Me.Panel13.Controls.Add(Me.RadioButton4)
 Me.Panel13.Font = New System.Drawing.Font("Segoe UI", 9.75!)
 Me.Panel13.Location = New System.Drawing.Point(138, 30)
 Me.Panel13.Name = "Panel13"
-Me.Panel13.Size = New System.Drawing.Size(528, 25)
+Me.Panel13.Size = New System.Drawing.Size(573, 25)
 Me.Panel13.TabIndex = 521
 '
 'RadioButtonAudio
@@ -23896,6 +23898,17 @@ Me.TimerAPI.Interval = 60000
 '
 Me.OpenFileDialog1.FileName = "OpenFileDialog1"
 '
+'RadioButtonUsg
+'
+Me.RadioButtonUsg.AutoSize = true
+Me.RadioButtonUsg.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+Me.RadioButtonUsg.Location = New System.Drawing.Point(467, 3)
+Me.RadioButtonUsg.Name = "RadioButtonUsg"
+Me.RadioButtonUsg.Size = New System.Drawing.Size(51, 21)
+Me.RadioButtonUsg.TabIndex = 443
+Me.RadioButtonUsg.Text = "USG"
+Me.RadioButtonUsg.UseVisualStyleBackColor = true
+'
 'FormRekamMedisDokter
 '
 Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
@@ -26178,4 +26191,5 @@ End Sub
     Friend WithEvents DtTrimesterIII As System.Windows.Forms.DateTimePicker
     Friend WithEvents RadioButtonECG As System.Windows.Forms.RadioButton
     Friend WithEvents RadioButtonAudio As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButtonUsg As System.Windows.Forms.RadioButton
 End Class
